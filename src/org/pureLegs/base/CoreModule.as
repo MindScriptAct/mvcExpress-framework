@@ -29,7 +29,7 @@ public class CoreModule {
 	public function CoreModule(mainObject:DisplayObjectContainer = null) {
 		this.mainObject = mainObject;
 		
-		messenger = new Messenger();
+		messenger = Messenger.getInstance();
 		
 		modelMap = new ModelMap(messenger);
 		mediatorMap = new MediatorMap(messenger, modelMap);

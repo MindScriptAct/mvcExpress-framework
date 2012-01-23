@@ -8,6 +8,10 @@ import org.pureLegs.namespace.pureLegsCore;
  */
 public class Messenger implements IMessageSender {
 	
+	static private var allowInstantiation:Boolean;
+	
+	static private var instance:Messenger;
+	
 	// keeps ALL MsgVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<MsgVO> by String */
 	
@@ -18,6 +22,18 @@ public class Messenger implements IMessageSender {
 	private var commandMapFunction:Function;
 	
 	public function Messenger() {
+		if (!allowInstantiation) {
+			throw Error("Messenger is a singleton class, use getInstance() instead");
+		}
+	}
+	
+	static public function getInstance():Messenger {
+		if (instance == null) {
+			allowInstantiation = true;
+			instance = new Messenger();
+			allowInstantiation = false;
+		}
+		return instance;
 	}
 	
 	/**
@@ -64,7 +80,6 @@ public class Messenger implements IMessageSender {
 			}
 		}
 	}
-	
 	
 	// TODO : consider adding error checking that wil FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpfull for debug mode.)
 	/**
