@@ -29,18 +29,28 @@ public class CommandMap {
 		this.messanger.setCommandMapFunction(handleCommandExecute);
 	}
 	
+	/**
+	 * Map a class to be executed then message with type provied is sent.
+	 * @param	type			Message type for command class to react to.
+	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 */
 	public function map(type:String, commandClass:Class):void {
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
 			messanger.addHandler(type, handleCommandExecute);
 		}
 		
-		// TODO : check if command is already added. (in DEBUG mode only.)
+		// TODO : check if command is already added. (in DEBUG mode only?.)
 		
 		classRegistry[type].push(commandClass);
 	
 	}
 	
+	/**
+	 * Unap a class to be executed then message with type provied is sent.
+	 * @param	type			Message type for command class to react to.
+	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 */
 	public function unmap(type:String, commandClass:Class):void {
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
@@ -53,6 +63,11 @@ public class CommandMap {
 		}
 	}
 	
+	/**
+	 * Instantiates and executes provided command class, and sends params to it.
+	 * @param	commandClass	Command class to be instantiated and executed.
+	 * @param	params			Object to be sent to execute() function.
+	 */
 	public function execute(commandClass:Class, params:Object = null):void {
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
@@ -67,6 +82,8 @@ public class CommandMap {
 		modelMap.injectStuff(command, commandClass);
 		//// debug code
 		CONFIG::debug {
+			// TODO : consider adding check if execute() function exists 
+			// TODO : consider adding check if parameter is of proper type.
 			try {
 				command.execute(params);
 			} catch (error:Error) {
@@ -82,6 +99,7 @@ public class CommandMap {
 		//////////////////////////////////////////////	
 	}
 	
+	/* function to be called by messenger on needed mesage type sent */
 	private function handleCommandExecute(type:String, params:Object):void {
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
@@ -100,6 +118,8 @@ public class CommandMap {
 				modelMap.injectStuff(command, commandList[i]);
 				//// debug code
 				CONFIG::debug {
+					// TODO : consider adding check if execute() function exists 
+					// TODO : consider adding check if parameter is of proper type.
 					try {
 						command.execute(params);
 					} catch (error:Error) {
@@ -109,10 +129,10 @@ public class CommandMap {
 				}
 				//// release code
 				command.execute(params);
-				///////////////
+					///////////////
 				
-				////// INLINE FUNCTION runCommand() END
-				//////////////////////////////////////////////
+					////// INLINE FUNCTION runCommand() END
+					//////////////////////////////////////////////
 			}
 		}
 	}
