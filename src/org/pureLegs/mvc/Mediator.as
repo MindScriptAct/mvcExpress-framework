@@ -26,11 +26,11 @@ public class Mediator {
 		pureLegsCore::messanger.send(type, body);
 	}
 	
-	protected function addHandler(message:String, handler:Function):void {
-		messageDataRegistry.push(pureLegsCore::messanger.addHandler(message, handler));
+	protected function addHandler(type:String, handler:Function):void {
+		messageDataRegistry.push(pureLegsCore::messanger.addHandler(type, handler));
 	}
 	
-	protected function removeCallback(type:String, handler:Function):void {
+	protected function removeHandler(type:String, handler:Function):void {
 		pureLegsCore::messanger.removeHandler(type, handler);
 	}
 	

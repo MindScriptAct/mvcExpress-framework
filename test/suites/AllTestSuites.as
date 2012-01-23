@@ -17,15 +17,15 @@ import suites.models.ModelTests;
 
 public class AllTestSuites {
 	
-	//public var messengerTests:MessengerTests;
+	public var messengerTests:MessengerTests;
 	
-	//public var modelMapTests:ModelMapTests;
+	public var modelMapTests:ModelMapTests;
 	
-	//public var namedAndInterfacedModelMapNameTests:NamedInterfacedModelMapTests;
+	public var namedAndInterfacedModelMapNameTests:NamedInterfacedModelMapTests;
 	
 	public var mediatorMapTests:MediatorMapTests;
 
-	//public var controllerTests:CommandMapTests;
+	public var controllerTests:CommandMapTests;
 
 	// TODO: public var commandTests:CommandsTests;
 

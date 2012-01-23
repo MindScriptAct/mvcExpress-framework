@@ -42,10 +42,10 @@ public class SampleAppModule extends CoreModule {
 		// TODO : modelMap.mapValue(new SampleEmptyModel(), ISampleEmptyModel, "namedSampleEmptyModel");
 		
 		modelMap.mapClass(SampleModel);
-		modelMap.mapClass(SampleModel, "testType");
+		modelMap.mapClass(SampleModel, null ,"testType");
 		
-		// TODO : modelMap.mapSingletonOf(SampleModel, ISampleModel);
-		// TODO : modelMap.mapSingletonOf(SampleModel, ISampleModel, "interfaceModel");
+		modelMap.mapClass(SampleModel, ISampleModel);
+		modelMap.mapClass(SampleModel, ISampleModel, "interfaceModel");
 		
 		
 		////////////////////////////

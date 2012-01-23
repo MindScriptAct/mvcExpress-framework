@@ -28,7 +28,7 @@ public class TestSpriteMediator extends Mediator {
 	}
 	
 	override public function onRemove():void {
-		removeCallback(Note.COMMUNICATION_TEST, handleOjectSearch);
+		removeHandler(Note.COMMUNICATION_TEST, handleOjectSearch);
 	}
 	
 	private function handleOjectSearch(objectId:int):void {

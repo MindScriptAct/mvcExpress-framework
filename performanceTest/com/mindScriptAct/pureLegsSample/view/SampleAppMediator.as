@@ -39,7 +39,7 @@ public class SampleAppMediator extends Mediator {
 		
 		sendMessage(Msg.TEST_DATA_MESSAGE, "SampleAppMediator works!!!");
 		
-		removeCallback(Msg.TEST_DATA_MESSAGE, handleTestDataMessage);
+		removeHandler(Msg.TEST_DATA_MESSAGE, handleTestDataMessage);
 	
 	}
 	
