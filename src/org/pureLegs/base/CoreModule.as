@@ -12,7 +12,7 @@ import org.pureLegs.messenger.Messenger;
  * @author rbanevicius
  */
 public class CoreModule {
-	static private var mainObject:DisplayObjectContainer;
+	private var mainObject:DisplayObjectContainer;
 	
 	protected var commandMap:CommandMap;
 	
@@ -27,19 +27,7 @@ public class CoreModule {
 	 * @param	mainObject	main object of your application. Should be set once with main module if you have more then one.
 	 */
 	public function CoreModule(mainObject:DisplayObjectContainer = null) {
-		CONFIG::debug {
-			if (CoreModule.mainObject) {
-				if (mainObject) {
-					if (CoreModule.mainObject != mainObject) {
-						throw Error("mainObject can be set only once.");
-					}
-				}
-			}
-		}
-		
-		if (!CoreModule.mainObject) {
-			CoreModule.mainObject = mainObject;
-		}
+		this.mainObject = mainObject;
 		
 		messenger = new Messenger();
 		
@@ -63,7 +51,7 @@ public class CoreModule {
 	 * @return
 	 */
 	protected function getMainObject():DisplayObjectContainer {
-		return CoreModule.mainObject;
+		return this.mainObject;
 	}
 	
 	/**
