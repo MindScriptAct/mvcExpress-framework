@@ -65,6 +65,8 @@ public class Messenger implements IMessageSender {
 		}
 	}
 	
+	
+	// TODO : consider adding error checking that wil FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpfull for debug mode.)
 	/**
 	 * Runs all handler functions asociatod with message type, and send params object as single parameter.
 	 * @param	type	message type to find needed handlers

@@ -44,6 +44,7 @@ public class Mediator {
 		pureLegsCore::messanger.send(type, params);
 	}
 	
+	
 	/**
 	 * adds handle function to be called then messege of provided type is sent.
 	 * @param	type	message type for handle function to reoct to. 
