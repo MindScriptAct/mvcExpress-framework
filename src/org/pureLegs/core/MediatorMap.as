@@ -27,6 +27,11 @@ public class MediatorMap {
 		this.modelMap = modelMap;
 	}
 	
+	/**
+	 * Maps mediator class to view class. Only one mediator class can mediate view class.
+	 * @param	viewClass		view class that has to be mediated by mediator class then mediate(viewObject) is called.
+	 * @param	mediatorClass	Mediator class that will be instantiated then viewClass object is passed to mediate function.
+	 */
 	public function mapMediator(viewClass:Class, mediatorClass:Class):void {
 		if (mediatorRegistry[viewClass]){
 			throw Error("Mediator class is already maped with this view class");
@@ -34,10 +39,19 @@ public class MediatorMap {
 		mediatorRegistry[viewClass] = mediatorClass;
 	}
 	
+	/**
+	 * Unmaps any mediator class to given view class.
+	 * @param	viewClass	view class to remove maped mediator class from.
+	 */
 	public function unmapMediator(viewClass:Class):void {
 		delete mediatorRegistry[viewClass];
 	}
 	
+	/**
+	 * Automaticaly instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
+	 * Throws error if mediator class is not mapped to viewObject class. 
+	 * @param	viewObject	view object to mediate.
+	 */
 	public function mediate(viewObject:Object):void {
 		var mediatorClass:Class = mediatorRegistry[viewObject.constructor]
 		if (mediatorClass){
@@ -55,6 +69,10 @@ public class MediatorMap {
 		}
 	}
 	
+	/**
+	 * If any mediator is mediating viewObject: it calls onRemove, automaticaly removes all handler functions listening for messages from that mediator and deletes it.
+	 * @param	viewObject	view object witch mediator will be destroed.
+	 */
 	public function unmediate(viewObject:Object):void {
 		var mediator:Mediator = viewRegistry[viewObject];
 		if (mediator){
