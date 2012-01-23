@@ -9,7 +9,7 @@ import org.pureLegs.mvc.Model;
 import org.pureLegs.namespace.pureLegsCore;
 
 /**
- * ModelMap is responsible for storing model objcets and handling injection.
+ * ModelMap is responsible for storing model objects and handling injection.
  * @author rbanevicius
  */
 public class ModelMap {
@@ -72,15 +72,15 @@ public class ModelMap {
 	}
 	
 	/**
-	 * Removes model maped by class and name. 
+	 * Removes model maped for injection by class and name. 
 	 *  If mapping does not exists - it will fail silently.
-	 *  This function will not destroy models that are alroady injected. It only will remove mapping for future injection usses.
-	 * @param	modelClass
-	 * @param	type
+	 *  This function will not destroy models that are already injected. It only will remove mapping for future injection usses.
+	 * @param	modelClass	class previously mapped for injection
+	 * @param	name		name added to class, that was previously mapped for injection 
 	 */
-	public function unmapClass(modelClass:Class, type:String = ""):void {
+	public function unmapClass(modelClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(modelClass);
-		delete injectClassRegistry[className + type];
+		delete injectClassRegistry[className + name];
 	}
 	
 	
@@ -88,6 +88,7 @@ public class ModelMap {
 	// TODO : consider making this function public...
 	/**
 	 * Finds inject points and injects dependiencies.
+	 * tempValue and tempPclass defines injection that will be done for current object only.
 	 */
 	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):void {
 		

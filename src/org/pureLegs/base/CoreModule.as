@@ -55,7 +55,7 @@ public class CoreModule {
 	 * Ment to be overriten.
 	 */
 	public function startup():void {
-		// for overide
+		// for override
 	}
 	
 	/**

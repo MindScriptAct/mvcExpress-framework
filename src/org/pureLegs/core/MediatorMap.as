@@ -11,7 +11,7 @@ import flash.utils.getQualifiedClassName;
 import org.pureLegs.namespace.pureLegsCore;
 
 /**
- * COMMENT
+ * Handles application mediators.
  * @author rbanevicius
  */
 public class MediatorMap {
@@ -78,7 +78,7 @@ public class MediatorMap {
 		if (mediator){
 			mediator.onRemove();
 			use namespace pureLegsCore;
-			mediator.destroyCallbacks();
+			mediator.removeAllHandlers();
 			delete viewRegistry[viewObject];
 		} else {
 			throw Error("View object has no mediator created for it.");
