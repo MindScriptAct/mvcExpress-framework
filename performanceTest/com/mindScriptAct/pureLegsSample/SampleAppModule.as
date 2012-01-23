@@ -15,15 +15,11 @@ import org.pureLegs.base.CoreModule;
  * @author rbanevicius
  */
 public class SampleAppModule extends CoreModule {
-	public var view:PureLegsSample;
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
 	
-	// TODO : decide : do something with main view object... ?
-	// TODO : decide : store it in module ???
 	public function SampleAppModule(view:PureLegsSample) {
-		this.view = view;
-		super();
+		super(view);
 	}
 	
 	override public function startup():void {
@@ -33,7 +29,6 @@ public class SampleAppModule extends CoreModule {
 		// Model
 		////////////////////////////
 		
-		
 		// TODO - decide : if maped singleton model uses enother not maped model.. it will end up with error...
 		// TODO - decide : Alternatively... singleton models could be initialized on first use... (cost a bit performance..) but solves the isue..
 		
@@ -42,11 +37,10 @@ public class SampleAppModule extends CoreModule {
 		// TODO : modelMap.mapValue(new SampleEmptyModel(), ISampleEmptyModel, "namedSampleEmptyModel");
 		
 		modelMap.mapClass(SampleModel);
-		modelMap.mapClass(SampleModel, null ,"testType");
+		modelMap.mapClass(SampleModel, null, "testType");
 		
 		modelMap.mapClass(SampleModel, ISampleModel);
 		modelMap.mapClass(SampleModel, ISampleModel, "interfaceModel");
-		
 		
 		////////////////////////////
 		// View
@@ -54,7 +48,7 @@ public class SampleAppModule extends CoreModule {
 		mediatorMap.mapMediator(PureLegsSample, SampleAppMediator);
 		//mediatorMap.unmapMediator(PureLegsSample);
 		
-		mediatorMap.mediate(view);
+		mediatorMap.mediate(getMainObject());
 		// TODO - decide : rething namings..
 		//mediatorMap.unmediate(view);
 		
@@ -74,7 +68,7 @@ public class SampleAppModule extends CoreModule {
 		sendMessage(Msg.TEST);
 		sendMessage(Msg.TEST, "single message parameter");
 		sendMessage(Msg.TEST, new ComplexParams("complex message parameters"));
-		
+	
 	}
 
 }

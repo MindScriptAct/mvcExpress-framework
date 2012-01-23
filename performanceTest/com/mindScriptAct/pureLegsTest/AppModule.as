@@ -30,19 +30,17 @@ import org.pureLegs.base.CoreModule;
  * @author rbanevicius
  */
 public class AppModule extends CoreModule {
-	public var view:Sprite;
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
 	
-	public function AppModule(view:Sprite){
-		this.view = view;
-		super();
+	public function AppModule(mainObject:PureLegsTesting){
+		super(mainObject);
 	}
 	
 	override public function startup():void {
 		trace("AppModule.startup");
 		
-		coreInitTime = getTimer() - (view as PureLegsTesting).initTime;
+		coreInitTime = getTimer() - (getMainObject() as PureLegsTesting).initTime;
 		
 		//commandMap.map(Note.TEST, Inject1Command);
 		commandMap.map(Note.TEST_COMMAND_0, EmptyCommand);
@@ -62,7 +60,7 @@ public class AppModule extends CoreModule {
 		mediatorMap.mapMediator(PureLegsTesting, PureLegsTestMediator);
 		mediatorMap.mapMediator(TestSprite, TestSpriteMediator);
 		
-		mediatorMap.mediate(view);
+		mediatorMap.mediate(getMainObject());
 		//
 		// start
 		//super.startup();

@@ -1,14 +1,18 @@
 package org.pureLegs.base {
+import flash.display.DisplayObjectContainer;
 import org.pureLegs.core.CommandMap;
 import org.pureLegs.core.MediatorMap;
 import org.pureLegs.core.ModelMap;
 import org.pureLegs.messenger.Messenger;
 
 /**
- * COMMENT
+ * Core class of framework.
+ * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
+ * TODO : Also you can create modular application by having more then one CoreModule subclass.
  * @author rbanevicius
  */
 public class CoreModule {
+	static private var mainObject:DisplayObjectContainer;
 	
 	protected var commandMap:CommandMap;
 	
@@ -18,7 +22,24 @@ public class CoreModule {
 	
 	private var messenger:Messenger;
 	
-	public function CoreModule() {
+	/**
+	 * CONSTRUCTOR
+	 * @param	mainObject	main object of your application. Should be set once with main module if you have more then one.
+	 */
+	public function CoreModule(mainObject:DisplayObjectContainer = null) {
+		CONFIG::debug {
+			if (CoreModule.mainObject) {
+				if (mainObject) {
+					if (CoreModule.mainObject != mainObject) {
+						throw Error("mainObject can be set only once.");
+					}
+				}
+			}
+		}
+		
+		if (!CoreModule.mainObject) {
+			CoreModule.mainObject = mainObject;
+		}
 		
 		messenger = new Messenger();
 		
@@ -29,29 +50,30 @@ public class CoreModule {
 		startup();
 	}
 	
+	/**
+	 * Function called after framework is initialized.
+	 * Ment to be overriten.
+	 */
 	public function startup():void {
 		// for overide
 	}
 	
-	protected function sendMessage(type:String, body:Object = null):void {
-		messenger.send(type, body);
+	/**
+	 * Return main object of aplication.
+	 * @return
+	 */
+	protected function getMainObject():DisplayObjectContainer {
+		return CoreModule.mainObject;
 	}
-
-	//protected function addCallback(message:String, callBackFunction:Function):void {
-	//messageDataRegistry.push(pureLegsCore::
-	//messenger.addCallback(message, callBackFunction)
-	//);
-	//}
-	//
-	//protected function removeCallback(type:String, callBack:Function):void {
-	//messenger.removeCallback(type, callBack);
-	//for (var i:int = 0; i < messageDataRegistry.length; i++) {
-	//if (messageDataRegistry[i].callBack == callBack && messageDataRegistry[i].type == type) {
-	//messageDataRegistry[i].disabled = true;
-	//messageDataRegistry.splice(i, 1);
-	//}
-	//}
-	//}
+	
+	/**
+	 * Message sender.
+	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
+	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
+	 */
+	protected function sendMessage(type:String, params:Object = null):void {
+		messenger.send(type, params);
+	}
 
 }
 }
