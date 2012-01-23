@@ -15,6 +15,12 @@ public class SampleModel extends Model implements ISampleModel {
 	[Inject]
 	public var sampleEmptyModel:SampleEmptyModel;
 	
+	[Inject]
+	public var sampleEmptyModelInterfaced:ISampleEmptyModel;
+	
+	[Inject(namespace = 'namedSampleEmptyModel')]
+	public var sampleEmptyModelInterfacedAndNamed:ISampleEmptyModel;
+	
 	public var testData:String = "someTestData";
 	
 	public function SampleModel() {

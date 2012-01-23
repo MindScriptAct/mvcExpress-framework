@@ -20,7 +20,7 @@ public class SampleCommand extends Command {
 	public function execute(params:Object):void {
 		trace("SampleCommand.execute > params : " + params);
 		
-		//sampleModel.sendTestMessage();
+		sampleModel.sendTestMessage();
 		
 		////////////////////////////
 		// Model

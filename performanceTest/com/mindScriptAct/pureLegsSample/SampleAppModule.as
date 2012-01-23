@@ -3,6 +3,7 @@ import com.gskinner.performance.PerformanceTest;
 import com.mindScriptAct.pureLegsSample.controller.params.ComplexParams;
 import com.mindScriptAct.pureLegsSample.controller.SampleCommand;
 import com.mindScriptAct.pureLegsSample.messages.Msg;
+import com.mindScriptAct.pureLegsSample.model.ISampleEmptyModel;
 import com.mindScriptAct.pureLegsSample.model.ISampleModel;
 import com.mindScriptAct.pureLegsSample.model.SampleEmptyModel;
 import com.mindScriptAct.pureLegsSample.model.SampleModel;
@@ -33,8 +34,8 @@ public class SampleAppModule extends CoreModule {
 		// TODO - decide : Alternatively... singleton models could be initialized on first use... (cost a bit performance..) but solves the isue..
 		
 		modelMap.mapObject(new SampleEmptyModel("Some test info"));
-		// TODO : modelMap.mapValue(new SampleEmptyModel(), ISampleEmptyModel);
-		// TODO : modelMap.mapValue(new SampleEmptyModel(), ISampleEmptyModel, "namedSampleEmptyModel");
+		modelMap.mapObject(new SampleEmptyModel("Interfaced model"), ISampleEmptyModel);
+		modelMap.mapObject(new SampleEmptyModel("Named and interfaced model"), ISampleEmptyModel, "namedSampleEmptyModel");
 		
 		modelMap.mapClass(SampleModel);
 		modelMap.mapClass(SampleModel, null, "testType");
