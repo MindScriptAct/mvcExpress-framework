@@ -4,6 +4,7 @@ import org.pureLegs.core.CommandMap;
 import org.pureLegs.core.MediatorMap;
 import org.pureLegs.core.ModelMap;
 import org.pureLegs.messenger.Messenger;
+import org.pureLegs.namespace.pureLegsCore;
 import suites.commandMap.commands.TestCommand1;
 import suites.commandMap.commands.TestCommand2;
 import utils.AsyncUtil;
@@ -23,7 +24,8 @@ public class CommandMapTests {
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
 		modelMap = new ModelMap(messenger);
 		mediatorMap = new MediatorMap(messenger, modelMap);
 		cammandMap = new CommandMap(messenger, modelMap, mediatorMap);
@@ -34,6 +36,8 @@ public class CommandMapTests {
 	[After]
 	
 	public function runAfterEveryTest():void {
+		use namespace pureLegsCore;
+		messenger.clear();
 		messenger = null;
 		modelMap = null;
 		cammandMap = null;

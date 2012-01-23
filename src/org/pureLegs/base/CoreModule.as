@@ -4,6 +4,7 @@ import org.pureLegs.core.CommandMap;
 import org.pureLegs.core.MediatorMap;
 import org.pureLegs.core.ModelMap;
 import org.pureLegs.messenger.Messenger;
+import org.pureLegs.namespace.pureLegsCore;
 
 /**
  * Core class of framework.
@@ -28,7 +29,7 @@ public class CoreModule {
 	 */
 	public function CoreModule(mainObject:DisplayObjectContainer = null) {
 		this.mainObject = mainObject;
-		
+		use namespace pureLegsCore;
 		messenger = Messenger.getInstance();
 		
 		modelMap = new ModelMap(messenger);

@@ -20,7 +20,8 @@ public class ModelMapTests {
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
 		modelMap = new ModelMap(messenger);
 		callCaunter = 0;
 		callsExpected = 0;
@@ -29,7 +30,8 @@ public class ModelMapTests {
 	[After]
 	
 	public function runAfterEveryTest():void {
-		messenger = null;
+		use namespace pureLegsCore;
+		messenger.clear();
 		modelMap = null;
 		callCaunter = 0;
 		callsExpected = 0;

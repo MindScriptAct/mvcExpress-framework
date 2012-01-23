@@ -4,6 +4,7 @@ import org.flexunit.Assert;
 import org.pureLegs.core.MediatorMap;
 import org.pureLegs.core.ModelMap;
 import org.pureLegs.messenger.Messenger;
+import org.pureLegs.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
 import utils.AsyncUtil;
@@ -23,7 +24,8 @@ public class MediatorMapTests {
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
 		modelMap = new ModelMap(messenger);
 		mediatorMap = new MediatorMap(messenger, modelMap);
 		callCaunter = 0;
@@ -33,7 +35,8 @@ public class MediatorMapTests {
 	[After]
 	
 	public function runAfterEveryTest():void {
-		messenger = null;
+		use namespace pureLegsCore;
+		messenger.clear();
 		modelMap = null;
 		mediatorMap = null;
 		callCaunter = 0;

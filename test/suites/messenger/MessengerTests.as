@@ -3,6 +3,7 @@ import org.flexunit.Assert;
 import org.flexunit.internals.builders.NullBuilder;
 import org.pureLegs.messenger.MsgVO;
 import org.pureLegs.messenger.Messenger;
+import org.pureLegs.namespace.pureLegsCore;
 import utils.AsyncUtil;
 
 /**
@@ -15,13 +16,15 @@ public class MessengerTests {
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
 	}
 	
 	[After]
 	
 	public function runAfterEveryTest():void {
-		messenger = null;
+		use namespace pureLegsCore;
+		messenger.clear();
 	}
 	
 	//----------------------------------

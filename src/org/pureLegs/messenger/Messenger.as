@@ -27,7 +27,7 @@ public class Messenger implements IMessageSender {
 		}
 	}
 	
-	static public function getInstance():Messenger {
+	static pureLegsCore function getInstance():Messenger {
 		if (instance == null) {
 			allowInstantiation = true;
 			instance = new Messenger();
@@ -130,6 +130,12 @@ public class Messenger implements IMessageSender {
 				messageList.splice(tempListLength - delCount, delCount);
 			}
 		}
+	}
+	
+	pureLegsCore function clear():void {
+		messageRegistry = new Dictionary();
+		handlerRegistry = new Dictionary()
+		commandMapFunction = null;
 	}
 	
 	// framework function for injecting command map handlinf functien.

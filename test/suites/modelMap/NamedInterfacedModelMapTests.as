@@ -19,7 +19,8 @@ public class NamedInterfacedModelMapTests {
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
 		modelMap = new ModelMap(messenger);
 	
 	}
@@ -27,7 +28,8 @@ public class NamedInterfacedModelMapTests {
 	[After]
 	
 	public function runAfterEveryTest():void {
-		messenger = null;
+		use namespace pureLegsCore;
+		messenger.clear();
 		modelMap = null;
 	
 	}
