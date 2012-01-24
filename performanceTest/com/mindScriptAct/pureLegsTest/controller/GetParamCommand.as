@@ -8,7 +8,6 @@ import org.pureLegs.mvc.Command;
 public class GetParamCommand extends Command {
 	
 	public function execute(params:Object):void {
-		//var data:String = msg.body as String;
 	}
 
 }

@@ -6,7 +6,7 @@ import org.pureLegs.namespace.pureLegsCore;
  * Handles framework communications.
  * @author rbanevicius
  */
-public class Messenger implements IMessageSender {
+public class Messenger {
 	
 	static private var allowInstantiation:Boolean;
 	

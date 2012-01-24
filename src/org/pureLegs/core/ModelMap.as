@@ -3,7 +3,6 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.pureLegs.core.inject.InjectRuleVO;
-import org.pureLegs.messenger.IMessageSender;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.mvc.Model;
 import org.pureLegs.namespace.pureLegsCore;
@@ -21,9 +20,9 @@ public class ModelMap {
 	private var classInjectRules:Dictionary = new Dictionary();
 	
 	/** Communication object for sending messages*/
-	private var messenger:IMessageSender;
+	private var messenger:Messenger;
 	
-	public function ModelMap(messenger:IMessageSender) {
+	public function ModelMap(messenger:Messenger) {
 		this.messenger = messenger;
 	}
 	
@@ -72,18 +71,16 @@ public class ModelMap {
 	}
 	
 	/**
-	 * Removes model maped for injection by class and name. 
+	 * Removes model maped for injection by class and name.
 	 *  If mapping does not exists - it will fail silently.
 	 *  This function will not destroy models that are already injected. It only will remove mapping for future injection usses.
 	 * @param	modelClass	class previously mapped for injection
-	 * @param	name		name added to class, that was previously mapped for injection 
+	 * @param	name		name added to class, that was previously mapped for injection
 	 */
 	public function unmapClass(modelClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(modelClass);
 		delete injectClassRegistry[className + name];
 	}
-	
-	
 	
 	// TODO : consider making this function public...
 	/**

@@ -1,5 +1,5 @@
 package org.pureLegs.mvc {
-import org.pureLegs.messenger.IMessageSender;
+import org.pureLegs.messenger.Messenger;
 import org.pureLegs.namespace.pureLegsCore;
 
 /**
@@ -9,7 +9,7 @@ import org.pureLegs.namespace.pureLegsCore;
  */
 public class Model {
 	
-	pureLegsCore var messanger:IMessageSender;
+	pureLegsCore var messanger:Messenger;
 	
 	public function Model(){
 	}
