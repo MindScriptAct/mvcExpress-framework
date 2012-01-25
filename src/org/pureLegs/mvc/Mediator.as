@@ -1,5 +1,5 @@
 package org.pureLegs.mvc {
-import org.pureLegs.core.MediatorMap;
+import org.pureLegs.core.interfaces.IMediatorMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.messenger.MsgVO;
 import org.pureLegs.namespace.pureLegsCore;
@@ -15,7 +15,7 @@ public class Mediator {
 	
 	pureLegsCore var messanger:Messenger;
 	
-	public var mediatorMap:MediatorMap;
+	public var mediatorMap:IMediatorMap;
 	
 	public function Mediator() {
 		// should stay empty.

@@ -2,6 +2,7 @@ package org.pureLegs.core {
 import com.mindScriptAct.pureLegsTest.view.application.PureLegsTestMediator;
 import com.mindScriptAct.pureLegsTest.PureLegsTesting;
 import com.mindScriptAct.pureLegsTest.view.testSprite.TestSprite;
+import org.pureLegs.core.interfaces.IMediatorMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.mvc.Mediator;
 import flash.display.Sprite;
@@ -14,7 +15,7 @@ import org.pureLegs.namespace.pureLegsCore;
  * Handles application mediators.
  * @author rbanevicius
  */
-public class MediatorMap {
+public class MediatorMap implements IMediatorMap {
 	private var modelMap:ModelMap;
 	private var messanger:Messenger;
 	
