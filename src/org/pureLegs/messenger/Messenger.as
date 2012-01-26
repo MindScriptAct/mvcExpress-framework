@@ -42,7 +42,7 @@ public class Messenger {
 	 * @param	handler	function called on sent message, this function must have one and only one parameter.
 	 * @return	returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
-	public function addHandler(type:String, handler:Function):MsgVO {
+	public function addHandler(type:String, handler:Function, handlerClassName:String = null):MsgVO {
 		
 		if (!messageRegistry[type]) {
 			messageRegistry[type] = new Vector.<MsgVO>();
@@ -58,7 +58,7 @@ public class Messenger {
 		}
 		
 		if (!msgData) {
-			msgData = new MsgVO(handler);
+			msgData = new MsgVO(handler, handlerClassName);
 			
 			messageRegistry[type].push(msgData);
 			handlerRegistry[type][handler] = msgData;
@@ -103,26 +103,19 @@ public class Messenger {
 					if (delCount) {
 						messageList[i - delCount] = messageList[i];
 					}
-					//// debug code, to make wrongly typed parameter errors more readable.
-					CONFIG::debug {
-						if (msgVo.handler == this.commandMapFunction) {
-							msgVo.handler(type, params);
-						} else {
-							try {
-								msgVo.handler(params);
-							} catch (error:Error) {
-								throw Error("One of added handler functions for message:[" + type + "]  failed :" + error);
-							}
-						}
-						continue;
-					}
-					//// release code
+					// check if handling function handles commands.
 					if (msgVo.handler == this.commandMapFunction) {
 						msgVo.handler(type, params);
 					} else {
+						CONFIG::debug {
+							// FOR DEBUG viewing only..
+							/* Failed message type: */
+							type
+							/* Failed handler class: */
+							msgVo.handlerClassName
+						}
 						msgVo.handler(params);
 					}
-						///////////////
 				}
 			}
 			// remove all removed handlers.

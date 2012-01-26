@@ -1,14 +1,72 @@
 package suites.mediators {
-	
+import org.pureLegs.core.MediatorMap;
+import org.pureLegs.core.ModelMap;
+import org.pureLegs.messenger.Messenger;
+import org.pureLegs.namespace.pureLegsCore;
+import suites.mediators.mediatorObj.MediatorSprite;
+import suites.mediators.mediatorObj.MediatorSpriteMediator;
+
 /**
  * COMMENT
- * @author 
+ * @author
  */
 public class MediatorTests {
 	
-	public function MediatorTests() {
+	private var messenger:Messenger;
+	private var modelMap:ModelMap;
+	private var mediatorMap:MediatorMap;
+	
+	[Before]
+	
+	public function runBeforeEveryTest():void {
+		use namespace pureLegsCore;
+		messenger = Messenger.getInstance();
+		modelMap = new ModelMap(messenger);
+		mediatorMap = new MediatorMap(messenger, modelMap);
 		
+		mediatorMap.mapMediator(MediatorSprite, MediatorSpriteMediator);
+		
+		mediatorMap.mediate(new MediatorSprite());
 	}
 	
+	[After]
+	
+	public function runAfterEveryTest():void {
+		use namespace pureLegsCore;
+		messenger.clear();
+		modelMap = null;
+		mediatorMap = null;
+	}
+	
+	[Test(expects="Error")]
+	
+	public function test_empty_handler():void {
+		messenger.send("test_add_empty_handler");
+	}
+	
+	[Test]
+	
+	public function test_handler_object_params():void {
+		messenger.send("test_handler_object_params");
+	}
+	
+	[Test]
+	
+	public function test_handler_bad_params():void {
+		messenger.send("test_handler_bad_params");
+	}
+	
+	[Test(expects="Error")]
+	
+	public function test_handler_two_params():void {
+		messenger.send("test_handler_two_params");
+	}
+	
+	[Test]
+	
+	public function test_handler_two_params_one_optional():void {
+		messenger.send("test_handler_two_params_one_optional");
+	}
+
 }
 }

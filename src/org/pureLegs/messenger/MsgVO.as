@@ -11,8 +11,12 @@ public class MsgVO {
 	
 	public var disabled:Boolean;
 	
-	public function MsgVO(handler:Function){
+	/* variable to store class there handler came from. (for debuging) */
+	public var handlerClassName:String;
+	
+	public function MsgVO(handler:Function, handlerClassName:String = null) {
 		this.handler = handler;
+		this.handlerClassName = handlerClassName;
 	}
 
 }

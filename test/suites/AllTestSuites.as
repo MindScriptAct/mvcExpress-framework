@@ -31,7 +31,7 @@ public class AllTestSuites {
 
 	// TODO: public var modelTests:ModelTests;
 
-	// TODO: public var mediatorTests:MediatorTests;
+	public var mediatorTests:MediatorTests;
 	
 	
 	// TODO : public var modularTests:ModularTests;

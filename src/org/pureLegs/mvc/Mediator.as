@@ -1,4 +1,7 @@
 package org.pureLegs.mvc {
+import flash.utils.describeType;
+import flash.utils.getQualifiedClassName;
+import flash.utils.getQualifiedSuperclassName;
 import org.pureLegs.core.interfaces.IMediatorMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.messenger.MsgVO;
@@ -51,6 +54,13 @@ public class Mediator {
 	 * @param	handler	function that will be called then needed message is sent. this functino must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
 	 */
 	protected function addHandler(type:String, handler:Function):void {
+		CONFIG::debug {
+			if (handler.length == 0) {
+				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this));
+			}
+			messageDataRegistry.push(pureLegsCore::messanger.addHandler(type, handler, getQualifiedClassName(this)));
+			return;
+		}
 		messageDataRegistry.push(pureLegsCore::messanger.addHandler(type, handler));
 	}
 	
