@@ -81,13 +81,13 @@ public class CommandMap {
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
 		
+		//////////////////////////////////////////////
+		////// INLINE FUNCTION runCommand() START
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		CONFIG::debug {
 			validateCommandParams(commandClass, params);
 		}
 		
-		//////////////////////////////////////////////
-		////// INLINE FUNCTION runCommand() START
 		var command:Command = new commandClass();
 		
 		use namespace pureLegsCore;
@@ -111,6 +111,12 @@ public class CommandMap {
 			for (var i:int = 0; i < commandList.length; i++) {
 				//////////////////////////////////////////////
 				////// INLINE FUNCTION runCommand() START
+				
+				// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+				CONFIG::debug {
+					validateCommandParams(commandList[i], params);
+				}
+				
 				var command:Command = new commandList[i]();
 				
 				use namespace pureLegsCore;
