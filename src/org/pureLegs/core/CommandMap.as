@@ -1,5 +1,6 @@
 package org.pureLegs.core {
 import flash.utils.describeType;
+import flash.utils.getQualifiedSuperclassName;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.mvc.Command;
 import flash.events.Event;
@@ -24,7 +25,7 @@ public class CommandMap {
 	
 	/** types of command execute function needed for debug mode only validation.  */
 	CONFIG::debug
-	public var commandClassParamTypes:Dictionary = new Dictionary();
+	private var commandClassParamTypes:Dictionary = new Dictionary();
 	
 	public function CommandMap(messanger:Messenger, modelMap:ModelMap, mediatorMap:MediatorMap) {
 		this.messanger = messanger;
@@ -82,7 +83,7 @@ public class CommandMap {
 		
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		CONFIG::debug {
-			validateCommandClass(commandClass);
+			validateCommandParams(commandClass, params);
 		}
 		
 		//////////////////////////////////////////////
@@ -130,10 +131,11 @@ public class CommandMap {
 	}
 	
 	//----------------------------------
-	//     Helper funciton for error checking
+	//     Helper funcitons for error checking
 	//----------------------------------
 	CONFIG::debug
 	public function validateCommandClass(commandClass:Class):void {
+		
 		if (!commandClassParamTypes[commandClass]) {
 			
 			var classDescription:XML = describeType(commandClass);
@@ -155,10 +157,22 @@ public class CommandMap {
 			
 			if (hasExecute) {
 				if (parameterCount != 1) {
-					throw Error("Command class:" + commandClass + " function execute() must have single parameter, but it has " + parameterCount);
+					throw Error("Command:" + commandClass + " function execute() must have single parameter, but it has " + parameterCount);
 				}
 			} else {
-				throw Error("Command class:" + commandClass + " must have public execute() function with single parameter.");
+				throw Error("Command:" + commandClass + " must have public execute() function with single parameter.");
+			}
+		}
+	}
+	
+	CONFIG::debug
+	private function validateCommandParams(commandClass:Class, params:Object):void {
+		validateCommandClass(commandClass);
+		if (params) {
+			var paramClass:Class = getDefinitionByName(commandClassParamTypes[commandClass]) as Class;
+			
+			if (!(params is paramClass)) {
+				throw Error("Class " + commandClass + " expects " + commandClassParamTypes[commandClass] + ". But you are sending :" + getQualifiedClassName(params));
 			}
 		}
 	}
