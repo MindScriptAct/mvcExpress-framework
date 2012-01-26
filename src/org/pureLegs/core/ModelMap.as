@@ -135,11 +135,11 @@ public class ModelMap {
 	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleVO> {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
 		
-		var description:XML = describeType(signatureClass);
+		var classDescription:XML = describeType(signatureClass);
 		var node:XML;
 		
 		// TODO : optimize
-		for each (node in description.factory.*.(name() == "variable" || name() == "accessor").metadata.(@name == "Inject")) {
+		for each (node in classDescription.factory.*.(name() == "variable" || name() == "accessor").metadata.(@name == "Inject")) {
 			//trace( "node : " + node );
 			
 			// TODO : optimize

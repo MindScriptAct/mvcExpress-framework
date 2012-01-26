@@ -1,4 +1,5 @@
 package org.pureLegs.core {
+import flash.utils.describeType;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.mvc.Command;
 import flash.events.Event;
@@ -21,6 +22,10 @@ public class CommandMap {
 	
 	private var cashTest:Dictionary = new Dictionary();
 	
+	/** types of command execute function needed for debug mode only validation.  */
+	CONFIG::debug
+	public var commandClassParamTypes:Dictionary = new Dictionary();
+	
 	public function CommandMap(messanger:Messenger, modelMap:ModelMap, mediatorMap:MediatorMap) {
 		this.messanger = messanger;
 		this.modelMap = modelMap;
@@ -35,6 +40,11 @@ public class CommandMap {
 	 * @param	commandClass	Command class that will bi instantiated and executed.
 	 */
 	public function map(type:String, commandClass:Class):void {
+		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+		CONFIG::debug {
+			validateCommandClass(commandClass);
+		}
+		
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
 			messanger.addHandler(type, handleCommandExecute);
@@ -69,6 +79,12 @@ public class CommandMap {
 	 * @param	params			Object to be sent to execute() function.
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
+		
+		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+		CONFIG::debug {
+			validateCommandClass(commandClass);
+		}
+		
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
 		var command:Command = new commandClass();
@@ -80,20 +96,8 @@ public class CommandMap {
 		
 		command.commandMap = this;
 		modelMap.injectStuff(command, commandClass);
-		//// debug code
-		CONFIG::debug {
-			// TODO : consider adding check if execute() function exists 
-			// TODO : consider adding check if parameter is of proper type.
-			try {
-				command.execute(params);
-			} catch (error:Error) {
-				throw Error("Failed to execute command class : " + commandClass + " " + error);
-			}
-			return;
-		}
-		//// release code
+		
 		command.execute(params);
-		///////////////
 	
 		////// INLINE FUNCTION runCommand() END
 		//////////////////////////////////////////////	
@@ -116,23 +120,45 @@ public class CommandMap {
 				command.commandMap = this;
 				
 				modelMap.injectStuff(command, commandList[i]);
-				//// debug code
-				CONFIG::debug {
-					// TODO : consider adding check if execute() function exists 
-					// TODO : consider adding check if parameter is of proper type.
-					try {
-						command.execute(params);
-					} catch (error:Error) {
-						throw Error("Failed to execute command class : " + commandList[i] + " " + error);
-					}
-					continue;
-				}
-				//// release code
+				
 				command.execute(params);
-					///////////////
 				
 					////// INLINE FUNCTION runCommand() END
 					//////////////////////////////////////////////
+			}
+		}
+	}
+	
+	//----------------------------------
+	//     Helper funciton for error checking
+	//----------------------------------
+	CONFIG::debug
+	public function validateCommandClass(commandClass:Class):void {
+		if (!commandClassParamTypes[commandClass]) {
+			
+			var classDescription:XML = describeType(commandClass);
+			var hasExecute:Boolean = false;
+			var parameterCount:int = 0;
+			
+			// TODO : optimize..
+			var methodList:XMLList = classDescription.factory.method //.(name() == "execute");
+			for (var i:int = 0; i < methodList.length(); i++) {
+				if (methodList[i].@name == "execute") {
+					hasExecute = true;
+					var paramList:XMLList = methodList[i].parameter;
+					parameterCount = paramList.length();
+					if (parameterCount == 1) {
+						commandClassParamTypes[commandClass] = paramList[0].@type;
+					}
+				}
+			}
+			
+			if (hasExecute) {
+				if (parameterCount != 1) {
+					throw Error("Command class:" + commandClass + " function execute() must have single parameter, but it has " + parameterCount);
+				}
+			} else {
+				throw Error("Command class:" + commandClass + " must have public execute() function with single parameter.");
 			}
 		}
 	}

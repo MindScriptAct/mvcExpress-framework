@@ -5,6 +5,8 @@ import org.pureLegs.core.MediatorMap;
 import org.pureLegs.core.ModelMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.namespace.pureLegsCore;
+import suites.commandMap.commands.NoExecuteCommand;
+import suites.commandMap.commands.NoParamsCommand;
 import suites.commandMap.commands.TestCommand1;
 import suites.commandMap.commands.TestCommand2;
 import utils.AsyncUtil;
@@ -85,6 +87,24 @@ public class CommandMapTests {
 		cammandMap.execute(TestCommand1);
 	}
 	
+	[Test(expects="Error")]
+	
+	public function test_no_execute_command_map():void {
+		cammandMap.map("test", NoExecuteCommand);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function test_no_params_command_map():void {
+		cammandMap.map("test", NoParamsCommand);
+	}	
+	
+	[Test]
+	
+	public function testBic():void {
+		cammandMap.commandClassParamTypes;
+	}		
+	
 	//----------------------------------
 	//     
 	//----------------------------------			
@@ -100,7 +120,7 @@ public class CommandMapTests {
 	//----------------------------------			
 	private function callBackCheck(obj:* = null):void {
 		//trace( "ControllerTests.callBackCheck > obj : " + obj );
-		if (callCaunter != callsExpected){
+		if (callCaunter != callsExpected) {
 			Assert.fail("Expected " + callsExpected + " calls, but " + callCaunter + " was received...");
 		}
 	}
