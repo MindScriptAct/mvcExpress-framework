@@ -18,9 +18,12 @@ import org.pureLegs.base.CoreModule;
 public class SampleAppModule extends CoreModule {
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
+	private var view:PureLegsSample;
 	
 	public function SampleAppModule(view:PureLegsSample) {
-		super(view);
+		this.view = view;
+		super();
+		
 	}
 	
 	override protected function onStartUp():void {
@@ -49,7 +52,7 @@ public class SampleAppModule extends CoreModule {
 		mediatorMap.map(PureLegsSample, SampleAppMediator);
 		//mediatorMap.unmapMediator(PureLegsSample);
 		
-		mediatorMap.mediate(getMainObject());
+		mediatorMap.mediate(view);
 		// TODO - decide : rething namings..
 		//mediatorMap.unmediate(view);
 		

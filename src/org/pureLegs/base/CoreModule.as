@@ -13,7 +13,6 @@ import org.pureLegs.namespace.pureLegsCore;
  * @author rbanevicius
  */
 public class CoreModule {
-	private var mainObject:DisplayObjectContainer;
 	
 	protected var modelMap:ModelMap;
 	
@@ -27,8 +26,7 @@ public class CoreModule {
 	 * CONSTRUCTOR
 	 * @param	mainObject	main object of your application. Should be set once with main module if you have more then one.
 	 */
-	public function CoreModule(mainObject:DisplayObjectContainer = null) {
-		this.mainObject = mainObject;
+	public function CoreModule() {
 		use namespace pureLegsCore;
 		messenger = Messenger.getInstance();
 		
@@ -62,7 +60,6 @@ public class CoreModule {
 		mediatorMap.dispose();
 		modelMap.dispose();
 		
-		mainObject = null;
 		commandMap = null;
 		mediatorMap = null;
 		modelMap = null;
@@ -75,14 +72,6 @@ public class CoreModule {
 	 */	
 	protected function onShutDown():void {
 		// for override
-	}
-	
-	/**
-	 * Return main object of aplication.
-	 * @return
-	 */
-	protected function getMainObject():DisplayObjectContainer {
-		return this.mainObject;
 	}
 	
 	/**
