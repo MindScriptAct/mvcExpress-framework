@@ -41,7 +41,11 @@ public class MediatorTests {
 	[Test(expects="Error")]
 	
 	public function test_empty_handler():void {
-		messenger.send("test_add_empty_handler");
+		if (CONFIG::debug == true) {
+			messenger.send("test_add_empty_handler");
+		} else {
+			throw Error("Debug mode is needed for this test.");
+		}
 	}
 	
 	[Test]

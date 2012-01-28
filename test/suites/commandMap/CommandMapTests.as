@@ -99,13 +99,21 @@ public class CommandMapTests {
 	[Test(expects="Error")]
 	
 	public function test_no_execute_command_map():void {
-		cammandMap.map("test", NoExecuteCommand);
+		if (CONFIG::debug == true) {
+			cammandMap.map("test", NoExecuteCommand);
+		} else {
+			throw Error("Debug mode is needed for this test.");
+		}
 	}
 	
 	[Test(expects="Error")]
 	
 	public function test_no_params_command_map():void {
-		cammandMap.map("test", NoParamsCommand);
+		if (CONFIG::debug == true) {
+			cammandMap.map("test", NoParamsCommand);
+		} else {
+			throw Error("Debug mode is needed for this test.");
+		}		
 	}
 	
 	[Test]

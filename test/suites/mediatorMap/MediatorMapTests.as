@@ -45,7 +45,7 @@ public class MediatorMapTests {
 	
 	[Test(async,description="Mediator onRegister test")]
 	
-	public function mediatorMap_onRegister_and_NO_onRemove():void {
+	public function mediatorMap_onRegister_and_no_onRemove():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
 		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
 		mediatorMap.mapMediator(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
