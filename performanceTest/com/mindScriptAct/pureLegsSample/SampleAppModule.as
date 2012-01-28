@@ -46,7 +46,7 @@ public class SampleAppModule extends CoreModule {
 		////////////////////////////
 		// View
 		////////////////////////////
-		mediatorMap.mapMediator(PureLegsSample, SampleAppMediator);
+		mediatorMap.map(PureLegsSample, SampleAppMediator);
 		//mediatorMap.unmapMediator(PureLegsSample);
 		
 		mediatorMap.mediate(getMainObject());

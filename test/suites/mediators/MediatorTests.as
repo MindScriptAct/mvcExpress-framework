@@ -24,7 +24,7 @@ public class MediatorTests {
 		modelMap = new ModelMap(messenger);
 		mediatorMap = new MediatorMap(messenger, modelMap);
 		
-		mediatorMap.mapMediator(MediatorSprite, MediatorSpriteMediator);
+		mediatorMap.map(MediatorSprite, MediatorSpriteMediator);
 		
 		mediatorMap.mediate(new MediatorSprite());
 	}

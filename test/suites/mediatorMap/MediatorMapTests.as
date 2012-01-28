@@ -48,7 +48,7 @@ public class MediatorMapTests {
 	public function mediatorMap_onRegister_and_no_onRemove():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
 		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
-		mediatorMap.mapMediator(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
 		mediatorMap.mediate(view);
 	}
@@ -58,7 +58,7 @@ public class MediatorMapTests {
 	public function mediatorMap_onRegister_and_onRemove():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
 		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
-		mediatorMap.mapMediator(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
 		mediatorMap.mediate(view);
 		mediatorMap.unmediate(view);
@@ -68,7 +68,7 @@ public class MediatorMapTests {
 	
 	public function mediatorMap_messag_callBack_test():void {
 		MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
-		mediatorMap.mapMediator(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
 		mediatorMap.mediate(view);
 		

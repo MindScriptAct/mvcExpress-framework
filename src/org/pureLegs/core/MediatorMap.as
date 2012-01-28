@@ -33,7 +33,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewClass		view class that has to be mediated by mediator class then mediate(viewObject) is called.
 	 * @param	mediatorClass	Mediator class that will be instantiated then viewClass object is passed to mediate function.
 	 */
-	public function mapMediator(viewClass:Class, mediatorClass:Class):void {
+	public function map(viewClass:Class, mediatorClass:Class):void {
 		if (mediatorRegistry[viewClass]){
 			throw Error("Mediator class is already maped with this view class");
 		}
@@ -44,7 +44,7 @@ public class MediatorMap implements IMediatorMap {
 	 * Unmaps any mediator class to given view class.
 	 * @param	viewClass	view class to remove maped mediator class from.
 	 */
-	public function unmapMediator(viewClass:Class):void {
+	public function unmap(viewClass:Class):void {
 		delete mediatorRegistry[viewClass];
 	}
 	

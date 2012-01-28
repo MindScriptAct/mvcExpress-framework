@@ -58,8 +58,8 @@ public class AppModule extends CoreModule {
 		modelMap.mapClass(BlankModel);
 		//
 		//
-		mediatorMap.mapMediator(PureLegsTesting, PureLegsTestMediator);
-		mediatorMap.mapMediator(TestSprite, TestSpriteMediator);
+		mediatorMap.map(PureLegsTesting, PureLegsTestMediator);
+		mediatorMap.map(TestSprite, TestSpriteMediator);
 		
 		mediatorMap.mediate(getMainObject());
 		//
