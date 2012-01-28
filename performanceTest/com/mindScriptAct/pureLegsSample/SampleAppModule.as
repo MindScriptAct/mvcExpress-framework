@@ -23,8 +23,8 @@ public class SampleAppModule extends CoreModule {
 		super(view);
 	}
 	
-	override public function startup():void {
-		trace("AppModule.startup");
+	override protected function onStartUp():void {
+		trace( "SampleAppModule.onStartup" );
 		
 		////////////////////////////
 		// Model

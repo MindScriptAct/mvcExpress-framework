@@ -85,6 +85,16 @@ public class ModelMap {
 		delete injectClassRegistry[className + name];
 	}
 	
+	/* Dispose modelMap on module shutDown */
+	pureLegsCore function dispose():void {
+		for each (var modelObject:Model in injectClassRegistry) {
+			modelObject.onRemove();
+		}
+		injectClassRegistry = null;
+		classInjectRules = null;
+		messenger = null;
+	}
+	
 	// TODO : consider making this function public...
 	/**
 	 * Finds inject points and injects dependiencies.

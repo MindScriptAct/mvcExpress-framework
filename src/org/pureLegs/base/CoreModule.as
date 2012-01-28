@@ -15,11 +15,11 @@ import org.pureLegs.namespace.pureLegsCore;
 public class CoreModule {
 	private var mainObject:DisplayObjectContainer;
 	
-	protected var commandMap:CommandMap;
-	
 	protected var modelMap:ModelMap;
 	
 	protected var mediatorMap:MediatorMap;
+	
+	protected var commandMap:CommandMap;
 	
 	private var messenger:Messenger;
 	
@@ -36,14 +36,44 @@ public class CoreModule {
 		mediatorMap = new MediatorMap(messenger, modelMap);
 		commandMap = new CommandMap(messenger, modelMap, mediatorMap);
 		
-		startup();
+		onStartUp();
 	}
 	
 	/**
 	 * Function called after framework is initialized.
 	 * Ment to be overriten.
 	 */
-	public function startup():void {
+	protected function onStartUp():void {
+		// for override
+	}
+	
+	/**
+	 * Function to shut down Module.
+	 *  All internals are disposed.
+	 *  All mediators removed.
+	 *  All models removed.
+	 */
+	public function shutDown():void {
+		onShutDown();
+		//
+		use namespace pureLegsCore;
+		//
+		commandMap.dispose();
+		mediatorMap.dispose();
+		modelMap.dispose();
+		
+		mainObject = null;
+		commandMap = null;
+		mediatorMap = null;
+		modelMap = null;
+		messenger = null;
+	}
+	
+	/**
+	 * Function called before module is destroed.
+	 * Ment to be overriten.
+	 */	
+	protected function onShutDown():void {
 		// for override
 	}
 	

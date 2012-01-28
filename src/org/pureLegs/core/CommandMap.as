@@ -20,9 +20,7 @@ public class CommandMap {
 	private var mediatorMap:MediatorMap;
 	
 	private var classRegistry:Dictionary = new Dictionary();
-	
-	private var cashTest:Dictionary = new Dictionary();
-	
+		
 	/** types of command execute function needed for debug mode only validation.  */
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary();
@@ -134,6 +132,14 @@ public class CommandMap {
 					//////////////////////////////////////////////
 			}
 		}
+	}
+	
+	/* Dispose commandMap on module shutDown */
+	pureLegsCore function dispose():void {
+		messanger = null;
+		modelMap = null;
+		mediatorMap = null;
+		classRegistry = null;
 	}
 	
 	//----------------------------------

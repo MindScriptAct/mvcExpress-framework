@@ -37,7 +37,8 @@ public class AppModule extends CoreModule {
 		super(mainObject);
 	}
 	
-	override public function startup():void {
+	override protected function onStartUp():void {
+		
 		trace("AppModule.startup");
 		
 		coreInitTime = getTimer() - (getMainObject() as PureLegsTesting).initTime;

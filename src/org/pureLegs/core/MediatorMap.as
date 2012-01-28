@@ -85,6 +85,17 @@ public class MediatorMap implements IMediatorMap {
 			throw Error("View object has no mediator created for it.");
 		}
 	}
+	
+	/* Dispose modiatorMap on module shutDown */
+	pureLegsCore function dispose():void {
+		for each (var viewObject:Object in viewRegistry) {
+			unmediate(viewObject);
+		}
+		modelMap = null;
+		messanger = null;
+		mediatorRegistry = null;
+		viewRegistry = null;	
+	}
 
 }
 }
