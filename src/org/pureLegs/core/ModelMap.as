@@ -32,8 +32,8 @@ public class ModelMap {
 	 * @param	injectClass	Optional class to use for injection, if null modelObject class is used. It is helpfull if you want to map model interface or subclass.
 	 * @param	name		Optional name if you need more then one model instance of same class.
 	 */
-	public function mapObject(modelObject:Object, injectClass:Class = null, name:String = ""):void {
-		var modelClass:Class = modelObject.constructor;
+	public function mapObject(modelObject:Model, injectClass:Class = null, name:String = ""):void {
+		var modelClass:Class = Object(modelObject).constructor;
 		if (!injectClass) {
 			injectClass = modelClass;
 		}
@@ -43,6 +43,7 @@ public class ModelMap {
 			modelObject.messanger = messenger;
 			injectStuff(modelObject, modelClass);
 			injectClassRegistry[className + name] = modelObject;
+			modelObject.onRegister();
 		} else {
 			throw Error("Model object class is already mapped.[" + className + name + "]");
 		}
@@ -60,11 +61,12 @@ public class ModelMap {
 		}
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectClassRegistry[className + name]) {
-			var modelValue:Model = new modelClass();
+			var modelObject:Model = new modelClass();
 			use namespace pureLegsCore;
-			modelValue.messanger = messenger;
-			injectStuff(modelValue, modelClass);
-			injectClassRegistry[className + name] = modelValue;
+			modelObject.messanger = messenger;
+			injectStuff(modelObject, modelClass);
+			injectClassRegistry[className + name] = modelObject;
+			modelObject.onRegister();
 		} else {
 			throw Error("Model class is already mapped.[" + className + name + "]");
 		}
@@ -79,6 +81,7 @@ public class ModelMap {
 	 */
 	public function unmapClass(modelClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(modelClass);
+		(injectClassRegistry[className + name] as Model).onRemove();
 		delete injectClassRegistry[className + name];
 	}
 	

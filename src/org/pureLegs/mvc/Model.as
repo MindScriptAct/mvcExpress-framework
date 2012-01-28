@@ -22,6 +22,20 @@ public class Model {
 	protected function sendMessage(type:String, params:Object = null):void {
 		pureLegsCore::messanger.send(type, params);
 	}
+	
+	/**
+	 * Then model is map'ed with modelMap this function is called.
+	 */
+	public function onRegister():void {
+		// for override
+	}
+	
+	/**
+	 * Then model is unmap'ed with modelMap this function is called.
+	 */
+	public function onRemove():void {
+		// for override
+	}
 
 }
 }
