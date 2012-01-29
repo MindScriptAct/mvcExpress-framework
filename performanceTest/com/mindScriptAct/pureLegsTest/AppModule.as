@@ -19,11 +19,11 @@ import com.mindScriptAct.pureLegsTest.notes.Note;
 import com.mindScriptAct.pureLegsTest.view.application.PureLegsTestMediator;
 import com.mindScriptAct.pureLegsTest.view.testSprite.TestSprite;
 import com.mindScriptAct.pureLegsTest.view.testSprite.TestSpriteMediator;
-import flash.display.Sprite;
 import flash.events.Event;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
 import org.pureLegs.base.CoreModule;
+import org.pureLegs.utils.trackClassStringConstants;
 
 /**
  * COMMENT
@@ -34,12 +34,16 @@ public class AppModule extends CoreModule {
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
 	
-	public function AppModule(mainObject:PureLegsTesting){
+	public function AppModule(mainObject:PureLegsTesting) {
 		this.mainObject = mainObject;
 		super();
 	}
 	
 	override protected function onStartUp():void {
+		
+		CONFIG::debug {
+			trackClassStringConstants(Note);
+		}
 		
 		trace("AppModule.startup");
 		
@@ -131,26 +135,26 @@ public class AppModule extends CoreModule {
 	}
 	
 	private function spawn100Mediators():void {
-		for (var i:int = 0; i < 100; i++){
+		for (var i:int = 0; i < 100; i++) {
 			sendMessage(Note.CREATE_TEST_VIEW, 1);
 		}
 	}
 	
 	private function spawn300Mediators():void {
-		for (var i:int = 0; i < 300; i++){
+		for (var i:int = 0; i < 300; i++) {
 			sendMessage(Note.CREATE_TEST_VIEW, 1);
 		}
 	}
 	
 	private function spawn500Mediators():void {
-		for (var i:int = 0; i < 500; i++){
+		for (var i:int = 0; i < 500; i++) {
 			sendMessage(Note.CREATE_TEST_VIEW, 1);
 		}
 	}
 	
 	private function handleTestClose(event:Event):void {
 		//trace( "RobotTestContext.handleTestClose > event : " + event );
-		for (var i:int = 0; i < 1000; i++){
+		for (var i:int = 0; i < 1000; i++) {
 			sendMessage(Note.REMOVE_TEST_VIEW, 1);
 		}
 		sendMessage(Note.APPEND_LINE, "ALL TESTS DONE!");
@@ -158,7 +162,7 @@ public class AppModule extends CoreModule {
 	
 	private function handleTestComplete(event:Event):void {
 		//trace("RobotTestContext.handleTestComplete > event : " + event);
-		if (performanceTest.currentTest){
+		if (performanceTest.currentTest) {
 			sendMessage(Note.APPEND_LINE, performanceTest.currentTest.name + ":" + "\t" + (performanceTest.currentTest.time / performanceTest.currentTest.loops) + "\t" + performanceTest.currentTest.toString());
 		}
 	
@@ -172,42 +176,42 @@ public class AppModule extends CoreModule {
 	}
 	
 	//private function messagingTest():void {
-		//addCallback(Note.TEST, simpleTest1);
-		//
-		//sendMessage(Note.TEST);
-		//
-		//trace("-----");
-		//addCallback(Note.TEST, simpleTest2);
-		//
-		//sendMessage(Note.TEST);
-		//
-		//trace("-----");
-		//
-		//addCallback(Note.TEST, simpleTest2);
-		//
-		//sendMessage(Note.TEST);
-		//
-		//trace("-----");
-		//
-		//removeCallback(Note.TEST, simpleTest2);
-		//removeCallback(Note.TEST, simpleTest2);
-		//removeCallback(Note.TEST, simpleTest1);
-		//
-		//sendMessage(Note.TEST);
-		//
-		//trace("-----");
+	//addCallback(Note.TEST, simpleTest1);
 	//
-		//messenger.addCallback(Note.TEST, simpleTest1);
-		//
-		//messenger.addCallback(Note.TEST, simpleTest2);
-		//
-		//sendMessage(Note.TEST, null, "aaa");
-		//sendMessage(Note.TEST, null);
-		//trace("-----");
-		//messenger.addCallback(Note.TEST, simpleTest2);
-		//sendMessage(Note.TEST, null, "aaa");
-		//trace("-----");
-		//sendMessage(Note.TEST, null);
+	//sendMessage(Note.TEST);
+	//
+	//trace("-----");
+	//addCallback(Note.TEST, simpleTest2);
+	//
+	//sendMessage(Note.TEST);
+	//
+	//trace("-----");
+	//
+	//addCallback(Note.TEST, simpleTest2);
+	//
+	//sendMessage(Note.TEST);
+	//
+	//trace("-----");
+	//
+	//removeCallback(Note.TEST, simpleTest2);
+	//removeCallback(Note.TEST, simpleTest2);
+	//removeCallback(Note.TEST, simpleTest1);
+	//
+	//sendMessage(Note.TEST);
+	//
+	//trace("-----");
+	//
+	//messenger.addCallback(Note.TEST, simpleTest1);
+	//
+	//messenger.addCallback(Note.TEST, simpleTest2);
+	//
+	//sendMessage(Note.TEST, null, "aaa");
+	//sendMessage(Note.TEST, null);
+	//trace("-----");
+	//messenger.addCallback(Note.TEST, simpleTest2);
+	//sendMessage(Note.TEST, null, "aaa");
+	//trace("-----");
+	//sendMessage(Note.TEST, null);
 	//}
 	
 	//----------------------------------

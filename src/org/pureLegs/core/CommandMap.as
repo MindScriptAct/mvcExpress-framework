@@ -1,12 +1,10 @@
 package org.pureLegs.core {
 import flash.utils.describeType;
-import flash.utils.getQualifiedSuperclassName;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.mvc.Command;
-import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import org.pureLegs.messenger.Messenger;
+import org.pureLegs.mvc.Command;
 import org.pureLegs.namespace.pureLegsCore;
 
 /**
