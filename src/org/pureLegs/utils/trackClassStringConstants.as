@@ -35,7 +35,6 @@ public function trackClassStringConstants(... args:Array):void {
 }
 }
 
-
 import flash.utils.Dictionary;
 
 class StringConstantRegistry {

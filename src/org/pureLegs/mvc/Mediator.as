@@ -1,7 +1,5 @@
 package org.pureLegs.mvc {
-import flash.utils.describeType;
 import flash.utils.getQualifiedClassName;
-import flash.utils.getQualifiedSuperclassName;
 import org.pureLegs.core.interfaces.IMediatorMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.messenger.MsgVO;

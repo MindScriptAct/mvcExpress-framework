@@ -1,14 +1,8 @@
 package org.pureLegs.core {
-import com.mindScriptAct.pureLegsTest.view.application.PureLegsTestMediator;
-import com.mindScriptAct.pureLegsTest.PureLegsTesting;
-import com.mindScriptAct.pureLegsTest.view.testSprite.TestSprite;
+import flash.utils.Dictionary;
 import org.pureLegs.core.interfaces.IMediatorMap;
 import org.pureLegs.messenger.Messenger;
 import org.pureLegs.mvc.Mediator;
-import flash.display.Sprite;
-import flash.utils.Dictionary;
-import flash.utils.getDefinitionByName;
-import flash.utils.getQualifiedClassName;
 import org.pureLegs.namespace.pureLegsCore;
 
 /**
