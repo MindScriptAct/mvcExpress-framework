@@ -56,17 +56,10 @@ public class ModelMap {
 	 * @param	name		Optional name if you need more then one model instance of same class.
 	 */
 	public function mapClass(modelClass:Class, injectClass:Class = null, name:String = ""):void {
-		if (!injectClass) {
-			injectClass = modelClass;
-		}
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectClassRegistry[className + name]) {
 			var modelObject:Model = new modelClass();
-			use namespace pureLegsCore;
-			modelObject.messanger = messenger;
-			injectStuff(modelObject, modelClass);
-			injectClassRegistry[className + name] = modelObject;
-			modelObject.onRegister();
+			mapObject(modelObject, injectClass, name);
 		} else {
 			throw Error("Model class is already mapped.[" + className + name + "]");
 		}

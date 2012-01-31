@@ -29,11 +29,14 @@ public class PureLegsSample extends Sprite {
 		//
 		
 		// vm warm up:
-		//setTimeout(start, 2000);
-		start();
+		setTimeout(start, 300);
 	}
 	
 	private function start():void {
+		////////////////////////////
+		// Inits framework.
+		// - OPTIONAL : pass this to constructor so module could handle appliction main visual object.(needed in most cases)
+		////////////////////////////
 		appModule = new SampleAppModule(this);
 	}
 
