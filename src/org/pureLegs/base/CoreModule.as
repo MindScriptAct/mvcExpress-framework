@@ -9,7 +9,7 @@ import org.pureLegs.namespace.pureLegsCore;
 /**
  * Core class of framework.
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
- * TODO : Also you can create modular application by having more then one CoreModule subclass.
+ * Also you can create modular application by having more then one CoreModule subclass.
  * @author rbanevicius
  */
 public class CoreModule {
