@@ -1,8 +1,8 @@
 package suites.modelMap {
 import flexunit.framework.Assert;
-import org.pureLegs.core.ModelMap;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.namespace.pureLegsCore;
+import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.namespace.pureLegsCore;
 import suites.modelMap.modelTestObj.ITestModel;
 import suites.modelMap.modelTestObj.TestModel;
 import suites.modelMap.namedModelTestObj.NamedModelTestingModel;

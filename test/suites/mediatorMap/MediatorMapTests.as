@@ -1,10 +1,9 @@
 package suites.mediatorMap {
-import com.mindScriptAct.pureLegsTest.view.testSprite.TestSprite;
 import org.flexunit.Assert;
-import org.pureLegs.core.MediatorMap;
-import org.pureLegs.core.ModelMap;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.namespace.pureLegsCore;
+import org.mvcexpress.base.MediatorMap;
+import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
 import utils.AsyncUtil;

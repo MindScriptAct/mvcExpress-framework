@@ -1,5 +1,5 @@
 package suites.modelMap.modelTestObj {
-import org.pureLegs.mvc.Model;
+import org.mvcexpress.mvc.Model;
 
 /**
  * COMMENT

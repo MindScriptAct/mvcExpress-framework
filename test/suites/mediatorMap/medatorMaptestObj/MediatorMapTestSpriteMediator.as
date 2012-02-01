@@ -1,5 +1,5 @@
 package suites.mediatorMap.medatorMaptestObj {
-import org.pureLegs.mvc.Mediator;
+import org.mvcexpress.mvc.Mediator;
 
 /**
  * COMMENT

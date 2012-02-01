@@ -1,6 +1,6 @@
 package suites.mediators.mediatorObj {
 import flash.display.Sprite;
-import org.pureLegs.mvc.Mediator;
+import org.mvcexpress.mvc.Mediator;
 import suites.testObjects.SuperObject;
 
 /**

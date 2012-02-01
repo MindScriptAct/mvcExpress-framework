@@ -1,9 +1,9 @@
 package suites.messenger {
 import org.flexunit.Assert;
 import org.flexunit.internals.builders.NullBuilder;
-import org.pureLegs.messenger.MsgVO;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.namespace.pureLegsCore;
+import org.mvcexpress.messenger.MsgVO;
+import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.namespace.pureLegsCore;
 import utils.AsyncUtil;
 
 /**

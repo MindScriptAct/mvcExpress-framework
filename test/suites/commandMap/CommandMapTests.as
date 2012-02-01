@@ -1,11 +1,11 @@
 package suites.commandMap {
 import flash.display.Sprite;
 import org.flexunit.Assert;
-import org.pureLegs.core.CommandMap;
-import org.pureLegs.core.MediatorMap;
-import org.pureLegs.core.ModelMap;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.namespace.pureLegsCore;
+import org.mvcexpress.base.CommandMap;
+import org.mvcexpress.base.MediatorMap;
+import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.namespace.pureLegsCore;
 import suites.commandMap.commands.ExtendedeSuperInterfaceParamsCommand;
 import suites.commandMap.commands.ExtendedSuperParamCommand;
 import suites.commandMap.commands.NoExecuteCommand;

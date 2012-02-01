@@ -1,5 +1,5 @@
 package suites.commandMap.commands {
-import org.pureLegs.mvc.Command;
+import org.mvcexpress.mvc.Command;
 import suites.testObjects.IExtendedeSuperObject;
 import suites.testObjects.ISuperObject;
 

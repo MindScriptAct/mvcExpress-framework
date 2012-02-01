@@ -1,5 +1,5 @@
 package suites.modelMap.namedModelTestObj {
-import org.pureLegs.mvc.Model;
+import org.mvcexpress.mvc.Model;
 import suites.modelMap.modelTestObj.ITestModel;
 import suites.modelMap.modelTestObj.TestModel;
 

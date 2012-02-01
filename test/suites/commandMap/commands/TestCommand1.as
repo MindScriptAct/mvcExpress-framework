@@ -1,6 +1,6 @@
 package suites.commandMap.commands {
 import flash.display.Sprite;
-import org.pureLegs.mvc.Command;
+import org.mvcexpress.mvc.Command;
 
 /**
  * COMMENT

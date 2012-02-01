@@ -1,8 +1,8 @@
 package suites.mediators {
-import org.pureLegs.core.MediatorMap;
-import org.pureLegs.core.ModelMap;
-import org.pureLegs.messenger.Messenger;
-import org.pureLegs.namespace.pureLegsCore;
+import org.mvcexpress.base.MediatorMap;
+import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediators.mediatorObj.MediatorSprite;
 import suites.mediators.mediatorObj.MediatorSpriteMediator;
 
