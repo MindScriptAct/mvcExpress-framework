@@ -27,7 +27,7 @@ public class ModelMap {
 	}
 	
 	/**
-	 * Maps model object to Class and name.
+	 * Maps model object to injectClass and name.
 	 * @param	modelObject	Model instance to use for injection.
 	 * @param	injectClass	Optional class to use for injection, if null modelObject class is used. It is helpfull if you want to map model interface or subclass.
 	 * @param	name		Optional name if you need more then one model instance of same class.
@@ -50,7 +50,7 @@ public class ModelMap {
 	}
 	
 	/**
-	 * Maps model object created from class provided to specific class and name.
+	 * Automaticaly instantiates modelClass and maps it to specific injectClass and name.
 	 * @param	modelClass	Model class to use for injection. Model object is created then it is mapped.
 	 * @param	injectClass	Optional class to use for injection, if null modelObject class is used. It is helpfull if you want to map model interface or subclass.
 	 * @param	name		Optional name if you need more then one model instance of same class.
@@ -66,19 +66,22 @@ public class ModelMap {
 	}
 	
 	/**
-	 * Removes model maped for injection by class and name.
+	 * Removes model maped for injection by injectClass and name.
 	 *  If mapping does not exists - it will fail silently.
 	 *  This function will not destroy models that are already injected. It only will remove mapping for future injection usses.
 	 * @param	modelClass	class previously mapped for injection
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
-	public function unmapClass(modelClass:Class, name:String = ""):void {
-		var className:String = getQualifiedClassName(modelClass);
+	public function unmapClass(injectClass:Class, name:String = ""):void {
+		var className:String = getQualifiedClassName(injectClass);
 		(injectClassRegistry[className + name] as Model).onRemove();
 		delete injectClassRegistry[className + name];
 	}
 	
-	/* Dispose modelMap on module shutDown */
+	/** 
+	 * Dispose modelMap on module shutDown 
+	 * @private
+	 */
 	pureLegsCore function dispose():void {
 		for each (var modelObject:Model in injectClassRegistry) {
 			modelObject.onRemove();
@@ -92,6 +95,7 @@ public class ModelMap {
 	/**
 	 * Finds inject points and injects dependiencies.
 	 * tempValue and tempPclass defines injection that will be done for current object only.
+	 * @private
 	 */
 	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):void {
 		
@@ -121,11 +125,11 @@ public class ModelMap {
 		
 		// injects all dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
-			var injectObject:Object = injectClassRegistry[rules[i].injectClassName];
+			var injectObject:Object = injectClassRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				object[rules[i].varName] = injectObject
 			} else {
-				throw Error("Inject object is not found for class:" + rules[i].injectClassName);
+				throw Error("Inject object is not found for class:" + rules[i].injectClassAndName);
 			}
 		}
 		
@@ -160,7 +164,7 @@ public class ModelMap {
 			var mapRule:InjectRuleVO = new InjectRuleVO();
 			
 			mapRule.varName = node.parent().@name.toString();
-			mapRule.injectClassName = node.parent().@type.toString() + name;
+			mapRule.injectClassAndName = node.parent().@type.toString() + name;
 			
 			retVal.push(mapRule);
 		}

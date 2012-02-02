@@ -8,8 +8,10 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Core class of framework.
+ * <p>
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
  * Also you can create modular application by having more then one CoreModule subclass.
+ * </p>
  * @author rbanevicius
  */
 public class ModuleCore {

@@ -6,8 +6,10 @@ import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * For commands that handles buisness logic of your application.
- *  It must cantain execute(params:Object) function. parameter object can be typed as you wish.
+ * For commands that handles buisness logic of your application. 
+ * <b><p>
+ * It MUST cantain execute(params:Object) function. Parameter can be typed as you wish.
+ * </p></b>
  * @author rbanevicius
  */
 dynamic public class Command {
@@ -16,6 +18,7 @@ dynamic public class Command {
 	public var mediatorMap:MediatorMap;
 	public var modelMap:ModelMap;
 	
+	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
 	/**

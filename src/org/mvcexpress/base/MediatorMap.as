@@ -80,7 +80,10 @@ public class MediatorMap implements IMediatorMap {
 		}
 	}
 	
-	/* Dispose modiatorMap on module shutDown */
+	/** 
+	 * Dispose modiatorMap on module shutDown 
+	 * @private
+	 */
 	pureLegsCore function dispose():void {
 		for each (var viewObject:Object in viewRegistry) {
 			unmediate(viewObject);

@@ -1,8 +1,10 @@
 package org.mvcexpress.messenger {
 
 /**
- * Value data for message handler.
- * has a flag to be disabled. If it is disabled it will be not called and removed with first message of needed type.
+ * Framework internal value data for message handlers.
+ * <p>
+ * Has a flag to be disabled. If it is disabled it will be not called and removed with first message of needed type.
+ * </p>
  * @author rbanevicius
  */
 public class MsgVO {

@@ -14,6 +14,7 @@ public class Mediator {
 	
 	private var messageDataRegistry:Vector.<MsgVO> = new Vector.<MsgVO>();
 	
+	/** @private */
 	pureLegsCore var messanger:Messenger;
 	
 	public var mediatorMap:IMediatorMap;
@@ -72,7 +73,10 @@ public class Mediator {
 	}
 	
 	
-	/* framework funciton to remove all handle functions created by this mediator */
+	/**
+	 * framework funciton to remove all handle functions created by this mediator 
+	 * @private
+	 * */
 	pureLegsCore function removeAllHandlers():void {
 		for (var i:int = 0; i < messageDataRegistry.length; i++) {
 			messageDataRegistry[i].disabled = true;

@@ -4,11 +4,12 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Classes to hold application data.
- *  Can send mennages.
+ * Can send messages.
  * @author rbanevicius
  */
 public class Model {
 	
+	/** @private */
 	pureLegsCore var messanger:Messenger;
 	
 	public function Model(){

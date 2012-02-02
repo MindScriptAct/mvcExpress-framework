@@ -27,6 +27,9 @@ public class Messenger {
 		}
 	}
 	
+	/**
+	 * @private
+	 */
 	static pureLegsCore function getInstance():Messenger {
 		if (instance == null) {
 			allowInstantiation = true;
@@ -125,13 +128,19 @@ public class Messenger {
 		}
 	}
 	
+	/**
+	 * @private
+	 */
 	pureLegsCore function clear():void {
 		messageRegistry = new Dictionary();
 		handlerRegistry = new Dictionary()
 		commandMapFunction = null;
 	}
 	
-	// framework function for injecting command map handlinf functien.
+	/**
+	 * Framework function for injecting command map handling function.
+	 * @private
+	 */
 	pureLegsCore function setCommandMapFunction(handleCommandExecute:Function):void {
 		this.commandMapFunction = handleCommandExecute;
 	}

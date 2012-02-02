@@ -6,11 +6,11 @@ package org.mvcexpress.base.inject {
  */
 public class InjectRuleVO {
 	
-	/** variable name  */
+	/** Variable name to inject object into.  */
 	public var varName:String;
 	
-	/**  class(with type) name that has to be injected */
-	public var injectClassName:String;
+	/** String for class and name that has to be injected */
+	public var injectClassAndName:String;
 
 }
 }

@@ -133,17 +133,21 @@ public class CommandMap {
 		}
 	}
 	
-	/* Dispose commandMap on module shutDown */
+	/**
+	 * Dispose commandMap on module shutDown 
+	 * @private
+	 */
 	pureLegsCore function dispose():void {
 		messanger = null;
 		modelMap = null;
 		mediatorMap = null;
 		classRegistry = null;
 	}
-	
-	//----------------------------------
-	//     Helper funcitons for error checking
-	//----------------------------------
+
+	/**
+	 * Helper funcitons for error checking
+	 * @private
+	 */
 	CONFIG::debug
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
 		

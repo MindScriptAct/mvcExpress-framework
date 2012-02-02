@@ -1,7 +1,7 @@
 package org.mvcexpress.base.interfaces {
 
 /**
- * COMMENT
+ * Interface for MediatorMap. Mediators use it with this interface.
  * @author
  */
 public interface IMediatorMap {
