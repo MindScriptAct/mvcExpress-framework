@@ -18,7 +18,7 @@ documentation!</h1>
 <p></p>
 <hr>
 <h2>Framework classes you will work with:</h2>
-<h3><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:</h3>
+<h3><a href="org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:</h3>
 You will extend this class to initiate framework, set up your
 application and start it. (all your modules will be started also by
 extending this class.)<br>
@@ -26,21 +26,21 @@ Set up and start your application in <code>onStartUp()</code>
 function.<br>
 Module can be disposed in&nbsp;<code>onShutDown()</code>
 function if they ever shut down.<br><br>
-<h3><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Command.html">Command</a>:</h3>
+<h3><a href="org/mvcexpress/mvc/Command.html">Command</a>:</h3>
 Extend this class to create executable command.<br>
 Your class must have public execute(params:Object) function. (you can
 change type of params object)<br>
 Commands should be stateless - doesn't hold local data.<br>
 Commands should do one job.<br>
 <br>
-<h3><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Model.html">Model</a>:</h3>
+<h3><a href="org/mvcexpress/mvc/Model.html">Model</a>:</h3>
 Extend this class then you need API for your data and application state.<br>
 Model can't listen for framework messages, only send them.<br>
 Models are injected in your application with help of meta-tag [Inject].
 This tag must be used right in front of public variable for model
 object.<br>
 <br>
-<h3><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Mediator.html">Mediator</a>:</h3>
+<h3><a href="org/mvcexpress/mvc/Mediator.html">Mediator</a>:</h3>
 Extend this class to create mediator for your view object.<br>
 Mediators should focus only on mediating and not managing view.<br>
 <br>
@@ -51,39 +51,39 @@ Mediators should focus only on mediating and not managing view.<br>
 <code>execute()</code> function).<br>
 Usually it's better to do it in commands, unless you have really small
 module.</p>
-<p style="font-weight: bold;">To set up commands use <a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/CommandMap.html">commandMap:</a></p>
+<p style="font-weight: bold;">To set up commands use <a href="org/mvcexpress/base/CommandMap.html">commandMap:</a></p>
 <p>Map a class to be executed then message with type provided is
 sent:<br>
-<a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/CommandMap.html#map%28%29" class="signatureLink">commandMap.map</a>(type:String,
+<a href="org/mvcexpress/base/CommandMap.html#map%28%29" class="signatureLink">commandMap.map</a>(type:String,
 commandClass:Class):void</p>
 <p>Or unmap mapped class:<br>
-<a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/CommandMap.html#unmap%28%29" class="signatureLink">commandMap.unmap</a>(type:String,
+<a href="org/mvcexpress/base/CommandMap.html#unmap%28%29" class="signatureLink">commandMap.unmap</a>(type:String,
 commandClass:Class):void</p>
 <p>Commands also can be executed directly:<br>
-<a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/CommandMap.html#execute%28%29" class="signatureLink">commandMap.execute</a>(commandClass:Class,
+<a href="org/mvcexpress/base/CommandMap.html#execute%28%29" class="signatureLink">commandMap.execute</a>(commandClass:Class,
 params:Object = null):void</p>
-<span style="font-weight: bold;">To set up models use </span><a style="font-weight: bold;" href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/ModelMap.html">modelMap</a><span style="font-weight: bold;">:<br><br></span>Maps model object to injectClass and name.<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/ModelMap.html#mapObject%28%29" class="signatureLink">modelMap.mapObject</a>(modelObject:<a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Model.html">Model</a>, injectClass:Class = null, name:String):void<br><br>Automatically instantiates modelClass and maps it to specific injectClass and name.<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/ModelMap.html#mapClass%28%29" class="signatureLink">modelMap.mapClass</a>(modelClass:Class, injectClass:Class = null, name:String):void<br><br>Removes model mapped for injection by injectClass and name.<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/ModelMap.html#unmapClass%28%29" class="signatureLink">modelMap.unmapClass</a>(modelClass:Class, name:String):void<br><br>
-<p style="font-weight: bold;">To set up mediators use <a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/MediatorMap.html">mediatorMap:</a></p>
+<span style="font-weight: bold;">To set up models use </span><a style="font-weight: bold;" href="org/mvcexpress/base/ModelMap.html">modelMap</a><span style="font-weight: bold;">:<br><br></span>Maps model object to injectClass and name.<br><a href="org/mvcexpress/base/ModelMap.html#mapObject%28%29" class="signatureLink">modelMap.mapObject</a>(modelObject:<a href="org/mvcexpress/mvc/Model.html">Model</a>, injectClass:Class = null, name:String):void<br><br>Automatically instantiates modelClass and maps it to specific injectClass and name.<br><a href="org/mvcexpress/base/ModelMap.html#mapClass%28%29" class="signatureLink">modelMap.mapClass</a>(modelClass:Class, injectClass:Class = null, name:String):void<br><br>Removes model mapped for injection by injectClass and name.<br><a href="org/mvcexpress/base/ModelMap.html#unmapClass%28%29" class="signatureLink">modelMap.unmapClass</a>(modelClass:Class, name:String):void<br><br>
+<p style="font-weight: bold;">To set up mediators use <a href="org/mvcexpress/base/MediatorMap.html">mediatorMap:</a></p>
 
-	 Map mediator class to view class.<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br><p>
-	 Unmaps any mediator class to given view class.<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/MediatorMap.html#unmap%28%29" class="signatureLink">mediatorMap.unmap</a>(viewClass:Class):void</p><br>Then view and mediator pairs are mapped you can start mediating view object. it can be done from ModelCore, Command or Mediator:<p>
+	 Map mediator class to view class.<br><a href="org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br><p>
+	 Unmaps any mediator class to given view class.<br><a href="org/mvcexpress/base/MediatorMap.html#unmap%28%29" class="signatureLink">mediatorMap.unmap</a>(viewClass:Class):void</p><br>Then view and mediator pairs are mapped you can start mediating view object. it can be done from ModelCore, Command or Mediator:<p>
 Automatically instantiate mediator class(if mapped), handles all
-injections(including viewObject), and calls onRegister function:<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/MediatorMap.html#mediate%28%29" class="signatureLink">mediatorMap.mediate</a>(viewObject:Object):void</p><p>
+injections(including viewObject), and calls onRegister function:<br><a href="org/mvcexpress/base/MediatorMap.html#mediate%28%29" class="signatureLink">mediatorMap.mediate</a>(viewObject:Object):void</p><p>
 If any mediator is mediating viewObject: it calls onRemove,
 automatically removes all handler functions listening for messages from
-that mediator and disposes it:<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/MediatorMap.html#unmediate%28%29" class="signatureLink">mediatorMap.unmediate</a>(viewObject:Object):void</p><p><br></p><hr>
+that mediator and disposes it:<br><a href="org/mvcexpress/base/MediatorMap.html#unmediate%28%29" class="signatureLink">mediatorMap.unmediate</a>(viewObject:Object):void</p><p><br></p><hr>
 <h2>Communication:</h2>
 
-<p>You can send messages from ModeleCore, Command, Model, Mediator&nbsp; framework classes:<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String,
+<p>You can send messages from ModeleCore, Command, Model, Mediator&nbsp; framework classes:<br><a href="org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String,
 params:Object = null):void</code></p>
 
 <p>You can listen for messages in Mediators by adding handle
-function:<br><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Mediator.html#addHandler%28%29" class="signatureLink">addHandler</a><code>(type:String,
+function:<br><a href="org/mvcexpress/mvc/Mediator.html#addHandler%28%29" class="signatureLink">addHandler</a><code>(type:String,
 handler:Function):void</code></p>
 
-<p><code>Or remove existing functions:<br></code><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/mvc/Mediator.html#removeHandler%28%29" class="signatureLink">removeHandler</a><code>(type:String,
+<p><code>Or remove existing functions:<br></code><a href="org/mvcexpress/mvc/Mediator.html#removeHandler%28%29" class="signatureLink">removeHandler</a><code>(type:String,
 handler:Function):void</code></p>
-<p><code>Also you can use </code><a href="../../../%21frameWorkSpace/pureLegs-frameWork/docs/org/mvcexpress/base/CommandMap.html">commandMap</a>
+<p><code>Also you can use </code><a href="org/mvcexpress/base/CommandMap.html">commandMap</a>
 to map command class to be executed then message is sent.
 </p><span style="font-weight: bold;">
 Both handler function and execute() function in your commands must
