@@ -25,16 +25,30 @@ public class Model {
 	}
 	
 	/**
+	 * @private
+	 */
+	pureLegsCore function register():void {
+		onRegister();
+	}
+	
+	/**
+	 * @private
+	 */
+	pureLegsCore function remove():void {
+		onRemove();
+	}
+	
+	/**
 	 * Then model is map'ed with modelMap this function is called.
 	 */
-	public function onRegister():void {
+	protected function onRegister():void {
 		// for override
 	}
 	
 	/**
 	 * Then model is unmap'ed with modelMap this function is called.
 	 */
-	public function onRemove():void {
+	protected function onRemove():void {
 		// for override
 	}
 

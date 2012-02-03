@@ -43,7 +43,7 @@ public class ModelMap {
 			modelObject.messanger = messenger;
 			injectStuff(modelObject, modelClass);
 			injectClassRegistry[className + name] = modelObject;
-			modelObject.onRegister();
+			modelObject.register();
 		} else {
 			throw Error("Model object class is already mapped.[" + className + name + "]");
 		}
@@ -74,7 +74,8 @@ public class ModelMap {
 	 */
 	public function unmapClass(injectClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(injectClass);
-		(injectClassRegistry[className + name] as Model).onRemove();
+		use namespace pureLegsCore;
+		(injectClassRegistry[className + name] as Model).remove();
 		delete injectClassRegistry[className + name];
 	}
 	
@@ -84,7 +85,8 @@ public class ModelMap {
 	 */
 	pureLegsCore function dispose():void {
 		for each (var modelObject:Model in injectClassRegistry) {
-			modelObject.onRemove();
+			use namespace pureLegsCore;
+			modelObject.remove();
 		}
 		injectClassRegistry = null;
 		classInjectRules = null;
