@@ -21,7 +21,8 @@ public class Console extends Sprite {
 	
 	
 	public function Console() {
-		consoleModule = new ConsoleModule(this);
+		consoleModule = new ConsoleModule();
+		consoleModule.start(this);
 	}
 	
 	public function init():void {

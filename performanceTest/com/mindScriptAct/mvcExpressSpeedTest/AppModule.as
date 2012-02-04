@@ -30,24 +30,25 @@ import org.mvcexpress.utils.trackClassStringConstants;
  * @author rbanevicius
  */
 public class AppModule extends ModuleCore {
-	private var mainObject:MvcExpressSpeedTest;
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
 	
-	public function AppModule(mainObject:MvcExpressSpeedTest) {
-		this.mainObject = mainObject;
+	public function AppModule() {
 		super();
 	}
 	
-	override protected function onStartUp():void {
+	override protected function onInit():void {
+	
+	}
+	
+	public function start(mvcExpressSpeedTest:MvcExpressSpeedTest):void {
+		coreInitTime = getTimer() - mvcExpressSpeedTest.initTime;
 		
 		CONFIG::debug {
 			trackClassStringConstants(Note);
 		}
 		
 		trace("AppModule.startup");
-		
-		coreInitTime = getTimer() - mainObject.initTime;
 		
 		//commandMap.map(Note.TEST, Inject1Command);
 		commandMap.map(Note.TEST_COMMAND_0, EmptyCommand);
@@ -67,7 +68,7 @@ public class AppModule extends ModuleCore {
 		mediatorMap.map(MvcExpressSpeedTest, MvcExpressTestMediator);
 		mediatorMap.map(TestSprite, TestSpriteMediator);
 		
-		mediatorMap.mediate(mainObject);
+		mediatorMap.mediate(mvcExpressSpeedTest);
 		//
 		// start
 		//super.startup();
@@ -81,7 +82,6 @@ public class AppModule extends ModuleCore {
 		
 		// init testing
 		prepareTests();
-	
 	}
 	
 	private function namedModelTesting():void {

@@ -18,21 +18,21 @@ import org.mvcexpress.core.ModuleCore;
 public class SnippetAppModule extends ModuleCore {
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
-	private var mainView:MvcExpressSnippets;
 	
-	public function SnippetAppModule(mainView:MvcExpressSnippets) {
-		////////////////////////////
-		// Store mainView for later use.
-		////////////////////////////
-		this.mainView = mainView;
+	////////////////////////////
+	// Module constructor.
+	// It initiates the framewokr.
+	// in most cases you will not use change it, 
+	// You could just delete it and let superClass handle construction.
+	////////////////////////////
+	public function SnippetAppModule() {
 		super();
-	
 	}
 	
 	////////////////////////////
 	// Function called then framework is started and ready for work.
 	////////////////////////////
-	override protected function onStartUp():void {
+	override protected function onInit():void {
 		trace("SampleAppModule.onStartup");
 		
 		////////////////////////////
@@ -59,7 +59,6 @@ public class SnippetAppModule extends ModuleCore {
 		
 		mediatorMap.map(MvcExpressSnippets, SampleAppMediator);
 		
-		
 		////////////////////////////
 		// controller
 		////////////////////////////
@@ -76,24 +75,26 @@ public class SnippetAppModule extends ModuleCore {
 		sendMessage(Msg.TEST);
 		sendMessage(Msg.TEST, "single message parameter");
 		sendMessage(Msg.TEST, new ComplexParams("complex message parameters"));
-		
-		
+	
+	}
+	
+	public function start(mvcExpressSnippets:MvcExpressSnippets):void {
 		////////////////////////////
 		// start application...
-		// - mediate mainView object AND
-		// - execute commands OR send messages
+		// - mediate mainView object 
+		// AND
+		// - execute commands OR send messages if needed.
 		////////////////////////////
 		
-		mediatorMap.mediate(mainView);
-		//mediatorMap.unmediate(mainView);
-	
+		mediatorMap.mediate(mvcExpressSnippets);
+		//mediatorMap.unmediate(mvcExpressSnippets);
 	}
 	
 	////////////////////////////
 	// called just before module is disposed to put your clean-up code here.
 	// Main module don't need this function as it is never shutDown.
 	////////////////////////////
-	override protected function onShutDown():void {
+	override protected function onDispose():void {
 		// dispose module
 	}
 

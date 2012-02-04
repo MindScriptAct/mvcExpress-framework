@@ -9,7 +9,8 @@ package com.mindScriptAct.smallSample {
 public class SmallSampleMain extends Sprite {
 	
 	public function SmallSampleMain() {
-		new SmallSampleModule(this);
+		var sampleModule:SmallSampleModule = new SmallSampleModule();
+		sampleModule.start(this);
 	}
 	
 }

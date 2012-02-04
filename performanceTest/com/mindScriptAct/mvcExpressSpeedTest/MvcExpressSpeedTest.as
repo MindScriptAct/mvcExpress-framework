@@ -38,7 +38,8 @@ public class MvcExpressSpeedTest extends Sprite {
 	private function start():void {
 		this.initTime = getTimer();
 		
-		context = new AppModule(this);
+		context = new AppModule();
+		context.start(this);
 	}
 
 }

@@ -11,15 +11,12 @@ import org.mvcexpress.core.ModuleCore;
  * @author rbanevicius
  */
 public class SmallSampleModule extends ModuleCore {
-	private var smallSampleMain:SmallSampleMain;
 	
-	public function SmallSampleModule(smallSampleMain:SmallSampleMain) {
-		this.smallSampleMain = smallSampleMain;
+	public function SmallSampleModule() {
 		super();
-	
 	}
 	
-	override protected function onStartUp():void {
+	override protected function onInit():void {
 		trace("SmallSampleModule.onStartUp");
 		
 		// set up view
@@ -30,14 +27,14 @@ public class SmallSampleModule extends ModuleCore {
 		
 		commandMap.map("doMatrix", TestCommand);
 		sendMessage("doMatrix", new Matrix(1, 2, 3, 4, 5, 6));
-		
+	
 		// start mediating stage object.
-		
-		mediatorMap.mediate(smallSampleMain);
-		
-		sendMessage("moveBg", new Point(100, 10));
 	
 	}
-
+	
+	public function start(smallSampleMain:SmallSampleMain):void {
+		mediatorMap.mediate(smallSampleMain);
+		sendMessage("moveBg", new Point(100, 10));
+	}
 }
 }

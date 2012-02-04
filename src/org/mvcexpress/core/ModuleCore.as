@@ -36,25 +36,25 @@ public class ModuleCore {
 		mediatorMap = new MediatorMap(messenger, modelMap);
 		commandMap = new CommandMap(messenger, modelMap, mediatorMap);
 		
-		onStartUp();
+		onInit();
 	}
 	
 	/**
 	 * Function called after framework is initialized.
 	 * Ment to be overriten.
 	 */
-	protected function onStartUp():void {
+	protected function onInit():void {
 		// for override
 	}
 	
 	/**
-	 * Function to shut down Module.
+	 * Function to get rid of module.
 	 *  All internals are disposed.
 	 *  All mediators removed.
 	 *  All models removed.
 	 */
-	public function shutDown():void {
-		onShutDown();
+	public function dispose():void {
+		onDispose();
 		//
 		use namespace pureLegsCore;
 		//
@@ -71,8 +71,8 @@ public class ModuleCore {
 	/**
 	 * Function called before module is destroed.
 	 * Ment to be overriten.
-	 */	
-	protected function onShutDown():void {
+	 */
+	protected function onDispose():void {
 		// for override
 	}
 	

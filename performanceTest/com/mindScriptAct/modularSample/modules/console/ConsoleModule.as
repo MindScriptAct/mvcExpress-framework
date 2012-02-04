@@ -10,14 +10,12 @@ import org.mvcexpress.core.ModuleCore;
  * @author rbanevicius
  */
 public class ConsoleModule extends ModuleCore {
-	private var consoleMain:Console;
 	
-	public function ConsoleModule(consoleMain:Console) {
-		this.consoleMain = consoleMain;
+	public function ConsoleModule() {
 		super();
 	}
 	
-	override protected function onStartUp():void {
+	override protected function onInit():void {
 		trace("ConsoleModule.onStartUp");
 		
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
@@ -25,9 +23,11 @@ public class ConsoleModule extends ModuleCore {
 		modelMap.mapClass(ConsoleLogModel);
 		
 		mediatorMap.map(Console, ConsoleMediator);
-		
-		mediatorMap.mediate(consoleMain);
 	
+	}
+	
+	public function start(console:Console):void {
+		mediatorMap.mediate(console);
 	}
 }
 }

@@ -35,9 +35,12 @@ public class MvcExpressSnippets extends Sprite {
 	private function start():void {
 		////////////////////////////
 		// Inits framework.
-		// - OPTIONAL : pass this to constructor so module could handle appliction main visual object.(needed in most cases)
 		////////////////////////////
-		appModule = new SnippetAppModule(this);
+		appModule = new SnippetAppModule();
+		////////////////////////////
+		// start our application.
+		////////////////////////////
+		appModule.start(this);
 	}
 
 }

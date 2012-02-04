@@ -48,7 +48,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewObject	view object to mediate.
 	 */
 	public function mediate(viewObject:Object):void {
-		var mediatorClass:Class = mediatorRegistry[viewObject.constructor]
+		var mediatorClass:Class = mediatorRegistry[viewObject.constructor];
 		if (mediatorClass){
 			var mediator:Mediator = new mediatorClass();
 			use namespace pureLegsCore;

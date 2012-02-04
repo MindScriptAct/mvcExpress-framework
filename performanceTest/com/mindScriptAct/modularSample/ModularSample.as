@@ -9,7 +9,8 @@ public class ModularSample extends Sprite {
 	private var coreModule:ModularSampleShellModule;
 	
 	public function ModularSample() {
-		coreModule = new ModularSampleShellModule(this);
+		coreModule = new ModularSampleShellModule();
+		coreModule.start(this);
 	}
 
 }
