@@ -9,6 +9,6 @@ mvcExpress is in Release candidate state. Although it's stable and totally usabl
 LINKS
 -----
 
-Pramework homepage : [http://mvcexpress.org/]
+Pramework homepage : http://mvcexpress.org/
 	
 	
