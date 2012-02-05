@@ -10,16 +10,16 @@ import org.mvcexpress.namespace.pureLegsCore;
  * @author rbanevicius
  */
 public class MediatorMap implements IMediatorMap {
-	private var modelMap:ModelMap;
+	private var proxyMap:ProxyMap;
 	private var messanger:Messenger;
 	
 	private var mediatorRegistry:Dictionary = new Dictionary();
 	
 	private var viewRegistry:Dictionary = new Dictionary();	
 	
-	public function MediatorMap(messanger:Messenger, modelMap:ModelMap){
+	public function MediatorMap(messanger:Messenger, proxyMap:ProxyMap){
 		this.messanger = messanger;
-		this.modelMap = modelMap;
+		this.proxyMap = proxyMap;
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class MediatorMap implements IMediatorMap {
 			mediator.messanger = messanger;
 			mediator.mediatorMap = this;
 			
-			modelMap.injectStuff(mediator, mediatorClass, viewObject, viewObject.constructor);
+			proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewObject.constructor);
 			viewRegistry[viewObject] = mediator;
 			
 			mediator.onRegister();
@@ -88,7 +88,7 @@ public class MediatorMap implements IMediatorMap {
 		for each (var viewObject:Object in viewRegistry) {
 			unmediate(viewObject);
 		}
-		modelMap = null;
+		proxyMap = null;
 		messanger = null;
 		mediatorRegistry = null;
 		viewRegistry = null;	

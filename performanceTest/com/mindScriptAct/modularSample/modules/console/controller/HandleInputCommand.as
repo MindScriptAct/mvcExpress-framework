@@ -1,5 +1,5 @@
 package com.mindScriptAct.modularSample.modules.console.controller {
-import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogModel;
+import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
@@ -9,11 +9,11 @@ import org.mvcexpress.mvc.Command;
 public class HandleInputCommand extends Command {
 	
 	[Inject]
-	public var consoleLogModel:ConsoleLogModel;
+	public var consoleLogProxy:ConsoleLogProxy;
 	
 	public function execute(messageText:String):void {
 		//trace("HandleInputCommand.execute > messageText : " + messageText);
-		consoleLogModel.pushMessage(messageText);
+		consoleLogProxy.pushMessage(messageText);
 	}
 
 }

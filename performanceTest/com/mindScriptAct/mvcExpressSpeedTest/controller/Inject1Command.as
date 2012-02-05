@@ -1,7 +1,7 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
 import org.mvcexpress.messager.Notice;
 import org.mvcexpress.mvc.Command;
-import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
+import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 
 /**
  * COMMENT
@@ -10,7 +10,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
 public class Inject1Command extends Command {
 	
 	[Inject]
-	public var blankModel:BlankModel;
+	public var blankProxy:BlankProxy;
 	
 	override public function execute(notice:Notice):void {
 		trace( "Inject1Command.execute > notice : " + notice );
@@ -18,9 +18,9 @@ public class Inject1Command extends Command {
 		
 		//commandMap.execute
 		
-		//mediatorMap
+		//mediatorMap...
 		
-		//modelMap..
+		//proxyMap...
 		
 		messenger.
 	}

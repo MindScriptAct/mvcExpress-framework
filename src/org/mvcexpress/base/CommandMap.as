@@ -14,7 +14,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 public class CommandMap {
 	
 	private var messanger:Messenger;
-	private var modelMap:ModelMap;
+	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	
 	private var classRegistry:Dictionary = new Dictionary();
@@ -23,9 +23,9 @@ public class CommandMap {
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary();
 	
-	public function CommandMap(messanger:Messenger, modelMap:ModelMap, mediatorMap:MediatorMap) {
+	public function CommandMap(messanger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
 		this.messanger = messanger;
-		this.modelMap = modelMap;
+		this.proxyMap = proxyMap;
 		this.mediatorMap = mediatorMap;
 		use namespace pureLegsCore;
 		this.messanger.setCommandMapFunction(handleCommandExecute);
@@ -90,10 +90,10 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		command.messenger = messanger;
 		command.mediatorMap = mediatorMap;
-		command.modelMap = modelMap;
+		command.proxyMap = proxyMap;
 		
 		command.commandMap = this;
-		modelMap.injectStuff(command, commandClass);
+		proxyMap.injectStuff(command, commandClass);
 		
 		command.execute(params);
 	
@@ -119,11 +119,11 @@ public class CommandMap {
 				use namespace pureLegsCore;
 				command.messenger = messanger;
 				command.mediatorMap = mediatorMap;
-				command.modelMap = modelMap;
+				command.proxyMap = proxyMap;
 				
 				command.commandMap = this;
 				
-				modelMap.injectStuff(command, commandList[i]);
+				proxyMap.injectStuff(command, commandList[i]);
 				
 				command.execute(params);
 				
@@ -139,7 +139,7 @@ public class CommandMap {
 	 */
 	pureLegsCore function dispose():void {
 		messanger = null;
-		modelMap = null;
+		proxyMap = null;
 		mediatorMap = null;
 		classRegistry = null;
 	}

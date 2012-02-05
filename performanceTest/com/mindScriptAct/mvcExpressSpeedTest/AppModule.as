@@ -8,13 +8,13 @@ import com.mindScriptAct.mvcExpressSpeedTest.controller.GetParamCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject10Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject5Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject6Command;
-import com.mindScriptAct.mvcExpressSpeedTest.controller.TestNamedModelsCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.TestNamedProxysCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.TraceCommand;
-import com.mindScriptAct.mvcExpressSpeedTest.controller.WithModelCommand;
-import com.mindScriptAct.mvcExpressSpeedTest.controller.WithModelCommViewsCommand;
-import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
-import com.mindScriptAct.mvcExpressSpeedTest.model.INamedModel;
-import com.mindScriptAct.mvcExpressSpeedTest.model.NamedModel;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViewsCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
+import com.mindScriptAct.mvcExpressSpeedTest.model.INamedProxy;
+import com.mindScriptAct.mvcExpressSpeedTest.model.NamedProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 import com.mindScriptAct.mvcExpressSpeedTest.view.application.MvcExpressTestMediator;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
@@ -58,11 +58,11 @@ public class AppModule extends ModuleCore {
 		
 		commandMap.map(Note.CALL_COMMANDS_EMPTY, EmptyCommand);
 		commandMap.map(Note.CALL_COMMANDS_GET_PARAMS, GetParamCommand);
-		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL, WithModelCommand);
-		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS, WithModelCommViewsCommand);
+		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL, WithProxyCommand);
+		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsCommand);
 		
 		//
-		modelMap.mapClass(BlankModel);
+		proxyMap.mapClass(BlankProxy);
 		//
 		//
 		mediatorMap.map(MvcExpressSpeedTest, MvcExpressTestMediator);
@@ -78,22 +78,22 @@ public class AppModule extends ModuleCore {
 		//commandMapTest();
 		//mediatorTest();
 		
-		//namedModelTesting();
+		//namedProxyTesting();
 		
 		// init testing
 		prepareTests();
 	}
 	
-	private function namedModelTesting():void {
-		modelMap.mapObject(new NamedModel("first Named Model"), NamedModel, "namedModel_1");
-		modelMap.mapObject(new NamedModel("Second Named Model"), NamedModel, "namedModel_2");
-		modelMap.mapObject(new NamedModel("Model maped to interface."), INamedModel);
+	private function namedProxyTesting():void {
+		proxyMap.mapObject(new NamedProxy("first Named Proxy"), NamedProxy, "namedProxy_1");
+		proxyMap.mapObject(new NamedProxy("Second Named Proxy"), NamedProxy, "namedProxy_2");
+		proxyMap.mapObject(new NamedProxy("Proxy maped to interface."), INamedProxy);
 		
-		modelMap.mapClass(NamedModel);
+		proxyMap.mapClass(NamedProxy);
 		
-		modelMap.mapClass(NamedModel, INamedModel, "namedSingletonInterface");
+		proxyMap.mapClass(NamedProxy, INamedProxy, "namedSingletonInterface");
 		
-		commandMap.execute(TestNamedModelsCommand);
+		commandMap.execute(TestNamedProxysCommand);
 	}
 	
 	private function mediatorTest():void {

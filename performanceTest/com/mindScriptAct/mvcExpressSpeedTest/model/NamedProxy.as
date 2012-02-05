@@ -1,16 +1,16 @@
 package com.mindScriptAct.mvcExpressSpeedTest.model {
-import org.mvcexpress.mvc.Model;
+import org.mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
  * @author rbanevicius
  */
-public class NamedModel extends Model implements INamedModel {
+public class NamedProxy extends Proxy implements INamedProxy {
 	
 	static private var SINGELTON_COUNT:int = 0;
 	public var description:String;
 	
-	public function NamedModel(description:String = "") {
+	public function NamedProxy(description:String = "") {
 		if (description) {
 			this.description = description;
 		} else {

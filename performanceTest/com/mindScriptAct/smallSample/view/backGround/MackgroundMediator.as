@@ -1,5 +1,5 @@
 package com.mindScriptAct.smallSample.view.backGround {
-import com.mindScriptAct.smallSample.model.SmallTestModel;
+import com.mindScriptAct.smallSample.model.SmallTestProxy;
 import flash.geom.Point;
 import org.mvcexpress.mvc.Mediator;
 
@@ -13,7 +13,7 @@ public class MackgroundMediator extends Mediator {
 	public var view:Background;
 	
 	[Inject]
-	public var smallModel:SmallTestModel;
+	public var smallProxy:SmallTestProxy;
 	
 	
 	override public function onRegister():void {
@@ -21,7 +21,7 @@ public class MackgroundMediator extends Mediator {
 		
 		addHandler("moveBg", handleMoveBg);
 		
-		trace(smallModel.getThought());
+		trace(smallProxy.getThought());
 	}
 	
 	private function handleMoveBg(moveTo:Point):void {

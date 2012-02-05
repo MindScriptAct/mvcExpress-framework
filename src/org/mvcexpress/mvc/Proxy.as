@@ -7,12 +7,12 @@ import org.mvcexpress.namespace.pureLegsCore;
  * Can send messages.
  * @author rbanevicius
  */
-public class Model {
+public class Proxy {
 	
 	/** @private */
 	pureLegsCore var messanger:Messenger;
 	
-	public function Model(){
+	public function Proxy(){
 	}
 	
 	/**
@@ -39,14 +39,14 @@ public class Model {
 	}
 	
 	/**
-	 * Then model is map'ed with modelMap this function is called.
+	 * Then proxy is map'ed with proxyMap this function is called.
 	 */
 	protected function onRegister():void {
 		// for override
 	}
 	
 	/**
-	 * Then model is unmap'ed with modelMap this function is called.
+	 * Then proxy is unmap'ed with proxyMap this function is called.
 	 */
 	protected function onRemove():void {
 		// for override

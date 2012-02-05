@@ -1,15 +1,15 @@
 package com.mindScriptAct.codeSnippets.model {
-import org.mvcexpress.mvc.Model;
+import org.mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
  * @author rbanevicius
  */
-public class SampleEmptyModel extends Model implements ISampleEmptyModel {
+public class SampleEmptyProxy extends Proxy implements ISampleEmptyProxy {
 	
 	private var description:String;
 	
-	public function SampleEmptyModel(description:String) {
+	public function SampleEmptyProxy(description:String) {
 		this.description = description;
 	}
 		

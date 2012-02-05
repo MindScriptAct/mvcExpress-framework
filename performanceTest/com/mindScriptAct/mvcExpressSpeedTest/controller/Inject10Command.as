@@ -1,5 +1,5 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
-import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
+import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
@@ -9,25 +9,25 @@ import org.mvcexpress.mvc.Command;
 public class Inject10Command extends Command {
 	
 	[Inject]
-	public var blankModel1:BlankModel;
+	public var blankProxy1:BlankProxy;
 	[Inject]
-	public var blankModel2:BlankModel;
+	public var blankProxy2:BlankProxy;
 	[Inject]
-	public var blankModel3:BlankModel;
+	public var blankProxy3:BlankProxy;
 	[Inject]
-	public var blankModel4:BlankModel;
+	public var blankProxy4:BlankProxy;
 	[Inject]
-	public var blankModel5:BlankModel;
+	public var blankProxy5:BlankProxy;
 	[Inject]
-	public var blankModel6:BlankModel;
+	public var blankProxy6:BlankProxy;
 	[Inject]
-	public var blankModel7:BlankModel;
+	public var blankProxy7:BlankProxy;
 	[Inject]
-	public var blankModel8:BlankModel;
+	public var blankProxy8:BlankProxy;
 	[Inject]
-	public var blankModel9:BlankModel;
+	public var blankProxy9:BlankProxy;
 	[Inject]
-	public var blankModel10:BlankModel;
+	public var blankProxy10:BlankProxy;
 	
 	public function execute(params:Object):void {
 		//trace("Inject1Command.execute > notice : " + notice);

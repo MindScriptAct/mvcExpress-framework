@@ -1,18 +1,18 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
-import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
+import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
  * COMMENT
  * @author rbanevicius
  */
-public class WithModelCommand extends Command {
+public class WithProxyCommand extends Command {
 	
 	[Inject]
-	public var blankModel:BlankModel;
+	public var blankProxy:BlankProxy;
 	
 	public function execute(params:Object):void {
-		//trace( "WithModelCommand.execute > msg : " + msg );
+		//trace( "WithProxyCommand.execute > msg : " + msg );
 	}
 
 }

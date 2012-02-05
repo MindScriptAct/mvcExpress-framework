@@ -4,7 +4,7 @@ package com.mindScriptAct.codeSnippets.model {
  * COMMENT
  * @author rbanevicius
  */
-public interface ISampleModel {
+public interface ISampleProxy {
 	function sendTestMessage():void;
 }
 }

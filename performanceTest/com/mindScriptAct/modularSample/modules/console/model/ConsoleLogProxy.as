@@ -1,17 +1,17 @@
 package com.mindScriptAct.modularSample.modules.console.model {
 import com.adobe.ac.util.service.ILocalConnection;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
-import org.mvcexpress.mvc.Model;
+import org.mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
  * @author rbanevicius
  */
-public class ConsoleLogModel extends Model {
+public class ConsoleLogProxy extends Proxy {
 	
 	private var messageList:Vector.<String> = new Vector.<String>();
 	
-	public function ConsoleLogModel() {
+	public function ConsoleLogProxy() {
 	
 	}
 	

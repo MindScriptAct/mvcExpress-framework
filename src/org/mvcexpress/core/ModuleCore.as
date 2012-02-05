@@ -2,7 +2,7 @@ package org.mvcexpress.core {
 import flash.display.DisplayObjectContainer;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
@@ -16,7 +16,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class ModuleCore {
 	
-	protected var modelMap:ModelMap;
+	protected var proxyMap:ProxyMap;
 	
 	protected var mediatorMap:MediatorMap;
 	
@@ -32,9 +32,9 @@ public class ModuleCore {
 		use namespace pureLegsCore;
 		messenger = Messenger.getInstance();
 		
-		modelMap = new ModelMap(messenger);
-		mediatorMap = new MediatorMap(messenger, modelMap);
-		commandMap = new CommandMap(messenger, modelMap, mediatorMap);
+		proxyMap = new ProxyMap(messenger);
+		mediatorMap = new MediatorMap(messenger, proxyMap);
+		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
 		
 		onInit();
 	}
@@ -51,7 +51,7 @@ public class ModuleCore {
 	 * Function to get rid of module.
 	 *  All internals are disposed.
 	 *  All mediators removed.
-	 *  All models removed.
+	 *  All proxies removed.
 	 */
 	public function dispose():void {
 		onDispose();
@@ -60,11 +60,11 @@ public class ModuleCore {
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
-		modelMap.dispose();
+		proxyMap.dispose();
 		
 		commandMap = null;
 		mediatorMap = null;
-		modelMap = null;
+		proxyMap = null;
 		messenger = null;
 	}
 	

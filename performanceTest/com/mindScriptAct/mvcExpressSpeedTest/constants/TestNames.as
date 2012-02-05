@@ -22,8 +22,8 @@ public class TestNames {
 	
 	static public const COMMAND_EMPTY:String = "Command with nothing";
 	static public const COMMAND_PARAMS:String = "Command with parameter"
-	static public const COMMAND_MODEL:String = "Command with Model"
-	static public const COMMAND_MODEL_AND_VIEW:String = "Command with Model and View call"
+	static public const COMMAND_MODEL:String = "Command with Proxy"
+	static public const COMMAND_MODEL_AND_VIEW:String = "Command with Proxy and View call"
 	
 	static public const MEDIATOR_CREATE_100:String = "Mediator Create*100";
 	static public const MEDIATOR_CREATE_500:String = "Mediator Create*500";

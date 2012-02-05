@@ -1,6 +1,6 @@
 package com.mindScriptAct.codeSnippets.controller {
 import com.mindScriptAct.codeSnippets.messages.Msg;
-import com.mindScriptAct.codeSnippets.model.SampleModel;
+import com.mindScriptAct.codeSnippets.model.SampleProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
@@ -10,23 +10,23 @@ import org.mvcexpress.mvc.Command;
 public class SampleCommand extends Command {
 	
 	////////////////////////////
-	// geting model...
+	// geting proxies...
 	////////////////////////////
 	[Inject]
-	public var sampleModel:SampleModel;
+	public var sampleProxy:SampleProxy;
 	
 	// execute MUST have 1 and only one parameter. This parameter can be typed(or be Object type)
 	
 	public function execute(params:Object):void {
 		trace("SampleCommand.execute > params : " + params);
 		
-		sampleModel.sendTestMessage();
+		sampleProxy.sendTestMessage();
 		
 		////////////////////////////
-		// Model
+		// Proxy
 		////////////////////////////
 		
-		modelMap
+		proxyMap
 		
 		////////////////////////////
 		// view

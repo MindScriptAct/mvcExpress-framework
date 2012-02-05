@@ -1,7 +1,7 @@
 package org.mvcexpress.mvc {
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
@@ -16,7 +16,7 @@ dynamic public class Command {
 	
 	public var commandMap:CommandMap;
 	public var mediatorMap:MediatorMap;
-	public var modelMap:ModelMap;
+	public var proxyMap:ProxyMap;
 	
 	/** @private */
 	pureLegsCore var messenger:Messenger;

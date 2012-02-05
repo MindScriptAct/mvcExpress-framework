@@ -1,6 +1,6 @@
 package com.mindScriptAct.mvcExpressSpeedTest.view.testSprite {
 import org.mvcexpress.mvc.Mediator;
-import com.mindScriptAct.mvcExpressSpeedTest.model.BlankModel;
+import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 
 /**
@@ -13,7 +13,7 @@ public class TestSpriteMediator extends Mediator {
 	public var view:TestSprite;
 	
 	[Inject]
-	public var testModel:BlankModel;
+	public var testProxy:BlankProxy;
 	
 	public function TestSpriteMediator(){
 		super();

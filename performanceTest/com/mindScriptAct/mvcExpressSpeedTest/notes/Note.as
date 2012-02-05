@@ -28,8 +28,8 @@ public class Note {
 	
 	static public const CALL_COMMANDS_EMPTY:String = "callCommandsEmpty";
 	static public const CALL_COMMANDS_GET_PARAMS:String = "callCommandsGetParams";
-	static public const CALL_COMMANDS_WITH_MODEL:String = "callCommandsWithModel";
-	static public const CALL_COMMANDS_WITH_MODEL_COMM_VIEWS:String = "callCommandsWithModelCommViews";
+	static public const CALL_COMMANDS_WITH_MODEL:String = "callCommandsWithProxy";
+	static public const CALL_COMMANDS_WITH_MODEL_COMM_VIEWS:String = "callCommandsWithProxyCommViews";
 	static public const COMMUNICATION_TEST:String = "communicationTest";
 	
 }

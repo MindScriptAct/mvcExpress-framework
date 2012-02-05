@@ -3,10 +3,10 @@ import com.gskinner.performance.PerformanceTest;
 import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
 import com.mindScriptAct.codeSnippets.controller.SampleCommand;
 import com.mindScriptAct.codeSnippets.messages.Msg;
-import com.mindScriptAct.codeSnippets.model.ISampleEmptyModel;
-import com.mindScriptAct.codeSnippets.model.ISampleModel;
-import com.mindScriptAct.codeSnippets.model.SampleEmptyModel;
-import com.mindScriptAct.codeSnippets.model.SampleModel;
+import com.mindScriptAct.codeSnippets.model.ISampleEmptyProxy;
+import com.mindScriptAct.codeSnippets.model.ISampleProxy;
+import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
+import com.mindScriptAct.codeSnippets.model.SampleProxy;
 import com.mindScriptAct.codeSnippets.view.SampleAppMediator;
 import flash.display.Sprite;
 import org.mvcexpress.core.ModuleCore;
@@ -36,21 +36,21 @@ public class SnippetAppModule extends ModuleCore {
 		trace("SampleAppModule.onStartup");
 		
 		////////////////////////////
-		// Model
+		// Proxy
 		// - can be maped as already constucted object or class. Class will be automaticaly instantiated.
-		// - models are mapet to injectClass+name. if dublication occure error is thrown.
-		// - order is important if one model uses enother model.
+		// - proxies are mapet to injectClass+name. if dublication occure error is thrown.
+		// - order is important if one proxy uses enother proxy.
 		////////////////////////////
 		
-		modelMap.mapObject(new SampleEmptyModel("Simple model"));
-		modelMap.mapObject(new SampleEmptyModel("Interfaced model"), ISampleEmptyModel);
-		modelMap.mapObject(new SampleEmptyModel("Named model"), SampleEmptyModel, "namedSampleModel");
-		modelMap.mapObject(new SampleEmptyModel("Named and interfaced model"), ISampleEmptyModel, "namedSampleInterfacedModel");
+		proxyMap.mapObject(new SampleEmptyProxy("Simple proxy"));
+		proxyMap.mapObject(new SampleEmptyProxy("Interfaced proxy"), ISampleEmptyProxy);
+		proxyMap.mapObject(new SampleEmptyProxy("Named proxy"), SampleEmptyProxy, "namedSampleProxy");
+		proxyMap.mapObject(new SampleEmptyProxy("Named and interfaced proxy"), ISampleEmptyProxy, "namedSampleInterfacedProxy");
 		
-		modelMap.mapClass(SampleModel);
-		modelMap.mapClass(SampleModel, ISampleModel);
-		modelMap.mapClass(SampleModel, SampleModel, "testType");
-		modelMap.mapClass(SampleModel, ISampleModel, "interfaceModel");
+		proxyMap.mapClass(SampleProxy);
+		proxyMap.mapClass(SampleProxy, ISampleProxy);
+		proxyMap.mapClass(SampleProxy, SampleProxy, "testType");
+		proxyMap.mapClass(SampleProxy, ISampleProxy, "interfaceProxy");
 		
 		////////////////////////////
 		// View

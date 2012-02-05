@@ -3,9 +3,8 @@ import suites.commandMap.CommandMapTests;
 import suites.mediatorMap.MediatorMapTests;
 import suites.mediators.MediatorTests;
 import suites.messenger.MessengerTests;
-import suites.modelMap.ModelMapTests;
-import suites.modelMap.NamedInterfacedModelMapTests;
-import suites.models.ModelTests;
+import suites.proxyMap.ProxyMapTests;
+import suites.proxyMap.NamedInterfacedProxyMapTests;
 
 /**
  * COMMENT
@@ -19,9 +18,9 @@ public class AllTestSuites {
 	
 	public var messengerTests:MessengerTests;
 	
-	public var modelMapTests:ModelMapTests;
+	public var proxyMapTests:ProxyMapTests;
 	
-	public var namedAndInterfacedModelMapNameTests:NamedInterfacedModelMapTests;
+	public var namedAndInterfacedProxyMapNameTests:NamedInterfacedProxyMapTests;
 	
 	public var mediatorMapTests:MediatorMapTests;
 
@@ -29,7 +28,7 @@ public class AllTestSuites {
 
 	// TODO: public var commandTests:CommandsTests;
 
-	// TODO: public var modelTests:ModelTests;
+	// TODO: public var proxyTests:ProxyTests;
 
 	public var mediatorTests:MediatorTests;
 	

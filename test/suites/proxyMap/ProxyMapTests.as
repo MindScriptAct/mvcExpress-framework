@@ -1,19 +1,19 @@
-package suites.modelMap {
+package suites.proxyMap {
 import flexunit.framework.Assert;
-import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
-import suites.modelMap.modelTestObj.ModelTestObj;
-import suites.modelMap.modelTestObj.TestModel;
+import suites.proxyMap.proxyTestObj.ProxyTestObj;
+import suites.proxyMap.proxyTestObj.TestProxy;
 
 /**
  * COMMENT
  * @author rbanevicius
  */
-public class ModelMapTests {
+public class ProxyMapTests {
 	
 	private var messenger:Messenger;
-	private var modelMap:ModelMap;
+	private var proxyMap:ProxyMap;
 	private var callCaunter:int;
 	private var callsExpected:int;
 	
@@ -22,7 +22,7 @@ public class ModelMapTests {
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		messenger = Messenger.getInstance();
-		modelMap = new ModelMap(messenger);
+		proxyMap = new ProxyMap(messenger);
 		callCaunter = 0;
 		callsExpected = 0;
 	}
@@ -32,7 +32,7 @@ public class ModelMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		messenger.clear();
-		modelMap = null;
+		proxyMap = null;
 		callCaunter = 0;
 		callsExpected = 0;
 	}
@@ -43,12 +43,12 @@ public class ModelMapTests {
 	
 	[Test]
 	
-	public function using_class_model():void {
+	public function using_class_proxy():void {
 		use namespace pureLegsCore;
-		modelMap.mapClass(TestModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
-		Assert.assertNotNull("Injected object must be not null", obj1.testModel);
+		proxyMap.mapClass(TestProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
+		Assert.assertNotNull("Injected object must be not null", obj1.testProxy);
 	}
 	
 	//----------------------------------
@@ -57,14 +57,14 @@ public class ModelMapTests {
 	
 	[Test]
 	
-	public function using_class_model_twice_both_should_be_equal():void {
+	public function using_class_proxy_twice_both_should_be_equal():void {
 		use namespace pureLegsCore;
-		modelMap.mapClass(TestModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		var obj2:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
-		modelMap.injectStuff(obj2, ModelTestObj);
-		Assert.assertEquals("Injected class object must be equel everythere.", obj1.testModel, obj2.testModel);
+		proxyMap.mapClass(TestProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		var obj2:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
+		proxyMap.injectStuff(obj2, ProxyTestObj);
+		Assert.assertEquals("Injected class object must be equel everythere.", obj1.testProxy, obj2.testProxy);
 	}
 	//----------------------------------
 	//     
@@ -72,9 +72,9 @@ public class ModelMapTests {
 	
 	[Test(expects="Error")]
 	
-	public function mapping_class_model_twice_throws_error():void {
-		modelMap.mapClass(TestModel);
-		modelMap.mapClass(TestModel);
+	public function mapping_class_proxy_twice_throws_error():void {
+		proxyMap.mapClass(TestProxy);
+		proxyMap.mapClass(TestProxy);
 	}
 	
 	//----------------------------------
@@ -84,11 +84,11 @@ public class ModelMapTests {
 	
 	public function using_object_test():void {
 		use namespace pureLegsCore;
-		var testModel:TestModel = new TestModel();
-		modelMap.mapObject(testModel, TestModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
-		Assert.assertEquals("Maped value object must be used for iject object.", obj1.testModel, testModel);
+		var testProxy:TestProxy = new TestProxy();
+		proxyMap.mapObject(testProxy, TestProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
+		Assert.assertEquals("Maped value object must be used for iject object.", obj1.testProxy, testProxy);
 	}
 	
 	//----------------------------------
@@ -97,15 +97,15 @@ public class ModelMapTests {
 	
 	[Test]
 	
-	public function using_object_model_twice_both_should_be_equal():void {
+	public function using_object_proxy_twice_both_should_be_equal():void {
 		use namespace pureLegsCore;
-		var testModel:TestModel = new TestModel();
-		modelMap.mapObject(testModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		var obj2:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
-		modelMap.injectStuff(obj2, ModelTestObj);
-		Assert.assertEquals("Injected value object must be equel everythere.", obj1.testModel, obj2.testModel);
+		var testProxy:TestProxy = new TestProxy();
+		proxyMap.mapObject(testProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		var obj2:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
+		proxyMap.injectStuff(obj2, ProxyTestObj);
+		Assert.assertEquals("Injected value object must be equel everythere.", obj1.testProxy, obj2.testProxy);
 	}
 	
 	//----------------------------------
@@ -114,10 +114,10 @@ public class ModelMapTests {
 	
 	[Test(expects="Error")]
 	
-	public function mapping_object_model_twice_throws_error():void {
-		var testModel:TestModel = new TestModel();
-		modelMap.mapObject(testModel);
-		modelMap.mapObject(testModel);
+	public function mapping_object_proxy_twice_throws_error():void {
+		var testProxy:TestProxy = new TestProxy();
+		proxyMap.mapObject(testProxy);
+		proxyMap.mapObject(testProxy);
 	}
 	
 	//----------------------------------
@@ -127,33 +127,33 @@ public class ModelMapTests {
 	
 	public function mappings_does_not_exists_throws_error():void {
 		use namespace pureLegsCore;
-		var obj1:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
 	}
 	//----------------------------------
 	//     
 	//----------------------------------	
 	[Test(expects="Error")]
 	
-	public function removing_class_model():void {
+	public function removing_class_proxy():void {
 		use namespace pureLegsCore;
-		modelMap.mapClass(TestModel);
-		modelMap.unmapClass(TestModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
+		proxyMap.mapClass(TestProxy);
+		proxyMap.unmapClass(TestProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
 	}
 	//----------------------------------
 	//     
 	//----------------------------------	
 	[Test(expects="Error")]
 	
-	public function removing_object_model():void {
+	public function removing_object_proxy():void {
 		use namespace pureLegsCore;
-		var testModel:TestModel = new TestModel();
-		modelMap.mapObject(testModel);
-		modelMap.unmapClass(TestModel);
-		var obj1:ModelTestObj = new ModelTestObj();
-		modelMap.injectStuff(obj1, ModelTestObj);
+		var testProxy:TestProxy = new TestProxy();
+		proxyMap.mapObject(testProxy);
+		proxyMap.unmapClass(TestProxy);
+		var obj1:ProxyTestObj = new ProxyTestObj();
+		proxyMap.injectStuff(obj1, ProxyTestObj);
 	}
 	
 	//----------------------------------

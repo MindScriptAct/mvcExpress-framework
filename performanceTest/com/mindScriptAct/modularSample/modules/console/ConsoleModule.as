@@ -1,6 +1,6 @@
 package com.mindScriptAct.modularSample.modules.console {
 import com.mindScriptAct.modularSample.modules.console.controller.HandleInputCommand;
-import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogModel;
+import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modularSample.modules.console.view.ConsoleMediator;
 import org.mvcexpress.core.ModuleCore;
@@ -20,7 +20,7 @@ public class ConsoleModule extends ModuleCore {
 		
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
-		modelMap.mapClass(ConsoleLogModel);
+		proxyMap.mapClass(ConsoleLogProxy);
 		
 		mediatorMap.map(Console, ConsoleMediator);
 	

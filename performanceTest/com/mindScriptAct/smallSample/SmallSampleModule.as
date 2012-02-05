@@ -1,6 +1,6 @@
 package com.mindScriptAct.smallSample {
 import com.mindScriptAct.smallSample.controller.setUp.SetUpMeditorsCommand;
-import com.mindScriptAct.smallSample.controller.setUp.SetUpModelsCommand;
+import com.mindScriptAct.smallSample.controller.setUp.SetUpProxiesCommand;
 import com.mindScriptAct.smallSample.controller.TestCommand;
 import flash.geom.Matrix;
 import flash.geom.Point;
@@ -21,7 +21,7 @@ public class SmallSampleModule extends ModuleCore {
 		
 		// set up view
 		
-		commandMap.execute(SetUpModelsCommand);
+		commandMap.execute(SetUpProxiesCommand);
 		
 		commandMap.execute(SetUpMeditorsCommand);
 		

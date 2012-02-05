@@ -4,7 +4,7 @@ package com.mindScriptAct.mvcExpressSpeedTest.model {
  * COMMENT
  * @author rbanevicius
  */
-public interface INamedModel {
+public interface INamedProxy {
 	function getSomeData():String;
 }
 }

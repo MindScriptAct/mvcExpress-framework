@@ -1,6 +1,6 @@
 package com.mindScriptAct.codeSnippets.view {
 import com.mindScriptAct.codeSnippets.messages.Msg;
-import com.mindScriptAct.codeSnippets.model.SampleEmptyModel;
+import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
 import com.mindScriptAct.codeSnippets.SnippetAppModule;
 import flash.display.Sprite;
@@ -21,10 +21,10 @@ public class SampleAppMediator extends Mediator {
 	public var view:MvcExpressSnippets;
 	
 	////////////////////////////
-	// geting model...
+	// geting proxies...
 	////////////////////////////
 	[Inject]
-	public var sampleEmptyModel:SampleEmptyModel;
+	public var sampleEmptyProxy:SampleEmptyProxy;
 	
 	override public function onRegister():void {
 		trace("SampleAppMediator.onRegister");

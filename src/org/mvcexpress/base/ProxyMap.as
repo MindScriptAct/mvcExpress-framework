@@ -4,14 +4,14 @@ import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.inject.InjectRuleVO;
 import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.mvc.Model;
+import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * ModelMap is responsible for storing model objects and handling injection.
+ * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author rbanevicius
  */
-public class ModelMap {
+public class ProxyMap {
 	
 	/** */
 	private var injectClassRegistry:Dictionary = new Dictionary();
@@ -22,72 +22,72 @@ public class ModelMap {
 	/** Communication object for sending messages*/
 	private var messenger:Messenger;
 	
-	public function ModelMap(messenger:Messenger) {
+	public function ProxyMap(messenger:Messenger) {
 		this.messenger = messenger;
 	}
 	
 	/**
-	 * Maps model object to injectClass and name.
-	 * @param	modelObject	Model instance to use for injection.
-	 * @param	injectClass	Optional class to use for injection, if null modelObject class is used. It is helpfull if you want to map model interface or subclass.
-	 * @param	name		Optional name if you need more then one model instance of same class.
+	 * Maps praxy object to injectClass and name.
+	 * @param	proxyObject	Proxy instance to use for injection.
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpfull if you want to map proxy interface or subclass.
+	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
-	public function mapObject(modelObject:Model, injectClass:Class = null, name:String = ""):void {
-		var modelClass:Class = Object(modelObject).constructor;
+	public function mapObject(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+		var proxyClass:Class = Object(proxyObject).constructor;
 		if (!injectClass) {
-			injectClass = modelClass;
+			injectClass = proxyClass;
 		}
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectClassRegistry[className + name]) {
 			use namespace pureLegsCore;
-			modelObject.messanger = messenger;
-			injectStuff(modelObject, modelClass);
-			injectClassRegistry[className + name] = modelObject;
-			modelObject.register();
+			proxyObject.messanger = messenger;
+			injectStuff(proxyObject, proxyClass);
+			injectClassRegistry[className + name] = proxyObject;
+			proxyObject.register();
 		} else {
-			throw Error("Model object class is already mapped.[" + className + name + "]");
+			throw Error("Proxy object class is already mapped.[" + className + name + "]");
 		}
 	}
 	
 	/**
-	 * Automaticaly instantiates modelClass and maps it to specific injectClass and name.
-	 * @param	modelClass	Model class to use for injection. Model object is created then it is mapped.
-	 * @param	injectClass	Optional class to use for injection, if null modelObject class is used. It is helpfull if you want to map model interface or subclass.
-	 * @param	name		Optional name if you need more then one model instance of same class.
+	 * Automaticaly instantiates proxyClass and maps it to specific injectClass and name.
+	 * @param	proxyClass	Proxy class to use for injection. Proxy object is created then it is mapped.
+	 * @param	injectClass	Optional class to use for injection, if null proxyClass is used. It is helpfull if you want to map proxy interface or subclass.
+	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
-	public function mapClass(modelClass:Class, injectClass:Class = null, name:String = ""):void {
+	public function mapClass(proxyClass:Class, injectClass:Class = null, name:String = ""):void {
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectClassRegistry[className + name]) {
-			var modelObject:Model = new modelClass();
-			mapObject(modelObject, injectClass, name);
+			var proxyObject:Proxy = new proxyClass();
+			mapObject(proxyObject, injectClass, name);
 		} else {
-			throw Error("Model class is already mapped.[" + className + name + "]");
+			throw Error("Proxy class is already mapped.[" + className + name + "]");
 		}
 	}
 	
 	/**
-	 * Removes model maped for injection by injectClass and name.
+	 * Removes proxy maped for injection by injectClass and name.
 	 *  If mapping does not exists - it will fail silently.
-	 *  This function will not destroy models that are already injected. It only will remove mapping for future injection usses.
-	 * @param	modelClass	class previously mapped for injection
+	 * @param	injectClass	class previously mapped for injection
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
 	public function unmapClass(injectClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(injectClass);
 		use namespace pureLegsCore;
-		(injectClassRegistry[className + name] as Model).remove();
+		(injectClassRegistry[className + name] as Proxy).remove();
 		delete injectClassRegistry[className + name];
 	}
 	
 	/** 
-	 * Dispose modelMap on module shutDown 
+	 * Dispose of proxyMap
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
-		for each (var modelObject:Model in injectClassRegistry) {
-			use namespace pureLegsCore;
-			modelObject.remove();
-		}
+		// TODO : decide what to do with proxies. It could be dangerous to remove proxies if they are maped in couple of modules.
+		//for each (var proxyObject:Proxy in injectClassRegistry) {
+			//use namespace pureLegsCore;
+			//proxyObject.remove();
+		//}
 		injectClassRegistry = null;
 		classInjectRules = null;
 		messenger = null;

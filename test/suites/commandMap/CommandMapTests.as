@@ -3,7 +3,7 @@ import flash.display.Sprite;
 import org.flexunit.Assert;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ModelMap;
+import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.commandMap.commands.ExtendedeSuperInterfaceParamsCommand;
@@ -23,7 +23,7 @@ import utils.AsyncUtil;
  */
 public class CommandMapTests {
 	private var messenger:Messenger;
-	private var modelMap:ModelMap;
+	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	private var cammandMap:CommandMap;
 	private var callCaunter:int;
@@ -35,9 +35,9 @@ public class CommandMapTests {
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		messenger = Messenger.getInstance();
-		modelMap = new ModelMap(messenger);
-		mediatorMap = new MediatorMap(messenger, modelMap);
-		cammandMap = new CommandMap(messenger, modelMap, mediatorMap);
+		proxyMap = new ProxyMap(messenger);
+		mediatorMap = new MediatorMap(messenger, proxyMap);
+		cammandMap = new CommandMap(messenger, proxyMap, mediatorMap);
 		callCaunter = 0;
 		callsExpected = 0;
 		testParamObject = new ExtendedSuperObject();
@@ -49,7 +49,7 @@ public class CommandMapTests {
 		use namespace pureLegsCore;
 		messenger.clear();
 		messenger = null;
-		modelMap = null;
+		proxyMap = null;
 		cammandMap = null;
 		callCaunter = 0;
 		callsExpected = 0;
