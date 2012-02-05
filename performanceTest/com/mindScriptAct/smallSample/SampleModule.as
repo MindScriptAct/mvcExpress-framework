@@ -1,6 +1,7 @@
 package com.mindScriptAct.smallSample {
-import com.mindScriptAct.smallSample.controller.setUp.SetUpMeditorsCommand;
-import com.mindScriptAct.smallSample.controller.setUp.SetUpProxiesCommand;
+import com.mindScriptAct.smallSample.controller.setup.SetupCommandsCommand;
+import com.mindScriptAct.smallSample.controller.setup.SetupMeditorsCommand;
+import com.mindScriptAct.smallSample.controller.setup.SetupProxiesCommand;
 import com.mindScriptAct.smallSample.controller.TestCommand;
 import flash.geom.Matrix;
 import flash.geom.Point;
@@ -10,9 +11,9 @@ import org.mvcexpress.core.ModuleCore;
  * COMMENT
  * @author rbanevicius
  */
-public class SmallSampleModule extends ModuleCore {
+public class SampleModule extends ModuleCore {
 	
-	public function SmallSampleModule() {
+	public function SampleModule() {
 		super();
 	}
 	
@@ -21,9 +22,11 @@ public class SmallSampleModule extends ModuleCore {
 		
 		// set up view
 		
-		commandMap.execute(SetUpProxiesCommand);
+		commandMap.execute(SetupCommandsCommand);
 		
-		commandMap.execute(SetUpMeditorsCommand);
+		commandMap.execute(SetupProxiesCommand);
+		
+		commandMap.execute(SetupMeditorsCommand);
 		
 		commandMap.map("doMatrix", TestCommand);
 		sendMessage("doMatrix", new Matrix(1, 2, 3, 4, 5, 6));
@@ -32,7 +35,7 @@ public class SmallSampleModule extends ModuleCore {
 	
 	}
 	
-	public function start(smallSampleMain:SmallSampleMain):void {
+	public function start(smallSampleMain:SampleMain):void {
 		mediatorMap.mediate(smallSampleMain);
 		sendMessage("moveBg", new Point(100, 10));
 	}

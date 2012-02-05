@@ -6,10 +6,10 @@ package com.mindScriptAct.smallSample {
  * COMMENT
  * @author rbanevicius
  */
-public class SmallSampleMain extends Sprite {
+public class SampleMain extends Sprite {
 	
-	public function SmallSampleMain() {
-		var sampleModule:SmallSampleModule = new SmallSampleModule();
+	public function SampleMain() {
+		var sampleModule:SampleModule = new SampleModule();
 		sampleModule.start(this);
 	}
 	

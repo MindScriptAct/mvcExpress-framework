@@ -1,5 +1,5 @@
 package com.mindScriptAct.smallSample.view {
-import com.mindScriptAct.smallSample.SmallSampleMain;
+import com.mindScriptAct.smallSample.SampleMain;
 import com.mindScriptAct.smallSample.view.backGround.Background;
 import org.mvcexpress.mvc.Mediator;
 
@@ -7,13 +7,13 @@ import org.mvcexpress.mvc.Mediator;
  * COMMENT
  * @author rbanevicius
  */
-public class SmallSampleMediator extends Mediator {
+public class SampleMediator extends Mediator {
 	
 	[Inject]
-	public var view:SmallSampleMain;
+	public var view:SampleMain;
 	
 	override public function onRegister():void {
-		trace("SmallSampleMediator.onRegister", view);
+		trace("SampleMediator.onRegister", view);
 		
 		var bg:Background = new Background();
 		view.addChild(bg);
