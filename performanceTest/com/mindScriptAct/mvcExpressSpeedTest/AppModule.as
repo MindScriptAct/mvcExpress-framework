@@ -23,7 +23,7 @@ import flash.events.Event;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
 import org.mvcexpress.core.ModuleCore;
-import org.mvcexpress.utils.trackClassStringConstants;
+import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
@@ -45,7 +45,7 @@ public class AppModule extends ModuleCore {
 		coreInitTime = getTimer() - mvcExpressSpeedTest.initTime;
 		
 		CONFIG::debug {
-			trackClassStringConstants(Note);
+			checkClassStringConstants(Note);
 		}
 		
 		trace("AppModule.startup");
