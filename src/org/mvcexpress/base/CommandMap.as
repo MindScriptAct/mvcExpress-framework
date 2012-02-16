@@ -27,8 +27,6 @@ public class CommandMap {
 		this.messanger = messanger;
 		this.proxyMap = proxyMap;
 		this.mediatorMap = mediatorMap;
-		use namespace pureLegsCore;
-		this.messanger.setCommandMapFunction(handleCommandExecute);
 	}
 	
 	/**
@@ -38,14 +36,14 @@ public class CommandMap {
 	 */
 	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+		use namespace pureLegsCore;
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			validateCommandClass(commandClass);
 		}
 		
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
-			messanger.addHandler(type, handleCommandExecute);
+			messanger.addCommandHandler(type, handleCommandExecute);
 		}
 		
 		// TODO : check if command is already added. (in DEBUG mode only?.)
