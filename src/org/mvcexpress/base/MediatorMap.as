@@ -1,5 +1,7 @@
 package org.mvcexpress.base {
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.interfaces.IMediatorMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
@@ -43,26 +45,50 @@ public class MediatorMap implements IMediatorMap {
 	}
 	
 	/**
+	 * Mediates provided viewObject with maped mediator.
 	 * Automaticaly instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
 	 * Throws error if mediator class is not mapped to viewObject class. 
 	 * @param	viewObject	view object to mediate.
 	 */
 	public function mediate(viewObject:Object):void {
-		var mediatorClass:Class = mediatorRegistry[viewObject.constructor];
-		if (mediatorClass){
-			var mediator:Mediator = new mediatorClass();
-			use namespace pureLegsCore;
-			mediator.messanger = messanger;
-			mediator.mediatorMap = this;
-			
-			proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewObject.constructor);
-			viewRegistry[viewObject] = mediator;
-			
-			mediator.onRegister();
+		var viewClass:Class = viewObject.constructor;
+		// if .constructor fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
+		if (!viewClass) {
+			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
+		}
+		// get maped mediator class.
+		var mediatorClass:Class = mediatorRegistry[viewClass];
+		if (mediatorClass) {
+			mediateWith(viewObject, mediatorClass);
 		} else {
 			throw Error("View object class is not mapped with any mediator class. us. mediatorMap.mapMediator()");
 		}
 	}
+	
+	/**
+	 * Mediates viewObject with provided mediator.
+	 * Automaticaly instantiates provided mediator class, handles all injections(including viewObject), and calls onRegister function.
+	 * Throws error if mediator class is not mapped to viewObject class. 
+	 * @param	viewObject	view object to mediate.
+	 * @param	mediatorClass	mediator class to mediate view object.
+	 */
+	public function mediateWith(viewObject:Object, mediatorClass:Class):void {
+		var mediator:Mediator = new mediatorClass();
+		use namespace pureLegsCore;
+		mediator.messanger = messanger;
+		mediator.mediatorMap = this;
+		
+		var viewClass:Class = viewObject.constructor;
+		// if .constructor fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
+		if (!viewClass) {
+			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
+		}
+		
+		proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewClass);
+		viewRegistry[viewObject] = mediator;
+		
+		mediator.onRegister();
+	}	
 	
 	/**
 	 * If any mediator is mediating viewObject: it calls onRemove, automaticaly removes all handler functions listening for messages from that mediator and deletes it.

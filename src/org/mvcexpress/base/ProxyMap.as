@@ -1,6 +1,7 @@
 package org.mvcexpress.base {
 import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.inject.InjectRuleVO;
 import org.mvcexpress.messenger.Messenger;
@@ -34,6 +35,10 @@ public class ProxyMap {
 	 */
 	public function mapObject(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		var proxyClass:Class = Object(proxyObject).constructor;
+		// if .constructor fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
+		if (!proxyClass) {
+			proxyClass = Class(getDefinitionByName(getQualifiedClassName(proxyClass)));
+		}
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
@@ -78,15 +83,15 @@ public class ProxyMap {
 		delete injectClassRegistry[className + name];
 	}
 	
-	/** 
+	/**
 	 * Dispose of proxyMap
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
 		// TODO : decide what to do with proxies. It could be dangerous to remove proxies if they are maped in couple of modules.
 		//for each (var proxyObject:Proxy in injectClassRegistry) {
-			//use namespace pureLegsCore;
-			//proxyObject.remove();
+		//use namespace pureLegsCore;
+		//proxyObject.remove();
 		//}
 		injectClassRegistry = null;
 		classInjectRules = null;

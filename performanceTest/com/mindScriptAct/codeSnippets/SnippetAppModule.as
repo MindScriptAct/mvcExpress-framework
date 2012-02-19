@@ -7,6 +7,7 @@ import com.mindScriptAct.codeSnippets.model.ISampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.ISampleProxy;
 import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.SampleProxy;
+import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
 import com.mindScriptAct.codeSnippets.view.SampleAppMediator;
 import flash.display.Sprite;
 import org.mvcexpress.core.ModuleCore;
@@ -88,6 +89,10 @@ public class SnippetAppModule extends ModuleCore {
 		
 		mediatorMap.mediate(mvcExpressSnippets);
 		//mediatorMap.unmediate(mvcExpressSnippets);
+		
+		
+		mediatorMap.mediateWith(mvcExpressSnippets.stage, KeyboardMediator);
+		
 	}
 	
 	////////////////////////////
