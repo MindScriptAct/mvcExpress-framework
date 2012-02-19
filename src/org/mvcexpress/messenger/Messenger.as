@@ -18,9 +18,6 @@ public class Messenger {
 	// keeps ALL MsgVO's in Dictionalies by message type, maped by handlers for fast disabling and dublicated handler checks.
 	private var handlerRegistry:Dictionary = new Dictionary(); /* of Dictionary by String */
 	
-	// Special function for command handling.
-	private var commandMapFunction:Function;
-	
 	public function Messenger() {
 		if (!allowInstantiation) {
 			throw Error("Messenger is a singleton class, use getInstance() instead");
@@ -61,8 +58,8 @@ public class Messenger {
 		}
 		
 		if (!msgData) {
-			msgData = new MsgVO(handler, handlerClassName);
-			
+			msgData = new MsgVO(handlerClassName);
+			msgData.handler = handler;
 			messageRegistry[type].push(msgData);
 			handlerRegistry[type][handler] = msgData;
 		}
@@ -107,7 +104,7 @@ public class Messenger {
 						messageList[i - delCount] = messageList[i];
 					}
 					// check if handling function handles commands.
-					if (msgVo.handler == this.commandMapFunction) {
+					if (msgVo.isExecutable) {
 						msgVo.handler(type, params);
 					} else {
 						CONFIG::debug {
@@ -134,16 +131,15 @@ public class Messenger {
 	pureLegsCore function clear():void {
 		messageRegistry = new Dictionary();
 		handlerRegistry = new Dictionary()
-		commandMapFunction = null;
 	}
 	
 	/**
-	 * Framework function for injecting command map handling function.
+	 * function to add command execute functios.
 	 * @private
 	 */
-	pureLegsCore function setCommandMapFunction(handleCommandExecute:Function):void {
-		this.commandMapFunction = handleCommandExecute;
+	pureLegsCore function addCommandHandler(type:String, executeFunction:Function, handlerClassName:String = null):void {
+		var executeMvgVo:MsgVO = addHandler(type, executeFunction, handlerClassName);
+		executeMvgVo.isExecutable = true;
 	}
-
 }
 }
