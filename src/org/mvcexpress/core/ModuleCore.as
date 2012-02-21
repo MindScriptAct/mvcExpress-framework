@@ -1,10 +1,12 @@
 package org.mvcexpress.core {
 import flash.display.DisplayObjectContainer;
+import flash.utils.getDefinitionByName;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.base.FlexMediatorMap;
 
 /**
  * Core class of framework.
@@ -33,7 +35,14 @@ public class ModuleCore {
 		messenger = Messenger.getInstance();
 		
 		proxyMap = new ProxyMap(messenger);
-		mediatorMap = new MediatorMap(messenger, proxyMap);
+		// check if flex is used.
+		var uiComponentClass:Class = getFlexClass();
+		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' isues.
+		if (uiComponentClass) {
+			mediatorMap = new FlexMediatorMap(messenger, proxyMap, uiComponentClass);
+		} else {
+			mediatorMap = new MediatorMap(messenger, proxyMap);
+		}
 		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
 		
 		onInit();
@@ -84,6 +93,16 @@ public class ModuleCore {
 	protected function sendMessage(type:String, params:Object = null):void {
 		messenger.send(type, params);
 	}
-
+	
+	/** get flex lowest class by definition. ( way to check for flex project.) */
+	protected static function getFlexClass():Class {
+		var uiComponentClass:Class;
+		try {
+			uiComponentClass = getDefinitionByName('mx.core::UIComponent') as Class;
+		} catch (error:Error) {
+			// do nothing
+		}
+		return uiComponentClass;
+	}
 }
 }

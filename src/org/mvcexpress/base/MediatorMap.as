@@ -12,14 +12,15 @@ import org.mvcexpress.namespace.pureLegsCore;
  * @author rbanevicius
  */
 public class MediatorMap implements IMediatorMap {
-	private var proxyMap:ProxyMap;
-	private var messanger:Messenger;
 	
-	private var mediatorRegistry:Dictionary = new Dictionary();
+	protected var proxyMap:ProxyMap;
+	protected var messanger:Messenger;
 	
-	private var viewRegistry:Dictionary = new Dictionary();	
+	protected var mediatorRegistry:Dictionary = new Dictionary();
 	
-	public function MediatorMap(messanger:Messenger, proxyMap:ProxyMap){
+	protected var viewRegistry:Dictionary = new Dictionary();
+	
+	public function MediatorMap(messanger:Messenger, proxyMap:ProxyMap) {
 		this.messanger = messanger;
 		this.proxyMap = proxyMap;
 	}
@@ -30,7 +31,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	mediatorClass	Mediator class that will be instantiated then viewClass object is passed to mediate function.
 	 */
 	public function map(viewClass:Class, mediatorClass:Class):void {
-		if (mediatorRegistry[viewClass]){
+		if (mediatorRegistry[viewClass]) {
 			throw Error("Mediator class is already maped with this view class");
 		}
 		mediatorRegistry[viewClass] = mediatorClass;
@@ -47,7 +48,7 @@ public class MediatorMap implements IMediatorMap {
 	/**
 	 * Mediates provided viewObject with maped mediator.
 	 * Automaticaly instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
-	 * Throws error if mediator class is not mapped to viewObject class. 
+	 * Throws error if mediator class is not mapped to viewObject class.
 	 * @param	viewObject	view object to mediate.
 	 */
 	public function mediate(viewObject:Object):void {
@@ -68,7 +69,7 @@ public class MediatorMap implements IMediatorMap {
 	/**
 	 * Mediates viewObject with provided mediator.
 	 * Automaticaly instantiates provided mediator class, handles all injections(including viewObject), and calls onRegister function.
-	 * Throws error if mediator class is not mapped to viewObject class. 
+	 * Throws error if mediator class is not mapped to viewObject class.
 	 * @param	viewObject	view object to mediate.
 	 * @param	mediatorClass	mediator class to mediate view object.
 	 */
@@ -88,7 +89,7 @@ public class MediatorMap implements IMediatorMap {
 		viewRegistry[viewObject] = mediator;
 		
 		mediator.onRegister();
-	}	
+	}
 	
 	/**
 	 * If any mediator is mediating viewObject: it calls onRemove, automaticaly removes all handler functions listening for messages from that mediator and deletes it.
@@ -96,7 +97,7 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function unmediate(viewObject:Object):void {
 		var mediator:Mediator = viewRegistry[viewObject];
-		if (mediator){
+		if (mediator) {
 			mediator.onRemove();
 			use namespace pureLegsCore;
 			mediator.removeAllHandlers();
@@ -106,8 +107,8 @@ public class MediatorMap implements IMediatorMap {
 		}
 	}
 	
-	/** 
-	 * Dispose modiatorMap on module shutDown 
+	/**
+	 * Dispose modiatorMap on module shutDown
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
@@ -117,7 +118,7 @@ public class MediatorMap implements IMediatorMap {
 		proxyMap = null;
 		messanger = null;
 		mediatorRegistry = null;
-		viewRegistry = null;	
+		viewRegistry = null;
 	}
 
 }
