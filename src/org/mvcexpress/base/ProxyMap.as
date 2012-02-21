@@ -35,10 +35,7 @@ public class ProxyMap {
 	 */
 	public function mapObject(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		var proxyClass:Class = Object(proxyObject).constructor;
-		// if .constructor fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
-		if (!proxyClass) {
-			proxyClass = Class(getDefinitionByName(getQualifiedClassName(proxyClass)));
-		}
+		
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
