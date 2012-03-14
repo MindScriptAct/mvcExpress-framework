@@ -45,7 +45,7 @@ public class ProxyMapTests {
 	
 	public function using_class_proxy():void {
 		use namespace pureLegsCore;
-		proxyMap.mapClass(TestProxy);
+		proxyMap.map(new TestProxy());
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
 		Assert.assertNotNull("Injected object must be not null", obj1.testProxy);
@@ -59,7 +59,7 @@ public class ProxyMapTests {
 	
 	public function using_class_proxy_twice_both_should_be_equal():void {
 		use namespace pureLegsCore;
-		proxyMap.mapClass(TestProxy);
+		proxyMap.map(new TestProxy());
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		var obj2:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
@@ -73,8 +73,8 @@ public class ProxyMapTests {
 	[Test(expects="Error")]
 	
 	public function mapping_class_proxy_twice_throws_error():void {
-		proxyMap.mapClass(TestProxy);
-		proxyMap.mapClass(TestProxy);
+		proxyMap.map(new TestProxy());
+		proxyMap.map(new TestProxy());
 	}
 	
 	//----------------------------------
@@ -85,7 +85,7 @@ public class ProxyMapTests {
 	public function using_object_test():void {
 		use namespace pureLegsCore;
 		var testProxy:TestProxy = new TestProxy();
-		proxyMap.mapObject(testProxy, TestProxy);
+		proxyMap.map(testProxy, TestProxy);
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
 		Assert.assertEquals("Maped value object must be used for iject object.", obj1.testProxy, testProxy);
@@ -100,7 +100,7 @@ public class ProxyMapTests {
 	public function using_object_proxy_twice_both_should_be_equal():void {
 		use namespace pureLegsCore;
 		var testProxy:TestProxy = new TestProxy();
-		proxyMap.mapObject(testProxy);
+		proxyMap.map(testProxy);
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		var obj2:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
@@ -116,8 +116,8 @@ public class ProxyMapTests {
 	
 	public function mapping_object_proxy_twice_throws_error():void {
 		var testProxy:TestProxy = new TestProxy();
-		proxyMap.mapObject(testProxy);
-		proxyMap.mapObject(testProxy);
+		proxyMap.map(testProxy);
+		proxyMap.map(testProxy);
 	}
 	
 	//----------------------------------
@@ -137,8 +137,8 @@ public class ProxyMapTests {
 	
 	public function removing_class_proxy():void {
 		use namespace pureLegsCore;
-		proxyMap.mapClass(TestProxy);
-		proxyMap.unmapClass(TestProxy);
+		proxyMap.map(new TestProxy());
+		proxyMap.unmap(TestProxy);
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
 	}
@@ -150,8 +150,8 @@ public class ProxyMapTests {
 	public function removing_object_proxy():void {
 		use namespace pureLegsCore;
 		var testProxy:TestProxy = new TestProxy();
-		proxyMap.mapObject(testProxy);
-		proxyMap.unmapClass(TestProxy);
+		proxyMap.map(testProxy);
+		proxyMap.unmap(TestProxy);
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
 	}

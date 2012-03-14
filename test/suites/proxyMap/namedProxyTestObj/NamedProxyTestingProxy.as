@@ -3,7 +3,6 @@ import org.mvcexpress.mvc.Proxy;
 import suites.proxyMap.proxyTestObj.ITestProxy;
 import suites.proxyMap.proxyTestObj.TestProxy;
 
-
 /**
  * COMMENT
  * @author
@@ -11,28 +10,19 @@ import suites.proxyMap.proxyTestObj.TestProxy;
 public class NamedProxyTestingProxy extends Proxy {
 	
 	[Inject]
-	public var classProxy:TestProxy;
-	
-	[Inject(name="namedClassProxy")]
-	public var classProxyNamed:TestProxy;
-	
-	[Inject(name="namedClassProxyNotNullClass")]
-	public var classProxyNamedNotNullClass:TestProxy;
+	public var proxy:TestProxy;
 	
 	[Inject]
-	public var classProxyInterface:ITestProxy;
+	public var proxyInterface:ITestProxy;
 	
-	[Inject(name="namedClassProxyInterface")]
-	public var classProxyNamedInterface:ITestProxy;
+	[Inject(name="namedProxyInterface")]
+	public var proxyNamedInterface:ITestProxy;
 	
-	[Inject(name="namedObjectProxy")]
-	public var objectProxyNamed:TestProxy;
+	[Inject(name="namedProxy")]
+	public var proxyNamed:TestProxy;
 	
-	[Inject(name="namedObjectProxyNotNullClass")]
-	public var objectProxyNamedNotNullClass:TestProxy;
-	
-	[Inject(name="namedObjectProxyInterface")]
-	public var objectProxyNamedInterface:ITestProxy;
+	[Inject(name="namedProxyNotNullClass")]
+	public var proxyNamedNotNullClass:TestProxy;
 
 }
 }

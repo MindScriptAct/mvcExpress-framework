@@ -1,30 +1,29 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><!-- saved from url=(0014)about:internet --><!-- saved from url=(0014)about:internet --><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>All Packages</title><link rel="stylesheet" href="style.css" type="text/css" media="screen"><link rel="stylesheet" href="print.css" type="text/css" media="print"><link rel="stylesheet" href="override.css" type="text/css"></head><body><script language="javascript" type="text/javascript" src="asdoc.js"></script><script language="javascript" type="text/javascript" src="help.js"></script><script language="javascript" type="text/javascript" src="cookies.js"></script><script language="javascript" type="text/javascript"><!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><!-- saved from url=(0014)about:internet --><!-- saved from url=(0014)about:internet --><html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>All Packages</title><link rel="stylesheet" href="style.css" type="text/css" media="screen"><link rel="stylesheet" href="print.css" type="text/css" media="print"><link rel="stylesheet" href="override.css" type="text/css"></head><body><script language="javascript" type="text/javascript" src="asdoc.js"></script><script language="javascript" type="text/javascript" src="help.js"></script><script language="javascript" type="text/javascript" src="cookies.js"></script><script language="javascript" type="text/javascript"><!--
 				asdocTitle = 'All Packages - API Documentation';
 				var baseRef = '';
 				window.onload = configPage;
 			--></script>
 <script type="text/javascript">
 			scrollToNameAnchor();
-		</script><table class="titleTable" id="titleTable" style="display: none;" cellpadding="0" cellspacing="0"><tbody><tr><td class="titleTableTitle" align="left">mvcExpress documentation</td><td class="titleTableTopNav" align="right"><a href="class-summary.html" onclick="loadClassListFrame('all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="all-index-A.html" onclick="loadClassListFrame('index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="index.html?package-summary.html&amp;all-classes.html">Frames</a><a id="noFramesLink1" style="display: none;" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" rowspan="3" align="right"><img src="images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">All&nbsp;Packages</td><td class="titleTableSubNav" id="subNav" align="right"></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></tbody></table><script language="javascript" type="text/javascript" xml:space="preserve">
+		</script><table class="titleTable" cellpadding="0" cellspacing="0" id="titleTable" style="display:none"><tr><td class="titleTableTitle" align="left">mvcExpress documentation</td><td class="titleTableTopNav" align="right"><a href="class-summary.html" onclick="loadClassListFrame('all-classes.html')">All Classes</a>&nbsp;|&nbsp;<a href="all-index-A.html" onclick="loadClassListFrame('index-list.html')">Index</a>&nbsp;|&nbsp;<a id="framesLink1" href="index.html?package-summary.html&amp;all-classes.html">Frames</a><a id="noFramesLink1" style="display:none" href="" onclick="parent.location=document.location"> No Frames </a></td><td class="titleTableLogo" align="right" rowspan="3"><img src="images/logo.jpg" class="logoImage" alt=" Adobe Logo " title=" Adobe Logo "></td></tr><tr class="titleTableRow2"><td class="titleTableSubTitle" id="subTitle" align="left">All&nbsp;Packages</td><td class="titleTableSubNav" id="subNav" align="right"></td></tr><tr class="titleTableRow3"><td colspan="3">&nbsp;</td></tr></table><script language="javascript" type="text/javascript" xml:space="preserve">
 				<!--
 				
 					if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) {titleBar_setSubTitle("All Packages"); titleBar_setSubNav(false,false,false,false,false,false,false,false,false,false,false	,false,false,false,false,false);}	
 				-->
-			</script><div class="MainContent"><br><h1>Welcome to mvcExpress
-documentation!</h1>
-<p>This document will help you get started.</p>
-<p></p>
-<hr>
-<h2>Framework classes you will work with:</h2>
-<h3><a href="org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:</h3>
+			</script><div class="MainContent"><br>
+			  <h1>Welcome to mvcExpress
+			    documentation!</h1>
+              <p>This document will help you get started.</p>
+              <p></p>
+              <hr>
+              <h2>Framework classes you will work with:</h2>
+              <h3><a href="org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:</h3>
 You will extend this class to initiate framework, set up your
 application and start it. (all your modules will be started also by
 extending this class.)<br>
-Set up and start your application in <code>onStartUp()</code>
-function.<br>
-Module can be disposed in&nbsp;<code>onShutDown()</code>
-function if they ever shut down.<br><br>
+Set up and start your application in <code>onStartUp()</code> function.<br>
+Module can be disposed in&nbsp;<code>onShutDown()</code> function if they ever shut down.<br>
+<br>
 <h3><a href="org/mvcexpress/mvc/Command.html">Command</a>:</h3>
 Extend this class to create executable command.<br>
 Your class must have public execute(params:Object) function. (you can
@@ -45,49 +44,61 @@ Mediators should focus only on mediating and not managing view.<br>
 <br>
 <hr>
 <h2>Set Up:</h2>
-<p>You can set up your application in your module class(in
-<code>onStartUp()</code> function) or in command classes(in
-<code>execute()</code> function).<br>
-Usually it's better to do it in commands, unless you have really small
-module.</p>
+<p>You can set up your application in your module class(in <code>onStartUp()</code> function) or in command classes(in <code>execute()</code> function).<br>
+  Usually it's better to do it in commands, unless you have really small
+  module.</p>
 <p style="font-weight: bold;">To set up commands use <a href="org/mvcexpress/base/CommandMap.html">commandMap:</a></p>
 <p>Map a class to be executed then message with type provided is
-sent:<br>
-<a href="org/mvcexpress/base/CommandMap.html#map%28%29" class="signatureLink">commandMap.map</a>(type:String,
-commandClass:Class):void</p>
+  sent:<br>
+  <a href="org/mvcexpress/base/CommandMap.html#map%28%29" class="signatureLink">commandMap.map</a>(type:String,
+  commandClass:Class):void</p>
 <p>Or unmap mapped class:<br>
-<a href="org/mvcexpress/base/CommandMap.html#unmap%28%29" class="signatureLink">commandMap.unmap</a>(type:String,
-commandClass:Class):void</p>
+  <a href="org/mvcexpress/base/CommandMap.html#unmap%28%29" class="signatureLink">commandMap.unmap</a>(type:String,
+  commandClass:Class):void</p>
 <p>Commands also can be executed directly:<br>
-<a href="org/mvcexpress/base/CommandMap.html#execute%28%29" class="signatureLink">commandMap.execute</a>(commandClass:Class,
-params:Object = null):void</p>
-<span style="font-weight: bold;">To set up proxies use </span><a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html">proxylMap</a><span style="font-weight: bold;">:<br><br></span>Maps proxy object to injectClass and name.<br><a href="org/mvcexpress/base/ProxyMap.html#mapObject%28%29" class="signatureLink">proxyMap.mapObject</a>(proxyObject:<a href="org/mvcexpress/mvc/Proxy.html">Proxy</a>, injectClass:Class = null, name:String):void<br><br>Automatically instantiates proxy Class and maps it to specific injectClass and name.<br><a href="org/mvcexpress/base/ProxyMap.html#mapClass%28%29" class="signatureLink">proxyMap.mapClass</a>(proxyClass:Class, injectClass:Class = null, name:String):void<br><br>Removes proxy mapped for injection by injectClass and name.<br><a href="org/mvcexpress/base/ProxyMap.html#unmapClass%28%29" class="signatureLink">proxyMap.unmapClass</a>(proxyClass:Class, name:String):void<br><br>
+  <a href="org/mvcexpress/base/CommandMap.html#execute%28%29" class="signatureLink">commandMap.execute</a>(commandClass:Class,
+  params:Object = null):void</p>
+<span style="font-weight: bold;">To set up proxies use </span><a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html">proxylMap</a><span style="font-weight: bold;">:<br>
+<br>
+</span>Maps proxy object to injectClass and name.<br>
+<a href="org/mvcexpress/base/ProxyMap.html#map%28%29" class="signatureLink">proxyMap.map</a>(proxyObject:<a href="org/mvcexpress/mvc/Proxy.html">Proxy</a>, injectClass:Class = null, name:String):void<br>
+<br>
+Removes proxy mapped for injection by injectClass and name.<br>
+<a href="org/mvcexpress/base/ProxyMap.html#unmapClass%28%29" class="signatureLink">proxyMap.unmapClass</a>(proxyClass:Class, name:String):void<br>
+<br>
 <p style="font-weight: bold;">To set up mediators use <a href="org/mvcexpress/base/MediatorMap.html">mediatorMap:</a></p>
-
-	 Map mediator class to view class.<br><a href="org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br><p>
-	 Unmaps any mediator class to given view class.<br><a href="org/mvcexpress/base/MediatorMap.html#unmap%28%29" class="signatureLink">mediatorMap.unmap</a>(viewClass:Class):void</p><br>Then
+Map mediator class to view class.<br>
+<a href="org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br>
+<p> Unmaps any mediator class to given view class.<br>
+  <a href="org/mvcexpress/base/MediatorMap.html#unmap%28%29" class="signatureLink">mediatorMap.unmap</a>(viewClass:Class):void</p>
+<br>
+Then
 view and mediator pairs are mapped you can start mediating view object.
-it can be done from ModuleCore, Command or Mediator:<p>
-Automatically instantiate mediator class(if mapped), handles all
-injections(including viewObject), and calls onRegister function:<br><a href="org/mvcexpress/base/MediatorMap.html#mediate%28%29" class="signatureLink">mediatorMap.mediate</a>(viewObject:Object):void</p><p>
-If any mediator is mediating viewObject: it calls onRemove,
-automatically removes all handler functions listening for messages from
-that mediator and disposes it:<br><a href="org/mvcexpress/base/MediatorMap.html#unmediate%28%29" class="signatureLink">mediatorMap.unmediate</a>(viewObject:Object):void</p><p><br></p><hr>
+it can be done from ModuleCore, Command or Mediator:
+<p> Automatically instantiate mediator class(if mapped), handles all
+  injections(including viewObject), and calls onRegister function:<br>
+  <a href="org/mvcexpress/base/MediatorMap.html#mediate%28%29" class="signatureLink">mediatorMap.mediate</a>(viewObject:Object):void</p>
+<p> If any mediator is mediating viewObject: it calls onRemove,
+  automatically removes all handler functions listening for messages from
+  that mediator and disposes it:<br>
+  <a href="org/mvcexpress/base/MediatorMap.html#unmediate%28%29" class="signatureLink">mediatorMap.unmediate</a>(viewObject:Object):void</p>
+<p><br>
+</p>
+<hr>
 <h2>Communication:</h2>
-
-<p>You can send messages from ModuleCore, Command, Proxy, Mediator&nbsp; framework classes:<br><a href="org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String,
-params:Object = null):void</code></p>
-
+<p>You can send messages from ModuleCore, Command, Proxy, Mediator&nbsp; framework classes:<br>
+  <a href="org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String,
+    params:Object = null):void</code></p>
 <p>You can listen for messages in Mediators by adding handle
-function:<br><a href="org/mvcexpress/mvc/Mediator.html#addHandler%28%29" class="signatureLink">addHandler</a><code>(type:String,
-handler:Function):void</code></p>
-
-<p><code>Or remove existing functions:<br></code><a href="org/mvcexpress/mvc/Mediator.html#removeHandler%28%29" class="signatureLink">removeHandler</a><code>(type:String,
-handler:Function):void</code></p>
-<p><code>Also you can use </code><a href="org/mvcexpress/base/CommandMap.html">commandMap</a>
-to map command class to be executed then message is sent.
-</p><span style="font-weight: bold;">
-Both handler function and execute() function in your commands must
+  function:<br>
+  <a href="org/mvcexpress/mvc/Mediator.html#addHandler%28%29" class="signatureLink">addHandler</a><code>(type:String,
+    handler:Function):void</code></p>
+<p><code>Or remove existing functions:<br>
+  </code><a href="org/mvcexpress/mvc/Mediator.html#removeHandler%28%29" class="signatureLink">removeHandler</a><code>(type:String,
+    handler:Function):void</code></p>
+<p><code>Also you can use </code><a href="org/mvcexpress/base/CommandMap.html">commandMap</a> to map command class to be executed then message is sent. </p>
+<span style="font-weight: bold;"> Both handler function and execute() function in your commands must
 contain one parameter. </span><br>
 Type of that parameter&nbsp; must be the same as params object sent
-with <code>sentMessage()</code>, or you can set it to type: <code>Object</code>.<p></p><br><table class="summaryTable" cellpadding="3" cellspacing="0"><tbody><tr><th>&nbsp;</th><th width="30%">package</th><th width="70%">Description</th></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/class-list.html');">org.mvcexpress.base</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/inject/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/inject/class-list.html');">org.mvcexpress.base.inject</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/interfaces/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/interfaces/class-list.html');">org.mvcexpress.base.interfaces</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/core/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/core/class-list.html');">org.mvcexpress.core</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/messenger/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/messenger/class-list.html');">org.mvcexpress.messenger</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/mvc/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/mvc/class-list.html');">org.mvcexpress.mvc</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/utils/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/utils/class-list.html');">org.mvcexpress.utils</a></td><td class="summaryTableLastCol"></td></tr></tbody></table><p></p><center class="copyright"><footer></footer><br>Sun Feb 5 2012, 01:39 AM +01:00  </center></div><!--<br/>Sun Feb 5 2012, 01:39 AM +01:00  --></body></html>
+with <code>sentMessage()</code>, or you can set it to type: <code>Object</code>.
+<p></p><br><table cellpadding="3" cellspacing="0" class="summaryTable"><tr><th>&nbsp;</th><th width="30%">package</th><th width="70%">Description</th></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/class-list.html');">org.mvcexpress.base</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/inject/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/inject/class-list.html');">org.mvcexpress.base.inject</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/base/interfaces/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/base/interfaces/class-list.html');">org.mvcexpress.base.interfaces</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/core/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/core/class-list.html');">org.mvcexpress.core</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/messenger/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/messenger/class-list.html');">org.mvcexpress.messenger</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow0"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/mvc/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/mvc/class-list.html');">org.mvcexpress.mvc</a></td><td class="summaryTableLastCol"></td></tr><tr class="prow1"><td class="summaryTablePaddingCol">&nbsp;</td><td class="summaryTableSecondCol"><a href="org/mvcexpress/utils/package-detail.html" onclick="javascript:loadClassListFrame('org/mvcexpress/utils/class-list.html');">org.mvcexpress.utils</a></td><td class="summaryTableLastCol"></td></tr></table><p></p><center class="copyright"><footer></footer><br/>Wed Mar 14 2012, 12:27 PM +01:00  </center></div></body></html><!--<br/>Wed Mar 14 2012, 12:27 PM +01:00  -->

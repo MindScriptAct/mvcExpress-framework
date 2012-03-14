@@ -33,7 +33,7 @@ public class ProxyMap {
 	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpfull if you want to map proxy interface or subclass.
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
-	public function mapObject(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		var proxyClass:Class = Object(proxyObject).constructor;
 		
 		if (!injectClass) {
@@ -52,28 +52,12 @@ public class ProxyMap {
 	}
 	
 	/**
-	 * Automaticaly instantiates proxyClass and maps it to specific injectClass and name.
-	 * @param	proxyClass	Proxy class to use for injection. Proxy object is created then it is mapped.
-	 * @param	injectClass	Optional class to use for injection, if null proxyClass is used. It is helpfull if you want to map proxy interface or subclass.
-	 * @param	name		Optional name if you need more then one proxy instance of same class.
-	 */
-	public function mapClass(proxyClass:Class, injectClass:Class = null, name:String = ""):void {
-		var className:String = getQualifiedClassName(injectClass);
-		if (!injectClassRegistry[className + name]) {
-			var proxyObject:Proxy = new proxyClass();
-			mapObject(proxyObject, injectClass, name);
-		} else {
-			throw Error("Proxy class is already mapped.[" + className + name + "]");
-		}
-	}
-	
-	/**
 	 * Removes proxy maped for injection by injectClass and name.
 	 *  If mapping does not exists - it will fail silently.
 	 * @param	injectClass	class previously mapped for injection
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
-	public function unmapClass(injectClass:Class, name:String = ""):void {
+	public function unmap(injectClass:Class, name:String = ""):void {
 		var className:String = getQualifiedClassName(injectClass);
 		use namespace pureLegsCore;
 		(injectClassRegistry[className + name] as Proxy).remove();

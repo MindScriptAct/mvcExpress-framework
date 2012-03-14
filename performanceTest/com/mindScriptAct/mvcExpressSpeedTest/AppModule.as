@@ -62,7 +62,7 @@ public class AppModule extends ModuleCore {
 		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsCommand);
 		
 		//
-		proxyMap.mapClass(BlankProxy);
+		proxyMap.map(new BlankProxy());
 		//
 		//
 		mediatorMap.map(MvcExpressSpeedTest, MvcExpressTestMediator);
@@ -85,13 +85,13 @@ public class AppModule extends ModuleCore {
 	}
 	
 	private function namedProxyTesting():void {
-		proxyMap.mapObject(new NamedProxy("first Named Proxy"), NamedProxy, "namedProxy_1");
-		proxyMap.mapObject(new NamedProxy("Second Named Proxy"), NamedProxy, "namedProxy_2");
-		proxyMap.mapObject(new NamedProxy("Proxy maped to interface."), INamedProxy);
+		proxyMap.map(new NamedProxy("first Named Proxy"), NamedProxy, "namedProxy_1");
+		proxyMap.map(new NamedProxy("Second Named Proxy"), NamedProxy, "namedProxy_2");
+		proxyMap.map(new NamedProxy("Proxy maped to interface."), INamedProxy);
 		
-		proxyMap.mapClass(NamedProxy);
+		proxyMap.map(new NamedProxy());
 		
-		proxyMap.mapClass(NamedProxy, INamedProxy, "namedSingletonInterface");
+		proxyMap.map(new NamedProxy(), INamedProxy, "namedSingletonInterface");
 		
 		commandMap.execute(TestNamedProxysCommand);
 	}

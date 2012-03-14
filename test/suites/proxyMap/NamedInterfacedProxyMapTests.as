@@ -34,39 +34,33 @@ public class NamedInterfacedProxyMapTests {
 	
 	}
 	
-	[Test]	
+	[Test]
+	
 	public function class_proxy_not_null():void {
 		use namespace pureLegsCore;
-		proxyMap.mapClass(TestProxy);
-		proxyMap.mapClass(TestProxy, null, "namedClassProxy");
-		proxyMap.mapClass(TestProxy, TestProxy, "namedClassProxyNotNullClass");
-		proxyMap.mapClass(TestProxy, ITestProxy);
-		proxyMap.mapClass(TestProxy, ITestProxy, "namedClassProxyInterface");
 		
-		proxyMap.mapObject(new TestProxy(), null, "namedObjectProxy");
-		proxyMap.mapObject(new TestProxy(), TestProxy, "namedObjectProxyNotNullClass");
-		proxyMap.mapObject(new TestProxy(), ITestProxy, "namedObjectProxyInterface");
+		
+		proxyMap.map(new TestProxy());
+		
+		proxyMap.map(new TestProxy(), ITestProxy);
+		proxyMap.map(new TestProxy(), ITestProxy, "namedProxyInterface");
+		
+		proxyMap.map(new TestProxy(), null, "namedProxy");
+		proxyMap.map(new TestProxy(), TestProxy, "namedProxyNotNullClass");
+		
 		
 		namedTestingProxy = new NamedProxyTestingProxy();
 		proxyMap.injectStuff(namedTestingProxy, NamedProxyTestingProxy);
 		
-		Assert.assertNotNull(namedTestingProxy.classProxy);
+		Assert.assertNotNull(namedTestingProxy.proxy);
 		
-		Assert.assertNotNull(namedTestingProxy.classProxy);
+		Assert.assertNotNull(namedTestingProxy.proxyNamedNotNullClass);
 		
-		Assert.assertNotNull(namedTestingProxy.classProxyNamed);
+		Assert.assertNotNull(namedTestingProxy.proxyInterface);
 		
-		Assert.assertNotNull(namedTestingProxy.classProxyNamedNotNullClass);
+		Assert.assertNotNull(namedTestingProxy.proxyNamed);
 		
-		Assert.assertNotNull(namedTestingProxy.classProxyInterface);
-		
-		Assert.assertNotNull(namedTestingProxy.classProxyNamedInterface);
-		
-		Assert.assertNotNull(namedTestingProxy.objectProxyNamed);
-		
-		Assert.assertNotNull(namedTestingProxy.objectProxyNamedNotNullClass);
-		
-		Assert.assertNotNull(namedTestingProxy.objectProxyNamedInterface);
+		Assert.assertNotNull(namedTestingProxy.proxyNamedInterface);
 	}
 
 }

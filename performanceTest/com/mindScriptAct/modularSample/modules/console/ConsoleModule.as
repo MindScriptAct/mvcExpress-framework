@@ -20,7 +20,7 @@ public class ConsoleModule extends ModuleCore {
 		
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
-		proxyMap.mapClass(ConsoleLogProxy);
+		proxyMap.map(new ConsoleLogProxy());
 		
 		mediatorMap.map(Console, ConsoleMediator);
 	
