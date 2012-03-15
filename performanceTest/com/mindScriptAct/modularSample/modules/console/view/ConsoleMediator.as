@@ -7,7 +7,7 @@ import org.mvcexpress.mvc.Mediator;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ConsoleMediator extends Mediator {
 	

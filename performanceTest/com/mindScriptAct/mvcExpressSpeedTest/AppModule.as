@@ -27,7 +27,7 @@ import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class AppModule extends ModuleCore {
 	private var performanceTest:PerformanceTest;

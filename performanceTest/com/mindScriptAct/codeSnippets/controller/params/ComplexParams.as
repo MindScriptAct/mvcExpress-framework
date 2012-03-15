@@ -2,7 +2,7 @@ package com.mindScriptAct.codeSnippets.controller.params {
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ComplexParams {
 	public var description:String;

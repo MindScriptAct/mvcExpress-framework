@@ -3,7 +3,7 @@ import flash.display.Sprite;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ModularSample extends Sprite {
 	private var coreModule:ModularSampleShellModule;

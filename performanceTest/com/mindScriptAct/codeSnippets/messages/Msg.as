@@ -2,7 +2,7 @@ package com.mindScriptAct.codeSnippets.messages {
 	
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Msg {
 	static public const TEST:String = "test";

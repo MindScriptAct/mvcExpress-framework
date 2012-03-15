@@ -7,7 +7,7 @@ import org.mvcexpress.core.ModuleCore;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ConsoleModule extends ModuleCore {
 	

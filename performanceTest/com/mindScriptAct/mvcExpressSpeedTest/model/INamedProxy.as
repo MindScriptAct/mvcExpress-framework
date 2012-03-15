@@ -2,7 +2,7 @@ package com.mindScriptAct.mvcExpressSpeedTest.model {
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public interface INamedProxy {
 	function getSomeData():String;

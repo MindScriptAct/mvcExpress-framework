@@ -2,7 +2,7 @@ package com.mindScriptAct.mvcExpressSpeedTest.notes {
 	
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Note {
 	static public const TEST:String = "test";

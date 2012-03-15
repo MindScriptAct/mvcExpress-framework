@@ -10,7 +10,7 @@ import flash.text.TextFieldType;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Console extends Sprite {
 	public var consoleModule:ConsoleModule;

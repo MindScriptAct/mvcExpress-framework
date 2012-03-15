@@ -8,7 +8,7 @@ import suites.proxyMap.NamedInterfacedProxyMapTests;
 
 /**
  * COMMENT
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 
 [Suite]
