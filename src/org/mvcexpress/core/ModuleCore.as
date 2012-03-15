@@ -14,7 +14,7 @@ import org.mvcexpress.base.FlexMediatorMap;
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
  * Also you can create modular application by having more then one CoreModule subclass.
  * </p>
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ModuleCore {
 	

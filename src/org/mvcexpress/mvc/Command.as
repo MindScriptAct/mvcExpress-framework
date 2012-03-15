@@ -10,7 +10,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  * <b><p>
  * It MUST cantain execute(params:Object) function. Parameter can be typed as you wish.
  * </p></b>
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 dynamic public class Command {
 	

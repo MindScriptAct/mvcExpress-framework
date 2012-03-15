@@ -5,7 +5,7 @@ package org.mvcexpress.messenger {
  * <p>
  * Has a flag to be disabled. If it is disabled it will be not called and removed with first message of needed type.
  * </p>
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class MsgVO {
 	

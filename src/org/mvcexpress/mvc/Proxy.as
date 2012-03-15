@@ -5,7 +5,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 /**
  * Classes to hold application data.
  * Can send messages.
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Proxy {
 	

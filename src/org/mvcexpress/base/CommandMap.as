@@ -9,7 +9,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Handles command mappings, and executes them on messages
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class CommandMap {
 	

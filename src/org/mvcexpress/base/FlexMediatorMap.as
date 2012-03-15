@@ -8,7 +8,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 /**
  * Handles flex application mediators.
  *  The only reason for this extra layer is to handle "creationComplete" flex event before 
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class FlexMediatorMap extends MediatorMap {
 	private var uiComponentClass:Class;

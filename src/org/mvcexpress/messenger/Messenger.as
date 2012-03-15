@@ -4,7 +4,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Handles framework communications.
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Messenger {
 	

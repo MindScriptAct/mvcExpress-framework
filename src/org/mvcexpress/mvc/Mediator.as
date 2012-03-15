@@ -8,7 +8,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 /**
  * Mediates single view object.
  *  It should only mediate(send message from/to them), not manage them.
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Mediator {
 	

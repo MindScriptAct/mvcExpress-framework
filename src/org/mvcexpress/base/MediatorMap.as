@@ -9,7 +9,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Handles application mediators.
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class MediatorMap implements IMediatorMap {
 	

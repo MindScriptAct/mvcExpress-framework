@@ -2,7 +2,7 @@ package org.mvcexpress.base.inject {
 
 /**
  * Value Object to keep injection rules(what have to be injected there...).
- * @author rbanevicius
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class InjectRuleVO {
 	
