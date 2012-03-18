@@ -1,3 +1,4 @@
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
