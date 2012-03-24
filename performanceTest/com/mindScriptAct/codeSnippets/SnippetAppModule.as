@@ -8,6 +8,7 @@ import com.mindScriptAct.codeSnippets.model.ISampleProxy;
 import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.SampleProxy;
 import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
+import com.mindScriptAct.codeSnippets.view.objects.ObjectMediator;
 import com.mindScriptAct.codeSnippets.view.SampleAppMediator;
 import flash.display.Sprite;
 import org.mvcexpress.core.ModuleCore;
@@ -59,6 +60,9 @@ public class SnippetAppModule extends ModuleCore {
 		////////////////////////////
 		
 		mediatorMap.map(MvcExpressSnippets, SampleAppMediator);
+		
+		// bad maping... (throws error.)
+		//mediatorMap.map(Sprite, Sprite);
 		
 		////////////////////////////
 		// controller
