@@ -8,7 +8,7 @@ import org.mvcexpress.mvc.Command;
 public class SampleEmptyCommand extends Command {
 	
 	
-	override public function execute(params:Object):void {
+	public function execute(params:Object):void {
 		trace("SampleEmptyCommand.execute > params : " + params);
 	}
 

@@ -84,7 +84,9 @@ public class CommandMap {
 			validateCommandParams(commandClass, params);
 		}
 		
+		CONFIG::debug {Command.canConstruct = true;}
 		var command:Command = new commandClass();
+		CONFIG::debug {Command.canConstruct = false;}
 		
 		use namespace pureLegsCore;
 		command.messenger = messanger;
@@ -113,7 +115,9 @@ public class CommandMap {
 					validateCommandParams(commandList[i], params);
 				}
 				
+				Command.canConstruct = true;
 				var command:Command = new commandList[i]();
+				Command.canConstruct = false;
 				
 				use namespace pureLegsCore;
 				command.messenger = messanger;

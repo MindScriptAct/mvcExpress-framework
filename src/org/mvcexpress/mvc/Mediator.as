@@ -19,10 +19,18 @@ public class Mediator {
 	/** @private */
 	pureLegsCore var messanger:Messenger;
 	
+	/** @private */
+	CONFIG::debug
+	static pureLegsCore var canConstruct:Boolean;	
+	
 	public var mediatorMap:IMediatorMap;
 	
 	public function Mediator() {
-		// should stay empty.
+		CONFIG::debug {
+			if (!pureLegsCore::canConstruct) {
+				throw Error("Command "+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map(), or execute it dirrectly with commandMap.execute()")
+			}
+		}	
 	}
 	
 	/**
