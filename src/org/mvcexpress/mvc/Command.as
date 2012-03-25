@@ -41,7 +41,15 @@ dynamic public class Command {
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		pureLegsCore::messenger.send(type, params);
-	}	
+	}
+	
+	
+	// execute function is not ment to be overridden in mvcExpress.
+	// Because I want cammands to have custom parameter object - you have to manualy create execute() function in your commands.
+	//
+	//public function execute(params:Object):void {
+		//
+	//}
 
 }
 }
