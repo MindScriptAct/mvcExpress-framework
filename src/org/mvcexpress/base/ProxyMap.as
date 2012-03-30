@@ -108,6 +108,7 @@ public class ProxyMap {
 			///////////////////////////////////////////////////////////
 			// TODO : TEST inline function .. ( Putting inline function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
+			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
 		}
@@ -133,33 +134,31 @@ public class ProxyMap {
 	 */
 	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleVO> {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
-		
 		var classDescription:XML = describeType(signatureClass);
-		var node:XML;
-		
-		// TODO : optimize
-		for each (node in classDescription.factory.*.(name() == "variable" || name() == "accessor").metadata.(@name == "Inject")) {
-			//trace( "node : " + node );
-			
-			// TODO : optimize
-			var name:String = "";
-			var args:XMLList = node.arg;
-			if (args[0]) {
-				if (args[0].@key == "name") {
-					name = args[0].@value;
+		var factoryNodes:XMLList = classDescription.factory.*;
+		for (var i:int = 0; i < factoryNodes.length(); i++) {
+			var node:XML = factoryNodes[i];
+			var nodeNome:String = node.name();
+			if (nodeNome == "variable" || nodeNome == "accessor") {
+				var metadataList:XMLList = node.metadata;
+				for (var j:int = 0; j < metadataList.length(); j++) {
+					nodeNome = metadataList[j].@name;
+					if (nodeNome == "Inject") {
+						var injectName:String = "";
+						var args:XMLList = metadataList[j].arg;
+						if (args[0]) {
+							if (args[0].@key == "name") {
+								injectName = args[0].@value;
+							}
+						}
+						var mapRule:InjectRuleVO = new InjectRuleVO();
+						mapRule.varName = node.@name.toString();
+						mapRule.injectClassAndName = node.@type.toString() + injectName;
+						retVal.push(mapRule);
+					}
 				}
 			}
-			
-			var mapRule:InjectRuleVO = new InjectRuleVO();
-			
-			mapRule.varName = node.parent().@name.toString();
-			mapRule.injectClassAndName = node.parent().@type.toString() + name;
-			
-			retVal.push(mapRule);
 		}
-		
-		classInjectRules[signatureClass] = retVal;
-		
 		return retVal;
 	}
 
