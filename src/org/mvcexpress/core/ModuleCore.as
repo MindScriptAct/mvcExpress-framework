@@ -105,5 +105,17 @@ public class ModuleCore {
 		}
 		return uiComponentClass;
 	}
+	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
+	
+	/**
+	 * List all message mappings.
+	 */
+	protected function listMessageMappings():void {
+		use namespace pureLegsCore;
+		messenger.listMappings(commandMap);
+	}
 }
 }

@@ -235,6 +235,10 @@ public class CommandMap {
 		}
 		trace("================================================================");
 	}
+	
+	pureLegsCore function listMessagCommands(messageType:String):Vector.<Class> {
+		return classRegistry[messageType];
+	}
 
 }
 }

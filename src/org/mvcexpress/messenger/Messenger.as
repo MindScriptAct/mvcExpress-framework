@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.messenger {
 import flash.utils.Dictionary;
+import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
@@ -142,5 +143,40 @@ public class Messenger {
 		var executeMvgVo:MsgVO = addHandler(type, executeFunction, handlerClassName);
 		executeMvgVo.isExecutable = true;
 	}
+	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
+	
+	/**
+	 * List all message mappings.
+	 */
+	pureLegsCore function listMappings(commandMap:CommandMap):void {
+		use namespace pureLegsCore;
+		trace("====================== Message Mappings: ======================");
+		var warningText:String = "WARNING: If you want to see Classes that handles messages - you must run with CONFIG::debug compile variable set to 'true'.";
+		CONFIG::debug {
+			warningText = "";
+		}
+		if (warningText) {
+			trace(warningText);
+		}
+		for (var key:String in messageRegistry) {
+			var msgList:Vector.<MsgVO> = messageRegistry[key];
+			var messageHandlers:String = "";
+			for (var i:int = 0; i < msgList.length; i++) {
+				var msgVo:MsgVO = msgList[i];
+				if (msgVo.isExecutable) {
+					messageHandlers += "[EXECUTES:" + commandMap.listMessagCommands(key) + "], ";
+				} else {
+					messageHandlers += "[" + msgVo.handlerClassName + "], ";
+				}
+			}
+			
+			trace("SENDING MESSAGE:'" + key + "'\t> HANDLED BY: > " + messageHandlers);
+		}
+		trace("================================================================");
+	}
+
 }
 }
