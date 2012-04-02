@@ -48,7 +48,7 @@ public class ProxyMap {
 			injectClassRegistry[className + name] = proxyObject;
 			proxyObject.register();
 		} else {
-			throw Error("Proxy object class is already mapped.[" + className + name + "]");
+			throw Error("Proxy object class is already mapped.[injectClass:" + className +" name:" + name + "]");
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class ProxyMap {
 				if (!injectClassRegistry[tempClassName]) {
 					injectClassRegistry[tempClassName] = tempValue;
 				} else {
-					throw Error("Temp config sholud not be maped...");
+					throw Error("Temp config sholud not be maped... it was ment to be used by framework for mediator view object only.");
 				}
 			}
 		}
@@ -119,7 +119,7 @@ public class ProxyMap {
 			if (injectObject) {
 				object[rules[i].varName] = injectObject
 			} else {
-				throw Error("Inject object is not found for class:" + rules[i].injectClassAndName);
+				throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName);
 			}
 		}
 		
@@ -161,6 +161,7 @@ public class ProxyMap {
 		}
 		return retVal;
 	}
-
+	
+	
 }
 }

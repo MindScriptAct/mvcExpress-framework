@@ -19,7 +19,7 @@ public class CommandMap {
 	private var mediatorMap:MediatorMap;
 	
 	private var classRegistry:Dictionary = new Dictionary();
-		
+	
 	/** types of command execute function needed for debug mode only validation.  */
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary();
@@ -84,9 +84,13 @@ public class CommandMap {
 			validateCommandParams(commandClass, params);
 		}
 		
-		CONFIG::debug {Command.canConstruct = true;}
+		CONFIG::debug {
+			Command.canConstruct = true;
+		}
 		var command:Command = new commandClass();
-		CONFIG::debug {Command.canConstruct = false;}
+		CONFIG::debug {
+			Command.canConstruct = false;
+		}
 		
 		use namespace pureLegsCore;
 		command.messenger = messanger;
@@ -117,9 +121,13 @@ public class CommandMap {
 					validateCommandParams(commandList[i], params);
 				}
 				
-				CONFIG::debug {Command.canConstruct = true;}
+				CONFIG::debug {
+					Command.canConstruct = true;
+				}
 				var command:Command = new commandList[i]();
-				CONFIG::debug {Command.canConstruct = false;}
+				CONFIG::debug {
+					Command.canConstruct = false;
+				}
 				
 				use namespace pureLegsCore;
 				command.messenger = messanger;
@@ -139,7 +147,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Dispose commandMap on module shutDown 
+	 * Dispose commandMap on module shutDown
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
@@ -148,7 +156,7 @@ public class CommandMap {
 		mediatorMap = null;
 		classRegistry = null;
 	}
-
+	
 	/**
 	 * Helper funcitons for error checking
 	 * @private
@@ -197,6 +205,7 @@ public class CommandMap {
 			}
 		}
 	}
+	
 
 }
 }

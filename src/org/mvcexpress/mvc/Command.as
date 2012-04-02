@@ -29,7 +29,7 @@ dynamic public class Command {
 	public function Command() {
 		CONFIG::debug {
 			if (!pureLegsCore::canConstruct) {
-				throw Error("Command "+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map(), or execute it dirrectly with commandMap.execute()")
+				throw Error("Command:"+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map(), or execute it dirrectly with commandMap.execute()")
 			}
 		}
 	}

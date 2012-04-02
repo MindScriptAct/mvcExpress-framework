@@ -36,11 +36,11 @@ public class MediatorMap implements IMediatorMap {
 		CONFIG::debug {
 			var mediatorClassSuperClassName:String = getQualifiedSuperclassName(mediatorClass);
 			if (mediatorClassSuperClassName != "org.mvcexpress.mvc::Mediator") {
-				throw Error("You are trying to map mediatorClass: " + mediatorClass + " Super class is: " + mediatorClassSuperClassName+". But it should be: 'org.mvcexpress.mvc::Mediator'.");
+				throw Error("You are trying to map mediatorClass:" + mediatorClass + ". Super class of it is: '" + mediatorClassSuperClassName+"'. But it should be: 'org.mvcexpress.mvc::Mediator'.");
 			}
 		}
 		if (mediatorRegistry[viewClass]) {
-			throw Error("Mediator class is already maped with this view class");
+			throw Error("Mediator class:" + mediatorRegistry[viewClass] + " is already maped with this view class:" + viewClass + "");
 		}
 		mediatorRegistry[viewClass] = mediatorClass;
 	}
@@ -70,7 +70,7 @@ public class MediatorMap implements IMediatorMap {
 		if (mediatorClass) {
 			mediateWith(viewObject, mediatorClass);
 		} else {
-			throw Error("View object class is not mapped with any mediator class. use mediatorMap.map()");
+			throw Error("View object"+viewObject+" class is not mapped with any mediator class. use mediatorMap.map()");
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class MediatorMap implements IMediatorMap {
 			mediator.removeAllHandlers();
 			delete viewRegistry[viewObject];
 		} else {
-			throw Error("View object has no mediator created for it.");
+			throw Error("View object:"+viewObject+" has no mediator created for it.");
 		}
 	}
 	

@@ -28,7 +28,7 @@ public class Mediator {
 	public function Mediator() {
 		CONFIG::debug {
 			if (!pureLegsCore::canConstruct) {
-				throw Error("Command "+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map(), or execute it dirrectly with commandMap.execute()")
+				throw Error("Mediator:"+this+" can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
 			}
 		}	
 	}
@@ -66,7 +66,7 @@ public class Mediator {
 		use namespace pureLegsCore;
 		CONFIG::debug {
 			if (handler.length < 1) {
-				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this));
+				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
 			}
 			messageDataRegistry.push(messanger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;
