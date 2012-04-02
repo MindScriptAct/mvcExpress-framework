@@ -6,6 +6,8 @@ import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
+import suites.mediators.mediatorObj.MediatorSprite;
+import suites.mediators.mediatorObj.MediatorSpriteMediator;
 import utils.AsyncUtil;
 
 /**
@@ -75,6 +77,31 @@ public class MediatorMapTests {
 	}
 	
 	//----------------------------------
+	//     isMapped()
+	//----------------------------------
+	
+	[Test]
+	
+	public function debug_test_isMapped_false_wrong_view():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped view class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
+	}
+	
+	[Test]
+	
+	public function debug_test_isMapped_false_wrong_mediator():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped mediator class to view.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorSpriteMediator));
+	}
+	
+	[Test]
+	
+	public function debug_test_isMapped_true():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		Assert.assertTrue("isMapped() should retturn true with mapped view class to mediator class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+	}
+	
+	//----------------------------------
 	//     
 	//----------------------------------			
 	private function callBackFail(obj:* = null):void {
@@ -89,7 +116,7 @@ public class MediatorMapTests {
 	//----------------------------------			
 	private function callBackCheck(obj:* = null):void {
 		//trace( "ControllerTests.callBackCheck > obj : " + obj );
-		if (callCaunter != callsExpected){
+		if (callCaunter != callsExpected) {
 			Assert.fail("Expected " + callsExpected + " calls, but " + callCaunter + " was received...");
 		}
 	}

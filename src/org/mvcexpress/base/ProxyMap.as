@@ -48,7 +48,7 @@ public class ProxyMap {
 			injectClassRegistry[className + name] = proxyObject;
 			proxyObject.register();
 		} else {
-			throw Error("Proxy object class is already mapped.[injectClass:" + className +" name:" + name + "]");
+			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
 		}
 	}
 	
@@ -162,6 +162,39 @@ public class ProxyMap {
 		return retVal;
 	}
 	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
 	
+	/**
+	 * Checks if proxy object is already mapped.
+	 * @param	proxyObject	Proxy instance to use for injection.
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpfull if you want to map proxy interface or subclass.
+	 * @param	name		Optional name if you need more then one proxy instance of same class.
+	 * @return				true if object is already mapped.
+	 */
+	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
+		var retVal:Boolean = false;
+		var proxyClass:Class = Object(proxyObject).constructor;
+		if (!injectClass) {
+			injectClass = proxyClass;
+		}
+		var className:String = getQualifiedClassName(injectClass);
+		if (injectClassRegistry[className + name]) {
+			retVal = true;
+		}
+		return retVal;
+	}
+	
+	/**
+	 * Will trace all mapped proxy objects, and keys they are mapped to.
+	 */
+	public function listMappings():void {
+		trace("====================== ProxyMap Mappings: ======================");
+		for (var key:Object in injectClassRegistry) {
+			trace("PROXY OBJECT:'" + injectClassRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")");
+		}
+		trace("================================================================");
+	}
 }
 }

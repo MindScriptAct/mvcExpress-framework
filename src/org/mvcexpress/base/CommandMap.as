@@ -48,7 +48,6 @@ public class CommandMap {
 		}
 		
 		// TODO : check if command is already added. (in DEBUG mode only?.)
-		
 		classRegistry[type].push(commandClass);
 	
 	}
@@ -206,6 +205,36 @@ public class CommandMap {
 		}
 	}
 	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
+	
+	/**
+	 * Checks if Command class is already added to message type
+	 * @param	type			Message type for command class to react to.
+	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 * @return					true if Command class is already mapped to message
+	 */
+	public function isMapped(type:String, commandClass:Class):Boolean {
+		var retVal:Boolean = false;
+		if (classRegistry[type]) {
+			var mappedClasses:Vector.<Class> = classRegistry[type];
+			for (var i:int = 0; i < mappedClasses.length; i++) {
+				if (commandClass == mappedClasses[i]) {
+					retVal = true;
+				}
+			}
+		}
+		return retVal;
+	}
+	
+	public function listMappings():void {
+		trace("===================== CommandMap Mappings: =====================");
+		for (var key:String in classRegistry) {
+			trace("SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key]);
+		}
+		trace("================================================================");
+	}
 
 }
 }

@@ -152,6 +152,31 @@ public class CommandMapTests {
 		cammandMap.execute(SuperInterfaceParamCommand, new Sprite());
 	}
 	
+		//----------------------------------
+	//     isMapped()
+	//----------------------------------
+	
+	[Test]
+	
+	public function debug_test_isMapped_false_wrong_message():void {
+		cammandMap.map("test", TestCommand1);
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped message.", cammandMap.isMapped("test1", TestCommand1));
+	}
+	
+	[Test]
+	
+	public function debug_test_isMapped_false_wrong_class():void {
+		cammandMap.map("test", TestCommand1);
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped command class to message.", cammandMap.isMapped("test", TestCommand2));
+	}
+	
+	[Test]
+	
+	public function debug_test_isMapped_true():void {
+		cammandMap.map("test", TestCommand1);
+		Assert.assertTrue("isMapped() should retturn true with mapped proxy.", cammandMap.isMapped("test", TestCommand1));
+	}
+	
 	//----------------------------------
 	//     
 	//----------------------------------			

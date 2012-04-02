@@ -157,6 +157,28 @@ public class ProxyMapTests {
 	}
 	
 	//----------------------------------
+	//     isMapped()
+	//----------------------------------
+	
+	[Test]
+	
+	public function debug_test_isMapped_false():void {
+		use namespace pureLegsCore;
+		var testProxy:TestProxy = new TestProxy();
+		//proxyMap.map(testProxy);
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped proxy.", proxyMap.isMapped(testProxy));
+	}
+	
+	[Test]
+	
+	public function debug_test_isMapped_true():void {
+		use namespace pureLegsCore;
+		var testProxy:TestProxy = new TestProxy();
+		proxyMap.map(testProxy);
+		Assert.assertTrue("isMapped() should retturn true with mapped proxy.", proxyMap.isMapped(testProxy));
+	}
+	
+	//----------------------------------
 	//     
 	//----------------------------------			
 	private function callBackFail(obj:* = null):void {
