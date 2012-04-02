@@ -61,7 +61,6 @@ public class SnippetAppModule extends ModuleCore {
 		////////////////////////////
 		
 		mediatorMap.map(MvcExpressSnippets, SampleAppMediator);
-		mediatorMap.map(MvcExpressSnippets, SampleAppMediator);
 		
 		// bad maping... (throws error.)
 		//mediatorMap.map(Sprite, Sprite);

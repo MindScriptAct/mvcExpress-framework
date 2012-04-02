@@ -40,6 +40,9 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		CONFIG::debug {
 			validateCommandClass(commandClass);
+			if (!Boolean(type) || type == "null" || type == "undefined") {
+				throw Error("Message type:[" + type + "] can not be empty or 'null'. (You are trying to map command:" + commandClass + ")");
+			}
 		}
 		
 		if (!classRegistry[type]) {
