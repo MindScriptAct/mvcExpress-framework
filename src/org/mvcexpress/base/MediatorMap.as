@@ -36,7 +36,19 @@ public class MediatorMap implements IMediatorMap {
 		CONFIG::debug {
 			var mediatorClassSuperClassName:String = getQualifiedSuperclassName(mediatorClass);
 			if (mediatorClassSuperClassName != "org.mvcexpress.mvc::Mediator") {
-				throw Error("You are trying to map mediatorClass:" + mediatorClass + ". Super class of it is: '" + mediatorClassSuperClassName + "'. But it should be: 'org.mvcexpress.mvc::Mediator'.");
+				var mediatorFound:Boolean = false;
+				var mediatorClassName:String = mediatorClassSuperClassName;
+				while (mediatorClassName != "Object") {
+					var superClass:Class = getDefinitionByName(mediatorClassName) as Class;
+					mediatorClassName = getQualifiedSuperclassName(superClass);
+					if (mediatorClassName == "org.mvcexpress.mvc::Mediator") {
+						mediatorFound = true;
+						break;
+					}
+				}
+				if (!mediatorFound) {
+					throw Error("You are trying to map mediatorClass:" + mediatorClass + ". Super class of it is: '" + mediatorClassSuperClassName + "'. But it should be: 'org.mvcexpress.mvc::Mediator'.");
+				}
 			}
 		}
 		if (mediatorRegistry[viewClass]) {
