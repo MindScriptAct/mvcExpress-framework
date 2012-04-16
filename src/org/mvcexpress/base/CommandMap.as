@@ -21,6 +21,8 @@ public class CommandMap {
 	
 	private var classRegistry:Dictionary = new Dictionary();
 	
+	private var debugFunction:Function;
+	
 	/** types of command execute function needed for debug mode only validation.  */
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary();
@@ -40,6 +42,9 @@ public class CommandMap {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
 		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
+			}
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'. (You are trying to map command:" + commandClass + ")");
@@ -62,6 +67,11 @@ public class CommandMap {
 	 * @param	commandClass	Command class that will bi instantiated and executed.
 	 */
 	public function unmap(type:String, commandClass:Class):void {
+		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
+			}
+		}
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {
@@ -84,6 +94,9 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
+			}
 			validateCommandParams(commandClass, params);
 		}
 		
@@ -112,8 +125,8 @@ public class CommandMap {
 	}
 	
 	/* function to be called by messenger on needed mesage type sent */
-	private function handleCommandExecute(type:String, params:Object):void {
-		var commandList:Vector.<Class> = classRegistry[type];
+	private function handleCommandExecute(messageType:String, params:Object):void {
+		var commandList:Vector.<Class> = classRegistry[messageType];
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {
 				//////////////////////////////////////////////
@@ -140,7 +153,11 @@ public class CommandMap {
 				command.commandMap = this;
 				
 				proxyMap.injectStuff(command, commandList[i]);
-				
+				CONFIG::debug {
+					if (debugFunction != null) {
+						debugFunction("* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
+					}
+				}
 				command.execute(params);
 				
 					////// INLINE FUNCTION runCommand() END
@@ -167,9 +184,9 @@ public class CommandMap {
 	CONFIG::debug
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
 		
-			if (!checkClassSuperclass(commandClass, "org.mvcexpress.mvc::Command")) {
-				throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Command' class.");
-			}
+		if (!checkClassSuperclass(commandClass, "org.mvcexpress.mvc::Command")) {
+			throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Command' class.");
+		}
 		
 		if (!commandClassParamTypes[commandClass]) {
 			
@@ -236,16 +253,26 @@ public class CommandMap {
 		return retVal;
 	}
 	
-	public function listMappings():void {
-		trace("===================== CommandMap Mappings: =====================");
+	/**
+	 * Returns text of all command classes that are mapped to messages.
+	 * @return		Text with all mapped commands.
+	 */
+	public function listMappings():String {
+		var retVal:String = "";
+		retVal = "===================== CommandMap Mappings: =====================\n";
 		for (var key:String in classRegistry) {
-			trace("SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key]);
+			retVal += "SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key] + "\n";
 		}
-		trace("================================================================");
+		retVal += "================================================================\n";
+		return retVal;
 	}
 	
-	pureLegsCore function listMessagCommands(messageType:String):Vector.<Class> {
+	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
+	}
+	
+	pureLegsCore function setDebugFunction(debugFunction:Function):void {
+		this.debugFunction = debugFunction;
 	}
 
 }

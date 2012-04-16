@@ -24,6 +24,8 @@ public class ProxyMap {
 	/** Communication object for sending messages*/
 	private var messenger:Messenger;
 	
+	private var debugFunction:Function;
+	
 	public function ProxyMap(messenger:Messenger) {
 		this.messenger = messenger;
 	}
@@ -35,6 +37,12 @@ public class ProxyMap {
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+			}
+		}
+		
 		var proxyClass:Class = Object(proxyObject).constructor;
 		
 		if (!injectClass) {
@@ -59,6 +67,12 @@ public class ProxyMap {
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
 	public function unmap(injectClass:Class, name:String = ""):void {
+		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
+			}
+		}
+		
 		var className:String = getQualifiedClassName(injectClass);
 		use namespace pureLegsCore;
 		(injectClassRegistry[className + name] as Proxy).remove();
@@ -187,14 +201,21 @@ public class ProxyMap {
 	}
 	
 	/**
-	 * Will trace all mapped proxy objects, and keys they are mapped to.
+	 * Returns text of all mapped proxy objects, and keys they are mapped to.
+	 * @return		Text with all mapped proxies.
 	 */
-	public function listMappings():void {
-		trace("====================== ProxyMap Mappings: ======================");
+	public function listMappings():String {
+		var retVal:String = "";
+		retVal = "====================== ProxyMap Mappings: ======================\n";
 		for (var key:Object in injectClassRegistry) {
-			trace("PROXY OBJECT:'" + injectClassRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")");
+			retVal += "PROXY OBJECT:'" + injectClassRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
 		}
-		trace("================================================================");
+		retVal += "================================================================\n";
+		return retVal;
+	}
+	
+	pureLegsCore function setDebugFunction(debugFunction:Function):void {
+		this.debugFunction = debugFunction;
 	}
 }
 }

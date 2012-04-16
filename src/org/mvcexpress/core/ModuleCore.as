@@ -27,6 +27,8 @@ public class ModuleCore {
 	
 	private var messenger:Messenger;
 	
+	private var _debugFunction:Function;
+	
 	/**
 	 * CONSTRUCTOR
 	 * @param	mainObject	main object of your application. Should be set once with main module if you have more then one.
@@ -111,11 +113,50 @@ public class ModuleCore {
 	//----------------------------------
 	
 	/**
+	 * Sets a debug function that will get all framework activity as string messages.
+	 * WARNING : will work only with compile variable CONFIG:debug set to true.
+	 * @param	debugFunction
+	 */
+	public function setDebugFunction(debugFunction:Function):void {
+		this.debugFunction = debugFunction;
+	}
+	
+	private function set debugFunction(value:Function):void {
+		_debugFunction = value;
+		use namespace pureLegsCore;
+		proxyMap.setDebugFunction(_debugFunction);
+		mediatorMap.setDebugFunction(_debugFunction);
+		commandMap.setDebugFunction(_debugFunction);
+		messenger.setDebugFunction(_debugFunction);
+	}
+	
+	/**
 	 * List all message mappings.
 	 */
-	protected function listMessageMappings():void {
-		use namespace pureLegsCore;
-		messenger.listMappings(commandMap);
+	public function listMappedMessages():String {
+		return messenger.listMappings(commandMap);
 	}
+	
+	/**
+	 * List all view mappings.
+	 */
+	public function listMappedMediators():String {
+		return mediatorMap.listMappings();
+	}
+	
+	/**
+	 * List all model mappings.
+	 */
+	public function listMappedProxies():String {
+		return proxyMap.listMappings();
+	}
+	
+	/**
+	 * List all controller mappings.
+	 */
+	public function listMappedCommands():String {
+		return commandMap.listMappings();
+	}
+
 }
 }

@@ -23,6 +23,8 @@ public class MediatorMap implements IMediatorMap {
 	
 	protected var viewRegistry:Dictionary = new Dictionary();
 	
+	private var debugFunction:Function;
+	
 	public function MediatorMap(messanger:Messenger, proxyMap:ProxyMap) {
 		this.messanger = messanger;
 		this.proxyMap = proxyMap;
@@ -35,6 +37,9 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function map(viewClass:Class, mediatorClass:Class):void {
 		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("+ MediatorMap.map > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass);
+			}
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Mediator' class.");
 			}
@@ -50,6 +55,11 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewClass	view class to remove maped mediator class from.
 	 */
 	public function unmap(viewClass:Class):void {
+		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("- MediatorMap.unmap > viewClass : " + viewClass);
+			}
+		}
 		delete mediatorRegistry[viewClass];
 	}
 	
@@ -84,6 +94,9 @@ public class MediatorMap implements IMediatorMap {
 	public function mediateWith(viewObject:Object, mediatorClass:Class):void {
 		use namespace pureLegsCore;
 		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("*+ MediatorMap.mediateWith > viewObject : " + viewObject + ", mediatorClass : " + mediatorClass);
+			}
 			Mediator.canConstruct = true
 		}
 		var mediator:Mediator = new mediatorClass();
@@ -110,6 +123,11 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewObject	view object witch mediator will be destroed.
 	 */
 	public function unmediate(viewObject:Object):void {
+		CONFIG::debug {
+			if (debugFunction != null) {
+				debugFunction("*- MediatorMap.unmediate > viewObject : " + viewObject);
+			}
+		}
 		var mediator:Mediator = viewRegistry[viewObject];
 		if (mediator) {
 			mediator.onRemove();
@@ -156,14 +174,21 @@ public class MediatorMap implements IMediatorMap {
 	}
 	
 	/**
-	 * will trace all view classes that are maped to mediator classes.
+	 * Returns text of all view classes that are maped to mediator classes.
+	 * @return		Text with all mapped mediators.
 	 */
-	public function listMappings():void {
-		trace("==================== MediatorMap Mappings: =====================");
+	public function listMappings():String {
+		var retVal:String = "";
+		retVal = "==================== MediatorMap Mappings: =====================\n";
 		for (var key:Object in mediatorRegistry) {
-			trace("VIEW:'" + key + "'\t> MEDIATED BY > " + mediatorRegistry[key]);
+			retVal += "VIEW:'" + key + "'\t> MEDIATED BY > " + mediatorRegistry[key] + "\n";
 		}
-		trace("================================================================");
+		retVal += "================================================================\n";
+		return retVal;
+	}
+	
+	pureLegsCore function setDebugFunction(debugFunction:Function):void {
+		this.debugFunction = debugFunction;
 	}
 
 }
