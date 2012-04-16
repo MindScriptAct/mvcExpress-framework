@@ -8,6 +8,7 @@ import org.mvcexpress.base.interfaces.IMediatorMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles application mediators.
@@ -34,21 +35,8 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function map(viewClass:Class, mediatorClass:Class):void {
 		CONFIG::debug {
-			var mediatorClassSuperClassName:String = getQualifiedSuperclassName(mediatorClass);
-			if (mediatorClassSuperClassName != "org.mvcexpress.mvc::Mediator") {
-				var mediatorFound:Boolean = false;
-				var mediatorClassName:String = mediatorClassSuperClassName;
-				while (mediatorClassName != "Object") {
-					var superClass:Class = getDefinitionByName(mediatorClassName) as Class;
-					mediatorClassName = getQualifiedSuperclassName(superClass);
-					if (mediatorClassName == "org.mvcexpress.mvc::Mediator") {
-						mediatorFound = true;
-						break;
-					}
-				}
-				if (!mediatorFound) {
-					throw Error("You are trying to map mediatorClass:" + mediatorClass + ". Super class of it is: '" + mediatorClassSuperClassName + "'. But it should be: 'org.mvcexpress.mvc::Mediator'.");
-				}
+			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
+				throw Error("mediatorClass:" + mediatorClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Mediator' class.");
 			}
 		}
 		if (mediatorRegistry[viewClass]) {

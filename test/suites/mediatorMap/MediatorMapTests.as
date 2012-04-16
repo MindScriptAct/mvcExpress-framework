@@ -1,8 +1,11 @@
 package suites.mediatorMap {
+import flash.display.Bitmap;
+import flash.display.Sprite;
 import org.flexunit.Assert;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
@@ -99,6 +102,19 @@ public class MediatorMapTests {
 	public function debug_test_isMapped_true():void {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
 		Assert.assertTrue("isMapped() should retturn true with mapped view class to mediator class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+	}
+	
+	[Test(expects="Error")]
+	
+	public function debug_map_not_mediator_fails():void {
+		var errorChecked:Boolean = false;
+		CONFIG::debug {
+			errorChecked = true;
+			mediatorMap.map(Sprite, Bitmap);
+		}
+		if (!errorChecked) {
+			Assert.fail("fake error")
+		}
 	}
 	
 	//----------------------------------

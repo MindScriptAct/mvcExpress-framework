@@ -7,6 +7,7 @@ import flash.utils.getQualifiedClassName;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles command mappings, and executes them on messages
@@ -165,6 +166,10 @@ public class CommandMap {
 	 */
 	CONFIG::debug
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
+		
+			if (!checkClassSuperclass(commandClass, "org.mvcexpress.mvc::Command")) {
+				throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Command' class.");
+			}
 		
 		if (!commandClassParamTypes[commandClass]) {
 			
