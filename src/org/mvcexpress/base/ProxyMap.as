@@ -133,7 +133,7 @@ public class ProxyMap {
 			if (injectObject) {
 				object[rules[i].varName] = injectObject
 			} else {
-				throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName);
+				throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 			}
 		}
 		
