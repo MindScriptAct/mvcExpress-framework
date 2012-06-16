@@ -144,7 +144,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
-		for each (var viewObject:Object in viewRegistry) {
+		for (var viewObject:Object in viewRegistry) {
 			unmediate(viewObject);
 		}
 		proxyMap = null;
