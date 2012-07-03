@@ -53,7 +53,7 @@ public class CommandMap {
 		
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
-			messenger.addCommandHandler(type, handleCommandExecute);
+			messenger.addCommandHandler(type, handleCommandExecute, this, commandClass);
 		}
 		
 		// TODO : check if command is already added. (in DEBUG mode only?.)

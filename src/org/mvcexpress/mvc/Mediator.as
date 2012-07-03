@@ -75,7 +75,7 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			messageDataRegistry.push(messenger.addHandler(type, handler, null, getQualifiedClassName(this)));
 			return;
 		}
 		messageDataRegistry.push(messenger.addHandler(type, handler));

@@ -77,6 +77,8 @@ public class ModuleCore {
 		//
 		removeAllHandlers();
 		//
+		messenger.removeCommandHandlers(commandMap);
+		//
 		commandMap.dispose();
 		mediatorMap.dispose();
 		proxyMap.dispose();
@@ -118,7 +120,7 @@ public class ModuleCore {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			messageDataRegistry.push(messenger.addHandler(type, handler, null, getQualifiedClassName(this)));
 			return;
 		}
 		messageDataRegistry.push(messenger.addHandler(type, handler));

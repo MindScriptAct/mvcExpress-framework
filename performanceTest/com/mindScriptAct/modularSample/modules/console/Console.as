@@ -13,14 +13,15 @@ import flash.text.TextFieldType;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Console extends Sprite {
+	private var consoleId:int;
 	public var consoleModule:ConsoleModule;
 	
 	public var outputTf:TextField;
 	public var inputTf:TextField;
 	public var inputBtn:Sprite;
 	
-	
-	public function Console() {
+	public function Console(consoleId:int) {
+		this.consoleId = consoleId;
 		consoleModule = new ConsoleModule();
 		consoleModule.start(this);
 	}
@@ -29,7 +30,7 @@ public class Console extends Sprite {
 		// add message output
 		outputTf = new TextField();
 		this.addChild(outputTf);
-		outputTf.text = '...';
+		outputTf.text = "Console #" + consoleId + " started.";
 		outputTf.border = true;
 		
 		outputTf.width = 300;
@@ -50,8 +51,12 @@ public class Console extends Sprite {
 		inputTf.x = 5;
 		inputTf.y = outputTf.x + outputTf.height + 5;
 		
-		inputBtn = new PushButton(this, inputTf.x + inputTf.width + 5, inputTf.y +2, "send");
+		inputBtn = new PushButton(this, inputTf.x + inputTf.width + 5, inputTf.y + 2, "send");
 		inputBtn.width = 50;
+	}
+	
+	public function dispose():void {
+		consoleModule.dispose();
 	}
 
 }

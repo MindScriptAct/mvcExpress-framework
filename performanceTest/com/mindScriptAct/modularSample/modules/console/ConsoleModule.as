@@ -1,9 +1,12 @@
 package com.mindScriptAct.modularSample.modules.console {
 import com.mindScriptAct.modularSample.modules.console.controller.HandleInputCommand;
 import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
+import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
+import com.mindScriptAct.modularSample.modules.console.msg.ConsoleMsg;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modularSample.modules.console.view.ConsoleMediator;
 import org.mvcexpress.core.ModuleCore;
+import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
@@ -17,6 +20,10 @@ public class ConsoleModule extends ModuleCore {
 	
 	override protected function onInit():void {
 		trace("ConsoleModule.onStartUp");
+		
+		CONFIG::debug {
+			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
+		}
 		
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
