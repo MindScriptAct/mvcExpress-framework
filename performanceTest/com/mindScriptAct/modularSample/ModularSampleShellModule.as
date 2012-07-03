@@ -29,16 +29,8 @@ public class ModularSampleShellModule extends ModuleCore {
 		mediatorMap.mediate(modularSample);
 		
 		//commandMap.execute();
-		
-		addHandler(ConsoleViewMsg.EMPTY_MESSAGE, handleMainMsgTest);
-		
-		setTimeout(handleRemover, 10000);
 	}
 	
-	private function handleRemover():void {
-		trace("enough of empty message tracing...... ");
-		removeHandler(ConsoleViewMsg.EMPTY_MESSAGE, handleMainMsgTest);
-	}
 	
 	private function handleMainMsgTest(params:Object):void {
 		trace("ModularSampleShellModule.handleMainMsgTest > params : " + params);
