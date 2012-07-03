@@ -15,7 +15,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
  */
 public class CommandMap {
 	
-	private var messanger:Messenger;
+	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	
@@ -27,8 +27,8 @@ public class CommandMap {
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary();
 	
-	public function CommandMap(messanger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
-		this.messanger = messanger;
+	public function CommandMap(messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
+		this.messenger = messenger;
 		this.proxyMap = proxyMap;
 		this.mediatorMap = mediatorMap;
 	}
@@ -53,7 +53,7 @@ public class CommandMap {
 		
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
-			messanger.addCommandHandler(type, handleCommandExecute);
+			messenger.addCommandHandler(type, handleCommandExecute);
 		}
 		
 		// TODO : check if command is already added. (in DEBUG mode only?.)
@@ -109,7 +109,7 @@ public class CommandMap {
 		}
 		
 		use namespace pureLegsCore;
-		command.messenger = messanger;
+		command.messenger = messenger;
 		command.mediatorMap = mediatorMap;
 		command.proxyMap = proxyMap;
 		
@@ -146,7 +146,7 @@ public class CommandMap {
 				}
 				
 				use namespace pureLegsCore;
-				command.messenger = messanger;
+				command.messenger = messenger;
 				command.mediatorMap = mediatorMap;
 				command.proxyMap = proxyMap;
 				
@@ -171,7 +171,7 @@ public class CommandMap {
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
-		messanger = null;
+		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
 		classRegistry = null;

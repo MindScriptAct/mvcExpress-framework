@@ -51,7 +51,7 @@ public class ProxyMap {
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectClassRegistry[className + name]) {
 			use namespace pureLegsCore;
-			proxyObject.messanger = messenger;
+			proxyObject.messenger = messenger;
 			injectStuff(proxyObject, proxyClass);
 			injectClassRegistry[className + name] = proxyObject;
 			proxyObject.register();

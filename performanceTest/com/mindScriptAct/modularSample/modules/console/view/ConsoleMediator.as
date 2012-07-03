@@ -30,7 +30,12 @@ public class ConsoleMediator extends Mediator {
 			
 			view.inputTf.text = "";
 			
+			
+			
+		} else {
+			sendMessage(ConsoleViewMsg.EMPTY_MESSAGE, "NO MESSAGE ENTERED!!.....");
 		}
+		
 	}
 	
 	private function handleMessageAdded(message:String):void {

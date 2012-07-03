@@ -6,5 +6,6 @@ package com.mindScriptAct.modularSample.modules.console.msg {
  */
 public class ConsoleViewMsg {
 	static public const INPUT_MESSAGE:String = "inputMessage";
+	static public const EMPTY_MESSAGE:String = "emptyMessage";
 }
 }

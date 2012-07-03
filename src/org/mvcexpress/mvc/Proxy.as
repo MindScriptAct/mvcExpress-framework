@@ -11,7 +11,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 public class Proxy {
 	
 	/** @private */
-	pureLegsCore var messanger:Messenger;
+	pureLegsCore var messenger:Messenger;
 	
 	public function Proxy(){
 	}
@@ -22,7 +22,7 @@ public class Proxy {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
-		pureLegsCore::messanger.send(type, params);
+		pureLegsCore::messenger.send(type, params);
 	}
 	
 	/**

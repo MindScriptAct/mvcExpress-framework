@@ -17,7 +17,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
 public class MediatorMap implements IMediatorMap {
 	
 	protected var proxyMap:ProxyMap;
-	protected var messanger:Messenger;
+	protected var messenger:Messenger;
 	
 	protected var mediatorRegistry:Dictionary = new Dictionary();
 	
@@ -25,8 +25,8 @@ public class MediatorMap implements IMediatorMap {
 	
 	private var debugFunction:Function;
 	
-	public function MediatorMap(messanger:Messenger, proxyMap:ProxyMap) {
-		this.messanger = messanger;
+	public function MediatorMap(messenger:Messenger, proxyMap:ProxyMap) {
+		this.messenger = messenger;
 		this.proxyMap = proxyMap;
 	}
 	
@@ -103,7 +103,7 @@ public class MediatorMap implements IMediatorMap {
 		CONFIG::debug {
 			Mediator.canConstruct = false
 		}
-		mediator.messanger = messanger;
+		mediator.messenger = messenger;
 		mediator.mediatorMap = this;
 		
 		var viewClass:Class = viewObject.constructor;
@@ -132,7 +132,7 @@ public class MediatorMap implements IMediatorMap {
 		if (mediator) {
 			mediator.onRemove();
 			use namespace pureLegsCore;
-			mediator.removeAllHandlers();
+			mediator.disposeThisMediator();
 			delete viewRegistry[viewObject];
 		} else {
 			throw Error("View object:" + viewObject + " has no mediator created for it.");
@@ -148,7 +148,7 @@ public class MediatorMap implements IMediatorMap {
 			unmediate(viewObject);
 		}
 		proxyMap = null;
-		messanger = null;
+		messenger = null;
 		mediatorRegistry = null;
 		viewRegistry = null;
 	}

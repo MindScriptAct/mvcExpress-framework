@@ -2,6 +2,7 @@
 package org.mvcexpress.mvc {
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.interfaces.IMediatorMap;
+import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.messenger.MsgVO;
 import org.mvcexpress.namespace.pureLegsCore;
@@ -17,12 +18,15 @@ public class Mediator {
 	pureLegsCore var messageDataRegistry:Vector.<MsgVO> = new Vector.<MsgVO>();
 	
 	/** @private */
-	pureLegsCore var messanger:Messenger;
+	pureLegsCore var messenger:Messenger;
 	
 	/** @private */
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean;	
 	
+	/**
+	 * Handles application mediators.
+	 */
 	public var mediatorMap:IMediatorMap;
 	
 	public function Mediator() {
@@ -53,7 +57,7 @@ public class Mediator {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
-		pureLegsCore::messanger.send(type, params);
+		pureLegsCore::messenger.send(type, params);
 	}
 	
 	
@@ -71,10 +75,10 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			messageDataRegistry.push(messanger.addHandler(type, handler, getQualifiedClassName(this)));
+			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;
 		}
-		messageDataRegistry.push(messanger.addHandler(type, handler));
+		messageDataRegistry.push(messenger.addHandler(type, handler));
 	}
 	
 	/**
@@ -83,20 +87,30 @@ public class Mediator {
 	 * @param	handler	function that was set to react to message.
 	 */
 	protected function removeHandler(type:String, handler:Function):void {
-		pureLegsCore::messanger.removeHandler(type, handler);
+		pureLegsCore::messenger.removeHandler(type, handler);
 	}
 	
+	/**
+	 * Remove all handle functions created by this mediator. Autamaticaly called with unmediate().
+	 * (but don't forget to remove your event handlert manualy...)
+	 */
+	protected function removeAllHandlers():void {
+		use namespace pureLegsCore;
+		while ( messageDataRegistry.length) {
+			messageDataRegistry.pop().disabled = true;
+		}
+	}	
 	
 	/**
-	 * framework funciton to remove all handle functions created by this mediator 
+	 * framework functuon to remove all handle functions created by this mediator 
 	 * @private
-	 * */
-	pureLegsCore function removeAllHandlers():void {
+	 */
+	pureLegsCore function disposeThisMediator():void {
 		use namespace pureLegsCore;
-		for (var i:int = 0; i < messageDataRegistry.length; i++) {
-			messageDataRegistry[i].disabled = true;
-		}
+		removeAllHandlers();
 		messageDataRegistry = null;
+		messenger = null;
+		mediatorMap = null;
 	}
 
 }

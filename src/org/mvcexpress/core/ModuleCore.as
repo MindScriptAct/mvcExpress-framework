@@ -2,10 +2,12 @@
 package org.mvcexpress.core {
 import flash.display.DisplayObjectContainer;
 import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.messenger.MsgVO;
 import org.mvcexpress.namespace.pureLegsCore;
 import org.mvcexpress.base.FlexMediatorMap;
 
@@ -26,6 +28,9 @@ public class ModuleCore {
 	protected var commandMap:CommandMap;
 	
 	private var messenger:Messenger;
+	
+	/** @private */
+	pureLegsCore var messageDataRegistry:Vector.<MsgVO> = new Vector.<MsgVO>();
 	
 	private var _debugFunction:Function;
 	
@@ -70,6 +75,8 @@ public class ModuleCore {
 		//
 		use namespace pureLegsCore;
 		//
+		removeAllHandlers();
+		//
 		commandMap.dispose();
 		mediatorMap.dispose();
 		proxyMap.dispose();
@@ -95,6 +102,46 @@ public class ModuleCore {
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		messenger.send(type, params);
+	}
+	
+	/**
+	 * adds handle function to be called then messege of provided type is sent.
+	 * @param	type	message type for handle function to reoct to.
+	 * @param	handler	function that will be called then needed message is sent. this functino must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 */
+	protected function addHandler(type:String, handler:Function):void {
+		use namespace pureLegsCore;
+		CONFIG::debug {
+			if (handler.length < 1) {
+				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
+			}
+			if (!Boolean(type) || type == "null" || type == "undefined") {
+				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
+			}
+			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			return;
+		}
+		messageDataRegistry.push(messenger.addHandler(type, handler));
+	}
+	
+	/**
+	 * Removes handle function from messege of provided type.
+	 * @param	type	message type that was set for handle function to react to. 
+	 * @param	handler	function that was set to react to message.
+	 */
+	protected function removeHandler(type:String, handler:Function):void {
+		use namespace pureLegsCore;
+		messenger.removeHandler(type, handler);
+	}
+	
+	/**
+	 * Remove all handle functions created by this module. (autamaticaly called with dispose() )
+	 */
+	protected function removeAllHandlers():void {
+		use namespace pureLegsCore;
+		while ( messageDataRegistry.length) {
+			messageDataRegistry.pop().disabled = true;
+		}
 	}
 	
 	/** get flex lowest class by definition. ( way to check for flex project.) */
