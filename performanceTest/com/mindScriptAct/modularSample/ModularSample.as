@@ -1,16 +1,27 @@
 package com.mindScriptAct.modularSample {
-import flash.display.Sprite;
+import com.mindScriptAct.modularSample.msg.DataMsg;
+import com.mindScriptAct.modularSample.msg.Msg;
+import com.mindScriptAct.modularSample.msg.ViewMsg;
+import com.mindScriptAct.modularSample.view.ModularSampleMediator;
+import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
-public class ModularSample extends Sprite {
-	private var coreModule:ModularSampleShellModule;
+public class ModularSample extends ModuleSprite {
 	
-	public function ModularSample() {
-		coreModule = new ModularSampleShellModule();
-		coreModule.start(this);
+	override protected function onInit():void {
+		trace("ModularSampleShellModule.onInit");
+		
+		CONFIG::debug {
+			checkClassStringConstants(Msg, DataMsg, ViewMsg);
+		}
+		
+		mediatorMap.map(ModularSample, ModularSampleMediator);
+		
+		mediatorMap.mediate(this);
 	}
 
 }

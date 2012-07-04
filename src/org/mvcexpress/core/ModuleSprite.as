@@ -7,7 +7,7 @@ import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
-import org.mvcexpress.messenger.MessageManager;
+import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.messenger.MsgVO;
 import org.mvcexpress.namespace.pureLegsCore;
@@ -44,10 +44,9 @@ public class ModuleSprite extends Sprite {
 	public function ModuleSprite(moduleName:String = null, autoInit:Boolean = true) {
 		this.moduleName = moduleName;
 		use namespace pureLegsCore;
-		MessageManager.increaseMessengerCount();
-		if (moduleName) {
-		} else {
-			moduleName = "module" + (MessageManager.messengerCount);
+		MessengerManager.increaseMessengerCount();
+		if (!moduleName) {
+			this.moduleName = "module" + (MessengerManager.messengerCount);
 		}
 		if (autoInit) {
 			init();
@@ -60,7 +59,7 @@ public class ModuleSprite extends Sprite {
 	 */
 	protected function init():void {
 		use namespace pureLegsCore;
-		messenger = Messenger.getInstance();
+		messenger = MessengerManager.createMessenger(moduleName);
 		
 		proxyMap = new ProxyMap(messenger);
 		// check if flex is used.
@@ -95,12 +94,12 @@ public class ModuleSprite extends Sprite {
 		//
 		use namespace pureLegsCore;
 		//
-		messenger.removeCommandHandlers(commandMap);
+		MessengerManager.disposeMessenger(moduleName);
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
 		proxyMap.dispose();
-		
+		//
 		commandMap = null;
 		mediatorMap = null;
 		proxyMap = null;

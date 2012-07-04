@@ -17,7 +17,7 @@ public class ConsoleMediator extends Mediator {
 	override public function onRegister():void {
 		trace("ConsoleMediator.onRegister");
 		
-		view.init();
+		view.initConsole();
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 	}
@@ -29,8 +29,6 @@ public class ConsoleMediator extends Mediator {
 			sendMessage(ConsoleViewMsg.INPUT_MESSAGE, view.inputTf.text);
 			
 			view.inputTf.text = "";
-			
-			
 			
 		} else {
 			sendMessage(ConsoleViewMsg.EMPTY_MESSAGE, "NO MESSAGE ENTERED!!.....");

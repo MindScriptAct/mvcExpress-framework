@@ -20,9 +20,6 @@ public class MsgVO {
 	/* FOR INTERNAL USE ONLY, shows if message is handled by Cammand. */
 	public var isExecutable:Boolean;	
 	
-	/* FOR INTERNAL USE ONLY, Stores CommandMap there message camed from, ussed to remove all messages then commandMap is disposed with module dispose()  */
-	public var sourceCommandMap:CommandMap;
-	
 	/* Variable to store class there handler came from. (for debuging) */
 	public var handlerClassName:String;
 	
@@ -30,8 +27,7 @@ public class MsgVO {
 	 * FOR INTERNAL USE ONLY - Constructior 
 	 * @param	sourceCommandMap	source CommandMap that added a message, if message handled by Command
 	 */
-	public function MsgVO(sourceCommandMap:CommandMap) {
-		this.sourceCommandMap = sourceCommandMap;
+	public function MsgVO() {
 	}
 
 }

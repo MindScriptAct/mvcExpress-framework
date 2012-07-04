@@ -10,9 +10,8 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class Messenger {
 	
-	static private var allowInstantiation:Boolean;
-	
-	static private var instance:Messenger;
+	// defines if messenger can be instantiated.
+	static pureLegsCore var allowInstantiation:Boolean = false;
 	
 	// keeps ALL MsgVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<MsgVO> by String */
@@ -23,21 +22,10 @@ public class Messenger {
 	private var debugFunction:Function;
 	
 	public function Messenger() {
+		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("Messenger is a singleton class, use getInstance() instead");
 		}
-	}
-	
-	/**
-	 * @private
-	 */
-	static pureLegsCore function getInstance():Messenger {
-		if (instance == null) {
-			allowInstantiation = true;
-			instance = new Messenger();
-			allowInstantiation = false;
-		}
-		return instance;
 	}
 	
 	/**
@@ -46,7 +34,7 @@ public class Messenger {
 	 * @param	handler	function called on sent message, this function must have one and only one parameter.
 	 * @return	returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
-	public function addHandler(type:String, handler:Function, sourceCommandMap:CommandMap = null, handlerClassName:String = null):MsgVO {
+	public function addHandler(type:String, handler:Function, handlerClassName:String = null):MsgVO {
 		CONFIG::debug {
 			if (debugFunction != null) {
 				debugFunction("++ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
@@ -67,7 +55,7 @@ public class Messenger {
 		}
 		
 		if (!msgData) {
-			msgData = new MsgVO(sourceCommandMap);
+			msgData = new MsgVO();
 			CONFIG::debug {
 				msgData.handlerClassName = handlerClassName;
 			}
@@ -105,7 +93,7 @@ public class Messenger {
 	 * @param	type	message type to find needed handlers
 	 * @param	params	parameter object that will be sent to all handler functions as single parameter.
 	 */
-	public function send(type:String, params:Object = null):void {
+	public function send(type:String, params:Object = null, targetModules:Array = null):void {
 		CONFIG::debug {
 			if (debugFunction != null) {
 				debugFunction("** Messenger.send > type : " + type + ", params : " + params);
@@ -161,23 +149,9 @@ public class Messenger {
 	 * function to add command execute functios.
 	 * @private
 	 */
-	pureLegsCore function addCommandHandler(type:String, executeFunction:Function, sourceCommandMap:CommandMap, handlerClass:Class = null):void {
-		var executeMvgVo:MsgVO = addHandler(type, executeFunction, sourceCommandMap, String(handlerClass));
+	pureLegsCore function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):void {
+		var executeMvgVo:MsgVO = addHandler(type, executeFunction, String(handlerClass));
 		executeMvgVo.isExecutable = true;
-	}
-	
-	/**
-	 * Called then module is disposed. All messages from sourceCommandMap is removed.
-	 * @private
-	 */
-	pureLegsCore function removeCommandHandlers(sourceCommandMap:CommandMap):void {
-		for each (var messages:Vector.<MsgVO>in messageRegistry) {
-			for (var i:int = 0; i < messages.length; i++) {
-				if (messages[i].sourceCommandMap == sourceCommandMap) {
-					messages.splice(i, 1);
-				}
-			}
-		}
 	}
 	
 	//----------------------------------
@@ -219,6 +193,11 @@ public class Messenger {
 	
 	pureLegsCore function setDebugFunction(debugFunction:Function):void {
 		this.debugFunction = debugFunction;
+	}
+	
+	pureLegsCore function dispose():void {
+		messageRegistry = null;
+		handlerRegistry = null;
 	}
 
 }
