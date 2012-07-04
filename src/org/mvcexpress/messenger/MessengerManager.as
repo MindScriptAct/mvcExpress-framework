@@ -57,6 +57,13 @@ public class MessengerManager {
 			throw Error("Messenger for moduleName:" + moduleName + " doesn't exist.");
 		}
 	}
+	
+	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
+		use namespace pureLegsCore;
+		for each (var messenger:Messenger in messengerRegistry) {
+			messenger.send(type, params);
+		}
+	}
 
 }
 }

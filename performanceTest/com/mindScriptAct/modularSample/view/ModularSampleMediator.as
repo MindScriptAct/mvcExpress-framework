@@ -5,6 +5,7 @@ import com.mindScriptAct.modularSample.modules.console.Console;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import org.mvcexpress.messenger.MessageTarget;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -24,7 +25,7 @@ public class ModularSampleMediator extends Mediator {
 	override public function onRegister():void {
 		trace("ModularSampleMediator.onRegister");
 		
-		new PushButton(view, 300, 370, "Test console", handleConsoleTest);
+		new PushButton(view, 300, 370, "Test global message", handleConsoleTest);
 		
 		cosnole1Button = new PushButton(view, 20, 350, "Add console #1", handleAddConsole1);
 		cosnole2Button = new PushButton(view, 20, 380, "Add console #2", handleAddConsole2);
@@ -60,7 +61,7 @@ public class ModularSampleMediator extends Mediator {
 	
 	public function handleConsoleTest(event:MouseEvent):void {
 		trace("ModularSampleMediator.handleConsoleTest > event : " + event);
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "... output some text to console...");
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!", [MessageTarget.ALL]);
 	}
 
 }

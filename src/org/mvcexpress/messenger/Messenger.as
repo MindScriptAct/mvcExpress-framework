@@ -90,50 +90,70 @@ public class Messenger {
 	// TODO : consider adding error checking that wil FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpfull for debug mode.)
 	/**
 	 * Runs all handler functions asociatod with message type, and send params object as single parameter.
-	 * @param	type	message type to find needed handlers
-	 * @param	params	parameter object that will be sent to all handler functions as single parameter.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used. <\br>
+	 * 									You can specify modules this message have to travel to : ["moduleName1","moduleName2" ]<\br>
+	 * 									To target all existing modules use : [MessageTarget.ALL].
 	 */
-	public function send(type:String, params:Object = null, targetModules:Array = null):void {
+	public function send(type:String, params:Object = null, targetModuleNames:Array = null):void {
+		use namespace pureLegsCore;
 		CONFIG::debug {
 			if (debugFunction != null) {
 				debugFunction("** Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
-		
-		var messageList:Vector.<MsgVO> = messageRegistry[type];
-		var msgVo:MsgVO;
-		var delCount:int = 0;
-		if (messageList) {
-			var tempListLength:int = messageList.length
-			for (var i:int = 0; i < tempListLength; i++) {
-				msgVo = messageList[i];
-				// check if message is not marked to be removed. (disabled)
-				if (msgVo.disabled) {
-					delCount++;
-				} else {
-					// if some MsgVOs marked to be removed - move all other messages to there place.
-					if (delCount) {
-						messageList[i - delCount] = messageList[i];
-					}
-					// check if handling function handles commands.
-					if (msgVo.isExecutable) {
-						msgVo.handler(type, params);
+		if (targetModuleNames == null) {
+			var messageList:Vector.<MsgVO> = messageRegistry[type];
+			var msgVo:MsgVO;
+			var delCount:int = 0;
+			if (messageList) {
+				var tempListLength:int = messageList.length
+				for (var i:int = 0; i < tempListLength; i++) {
+					msgVo = messageList[i];
+					// check if message is not marked to be removed. (disabled)
+					if (msgVo.disabled) {
+						delCount++;
 					} else {
-						CONFIG::debug {
-							// FOR DEBUG viewing only..
-							/* Failed message type: */
-							type
-							/* Failed handler class: */
-							msgVo.handlerClassName
+						// if some MsgVOs marked to be removed - move all other messages to there place.
+						if (delCount) {
+							messageList[i - delCount] = messageList[i];
 						}
-						msgVo.handler(params);
+						// check if handling function handles commands.
+						if (msgVo.isExecutable) {
+							msgVo.handler(type, params);
+						} else {
+							CONFIG::debug {
+								// FOR DEBUG viewing only..
+								/* Failed message type: */
+								type
+								/* Failed handler class: */
+								msgVo.handlerClassName
+							}
+							msgVo.handler(params);
+						}
+					}
+				}
+				// remove all removed handlers.
+				if (delCount) {
+					messageList.splice(tempListLength - delCount, delCount);
+				}
+			}
+		} else {
+			for (var j:int = 0; j < targetModuleNames.length; j++) {
+				if (targetModuleNames[j] == MessageTarget.ALL) {
+					MessengerManager.sendMessageToAll(type, params);
+				} else if (targetModuleNames[j] == MessageTarget.SELF) {
+					// send messageg to self. (without targetModuleNames Array.)
+					this.send(type, params);
+				} else {
+					var messenger:Messenger = MessengerManager.getMessenger(targetModuleNames[j]);
+					if (messenger) {
+						messenger.send(type, params);
 					}
 				}
 			}
-			// remove all removed handlers.
-			if (delCount) {
-				messageList.splice(tempListLength - delCount, delCount);
-			}
+			
 		}
 	}
 	
