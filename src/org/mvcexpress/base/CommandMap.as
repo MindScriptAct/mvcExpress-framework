@@ -171,6 +171,10 @@ public class CommandMap {
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
+		use namespace pureLegsCore;
+		for (var type:String in classRegistry) {
+			messenger.removeHandler(type, handleCommandExecute);
+		}
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
