@@ -5,6 +5,7 @@ import org.flexunit.Assert;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
@@ -29,7 +30,7 @@ public class MediatorMapTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = Messenger.getInstance();
+		messenger = MessengerManager.createMessenger("test");
 		proxyMap = new ProxyMap(messenger);
 		mediatorMap = new MediatorMap(messenger, proxyMap);
 		callCaunter = 0;
@@ -40,6 +41,7 @@ public class MediatorMapTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+		MessengerManager.disposeMessenger("test");
 		messenger.clear();
 		proxyMap = null;
 		mediatorMap = null;

@@ -5,6 +5,7 @@ import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.commandMap.commands.ExtendedeSuperInterfaceParamsCommand;
 import suites.commandMap.commands.ExtendedSuperParamCommand;
@@ -34,7 +35,7 @@ public class CommandMapTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = Messenger.getInstance();
+		messenger = MessengerManager.createMessenger("test");
 		proxyMap = new ProxyMap(messenger);
 		mediatorMap = new MediatorMap(messenger, proxyMap);
 		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
@@ -47,6 +48,7 @@ public class CommandMapTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+		MessengerManager.disposeMessenger("test");
 		messenger.clear();
 		messenger = null;
 		proxyMap = null;
