@@ -6,7 +6,10 @@ import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.inject.InjectRuleVO;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.mvc.Command;
+import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
@@ -20,6 +23,10 @@ public class ProxyMap {
 	
 	/** */
 	private var classInjectRules:Dictionary = new Dictionary();
+	
+	/** dictionary of Vector.<PendingInject>. it holds array of pending data with objects(proxies, commands, mediators) that has pending injections, needed injection spefified by dictionary key.  */
+	private var pendingInjectionsRegistry:Dictionary = new Dictionary();
+	;
 	
 	/** Communication object for sending messages*/
 	private var messenger:Messenger;
@@ -52,9 +59,14 @@ public class ProxyMap {
 		if (!injectClassRegistry[className + name]) {
 			use namespace pureLegsCore;
 			proxyObject.messenger = messenger;
-			injectStuff(proxyObject, proxyClass);
+			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			injectClassRegistry[className + name] = proxyObject;
-			proxyObject.register();
+			if (pendingInjectionsRegistry[className + name]) {
+				injectPendingStuff(className + name, proxyObject);
+			}
+			if (isAllInjected) {
+				proxyObject.register();
+			}
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
 		}
@@ -100,7 +112,9 @@ public class ProxyMap {
 	 * tempValue and tempPclass defines injection that will be done for current object only.
 	 * @private
 	 */
-	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):void {
+	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):Boolean {
+		use namespace pureLegsCore;
+		var isAllInjected:Boolean = true;
 		
 		// deal with temporal injection. (it is used only for this injection)
 		var tempClassName:String;
@@ -133,7 +147,20 @@ public class ProxyMap {
 			if (injectObject) {
 				object[rules[i].varName] = injectObject
 			} else {
-				throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+				isAllInjected = false;
+				if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
+					if (debugFunction != null) {
+						// TODO: add option to ignore this warning.
+						debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+					}
+					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
+						pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
+					}
+					pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+					object.pendingInjections++;
+				} else {
+					throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+				}
 			}
 		}
 		
@@ -141,6 +168,43 @@ public class ProxyMap {
 		if (tempClassName) {
 			delete injectClassRegistry[tempClassName];
 		}
+		
+		return isAllInjected;
+	}
+	
+	private function injectPendingStuff(injectClassAndName:String, injectee:Object):void {
+		use namespace pureLegsCore;
+		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName];
+		for (var i:int = 0; i < pendingInjects.length; i++) {
+			pendingInjects[i].stopTimer();
+			// get rules. (by now rules for this class must be created.)
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjects[i].signatureClass];
+			var pendingInject:Object = pendingInjects[i].pendingObject
+			for (var j:int = 0; j < rules.length; j++) {
+				if (rules[j].injectClassAndName == injectClassAndName) {
+					// satisfy missing injection.
+					pendingInject[rules[j].varName] = injectee;
+					// resolve object;
+					if (pendingInject is Proxy) {
+						var proxyObject:Proxy = pendingInject as Proxy;
+						proxyObject.pendingInjections--;
+						if (proxyObject.pendingInjections == 0) {
+							proxyObject.register();
+						}
+					} else if (pendingInject is Mediator) {
+						var mediatorObject:Mediator = pendingInject as Mediator;
+						mediatorObject.pendingInjections--;
+						if (mediatorObject.pendingInjections == 0) {
+							mediatorObject.register();
+						}
+					}
+					break;
+				}
+				
+			}
+		}
+		
+		pendingInjectionsRegistry[injectClassAndName]
 	}
 	
 	/**
@@ -218,4 +282,37 @@ public class ProxyMap {
 		this.debugFunction = debugFunction;
 	}
 }
+}
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
+
+class PendingInject {
+	
+	/**
+	 * Private class to store pending injection data.
+	 */
+	
+	private var injectClassAndName:String;
+	public var pendingObject:Object;
+	public var signatureClass:Class;
+	private var pendingInjectTime:int;
+	
+	private var timerId:uint;
+	
+	public function PendingInject(injectClassAndName:String, pendingObject:Object, signatureClass:Class, pendingInjectTime:int) {
+		this.pendingInjectTime = pendingInjectTime;
+		this.injectClassAndName = injectClassAndName;
+		this.pendingObject = pendingObject;
+		this.signatureClass = signatureClass;
+		// start timer to throw an error of unresolved injection.
+		timerId = setTimeout(throwError, pendingInjectTime);
+	}
+	
+	public function stopTimer():void {
+		clearTimeout(timerId);
+	}
+	
+	private function throwError():void {
+		throw Error("Pinding inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
+	}
 }

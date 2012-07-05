@@ -13,24 +13,31 @@ public class Proxy {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
-	public function Proxy(){
+	/** @private */
+	pureLegsCore var pendingInjections:int = 0;
+	
+	private var _isReady:Boolean = false;
+	
+	public function Proxy() {
 	}
 	
 	/**
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
- 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		pureLegsCore::messenger.send(type, params, targetModuleNames);
+		use namespace pureLegsCore;
+		messenger.send(type, params, targetModuleNames);
 	}
 	
 	/**
 	 * @private
 	 */
 	pureLegsCore function register():void {
+		_isReady = true;
 		onRegister();
 	}
 	
@@ -53,6 +60,13 @@ public class Proxy {
 	 */
 	protected function onRemove():void {
 		// for override
+	}
+	
+	/**
+	 * Indicates if proxy is ready for ussage. (all dependencies are injected.)
+	 */
+	protected function get isReady():Boolean {
+		return _isReady;
 	}
 
 }

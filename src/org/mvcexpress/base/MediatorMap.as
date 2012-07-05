@@ -112,10 +112,13 @@ public class MediatorMap implements IMediatorMap {
 			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
 		}
 		
-		proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewClass);
+		var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewClass);
 		viewRegistry[viewObject] = mediator;
 		
-		mediator.onRegister();
+		if (isAllInjected) {
+			mediator.register();
+		}
+		
 	}
 	
 	/**

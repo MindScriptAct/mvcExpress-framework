@@ -22,7 +22,12 @@ public class Mediator {
 	
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;	
+	static pureLegsCore var canConstruct:Boolean;
+	
+	/** @private */
+	pureLegsCore var pendingInjections:int = 0;
+	
+	private var _isReady:Boolean = false;
 	
 	/**
 	 * Handles application mediators.
@@ -31,10 +36,16 @@ public class Mediator {
 	
 	public function Mediator() {
 		CONFIG::debug {
-			if (!pureLegsCore::canConstruct) {
-				throw Error("Mediator:"+this+" can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
+			use namespace pureLegsCore
+			if (!canConstruct) {
+				throw Error("Mediator:" + this + " can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
 			}
-		}	
+		}
+	}
+	
+	pureLegsCore function register():void {
+		_isReady = true;
+		onRegister();
 	}
 	
 	/**
@@ -55,17 +66,17 @@ public class Mediator {
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
- 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		pureLegsCore::messenger.send(type, params, targetModuleNames);
+		use namespace pureLegsCore;
+		messenger.send(type, params, targetModuleNames);
 	}
-	
 	
 	/**
 	 * adds handle function to be called then messege of provided type is sent.
-	 * @param	type	message type for handle function to reoct to. 
+	 * @param	type	message type for handle function to reoct to.
 	 * @param	handler	function that will be called then needed message is sent. this functino must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
 	 */
 	protected function addHandler(type:String, handler:Function):void {
@@ -85,11 +96,12 @@ public class Mediator {
 	
 	/**
 	 * Removes handle function from messege of provided type.
-	 * @param	type	message type that was set for handle function to react to. 
+	 * @param	type	message type that was set for handle function to react to.
 	 * @param	handler	function that was set to react to message.
 	 */
 	protected function removeHandler(type:String, handler:Function):void {
-		pureLegsCore::messenger.removeHandler(type, handler);
+		use namespace pureLegsCore;
+		messenger.removeHandler(type, handler);
 	}
 	
 	/**
@@ -98,13 +110,13 @@ public class Mediator {
 	 */
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
-		while ( messageDataRegistry.length) {
+		while (messageDataRegistry.length) {
 			messageDataRegistry.pop().disabled = true;
 		}
-	}	
+	}
 	
 	/**
-	 * framework functuon to remove all handle functions created by this mediator 
+	 * framework functuon to remove all handle functions created by this mediator
 	 * @private
 	 */
 	pureLegsCore function disposeThisMediator():void {
@@ -114,6 +126,12 @@ public class Mediator {
 		messenger = null;
 		mediatorMap = null;
 	}
-
+	
+	/**
+	 * Indicates if mediator is ready for ussage. (all dependencies are injected.)
+	 */
+	protected function get isReady():Boolean {
+		return _isReady;
+	}
 }
 }
