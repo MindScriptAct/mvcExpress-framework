@@ -2,6 +2,7 @@
 package org.mvcexpress.messenger {
 import flash.utils.Dictionary;
 import org.mvcexpress.base.CommandMap;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
@@ -19,8 +20,6 @@ public class Messenger {
 	// keeps ALL MsgVO's in Dictionalies by message type, maped by handlers for fast disabling and dublicated handler checks.
 	private var handlerRegistry:Dictionary = new Dictionary(); /* of Dictionary by String */
 	
-	private var debugFunction:Function;
-	
 	public function Messenger() {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
@@ -36,8 +35,8 @@ public class Messenger {
 	 */
 	public function addHandler(type:String, handler:Function, handlerClassName:String = null):MsgVO {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("++ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("++ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
 			}
 		}
 		
@@ -74,8 +73,8 @@ public class Messenger {
 	 */
 	public function removeHandler(type:String, handler:Function):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("-- Messenger.removeHandler > type : " + type + ", handler : " + handler);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("-- Messenger.removeHandler > type : " + type + ", handler : " + handler);
 			}
 		}
 		
@@ -99,8 +98,8 @@ public class Messenger {
 	public function send(type:String, params:Object = null, targetModuleNames:Array = null):void {
 		use namespace pureLegsCore;
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("** Messenger.send > type : " + type + ", params : " + params);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("** Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
 		if (targetModuleNames == null) {
@@ -209,10 +208,6 @@ public class Messenger {
 		}
 		retVal += "================================================================";
 		return retVal;
-	}
-	
-	pureLegsCore function setDebugFunction(debugFunction:Function):void {
-		this.debugFunction = debugFunction;
 	}
 	
 	pureLegsCore function dispose():void {

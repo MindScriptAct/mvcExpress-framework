@@ -7,6 +7,7 @@ import flash.utils.getQualifiedSuperclassName;
 import org.mvcexpress.base.interfaces.IMediatorMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.namespace.pureLegsCore;
 import org.mvcexpress.utils.checkClassSuperclass;
 
@@ -23,8 +24,6 @@ public class MediatorMap implements IMediatorMap {
 	
 	protected var viewRegistry:Dictionary = new Dictionary();
 	
-	private var debugFunction:Function;
-	
 	public function MediatorMap(messenger:Messenger, proxyMap:ProxyMap) {
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;
@@ -37,8 +36,8 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function map(viewClass:Class, mediatorClass:Class):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("+ MediatorMap.map > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("+ MediatorMap.map > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass);
 			}
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Mediator' class.");
@@ -56,8 +55,8 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function unmap(viewClass:Class):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("- MediatorMap.unmap > viewClass : " + viewClass);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("- MediatorMap.unmap > viewClass : " + viewClass);
 			}
 		}
 		delete mediatorRegistry[viewClass];
@@ -94,8 +93,8 @@ public class MediatorMap implements IMediatorMap {
 	public function mediateWith(viewObject:Object, mediatorClass:Class):void {
 		use namespace pureLegsCore;
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("*+ MediatorMap.mediateWith > viewObject : " + viewObject + ", mediatorClass : " + mediatorClass);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("*+ MediatorMap.mediateWith > viewObject : " + viewObject + ", mediatorClass : " + mediatorClass);
 			}
 			Mediator.canConstruct = true
 		}
@@ -127,8 +126,8 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function unmediate(viewObject:Object):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("*- MediatorMap.unmediate > viewObject : " + viewObject);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("*- MediatorMap.unmediate > viewObject : " + viewObject);
 			}
 		}
 		var mediator:Mediator = viewRegistry[viewObject];
@@ -188,10 +187,6 @@ public class MediatorMap implements IMediatorMap {
 		}
 		retVal += "================================================================\n";
 		return retVal;
-	}
-	
-	pureLegsCore function setDebugFunction(debugFunction:Function):void {
-		this.debugFunction = debugFunction;
 	}
 
 }

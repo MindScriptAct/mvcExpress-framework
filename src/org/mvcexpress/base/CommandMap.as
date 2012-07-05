@@ -6,6 +6,7 @@ import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Command;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.namespace.pureLegsCore;
 import org.mvcexpress.utils.checkClassSuperclass;
 
@@ -20,8 +21,6 @@ public class CommandMap {
 	private var mediatorMap:MediatorMap;
 	
 	private var classRegistry:Dictionary = new Dictionary();
-	
-	private var debugFunction:Function;
 	
 	/** types of command execute function needed for debug mode only validation.  */
 	CONFIG::debug
@@ -42,8 +41,8 @@ public class CommandMap {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
 			}
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
@@ -68,8 +67,8 @@ public class CommandMap {
 	 */
 	public function unmap(type:String, commandClass:Class):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
 			}
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
@@ -94,8 +93,8 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
 			}
 			validateCommandParams(commandClass, params);
 		}
@@ -154,8 +153,8 @@ public class CommandMap {
 				
 				proxyMap.injectStuff(command, commandList[i]);
 				CONFIG::debug {
-					if (debugFunction != null) {
-						debugFunction("* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
+					if (MvcExpress.debugFunction != null) {
+						MvcExpress.debugFunction("* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
 					}
 				}
 				command.execute(params);
@@ -273,10 +272,6 @@ public class CommandMap {
 	
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
-	}
-	
-	pureLegsCore function setDebugFunction(debugFunction:Function):void {
-		this.debugFunction = debugFunction;
 	}
 
 }

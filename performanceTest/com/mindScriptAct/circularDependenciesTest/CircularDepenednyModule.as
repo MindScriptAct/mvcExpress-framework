@@ -23,10 +23,10 @@ public class CircularDepenednyModule extends ModuleSprite {
 		trace("CircularDepenednyModule.onInit");
 		
 		// enable pending injection feature. (by default it is disabled.)
-		MvcExpress.pendingInjectsTimeOut = 0;
+		MvcExpress.pendingInjectsTimeOut = 1100;
 		
 		// debug function
-		setDebugFunction(trace);
+		MvcExpress.debugFunction = trace;
 		
 		// create proxies for testing
 		var aProxy:AProxy = new AProxy();

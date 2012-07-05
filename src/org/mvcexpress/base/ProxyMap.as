@@ -26,12 +26,9 @@ public class ProxyMap {
 	
 	/** dictionary of Vector.<PendingInject>. it holds array of pending data with objects(proxies, commands, mediators) that has pending injections, needed injection spefified by dictionary key.  */
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary();
-	;
 	
 	/** Communication object for sending messages*/
 	private var messenger:Messenger;
-	
-	private var debugFunction:Function;
 	
 	public function ProxyMap(messenger:Messenger) {
 		this.messenger = messenger;
@@ -45,8 +42,8 @@ public class ProxyMap {
 	 */
 	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 			}
 		}
 		
@@ -80,8 +77,8 @@ public class ProxyMap {
 	 */
 	public function unmap(injectClass:Class, name:String = ""):void {
 		CONFIG::debug {
-			if (debugFunction != null) {
-				debugFunction("- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
 			}
 		}
 		
@@ -149,9 +146,11 @@ public class ProxyMap {
 			} else {
 				isAllInjected = false;
 				if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
-					if (debugFunction != null) {
-						// TODO: add option to ignore this warning.
-						debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+					CONFIG::debug {
+						if (MvcExpress.debugFunction != null) {
+							// TODO: add option to ignore this warning.
+							MvcExpress.debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+						}
 					}
 					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
 						pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
@@ -277,10 +276,7 @@ public class ProxyMap {
 		retVal += "================================================================\n";
 		return retVal;
 	}
-	
-	pureLegsCore function setDebugFunction(debugFunction:Function):void {
-		this.debugFunction = debugFunction;
-	}
+
 }
 }
 import flash.utils.clearTimeout;

@@ -11,10 +11,22 @@ public class MvcExpress {
 	
 	/**
 	 * Time in ms for framework to wait for missing dependencies.
+	 * By default ending dependency feature is disabled, as it is set to 0. If missing injection is encauntered - error will be instantly thrown.
+	 * If it is > 0, framework will wait this amount of time in milliseconds for mising dependencies to be maped. (framework will find missing dependencies and resolve them.)
 	 * If in this time dependencies will not be resolved - error will be thrown.
-	 * Seting it to 0 will disable the feature. If missing injection is encauntered - error will be instantly thrown.
 	 */
 	public static var pendingInjectsTimeOut:int = 0;
+	
+	
+	
+	
+	/**
+	 * Sets a debug function that will get framework activity messages as String's.
+	 * By default framework will not send debug data to any function.
+	 * ATTENTION : it will work only with compile variable CONFIG:debug set to true.
+	 */
+	static public var debugFunction:Function = null;
 
+	
 }
 }
