@@ -39,7 +39,10 @@ public class ModularSampleMediator extends Mediator {
 		new PushButton(view, 500, 345, "message to #1", handleMessageToFirst).width = 150;
 		new PushButton(view, 500, 370, "message to #2 and #4", handleMessageToEven).width = 150;
 		new PushButton(view, 500, 395, "message to all", handleMessageToAll).width = 150;
+	}
 	
+	override public function onRemove():void {
+		trace( "ModularSampleMediator.onRemove" );
 	}
 	
 	private function handleAddConsole1(event:Event):void {
@@ -99,17 +102,14 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	public function handleMessageToFirst(event:MouseEvent):void {
-		trace("ModularSampleMediator.handleConsoleTest > event : " + event);
 		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to FIRST module!!!", ["console1"]);
 	}
 	
 	public function handleMessageToEven(event:MouseEvent):void {
-		trace("ModularSampleMediator.handleConsoleTest > event : " + event);
 		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to even modules!!! (2 and 4)", ["console2", "console4"]);
 	}
 	
 	public function handleMessageToAll(event:MouseEvent):void {
-		trace("ModularSampleMediator.handleConsoleTest > event : " + event);
 		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!", [MessageTarget.ALL]);
 	}
 }

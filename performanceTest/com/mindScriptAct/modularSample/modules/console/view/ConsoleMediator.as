@@ -22,6 +22,10 @@ public class ConsoleMediator extends Mediator {
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 	}
 	
+	override public function onRemove():void {
+		trace( "ConsoleMediator.onRemove" );
+	}
+	
 	private function handleInputText(event:MouseEvent):void {
 		trace("Console.handleTextInput > event : " + event);
 		if (view.inputTf.text) {
@@ -37,7 +41,8 @@ public class ConsoleMediator extends Mediator {
 	}
 	
 	private function handleMessageAdded(message:String):void {
-		view.outputTf.appendText(message + "\n");
+		view.outputTf.text += message + "\n";
+		view.outputTf.textField.scrollV = view.outputTf.textField.maxScrollV; 
 	}
 
 }

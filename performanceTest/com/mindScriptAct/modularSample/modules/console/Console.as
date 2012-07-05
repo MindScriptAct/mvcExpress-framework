@@ -1,5 +1,6 @@
 package com.mindScriptAct.modularSample.modules.console {
 import com.bit101.components.PushButton;
+import com.bit101.components.TextArea;
 import com.mindScriptAct.modularSample.modules.console.controller.HandleInputCommand;
 import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
@@ -20,7 +21,7 @@ public class Console extends ModuleSprite {
 	
 	private var consoleId:int;
 	
-	public var outputTf:TextField;
+	public var outputTf:TextArea;
 	public var inputTf:TextField;
 	public var inputBtn:Sprite;
 	
@@ -30,7 +31,7 @@ public class Console extends ModuleSprite {
 	}
 	
 	override protected function onInit():void {
-		trace("ConsoleModule.onStartUp");
+		trace( "Console.onInit" );
 		
 		CONFIG::debug {
 			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
@@ -48,10 +49,9 @@ public class Console extends ModuleSprite {
 	
 	public function initConsole():void {
 		// add message output
-		outputTf = new TextField();
+		outputTf = new TextArea();
 		this.addChild(outputTf);
 		outputTf.text = "Console #" + consoleId + " started.\n";
-		outputTf.border = true;
 		
 		outputTf.width = 300;
 		outputTf.height = 100;
@@ -73,6 +73,11 @@ public class Console extends ModuleSprite {
 		
 		inputBtn = new PushButton(this, inputTf.x + inputTf.width + 5, inputTf.y + 2, "send");
 		inputBtn.width = 50;
+		
+	}
+	
+	override protected function onDispose():void {
+		trace( "Console.onDispose" );
 	}
 
 }

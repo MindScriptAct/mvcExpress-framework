@@ -85,10 +85,10 @@ public class ProxyMap {
 	 */
 	pureLegsCore function dispose():void {
 		// TODO : decide what to do with proxies. It could be dangerous to remove proxies if they are maped in couple of modules.
-		//for each (var proxyObject:Proxy in injectClassRegistry) {
-		//use namespace pureLegsCore;
-		//proxyObject.remove();
-		//}
+		for each (var proxyObject:Proxy in injectClassRegistry) {
+			use namespace pureLegsCore;
+			proxyObject.remove();
+		}
 		injectClassRegistry = null;
 		classInjectRules = null;
 		messenger = null;

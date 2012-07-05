@@ -1,28 +1,20 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
-import flash.display.DisplayObjectContainer;
-import flash.utils.getDefinitionByName;
-import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
-import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.MessengerManager;
-import org.mvcexpress.messenger.MsgVO;
-import org.mvcexpress.namespace.pureLegsCore;
-import org.mvcexpress.base.FlexMediatorMap;
 
 /**
- * Core class of framework.
+ * Core class of framework. Used if you don't want your module be display object.
  * <p>
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
- * Also you can create modular application by having more then one CoreModule subclass.
+ * Also you can create modular application by having more then one Module.
  * </p>
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ModuleCore {
 	
-	private var _moduleName:String;
+	private var moduleBase:ModuleBase;
 	
 	protected var proxyMap:ProxyMap;
 	
@@ -30,43 +22,37 @@ public class ModuleCore {
 	
 	protected var commandMap:CommandMap;
 	
-	private var messenger:Messenger;
-	
-	private var _debugFunction:Function;
-	
 	/**
 	 * CONSTRUCTOR
 	 * @param	moduleName	module name that is used for referencing a module.
-	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first. 
+	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first.
 	 * 						(or you start getting null reference errors.)
 	 */
 	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
-		this._moduleName = moduleName;
-		use namespace pureLegsCore;
-		MessengerManager.increaseMessengerCount();
-		if (!moduleName) {
-			this._moduleName = "module" + (MessengerManager.messengerCount);
-		}
+		moduleBase = ModuleBase.getModuleInstance(moduleName, autoInit);
+		//
+		proxyMap = moduleBase.proxyMap;
+		mediatorMap = moduleBase.mediatorMap;
+		commandMap = moduleBase.commandMap;
+		//
 		if (autoInit) {
-			initModule();
+			onInit();
 		}
 	}
 	
+	/**
+	 * Name of the module
+	 */
+	public function get moduleName():String {
+		return moduleBase.moduleName;
+	}
+	
+	/**
+	 * Initializes module. If this function is not called module will not work.
+	 * By default it is called in constructor.
+	 */
 	protected function initModule():void {
-		use namespace pureLegsCore;
-		messenger = MessengerManager.createMessenger(_moduleName);
-		
-		proxyMap = new ProxyMap(messenger);
-		// check if flex is used.
-		var uiComponentClass:Class = getFlexClass();
-		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' isues.
-		if (uiComponentClass) {
-			mediatorMap = new FlexMediatorMap(messenger, proxyMap, uiComponentClass);
-		} else {
-			mediatorMap = new MediatorMap(messenger, proxyMap);
-		}
-		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
-		
+		moduleBase.initModule();
 		onInit();
 	}
 	
@@ -80,24 +66,14 @@ public class ModuleCore {
 	
 	/**
 	 * Function to get rid of module.
-	 *  All internals are disposed.
-	 *  All command mappings removed.
+	 * - All module cammands are unmaped.
+	 * - All module mediators are unmediated
+	 * - All module proxies are unmaped
+	 * - All internals are nulled.
 	 */
 	public function disposeModule():void {
 		onDispose();
-		//
-		use namespace pureLegsCore;
-		//
-		MessengerManager.disposeMessenger(_moduleName);
-		//
-		commandMap.dispose();
-		mediatorMap.dispose();
-		proxyMap.dispose();
-		
-		commandMap = null;
-		mediatorMap = null;
-		proxyMap = null;
-		messenger = null;
+		moduleBase.disposeModule();
 	}
 	
 	/**
@@ -116,18 +92,7 @@ public class ModuleCore {
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		messenger.send(type, params, targetModuleNames);
-	}
-	
-	/** get flex lowest class by definition. ( way to check for flex project.) */
-	protected static function getFlexClass():Class {
-		var uiComponentClass:Class;
-		try {
-			uiComponentClass = getDefinitionByName('mx.core::UIComponent') as Class;
-		} catch (error:Error) {
-			// do nothing
-		}
-		return uiComponentClass;
+		moduleBase.sendMessage(type, params, targetModuleNames);
 	}
 	
 	//----------------------------------
@@ -140,44 +105,35 @@ public class ModuleCore {
 	 * @param	debugFunction
 	 */
 	public function setDebugFunction(debugFunction:Function):void {
-		this.debugFunction = debugFunction;
-	}
-	
-	private function set debugFunction(value:Function):void {
-		_debugFunction = value;
-		use namespace pureLegsCore;
-		proxyMap.setDebugFunction(_debugFunction);
-		mediatorMap.setDebugFunction(_debugFunction);
-		commandMap.setDebugFunction(_debugFunction);
-		messenger.setDebugFunction(_debugFunction);
+		moduleBase.setDebugFunction(debugFunction);
 	}
 	
 	/**
 	 * List all message mappings.
 	 */
 	public function listMappedMessages():String {
-		return messenger.listMappings(commandMap);
+		return moduleBase.listMappedMessages();
 	}
 	
 	/**
 	 * List all view mappings.
 	 */
 	public function listMappedMediators():String {
-		return mediatorMap.listMappings();
+		return moduleBase.listMappedMessages();
 	}
 	
 	/**
 	 * List all model mappings.
 	 */
 	public function listMappedProxies():String {
-		return proxyMap.listMappings();
+		return moduleBase.listMappedProxies();
 	}
 	
 	/**
 	 * List all controller mappings.
 	 */
 	public function listMappedCommands():String {
-		return commandMap.listMappings();
+		return moduleBase.listMappedCommands();
 	}
 
 }

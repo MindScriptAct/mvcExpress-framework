@@ -18,6 +18,14 @@ public class ConsoleLogProxy extends Proxy {
 		messageList.push(messageText);
 		sendMessage(ConsoleDataMsg.MESSAGE_ADDED, messageText);
 	}
+	
+	override protected function onRegister():void {
+		trace("ConsoleLogProxy.onRegister");
+	}
+	
+	override protected function onRemove():void {
+		trace("ConsoleLogProxy.onRemove");
+	}
 
 }
 }
