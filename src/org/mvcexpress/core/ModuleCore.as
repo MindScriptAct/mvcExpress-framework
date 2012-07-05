@@ -7,6 +7,7 @@ import org.mvcexpress.base.CommandMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.messenger.MsgVO;
 import org.mvcexpress.namespace.pureLegsCore;
 import org.mvcexpress.base.FlexMediatorMap;
@@ -21,6 +22,8 @@ import org.mvcexpress.base.FlexMediatorMap;
  */
 public class ModuleCore {
 	
+	private var _moduleName:String;
+	
 	protected var proxyMap:ProxyMap;
 	
 	protected var mediatorMap:MediatorMap;
@@ -28,16 +31,30 @@ public class ModuleCore {
 	protected var commandMap:CommandMap;
 	
 	private var messenger:Messenger;
-		
+	
 	private var _debugFunction:Function;
 	
 	/**
 	 * CONSTRUCTOR
-	 * @param	mainObject	main object of your application. Should be set once with main module if you have more then one.
+	 * @param	moduleName	module name that is used for referencing a module.
+	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first. 
+	 * 						(or you start getting null reference errors.)
 	 */
-	public function ModuleCore() {
+	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
+		this._moduleName = moduleName;
 		use namespace pureLegsCore;
-		messenger = Messenger.getInstance();
+		MessengerManager.increaseMessengerCount();
+		if (!moduleName) {
+			this._moduleName = "module" + (MessengerManager.messengerCount);
+		}
+		if (autoInit) {
+			initModule();
+		}
+	}
+	
+	protected function initModule():void {
+		use namespace pureLegsCore;
+		messenger = MessengerManager.createMessenger(_moduleName);
 		
 		proxyMap = new ProxyMap(messenger);
 		// check if flex is used.
@@ -64,15 +81,14 @@ public class ModuleCore {
 	/**
 	 * Function to get rid of module.
 	 *  All internals are disposed.
-	 *  All mediators removed.
-	 *  All proxies removed.
+	 *  All command mappings removed.
 	 */
-	public function dispose():void {
+	public function disposeModule():void {
 		onDispose();
 		//
 		use namespace pureLegsCore;
 		//
-		messenger.removeCommandHandlers(commandMap);
+		MessengerManager.disposeMessenger(_moduleName);
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
@@ -96,7 +112,7 @@ public class ModuleCore {
 	 * Message sender.
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
- 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {

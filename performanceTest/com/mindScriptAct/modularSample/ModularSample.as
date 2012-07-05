@@ -12,6 +12,11 @@ import org.mvcexpress.utils.checkClassStringConstants;
  */
 public class ModularSample extends ModuleSprite {
 	
+	
+	public function ModularSample() {
+		super("shell");
+	}
+	
 	override protected function onInit():void {
 		trace("ModularSampleShellModule.onInit");
 		

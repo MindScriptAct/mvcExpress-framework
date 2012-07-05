@@ -23,7 +23,7 @@ import org.mvcexpress.base.FlexMediatorMap;
  */
 public class ModuleSprite extends Sprite {
 	
-	private var moduleName:String;
+	private var _moduleName:String;
 	
 	protected var proxyMap:ProxyMap;
 	
@@ -38,28 +38,36 @@ public class ModuleSprite extends Sprite {
 	/**
 	 * CONSTRUCTOR
 	 * @param	moduleName	module name that is used for referencing a module.
-	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first. 
+	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first.
 	 * 						(or you start getting null reference errors.)
 	 */
 	public function ModuleSprite(moduleName:String = null, autoInit:Boolean = true) {
-		this.moduleName = moduleName;
+		this._moduleName = moduleName;
 		use namespace pureLegsCore;
 		MessengerManager.increaseMessengerCount();
-		if (!moduleName) {
-			this.moduleName = "module" + (MessengerManager.messengerCount);
+		if (!this._moduleName) {
+			this._moduleName = "module" + (MessengerManager.messengerCount);
 		}
 		if (autoInit) {
-			init();
+			initModule();
 		}
+	}
+	
+	
+	/**
+	 * Name of the module
+	 */
+	public function get moduleName():String {
+		return _moduleName;
 	}
 	
 	/**
 	 * Initializes module. If this function is nat called module will not work.
 	 * By default it is called in constructor.
 	 */
-	protected function init():void {
+	protected function initModule():void {
 		use namespace pureLegsCore;
-		messenger = MessengerManager.createMessenger(moduleName);
+		messenger = MessengerManager.createMessenger(_moduleName);
 		
 		proxyMap = new ProxyMap(messenger);
 		// check if flex is used.
@@ -89,12 +97,12 @@ public class ModuleSprite extends Sprite {
 	 *  All mediators removed.
 	 *  All proxies removed.
 	 */
-	public function dispose():void {
+	public function disposeModule():void {
 		onDispose();
 		//
 		use namespace pureLegsCore;
 		//
-		MessengerManager.disposeMessenger(moduleName);
+		MessengerManager.disposeMessenger(_moduleName);
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
@@ -118,7 +126,7 @@ public class ModuleSprite extends Sprite {
 	 * Message sender.
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
- 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
