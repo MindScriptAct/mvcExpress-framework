@@ -100,15 +100,6 @@ public class ModuleCore {
 	//----------------------------------
 	
 	/**
-	 * Sets a debug function that will get all framework activity as string messages.
-	 * WARNING : will work only with compile variable CONFIG:debug set to true.
-	 * @param	debugFunction
-	 */
-	public function setDebugFunction(debugFunction:Function):void {
-		moduleBase.setDebugFunction(debugFunction);
-	}
-	
-	/**
 	 * List all message mappings.
 	 */
 	public function listMappedMessages():String {

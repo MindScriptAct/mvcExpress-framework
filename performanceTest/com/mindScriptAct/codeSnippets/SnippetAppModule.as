@@ -16,6 +16,7 @@ import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modularSample.view.ModularSampleMediator;
 import flash.display.Sprite;
 import org.mvcexpress.core.ModuleCore;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
@@ -44,7 +45,7 @@ public class SnippetAppModule extends ModuleCore {
 		
 		CONFIG::debug {
 			
-			this.setDebugFunction(trace);
+			MvcExpress.debugFunction = trace;
 			
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 		}

@@ -14,6 +14,7 @@ import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.utils.setTimeout;
 import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
@@ -36,7 +37,7 @@ public class SpriteModuleTest extends ModuleSprite {
 		
 		CONFIG::debug {
 			
-			this.setDebugFunction(trace);
+			MvcExpress.debugFunction = trace;
 			
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 		}
