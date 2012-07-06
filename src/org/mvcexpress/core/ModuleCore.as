@@ -5,10 +5,10 @@ import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 
 /**
- * Core class of framework. Used if you don't want your module be display object.
+ * Core Module class. Used if you don't want your module be display object.
  * <p>
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
- * Also you can create modular application by having more then one Module.
+ * Also you can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
@@ -17,15 +17,13 @@ public class ModuleCore {
 	private var moduleBase:ModuleBase;
 	
 	protected var proxyMap:ProxyMap;
-	
 	protected var mediatorMap:MediatorMap;
-	
 	protected var commandMap:CommandMap;
 	
 	/**
 	 * CONSTRUCTOR
-	 * @param	moduleName	module name that is used for referencing a module.
-	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first.
+	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
+	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 * 						(or you start getting null reference errors.)
 	 */
 	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
@@ -48,8 +46,8 @@ public class ModuleCore {
 	}
 	
 	/**
-	 * Initializes module. If this function is not called module will not work.
-	 * By default it is called in constructor.
+	 * Initializes module. If this function is not called module will not work properly.
+	 * By default it is called in constructor, but you can do it manually if you set constructor parameter 'autoInit' to false.
 	 */
 	protected function initModule():void {
 		moduleBase.initModule();
@@ -58,7 +56,7 @@ public class ModuleCore {
 	
 	/**
 	 * Function called after framework is initialized.
-	 * Ment to be overriten.
+	 * Meant to be overridden.
 	 */
 	protected function onInit():void {
 		// for override
@@ -66,9 +64,9 @@ public class ModuleCore {
 	
 	/**
 	 * Function to get rid of module.
-	 * - All module cammands are unmaped.
+	 * - All module cammands are unmapped.
 	 * - All module mediators are unmediated
-	 * - All module proxies are unmaped
+	 * - All module proxies are unmapped
 	 * - All internals are nulled.
 	 */
 	public function disposeModule():void {
@@ -77,8 +75,8 @@ public class ModuleCore {
 	}
 	
 	/**
-	 * Function called before module is destroed.
-	 * Ment to be overriten.
+	 * Function called before module is destroyed.
+	 * Meant to be overridden.
 	 */
 	protected function onDispose():void {
 		// for override
@@ -110,7 +108,7 @@ public class ModuleCore {
 	 * List all view mappings.
 	 */
 	public function listMappedMediators():String {
-		return moduleBase.listMappedMessages();
+		return moduleBase.listMappedMediators();
 	}
 	
 	/**

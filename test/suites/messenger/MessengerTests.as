@@ -2,7 +2,7 @@ package suites.messenger {
 import org.flexunit.Assert;
 import org.flexunit.internals.builders.NullBuilder;
 import org.mvcexpress.messenger.MessengerManager;
-import org.mvcexpress.messenger.MsgVO;
+import org.mvcexpress.messenger.HandlerVO;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 import utils.AsyncUtil;
@@ -25,7 +25,6 @@ public class MessengerTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		messenger.clear();
 		MessengerManager.disposeMessenger("test");
 	}
 	
@@ -59,8 +58,8 @@ public class MessengerTests {
 	
 	public function add_callback_and_disable_then_message_fails_silently():void {
 		var callBack:Function = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
-		var msgVo:MsgVO = messenger.addHandler("test", callBack);
-		msgVo.disabled = true;
+		var handlerVo:HandlerVO = messenger.addHandler("test", callBack);
+		handlerVo.disabled = true;
 		messenger.send("test");
 	}
 	

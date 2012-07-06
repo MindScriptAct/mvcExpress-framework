@@ -14,16 +14,17 @@ public class Messenger {
 	// defines if messenger can be instantiated.
 	static pureLegsCore var allowInstantiation:Boolean = false;
 	
-	// keeps ALL MsgVO's in vectors by message type that they have to respond to.
-	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<MsgVO> by String */
+	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
+	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
 	
-	// keeps ALL MsgVO's in Dictionalies by message type, maped by handlers for fast disabling and dublicated handler checks.
+	// keeps ALL HandlerVO's in Dictionaries by message type, mapped by handlers for fast disabling and duplicated handler checks.
 	private var handlerRegistry:Dictionary = new Dictionary(); /* of Dictionary by String */
 	
+	/* CONSTRUCTOR */
 	public function Messenger() {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
-			throw Error("Messenger is a singleton class, use getInstance() instead");
+			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
 	}
 	
@@ -31,30 +32,35 @@ public class Messenger {
 	 * Adds handler function that will be called then message of specified type is sent.
 	 * @param	type	message type to react to.
 	 * @param	handler	function called on sent message, this function must have one and only one parameter.
-	 * @return	returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
+	 * @param	handlerClassName	handler function owner class name. For debugging only.
+	 * @return		returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
-	public function addHandler(type:String, handler:Function, handlerClassName:String = null):MsgVO {
+	public function addHandler(type:String, handler:Function, handlerClassName:String = null):HandlerVO {
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("++ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
 			}
 		}
 		
+		// if this message type used for the first time - create data placeholders.
 		if (!messageRegistry[type]) {
-			messageRegistry[type] = new Vector.<MsgVO>();
+			messageRegistry[type] = new Vector.<HandlerVO>();
 			handlerRegistry[type] = new Dictionary();
 		}
 		
-		var msgData:MsgVO = handlerRegistry[type][handler];
+		var msgData:HandlerVO = handlerRegistry[type][handler];
 		
+		// check if this handler already exists for this type. (this check can be skipped in release mode.)
 		CONFIG::debug {
 			if (msgData) {
 				throw Error("This handler function is already mapped to message type :" + type);
 			}
 		}
 		
+		// create message handler data.
 		if (!msgData) {
-			msgData = new MsgVO();
+			msgData = new HandlerVO();
 			CONFIG::debug {
 				msgData.handlerClassName = handlerClassName;
 			}
@@ -72,6 +78,7 @@ public class Messenger {
 	 * @param	handler	function called on sent message.
 	 */
 	public function removeHandler(type:String, handler:Function):void {
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("-- Messenger.removeHandler > type : " + type + ", handler : " + handler);
@@ -80,15 +87,15 @@ public class Messenger {
 		
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
-				(handlerRegistry[type][handler] as MsgVO).disabled = true;
+				(handlerRegistry[type][handler] as HandlerVO).disabled = true;
 				delete handlerRegistry[type][handler];
 			}
 		}
 	}
 	
-	// TODO : consider adding error checking that wil FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpfull for debug mode.)
+	// TODO : consider adding error checking that will FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpful for debug mode.)
 	/**
-	 * Runs all handler functions asociatod with message type, and send params object as single parameter.
+	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used. <\br>
@@ -97,21 +104,22 @@ public class Messenger {
 	 */
 	public function send(type:String, params:Object = null, targetModuleNames:Array = null):void {
 		use namespace pureLegsCore;
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("** Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
 		if (targetModuleNames == null) {
-			var messageList:Vector.<MsgVO> = messageRegistry[type];
-			var msgVo:MsgVO;
+			var messageList:Vector.<HandlerVO> = messageRegistry[type];
+			var handlerVo:HandlerVO;
 			var delCount:int = 0;
 			if (messageList) {
 				var tempListLength:int = messageList.length
 				for (var i:int = 0; i < tempListLength; i++) {
-					msgVo = messageList[i];
+					handlerVo = messageList[i];
 					// check if message is not marked to be removed. (disabled)
-					if (msgVo.disabled) {
+					if (handlerVo.disabled) {
 						delCount++;
 					} else {
 						// if some MsgVOs marked to be removed - move all other messages to there place.
@@ -119,17 +127,17 @@ public class Messenger {
 							messageList[i - delCount] = messageList[i];
 						}
 						// check if handling function handles commands.
-						if (msgVo.isExecutable) {
-							msgVo.handler(type, params);
+						if (handlerVo.isExecutable) {
+							handlerVo.handler(type, params);
 						} else {
 							CONFIG::debug {
 								// FOR DEBUG viewing only..
 								/* Failed message type: */
 								type
 								/* Failed handler class: */
-								msgVo.handlerClassName
+								handlerVo.handlerClassName
 							}
-							msgVo.handler(params);
+							handlerVo.handler(params);
 						}
 					}
 				}
@@ -143,7 +151,7 @@ public class Messenger {
 				if (targetModuleNames[j] == MessageTarget.ALL) {
 					MessengerManager.sendMessageToAll(type, params);
 				} else if (targetModuleNames[j] == MessageTarget.SELF) {
-					// send messageg to self. (without targetModuleNames Array.)
+					// send messages to self. (without targetModuleNames Array.)
 					this.send(type, params);
 				} else {
 					var messenger:Messenger = MessengerManager.getMessenger(targetModuleNames[j]);
@@ -152,24 +160,15 @@ public class Messenger {
 					}
 				}
 			}
-			
 		}
 	}
 	
 	/**
-	 * @private
-	 */
-	pureLegsCore function clear():void {
-		messageRegistry = new Dictionary();
-		handlerRegistry = new Dictionary()
-	}
-	
-	/**
-	 * function to add command execute functios.
+	 * function to add command execute function.
 	 * @private
 	 */
 	pureLegsCore function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):void {
-		var executeMvgVo:MsgVO = addHandler(type, executeFunction, String(handlerClass));
+		var executeMvgVo:HandlerVO = addHandler(type, executeFunction, String(handlerClass));
 		executeMvgVo.isExecutable = true;
 	}
 	
@@ -193,14 +192,14 @@ public class Messenger {
 			retVal += warningText;
 		}
 		for (var key:String in messageRegistry) {
-			var msgList:Vector.<MsgVO> = messageRegistry[key];
+			var msgList:Vector.<HandlerVO> = messageRegistry[key];
 			var messageHandlers:String = "";
 			for (var i:int = 0; i < msgList.length; i++) {
-				var msgVo:MsgVO = msgList[i];
-				if (msgVo.isExecutable) {
+				var handlerVo:HandlerVO = msgList[i];
+				if (handlerVo.isExecutable) {
 					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
 				} else {
-					messageHandlers += "[" + msgVo.handlerClassName + "], ";
+					messageHandlers += "[" + handlerVo.handlerClassName + "], ";
 				}
 			}
 			

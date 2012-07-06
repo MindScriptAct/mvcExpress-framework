@@ -18,49 +18,57 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class ProxyMap {
 	
-	/** */
-	private var injectClassRegistry:Dictionary = new Dictionary();
+	/* all objects ready for injection stored by key. (className + inject name) */
+	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
-	/** */
-	private var classInjectRules:Dictionary = new Dictionary();
+	/* dictionary of (Vector of InjectRuleVO), stored by class names. */
+	private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
 	
-	/** dictionary of Vector.<PendingInject>. it holds array of pending data with objects(proxies, commands, mediators) that has pending injections, needed injection spefified by dictionary key.  */
-	private var pendingInjectionsRegistry:Dictionary = new Dictionary();
+	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
+	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
-	/** Communication object for sending messages*/
 	private var messenger:Messenger;
 	
+	/* CONSTRUCTOR */
 	public function ProxyMap(messenger:Messenger) {
 		this.messenger = messenger;
 	}
 	
 	/**
-	 * Maps praxy object to injectClass and name.
+	 * Maps proxy object to injectClass and name.
 	 * @param	proxyObject	Proxy instance to use for injection.
-	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpfull if you want to map proxy interface or subclass.
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 			}
 		}
 		
+		// get proxy class
 		var proxyClass:Class = Object(proxyObject).constructor;
 		
+		// if injectClass is not provided - proxyClass will be used instead.
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
+		
 		var className:String = getQualifiedClassName(injectClass);
-		if (!injectClassRegistry[className + name]) {
+		if (!injectObjectRegistry[className + name]) {
 			use namespace pureLegsCore;
 			proxyObject.messenger = messenger;
+			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
-			injectClassRegistry[className + name] = proxyObject;
+			// store proxy injection to other classes.
+			injectObjectRegistry[className + name] = proxyObject;
+			// check if there is no pending injection with this key.
 			if (pendingInjectionsRegistry[className + name]) {
 				injectPendingStuff(className + name, proxyObject);
 			}
+			// register proxy is all injections are done.
 			if (isAllInjected) {
 				proxyObject.register();
 			}
@@ -70,58 +78,62 @@ public class ProxyMap {
 	}
 	
 	/**
-	 * Removes proxy maped for injection by injectClass and name.
+	 * Removes proxy mapped for injection by injectClass and name.
 	 *  If mapping does not exists - it will fail silently.
 	 * @param	injectClass	class previously mapped for injection
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
 	public function unmap(injectClass:Class, name:String = ""):void {
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
 			}
 		}
-		
+		// remove proxy if it exists.
 		var className:String = getQualifiedClassName(injectClass);
-		use namespace pureLegsCore;
-		(injectClassRegistry[className + name] as Proxy).remove();
-		delete injectClassRegistry[className + name];
+		if (injectObjectRegistry[className + name]) {
+			use namespace pureLegsCore;
+			(injectObjectRegistry[className + name] as Proxy).remove();
+			delete injectObjectRegistry[className + name];
+		}
 	}
 	
 	/**
-	 * Dispose of proxyMap
+	 * Dispose of proxyMap. Remove all registered proxies and set all internals to null.
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
-		// TODO : decide what to do with proxies. It could be dangerous to remove proxies if they are maped in couple of modules.
-		for each (var proxyObject:Proxy in injectClassRegistry) {
+		// Remove all registered proxies
+		for each (var proxyObject:Proxy in injectObjectRegistry) {
 			use namespace pureLegsCore;
 			proxyObject.remove();
 		}
-		injectClassRegistry = null;
+		// set internals to null
+		injectObjectRegistry = null;
 		classInjectRules = null;
 		messenger = null;
 	}
 	
 	// TODO : consider making this function public...
 	/**
-	 * Finds inject points and injects dependiencies.
-	 * tempValue and tempPclass defines injection that will be done for current object only.
+	 * Finds inject points and injects dependencies.
+	 * tempValue and tempClass defines injection that will be done for current object only.
 	 * @private
 	 */
 	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):Boolean {
 		use namespace pureLegsCore;
 		var isAllInjected:Boolean = true;
 		
-		// deal with temporal injection. (it is used only for this injection)
+		// deal with temporal injection. (it is used only for this injection, for example - view object for mediator is used this way.)
 		var tempClassName:String;
 		if (tempValue) {
 			if (tempClass) {
 				tempClassName = getQualifiedClassName(tempClass);
-				if (!injectClassRegistry[tempClassName]) {
-					injectClassRegistry[tempClassName] = tempValue;
+				if (!injectObjectRegistry[tempClassName]) {
+					injectObjectRegistry[tempClassName] = tempValue;
 				} else {
-					throw Error("Temp config sholud not be maped... it was ment to be used by framework for mediator view object only.");
+					throw Error("Temp object should not be mapped already... it was meant to be used by framework for mediator view object only.");
 				}
 			}
 		}
@@ -131,7 +143,7 @@ public class ProxyMap {
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
-			// TODO : TEST inline function .. ( Putting inline function here ... makes commands slower.. WHY!!!)
+			// TODO : TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
 			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
@@ -140,21 +152,28 @@ public class ProxyMap {
 		
 		// injects all dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
-			var injectObject:Object = injectClassRegistry[rules[i].injectClassAndName];
+			var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				object[rules[i].varName] = injectObject
 			} else {
+				// remember that not all injections exists
 				isAllInjected = false;
+				
 				if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
+					//add injection to pending injections.
+					
+					// debug this action
 					CONFIG::debug {
 						if (MvcExpress.debugFunction != null) {
 							// TODO: add option to ignore this warning.
 							MvcExpress.debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 						}
 					}
+					//
 					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
 						pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
 					}
+					//
 					pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 					object.pendingInjections++;
 				} else {
@@ -165,25 +184,33 @@ public class ProxyMap {
 		
 		// dispose temporal injection if it was used.
 		if (tempClassName) {
-			delete injectClassRegistry[tempClassName];
+			delete injectObjectRegistry[tempClassName];
 		}
 		
 		return isAllInjected;
 	}
 	
+	/**
+	 * Handle all pending injections for specified key.
+	 */
 	private function injectPendingStuff(injectClassAndName:String, injectee:Object):void {
 		use namespace pureLegsCore;
 		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName];
-		for (var i:int = 0; i < pendingInjects.length; i++) {
-			pendingInjects[i].stopTimer();
+		while (pendingInjects.length) {
+			//
+			var pendingInjection:PendingInject = pendingInjects.pop();
+			pendingInjection.stopTimer();
+			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjects[i].signatureClass];
-			var pendingInject:Object = pendingInjects[i].pendingObject
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
+			var pendingInject:Object = pendingInjection.pendingObject
 			for (var j:int = 0; j < rules.length; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
+					
 					// satisfy missing injection.
 					pendingInject[rules[j].varName] = injectee;
-					// resolve object;
+					
+					// resolve object
 					if (pendingInject is Proxy) {
 						var proxyObject:Proxy = pendingInject as Proxy;
 						proxyObject.pendingInjections--;
@@ -197,22 +224,23 @@ public class ProxyMap {
 							mediatorObject.register();
 						}
 					}
+					
 					break;
 				}
-				
 			}
 		}
-		
-		pendingInjectionsRegistry[injectClassAndName]
+		// 
+		delete pendingInjectionsRegistry[injectClassAndName]
 	}
 	
 	/**
-	 * finds and cashes class injection point rules.
+	 * Finds and cashes class injection point rules.
 	 */
 	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleVO> {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
+		
 		for (var i:int = 0; i < factoryNodes.length(); i++) {
 			var node:XML = factoryNodes[i];
 			var nodeNome:String = node.name();
@@ -246,7 +274,7 @@ public class ProxyMap {
 	/**
 	 * Checks if proxy object is already mapped.
 	 * @param	proxyObject	Proxy instance to use for injection.
-	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpfull if you want to map proxy interface or subclass.
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 * @return				true if object is already mapped.
 	 */
@@ -257,7 +285,7 @@ public class ProxyMap {
 			injectClass = proxyClass;
 		}
 		var className:String = getQualifiedClassName(injectClass);
-		if (injectClassRegistry[className + name]) {
+		if (injectObjectRegistry[className + name]) {
 			retVal = true;
 		}
 		return retVal;
@@ -265,13 +293,13 @@ public class ProxyMap {
 	
 	/**
 	 * Returns text of all mapped proxy objects, and keys they are mapped to.
-	 * @return		Text with all mapped proxies.
+	 * @return		Text string with all mapped proxies.
 	 */
 	public function listMappings():String {
 		var retVal:String = "";
 		retVal = "====================== ProxyMap Mappings: ======================\n";
-		for (var key:Object in injectClassRegistry) {
-			retVal += "PROXY OBJECT:'" + injectClassRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
+		for (var key:Object in injectObjectRegistry) {
+			retVal += "PROXY OBJECT:'" + injectObjectRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
 		}
 		retVal += "================================================================\n";
 		return retVal;
@@ -279,6 +307,7 @@ public class ProxyMap {
 
 }
 }
+
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 
@@ -309,6 +338,6 @@ class PendingInject {
 	}
 	
 	private function throwError():void {
-		throw Error("Pinding inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
+		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
 	}
 }

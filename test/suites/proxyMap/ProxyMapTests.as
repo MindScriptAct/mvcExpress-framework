@@ -33,7 +33,6 @@ public class ProxyMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		MessengerManager.disposeMessenger("test");
-		messenger.clear();
 		proxyMap = null;
 		callCaunter = 0;
 		callsExpected = 0;

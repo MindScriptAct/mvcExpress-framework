@@ -20,12 +20,14 @@ public class CommandMap {
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	
-	private var classRegistry:Dictionary = new Dictionary();
+	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
+	private var classRegistry:Dictionary = new Dictionary(); /* of Vector.<Class> by String */
 	
-	/** types of command execute function needed for debug mode only validation.  */
+	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
-	private var commandClassParamTypes:Dictionary = new Dictionary();
+	private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
 	
+	/* CONSTRUCTOR */
 	public function CommandMap(messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;
@@ -40,6 +42,7 @@ public class CommandMap {
 	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
@@ -66,6 +69,7 @@ public class CommandMap {
 	 * @param	commandClass	Command class that will bi instantiated and executed.
 	 */
 	public function unmap(type:String, commandClass:Class):void {
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
@@ -92,6 +96,7 @@ public class CommandMap {
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
@@ -152,6 +157,7 @@ public class CommandMap {
 				command.commandMap = this;
 				
 				proxyMap.injectStuff(command, commandList[i]);
+				// debug this action
 				CONFIG::debug {
 					if (MvcExpress.debugFunction != null) {
 						MvcExpress.debugFunction("* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);

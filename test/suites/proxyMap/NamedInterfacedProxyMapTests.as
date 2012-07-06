@@ -31,9 +31,7 @@ public class NamedInterfacedProxyMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		MessengerManager.disposeMessenger("test");
-		messenger.clear();
 		proxyMap = null;
-	
 	}
 	
 	[Test]

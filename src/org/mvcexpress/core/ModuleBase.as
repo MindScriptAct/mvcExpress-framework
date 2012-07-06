@@ -8,14 +8,14 @@ import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.messenger.MessengerManager;
-import org.mvcexpress.messenger.MsgVO;
+import org.mvcexpress.messenger.HandlerVO;
 import org.mvcexpress.namespace.pureLegsCore;
 import org.mvcexpress.base.FlexMediatorMap;
 
 /**
- * Internal framework class. Not ment to be constructed.
+ * Internal framework class. Not meant to be constructed.
  * <p>
- * Privides base module functions for all ather module classes.
+ * Provides base module functions for all other module classes.
  * </p>
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
@@ -27,22 +27,17 @@ public class ModuleBase {
 	private var _moduleName:String;
 	
 	public var proxyMap:ProxyMap;
-	
 	public var mediatorMap:MediatorMap;
-	
 	public var commandMap:CommandMap;
-	
 	private var messenger:Messenger;
 	
-	private var _debugFunction:Function;
-	
 	/**
-	 * Internal framework class. Not ment to be constructed.
+	 * Internal framework class. Not meant to be constructed.
 	 */
 	public function ModuleBase(moduleName:String, autoInit:Boolean) {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
-			throw Error("ModuleBase is framework internal class and is not ment to be instantiated. Use ModuleCore, ModuleSprite or other module classes insted.");
+			throw Error("ModuleBase is framework internal class and is not meant to be instantiated. Use ModuleCore, ModuleSprite or other module classes instead.");
 		}
 		//
 		this._moduleName = moduleName;
@@ -57,11 +52,11 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// Module creation function used instead of constructor.
 	// @param	moduleName	module name that is used for referencing a module.
-	// @param	autoInit	if set to false framework is not initialized for this module. If you want to use framewokr features you will have to manualy init() it first.
+	// @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	// 						(or you start getting null reference errors.)
 	static public function getModuleInstance(moduleName:String, autoInit:Boolean):ModuleBase {
 		var retVal:ModuleBase;
@@ -73,7 +68,7 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// Initializes module. If this function is not called module will not work.
 	// By default it is called in constructor.
@@ -87,7 +82,7 @@ public class ModuleBase {
 		proxyMap = new ProxyMap(messenger);
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
-		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' isues.
+		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
 		if (uiComponentClass) {
 			mediatorMap = new FlexMediatorMap(messenger, proxyMap, uiComponentClass);
 		} else {
@@ -97,12 +92,12 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// Function to get rid of module.
-	// - All module cammands are unmaped.
+	// - All module commands are unmapped.
 	// - All module mediators are unmediated
-	// - All module proxies are unmaped
+	// - All module proxies are unmapped
 	// - All internals are nulled.
 	public function disposeModule():void {
 		use namespace pureLegsCore;
@@ -120,7 +115,7 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// Message sender.
 	// @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
@@ -155,7 +150,7 @@ public class ModuleBase {
 	//----------------------------------
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// List all message mappings.
 	public function listMappedMessages():String {
@@ -163,7 +158,7 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// List all view mappings.
 	public function listMappedMediators():String {
@@ -171,7 +166,7 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// List all model mappings.
 	public function listMappedProxies():String {
@@ -179,7 +174,7 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not ment to be used from outside.
+	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// List all controller mappings.
 	public function listMappedCommands():String {

@@ -4,18 +4,20 @@ import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.interfaces.IMediatorMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.MsgVO;
+import org.mvcexpress.messenger.HandlerVO;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * Mediates single view object.
- *  It should only mediate(send message from/to them), not manage them.
+ * Mediates single view object. 																</br>
+ *  It should only mediate(send message from/to them), not manage them. 						</br>
+ *  Can send messages. (Usually sends messages then user interacts with view)					</br>
+ *  Can handle messages. (Usually listens for data change messages, or other view objects)
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Mediator {
 	
 	/** @private */
-	pureLegsCore var messageDataRegistry:Vector.<MsgVO> = new Vector.<MsgVO>();
+	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
 	/** @private */
 	pureLegsCore var messenger:Messenger;
@@ -24,6 +26,7 @@ public class Mediator {
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean;
 	
+	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
@@ -34,6 +37,7 @@ public class Mediator {
 	 */
 	public var mediatorMap:IMediatorMap;
 	
+	/* CONSTRUCTOR */
 	public function Mediator() {
 		CONFIG::debug {
 			use namespace pureLegsCore
@@ -43,20 +47,22 @@ public class Mediator {
 		}
 	}
 	
+	// marks mediator as ready and calls onRegister()
+	/** @private */
 	pureLegsCore function register():void {
 		_isReady = true;
 		onRegister();
 	}
 	
 	/**
-	 * Then viewObject is mediated by this mediator - it is inited and then this function is called.
+	 * Then viewObject is mediated by this mediator - it is innited first and then this function is called.
 	 */
 	public function onRegister():void {
 		// for override
 	}
 	
 	/**
-	 * Then viewObject is unmediated by this mediator - this function is called and then mediator is deleted.
+	 * Then viewObject is unmediated by this mediator - this function is called first and then mediator is removed.
 	 */
 	public function onRemove():void {
 		// for override
@@ -75,9 +81,9 @@ public class Mediator {
 	}
 	
 	/**
-	 * adds handle function to be called then messege of provided type is sent.
-	 * @param	type	message type for handle function to reoct to.
-	 * @param	handler	function that will be called then needed message is sent. this functino must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 * adds handle function to be called then message of provided type is sent.
+	 * @param	type	message type for handle function to react to.
+	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
 	 */
 	protected function addHandler(type:String, handler:Function):void {
 		use namespace pureLegsCore;
@@ -95,7 +101,7 @@ public class Mediator {
 	}
 	
 	/**
-	 * Removes handle function from messege of provided type.
+	 * Removes handle function from message of provided type.
 	 * @param	type	message type that was set for handle function to react to.
 	 * @param	handler	function that was set to react to message.
 	 */
@@ -105,8 +111,8 @@ public class Mediator {
 	}
 	
 	/**
-	 * Remove all handle functions created by this mediator. Autamaticaly called with unmediate().
-	 * (but don't forget to remove your event handlert manualy...)
+	 * Remove all handle functions created by this mediator. Automatically called with unmediate().
+	 * (but don't forget to remove your event handler manualy...)
 	 */
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
@@ -116,7 +122,7 @@ public class Mediator {
 	}
 	
 	/**
-	 * framework functuon to remove all handle functions created by this mediator
+	 * framework function to remove all handle functions created by this mediator
 	 * @private
 	 */
 	pureLegsCore function disposeThisMediator():void {
@@ -128,7 +134,7 @@ public class Mediator {
 	}
 	
 	/**
-	 * Indicates if mediator is ready for ussage. (all dependencies are injected.)
+	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
 	 */
 	protected function get isReady():Boolean {
 		return _isReady;

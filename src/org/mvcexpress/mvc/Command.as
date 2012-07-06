@@ -7,9 +7,10 @@ import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * For commands that handles buisness logic of your application. 
+ * Command, handles business logic of your application. 												</br>
+ * Can send messages.
  * <b><p>
- * It MUST cantain execute(params:Object) function. Parameter can be typed as you wish.
+ * It MUST contain execute(params:Object) function. Parameter can be typed as you wish.
  * </p></b>
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
@@ -26,10 +27,11 @@ dynamic public class Command {
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean;	
 	
+	/* CONSTRUCTOR */
 	public function Command() {
 		CONFIG::debug {
 			if (!pureLegsCore::canConstruct) {
-				throw Error("Command:"+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map(), or execute it dirrectly with commandMap.execute()")
+				throw Error("Command:"+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()")
 			}
 		}
 	}
@@ -42,16 +44,17 @@ dynamic public class Command {
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		pureLegsCore::messenger.send(type, params, targetModuleNames);
+		use namespace pureLegsCore;
+		messenger.send(type, params, targetModuleNames);
 	}
 	
 	
-	// execute function is not ment to be overridden in mvcExpress.
-	// Because I want cammands to have custom parameter object - you have to manualy create execute() function in your commands.
-	//
-	//public function execute(params:Object):void {
-		//
-	//}
+	// execute function is not meant to be overridden in mvcExpress.
+	// Because I want commands to have custom parameter object - you have to manually create execute() function in your commands.
+	/*
+	public function execute(params:Object):void {
+	}
+	*/
 
 }
 }

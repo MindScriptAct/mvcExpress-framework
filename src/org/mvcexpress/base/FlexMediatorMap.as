@@ -4,22 +4,18 @@ import flash.events.Event;
 import flash.events.IEventDispatcher;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
-import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * Handles flex application mediators.
- *  The only reason for this extra layer is to handle "creationComplete" flex event before 
+ * Handles flex application mediators. 																													</br>
+ *  FlexMediatorMap acts a bit differently from MediatorMap. Flex Mediators are not registered until "creationComplete" event is sent.					</br>
+ *  This is needed because Flex view objects acts diferently then simple AS3 display objects - Flex object can be created in next frames.				</br>
+ *  It is common for flex objects to be completed not in the order they were created. Keep this in mind then mediating flex objects.
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class FlexMediatorMap extends MediatorMap {
 	private var uiComponentClass:Class;
 	
-	/**
-	 * Maps mediator class to view class. Only one mediator class can mediate view class.
-	 * @param	viewClass		view class that has to be mediated by mediator class then mediate(viewObject) is called.
-	 * @param	mediatorClass	Mediator class that will be instantiated then viewClass object is passed to mediate function.
-	 * @param	uiComponentClass	Lowest posible flex visual object class.
-	 */
+	/* CONSTRUCTOR */
 	// TODO : check if UIComponent must be used as lowest Flex visual object... maybe it should be FlexSprite???
 	public function FlexMediatorMap(messenger:Messenger, proxyMap:ProxyMap, uiComponentClass:Class) {
 		super(messenger, proxyMap);
@@ -27,9 +23,9 @@ public class FlexMediatorMap extends MediatorMap {
 	}
 	
 	/**
-	 * Automaticaly instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
+	 * Automatically instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
 	 * Throws error if mediator class is not mapped to viewObject class.
-	 * If objcet is not initialized - mvcExpress will wait for 'creationComplete' to be dispatched before mediateng it.
+	 * If object is not initialized - mvcExpress will wait for 'creationComplete' to be dispatched before mediating it.
 	 * @param	viewObject	view object to mediate.
 	 */
 	override public function mediate(viewObject:Object):void {
@@ -40,7 +36,7 @@ public class FlexMediatorMap extends MediatorMap {
 		}
 	}
 	
-	/* Start flex view object mediaton after creationComplete is dispached. */
+	/* Start flex view object mediation after creationComplete is dispatched. */
 	private function handleOnCreationComplete(event:Event):void {
 		IEventDispatcher(event.target).removeEventListener('creationComplete', handleOnCreationComplete);
 		// 
@@ -48,12 +44,12 @@ public class FlexMediatorMap extends MediatorMap {
 	}
 	
 	/**
-	 * If any mediator is mediating viewObject: it calls onRemove, automaticaly removes all handler functions listening for messages from that mediator and deletes it.
-	 * If flex object is unmediated before 'creationComplete' is dispached - nothing is done. (because mediation is not done in the first place.)
-	 * @param	viewObject	view object witch mediator will be destroed.
+	 * If any mediator is mediating viewObject: it calls onRemove, automatically removes all handler functions listening for messages from that mediator and deletes it.
+	 * If flex object is unmediated before 'creationComplete' is dispatched - nothing is done. (because mediation is not done in the first place.)
+	 * @param	viewObject	view object witch mediator will be destroyed.
 	 */
 	override public function unmediate(viewObject:Object):void {
-		var mediator:Mediator = viewRegistry[viewObject];
+		var mediator:Mediator = mediatorRegistry[viewObject];
 		if (mediator) {
 			super.unmediate(viewObject);
 		} else {

@@ -3,16 +3,17 @@ package org.mvcexpress.utils {
 import flash.utils.describeType;
 
 /**
- * utility function to check class string constant values for acidental dublications.
- * Usage:
- *		add this code in every coreModule class in onStartUp() function with all your classes holding string constants used for messanging.
- * 		CONFIG::debug {
- *			trackClassStringConstants(ClassName);
- *		}
- * @param	... args
+ * utility function to check class string constant values for accidental duplications. 																			</br>
+ * Usage:																																						</br>
+ *		add this code in every module class in onStartUp() function with all your classes holding string constants used for messaging.							</br>
+ * 		CONFIG::debug {																																			</br>
+ *			checkClassStringConstants(ClassName);																												</br>
+ *		}																																						</br>
+ * @param	... args	array of Class objects, to be checked for constants.
+ * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public function checkClassStringConstants(... args:Array):void {
-	//trace("void.trackStringConstants > ... args : " + args);
+	//trace("void.checkClassStringConstants > ... args : " + args);
 	
 	for (var i:int = 0; i < args.length; i++) {
 		var constantClass:Class = args[i] as Class;
@@ -40,7 +41,7 @@ public function checkClassStringConstants(... args:Array):void {
 				}
 			}
 		} else {
-			throw Error("Please send Class names to trackStringConstants() only(not object).");
+			throw Error("Please send Class names to checkClassStringConstants() only(not object).");
 		}
 	}
 }
@@ -50,5 +51,5 @@ import flash.utils.Dictionary;
 
 class StringConstantRegistry {
 	static public var registeredClasses:Vector.<Class> = new Vector.<Class>();
-	static public var stringRegistry:Dictionary = new Dictionary();
+	static public var stringRegistry:Dictionary = new Dictionary(); /* of Class by String */
 }

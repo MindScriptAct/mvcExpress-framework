@@ -4,8 +4,8 @@ import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * Classes to hold application data.
- * Can send messages.
+ * Proxy holds and manages application data, provide API to work with it. 				</br>
+ * Can send messages. (Usually sends one with data update)								</br>
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class Proxy {
@@ -18,6 +18,7 @@ public class Proxy {
 	
 	private var _isReady:Boolean = false;
 	
+	/* CONSTRUCTOR */
 	public function Proxy() {
 	}
 	
@@ -33,9 +34,10 @@ public class Proxy {
 		messenger.send(type, params, targetModuleNames);
 	}
 	
-	/**
-	 * @private
-	 */
+	
+	
+	// marks mediator as ready and calls onRegister()
+	/** @private */
 	pureLegsCore function register():void {
 		_isReady = true;
 		onRegister();
@@ -49,21 +51,21 @@ public class Proxy {
 	}
 	
 	/**
-	 * Then proxy is map'ed with proxyMap this function is called.
+	 * Then proxy is mapped with proxyMap this function is called.
 	 */
 	protected function onRegister():void {
 		// for override
 	}
 	
 	/**
-	 * Then proxy is unmap'ed with proxyMap this function is called.
+	 * Then proxy is unmapped with proxyMap this function is called.
 	 */
 	protected function onRemove():void {
 		// for override
 	}
 	
 	/**
-	 * Indicates if proxy is ready for ussage. (all dependencies are injected.)
+	 * Indicates if proxy is ready for usage. (all dependencies are injected.)
 	 */
 	protected function get isReady():Boolean {
 		return _isReady;

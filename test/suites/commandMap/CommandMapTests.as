@@ -23,6 +23,7 @@ import utils.AsyncUtil;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class CommandMapTests {
+	
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
@@ -49,7 +50,6 @@ public class CommandMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		MessengerManager.disposeMessenger("test");
-		messenger.clear();
 		messenger = null;
 		proxyMap = null;
 		commandMap = null;

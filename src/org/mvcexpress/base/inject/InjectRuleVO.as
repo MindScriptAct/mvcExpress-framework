@@ -7,10 +7,10 @@ package org.mvcexpress.base.inject {
  */
 public class InjectRuleVO {
 	
-	/** Variable name to inject object into.  */
+	/** Name of variable to inject object into. */
 	public var varName:String;
 	
-	/** String for class and name that has to be injected */
+	/** Injection identifier, formed by class name and your custom inject name. */
 	public var injectClassAndName:String;
 
 }

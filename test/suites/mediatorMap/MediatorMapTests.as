@@ -42,7 +42,6 @@ public class MediatorMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		MessengerManager.disposeMessenger("test");
-		messenger.clear();
 		proxyMap = null;
 		mediatorMap = null;
 		callCaunter = 0;
