@@ -14,6 +14,7 @@ import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
 import com.mindScriptAct.codeSnippets.view.SampleAppMediator;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modularSample.view.ModularSampleMediator;
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import flash.display.Sprite;
 import org.mvcexpress.core.ModuleCore;
 import org.mvcexpress.MvcExpress;
@@ -45,7 +46,8 @@ public class SnippetAppModule extends ModuleCore {
 		
 		CONFIG::debug {
 			
-			MvcExpress.debugFunction = trace;
+			//MvcExpress.debugFunction = trace;
+			MvcExpressLogger.logModule(this);
 			
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 		}
@@ -107,6 +109,10 @@ public class SnippetAppModule extends ModuleCore {
 		// AND
 		// - execute commands OR send messages if needed.
 		////////////////////////////
+		
+		CONFIG::debug {
+			MvcExpressLogger.showIn(mvcExpressSnippets.stage, 0, 0, 900);
+		}
 		
 		mediatorMap.mediate(mvcExpressSnippets);
 		//mediatorMap.unmediate(mvcExpressSnippets);
