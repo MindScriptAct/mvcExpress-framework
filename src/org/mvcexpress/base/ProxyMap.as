@@ -14,7 +14,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ProxyMap {
 	

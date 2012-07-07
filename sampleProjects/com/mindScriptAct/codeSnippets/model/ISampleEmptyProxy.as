@@ -2,7 +2,7 @@ package com.mindScriptAct.codeSnippets.model {
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public interface ISampleEmptyProxy {
 	function getDescription():String;

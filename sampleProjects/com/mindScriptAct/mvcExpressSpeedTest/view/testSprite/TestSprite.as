@@ -4,7 +4,7 @@ import flash.events.MouseEvent;
 
 /**
  * ...
- * @author Deril (raima156@yahoo.com)
+ * @author Deril (http://www.mindscriptact.com/)
  */
 public class TestSprite extends Sprite {
 	public var uniqueId:int;

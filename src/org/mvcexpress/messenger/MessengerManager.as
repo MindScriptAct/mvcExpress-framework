@@ -4,7 +4,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Framework internal class. Manages module messengers.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MessengerManager {
 	

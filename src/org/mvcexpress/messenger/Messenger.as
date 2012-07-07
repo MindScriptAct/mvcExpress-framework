@@ -7,7 +7,7 @@ import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Handles framework communications.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Messenger {
 	
@@ -98,9 +98,9 @@ public class Messenger {
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used. <\br>
-	 * 									You can specify modules this message have to travel to : ["moduleName1","moduleName2" ]<\br>
-	 * 									To target all existing modules use : [MessageTarget.ALL].
+	 * @param	targetModuleNames	array of module names as strings, by default '[MessageTarget.SELF]' is used. <br>
+	 * 									You can specify modules this message have to travel to : '["moduleName1","moduleName2"]'<br>
+	 * 									To target all existing modules use : '[MessageTarget.ALL]'.
 	 */
 	public function send(type:String, params:Object = null, targetModuleNames:Array = null):void {
 		use namespace pureLegsCore;

@@ -8,7 +8,7 @@ import flash.utils.setTimeout;
 
 /**
  * ...
- * @author Deril (raima156@yahoo.com)
+ * @author Deril (http://www.mindscriptact.com/)
  */
 public class MvcExpressSpeedTest extends Sprite {
 	

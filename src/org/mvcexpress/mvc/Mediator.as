@@ -12,7 +12,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  *  It should only mediate(send message from/to them), not manage them. 						</br>
  *  Can send messages. (Usually sends messages then user interacts with view)					</br>
  *  Can handle messages. (Usually listens for data change messages, or other view objects)
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Mediator {
 	
@@ -72,7 +72,7 @@ public class Mediator {
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
-	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {

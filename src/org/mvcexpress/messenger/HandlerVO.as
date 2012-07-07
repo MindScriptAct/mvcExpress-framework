@@ -7,7 +7,7 @@ import org.mvcexpress.base.CommandMap;
  * <p>
  * Has a flag to be disabled. If it is disabled it will be not called and removed with first message of same type.
  * </p>
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class HandlerVO {
 	

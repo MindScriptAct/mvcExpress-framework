@@ -10,7 +10,7 @@ import org.mvcexpress.mvc.Mediator;
  *  FlexMediatorMap acts a bit differently from MediatorMap. Flex Mediators are not registered until "creationComplete" event is sent.					</br>
  *  This is needed because Flex view objects acts diferently then simple AS3 display objects - Flex object can be created in next frames.				</br>
  *  It is common for flex objects to be completed not in the order they were created. Keep this in mind then mediating flex objects.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class FlexMediatorMap extends MediatorMap {
 	private var uiComponentClass:Class;

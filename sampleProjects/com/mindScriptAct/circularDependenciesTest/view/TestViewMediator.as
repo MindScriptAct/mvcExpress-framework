@@ -6,7 +6,7 @@ import org.mvcexpress.mvc.Mediator;
 
 /**
  * TODO:CLASS COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestViewMediator extends Mediator {
 	

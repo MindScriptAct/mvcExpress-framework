@@ -11,7 +11,7 @@ import suites.AllTestSuites;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MvcExpressTestRunner extends Sprite {
 	private var listener:VisualListener;

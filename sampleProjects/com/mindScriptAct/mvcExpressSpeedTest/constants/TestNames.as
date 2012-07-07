@@ -2,7 +2,7 @@ package com.mindScriptAct.mvcExpressSpeedTest.constants {
 
 /**
  * ...
- * @author Deril (raima156@yahoo.com)
+ * @author Deril (http://www.mindscriptact.com/)
  */
 public class TestNames {
 		

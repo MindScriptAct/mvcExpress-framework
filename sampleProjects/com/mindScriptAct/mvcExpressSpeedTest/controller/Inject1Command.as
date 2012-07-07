@@ -5,7 +5,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Inject1Command extends Command {
 	

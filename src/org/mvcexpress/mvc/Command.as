@@ -12,7 +12,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  * <b><p>
  * It MUST contain execute(params:Object) function. Parameter can be typed as you wish.
  * </p></b>
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 dynamic public class Command {
 	
@@ -40,7 +40,7 @@ dynamic public class Command {
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
- 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+ 	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {

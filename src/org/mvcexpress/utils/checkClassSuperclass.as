@@ -4,7 +4,7 @@ import flash.utils.getDefinitionByName;
 
 /**
  * Checks if provided class is extended from provided class name
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 
 public function checkClassSuperclass(classObject:Class, superClassName:String):Boolean {

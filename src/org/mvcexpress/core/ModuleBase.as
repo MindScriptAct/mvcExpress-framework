@@ -14,7 +14,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  * <p>
  * Provides base module functions for all other module classes.
  * </p>
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ModuleBase {
 	
@@ -117,7 +117,7 @@ public class ModuleBase {
 	// Message sender.
 	// @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	// @param	params	Object that will be send to Command execute() or to handle function as parameter.
-	// @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	// @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
 	// 									To target all existing modules use : [MessageTarget.ALL]
 	public function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
 		messenger.send(type, params, targetModuleNames);

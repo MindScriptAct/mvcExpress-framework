@@ -22,7 +22,7 @@ import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class SnippetAppModule extends ModuleCore {
 	private var performanceTest:PerformanceTest;

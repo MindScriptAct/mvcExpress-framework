@@ -4,7 +4,7 @@ import org.mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ConsoleLogProxy extends Proxy {
 	

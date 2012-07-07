@@ -3,7 +3,7 @@ package org.mvcexpress.base.interfaces {
 
 /**
  * Interface for Mediator. MediatorsMap use mediators with this interface.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public interface IMediatorMap {
 	function mediate(viewObject:Object):void;

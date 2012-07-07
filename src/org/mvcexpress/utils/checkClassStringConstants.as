@@ -10,7 +10,7 @@ import flash.utils.describeType;
  *			checkClassStringConstants(ClassName);																												</br>
  *		}																																						</br>
  * @param	... args	array of Class objects, to be checked for constants.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public function checkClassStringConstants(... args:Array):void {
 	//trace("void.checkClassStringConstants > ... args : " + args);

@@ -11,7 +11,7 @@ import org.mvcexpress.base.ProxyMap;
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
  * Also you can create modular application by having more then one module.
  * </p>
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ModuleMovieClip extends MovieClip {
 	
@@ -87,7 +87,7 @@ public class ModuleMovieClip extends MovieClip {
 	 * Message sender.
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
-	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<\br>
+	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
 	 * 									To target all existing modules use : [MessageTarget.ALL]
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {

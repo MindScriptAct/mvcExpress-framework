@@ -2,7 +2,7 @@ package org.mvcexpress {
 
 /**
  * Class to store framework global settings and some important variables.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MvcExpress {
 	

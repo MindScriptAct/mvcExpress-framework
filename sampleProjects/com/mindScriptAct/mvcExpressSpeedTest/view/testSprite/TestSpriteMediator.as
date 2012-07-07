@@ -5,7 +5,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 
 /**
  * ...
- * @author Deril (raima156@yahoo.com)
+ * @author Deril (http://www.mindscriptact.com/)
  */
 public class TestSpriteMediator extends Mediator {
 	

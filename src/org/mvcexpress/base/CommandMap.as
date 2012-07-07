@@ -12,7 +12,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles command mappings, and executes them on messages
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class CommandMap {
 	
