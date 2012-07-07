@@ -34,19 +34,23 @@ public class Proxy {
 		messenger.send(type, params, targetModuleNames);
 	}
 	
-	
-	
-	// marks mediator as ready and calls onRegister()
-	/** @private */
+	/**
+	 * marks mediator as ready and calls onRegister()
+	 * called from proxyMap
+	 * @private
+	 */
 	pureLegsCore function register():void {
 		_isReady = true;
 		onRegister();
 	}
 	
 	/**
+	 * marks mediator as not ready and calls onRemove().
+	 * called from proxyMap
 	 * @private
 	 */
 	pureLegsCore function remove():void {
+		_isReady = false;
 		onRemove();
 	}
 	

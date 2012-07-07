@@ -1,5 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
+import flash.events.IEventDispatcher;
+import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.interfaces.IMediatorMap;
 import org.mvcexpress.base.MediatorMap;
@@ -18,6 +20,11 @@ public class Mediator {
 	
 	/** @private */
 	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
+	
+	/* contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
+	private var eventListenerRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
+	/* contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
+	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
 	
 	/** @private */
 	pureLegsCore var messenger:Messenger;
@@ -47,8 +54,21 @@ public class Mediator {
 		}
 	}
 	
-	// marks mediator as ready and calls onRegister()
-	/** @private */
+	/**
+	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
+	 */
+	protected function get isReady():Boolean {
+		return _isReady;
+	}
+	
+	//----------------------------------
+	//     mediator start-up and tier-down life cicle
+	//----------------------------------
+	
+	/**
+	 * marks mediator as ready and calls onRegister()
+	 * Executed automaticaly BEFORE mediator is created. (with proxyMap.mediate(...))
+	 * @private */
 	pureLegsCore function register():void {
 		_isReady = true;
 		onRegister();
@@ -69,6 +89,29 @@ public class Mediator {
 	}
 	
 	/**
+	 * framework function to dispose this mediator. 																			<br>
+	 * Executed automaticaly AFTER mediator is removed. (with proxyMap.unmediate(...))											<br>
+	 * It:																														<br>
+	 * - remove all handle functions created by this mediator																	<br>
+	 * - remove all event listeners created by internal addEventListener() function of this mediator							<br>
+	 * - set internals to null																									<br>
+	 * @private
+	 */
+	pureLegsCore function disposeThisMediator():void {
+		use namespace pureLegsCore;
+		removeAllHandlers();
+		removeAllEventListeners();
+		messageDataRegistry = null;
+		eventListenerRegistry = null;
+		messenger = null;
+		mediatorMap = null;
+	}
+	
+	//----------------------------------
+	//     send messages
+	//----------------------------------	
+	
+	/**
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
@@ -79,6 +122,10 @@ public class Mediator {
 		use namespace pureLegsCore;
 		messenger.send(type, params, targetModuleNames);
 	}
+	
+	//----------------------------------
+	//     message handlers
+	//----------------------------------
 	
 	/**
 	 * adds handle function to be called then message of provided type is sent.
@@ -121,23 +168,93 @@ public class Mediator {
 		}
 	}
 	
+	//----------------------------------
+	//     event handling
+	//----------------------------------
+	
 	/**
-	 * framework function to remove all handle functions created by this mediator
-	 * @private
+	 * Registers an event listener object with viewObject, so that the listener receives notification of an event.
+	 * @param	viewObject	view object that can dispaches events.
+	 * @param	type	The type of event.
+	 * @param	listener	The listener function that processes the event. This function must accept an event object
+	 *   as its only parameter and must return nothing, as this example shows:
+	 *   function(evt:Event):void
+	 *   The function can have any name.
+	 * @param	useCapture	Determines whether the listener works in the capture phase or the target and bubbling phases.
+	 * @param	priority	The priority level of the event listener. Priorities are designated by a 32-bit integer. The higher the number, the higher the priority.
+	 *		If two or more listeners share the same priority, they are processed in the order in which they were added. The default priority is 0.
+	 * @param	useWeakReference	Determines whether the reference to the listener is strong or weak.
+	 *		A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
 	 */
-	pureLegsCore function disposeThisMediator():void {
-		use namespace pureLegsCore;
-		removeAllHandlers();
-		messageDataRegistry = null;
-		messenger = null;
-		mediatorMap = null;
+	protected function addEventListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = true):void {
+		if (useCapture) {
+			if (!eventListenerCaptureRegistry[listener]) {
+				eventListenerCaptureRegistry[listener] = new Dictionary();
+			}
+			if (!eventListenerCaptureRegistry[listener][type]) {
+				eventListenerCaptureRegistry[listener][type] = viewObject;
+				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+		} else {
+			if (!eventListenerRegistry[listener]) {
+				eventListenerRegistry[listener] = new Dictionary();
+			}
+			if (!eventListenerRegistry[listener][type]) {
+				eventListenerRegistry[listener][type] = viewObject;
+				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
+			}
+		}
 	}
 	
 	/**
-	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
+	 * Removes a listener from the viewObject.
+	 * @param	viewObject	view object that can dispaches events.
+	 * @param	type		The type of event.
+	 * @param	listener	The listener object to remove.
+	 * @param	useCapture	Specifies whether the listener was registered for the capture phase or the target and bubbling phases.
 	 */
-	protected function get isReady():Boolean {
-		return _isReady;
+	protected function removeEventListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false):void {
+		viewObject.removeEventListener(type, listener, useCapture);
+		
+		if (useCapture) {
+			if (eventListenerCaptureRegistry[listener]) {
+				if (eventListenerCaptureRegistry[listener][type]) {
+					if (eventListenerCaptureRegistry[listener][type] == viewObject) {
+						delete eventListenerCaptureRegistry[listener][type]
+					}
+				}
+			}
+		} else {
+			if (eventListenerRegistry[listener]) {
+				if (eventListenerRegistry[listener][type]) {
+					if (eventListenerRegistry[listener][type] == viewObject) {
+						delete eventListenerRegistry[listener][type]
+					}
+				}
+			}
+		}		
+	}	
+	
+	/**
+	 * Removes all listeners created by mediators addEventListener() function.
+	 * Automatically called then mediator is unmediated.
+	 */
+	protected function removeAllEventListeners():void {
+		for (var listener:Object in eventListenerCaptureRegistry) {
+			var eventTypes:Dictionary = eventListenerCaptureRegistry[viewObject];
+			for (var type:String in eventTypes) {
+				var viewObject:IEventDispatcher = eventTypes[type];
+				viewObject.removeEventListener(type, listener as Function, true);
+			}
+		}
+		for (listener in eventListenerRegistry) {
+			eventTypes = eventListenerRegistry[viewObject];
+			for (type in eventTypes) {
+				viewObject = eventTypes[type];
+				viewObject.removeEventListener(type, listener as Function, false);
+			}
+		}		
 	}
+
 }
 }
