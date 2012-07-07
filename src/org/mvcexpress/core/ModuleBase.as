@@ -1,16 +1,13 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
-import flash.display.DisplayObjectContainer;
 import flash.utils.getDefinitionByName;
-import flash.utils.getQualifiedClassName;
 import org.mvcexpress.base.CommandMap;
+import org.mvcexpress.base.FlexMediatorMap;
 import org.mvcexpress.base.MediatorMap;
 import org.mvcexpress.base.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.messenger.MessengerManager;
-import org.mvcexpress.messenger.HandlerVO;
 import org.mvcexpress.namespace.pureLegsCore;
-import org.mvcexpress.base.FlexMediatorMap;
 
 /**
  * Internal framework class. Not meant to be constructed.
