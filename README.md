@@ -4,14 +4,6 @@ LINKS
 -----
 
 Framework homepage : http://mvcexpress.org/
-
-
-	
-TODO:
-	
-
-
-test use namespace VS :: usage speed. (with diferent usage counts.)
 	
 	
 The MIT License
