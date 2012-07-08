@@ -90,7 +90,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*---------->*/var testTime_mediatorAdd:int = getTimer();
 				/*->*/var testCount_mediatorAdd:int = 100000;
 				/*->*/for (var j1:int = 0; j1 < testCount_mediatorAdd; j1++) {
-				addEventListener(view.stage, MouseEvent.CLICK, blankHandler);
+				addListener(view.stage, MouseEvent.CLICK, blankHandler);
 				/*->*/}
 				/*->*/var testResult_mediatorAdd:int = getTimer() - testTime_mediatorAdd;
 				/*---------->*/trace("mediatorAdd:   ", "\tTotal time:", testResult_mediatorAdd, "\tavr time:", testResult_mediatorAdd / testCount_mediatorAdd,"\t[*"+testCount_mediatorAdd+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorAdd / testCount_mediatorAdd));
@@ -99,7 +99,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*---------->*/var testTime_mediatorRemove:int = getTimer();
 				/*->*/var testCount_mediatorRemove:int = 100000;
 				/*->*/for (var l1:int = 0; l1 < testCount_mediatorRemove; l1++) {
-				removeEventListener(view.stage, MouseEvent.CLICK, blankHandler);
+				removeListener(view.stage, MouseEvent.CLICK, blankHandler);
 				/*->*/}
 				/*->*/var testResult_mediatorRemove:int = getTimer() - testTime_mediatorRemove;
 				/*---------->*/trace("mediatorRemove:", "\tTotal time:", testResult_mediatorRemove, "\tavr time:", testResult_mediatorRemove / testCount_mediatorRemove,"\t[*"+testCount_mediatorRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorRemove / testCount_mediatorRemove));
@@ -128,7 +128,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*---------->*/var testTime_mediatorUniqueAdd:int = getTimer();
 				/*->*/var testCount_mediatorUniqueAdd:int = 100000;
 				/*->*/for (var j2:int = 0; j2 < testCount_mediatorUniqueAdd; j2++) {
-				addEventListener(view.stage, "event_"+(j2 % diferentEventCount), blankHandler);
+				addListener(view.stage, "event_"+(j2 % diferentEventCount), blankHandler);
 				/*->*/}
 				/*->*/var testResult_mediatorUniqueAdd:int = getTimer() - testTime_mediatorUniqueAdd;
 				/*---------->*/trace("mediatorUniqueAdd:   ", "\tTotal time:", testResult_mediatorUniqueAdd, "\tavr time:", testResult_mediatorUniqueAdd / testCount_mediatorUniqueAdd,"\t[*"+testCount_mediatorUniqueAdd+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorUniqueAdd / testCount_mediatorUniqueAdd));
@@ -137,7 +137,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*---------->*/var testTime_mediatorUniqueRemove:int = getTimer();
 				/*->*/var testCount_mediatorUniqueRemove:int = 100000;
 				/*->*/for (var l2:int = 0; l2 < testCount_mediatorUniqueRemove; l2++) {
-				removeEventListener(view.stage, "event_"+(l2 % diferentEventCount), blankHandler);
+				removeListener(view.stage, "event_"+(l2 % diferentEventCount), blankHandler);
 				/*->*/}
 				/*->*/var testResult_mediatorUniqueRemove:int = getTimer() - testTime_mediatorUniqueRemove;
 				/*---------->*/trace("mediatorUniqueRemove:", "\tTotal time:", testResult_mediatorUniqueRemove, "\tavr time:", testResult_mediatorUniqueRemove / testCount_mediatorUniqueRemove,"\t[*"+testCount_mediatorUniqueRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorUniqueRemove / testCount_mediatorUniqueRemove));
@@ -147,13 +147,13 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 			case 8:
 				/*->*/var testCount_mediatorAddAgain:int = 100000;
 				/*->*/for (var m:int = 0; m < testCount_mediatorAddAgain; m++) {
-				addEventListener(view.stage, "event_"+(m % diferentEventCount), blankHandler);
+				addListener(view.stage, "event_"+(m % diferentEventCount), blankHandler);
 				/*->*/}
 				break;				
 			case 9:
 				/*---------->*/var testTime_mediatorRemoveAll:int = getTimer();
-				removeEventListener(view.stage, MouseEvent.CLICK, blankHandler);
-				removeAllEventListeners();
+				removeListener(view.stage, MouseEvent.CLICK, blankHandler);
+				removeAllListeners();
 				/*->*/var testResult_mediatorRemoveAll:int = getTimer() - testTime_mediatorRemoveAll;
 				/*---------->*/trace("mediatorRemoveALL:", "\tTotal time:", testResult_mediatorRemoveAll, "\tavr time:", testResult_mediatorRemoveAll / testCount_mediatorRemove,"\t[*"+testCount_mediatorRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorRemoveAll / testCount_mediatorRemove));
 				break;				
@@ -187,6 +187,8 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 }
 /*
 
+// ver 1
+
 standartAdd:    	Total time: 115 	avr time: 0.00115 	[*100000] 	Runs per 1ms: 869.5652173913044
 standartRemove: 	Total time: 55 	avr time: 0.00055 	[*100000] 	Runs per 1ms: 1818.181818181818
 mediatorAdd:    	Total time: 278 	avr time: 0.00278 	[*100000] 	Runs per 1ms: 359.71223021582733
@@ -208,7 +210,7 @@ mediatorRemoveALL: 	Total time: 51 	avr time: Infinity 	[*0] 	Runs per 1ms: 0
 
 
 
-/// fix 1
+/// ver 2
 
 standartAdd:    	Total time: 132 	avr time: 0.00132 	[*100000] 	Runs per 1ms: 757.5757575757576
 standartRemove: 	Total time: 62 	avr time: 0.00062 	[*100000] 	Runs per 1ms: 1612.9032258064517
@@ -228,6 +230,17 @@ mediatorAdd:    	Total time: 150 	avr time: 0.0015 	[*100000] 	Runs per 1ms: 666
 mediatorRemove: 	Total time: 149 	avr time: 0.00149 	[*100000] 	Runs per 1ms: 671.1409395973154
 mediatorRemoveALL: 	Total time: 0 	avr time: NaN 	[*0] 	Runs per 1ms: NaN
 
+/// ver 3
+
+standartAdd:    	Total time: 115 	avr time: 0.00115 	[*100000] 	Runs per 1ms: 869.5652173913044
+standartRemove: 	Total time: 59 	avr time: 0.00059 	[*100000] 	Runs per 1ms: 1694.915254237288
+mediatorAdd:    	Total time: 119 	avr time: 0.00119 	[*100000] 	Runs per 1ms: 840.3361344537815
+mediatorRemove: 	Total time: 132 	avr time: 0.00132 	[*100000] 	Runs per 1ms: 757.5757575757576
+standartUniqueAdd:    	Total time: 618 	avr time: 0.00618 	[*100000] 	Runs per 1ms: 161.81229773462783
+standartUniqueRemove: 	Total time: 3213 	avr time: 0.03213 	[*100000] 	Runs per 1ms: 31.123560535325243
+mediatorUniqueAdd:    	Total time: 550 	avr time: 0.0055 	[*100000] 	Runs per 1ms: 181.81818181818184
+mediatorUniqueRemove: 	Total time: 3675 	avr time: 0.03675 	[*100000] 	Runs per 1ms: 27.2108843537415
+mediatorRemoveALL: 	Total time: 1 	avr time: Infinity 	[*0] 	Runs per 1ms: 0
 
 
 

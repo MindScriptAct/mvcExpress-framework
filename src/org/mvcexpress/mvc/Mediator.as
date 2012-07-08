@@ -100,7 +100,7 @@ public class Mediator {
 	pureLegsCore function disposeThisMediator():void {
 		use namespace pureLegsCore;
 		removeAllHandlers();
-		removeAllEventListeners();
+		removeAllListeners();
 		messageDataRegistry = null;
 		eventListenerRegistry = null;
 		messenger = null;
@@ -186,7 +186,7 @@ public class Mediator {
 	 * @param	useWeakReference	Determines whether the reference to the listener is strong or weak.
 	 *		A strong reference (the default) prevents your listener from being garbage-collected. A weak reference does not.
 	 */
-	protected function addEventListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = true):void {
+	protected function addListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = true):void {
 		if (useCapture) {
 			if (!eventListenerCaptureRegistry[listener]) {
 				eventListenerCaptureRegistry[listener] = new Dictionary();
@@ -213,7 +213,7 @@ public class Mediator {
 	 * @param	listener	The listener object to remove.
 	 * @param	useCapture	Specifies whether the listener was registered for the capture phase or the target and bubbling phases.
 	 */
-	protected function removeEventListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false):void {
+	protected function removeListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false):void {
 		viewObject.removeEventListener(type, listener, useCapture);
 		
 		if (useCapture) {
@@ -239,7 +239,7 @@ public class Mediator {
 	 * Removes all listeners created by mediators addEventListener() function.
 	 * Automatically called then mediator is unmediated.
 	 */
-	protected function removeAllEventListeners():void {
+	protected function removeAllListeners():void {
 		for (var listener:Object in eventListenerCaptureRegistry) {
 			var eventTypes:Dictionary = eventListenerCaptureRegistry[viewObject];
 			for (var type:String in eventTypes) {
