@@ -20,7 +20,9 @@ public class Messenger {
 	// keeps ALL HandlerVO's in Dictionaries by message type, mapped by handlers for fast disabling and duplicated handler checks.
 	private var handlerRegistry:Dictionary = new Dictionary(); /* of Dictionary by String */
 	
-	/* CONSTRUCTOR */
+	/**
+	 * CONSTRUCTOR - internal class. Not available for use.
+	 */
 	public function Messenger() {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {

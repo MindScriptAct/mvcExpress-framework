@@ -8,13 +8,13 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class MessengerManager {
 	
-	/* messenger counter, increased with every new created module */
+	/** messenger counter, increased with every new created module */
 	static private var _messengerCount:int;
 	
-	/* stores Messenger objects by module name */
+	/** stores Messenger objects by module name */
 	static private var messengerRegistry:Dictionary = new Dictionary(); /* of Messenger by String */
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function MessengerManager() {
 		throw Error("MessageManager is static framework class for internal use. Not meant to be instantiated.");
 	}

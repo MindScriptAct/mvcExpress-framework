@@ -18,10 +18,10 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class ProxyMap {
 	
-	/* all objects ready for injection stored by key. (className + inject name) */
+	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
-	/* dictionary of (Vector of InjectRuleVO), stored by class names. */
+	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
 	private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
 	
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
@@ -29,7 +29,7 @@ public class ProxyMap {
 	
 	private var messenger:Messenger;
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function ProxyMap(messenger:Messenger) {
 		this.messenger = messenger;
 	}

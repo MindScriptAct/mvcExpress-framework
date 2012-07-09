@@ -36,7 +36,7 @@ public class FlexMediatorMap extends MediatorMap {
 		}
 	}
 	
-	/* Start flex view object mediation after creationComplete is dispatched. */
+	/** Start flex view object mediation after creationComplete is dispatched. */
 	private function handleOnCreationComplete(event:Event):void {
 		IEventDispatcher(event.target).removeEventListener('creationComplete', handleOnCreationComplete);
 		// 

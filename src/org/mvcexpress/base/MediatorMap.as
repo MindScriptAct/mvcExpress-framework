@@ -25,7 +25,7 @@ public class MediatorMap implements IMediatorMap {
 	// stores all mediators using use view object(midiator is mediating) as a key.
 	protected var mediatorRegistry:Dictionary = new Dictionary(); /* of Mediator by Object */
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function MediatorMap(messenger:Messenger, proxyMap:ProxyMap) {
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;

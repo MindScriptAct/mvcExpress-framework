@@ -21,9 +21,9 @@ public class Mediator {
 	/** @private */
 	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
-	/* contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
+	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
 	private var eventListenerRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
-	/* contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
+	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
 	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
 	
 	/** @private */
@@ -44,7 +44,7 @@ public class Mediator {
 	 */
 	public var mediatorMap:IMediatorMap;
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function Mediator() {
 		CONFIG::debug {
 			use namespace pureLegsCore

@@ -2,3 +2,4 @@ obj
 bin
 mvcExpressDocs.docproj
 speedTest
+/mvcExpress-framework-*.swc

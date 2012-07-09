@@ -18,7 +18,7 @@ public class Proxy {
 	
 	private var _isReady:Boolean = false;
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function Proxy() {
 	}
 	

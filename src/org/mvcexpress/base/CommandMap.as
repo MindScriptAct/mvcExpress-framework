@@ -27,7 +27,7 @@ public class CommandMap {
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
 	
-	/* CONSTRUCTOR */
+	/** CONSTRUCTOR */
 	public function CommandMap(messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;
@@ -128,7 +128,7 @@ public class CommandMap {
 		//////////////////////////////////////////////	
 	}
 	
-	/* function to be called by messenger on needed mesage type sent */
+	/** function to be called by messenger on needed mesage type sent */
 	private function handleCommandExecute(messageType:String, params:Object):void {
 		var commandList:Vector.<Class> = classRegistry[messageType];
 		if (commandList) {

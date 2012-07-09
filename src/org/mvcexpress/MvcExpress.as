@@ -6,22 +6,22 @@ package org.mvcexpress {
  */
 public class MvcExpress {
 	
-	/* Home website of mvcExpress. */
+	/** Home website of mvcExpress. */
 	public static const WEBSITE_URL:String = "http://mvcexpress.org";
 	
-	/* Current framework major version */
+	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 0;
-	/* Current framework minor version */
+	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 9;
-	/* Current framework revision version */
-	public static const REVISION:uint = 8;
+	/** Current framework revision version */
+	public static const REVISION:uint = 9;
 	
-	/* Current framework version */
+	/** Current framework version */
 	public static function get VERSION():String {
 		return "v" + MvcExpress.MAJOR_VERSION + "." + MvcExpress.MINOR_VERSION + "." + MvcExpress.REVISION;
 	}
 	
-	/* Gives CONFIG::debug variable value. If it is true framework functions has overhead code, used for debugging and error checking. */
+	/** Gives CONFIG::debug variable value. If it is true framework functions has overhead code, used for debugging and error checking. */
 	public static function get DEBUG_COMPILE():Boolean {
 		CONFIG::debug {
 			return true;
