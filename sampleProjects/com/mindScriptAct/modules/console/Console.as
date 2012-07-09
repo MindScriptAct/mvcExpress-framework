@@ -1,12 +1,15 @@
-package com.mindScriptAct.modularSample.modules.console {
+package com.mindScriptAct.modules.console {
 import com.bit101.components.PushButton;
 import com.bit101.components.TextArea;
-import com.mindScriptAct.modularSample.modules.console.controller.HandleInputCommand;
-import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleMsg;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
-import com.mindScriptAct.modularSample.modules.console.view.ConsoleMediator;
+import com.mindScriptAct.modules.console.controller.HandleGlobalMessageCommand;
+import com.mindScriptAct.modules.console.controller.HandleInputCommand;
+import com.mindScriptAct.modules.console.model.ConsoleLogProxy;
+import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
+import com.mindScriptAct.modules.console.msg.ConsoleMsg;
+import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
+import com.mindScriptAct.modules.console.view.ConsoleMediator;
+import com.mindScriptAct.modules.globalMessages.GlobalMessage;
+import com.mindScriptAct.modules.ModuleNames;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldType;
@@ -27,7 +30,7 @@ public class Console extends ModuleSprite {
 	
 	public function Console(consoleId:int) {
 		this.consoleId = consoleId;
-		super("console" + this.consoleId);
+		super(ModuleNames.CONSOLE + this.consoleId);
 	}
 	
 	override protected function onInit():void {
@@ -37,9 +40,11 @@ public class Console extends ModuleSprite {
 			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
 		}
 		
+		
+		commandMap.map(GlobalMessage.SEND_MESSAGE_TO_SPECIFIC_CONSOLE, HandleGlobalMessageCommand);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
-		proxyMap.map(new ConsoleLogProxy());
+		proxyMap.map(new ConsoleLogProxy(consoleId));
 		
 		mediatorMap.map(Console, ConsoleMediator);
 		

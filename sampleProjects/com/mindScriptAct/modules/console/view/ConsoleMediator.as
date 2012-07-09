@@ -1,7 +1,7 @@
-package com.mindScriptAct.modularSample.modules.console.view {
-import com.mindScriptAct.modularSample.modules.console.Console;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
+package com.mindScriptAct.modules.console.view {
+import com.mindScriptAct.modules.console.Console;
+import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
+import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import flash.events.MouseEvent;
 import org.mvcexpress.mvc.Mediator;
 

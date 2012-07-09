@@ -1,5 +1,5 @@
-package com.mindScriptAct.modularSample.modules.console.controller {
-import com.mindScriptAct.modularSample.modules.console.model.ConsoleLogProxy;
+package com.mindScriptAct.modules.console.controller {
+import com.mindScriptAct.modules.console.model.ConsoleLogProxy;
 import org.mvcexpress.mvc.Command;
 
 /**

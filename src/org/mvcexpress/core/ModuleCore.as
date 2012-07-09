@@ -86,11 +86,10 @@ public class ModuleCore {
 	 * Message sender.
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
-	 * @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
-	 * 									To target all existing modules use : [MessageTarget.ALL]
+	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
-	protected function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		moduleBase.sendMessage(type, params, targetModuleNames);
+	protected function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
+		moduleBase.sendMessage(type, params, targetAllModules);
 	}
 	
 	//----------------------------------

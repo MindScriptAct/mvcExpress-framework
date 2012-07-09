@@ -98,11 +98,9 @@ public class Messenger {
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @param	targetModuleNames	array of module names as strings, by default '[MessageTarget.SELF]' is used. <br>
-	 * 									You can specify modules this message have to travel to : '["moduleName1","moduleName2"]'<br>
-	 * 									To target all existing modules use : '[MessageTarget.ALL]'.
+	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
-	public function send(type:String, params:Object = null):void {
+	public function send(type:String, params:Object = null, targetAllModules:Boolean = false):void {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
@@ -110,39 +108,43 @@ public class Messenger {
 				MvcExpress.debugFunction("** Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
-		var messageList:Vector.<HandlerVO> = messageRegistry[type];
-		var handlerVo:HandlerVO;
-		var delCount:int = 0;
-		if (messageList) {
-			var tempListLength:int = messageList.length
-			for (var i:int = 0; i < tempListLength; i++) {
-				handlerVo = messageList[i];
-				// check if message is not marked to be removed. (disabled)
-				if (handlerVo.disabled) {
-					delCount++;
-				} else {
-					// if some MsgVOs marked to be removed - move all other messages to there place.
-					if (delCount) {
-						messageList[i - delCount] = messageList[i];
-					}
-					// check if handling function handles commands.
-					if (handlerVo.isExecutable) {
-						handlerVo.handler(type, params);
+		if (targetAllModules) {
+			MessengerManager.sendMessageToAll(type, params);
+		} else {
+			var messageList:Vector.<HandlerVO> = messageRegistry[type];
+			var handlerVo:HandlerVO;
+			var delCount:int = 0;
+			if (messageList) {
+				var tempListLength:int = messageList.length
+				for (var i:int = 0; i < tempListLength; i++) {
+					handlerVo = messageList[i];
+					// check if message is not marked to be removed. (disabled)
+					if (handlerVo.disabled) {
+						delCount++;
 					} else {
-						CONFIG::debug {
-							// FOR DEBUG viewing only..
-							/* Failed message type: */
-							type
-							/* Failed handler class: */
-							handlerVo.handlerClassName
+						// if some MsgVOs marked to be removed - move all other messages to there place.
+						if (delCount) {
+							messageList[i - delCount] = messageList[i];
 						}
-						handlerVo.handler(params);
+						// check if handling function handles commands.
+						if (handlerVo.isExecutable) {
+							handlerVo.handler(type, params);
+						} else {
+							CONFIG::debug {
+								// FOR DEBUG viewing only..
+								/* Failed message type: */
+								type
+								/* Failed handler class: */
+								handlerVo.handlerClassName
+							}
+							handlerVo.handler(params);
+						}
 					}
 				}
-			}
-			// remove all removed handlers.
-			if (delCount) {
-				messageList.splice(tempListLength - delCount, delCount);
+				// remove all removed handlers.
+				if (delCount) {
+					messageList.splice(tempListLength - delCount, delCount);
+				}
 			}
 		}
 	}

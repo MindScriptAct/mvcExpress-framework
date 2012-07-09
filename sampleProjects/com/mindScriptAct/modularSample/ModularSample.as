@@ -3,6 +3,7 @@ import com.mindScriptAct.modularSample.msg.DataMsg;
 import com.mindScriptAct.modularSample.msg.Msg;
 import com.mindScriptAct.modularSample.msg.ViewMsg;
 import com.mindScriptAct.modularSample.view.ModularSampleMediator;
+import com.mindScriptAct.modules.ModuleNames;
 import org.mvcexpress.core.ModuleSprite;
 import org.mvcexpress.utils.checkClassStringConstants;
 
@@ -14,7 +15,7 @@ public class ModularSample extends ModuleSprite {
 	
 	
 	public function ModularSample() {
-		super("shell");
+		super(ModuleNames.SHELL);
 	}
 	
 	override protected function onInit():void {

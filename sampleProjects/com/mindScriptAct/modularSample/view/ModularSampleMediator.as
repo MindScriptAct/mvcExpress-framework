@@ -1,8 +1,10 @@
 package com.mindScriptAct.modularSample.view {
 import com.bit101.components.PushButton;
 import com.mindScriptAct.modularSample.ModularSample;
-import com.mindScriptAct.modularSample.modules.console.Console;
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
+import com.mindScriptAct.modules.console.Console;
+import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
+import com.mindScriptAct.modules.console.view.ConsoleParams;
+import com.mindScriptAct.modules.globalMessages.GlobalMessage;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import org.mvcexpress.mvc.Mediator;
@@ -41,7 +43,7 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	override public function onRemove():void {
-		trace( "ModularSampleMediator.onRemove" );
+		trace("ModularSampleMediator.onRemove");
 	}
 	
 	private function handleAddConsole1(event:Event):void {
@@ -101,15 +103,15 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	public function handleMessageToFirst(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to FIRST module!!!");
+		sendMessage(GlobalMessage.SEND_MESSAGE_TO_SPECIFIC_CONSOLE, new ConsoleParams("Message to FIRST module!!!", [1]), true);
 	}
 	
 	public function handleMessageToEven(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to even modules!!! (2 and 4)");
+		sendMessage(GlobalMessage.SEND_MESSAGE_TO_SPECIFIC_CONSOLE, new ConsoleParams("Message to even modules!!! (2 and 4)", [2, 4]), true);
 	}
 	
 	public function handleMessageToAll(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!");
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!", true);
 	}
 }
 }

@@ -1,4 +1,4 @@
-package com.mindScriptAct.modularSample.modules.console.msg {
+package com.mindScriptAct.modules.console.msg {
 
 /**
  * COMMENT

@@ -1,5 +1,5 @@
-package com.mindScriptAct.modularSample.modules.console.model {
-import com.mindScriptAct.modularSample.modules.console.msg.ConsoleDataMsg;
+package com.mindScriptAct.modules.console.model {
+import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import org.mvcexpress.mvc.Proxy;
 
 /**
@@ -9,9 +9,10 @@ import org.mvcexpress.mvc.Proxy;
 public class ConsoleLogProxy extends Proxy {
 	
 	private var messageList:Vector.<String> = new Vector.<String>();
-	
-	public function ConsoleLogProxy() {
-	
+	private var _consoleId:int;
+		
+	public function ConsoleLogProxy(_consoleId:int) {
+		this._consoleId = _consoleId;
 	}
 	
 	public function pushMessage(messageText:String):void {
@@ -25,6 +26,10 @@ public class ConsoleLogProxy extends Proxy {
 	
 	override protected function onRemove():void {
 		trace("ConsoleLogProxy.onRemove");
+	}
+	
+	public function get consoleId():int {
+		return _consoleId;
 	}
 
 }
