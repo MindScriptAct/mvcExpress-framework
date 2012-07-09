@@ -117,10 +117,9 @@ public class ModuleBase {
 	// Message sender.
 	// @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	// @param	params	Object that will be send to Command execute() or to handle function as parameter.
-	// @param	targetModuleNames	array of module names as strings, by default [MessageTarget.SELF] is used.<br>
-	// 									To target all existing modules use : [MessageTarget.ALL]
-	public function sendMessage(type:String, params:Object = null, targetModuleNames:Array = null):void {
-		messenger.send(type, params, targetModuleNames);
+	// 									
+	public function sendMessage(type:String, params:Object = null):void {
+		messenger.send(type, params);
 	}
 	
 	public function get moduleName():String {

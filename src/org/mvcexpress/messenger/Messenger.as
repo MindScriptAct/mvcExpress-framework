@@ -102,7 +102,7 @@ public class Messenger {
 	 * 									You can specify modules this message have to travel to : '["moduleName1","moduleName2"]'<br>
 	 * 									To target all existing modules use : '[MessageTarget.ALL]'.
 	 */
-	public function send(type:String, params:Object = null, targetModuleNames:Array = null):void {
+	public function send(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
@@ -110,55 +110,39 @@ public class Messenger {
 				MvcExpress.debugFunction("** Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
-		if (targetModuleNames == null) {
-			var messageList:Vector.<HandlerVO> = messageRegistry[type];
-			var handlerVo:HandlerVO;
-			var delCount:int = 0;
-			if (messageList) {
-				var tempListLength:int = messageList.length
-				for (var i:int = 0; i < tempListLength; i++) {
-					handlerVo = messageList[i];
-					// check if message is not marked to be removed. (disabled)
-					if (handlerVo.disabled) {
-						delCount++;
-					} else {
-						// if some MsgVOs marked to be removed - move all other messages to there place.
-						if (delCount) {
-							messageList[i - delCount] = messageList[i];
-						}
-						// check if handling function handles commands.
-						if (handlerVo.isExecutable) {
-							handlerVo.handler(type, params);
-						} else {
-							CONFIG::debug {
-								// FOR DEBUG viewing only..
-								/* Failed message type: */
-								type
-								/* Failed handler class: */
-								handlerVo.handlerClassName
-							}
-							handlerVo.handler(params);
-						}
+		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		var handlerVo:HandlerVO;
+		var delCount:int = 0;
+		if (messageList) {
+			var tempListLength:int = messageList.length
+			for (var i:int = 0; i < tempListLength; i++) {
+				handlerVo = messageList[i];
+				// check if message is not marked to be removed. (disabled)
+				if (handlerVo.disabled) {
+					delCount++;
+				} else {
+					// if some MsgVOs marked to be removed - move all other messages to there place.
+					if (delCount) {
+						messageList[i - delCount] = messageList[i];
 					}
-				}
-				// remove all removed handlers.
-				if (delCount) {
-					messageList.splice(tempListLength - delCount, delCount);
+					// check if handling function handles commands.
+					if (handlerVo.isExecutable) {
+						handlerVo.handler(type, params);
+					} else {
+						CONFIG::debug {
+							// FOR DEBUG viewing only..
+							/* Failed message type: */
+							type
+							/* Failed handler class: */
+							handlerVo.handlerClassName
+						}
+						handlerVo.handler(params);
+					}
 				}
 			}
-		} else {
-			for (var j:int = 0; j < targetModuleNames.length; j++) {
-				if (targetModuleNames[j] == MessageTarget.ALL) {
-					MessengerManager.sendMessageToAll(type, params);
-				} else if (targetModuleNames[j] == MessageTarget.SELF) {
-					// send messages to self. (without targetModuleNames Array.)
-					this.send(type, params);
-				} else {
-					var messenger:Messenger = MessengerManager.getMessenger(targetModuleNames[j]);
-					if (messenger) {
-						messenger.send(type, params);
-					}
-				}
+			// remove all removed handlers.
+			if (delCount) {
+				messageList.splice(tempListLength - delCount, delCount);
 			}
 		}
 	}

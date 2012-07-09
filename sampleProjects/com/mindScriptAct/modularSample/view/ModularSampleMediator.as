@@ -5,7 +5,6 @@ import com.mindScriptAct.modularSample.modules.console.Console;
 import com.mindScriptAct.modularSample.modules.console.msg.ConsoleViewMsg;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import org.mvcexpress.messenger.MessageTarget;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -102,15 +101,15 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	public function handleMessageToFirst(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to FIRST module!!!", ["console1"]);
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to FIRST module!!!");
 	}
 	
 	public function handleMessageToEven(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to even modules!!! (2 and 4)", ["console2", "console4"]);
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Message to even modules!!! (2 and 4)");
 	}
 	
 	public function handleMessageToAll(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!", [MessageTarget.ALL]);
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules!!!");
 	}
 }
 }
