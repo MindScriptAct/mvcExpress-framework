@@ -110,6 +110,18 @@ public class ModuleSprite extends Sprite {
 	}
 	
 	//----------------------------------
+	//     proxy hosting
+	//----------------------------------
+	
+	protected function hostProxy(classToHost:Class = null, name:String = ""):void {
+		moduleBase.hostProxy(classToHost, name);
+	}
+	
+	protected function unhostProxy(classToHost:Class, name:String = ""):void {
+		moduleBase.unhostProxy(classToHost, name);
+	}
+	
+	//----------------------------------
 	//     Debug
 	//----------------------------------
 	

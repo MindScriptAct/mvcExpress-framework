@@ -1,5 +1,6 @@
 package suites {
 import suites.commandMap.CommandMapTests;
+import suites.featureProxyHost.FeatureProxyHostTests;
 import suites.mediatorMap.MediatorMapTests;
 import suites.mediators.MediatorTests;
 import suites.messenger.MessengerTests;
@@ -16,6 +17,7 @@ import suites.proxyMap.NamedInterfacedProxyMapTests;
 
 public class AllTestSuites {
 	
+	/*
 	public var messengerTests:MessengerTests;
 	
 	public var proxyMapTests:ProxyMapTests;
@@ -34,6 +36,11 @@ public class AllTestSuites {
 	
 	
 	// TODO : public var modularTests:ModularTests;
+	
+	//*/
+	
+	
+	public var mediatorTests:FeatureProxyHostTests;
 
 }
 

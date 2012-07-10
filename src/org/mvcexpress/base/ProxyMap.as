@@ -27,6 +27,9 @@ public class ProxyMap {
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
+	/** all hosted proxy objects stored by key */
+	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
+	
 	private var messenger:Messenger;
 	
 	/** CONSTRUCTOR */
@@ -64,6 +67,20 @@ public class ProxyMap {
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			// store proxy injection to other classes.
 			injectObjectRegistry[className + name] = proxyObject;
+			// check if there is no waiting hosted proxies with this key.
+			if (hostObjectRegistry[className + name]) {
+				// check if hosted object is pending..
+				if (hostObjectRegistry[className + name] is PendingHostedProxy) {
+					// check if waiting hosted proxy belongs to this module.
+					if (1) {
+						hostObjectRegistry[className + name] = proxyObject;
+					} else {
+						// todo.
+					}
+				} else {
+					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
+				}
+			}
 			// check if there is no pending injection with this key.
 			if (pendingInjectionsRegistry[className + name]) {
 				injectPendingStuff(className + name, proxyObject);
@@ -154,30 +171,44 @@ public class ProxyMap {
 		for (var i:int = 0; i < rules.length; i++) {
 			var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
-				object[rules[i].varName] = injectObject
+				object[rules[i].varName] = injectObject;
 			} else {
-				// remember that not all injections exists
-				isAllInjected = false;
-				
-				if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
-					//add injection to pending injections.
+				// if local injection fails... test for global(hosted) injections
+				if (rules[i].isHosted) {
 					
-					// debug this action
-					CONFIG::debug {
-						if (MvcExpress.debugFunction != null) {
-							// TODO: add option to ignore this warning.
-							MvcExpress.debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
-						}
+					injectObject = hostObjectRegistry[rules[i].injectClassAndName];
+					if (injectObject) {
+						object[rules[i].varName] = injectObject;
+					} else {
+						// todo.. handle pending injections..
+						throw Error("Hosted inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 					}
-					//
-					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
-						pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
-					}
-					//
-					pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
-					object.pendingInjections++;
+					
 				} else {
-					throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+					
+					// remember that not all injections exists
+					isAllInjected = false;
+					
+					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
+						//add injection to pending injections.
+						
+						// debug this action
+						CONFIG::debug {
+							if (MvcExpress.debugFunction != null) {
+								// TODO: add option to ignore this warning.
+								MvcExpress.debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+							}
+						}
+						//
+						if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
+							pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
+						}
+						//
+						pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+						object.pendingInjections++;
+					} else {
+						throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+					}
 				}
 			}
 		}
@@ -250,21 +281,62 @@ public class ProxyMap {
 					nodeNome = metadataList[j].@name;
 					if (nodeNome == "Inject") {
 						var injectName:String = "";
+						var isHosted:Boolean = false;
 						var args:XMLList = metadataList[j].arg;
-						if (args[0]) {
-							if (args[0].@key == "name") {
-								injectName = args[0].@value;
+						for (var k:int = 0; k < args.length(); k++) {
+							if (args[k].@key == "name") {
+								injectName = args[k].@value;
+							} else if (args[k].@key == "isHosted") {
+								isHosted = (args[k].@value == "true");
 							}
 						}
 						var mapRule:InjectRuleVO = new InjectRuleVO();
 						mapRule.varName = node.@name.toString();
 						mapRule.injectClassAndName = node.@type.toString() + injectName;
+						mapRule.isHosted = isHosted;
 						retVal.push(mapRule);
 					}
 				}
 			}
 		}
 		return retVal;
+	}
+	
+	//----------------------------------
+	//     proxy hosting
+	//----------------------------------
+	
+	pureLegsCore function host(classToHost:Class, name:String = ""):void {
+		use namespace pureLegsCore;
+		var className:String = getQualifiedClassName(classToHost);
+		if (hostObjectRegistry[className + name]) {
+			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > classToHost : " + classToHost + ", name : " + name);
+		} else {
+			// debug this action
+			CONFIG::debug {
+				if (MvcExpress.debugFunction != null) {
+					MvcExpress.debugFunction("+++++ ProxyMap.host > classToHost : " + classToHost + ", name : " + name);
+				}
+			}
+			if (injectObjectRegistry[className + name]) {
+				hostObjectRegistry[className + name] = injectObjectRegistry[className + name];
+			} else {
+				hostObjectRegistry[className + name] = new PendingHostedProxy();
+			}
+		}
+	}
+	
+	pureLegsCore function unhost(classToHost:Class, name:String = ""):void {
+		var className:String = getQualifiedClassName(classToHost);
+		if (hostObjectRegistry[className + name]) {
+			// debug this action
+			CONFIG::debug {
+				if (MvcExpress.debugFunction != null) {
+					MvcExpress.debugFunction("----- ProxyMap.unhost > classToHost : " + classToHost + ", name : " + name);
+				}
+			}
+			delete hostObjectRegistry[className + name];
+		}
 	}
 	
 	//----------------------------------
@@ -340,4 +412,8 @@ class PendingInject {
 	private function throwError():void {
 		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
 	}
+}
+
+class PendingHostedProxy {
+	
 }

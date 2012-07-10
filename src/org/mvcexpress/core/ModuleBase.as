@@ -127,6 +127,20 @@ public class ModuleBase {
 	}
 	
 	//----------------------------------
+	//     proxy hosting
+	//----------------------------------
+	
+	public function hostProxy(classToHost:Class, name:String = ""):void {
+		use namespace pureLegsCore;
+		proxyMap.host(classToHost, name);
+	}
+	
+	public function unhostProxy(classToHost:Class, name:String = ""):void {
+		use namespace pureLegsCore;
+		proxyMap.unhost(classToHost, name);
+	}
+	
+	//----------------------------------
 	//     utils
 	//----------------------------------	
 	
