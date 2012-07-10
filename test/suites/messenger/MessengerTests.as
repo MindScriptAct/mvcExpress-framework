@@ -59,7 +59,7 @@ public class MessengerTests {
 	public function add_callback_and_disable_then_message_fails_silently():void {
 		var callBack:Function = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
 		var handlerVo:HandlerVO = messenger.addHandler("test", callBack);
-		handlerVo.disabled = true;
+		handlerVo.handler = null;
 		messenger.send("test");
 	}
 	
