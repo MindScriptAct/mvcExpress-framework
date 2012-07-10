@@ -2,7 +2,7 @@ package com.mindScriptAct.modules.console.view {
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ConsoleParams {
 	public var text:String;

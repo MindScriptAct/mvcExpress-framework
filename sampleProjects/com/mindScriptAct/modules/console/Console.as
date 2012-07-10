@@ -1,14 +1,13 @@
 package com.mindScriptAct.modules.console {
 import com.bit101.components.PushButton;
 import com.bit101.components.TextArea;
-import com.mindScriptAct.modules.console.controller.HandleGlobalMessageCommand;
+import com.mindScriptAct.modules.console.controller.HandleTargetedMessageCommand;
 import com.mindScriptAct.modules.console.controller.HandleInputCommand;
 import com.mindScriptAct.modules.console.model.ConsoleLogProxy;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modules.console.view.ConsoleMediator;
-import com.mindScriptAct.modules.globalMessages.GlobalMessage;
 import com.mindScriptAct.modules.ModuleNames;
 import flash.display.Sprite;
 import flash.text.TextField;
@@ -28,7 +27,7 @@ public class Console extends ModuleSprite {
 	public var inputTf:TextField;
 	public var inputBtn:Sprite;
 	
-	public function Console(consoleId:int) {
+	public function Console(consoleId:int = 0) {
 		this.consoleId = consoleId;
 		super(ModuleNames.CONSOLE + this.consoleId);
 	}
@@ -36,23 +35,27 @@ public class Console extends ModuleSprite {
 	override protected function onInit():void {
 		trace( "Console.onInit" );
 		
+		// for debugging
 		CONFIG::debug {
 			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
 		}
 		
-		
-		commandMap.map(GlobalMessage.SEND_MESSAGE_TO_SPECIFIC_CONSOLE, HandleGlobalMessageCommand);
+		// set up commands
+		commandMap.map(ConsoleMsg.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
+		commandMap.map(ConsoleMsg.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
 		
+		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
-		
 		mediatorMap.map(Console, ConsoleMediator);
 		
+		// start main view.
+		renderConsoleView();
 		mediatorMap.mediate(this);
 	
 	}
 	
-	public function initConsole():void {
+	public function renderConsoleView():void {
 		// add message output
 		outputTf = new TextArea();
 		this.addChild(outputTf);

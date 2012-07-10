@@ -4,7 +4,7 @@ import org.mvcexpress.core.ModuleSprite;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MediatorEventSpeedModule extends ModuleSprite {
 	

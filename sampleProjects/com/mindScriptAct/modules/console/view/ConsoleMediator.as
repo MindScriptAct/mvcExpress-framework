@@ -16,8 +16,6 @@ public class ConsoleMediator extends Mediator {
 	
 	override public function onRegister():void {
 		trace("ConsoleMediator.onRegister");
-		
-		view.initConsole();
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 	}
