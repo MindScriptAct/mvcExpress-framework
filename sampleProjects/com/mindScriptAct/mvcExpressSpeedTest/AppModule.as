@@ -22,7 +22,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSpriteMediator;
 import flash.events.Event;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
-import org.mvcexpress.core.ModuleCore;
+import org.mvcexpress.modules.ModuleCore;
 import org.mvcexpress.utils.checkClassStringConstants;
 
 /**

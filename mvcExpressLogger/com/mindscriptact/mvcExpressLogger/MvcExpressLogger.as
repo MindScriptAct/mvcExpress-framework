@@ -10,7 +10,7 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.ui.Mouse;
-import org.mvcexpress.core.ModuleCore;
+import org.mvcexpress.modules.ModuleCore;
 import org.mvcexpress.MvcExpress;
 
 /**

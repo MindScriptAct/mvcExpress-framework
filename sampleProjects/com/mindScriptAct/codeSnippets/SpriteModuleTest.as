@@ -100,7 +100,7 @@ public class SpriteModuleTest extends ModuleSprite {
 		mediatorMap.mediate(this);
 		//mediatorMap.unmediate(mvcExpressSnippets);
 		
-		mediatorMap.mediateWith(this.stage, KeyboardMediator);
+		//mediatorMap.mediateWith(this.stage, KeyboardMediator);
 	}
 
 }

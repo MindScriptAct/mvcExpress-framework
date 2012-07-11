@@ -11,24 +11,31 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class ModuleManager {
 	
-	/** messenger counter, increased with every new created module */
-	static private var _messengerCount:int;
+	/* messenger counter, increased with every new created module */
+	static private var _moduleId:int;
 	
-	/**  */
-	static private var moduleRegistry:Dictionary = new Dictionary();
+	/* modules stored by moduleName */
+	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleBase by String */
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
 		throw Error("ModuleFactory is static framework class for internal use. Not meant to be instantiated.");
 	}
 	
+	/**
+	 * Creates new module for given name.
+	 * @param	moduleName
+	 * @param	autoInit
+	 * @return
+	 * @private
+	 */
 	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
 		var retVal:ModuleBase;
 		if (moduleRegistry[moduleName] == null) {
-			_messengerCount++
+			_moduleId++
 			//
 			if (!moduleName) {
-				moduleName = "module" + _messengerCount;
+				moduleName = "module" + _moduleId;
 			}
 			//
 			retVal = ModuleBase.getModuleInstance(moduleName, autoInit);
@@ -40,14 +47,11 @@ public class ModuleManager {
 		return retVal;
 	}
 	
-	//----------------------------------
-	//      TODO ...
-	//----------------------------------
-	
 	/**
 	 * get messenger for module name.
 	 * @param	moduleName		name of the module this messenger will belong to.
 	 * @return	returns Messenger object.
+	 * @private
 	 */
 	static pureLegsCore function getMessenger(moduleName:String):Messenger {
 		use namespace pureLegsCore;
@@ -57,6 +61,7 @@ public class ModuleManager {
 	/**
 	 * disposes of messenger for module name.
 	 * @param	moduleName	name of the module this messenger was belong to.
+	 * @private
 	 */
 	static pureLegsCore function disposeModule(moduleName:String):void {
 		use namespace pureLegsCore;
@@ -71,6 +76,7 @@ public class ModuleManager {
 	 * sends message to all messengers.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 * @private
 	 */
 	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
 		use namespace pureLegsCore;
@@ -78,7 +84,14 @@ public class ModuleManager {
 			module.messenger.send(type, params);
 		}
 	}
-	
+	/**
+	 * Finds all proxy objects that are mapped with given className and name in all modules.
+	 * (needed to ensure there are no hosted proxies somethere.)
+	 * @param	className
+	 * @param	name
+	 * @return
+	 * @private
+	 */
 	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
 		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
 		use namespace pureLegsCore;
