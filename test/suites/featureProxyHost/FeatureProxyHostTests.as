@@ -106,7 +106,7 @@ public class FeatureProxyHostTests {
 		Assert.assertStrictlyEquals("Host proxy must be injected in remote modules, then hosting is done before mapping.", hostProxy, remoteModule.getProxyHostDependency());
 	}
 	
-	[Test(expects="Error", description="hosting with single dependency, but hosted dependency is not injectde properly, should fail")]
+	[Test(expects="Error",description="hosting with single dependency, but hosted dependency is not injectde properly, should fail")]
 	
 	public function featureHostProxy_host_then_map_then_wrong_dependency_inject_fails():void {
 		
@@ -117,10 +117,8 @@ public class FeatureProxyHostTests {
 		
 		remoteModule.createProxyWithNormalInject();
 		remoteModule.mapProxyWithNormalInject();
-		
-	}	
 	
-	
+	}
 	
 	[Test(expects="Error",description="hosting same class twice shloud throw error.")]
 	

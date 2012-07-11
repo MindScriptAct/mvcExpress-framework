@@ -18,7 +18,7 @@ public class Proxy {
 	
 	private var _isReady:Boolean = false;
 	
-	private var isHosted:Boolean = true;
+	pureLegsCore var isHosted:Boolean = false;
 	
 	/** CONSTRUCTOR */
 	public function Proxy() {

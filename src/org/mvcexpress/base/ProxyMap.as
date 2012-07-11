@@ -31,7 +31,7 @@ public class ProxyMap {
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
 	/** all hosted proxy objects stored by key */
-	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
+	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of HostedProxy by String */
 	
 	/** CONSTRUCTOR */
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
@@ -72,15 +72,15 @@ public class ProxyMap {
 			// check if there is no waiting hosted proxies with this key.
 			if (hostObjectRegistry[className + name]) {
 				// check if hosted object is pending..
-				if (hostObjectRegistry[className + name] is PendingHostedProxy) {
-					// check if waiting hosted proxy belongs to this module.
+				if (hostObjectRegistry[className + name].proxy) {
+					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
+				} else { // check if waiting hosted proxy belongs to this module.
 					if (hostObjectRegistry[className + name].moduleName == moduleName) {
-						hostObjectRegistry[className + name] = proxyObject;
+						proxyObject.isHosted = true;
+						hostObjectRegistry[className + name].proxy = proxyObject;
 					} else {
 						throw Error("Hosted proxy object must be mapped in same module as it is hosted. [injectClass:" + className + " name:" + name + "]");
 					}
-				} else {
-					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
 				}
 			}
 			// check if there is no pending injection with this key.
@@ -177,12 +177,11 @@ public class ProxyMap {
 			} else {
 				// if local injection fails... test for global(hosted) injections
 				if (rules[i].isHosted) {
-					
-					injectObject = hostObjectRegistry[rules[i].injectClassAndName];
+					injectObject = hostObjectRegistry[rules[i].injectClassAndName].proxy;
 					if (injectObject) {
 						object[rules[i].varName] = injectObject;
 					} else {
-						// todo.. handle pending injections..
+						// TODO: handle pending injections..
 						throw Error("Hosted inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 					}
 					
@@ -324,12 +323,13 @@ public class ProxyMap {
 					MvcExpress.debugFunction("+++++ ProxyMap.host > classToHost : " + classToHost + ", name : " + name);
 				}
 			}
+			hostObjectRegistry[className + name] = new HostedProxy(moduleName);
 			if (injectObjectRegistry[className + name]) {
-				hostObjectRegistry[className + name] = injectObjectRegistry[className + name];
-			} else {
-				// TODO : check if proxy is not mapped already in other modules.
-				hostObjectRegistry[className + name] = new PendingHostedProxy(moduleName);
+				injectObjectRegistry[className + name].isHosted = true;
+				hostObjectRegistry[className + name].proxy = injectObjectRegistry[className + name];
 			}
+			
+			// TODO : check if proxy is not mapped already in other modules.
 		}
 	}
 	
@@ -342,6 +342,14 @@ public class ProxyMap {
 					MvcExpress.debugFunction("----- ProxyMap.unhost > classToHost : " + classToHost + ", name : " + name);
 				}
 			}
+			
+			// TODO : remove proxy from all remote modules.
+			// mark proxy as not hosted.
+			if (hostObjectRegistry[className + name].proxy) {
+				use namespace pureLegsCore;
+				hostObjectRegistry[className + name].proxy.isHosted = false;
+			}
+			// remove hosted proxy from registry
 			delete hostObjectRegistry[className + name];
 		}
 	}
@@ -389,6 +397,7 @@ public class ProxyMap {
 
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
+import org.mvcexpress.mvc.Proxy;
 
 class PendingInject {
 	
@@ -421,10 +430,13 @@ class PendingInject {
 	}
 }
 
-class PendingHostedProxy {
+class HostedProxy {
+	
+	public var proxy:Proxy;
+	
 	public var moduleName:String;
 	
-	public function PendingHostedProxy(moduleName:String) {
+	public function HostedProxy(moduleName:String) {
 		this.moduleName = moduleName;
 	}
 }
