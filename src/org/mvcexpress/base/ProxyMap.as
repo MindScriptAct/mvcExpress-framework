@@ -33,6 +33,9 @@ public class ProxyMap {
 	/** all hosted proxy objects stored by key */
 	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of HostedProxy by String */
 	
+	/** all hostedProxy data stored by hosted Proxy objects stored */
+	static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
+	
 	/** CONSTRUCTOR */
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
@@ -75,9 +78,10 @@ public class ProxyMap {
 				if (hostObjectRegistry[className + name].proxy) {
 					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
 				} else { // check if waiting hosted proxy belongs to this module.
-					if (hostObjectRegistry[className + name].moduleName == moduleName) {
+					if (hostObjectRegistry[className + name].hostModuleName == moduleName) {
 						proxyObject.isHosted = true;
 						hostObjectRegistry[className + name].proxy = proxyObject;
+						hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
 					} else {
 						throw Error("Hosted proxy object must be mapped in same module as it is hosted. [injectClass:" + className + " name:" + name + "]");
 					}
@@ -178,6 +182,7 @@ public class ProxyMap {
 				// if local injection fails... test for global(hosted) injections
 				if (rules[i].isHosted) {
 					injectObject = hostObjectRegistry[rules[i].injectClassAndName].proxy;
+					hostObjectRegistry[rules[i].injectClassAndName].addRemoteModuleName(moduleName);
 					if (injectObject) {
 						object[rules[i].varName] = injectObject;
 					} else {
@@ -324,12 +329,14 @@ public class ProxyMap {
 				}
 			}
 			hostObjectRegistry[className + name] = new HostedProxy(moduleName);
-			if (injectObjectRegistry[className + name]) {
-				injectObjectRegistry[className + name].isHosted = true;
-				hostObjectRegistry[className + name].proxy = injectObjectRegistry[className + name];
+			var injectObject:Proxy = injectObjectRegistry[className + name]
+			if (injectObject) {
+				injectObject.isHosted = true;
+				hostObjectRegistry[className + name].proxy = injectObject;
+				hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
 			}
 			
-			// TODO : check if proxy is not mapped already in other modules.
+				// TODO : check if proxy is not mapped already in other modules.
 		}
 	}
 	
@@ -352,6 +359,13 @@ public class ProxyMap {
 			// remove hosted proxy from registry
 			delete hostObjectRegistry[className + name];
 		}
+	}
+	
+	static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {
+		if (hostedProxyRegistry[proxy]) {
+			return hostedProxyRegistry[proxy].remoteModuleNames;
+		}
+		return null;
 	}
 	
 	//----------------------------------
@@ -432,11 +446,22 @@ class PendingInject {
 
 class HostedProxy {
 	
+	public var hostModuleName:String;
+	
+	public var remoteModuleNames:Vector.<String> = new Vector.<String>();
+	
 	public var proxy:Proxy;
 	
-	public var moduleName:String;
-	
 	public function HostedProxy(moduleName:String) {
-		this.moduleName = moduleName;
+		this.hostModuleName = moduleName;
+	}
+	
+	public function addRemoteModuleName(moduleName:String):void {
+		for (var i:int = 0; i < remoteModuleNames.length; i++) {
+			if (remoteModuleNames[i] == moduleName) {
+				return;
+			}
+		}
+		remoteModuleNames.push(moduleName);
 	}
 }

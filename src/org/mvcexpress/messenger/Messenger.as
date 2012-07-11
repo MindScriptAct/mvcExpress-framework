@@ -154,11 +154,18 @@ public class Messenger {
 		}
 	}
 	
+	public function sendTo(type:String, params:Object, targetModules:Vector.<String>):void {
+		use namespace pureLegsCore;
+		for (var i:int = 0; i < targetModules.length; i++) {
+			MessengerManager.getMessenger(targetModules[i]).send(type, params);
+		}
+	}
+	
 	/**
 	 * function to add command execute function.
 	 * @private
 	 */
-	pureLegsCore function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):void {
+	public function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):void {
 		var executeMvgVo:HandlerVO = addHandler(type, executeFunction, String(handlerClass));
 		executeMvgVo.isExecutable = true;
 	}
@@ -200,7 +207,7 @@ public class Messenger {
 		return retVal;
 	}
 	
-	pureLegsCore function dispose():void {
+	public function dispose():void {
 		messageRegistry = null;
 		handlerRegistry = null;
 	}

@@ -10,6 +10,7 @@ import suites.featureProxyHost.testObjects.localObjects.HostProxy;
 public class RemoteModule extends ModuleSprite {
 	private var remoteProxyWithHostedDependency:RemoteProxyWithHostedDependency;
 	private var remoteProxyWithNormalInject:RemoteProxyWithNormalInject;
+	private var remoteViewTest:RemoteViewTest;
 	
 	public function RemoteModule() {
 		super("remoteModule", true, false);
@@ -17,7 +18,7 @@ public class RemoteModule extends ModuleSprite {
 	
 	override protected function onInit():void {
 		mediatorMap.map(RemoteViewTest, RemoteViewTestMediator);
-		var remoteViewTest:RemoteViewTest = new RemoteViewTest();
+		remoteViewTest = new RemoteViewTest();
 		mediatorMap.mediate(remoteViewTest);
 	}
 	
@@ -54,7 +55,7 @@ public class RemoteModule extends ModuleSprite {
 	}
 	
 	public function messageHandled():Boolean {
-		return false;
+		return remoteViewTest.messageReached;
 	}
 
 }
