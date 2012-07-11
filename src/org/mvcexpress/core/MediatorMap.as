@@ -1,9 +1,9 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package org.mvcexpress.base {
+package org.mvcexpress.core {
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import org.mvcexpress.base.interfaces.IMediatorMap;
+import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;

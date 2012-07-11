@@ -1,5 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package org.mvcexpress.base.interfaces {
+package org.mvcexpress.core.interfaces {
 
 /**
  * Interface for Mediator. MediatorsMap use mediators with this interface.

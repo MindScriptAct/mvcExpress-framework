@@ -1,10 +1,13 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package org.mvcexpress.core {
+package org.mvcexpress.modules {
 import flash.display.Sprite;
 import flash.events.Event;
-import org.mvcexpress.base.CommandMap;
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
+import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.MediatorMap;
+import org.mvcexpress.core.ModuleBase;
+import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.namespace.pureLegsCore;
 
 /**
  * Core Module class as sprite.
@@ -30,7 +33,8 @@ public class ModuleSprite extends Sprite {
 	 * @param	initOnStage	defines if module should init only then it is added to stage or not. By default it will wait for Event.ADDED_TO_STAGE before calling onInit(). If autoInit is set to false, this parameters is ignored.
 	 */
 	public function ModuleSprite(moduleName:String = null, autoInit:Boolean = true, initOnStage:Boolean = true) {
-		moduleBase = ModuleBase.getModuleInstance(moduleName, autoInit);
+		use namespace pureLegsCore;
+		moduleBase = ModuleManager.createModule(moduleName, autoInit);
 		//
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;

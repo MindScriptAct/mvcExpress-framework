@@ -1,6 +1,6 @@
 package com.mindScriptAct.mediatorEventSpeedTest {
 import com.mindScriptAct.mediatorEventSpeedTest.view.MediatorEventSpeedModuleMediator;
-import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.modules.ModuleSprite;
 
 /**
  * COMMENT

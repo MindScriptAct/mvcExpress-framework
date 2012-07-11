@@ -1,8 +1,8 @@
 package suites.mediators {
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
+import org.mvcexpress.core.MediatorMap;
+import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.namespace.pureLegsCore;
 import suites.mediators.mediatorObj.MediatorSprite;
 import suites.mediators.mediatorObj.MediatorSpriteMediator;
@@ -21,7 +21,7 @@ public class MediatorTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = MessengerManager.createMessenger("test");
+		messenger = ModuleManager.createMessenger("test");
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		
@@ -34,7 +34,7 @@ public class MediatorTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		MessengerManager.disposeMessenger("test");
+		ModuleManager.disposeMessenger("test");
 		proxyMap = null;
 		mediatorMap = null;
 	}

@@ -1,7 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.messenger {
 import flash.utils.Dictionary;
-import org.mvcexpress.base.CommandMap;
+import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.namespace.pureLegsCore;
 
@@ -114,7 +115,7 @@ public class Messenger {
 			}
 		}
 		if (targetAllModules) {
-			MessengerManager.sendMessageToAll(type, params);
+			ModuleManager.sendMessageToAll(type, params);
 		} else {
 			var messageList:Vector.<HandlerVO> = messageRegistry[type];
 			var handlerVo:HandlerVO;
@@ -157,7 +158,7 @@ public class Messenger {
 	public function sendTo(type:String, params:Object, targetModules:Vector.<String>):void {
 		use namespace pureLegsCore;
 		for (var i:int = 0; i < targetModules.length; i++) {
-			MessengerManager.getMessenger(targetModules[i]).send(type, params);
+			ModuleManager.getMessenger(targetModules[i]).send(type, params);
 		}
 	}
 	

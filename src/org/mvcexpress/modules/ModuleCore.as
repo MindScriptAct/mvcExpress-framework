@@ -1,20 +1,21 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package org.mvcexpress.core {
-import flash.display.MovieClip;
-import flash.events.Event;
-import org.mvcexpress.base.CommandMap;
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
+package org.mvcexpress.modules {
+import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.MediatorMap;
+import org.mvcexpress.core.ModuleBase;
+import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * Core Module class as MovieClip.
+ * Core Module class. Used if you don't want your module be display object.
  * <p>
  * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
  * Also you can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ModuleMovieClip extends MovieClip {
+public class ModuleCore {
 	
 	private var moduleBase:ModuleBase;
 	
@@ -27,32 +28,18 @@ public class ModuleMovieClip extends MovieClip {
 	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 * 						(or you start getting null reference errors.)
-	 * @param	initOnStage	defines if module should init only then it is added to stage or not. By default it will wait for Event.ADDED_TO_STAGE before calling onInit(). If autoInit is set to false, this parameters is ignored.
 	 */
-	public function ModuleMovieClip(moduleName:String = null, autoInit:Boolean = true, initOnStage:Boolean = true) {
-		moduleBase = ModuleBase.getModuleInstance(moduleName, autoInit);
+	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
+		use namespace pureLegsCore;
+		moduleBase = ModuleManager.createModule(moduleName, autoInit);
 		//
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;
 		commandMap = moduleBase.commandMap;
 		//
 		if (autoInit) {
-			if (initOnStage) {
-				if (this.stage) {
-					onInit();
-				} else {
-					addEventListener(Event.ADDED_TO_STAGE, handleModuleAddedToStage, false, 0, true);
-				}
-			} else {
-				onInit();
-			}
+			onInit();
 		}
-	}
-	
-	// inits module after it is added to stage.
-	private function handleModuleAddedToStage(event:Event):void {
-		removeEventListener(Event.ADDED_TO_STAGE, handleModuleAddedToStage);
-		onInit();
 	}
 	
 	/**
@@ -112,6 +99,13 @@ public class ModuleMovieClip extends MovieClip {
 	//----------------------------------
 	//     Debug
 	//----------------------------------
+	
+	/**
+	 * List all message mappings.
+	 */
+	public function listMappedMessages():String {
+		return moduleBase.listMappedMessages();
+	}
 	
 	/**
 	 * List all view mappings.

@@ -13,7 +13,7 @@ import com.mindScriptAct.codeSnippets.view.MainAppMediator;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.utils.setTimeout;
-import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassStringConstants;
 

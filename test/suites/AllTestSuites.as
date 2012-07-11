@@ -4,6 +4,7 @@ import suites.featureProxyHost.FeatureProxyHostTests;
 import suites.mediatorMap.MediatorMapTests;
 import suites.mediators.MediatorTests;
 import suites.messenger.MessengerTests;
+import suites.modules.ModularTests;
 import suites.proxyMap.ProxyMapTests;
 import suites.proxyMap.NamedInterfacedProxyMapTests;
 
@@ -34,8 +35,8 @@ public class AllTestSuites {
 
 	public var mediatorTests:MediatorTests;
 	
+	public var modularTests:ModularTests;
 	
-	// TODO : public var modularTests:ModularTests;
 	
 	//*/
 	

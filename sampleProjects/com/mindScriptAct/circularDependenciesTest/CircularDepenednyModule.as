@@ -6,7 +6,7 @@ import com.mindScriptAct.circularDependenciesTest.model.CProxy;
 import com.mindScriptAct.circularDependenciesTest.model.DProxy;
 import com.mindScriptAct.circularDependenciesTest.view.TestView;
 import com.mindScriptAct.circularDependenciesTest.view.TestViewMediator;
-import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
 
 /**

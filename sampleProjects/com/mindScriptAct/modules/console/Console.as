@@ -12,7 +12,7 @@ import com.mindScriptAct.modules.ModuleNames;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldType;
-import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.utils.checkClassStringConstants;
 
 /**

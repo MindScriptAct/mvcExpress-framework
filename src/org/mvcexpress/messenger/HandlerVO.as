@@ -1,6 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.messenger {
-import org.mvcexpress.base.CommandMap;
+import org.mvcexpress.core.CommandMap;
 
 /**
  * Framework internal value data for message handlers.

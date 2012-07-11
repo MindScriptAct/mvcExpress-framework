@@ -1,37 +1,38 @@
-package org.mvcexpress.messenger {
+package org.mvcexpress.core {
 import flash.utils.Dictionary;
+import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
- * Framework internal class. Manages module messengers.
+ * INTERNAR FRAMEWORK CLASS.
+ * Creates and manages modules.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class MessengerManager {
+public class ModuleManager {
 	
 	/** messenger counter, increased with every new created module */
 	static private var _messengerCount:int;
 	
+	/** CONSTRUCTOR */
+	public function ModuleManager() {
+		throw Error("ModuleFactory is static framework class for internal use. Not meant to be instantiated.");
+	}
+	
+	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
+		_messengerCount++
+		//
+		if (!moduleName) {
+			moduleName = "module" + _messengerCount;
+		}
+		return ModuleBase.getModuleInstance(moduleName, autoInit);
+	}
+	
+	//----------------------------------
+	//      TODO ...
+	//----------------------------------
+	
 	/** stores Messenger objects by module name */
 	static private var messengerRegistry:Dictionary = new Dictionary(); /* of Messenger by String */
-	
-	/** CONSTRUCTOR */
-	public function MessengerManager() {
-		throw Error("MessageManager is static framework class for internal use. Not meant to be instantiated.");
-	}
-	
-	/**
-	 * Count of created messengers. (will increase with every new module.)
-	 */
-	static public function get messengerCount():int {
-		return _messengerCount;
-	}
-	
-	/**
-	 * Increases messenger count by one. (will be used with every new module.)
-	 */
-	static pureLegsCore function increaseMessengerCount():void {
-		_messengerCount++
-	}
 	
 	/**
 	 * Creates new messenger for module name.
@@ -88,6 +89,5 @@ public class MessengerManager {
 			messenger.send(type, params);
 		}
 	}
-
 }
 }

@@ -1,8 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
-import org.mvcexpress.base.CommandMap;
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
+import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.MediatorMap;
+import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
 

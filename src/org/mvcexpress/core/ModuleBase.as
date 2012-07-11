@@ -1,12 +1,12 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.getDefinitionByName;
-import org.mvcexpress.base.CommandMap;
-import org.mvcexpress.base.FlexMediatorMap;
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
+import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.FlexMediatorMap;
+import org.mvcexpress.core.MediatorMap;
+import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.MessengerManager;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
@@ -38,11 +38,6 @@ public class ModuleBase {
 		}
 		//
 		this._moduleName = moduleName;
-		//
-		MessengerManager.increaseMessengerCount();
-		if (!moduleName) {
-			this._moduleName = "module" + (MessengerManager.messengerCount);
-		}
 		if (autoInit) {
 			initModule();
 		}
@@ -74,7 +69,7 @@ public class ModuleBase {
 		if (messenger) {
 			throw Error("Module can be initiated only once.");
 		}
-		messenger = MessengerManager.createMessenger(_moduleName);
+		messenger = ModuleManager.createMessenger(_moduleName);
 		
 		proxyMap = new ProxyMap(_moduleName, messenger);
 		// check if flex is used.
@@ -108,7 +103,7 @@ public class ModuleBase {
 		proxyMap = null;
 		messenger = null;
 		//
-		MessengerManager.disposeMessenger(_moduleName);
+		ModuleManager.disposeMessenger(_moduleName);
 	}
 	
 	/**

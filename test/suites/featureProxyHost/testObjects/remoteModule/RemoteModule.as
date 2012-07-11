@@ -1,5 +1,5 @@
 package suites.featureProxyHost.testObjects.remoteModule {
-import org.mvcexpress.core.ModuleSprite;
+import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.mvc.Proxy;
 import suites.featureProxyHost.testObjects.localObjects.HostProxy;
 

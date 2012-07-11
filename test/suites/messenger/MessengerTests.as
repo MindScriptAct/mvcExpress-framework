@@ -1,7 +1,7 @@
 package suites.messenger {
 import org.flexunit.Assert;
 import org.flexunit.internals.builders.NullBuilder;
-import org.mvcexpress.messenger.MessengerManager;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.messenger.HandlerVO;
 import org.mvcexpress.messenger.Messenger;
 import org.mvcexpress.namespace.pureLegsCore;
@@ -18,14 +18,14 @@ public class MessengerTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = MessengerManager.createMessenger("test");
+		messenger = ModuleManager.createMessenger("test");
 	}
 	
 	[After]
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		MessengerManager.disposeMessenger("test");
+		ModuleManager.disposeMessenger("test");
 	}
 	
 	//----------------------------------
