@@ -76,16 +76,16 @@ public class ModuleBase {
 		}
 		messenger = MessengerManager.createMessenger(_moduleName);
 		
-		proxyMap = new ProxyMap(messenger);
+		proxyMap = new ProxyMap(_moduleName, messenger);
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
 		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
 		if (uiComponentClass) {
-			mediatorMap = new FlexMediatorMap(messenger, proxyMap, uiComponentClass);
+			mediatorMap = new FlexMediatorMap(_moduleName, messenger, proxyMap, uiComponentClass);
 		} else {
-			mediatorMap = new MediatorMap(messenger, proxyMap);
+			mediatorMap = new MediatorMap(_moduleName, messenger, proxyMap);
 		}
-		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
+		commandMap = new CommandMap(_moduleName, messenger, proxyMap, mediatorMap);
 	}
 	
 	/**

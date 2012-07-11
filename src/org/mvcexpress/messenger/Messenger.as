@@ -11,6 +11,8 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class Messenger {
 	
+	private var moduleName:String;
+	
 	// defines if messenger can be instantiated.
 	static pureLegsCore var allowInstantiation:Boolean = false;
 	
@@ -23,7 +25,8 @@ public class Messenger {
 	/**
 	 * CONSTRUCTOR - internal class. Not available for use.
 	 */
-	public function Messenger() {
+	public function Messenger(moduleName:String) {
+		this.moduleName = moduleName;
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");

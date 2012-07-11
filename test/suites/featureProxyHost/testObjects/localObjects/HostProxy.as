@@ -9,15 +9,19 @@ public class HostProxy extends Proxy {
 	
 	static public var instances:Vector.<Proxy>;
 	
-	public function HostProxy(){
+	public function HostProxy() {
 		instances.push(this);
 	}
 	
-	override protected function onRegister():void{
+	public function dataChange():void {
+		sendMessage("proxyCommunicationTest");
+	}
+	
+	override protected function onRegister():void {
 	
 	}
 	
-	override protected function onRemove():void{
+	override protected function onRemove():void {
 	
 	}
 

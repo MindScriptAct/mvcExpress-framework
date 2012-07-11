@@ -18,6 +18,8 @@ public class Proxy {
 	
 	private var _isReady:Boolean = false;
 	
+	private var isHosted:Boolean = true;
+	
 	/** CONSTRUCTOR */
 	public function Proxy() {
 	}

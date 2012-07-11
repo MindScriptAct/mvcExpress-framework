@@ -6,7 +6,7 @@ import suites.featureProxyHost.testObjects.localObjects.HostProxy;
  * TODO:CLASS COMMENT
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
-public class OneDependencyRemoteProxy extends Proxy{
+public class RemoteProxyWithHostedDependency extends Proxy{
 	
 	
 	public function getHostProxy():HostProxy {
@@ -16,7 +16,7 @@ public class OneDependencyRemoteProxy extends Proxy{
 	[Inject(isHosted=true)]
 	public var hostProxy:HostProxy;
 	
-	public function OneDependencyRemoteProxy(){
+	public function RemoteProxyWithHostedDependency(){
 		
 	}
 	

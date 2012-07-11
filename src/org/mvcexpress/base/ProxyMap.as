@@ -18,6 +18,9 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class ProxyMap {
 	
+	private var moduleName:String;
+	private var messenger:Messenger;
+	
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
@@ -30,10 +33,9 @@ public class ProxyMap {
 	/** all hosted proxy objects stored by key */
 	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
-	private var messenger:Messenger;
-	
 	/** CONSTRUCTOR */
-	public function ProxyMap(messenger:Messenger) {
+	public function ProxyMap(moduleName:String, messenger:Messenger) {
+		this.moduleName = moduleName;
 		this.messenger = messenger;
 	}
 	
@@ -72,10 +74,10 @@ public class ProxyMap {
 				// check if hosted object is pending..
 				if (hostObjectRegistry[className + name] is PendingHostedProxy) {
 					// check if waiting hosted proxy belongs to this module.
-					if (1) {
+					if (hostObjectRegistry[className + name].moduleName == moduleName) {
 						hostObjectRegistry[className + name] = proxyObject;
 					} else {
-						// todo.
+						throw Error("Hosted proxy object must be mapped in same module as it is hosted. [injectClass:" + className + " name:" + name + "]");
 					}
 				} else {
 					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
@@ -207,7 +209,11 @@ public class ProxyMap {
 						pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 						object.pendingInjections++;
 					} else {
-						throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+						if (hostObjectRegistry[rules[i].injectClassAndName] == null) {
+							throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+						} else {
+							throw Error("Hasted proxy Inject metadata tag MUST have isHosted paramter: '[Inject(isHosted=true)]' .You are trying to inject hosted proxy for :" + rules[i].injectClassAndName + "(needed in " + object + ")");
+						}
 					}
 				}
 			}
@@ -321,7 +327,8 @@ public class ProxyMap {
 			if (injectObjectRegistry[className + name]) {
 				hostObjectRegistry[className + name] = injectObjectRegistry[className + name];
 			} else {
-				hostObjectRegistry[className + name] = new PendingHostedProxy();
+				// TODO : check if proxy is not mapped already in other modules.
+				hostObjectRegistry[className + name] = new PendingHostedProxy(moduleName);
 			}
 		}
 	}
@@ -415,5 +422,9 @@ class PendingInject {
 }
 
 class PendingHostedProxy {
+	public var moduleName:String;
 	
+	public function PendingHostedProxy(moduleName:String) {
+		this.moduleName = moduleName;
+	}
 }

@@ -16,6 +16,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
  */
 public class CommandMap {
 	
+	private var moduleName:String;
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
@@ -28,7 +29,8 @@ public class CommandMap {
 	private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
 	
 	/** CONSTRUCTOR */
-	public function CommandMap(messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
+	public function CommandMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
+		this.moduleName = moduleName;
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;
 		this.mediatorMap = mediatorMap;

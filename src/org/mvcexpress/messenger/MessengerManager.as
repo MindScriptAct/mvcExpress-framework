@@ -43,13 +43,13 @@ public class MessengerManager {
 		use namespace pureLegsCore;
 		//
 		Messenger.allowInstantiation = true;
-		retVal = new Messenger();
+		retVal = new Messenger(moduleName);
 		Messenger.allowInstantiation = false;
 		//
 		if (messengerRegistry[moduleName] == null) {
 			messengerRegistry[moduleName] = retVal
 		} else {
-			throw Error("You can't have 2 modules with same name. dispose() old module before creating new one with same name.");
+			throw Error("You can't have 2 modules with same name. dispose() old module before creating new one with same name. [moduleName:" + moduleName + "]");
 		}
 		return retVal;
 	}

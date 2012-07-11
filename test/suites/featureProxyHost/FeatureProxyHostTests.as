@@ -1,25 +1,12 @@
 package suites.featureProxyHost {
-import flash.display.Bitmap;
-import flash.display.Sprite;
 import org.flexunit.Assert;
-import org.mvcexpress.base.MediatorMap;
-import org.mvcexpress.base.ProxyMap;
-import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.MessengerManager;
-import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
-import org.mvcexpress.namespace.pureLegsCore;
 import suites.featureProxyHost.testObjects.HostTestModuleSprite;
 import suites.featureProxyHost.testObjects.localObjects.HostProxy;
 import suites.featureProxyHost.testObjects.localObjects.HostProxySubclass;
 import suites.featureProxyHost.testObjects.localObjects.LocalProxyWithGlobalInjection;
 import suites.featureProxyHost.testObjects.localObjects.LocalProxyWithLocalInjection;
-import suites.featureProxyHost.testObjects.remoteModule.OneDependencyRemoteModule;
-import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
-import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
-import suites.mediators.mediatorObj.MediatorSprite;
-import suites.mediators.mediatorObj.MediatorSpriteMediator;
-import utils.AsyncUtil;
+import suites.featureProxyHost.testObjects.remoteModule.RemoteModule;
 
 /**
  * COMMENT
@@ -27,11 +14,13 @@ import utils.AsyncUtil;
  */
 public class FeatureProxyHostTests {
 	private var moduleSprite:HostTestModuleSprite;
+	private var remoteModule:RemoteModule;
 	
 	[Before]
 	
 	public function runBeforeEveryTest():void {
 		moduleSprite = new HostTestModuleSprite();
+		remoteModule = new RemoteModule();
 		HostProxy.instances = Vector.<Proxy>([]);
 		LocalProxyWithLocalInjection.injectedProxy = null;
 		LocalProxyWithGlobalInjection.injectedProxy = null;
@@ -41,7 +30,10 @@ public class FeatureProxyHostTests {
 	
 	public function runAfterEveryTest():void {
 		moduleSprite.unhostTestProxy(HostProxy);
+		moduleSprite.disposeModule();
 		moduleSprite = null;
+		remoteModule.disposeModule();
+		remoteModule = null;
 	}
 	
 	[Test(description="just hosting")]
@@ -93,11 +85,10 @@ public class FeatureProxyHostTests {
 		moduleSprite.mapProxy(hostProxy);
 		moduleSprite.hostTestProxy(HostProxy);
 		
-		var oneDependencyModule:OneDependencyRemoteModule = new OneDependencyRemoteModule();
-		oneDependencyModule.createFirstProxy();
-		oneDependencyModule.mapFirstProxy();
+		remoteModule.createProxyWithHostedDependency();
+		remoteModule.mapProxyWithHostedDependency();
 		
-		Assert.assertStrictlyEquals("Host proxy must be injected in remote modules, then mapping is done before hasting.", hostProxy, oneDependencyModule.getProxyHostDependency());
+		Assert.assertStrictlyEquals("Host proxy must be injected in remote modules, then mapping is done before hasting.", hostProxy, remoteModule.getProxyHostDependency());
 	}
 	
 	[Test(description="hosting with single dependency created in future, first host, then map")]
@@ -109,12 +100,27 @@ public class FeatureProxyHostTests {
 		moduleSprite.hostTestProxy(HostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
-		var oneDependencyModule:OneDependencyRemoteModule = new OneDependencyRemoteModule();
-		oneDependencyModule.createFirstProxy();
-		oneDependencyModule.mapFirstProxy();
+		remoteModule.createProxyWithHostedDependency();
+		remoteModule.mapProxyWithHostedDependency();
 		
-		Assert.assertStrictlyEquals("Host proxy must be injected in remote modules, then hosting is done before mapping.", hostProxy, oneDependencyModule.getProxyHostDependency());
+		Assert.assertStrictlyEquals("Host proxy must be injected in remote modules, then hosting is done before mapping.", hostProxy, remoteModule.getProxyHostDependency());
 	}
+	
+	[Test(expects="Error", description="hosting with single dependency, but hosted dependency is not injectde properly, should fail")]
+	
+	public function featureHostProxy_host_then_map_then_wrong_dependency_inject_fails():void {
+		
+		var hostProxy:HostProxy = new HostProxy()
+		
+		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.mapProxy(hostProxy);
+		
+		remoteModule.createProxyWithNormalInject();
+		remoteModule.mapProxyWithNormalInject();
+		
+	}	
+	
+	
 	
 	[Test(expects="Error",description="hosting same class twice shloud throw error.")]
 	
@@ -130,14 +136,13 @@ public class FeatureProxyHostTests {
 	
 	public function featureHostProxy_host_then_map_two_same_objects_fails():void {
 		
-		var hostProxy:HostProxy = new HostProxy()
+		var hostProxy:HostProxy = new HostProxy();
 		
 		moduleSprite.hostTestProxy(HostProxy);
 		
 		moduleSprite.mapProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 	}
-	
 	
 	[Test(expects="Error",description="hosting same object with diferent class subclasses shloud throm error.")]
 	
@@ -152,10 +157,46 @@ public class FeatureProxyHostTests {
 		moduleSprite.mapProxy(hostProxy as HostProxySubclass);
 	}
 	
+	[Test(expects="Error",description="2 diferent proxies shold not host and map hosted proxy")]
 	
+	public function featureHostProxy_host_two_diferent_modules_host_and_map_fails():void {
+		
+		var hostProxy:HostProxy = new HostProxy();
+		
+		moduleSprite.hostTestProxy(HostProxy);
+		remoteModule.mapProxy(hostProxy);
 	
+	}
 	
+	[Test(expects="Error",description="2 diferent proxies shold not host and map hosted proxy")]
 	
+	//[Ignore]
+	
+	public function featureHostProxy_host_two_diferent_modules_map_and_host_fails():void {
+		
+		var hostProxy:HostProxy = new HostProxy();
+		
+		remoteModule.mapProxy(hostProxy);
+		moduleSprite.hostTestProxy(HostProxy);
+	}
+	
+	[Test(description="hosted proxy communication test.")]
+	
+	public function featureHostProxy_all_modules_get_proxy_event():void {
+		
+		var hostProxy:HostProxy = new HostProxy()
+		
+		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.mapProxy(hostProxy);
+		
+		remoteModule.createProxyWithHostedDependency();
+		remoteModule.mapProxyWithHostedDependency();
+		
+		hostProxy.dataChange();
+		
+		Assert.assertTrue("Host module hosted proxy message must be handled", moduleSprite.messageHandled());
+		Assert.assertTrue("Remote module hosted proxy message must be handled", remoteModule.messageHandled());
+	}
 
 /*
    [Test(async,description="Mediator onRemove test")]

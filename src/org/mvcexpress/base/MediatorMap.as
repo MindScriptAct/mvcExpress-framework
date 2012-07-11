@@ -15,7 +15,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MediatorMap implements IMediatorMap {
-	
+	private var moduleName:String;
 	protected var proxyMap:ProxyMap;
 	protected var messenger:Messenger;
 	
@@ -26,7 +26,8 @@ public class MediatorMap implements IMediatorMap {
 	protected var mediatorRegistry:Dictionary = new Dictionary(); /* of Mediator by Object */
 	
 	/** CONSTRUCTOR */
-	public function MediatorMap(messenger:Messenger, proxyMap:ProxyMap) {
+	public function MediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap) {
+		this.moduleName = moduleName;
 		this.messenger = messenger;
 		this.proxyMap = proxyMap;
 	}
