@@ -1,6 +1,7 @@
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
 import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.namespace.pureLegsCore;
 
 /**
@@ -76,6 +77,18 @@ public class ModuleManager {
 		for each (var module:ModuleBase in moduleRegistry) {
 			module.messenger.send(type, params);
 		}
+	}
+	
+	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
+		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
+		use namespace pureLegsCore;
+		for each (var module:ModuleBase in moduleRegistry) {
+			var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
+			if (proxy) {
+				retVal.push(proxy);
+			}
+		}
+		return retVal;
 	}
 }
 }

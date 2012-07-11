@@ -24,9 +24,6 @@ public class ProxyMap {
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
-	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
-	private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
-	
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
@@ -35,6 +32,9 @@ public class ProxyMap {
 	
 	/** all hostedProxy data stored by hosted Proxy objects stored */
 	static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
+	
+	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
+	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
 	
 	/** CONSTRUCTOR */
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
@@ -134,7 +134,6 @@ public class ProxyMap {
 		}
 		// set internals to null
 		injectObjectRegistry = null;
-		classInjectRules = null;
 		messenger = null;
 	}
 	
@@ -162,13 +161,13 @@ public class ProxyMap {
 		}
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[signatureClass];
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// TODO : TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
-			classInjectRules[signatureClass] = rules;
+			ProxyMap.classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
 		}
@@ -243,7 +242,7 @@ public class ProxyMap {
 			pendingInjection.stopTimer();
 			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
+			var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject
 			for (var j:int = 0; j < rules.length; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
@@ -312,6 +311,16 @@ public class ProxyMap {
 		return retVal;
 	}
 	
+	/**
+	 * INTERNAL FRAMEWORK FUNCTION. Returns proxy mapped with classname and name.
+	 * @param	className
+	 * @param	name
+	 * @private
+	 */
+	pureLegsCore function getMappedProxy(className:String, name:String):Proxy {
+		return injectObjectRegistry[className + name];
+	}
+	
 	//----------------------------------
 	//     proxy hosting
 	//----------------------------------
@@ -322,6 +331,7 @@ public class ProxyMap {
 		if (hostObjectRegistry[className + name]) {
 			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > classToHost : " + classToHost + ", name : " + name);
 		} else {
+			
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
@@ -335,8 +345,17 @@ public class ProxyMap {
 				hostObjectRegistry[className + name].proxy = injectObject;
 				hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
 			}
-			
-			// TODO : check if proxy is not mapped already in other modules.
+			// check if proxy is not mapped already in other modules.
+			var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
+			if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
+				var remoteModuleNamse:String = " ";
+				for (var i:int = 0; i < remoteProxies.length; i++) {
+					if (remoteProxies[i] != injectObject) {
+						remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
+					}
+				}
+				throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > classToHost : " + classToHost + ", name : " + name);
+			}
 		}
 	}
 	

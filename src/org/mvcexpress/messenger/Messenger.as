@@ -12,7 +12,7 @@ import org.mvcexpress.namespace.pureLegsCore;
  */
 public class Messenger {
 	
-	private var moduleName:String;
+	private var _moduleName:String;
 	
 	// defines if messenger can be instantiated.
 	static pureLegsCore var allowInstantiation:Boolean = false;
@@ -31,7 +31,7 @@ public class Messenger {
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
-		this.moduleName = moduleName;
+		this._moduleName = moduleName;
 	}
 	
 	/**
@@ -211,6 +211,10 @@ public class Messenger {
 	public function dispose():void {
 		messageRegistry = null;
 		handlerRegistry = null;
+	}
+	
+	public function get moduleName():String {
+		return _moduleName;
 	}
 
 }
