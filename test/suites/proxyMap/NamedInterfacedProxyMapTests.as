@@ -21,7 +21,9 @@ public class NamedInterfacedProxyMapTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = ModuleManager.createMessenger("test");
+		Messenger.allowInstantiation = true;
+		messenger = new Messenger("test");
+		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
 	
 	}
@@ -30,7 +32,7 @@ public class NamedInterfacedProxyMapTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		ModuleManager.disposeMessenger("test");
+		messenger = null;
 		proxyMap = null;
 	}
 	
@@ -39,7 +41,6 @@ public class NamedInterfacedProxyMapTests {
 	public function class_proxy_not_null():void {
 		use namespace pureLegsCore;
 		
-		
 		proxyMap.map(new TestProxy());
 		
 		proxyMap.map(new TestProxy(), ITestProxy);
@@ -47,7 +48,6 @@ public class NamedInterfacedProxyMapTests {
 		
 		proxyMap.map(new TestProxy(), null, "namedProxy");
 		proxyMap.map(new TestProxy(), TestProxy, "namedProxyNotNullClass");
-		
 		
 		namedTestingProxy = new NamedProxyTestingProxy();
 		proxyMap.injectStuff(namedTestingProxy, NamedProxyTestingProxy);

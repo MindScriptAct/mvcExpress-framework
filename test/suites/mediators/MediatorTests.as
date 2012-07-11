@@ -21,7 +21,9 @@ public class MediatorTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = ModuleManager.createMessenger("test");
+		Messenger.allowInstantiation = true;
+		messenger = new Messenger("test");
+		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		
@@ -34,7 +36,7 @@ public class MediatorTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		ModuleManager.disposeMessenger("test");
+		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
 	}

@@ -18,14 +18,16 @@ public class MessengerTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = ModuleManager.createMessenger("test");
+		Messenger.allowInstantiation = true;
+		messenger = new Messenger("test");
+		Messenger.allowInstantiation = false;
 	}
 	
 	[After]
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		ModuleManager.disposeMessenger("test");
+		messenger = null;
 	}
 	
 	//----------------------------------

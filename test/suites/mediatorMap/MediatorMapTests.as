@@ -30,7 +30,9 @@ public class MediatorMapTests {
 	
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
-		messenger = ModuleManager.createMessenger("test");
+		Messenger.allowInstantiation = true;
+		messenger = new Messenger("test");
+		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		callCaunter = 0;
@@ -41,7 +43,7 @@ public class MediatorMapTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
-		ModuleManager.disposeMessenger("test");
+		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
 		callCaunter = 0;

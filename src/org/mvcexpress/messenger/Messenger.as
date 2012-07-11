@@ -27,11 +27,11 @@ public class Messenger {
 	 * CONSTRUCTOR - internal class. Not available for use.
 	 */
 	public function Messenger(moduleName:String) {
-		this.moduleName = moduleName;
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
+		this.moduleName = moduleName;
 	}
 	
 	/**

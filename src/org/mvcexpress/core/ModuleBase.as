@@ -26,7 +26,7 @@ public class ModuleBase {
 	public var proxyMap:ProxyMap;
 	public var mediatorMap:MediatorMap;
 	public var commandMap:CommandMap;
-	private var messenger:Messenger;
+	private var _messenger:Messenger;
 	
 	/**
 	 * Internal framework class. Not meant to be constructed.
@@ -41,6 +41,20 @@ public class ModuleBase {
 		if (autoInit) {
 			initModule();
 		}
+	}
+	/**
+	 * Module name
+	 */
+	public function get moduleName():String {
+		return _moduleName;
+	}
+	
+	/**
+	 * framework access to module messenger
+	 * @private
+	 */
+	pureLegsCore function get messenger():Messenger {
+		return _messenger;
 	}
 	
 	/**
@@ -66,21 +80,23 @@ public class ModuleBase {
 	// By default it is called in constructor.
 	public function initModule():void {
 		use namespace pureLegsCore;
-		if (messenger) {
+		if (_messenger) {
 			throw Error("Module can be initiated only once.");
 		}
-		messenger = ModuleManager.createMessenger(_moduleName);
+		Messenger.allowInstantiation = true;
+		_messenger = new Messenger(moduleName);
+		Messenger.allowInstantiation = false;
 		
-		proxyMap = new ProxyMap(_moduleName, messenger);
+		proxyMap = new ProxyMap(_moduleName, _messenger);
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
 		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
 		if (uiComponentClass) {
-			mediatorMap = new FlexMediatorMap(_moduleName, messenger, proxyMap, uiComponentClass);
+			mediatorMap = new FlexMediatorMap(_moduleName, _messenger, proxyMap, uiComponentClass);
 		} else {
-			mediatorMap = new MediatorMap(_moduleName, messenger, proxyMap);
+			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
-		commandMap = new CommandMap(_moduleName, messenger, proxyMap, mediatorMap);
+		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
 	}
 	
 	/**
@@ -101,9 +117,9 @@ public class ModuleBase {
 		commandMap = null;
 		mediatorMap = null;
 		proxyMap = null;
-		messenger = null;
+		_messenger = null;
 		//
-		ModuleManager.disposeMessenger(_moduleName);
+		ModuleManager.disposeModule(_moduleName);
 	}
 	
 	/**
@@ -114,11 +130,7 @@ public class ModuleBase {
 	// @param	params	Object that will be send to Command execute() or to handle function as parameter.
 	// @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	public function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
-		messenger.send(type, params, targetAllModules);
-	}
-	
-	public function get moduleName():String {
-		return _moduleName;
+		_messenger.send(type, params, targetAllModules);
 	}
 	
 	//----------------------------------
@@ -159,7 +171,7 @@ public class ModuleBase {
 	 */
 	// List all message mappings.
 	public function listMappedMessages():String {
-		return messenger.listMappings(commandMap);
+		return _messenger.listMappings(commandMap);
 	}
 	
 	/**
