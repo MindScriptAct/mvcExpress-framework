@@ -22,7 +22,7 @@ public class NamedInterfacedProxyMapTests {
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		messenger = MessengerManager.createMessenger("test");
-		proxyMap = new ProxyMap(messenger);
+		proxyMap = new ProxyMap("test", messenger);
 	
 	}
 	

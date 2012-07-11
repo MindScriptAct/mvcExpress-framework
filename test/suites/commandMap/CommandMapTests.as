@@ -37,9 +37,9 @@ public class CommandMapTests {
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		messenger = MessengerManager.createMessenger("test");
-		proxyMap = new ProxyMap(messenger);
-		mediatorMap = new MediatorMap(messenger, proxyMap);
-		commandMap = new CommandMap(messenger, proxyMap, mediatorMap);
+		proxyMap = new ProxyMap("test",messenger);
+		mediatorMap = new MediatorMap("test",messenger, proxyMap);
+		commandMap = new CommandMap("test",messenger, proxyMap, mediatorMap);
 		callCaunter = 0;
 		callsExpected = 0;
 		testParamObject = new ExtendedSuperObject();

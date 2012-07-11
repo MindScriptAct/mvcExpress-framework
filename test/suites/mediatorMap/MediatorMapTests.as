@@ -31,8 +31,8 @@ public class MediatorMapTests {
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		messenger = MessengerManager.createMessenger("test");
-		proxyMap = new ProxyMap(messenger);
-		mediatorMap = new MediatorMap(messenger, proxyMap);
+		proxyMap = new ProxyMap("test", messenger);
+		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		callCaunter = 0;
 		callsExpected = 0;
 	}

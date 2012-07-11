@@ -336,7 +336,7 @@ public class ProxyMap {
 				hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
 			}
 			
-				// TODO : check if proxy is not mapped already in other modules.
+			// TODO : check if proxy is not mapped already in other modules.
 		}
 	}
 	

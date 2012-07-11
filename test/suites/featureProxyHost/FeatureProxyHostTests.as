@@ -167,16 +167,25 @@ public class FeatureProxyHostTests {
 	}
 	
 	[Test(expects="Error",description="2 diferent proxies shold not host and map hosted proxy")]
-	
-	//[Ignore]
-	
-	public function featureHostProxy_host_two_diferent_modules_map_and_host_fails():void {
+	[Ignore]
+	public function featureHostProxy_two_diferent_modules_map_and_host_same_proxy_fails():void {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
 		remoteModule.mapProxy(hostProxy);
 		moduleSprite.hostTestProxy(HostProxy);
 	}
+	
+	[Test(expects="Error",description="2 diferent proxies shold not map and host hosted proxy")]
+	
+	public function featureHostProxy_two_diferent_modules_host_and_map_same_proxy_fails():void {
+		
+		var hostProxy:HostProxy = new HostProxy();
+		
+		moduleSprite.hostTestProxy(HostProxy);
+		remoteModule.mapProxy(hostProxy);
+	}	
+	
 	
 	[Test(description="hosted proxy communication test.")]
 	
@@ -195,92 +204,5 @@ public class FeatureProxyHostTests {
 		Assert.assertTrue("Host module hosted proxy message must be handled", moduleSprite.messageHandled());
 		Assert.assertTrue("Remote module hosted proxy message must be handled", remoteModule.messageHandled());
 	}
-
-/*
-   [Test(async,description="Mediator onRemove test")]
-
-   public function mediatorMap_onRegister_and_onRemove():void {
-   MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
-   MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
-   mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-   var view:MediatorMapTestSprite = new MediatorMapTestSprite();
-   mediatorMap.mediate(view);
-   mediatorMap.unmediate(view);
-   }
-
-   [Test(async,description="Mediator onRemove test")]
-
-   public function mediatorMap_messag_callBack_test():void {
-   MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
-   mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-   var view:MediatorMapTestSprite = new MediatorMapTestSprite();
-   mediatorMap.mediate(view);
-
-   messenger.send(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE);
-   }
-
-   //----------------------------------
-   //     isMapped()
-   //----------------------------------
-
-   [Test]
-
-   public function debug_test_isMapped_false_wrong_view():void {
-   mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-   Assert.assertFalse("isMapped() should retturn false with NOT mapped view class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
-   }
-
-   [Test]
-
-   public function debug_test_isMapped_false_wrong_mediator():void {
-   mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-   Assert.assertFalse("isMapped() should retturn false with NOT mapped mediator class to view.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorSpriteMediator));
-   }
-
-   [Test]
-
-   public function debug_test_isMapped_true():void {
-   mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-   Assert.assertTrue("isMapped() should retturn true with mapped view class to mediator class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
-   }
-
-   [Test(expects="Error")]
-
-   public function debug_map_not_mediator_fails():void {
-   var errorChecked:Boolean = false;
-   CONFIG::debug {
-   errorChecked = true;
-   mediatorMap.map(Sprite, Bitmap);
-   }
-   if (!errorChecked) {
-   Assert.fail("fake error")
-   }
-   }
-
-   //----------------------------------
-   //
-   //----------------------------------
-   private function callBackFail(obj:* = null):void {
-   Assert.fail("CallBack should not be called...");
-   }
-
-   public function callBackSuccess(obj:* = null):void {
-   }
-
-   //----------------------------------
-   //
-   //----------------------------------
-   private function callBackCheck(obj:* = null):void {
-   //trace( "ControllerTests.callBackCheck > obj : " + obj );
-   if (callCaunter != callsExpected) {
-   Assert.fail("Expected " + callsExpected + " calls, but " + callCaunter + " was received...");
-   }
-   }
-
-   public function callBackIncrease(obj:* = null):void {
-   //trace( "ControllerTests.callBackIncrease > obj : " + obj );
-   callCaunter++;
-   }
- */
 }
 }

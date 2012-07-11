@@ -17,7 +17,7 @@ import suites.proxyMap.NamedInterfacedProxyMapTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	public var messengerTests:MessengerTests;
 	
 	public var proxyMapTests:ProxyMapTests;
@@ -39,8 +39,8 @@ public class AllTestSuites {
 	
 	//*/
 	
+	public var featureProxyHostTests:FeatureProxyHostTests;
 	
-	public var mediatorTests:FeatureProxyHostTests;
 
 }
 
