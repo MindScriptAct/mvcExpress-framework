@@ -163,7 +163,7 @@ public class Mediator {
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
 		while (messageDataRegistry.length) {
-			messageDataRegistry.pop().disabled = true;
+			messageDataRegistry.pop().handler = null;
 		}
 	}
 	

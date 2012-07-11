@@ -92,7 +92,7 @@ public class Messenger {
 		
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
-				(handlerRegistry[type][handler] as HandlerVO).disabled = true;
+				(handlerRegistry[type][handler] as HandlerVO).handler = null;
 				delete handlerRegistry[type][handler];
 			}
 		}
@@ -124,7 +124,7 @@ public class Messenger {
 				for (var i:int = 0; i < tempListLength; i++) {
 					handlerVo = messageList[i];
 					// check if message is not marked to be removed. (disabled)
-					if (handlerVo.disabled) {
+					if (handlerVo.handler == null) {
 						delCount++;
 					} else {
 						// if some MsgVOs marked to be removed - move all other messages to there place.

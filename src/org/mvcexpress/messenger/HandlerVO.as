@@ -16,9 +16,6 @@ public class HandlerVO {
 	// (HandlerVO is not removed instantly, only marked for removal. It is removed only with next message call of needed type, this message not always comes. :\ )
 	public var handler:Function;
 	
-	/** FOR INTERNAL USE ONLY, marks message for removal, with next message call of same type. */
-	public var disabled:Boolean;
-	
 	/** FOR INTERNAL USE ONLY, shows if message is handled by Cammand. */
 	public var isExecutable:Boolean;
 	
