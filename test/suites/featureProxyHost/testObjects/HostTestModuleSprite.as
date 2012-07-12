@@ -23,8 +23,8 @@ public class HostTestModuleSprite extends ModuleSprite {
 	
 	}
 	
-	public function hostTestProxy(classToHost:Class, name:String = ""):void {
-		hostProxy(classToHost, name);
+	public function hostTestProxy(hostProxy:Proxy, classToHost:Class = null, name:String = ""):void {
+		proxyMap.host(hostProxy, classToHost, name);
 	}
 	
 	public function unhostTestProxy(classToHost:Class, name:String = ""):void {

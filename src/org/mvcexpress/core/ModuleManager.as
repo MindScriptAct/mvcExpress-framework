@@ -84,7 +84,8 @@ public class ModuleManager {
 			module.messenger.send(type, params);
 		}
 	}
-	/**
+	
+	/*
 	 * Finds all proxy objects that are mapped with given className and name in all modules.
 	 * (needed to ensure there are no hosted proxies somethere.)
 	 * @param	className
@@ -92,6 +93,8 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
+	/*
+	 WORK IN PROGRESS
 	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
 		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
 		use namespace pureLegsCore;
@@ -103,5 +106,6 @@ public class ModuleManager {
 		}
 		return retVal;
 	}
+	*/
 }
 }

@@ -324,8 +324,11 @@ public class ProxyMap {
 	//----------------------------------
 	//     proxy hosting
 	//----------------------------------
+	/*
 	
-	pureLegsCore function host(classToHost:Class, name:String = ""):void {
+	WORK IN PROGRESS
+	
+	public function host(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		use namespace pureLegsCore;
 		var className:String = getQualifiedClassName(classToHost);
 		if (hostObjectRegistry[className + name]) {
@@ -359,7 +362,7 @@ public class ProxyMap {
 		}
 	}
 	
-	pureLegsCore function unhost(classToHost:Class, name:String = ""):void {
+	public function unhost(injectClass:Class = null, name:String = ""):void {
 		var className:String = getQualifiedClassName(classToHost);
 		if (hostObjectRegistry[className + name]) {
 			// debug this action
@@ -379,6 +382,7 @@ public class ProxyMap {
 			delete hostObjectRegistry[className + name];
 		}
 	}
+	*/
 	
 	static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {
 		if (hostedProxyRegistry[proxy]) {

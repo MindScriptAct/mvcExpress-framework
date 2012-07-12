@@ -40,7 +40,7 @@ public class FeatureProxyHostTests {
 	
 	public function featureHostProxy_just_hosting_no_proxy_created():void {
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(new HostProxy());
 		Assert.assertEquals("Hosting a proxy should not create any new proxies.", HostProxy.instances.length, 0);
 	}
 	
@@ -52,7 +52,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
 		moduleSprite.mapProxy(new LocalProxyWithLocalInjection());
@@ -67,7 +67,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
 		moduleSprite.mapProxy(new LocalProxyWithGlobalInjection());
@@ -83,7 +83,7 @@ public class FeatureProxyHostTests {
 		var hostProxy:HostProxy = new HostProxy();
 		
 		moduleSprite.mapProxy(hostProxy);
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();
 		remoteModule.mapProxyWithHostedDependency();
@@ -97,7 +97,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();
@@ -112,7 +112,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithNormalInject();
@@ -126,8 +126,8 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 	}
 	
 	[Test(expects="Error",description="hosting same object with diferent class shloud throm error.")]
@@ -136,7 +136,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		
 		moduleSprite.mapProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
@@ -148,11 +148,12 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxySubclass = new HostProxySubclass()
 		
-		moduleSprite.hostTestProxy(HostProxy);
-		moduleSprite.hostTestProxy(HostProxySubclass);
+		moduleSprite.hostTestProxy(hostProxy);
+		moduleSprite.hostTestProxy(hostProxy, HostProxySubclass);
 		
 		moduleSprite.mapProxy(hostProxy as HostProxy);
-		moduleSprite.mapProxy(hostProxy as HostProxySubclass);
+		
+		throw Error("TODO");
 	}
 	
 	[Test(expects="Error",description="2 diferent proxies shold not host and map hosted proxy")]
@@ -161,7 +162,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		remoteModule.mapProxy(hostProxy);
 	
 	}
@@ -173,7 +174,7 @@ public class FeatureProxyHostTests {
 		var hostProxy:HostProxy = new HostProxy();
 		
 		remoteModule.mapProxy(hostProxy);
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 	}
 	
 	[Test(expects="Error",description="2 diferent proxies shold not map and host hosted proxy")]
@@ -182,7 +183,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		remoteModule.mapProxy(hostProxy);
 	}	
 	
@@ -193,7 +194,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(HostProxy);
+		moduleSprite.hostTestProxy(hostProxy);
 		moduleSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();

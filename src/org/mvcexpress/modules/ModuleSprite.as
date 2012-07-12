@@ -8,6 +8,7 @@ import org.mvcexpress.core.ModuleBase;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.mvc.Proxy;
 
 /**
  * Core Module class as sprite.
@@ -111,18 +112,6 @@ public class ModuleSprite extends Sprite {
 	 */
 	protected function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
 		moduleBase.sendMessage(type, params, targetAllModules);
-	}
-	
-	//----------------------------------
-	//     proxy hosting
-	//----------------------------------
-	
-	protected function hostProxy(classToHost:Class = null, name:String = ""):void {
-		moduleBase.hostProxy(classToHost, name);
-	}
-	
-	protected function unhostProxy(classToHost:Class, name:String = ""):void {
-		moduleBase.unhostProxy(classToHost, name);
 	}
 	
 	//----------------------------------

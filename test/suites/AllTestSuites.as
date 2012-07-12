@@ -42,7 +42,7 @@ public class AllTestSuites {
 	
 	//*/
 	
-	public var featureProxyHostTests:FeatureProxyHostTests;
+	//public var featureProxyHostTests:FeatureProxyHostTests;
 	
 	
 	

@@ -8,6 +8,7 @@ import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.mvc.Proxy;
 
 /**
  * Internal framework class. Not meant to be constructed.
@@ -131,20 +132,6 @@ public class ModuleBase {
 	// @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	public function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
 		_messenger.send(type, params, targetAllModules);
-	}
-	
-	//----------------------------------
-	//     proxy hosting
-	//----------------------------------
-	
-	public function hostProxy(classToHost:Class, name:String = ""):void {
-		use namespace pureLegsCore;
-		proxyMap.host(classToHost, name);
-	}
-	
-	public function unhostProxy(classToHost:Class, name:String = ""):void {
-		use namespace pureLegsCore;
-		proxyMap.unhost(classToHost, name);
 	}
 	
 	//----------------------------------
