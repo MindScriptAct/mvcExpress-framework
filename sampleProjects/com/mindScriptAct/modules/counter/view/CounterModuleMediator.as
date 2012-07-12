@@ -1,7 +1,7 @@
 package com.mindScriptAct.modules.counter.view {
 import com.mindScriptAct.modules.counter.CounterModule;
 import com.mindScriptAct.proxyHostSample.messages.DataMessage;
-import com.mindScriptAct.proxyHostSample.model.TestProxy;
+import com.mindScriptAct.proxyHostSample.model.ITestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -14,7 +14,7 @@ public class CounterModuleMediator extends Mediator {
 	public var view:CounterModule;
 	
 	[Inject(isHosted=true)]
-	public var testProxy:TestProxy;
+	public var testProxy:ITestProxy;
 	
 	override public function onRegister():void {
 		addHandler(DataMessage.COUNTER_CHANGED, handleCounterChange);

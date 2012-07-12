@@ -6,7 +6,7 @@ import org.mvcexpress.mvc.Proxy;
  * TODO:CLASS COMMENT
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
-public class TestProxy extends Proxy {
+public class TestProxy extends Proxy implements ITestProxy {
 	
 	private var circleCount:int;
 	

@@ -1,4 +1,5 @@
 package com.mindScriptAct.proxyHostSample {
+import com.mindScriptAct.proxyHostSample.model.ITestProxy;
 import com.mindScriptAct.proxyHostSample.model.TestProxy;
 import com.mindScriptAct.proxyHostSample.view.ProxyHostMainMediator;
 import org.mvcexpress.modules.ModuleCore;
@@ -26,8 +27,8 @@ public class ProxyHostMainModule extends ModuleCore {
 		proxyMap.map(testProxy);
 		
 		// map for global use.
-		proxyMap.host(testProxy);
-		
+		proxyMap.host(testProxy, ITestProxy);
+	
 	}
 	
 	public function start(main:ProxyHostMain):void {
