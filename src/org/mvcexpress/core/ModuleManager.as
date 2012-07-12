@@ -1,8 +1,8 @@
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
-import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Proxy;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * INTERNAR FRAMEWORK CLASS.

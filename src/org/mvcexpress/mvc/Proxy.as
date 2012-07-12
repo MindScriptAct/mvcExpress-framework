@@ -1,8 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import org.mvcexpress.core.ProxyMap;
-import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>

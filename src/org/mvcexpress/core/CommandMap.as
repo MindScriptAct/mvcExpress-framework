@@ -4,11 +4,11 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.namespace.pureLegsCore;
-import org.mvcexpress.utils.checkClassSuperclass;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.utils.checkClassSuperclass;
 
 /**
  * Handles command mappings, and executes them on messages

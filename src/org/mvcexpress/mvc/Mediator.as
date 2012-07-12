@@ -4,10 +4,9 @@ import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
-import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.messenger.HandlerVO;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.messenger.HandlerVO;
+import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * Mediates single view object. 																</br>

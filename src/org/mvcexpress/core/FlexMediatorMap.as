@@ -2,7 +2,7 @@
 package org.mvcexpress.core {
 import flash.events.Event;
 import flash.events.IEventDispatcher;
-import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 
 /**

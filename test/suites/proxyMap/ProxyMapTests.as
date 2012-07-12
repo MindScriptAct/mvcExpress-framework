@@ -2,8 +2,8 @@ package suites.proxyMap {
 import flexunit.framework.Assert;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.ProxyMap;
-import org.mvcexpress.messenger.Messenger;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 import suites.proxyMap.proxyTestObj.ProxyTestObj;
 import suites.proxyMap.proxyTestObj.TestProxy;
 

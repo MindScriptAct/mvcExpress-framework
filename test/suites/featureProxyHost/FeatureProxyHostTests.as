@@ -166,7 +166,7 @@ public class FeatureProxyHostTests {
 	
 	}
 	
-	[Test(description="2 diferent proxies shold not host and map hosted proxy")]
+	[Test(expects="Error",description="2 diferent proxies shold not host and map hosted proxy")]
 	
 	public function featureHostProxy_two_diferent_modules_map_and_host_same_proxy_fails():void {
 		

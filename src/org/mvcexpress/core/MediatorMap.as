@@ -4,11 +4,11 @@ import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
-import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.namespace.pureLegsCore;
-import org.mvcexpress.utils.checkClassSuperclass;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.utils.checkClassSuperclass;
 
 /**
  * Handles application mediators.

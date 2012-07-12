@@ -17,7 +17,7 @@ import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import flash.display.Sprite;
 import org.mvcexpress.modules.ModuleCore;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.utils.checkClassStringConstants;
+import org.mvcexpress.core.utils.checkClassStringConstants;
 
 /**
  * COMMENT

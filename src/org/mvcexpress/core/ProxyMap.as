@@ -5,12 +5,12 @@ import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.inject.InjectRuleVO;
-import org.mvcexpress.messenger.Messenger;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.

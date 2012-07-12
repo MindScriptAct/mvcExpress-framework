@@ -1,5 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package org.mvcexpress.utils {
+package org.mvcexpress.core.utils {
 import flash.utils.describeType;
 
 /**

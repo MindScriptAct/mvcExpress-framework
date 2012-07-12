@@ -7,7 +7,7 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.ModuleBase;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.ProxyMap;
-import org.mvcexpress.namespace.pureLegsCore;
+import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * Core Module class as sprite.

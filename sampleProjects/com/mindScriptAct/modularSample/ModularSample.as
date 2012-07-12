@@ -5,7 +5,7 @@ import com.mindScriptAct.modularSample.msg.ViewMsg;
 import com.mindScriptAct.modularSample.view.ModularSampleMediator;
 import com.mindScriptAct.modules.ModuleNames;
 import org.mvcexpress.modules.ModuleSprite;
-import org.mvcexpress.utils.checkClassStringConstants;
+import org.mvcexpress.core.utils.checkClassStringConstants;
 
 /**
  * COMMENT

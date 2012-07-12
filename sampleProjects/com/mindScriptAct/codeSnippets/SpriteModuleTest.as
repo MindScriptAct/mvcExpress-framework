@@ -15,7 +15,7 @@ import flash.display.StageScaleMode;
 import flash.utils.setTimeout;
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.utils.checkClassStringConstants;
+import org.mvcexpress.core.utils.checkClassStringConstants;
 
 /**
  * COMMENT

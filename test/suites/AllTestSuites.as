@@ -7,6 +7,7 @@ import suites.messenger.MessengerTests;
 import suites.modules.ModularTests;
 import suites.proxyMap.ProxyMapTests;
 import suites.proxyMap.NamedInterfacedProxyMapTests;
+import suites.utils.UtilsTests;
 
 /**
  * COMMENT
@@ -37,10 +38,13 @@ public class AllTestSuites {
 	
 	public var modularTests:ModularTests;
 	
+	public var utilsTests:UtilsTests;
 	
 	//*/
 	
 	public var featureProxyHostTests:FeatureProxyHostTests;
+	
+	
 	
 
 }

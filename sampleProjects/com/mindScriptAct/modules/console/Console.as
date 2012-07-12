@@ -13,7 +13,7 @@ import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldType;
 import org.mvcexpress.modules.ModuleSprite;
-import org.mvcexpress.utils.checkClassStringConstants;
+import org.mvcexpress.core.utils.checkClassStringConstants;
 
 /**
  * COMMENT
