@@ -327,45 +327,63 @@ public class ProxyMap {
 	
 	public function host(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		use namespace pureLegsCore;
-		//var className:String = getQualifiedClassName(classToHost);
-		//if (hostObjectRegistry[className + name]) {
-		//throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > classToHost : " + classToHost + ", name : " + name);
-		//} else {
-		//
-		// debug this action
-		//CONFIG::debug {
-		//if (MvcExpress.debugFunction != null) {
-		//MvcExpress.debugFunction("+++++ ProxyMap.host > classToHost : " + classToHost + ", name : " + name);
-		//}
-		//}
-		//hostObjectRegistry[className + name] = new HostedProxy(moduleName);
-		//var injectObject:Proxy = injectObjectRegistry[className + name]
-		//if (injectObject) {
-		//injectObject.isHosted = true;
-		//hostObjectRegistry[className + name].proxy = injectObject;
-		//hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
-		//}
-		// check if proxy is not mapped already in other modules.
-		//var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
-		//if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
-		//var remoteModuleNamse:String = " ";
-		//for (var i:int = 0; i < remoteProxies.length; i++) {
-		//if (remoteProxies[i] != injectObject) {
-		//remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
-		//}
-		//}
-		//throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > classToHost : " + classToHost + ", name : " + name);
-		//}
-		//}
+		
+		// get proxy class
+		var proxyClass:Class = Object(proxyObject).constructor;
+		
+		// if injectClass is not provided - proxyClass will be used instead.
+		if (!injectClass) {
+			injectClass = proxyClass;
+		}
+		
+		var className:String = getQualifiedClassName(injectClass);
+		if (hostObjectRegistry[className + name]) {
+			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > injectClass : " + injectClass + ", name : " + name);
+		} else {
+			// debug this action
+			CONFIG::debug {
+				if (MvcExpress.debugFunction != null) {
+					MvcExpress.debugFunction("+++++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
+				}
+			}
+			// store hosting object
+			hostObjectRegistry[className + name] = new HostedProxy(moduleName);
+			// check if local object exists
+			var injectObject:Proxy = injectObjectRegistry[className + name];
+			if (injectObject) {
+				if (injectObject != proxyObject) {
+					throw Error("You are trying to host proxy to id, that is already used for another proxy. > injectClass : " + injectClass + ", name : " + name);
+				}
+			}
+			
+			// TODO : check if isHosted is needed.
+			// TODO : check if HostedProxy class is needed.
+			proxyObject.isHosted = true;
+			hostObjectRegistry[className + name].proxy = proxyObject;
+			hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
+			
+				// check if proxy is not mapped already in other modules.
+				// TODO : decide what to do with this check.
+				//var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
+				//if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
+				//var remoteModuleNamse:String = " ";
+				//for (var i:int = 0; i < remoteProxies.length; i++) {
+				//if (remoteProxies[i] != injectObject) {
+				//remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
+				//}
+				//}
+				//throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > injectClass : " + injectClass + ", name : " + name);
+				//}
+		}
 	}
 	
 	public function unhost(injectClass:Class = null, name:String = ""):void {
-		//var className:String = getQualifiedClassName(classToHost);
+		//var className:String = getQualifiedClassName(injectClass);
 		//if (hostObjectRegistry[className + name]) {
 		// debug this action
 		//CONFIG::debug {
 		//if (MvcExpress.debugFunction != null) {
-		//MvcExpress.debugFunction("----- ProxyMap.unhost > classToHost : " + classToHost + ", name : " + name);
+		//MvcExpress.debugFunction("----- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
 		//}
 		//}
 		//

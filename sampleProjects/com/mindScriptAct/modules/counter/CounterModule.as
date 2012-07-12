@@ -1,4 +1,5 @@
 package com.mindScriptAct.modules.counter {
+import com.mindScriptAct.modules.counter.view.CounterModuleMediator;
 import flash.display.Shape;
 import flash.text.TextField;
 import org.mvcexpress.modules.ModuleSprite;
@@ -15,8 +16,11 @@ public class CounterModule extends ModuleSprite {
 	
 	public function CounterModule() {
 		super(CounterModule.NAME);
-		
 		drawView();
+		
+		mediatorMap.map(CounterModule, CounterModuleMediator);
+		
+		mediatorMap.mediate(this);
 	}
 	
 	private function drawView():void {
