@@ -324,65 +324,61 @@ public class ProxyMap {
 	//----------------------------------
 	//     proxy hosting
 	//----------------------------------
-	/*
-	
-	WORK IN PROGRESS
 	
 	public function host(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
 		use namespace pureLegsCore;
-		var className:String = getQualifiedClassName(classToHost);
-		if (hostObjectRegistry[className + name]) {
-			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > classToHost : " + classToHost + ", name : " + name);
-		} else {
-			
-			// debug this action
-			CONFIG::debug {
-				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("+++++ ProxyMap.host > classToHost : " + classToHost + ", name : " + name);
-				}
-			}
-			hostObjectRegistry[className + name] = new HostedProxy(moduleName);
-			var injectObject:Proxy = injectObjectRegistry[className + name]
-			if (injectObject) {
-				injectObject.isHosted = true;
-				hostObjectRegistry[className + name].proxy = injectObject;
-				hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
-			}
-			// check if proxy is not mapped already in other modules.
-			var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
-			if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
-				var remoteModuleNamse:String = " ";
-				for (var i:int = 0; i < remoteProxies.length; i++) {
-					if (remoteProxies[i] != injectObject) {
-						remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
-					}
-				}
-				throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > classToHost : " + classToHost + ", name : " + name);
-			}
-		}
+		//var className:String = getQualifiedClassName(classToHost);
+		//if (hostObjectRegistry[className + name]) {
+		//throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > classToHost : " + classToHost + ", name : " + name);
+		//} else {
+		//
+		// debug this action
+		//CONFIG::debug {
+		//if (MvcExpress.debugFunction != null) {
+		//MvcExpress.debugFunction("+++++ ProxyMap.host > classToHost : " + classToHost + ", name : " + name);
+		//}
+		//}
+		//hostObjectRegistry[className + name] = new HostedProxy(moduleName);
+		//var injectObject:Proxy = injectObjectRegistry[className + name]
+		//if (injectObject) {
+		//injectObject.isHosted = true;
+		//hostObjectRegistry[className + name].proxy = injectObject;
+		//hostedProxyRegistry[injectObject] = hostObjectRegistry[className + name];
+		//}
+		// check if proxy is not mapped already in other modules.
+		//var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
+		//if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
+		//var remoteModuleNamse:String = " ";
+		//for (var i:int = 0; i < remoteProxies.length; i++) {
+		//if (remoteProxies[i] != injectObject) {
+		//remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
+		//}
+		//}
+		//throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > classToHost : " + classToHost + ", name : " + name);
+		//}
+		//}
 	}
 	
 	public function unhost(injectClass:Class = null, name:String = ""):void {
-		var className:String = getQualifiedClassName(classToHost);
-		if (hostObjectRegistry[className + name]) {
-			// debug this action
-			CONFIG::debug {
-				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("----- ProxyMap.unhost > classToHost : " + classToHost + ", name : " + name);
-				}
-			}
-			
-			// TODO : remove proxy from all remote modules.
-			// mark proxy as not hosted.
-			if (hostObjectRegistry[className + name].proxy) {
-				use namespace pureLegsCore;
-				hostObjectRegistry[className + name].proxy.isHosted = false;
-			}
-			// remove hosted proxy from registry
-			delete hostObjectRegistry[className + name];
-		}
+		//var className:String = getQualifiedClassName(classToHost);
+		//if (hostObjectRegistry[className + name]) {
+		// debug this action
+		//CONFIG::debug {
+		//if (MvcExpress.debugFunction != null) {
+		//MvcExpress.debugFunction("----- ProxyMap.unhost > classToHost : " + classToHost + ", name : " + name);
+		//}
+		//}
+		//
+		// TODO : remove proxy from all remote modules.
+		// mark proxy as not hosted.
+		//if (hostObjectRegistry[className + name].proxy) {
+		//use namespace pureLegsCore;
+		//hostObjectRegistry[className + name].proxy.isHosted = false;
+		//}
+		// remove hosted proxy from registry
+		//delete hostObjectRegistry[className + name];
+		//}
 	}
-	*/
 	
 	static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {
 		if (hostedProxyRegistry[proxy]) {
