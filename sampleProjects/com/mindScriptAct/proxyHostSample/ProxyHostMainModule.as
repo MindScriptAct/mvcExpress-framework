@@ -1,5 +1,5 @@
 package com.mindScriptAct.proxyHostSample {
-import com.mindScriptAct.proxyHostSample.model.IReadOnlyTestProxy;
+import com.mindScriptAct.modules.interfaces.testProxy.IReadOnlyTestProxy;
 import com.mindScriptAct.proxyHostSample.model.TestProxy;
 import com.mindScriptAct.proxyHostSample.view.ProxyHostMainMediator;
 import org.mvcexpress.modules.ModuleCore;

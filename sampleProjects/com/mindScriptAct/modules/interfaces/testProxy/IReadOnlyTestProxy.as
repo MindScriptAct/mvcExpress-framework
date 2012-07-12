@@ -1,4 +1,4 @@
-package com.mindScriptAct.proxyHostSample.model {
+package com.mindScriptAct.modules.interfaces.testProxy {
 
 /**
  * COMMENT

@@ -342,12 +342,12 @@ public class ProxyMap {
 		
 		var className:String = getQualifiedClassName(injectClass);
 		if (hostObjectRegistry[className + name]) {
-			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > injectClass : " + injectClass + ", name : " + name);
+			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 		} else {
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("+++++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
+					MvcExpress.debugFunction("+++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
 				}
 			}
 			// store hosting object
@@ -382,24 +382,24 @@ public class ProxyMap {
 	}
 	
 	public function unhost(injectClass:Class = null, name:String = ""):void {
-		//var className:String = getQualifiedClassName(injectClass);
-		//if (hostObjectRegistry[className + name]) {
-		// debug this action
-		//CONFIG::debug {
-		//if (MvcExpress.debugFunction != null) {
-		//MvcExpress.debugFunction("----- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
-		//}
-		//}
-		//
-		// TODO : remove proxy from all remote modules.
-		// mark proxy as not hosted.
-		//if (hostObjectRegistry[className + name].proxy) {
-		//use namespace pureLegsCore;
-		//hostObjectRegistry[className + name].proxy.isHosted = false;
-		//}
-		// remove hosted proxy from registry
-		//delete hostObjectRegistry[className + name];
-		//}
+		var className:String = getQualifiedClassName(injectClass);
+		if (hostObjectRegistry[className + name]) {
+			// debug this action
+			CONFIG::debug {
+				if (MvcExpress.debugFunction != null) {
+					MvcExpress.debugFunction("----- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
+				}
+			}
+			
+			// TODO : remove proxy from all remote modules.
+			// mark proxy as not hosted.
+			if (hostObjectRegistry[className + name].proxy) {
+				use namespace pureLegsCore;
+				hostObjectRegistry[className + name].proxy.isHosted = false;
+			}
+			// remove hosted proxy from registry
+			delete hostObjectRegistry[className + name];
+		}
 	}
 	
 	static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {

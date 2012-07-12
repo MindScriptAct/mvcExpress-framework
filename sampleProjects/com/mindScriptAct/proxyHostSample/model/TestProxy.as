@@ -1,4 +1,5 @@
 package com.mindScriptAct.proxyHostSample.model {
+import com.mindScriptAct.modules.interfaces.testProxy.IReadOnlyTestProxy;
 import com.mindScriptAct.proxyHostSample.messages.DataMessage;
 import org.mvcexpress.mvc.Proxy;
 

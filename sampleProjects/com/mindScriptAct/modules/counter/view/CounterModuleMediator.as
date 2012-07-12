@@ -1,7 +1,7 @@
 package com.mindScriptAct.modules.counter.view {
 import com.mindScriptAct.modules.counter.CounterModule;
+import com.mindScriptAct.modules.interfaces.testProxy.IReadOnlyTestProxy;
 import com.mindScriptAct.proxyHostSample.messages.DataMessage;
-import com.mindScriptAct.proxyHostSample.model.IReadOnlyTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**
