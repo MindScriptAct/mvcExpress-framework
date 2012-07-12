@@ -1,8 +1,8 @@
 package suites.utils {
 import flash.utils.getQualifiedClassName;
 import flexunit.framework.Assert;
-import org.mvcexpress.core.utils.checkClassStringConstants;
-import org.mvcexpress.core.utils.checkClassSuperclass;
+import org.mvcexpress.utils.checkClassStringConstants;
+import org.mvcexpress.utils.checkClassSuperclass;
 import suites.utils.objects.ClassA;
 import suites.utils.objects.ClassASubclass;
 import suites.utils.objects.ClassB;

@@ -8,7 +8,7 @@ import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.utils.checkClassSuperclass;
+import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles application mediators.

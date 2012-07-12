@@ -23,7 +23,7 @@ import flash.events.Event;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
 import org.mvcexpress.modules.ModuleCore;
-import org.mvcexpress.core.utils.checkClassStringConstants;
+import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT

@@ -1,4 +1,4 @@
-package org.mvcexpress.core.utils {
+package org.mvcexpress.utils {
 import flash.utils.getQualifiedSuperclassName;
 import flash.utils.getDefinitionByName;
 
