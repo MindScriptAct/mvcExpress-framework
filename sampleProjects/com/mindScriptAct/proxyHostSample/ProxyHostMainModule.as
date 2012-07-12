@@ -1,5 +1,5 @@
 package com.mindScriptAct.proxyHostSample {
-import com.mindScriptAct.proxyHostSample.model.ITestProxy;
+import com.mindScriptAct.proxyHostSample.model.IReadOnlyTestProxy;
 import com.mindScriptAct.proxyHostSample.model.TestProxy;
 import com.mindScriptAct.proxyHostSample.view.ProxyHostMainMediator;
 import org.mvcexpress.modules.ModuleCore;
@@ -23,12 +23,13 @@ public class ProxyHostMainModule extends ModuleCore {
 		
 		// create proxy for glabal use
 		var testProxy:TestProxy = new TestProxy();
+		
 		// map for local use.
 		proxyMap.map(testProxy);
 		
 		// map for global use.
-		proxyMap.host(testProxy, ITestProxy);
-	
+		proxyMap.host(testProxy, IReadOnlyTestProxy);		
+		
 	}
 	
 	public function start(main:ProxyHostMain):void {

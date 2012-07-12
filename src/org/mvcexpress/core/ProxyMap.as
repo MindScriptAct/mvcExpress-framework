@@ -76,16 +76,20 @@ public class ProxyMap {
 			if (hostObjectRegistry[className + name]) {
 				// check if hosted object is pending..
 				if (hostObjectRegistry[className + name].proxy) {
-					throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
-				} else { // check if waiting hosted proxy belongs to this module.
-					if (hostObjectRegistry[className + name].hostModuleName == moduleName) {
-						proxyObject.isHosted = true;
-						hostObjectRegistry[className + name].proxy = proxyObject;
-						hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
-					} else {
-						throw Error("Hosted proxy object must be mapped in same module as it is hosted. [injectClass:" + className + " name:" + name + "]");
+					if (hostObjectRegistry[className + name].proxy != proxyObject) {
+						throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
 					}
 				}
+					// TODO : clean up
+					//else { // check if waiting hosted proxy belongs to this module.
+					//if (hostObjectRegistry[className + name].hostModuleName == moduleName) {
+					//proxyObject.isHosted = true;
+					//hostObjectRegistry[className + name].proxy = proxyObject;
+					//hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
+					//} else {
+					//throw Error("Hosted proxy object must be mapped in same module as it is hosted. [injectClass:" + className + " name:" + name + "]");
+					//}
+					//}
 			}
 			// check if there is no pending injection with this key.
 			if (pendingInjectionsRegistry[className + name]) {
@@ -180,9 +184,9 @@ public class ProxyMap {
 			} else {
 				// if local injection fails... test for global(hosted) injections
 				if (rules[i].isHosted) {
-					injectObject = hostObjectRegistry[rules[i].injectClassAndName].proxy;
-					hostObjectRegistry[rules[i].injectClassAndName].addRemoteModuleName(moduleName);
-					if (injectObject) {
+					if (hostObjectRegistry[rules[i].injectClassAndName]) {
+						injectObject = hostObjectRegistry[rules[i].injectClassAndName].proxy;
+						hostObjectRegistry[rules[i].injectClassAndName].addRemoteModuleName(moduleName);
 						object[rules[i].varName] = injectObject;
 					} else {
 						// TODO: handle pending injections..
