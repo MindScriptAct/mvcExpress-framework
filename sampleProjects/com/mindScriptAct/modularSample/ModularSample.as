@@ -13,7 +13,6 @@ import org.mvcexpress.utils.checkClassStringConstants;
  */
 public class ModularSample extends ModuleSprite {
 	
-	
 	public function ModularSample() {
 		super(ModuleNames.SHELL);
 	}
@@ -28,6 +27,7 @@ public class ModularSample extends ModuleSprite {
 		mediatorMap.map(ModularSample, ModularSampleMediator);
 		
 		mediatorMap.mediate(this);
+	
 	}
 
 }

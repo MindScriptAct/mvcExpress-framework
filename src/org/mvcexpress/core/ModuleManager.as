@@ -85,6 +85,17 @@ public class ModuleManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param	type
+	 * @param	handler
+	 * @param	remoteModuleName
+	 */
+	static public function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
+		trace( "ModuleManager.addRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName );
+		
+	}
+	
 	/*
 	 * Finds all proxy objects that are mapped with given className and name in all modules.
 	 * (needed to ensure there are no hosted proxies somethere.)

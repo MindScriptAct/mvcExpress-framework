@@ -106,6 +106,7 @@ public class Messenger {
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
 	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
+	// TODO : consider removing targetAllModules
 	public function send(type:String, params:Object = null, targetAllModules:Boolean = false):void {
 		use namespace pureLegsCore;
 		// debug this action

@@ -6,6 +6,7 @@ import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
@@ -114,11 +115,10 @@ public class Mediator {
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
-	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
-	protected function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
+	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
-		messenger.send(type, params, targetAllModules);
+		messenger.send(type, params);
 	}
 	
 	//----------------------------------
@@ -129,8 +129,9 @@ public class Mediator {
 	 * adds handle function to be called then message of provided type is sent.
 	 * @param	type	message type for handle function to react to.
 	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 * @param	remoteModuleName	COMMENT : TODO
 	 */
-	protected function addHandler(type:String, handler:Function):void {
+	protected function addHandler(type:String, handler:Function, remoteModuleName:String = null):void {
 		use namespace pureLegsCore;
 		CONFIG::debug {
 			if (handler.length < 1) {
@@ -139,10 +140,18 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			if (remoteModuleName) {
+				ModuleManager.addRemoteHandler(type, handler, remoteModuleName);
+			} else {
+				messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			}
 			return;
 		}
-		messageDataRegistry.push(messenger.addHandler(type, handler));
+		if (remoteModuleName) {
+			ModuleManager.addRemoteHandler(type, handler, remoteModuleName);
+		} else {
+			messageDataRegistry.push(messenger.addHandler(type, handler));
+		}
 	}
 	
 	/**
@@ -230,8 +239,8 @@ public class Mediator {
 					}
 				}
 			}
-		}		
-	}	
+		}
+	}
 	
 	/**
 	 * Removes all listeners created by mediators addEventListener() function.
@@ -251,7 +260,7 @@ public class Mediator {
 				viewObject = eventTypes[type];
 				viewObject.removeEventListener(type, listener as Function, false);
 			}
-		}		
+		}
 	}
 
 }

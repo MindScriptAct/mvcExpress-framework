@@ -2,6 +2,8 @@ package com.mindScriptAct.modules.console.view {
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
+import com.mindScriptAct.modules.globalMessages.GlobalMessage;
+import com.mindScriptAct.modules.ModuleNames;
 import flash.events.MouseEvent;
 import org.mvcexpress.mvc.Mediator;
 
@@ -17,7 +19,10 @@ public class ConsoleMediator extends Mediator {
 	override public function onRegister():void {
 		trace("ConsoleMediator.onRegister");
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
+		
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
+		addHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, handleInputText, ModuleNames.SHELL);
+		addHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleMessageAdded, ModuleNames.SHELL);
 	}
 	
 	override public function onRemove():void {

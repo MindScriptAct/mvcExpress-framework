@@ -29,14 +29,13 @@ public class Proxy {
 	 * Sends a message with optional params object.
 	 * @param	type	type of the message for Commands and handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
-	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
-	protected function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
+	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// send message to self.
-		messenger.send(type, params, targetAllModules);
+		messenger.send(type, params);
 		// send message to all remote modules.. (but only if all modules are not already targeted.)
-		if (isHosted && !targetAllModules) {
+		if (isHosted) {
 			messenger.sendTo(type, params, ProxyMap.getRemoteMudules(this));
 		} 
 	}
