@@ -38,10 +38,11 @@ public class CommandMap {
 	
 	/**
 	 * Map a class to be executed then message with type provied is sent.
-	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 * @param	type				Message type for command class to react to.
+	 * @param	commandClass		Command class that will bi instantiated and executed.
+	 * @param	remoteModuleName	TODO:COMMENT
 	 */
-	public function map(type:String, commandClass:Class):void {
+	public function map(type:String, commandClass:Class, remoteModuleName:String = null):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
 		// debug this action
@@ -54,15 +55,15 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
 			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		}
-		
+		if (remoteModuleName) {
+			ModuleManager.addRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
+		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[type].push(commandClass);
-	
 	}
 	
 	/**

@@ -21,12 +21,11 @@ public class ConsoleMediator extends Mediator {
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
 		
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
-		addHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, handleInputText, ModuleNames.SHELL);
-		addHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleMessageAdded, ModuleNames.SHELL);
+		addHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, handleMessageAdded, ModuleNames.SHELL);
 	}
 	
 	override public function onRemove():void {
-		trace( "ConsoleMediator.onRemove" );
+		trace("ConsoleMediator.onRemove");
 	}
 	
 	private function handleInputText(event:MouseEvent):void {
@@ -40,12 +39,12 @@ public class ConsoleMediator extends Mediator {
 		} else {
 			sendMessage(ConsoleViewMsg.EMPTY_MESSAGE, "NO MESSAGE ENTERED!!.....");
 		}
-		
+	
 	}
 	
 	private function handleMessageAdded(message:String):void {
 		view.outputTf.text += message + "\n";
-		view.outputTf.textField.scrollV = view.outputTf.textField.maxScrollV; 
+		view.outputTf.textField.scrollV = view.outputTf.textField.maxScrollV;
 	}
 
 }

@@ -1,5 +1,6 @@
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
+import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.core.namespace.pureLegsCore;
@@ -16,6 +17,10 @@ public class ModuleManager {
 	
 	/* modules stored by moduleName */
 	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleBase by String */
+	
+	/* TODO : comment */
+	static private var remoteHandlerRegistry:Dictionary = new Dictionary();
+	;
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -70,6 +75,15 @@ public class ModuleManager {
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
+		if (remoteHandlerRegistry[moduleName]) {
+			for each (var remotes:Dictionary in remoteHandlerRegistry[moduleName]) {
+				for each (var handlers:Vector.<HandlerVO> in remotes) {
+					for (var i:int = 0; i < handlers.length; i++) {
+						handlers[i].handler = null;
+					}
+				}
+			}
+		}
 	}
 	
 	/**
@@ -86,37 +100,62 @@ public class ModuleManager {
 	}
 	
 	/**
-	 * 
+	 * TODO : COMMENT
 	 * @param	type
 	 * @param	handler
 	 * @param	remoteModuleName
 	 */
-	static public function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
-		trace( "ModuleManager.addRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName );
+	static pureLegsCore function addRemoteHandler(type:String, handler:Function, handlerModuleName:String, remoteModuleName:String, commandClass:Class = null):HandlerVO {
 		
-	}
-	
-	/*
-	 * Finds all proxy objects that are mapped with given className and name in all modules.
-	 * (needed to ensure there are no hosted proxies somethere.)
-	 * @param	className
-	 * @param	name
-	 * @return
-	 * @private
-	 */
-	/*
-	 WORK IN PROGRESS
-	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
-		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
+		trace("ModuleManager.addRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName + ", commandClass : " + commandClass);
 		use namespace pureLegsCore;
-		for each (var module:ModuleBase in moduleRegistry) {
-			var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
-			if (proxy) {
-				retVal.push(proxy);
+		if (!remoteHandlerRegistry[handlerModuleName]) {
+			remoteHandlerRegistry[handlerModuleName] = new Dictionary();
+		}
+		if (!remoteHandlerRegistry[handlerModuleName][remoteModuleName]) {
+			remoteHandlerRegistry[handlerModuleName][remoteModuleName] = new Dictionary();
+		}
+		if (!remoteHandlerRegistry[handlerModuleName][remoteModuleName][type]) {
+			remoteHandlerRegistry[handlerModuleName][remoteModuleName][type] = new Vector.<HandlerVO>();
+		}
+		
+		//
+		var handlerVo:HandlerVO;
+		if (commandClass) {
+			if (moduleRegistry[remoteModuleName]) {
+				handlerVo = moduleRegistry[remoteModuleName].messenger.addCommandHandler(type, handler, commandClass);
+			}
+		} else {
+			if (moduleRegistry[remoteModuleName]) {
+				use namespace pureLegsCore;
+				handlerVo = moduleRegistry[remoteModuleName].messenger.addHandler(type, handler);
 			}
 		}
-		return retVal;
+		remoteHandlerRegistry[handlerModuleName][remoteModuleName][type].push(handlerVo);
+		
+		return handlerVo;
 	}
-	*/
+
+/*
+ * Finds all proxy objects that are mapped with given className and name in all modules.
+ * (needed to ensure there are no hosted proxies somethere.)
+ * @param	className
+ * @param	name
+ * @return
+ * @private
+ */ /*
+   WORK IN PROGRESS
+   static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
+   var retVal:Vector.<Proxy> = new Vector.<Proxy>();
+   use namespace pureLegsCore;
+   for each (var module:ModuleBase in moduleRegistry) {
+   var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
+   if (proxy) {
+   retVal.push(proxy);
+   }
+   }
+   return retVal;
+   }
+ */
 }
 }

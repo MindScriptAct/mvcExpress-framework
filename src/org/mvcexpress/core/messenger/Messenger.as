@@ -39,9 +39,10 @@ public class Messenger {
 	 * @param	type	message type to react to.
 	 * @param	handler	function called on sent message, this function must have one and only one parameter.
 	 * @param	handlerClassName	handler function owner class name. For debugging only.
+	 * @param	remoteModuleName	TODO : comment
 	 * @return		returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
-	public function addHandler(type:String, handler:Function, handlerClassName:String = null):HandlerVO {
+	public function addHandler(type:String, handler:Function, remoteModuleName:String = null, handlerClassName:String = null):HandlerVO {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
@@ -63,18 +64,23 @@ public class Messenger {
 				throw Error("This handler function is already mapped to message type :" + type);
 			}
 		}
-		
-		// create message handler data.
-		if (!msgData) {
-			msgData = new HandlerVO();
-			CONFIG::debug {
-				msgData.handlerClassName = handlerClassName;
+		if (remoteModuleName) {
+			use namespace pureLegsCore;
+			return ModuleManager.addRemoteHandler(type, handler, _moduleName, remoteModuleName);
+		} else {
+			
+			// create message handler data.
+			if (!msgData) {
+				msgData = new HandlerVO();
+				CONFIG::debug {
+					msgData.handlerClassName = handlerClassName;
+				}
+				msgData.handler = handler;
+				messageRegistry[type].push(msgData);
+				handlerRegistry[type][handler] = msgData;
 			}
-			msgData.handler = handler;
-			messageRegistry[type].push(msgData);
-			handlerRegistry[type][handler] = msgData;
+			return msgData;
 		}
-		return msgData;
 	}
 	
 	/**
@@ -167,9 +173,10 @@ public class Messenger {
 	 * function to add command execute function.
 	 * @private
 	 */
-	public function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):void {
-		var executeMvgVo:HandlerVO = addHandler(type, executeFunction, String(handlerClass));
+	public function addCommandHandler(type:String, executeFunction:Function, handlerClass:Class = null):HandlerVO {
+		var executeMvgVo:HandlerVO = addHandler(type, executeFunction, null, String(handlerClass));
 		executeMvgVo.isExecutable = true;
+		return executeMvgVo;
 	}
 	
 	//----------------------------------

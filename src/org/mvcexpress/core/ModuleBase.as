@@ -4,11 +4,10 @@ import flash.utils.getDefinitionByName;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.FlexMediatorMap;
 import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.mvc.Proxy;
+import org.mvcexpress.core.ProxyMap;
 
 /**
  * Internal framework class. Not meant to be constructed.

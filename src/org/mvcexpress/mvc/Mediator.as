@@ -140,18 +140,10 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			if (remoteModuleName) {
-				ModuleManager.addRemoteHandler(type, handler, remoteModuleName);
-			} else {
-				messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
-			}
+			messageDataRegistry.push(messenger.addHandler(type, handler, remoteModuleName, getQualifiedClassName(this)));
 			return;
 		}
-		if (remoteModuleName) {
-			ModuleManager.addRemoteHandler(type, handler, remoteModuleName);
-		} else {
-			messageDataRegistry.push(messenger.addHandler(type, handler));
-		}
+		messageDataRegistry.push(messenger.addHandler(type, handler, remoteModuleName));
 	}
 	
 	/**

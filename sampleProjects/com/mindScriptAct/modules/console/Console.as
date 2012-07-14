@@ -8,6 +8,7 @@ import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modules.console.view.ConsoleMediator;
+import com.mindScriptAct.modules.globalMessages.GlobalMessage;
 import com.mindScriptAct.modules.ModuleNames;
 import flash.display.Sprite;
 import flash.text.TextField;
@@ -33,7 +34,7 @@ public class Console extends ModuleSprite {
 	}
 	
 	override protected function onInit():void {
-		trace( "Console.onInit" );
+		trace("Console.onInit");
 		
 		// for debugging
 		CONFIG::debug {
@@ -41,9 +42,9 @@ public class Console extends ModuleSprite {
 		}
 		
 		// set up commands
-		commandMap.map(ConsoleMsg.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand);
+		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
+		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
-		commandMap.map(ConsoleMsg.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
 		
 		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
@@ -81,11 +82,11 @@ public class Console extends ModuleSprite {
 		
 		inputBtn = new PushButton(this, inputTf.x + inputTf.width + 5, inputTf.y + 2, "send");
 		inputBtn.width = 50;
-		
+	
 	}
 	
 	override protected function onDispose():void {
-		trace( "Console.onDispose" );
+		trace("Console.onDispose");
 	}
 
 }
