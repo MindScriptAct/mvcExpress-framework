@@ -17,6 +17,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
 public class CommandMap {
 	
 	private var moduleName:String;
+	
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
@@ -55,15 +56,17 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		if (!classRegistry[type]) {
-			classRegistry[type] = new Vector.<Class>();
-			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
-		}
+		
 		if (remoteModuleName) {
 			ModuleManager.addRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
+		} else {
+			if (!classRegistry[type]) {
+				classRegistry[type] = new Vector.<Class>();
+				messenger.addCommandHandler(type, handleCommandExecute, commandClass);
+			} // TODO : check if command is already added. (in DEBUG mode only?.)
+			classRegistry[type].push(commandClass);
 		}
-		// TODO : check if command is already added. (in DEBUG mode only?.)
-		classRegistry[type].push(commandClass);
+	
 	}
 	
 	/**

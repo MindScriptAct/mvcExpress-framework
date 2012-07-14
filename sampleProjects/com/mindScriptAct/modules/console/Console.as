@@ -42,7 +42,7 @@ public class Console extends ModuleSprite {
 		}
 		
 		// set up commands
-		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
+		//commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
 		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
