@@ -52,7 +52,7 @@ public class ProxyMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+				MvcExpress.debugFunction("¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 			}
 		}
 		
@@ -114,7 +114,7 @@ public class ProxyMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
+				MvcExpress.debugFunction("¶¶¶¶- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
 			}
 		}
 		// remove proxy if it exists.
@@ -347,7 +347,7 @@ public class ProxyMap {
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("+++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
+					MvcExpress.debugFunction("¶¶¶¶+++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
 				}
 			}
 			// store hosting object
@@ -387,7 +387,7 @@ public class ProxyMap {
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("----- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
+					MvcExpress.debugFunction("¶¶¶¶--- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
 				}
 			}
 			

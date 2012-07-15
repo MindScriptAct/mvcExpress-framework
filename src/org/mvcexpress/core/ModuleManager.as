@@ -4,6 +4,7 @@ import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.MvcExpress;
 
 /**
  * INTERNAR FRAMEWORK CLASS.
@@ -20,7 +21,9 @@ public class ModuleManager {
 	
 	/* TODO : comment */
 	static private var remoteHandlerRegistry:Dictionary = new Dictionary();
-	;
+	
+	/* TODO : comment */
+	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -35,7 +38,14 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
+		trace();
 		var retVal:ModuleBase;
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("#####+ ModuleManager.createModule > moduleName : " + moduleName + ", autoInit : " + autoInit);
+			}
+		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++
 			//
@@ -45,6 +55,7 @@ public class ModuleManager {
 			//
 			retVal = ModuleBase.getModuleInstance(moduleName, autoInit);
 			moduleRegistry[moduleName] = retVal;
+			allModules.push(retVal);
 				//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
@@ -70,14 +81,26 @@ public class ModuleManager {
 	 */
 	static pureLegsCore function disposeModule(moduleName:String):void {
 		use namespace pureLegsCore;
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("#####- ModuleManager.disposeModule > moduleName : " + moduleName);
+			}
+		}
 		if (moduleRegistry[moduleName]) {
-			moduleRegistry[moduleName] = null;
+			delete moduleRegistry[moduleName];
+			for (var j:int = 0; j < allModules.length; j++) {
+				if (allModules[j].moduleName == moduleName) {
+					allModules.splice(j, 1);
+					break;
+				}
+			}
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
 		if (remoteHandlerRegistry[moduleName]) {
 			for each (var remotes:Dictionary in remoteHandlerRegistry[moduleName]) {
-				for each (var handlers:Vector.<HandlerVO> in remotes) {
+				for each (var handlers:Vector.<HandlerVO>in remotes) {
 					for (var i:int = 0; i < handlers.length; i++) {
 						handlers[i].handler = null;
 					}
@@ -94,8 +117,8 @@ public class ModuleManager {
 	 */
 	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
 		use namespace pureLegsCore;
-		for each (var module:ModuleBase in moduleRegistry) {
-			module.messenger.send(type, params);
+		for (var i:int = 0; i < allModules.length; i++) {
+			allModules[i].messenger.send(type, params);
 		}
 	}
 	
@@ -131,9 +154,75 @@ public class ModuleManager {
 				handlerVo = moduleRegistry[remoteModuleName].messenger.addHandler(type, handler);
 			}
 		}
+		//
+		moduleRegistry[remoteModuleName].commandMap.addCommandClass(type, commandClass);
+		
+		handlerVo.remoteModule = handlerModuleName;
 		remoteHandlerRegistry[handlerModuleName][remoteModuleName][type].push(handlerVo);
 		
 		return handlerVo;
+	}
+	
+	//----------------------------------
+	//     DEBUG
+	//----------------------------------
+	
+	/**
+	 * Returns string with all module names.
+	 * @return
+	 */
+	static public function listModules():String {
+		var retVal:String = "";
+		for (var i:int = 0; i < allModules.length; i++) {
+			if (retVal != "") {
+				retVal += ",";
+			}
+			retVal += allModules[i].moduleName;
+		}
+		return "Module list:" + retVal;
+	}
+	
+	static public function listMappedMessages(moduleName:String):String {
+		if (moduleRegistry[moduleName]) {
+			return moduleRegistry[moduleName].listMappedMessages();
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+	}
+	
+	static public function listMappedMediators(moduleName:String):String {
+		if (moduleRegistry[moduleName]) {
+			return moduleRegistry[moduleName].listMappedMediators();
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+	}
+	
+	static public function listMappedProxies(moduleName:String):String {
+		if (moduleRegistry[moduleName]) {
+			return moduleRegistry[moduleName].listMappedProxies();
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+	}
+	
+	static public function listMappedCommands(moduleName:String):String {
+		if (moduleRegistry[moduleName]) {
+			return moduleRegistry[moduleName].listMappedCommands();
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+	}
+	
+	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
+		use namespace pureLegsCore;
+		if (moduleRegistry[moduleName]) {
+			return moduleRegistry[moduleName].commandMap.listMessageCommands(key);
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+		
+		
 	}
 
 /*

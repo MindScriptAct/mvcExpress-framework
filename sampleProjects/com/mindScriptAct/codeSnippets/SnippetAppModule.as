@@ -45,9 +45,6 @@ public class SnippetAppModule extends ModuleCore {
 		
 		CONFIG::debug {
 			
-			//MvcExpress.debugFunction = trace;
-			MvcExpressLogger.logModule(this);
-			
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 		}
 		
@@ -109,9 +106,6 @@ public class SnippetAppModule extends ModuleCore {
 		// - execute commands OR send messages if needed.
 		////////////////////////////
 		
-		CONFIG::debug {
-			MvcExpressLogger.showIn(mvcExpressSnippets.stage, 0, 0, 900);
-		}
 		
 		mediatorMap.mediate(mvcExpressSnippets);
 		//mediatorMap.unmediate(mvcExpressSnippets);

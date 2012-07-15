@@ -305,7 +305,7 @@ package com.bit101.components
 		protected function goUp():void
 		{
 			_scrollSlider.value -= _lineSize;
-			dispatchEvent(new Event(Event.CHANGE));
+			dispatchEvent(new Event(Event.CHANGE, true));
 		}
 		
 		protected function onDownClick(event:MouseEvent):void
@@ -320,7 +320,7 @@ package com.bit101.components
 		protected function goDown():void
 		{
 			_scrollSlider.value += _lineSize;
-			dispatchEvent(new Event(Event.CHANGE));
+			dispatchEvent(new Event(Event.CHANGE, true));
 		}
 		
 		protected function onMouseGoUp(event:MouseEvent):void

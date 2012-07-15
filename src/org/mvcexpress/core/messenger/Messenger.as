@@ -46,7 +46,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("++ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
+				MvcExpress.debugFunction("••<+ Messenger.addHandler > type : " + type + ", handler : " + handler + ", handlerClassName : " + handlerClassName);
 			}
 		}
 		
@@ -66,9 +66,12 @@ public class Messenger {
 		}
 		if (remoteModuleName) {
 			use namespace pureLegsCore;
-			return ModuleManager.addRemoteHandler(type, handler, _moduleName, remoteModuleName);
+			msgData = ModuleManager.addRemoteHandler(type, handler, _moduleName, remoteModuleName);
+			CONFIG::debug {
+				msgData.handlerClassName = handlerClassName;
+			}
+			return msgData;
 		} else {
-			
 			// create message handler data.
 			if (!msgData) {
 				msgData = new HandlerVO();
@@ -93,7 +96,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("-- Messenger.removeHandler > type : " + type + ", handler : " + handler);
+				MvcExpress.debugFunction("••<- Messenger.removeHandler > type : " + type + ", handler : " + handler);
 			}
 		}
 		
@@ -118,7 +121,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("** Messenger.send > type : " + type + ", params : " + params);
+				MvcExpress.debugFunction("•> Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
 		if (targetAllModules) {
@@ -162,6 +165,12 @@ public class Messenger {
 		}
 	}
 	
+	/**
+	 * TODO : COMMENT
+	 * @param	type
+	 * @param	params
+	 * @param	targetModules
+	 */
 	public function sendTo(type:String, params:Object, targetModules:Vector.<String>):void {
 		use namespace pureLegsCore;
 		for (var i:int = 0; i < targetModules.length; i++) {
@@ -203,10 +212,26 @@ public class Messenger {
 			var messageHandlers:String = "";
 			for (var i:int = 0; i < msgList.length; i++) {
 				var handlerVo:HandlerVO = msgList[i];
-				if (handlerVo.isExecutable) {
-					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
+				if (handlerVo.remoteModule) {
+					if (handlerVo.isExecutable) {
+						
+						// TODO : handle remote executable listing...
+						
+						
+						var tt:Object = ModuleManager.listModuleMessageCommands(handlerVo.remoteModule, key);
+						var tt2:Object = McommandMap.listMessageCommands(key);
+						
+						
+						messageHandlers += "[EXECUTES {" + handlerVo.remoteModule + "} :" + ModuleManager.listModuleMessageCommands(handlerVo.remoteModule, key) + "], ";
+					} else {
+						messageHandlers += "[{" + handlerVo.remoteModule + "}:" + handlerVo.handlerClassName + "], ";
+					}
 				} else {
-					messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					if (handlerVo.isExecutable) {
+						messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
+					} else {
+						messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					}
 				}
 			}
 			

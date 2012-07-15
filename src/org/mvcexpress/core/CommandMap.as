@@ -49,7 +49,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
+				MvcExpress.debugFunction("©©©+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
 			}
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
@@ -63,10 +63,22 @@ public class CommandMap {
 			if (!classRegistry[type]) {
 				classRegistry[type] = new Vector.<Class>();
 				messenger.addCommandHandler(type, handleCommandExecute, commandClass);
-			} // TODO : check if command is already added. (in DEBUG mode only?.)
+			}
+			// TODO : check if command is already added. (in DEBUG mode only?.)
 			classRegistry[type].push(commandClass);
 		}
+	}
 	
+	/**
+	 * TODO : DOCUMENT
+	 * @param	type
+	 * @param	commandClass
+	 */
+	pureLegsCore function addCommandClass(type:String, commandClass:Class):void {
+		if (!classRegistry[type]) {
+			classRegistry[type] = new Vector.<Class>();
+		}
+		classRegistry[type].push(commandClass);
 	}
 	
 	/**
@@ -78,7 +90,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
+				MvcExpress.debugFunction("©©©- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
 			}
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
@@ -105,7 +117,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
+				MvcExpress.debugFunction("©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
 			}
 			validateCommandParams(commandClass, params);
 		}
@@ -166,7 +178,7 @@ public class CommandMap {
 				// debug this action
 				CONFIG::debug {
 					if (MvcExpress.debugFunction != null) {
-						MvcExpress.debugFunction("* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
+						MvcExpress.debugFunction("©* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
 					}
 				}
 				command.execute(params);

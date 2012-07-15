@@ -99,6 +99,10 @@ package com.bit101.components
 			addEventListener(Event.ENTER_FRAME, onTextScrollDelay);
 		}
 		
+		public function scrollDown():void {
+			_tf.scrollV = _tf.maxScrollV;
+		}
+		
 		
 		
 		///////////////////////////////////

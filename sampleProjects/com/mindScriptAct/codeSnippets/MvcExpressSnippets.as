@@ -1,4 +1,5 @@
 package com.mindScriptAct.codeSnippets {
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
@@ -34,6 +35,12 @@ public class MvcExpressSnippets extends Sprite {
 	}
 	
 	private function start():void {
+		
+		
+		CONFIG::debug {
+			MvcExpressLogger.init(this.stage, 0, 0, 800);
+		}
+		
 		////////////////////////////
 		// Inits framework.
 		////////////////////////////

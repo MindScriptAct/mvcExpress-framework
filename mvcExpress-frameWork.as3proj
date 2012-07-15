@@ -6,7 +6,7 @@
     <movie input="" />
     <movie path="bin\mvcExpressExample.swf" />
     <movie fps="30" />
-    <movie width="800" />
+    <movie width="1500" />
     <movie height="600" />
     <movie version="10" />
     <movie minorVersion="0" />

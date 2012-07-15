@@ -22,5 +22,8 @@ public class HandlerVO {
 	/** FOR INTERNAL USE ONLY. Variable to store class there handler came from. (for debugging) */
 	public var handlerClassName:String;
 	
+	/** FOR INTERNAL USE ONLY. if set - indicates remote module that added this handler . */
+	public var remoteModule:String;
+	
 }
 }

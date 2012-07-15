@@ -1,6 +1,9 @@
 package com.mindscriptact.mvcExpressLogger {
+import com.bit101.components.List;
+import com.bit101.components.NumericStepper;
 import com.bit101.components.PushButton;
 import com.bit101.components.Style;
+import com.bit101.components.Text;
 import com.bit101.components.Window;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressLogScreen;
 import flash.display.Shape;
@@ -10,6 +13,8 @@ import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.ui.Mouse;
+import flash.utils.setTimeout;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.modules.ModuleCore;
 import org.mvcexpress.MvcExpress;
 
@@ -27,8 +32,6 @@ public class MvcExpressLogger {
 	//
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
-	//
-	private var mainModule:ModuleCore;
 	// view params
 	private var stage:Stage;
 	private var x:int;
@@ -50,6 +53,11 @@ public class MvcExpressLogger {
 	private var currentTabButtonName:String;
 	//
 	private var logText:String = "";
+	private var currentModuleName:String = "";
+	private var moduleStepper:NumericStepper;
+	private var currentModuleText:Text;
+	private var allModuleNames:Array;
+	private var isRenderWaiting:Boolean = false;
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
@@ -57,22 +65,15 @@ public class MvcExpressLogger {
 		}
 	}
 	
-	static public function logModule(module:ModuleCore):void {
+	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
+		
 		if (!instance) {
 			allowInstantiation = true;
 			instance = new MvcExpressLogger();
 			allowInstantiation = false;
 		}
-		instance.mainModule = module;
-		MvcExpress.debugFunction = instance.traceMvcExpress
-	}
-	
-	static public function showIn(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
-		if (!instance) {
-			allowInstantiation = true;
-			instance = new MvcExpressLogger();
-			allowInstantiation = false;
-		}
+		MvcExpress.debugFunction = instance.traceMvcExpress;
+		//
 		instance.stage = stage;
 		stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
 		
@@ -87,6 +88,26 @@ public class MvcExpressLogger {
 		instance.isAltKeyNeeded = isAltKeyNeeded;
 		Style.setStyle(Style.DARK);
 		Style.LABEL_TEXT = 0xFFFFFF;
+		
+		if (autoShow) {
+			instance.showLogger();
+		}
+	}
+	
+	static public function show():void {
+		if (instance) {
+			instance.showLogger();
+		} else {
+			trace("WARNING: MvcExpressLogger must be MvcExpressLogger.init(); before you can use this function.");
+		}
+	}
+	
+	static public function hide():void {
+		if (instance) {
+			instance.showLogger();
+		} else {
+			trace("WARNING: MvcExpressLogger must be MvcExpressLogger.init(); before you can use this function.");
+		}
 	}
 	
 	private function traceMvcExpress(msg:String):void {
@@ -94,7 +115,51 @@ public class MvcExpressLogger {
 		logText += msg + "\n";
 		//
 		if (isLogShown) {
-			render();
+			
+			var logType:String = msg.substr(0, 2);
+			
+			if (logType == "##") {
+				setTimeout(resolveCurrentModuleName, 1);
+			} else {
+				switch (currentTabButtonName) {
+					case LOG_LABEL: 
+						render();
+						break;
+					case MESSAGES_LABEL: 
+						if (logType == "••" || logType == "•>") {
+							if (!isRenderWaiting) {
+								isRenderWaiting = true;
+								setTimeout(render, 1);
+							}
+						}
+						break;
+					case MEDIATORS_LABEL: 
+						if (logType == "§§") {
+							if (!isRenderWaiting) {
+								isRenderWaiting = true;
+								setTimeout(render, 1);
+							}
+						}
+						break;
+					case PROXIES_LABEL: 
+						if (logType == "¶¶") {
+							if (!isRenderWaiting) {
+								isRenderWaiting = true;
+								setTimeout(render, 1);
+							}
+						}
+						break;
+					case COMMANDS_LABEL: 
+						if (logType == "©©") {
+							if (!isRenderWaiting) {
+								isRenderWaiting = true;
+								setTimeout(render, 1);
+							}
+						}
+						break;
+					default: 
+				}
+			}
 		}
 	}
 	
@@ -119,11 +184,24 @@ public class MvcExpressLogger {
 			logWindow.hasCloseButton = true;
 			logWindow.addEventListener(Event.CLOSE, hideLogger);
 			
+			//
+			
+			moduleStepper = new NumericStepper(logWindow, 120, 5, handleModuleChange);
+			moduleStepper.width = 32;
+			moduleStepper.minimum = 0;
+			moduleStepper.isCircular = true;
+			
+			currentModuleText = new Text(logWindow, 0, 0, "...");
+			currentModuleText.editable = false;
+			currentModuleText.width = 120;
+			currentModuleText.height = 22
+			
 			allButtons = new Vector.<PushButton>();
 			
 			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_LABEL, handleButtonClick);
 			logButton.toggle = true;
 			logButton.width = 100;
+			logButton.x = moduleStepper.x + moduleStepper.width + 10;
 			allButtons.push(logButton);
 			
 			var messageMapingButton:PushButton = new PushButton(logWindow, 0, -0, MESSAGES_LABEL, handleButtonClick);
@@ -154,7 +232,43 @@ public class MvcExpressLogger {
 		//forceThisOnTop();
 		stage.addChild(logWindow);
 		
+		resolveCurrentModuleName();
+		
 		handleButtonClick();
+	}
+	
+	private function resolveCurrentModuleName():void {
+		var moduleNameList:String = ModuleManager.listModules();
+		var namesOnly:Array = moduleNameList.split(":");
+		if (namesOnly.length > 1) {
+			allModuleNames = namesOnly[1].split(",");
+			if (currentModuleName) {
+				if (moduleStepper.value > 0) {
+					if (allModuleNames[moduleStepper.value - 1] == currentModuleName) {
+						moduleStepper.value -= 1;
+					} else if (moduleStepper.value >= allModuleNames.length || allModuleNames[moduleStepper.value] != currentModuleName) {
+						moduleStepper.value = 0;
+						currentModuleName = allModuleNames[0];
+					}
+				}
+				
+			} else {
+				currentModuleName = allModuleNames[0];
+			}
+			
+			currentModuleText.text = currentModuleName;
+		}
+		moduleStepper.maximum = allModuleNames.length - 1;
+		
+		currentModuleName = currentModuleName;
+		
+		render();
+	}
+	
+	private function handleModuleChange(event:Event):void {
+		currentModuleName = allModuleNames[moduleStepper.value];
+		currentModuleText.text = currentModuleName;
+		render();
 	}
 	
 	private function handleButtonClick(event:MouseEvent = null):void {
@@ -196,22 +310,23 @@ public class MvcExpressLogger {
 	}
 	
 	private function render():void {
+		isRenderWaiting = false;
 		switch (currentTabButtonName) {
 			case LOG_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(logText);
-				//(currentScreen as MvcExpressLogScreen).scrollDown();
+				(currentScreen as MvcExpressLogScreen).scrollDown();
 				break;
 			case MESSAGES_LABEL: 
-				(currentScreen as MvcExpressLogScreen).showLog(mainModule.listMappedMessages());
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMessages(currentModuleName));
 				break;
 			case MEDIATORS_LABEL: 
-				(currentScreen as MvcExpressLogScreen).showLog(mainModule.listMappedMediators());
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMediators(currentModuleName));
 				break;
 			case PROXIES_LABEL: 
-				(currentScreen as MvcExpressLogScreen).showLog(mainModule.listMappedProxies());
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedProxies(currentModuleName));
 				break;
 			case COMMANDS_LABEL: 
-				(currentScreen as MvcExpressLogScreen).showLog(mainModule.listMappedCommands());
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
 				break;
 			default: 
 		}
