@@ -214,14 +214,6 @@ public class Messenger {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.remoteModule) {
 					if (handlerVo.isExecutable) {
-						
-						// TODO : handle remote executable listing...
-						
-						
-						var tt:Object = ModuleManager.listModuleMessageCommands(handlerVo.remoteModule, key);
-						var tt2:Object = McommandMap.listMessageCommands(key);
-						
-						
 						messageHandlers += "[EXECUTES {" + handlerVo.remoteModule + "} :" + ModuleManager.listModuleMessageCommands(handlerVo.remoteModule, key) + "], ";
 					} else {
 						messageHandlers += "[{" + handlerVo.remoteModule + "}:" + handlerVo.handlerClassName + "], ";
