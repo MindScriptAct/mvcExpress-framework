@@ -41,9 +41,8 @@ public class CommandMap {
 	 * Map a class to be executed then message with type provied is sent.
 	 * @param	type				Message type for command class to react to.
 	 * @param	commandClass		Command class that will bi instantiated and executed.
-	 * @param	remoteModuleName	TODO:COMMENT
 	 */
-	public function map(type:String, commandClass:Class, remoteModuleName:String = null):void {
+	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
 		// debug this action
@@ -53,30 +52,41 @@ public class CommandMap {
 			}
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
-				throw Error("Message type:[" + type + "] can not be empty or 'null'. (You are trying to map command:" + commandClass + ")");
+				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
 		}
-		if (remoteModuleName) {
-			ModuleManager.addRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
-		} else {
-			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
-		}
+		messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[type].push(commandClass);
 	}
 	
 	/**
-	 * TODO : DOCUMENT
-	 * @param	type
-	 * @param	commandClass
+	 * Map a class to be executed then message with type provied is sent from remote module.
+	 * @param	type				Message type for command class to react to.
+	 * @param	commandClass		Command class that will bi instantiated and executed.
+	 * @param	remoteModuleName	TODO:COMMENT
 	 */
-	pureLegsCore function addCommandClass(type:String, commandClass:Class):void {
+	public function mapRemote(type:String, commandClass:Class, remoteModuleName:String):void {
+		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+		use namespace pureLegsCore;
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("©©©+ CommandMap.mapRemote > type : " + type + ", commandClass : " + commandClass);
+			}
+			validateCommandClass(commandClass);
+			if (!Boolean(type) || type == "null" || type == "undefined") {
+				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
+			}
+		}
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
 		}
+		ModuleManager.addRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
+		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[type].push(commandClass);
 	}
 	

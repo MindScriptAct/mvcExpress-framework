@@ -42,6 +42,7 @@ public class ModularSampleMediator extends Mediator {
 		new PushButton(view, 500, 370, "message to #2 and #4", handleMessageToEven).width = 150;
 		new PushButton(view, 500, 395, "message to all", handleMessageToAll).width = 150;
 		new PushButton(view, 500, 425, "message to all no store", handleMessageToAllNoStore).width = 150;
+		new PushButton(view, 500, 525, "testing....", handleMessageToAllDublicate).width = 150;
 	}
 	
 	override public function onRemove():void {
@@ -118,6 +119,10 @@ public class ModularSampleMediator extends Mediator {
 	
 	public function handleMessageToAllNoStore(event:MouseEvent):void {
 		sendMessage(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, "Global message to all modules without using proxy!!!");
-	}	
+	}
+	
+	public function handleMessageToAllDublicate(event:MouseEvent):void {
+		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules without using proxy!!!");
+	}
 }
 }

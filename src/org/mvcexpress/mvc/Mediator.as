@@ -129,9 +129,29 @@ public class Mediator {
 	 * adds handle function to be called then message of provided type is sent.
 	 * @param	type	message type for handle function to react to.
 	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 */
+	protected function addHandler(type:String, handler:Function):void {
+		use namespace pureLegsCore;
+		CONFIG::debug {
+			if (handler.length < 1) {
+				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
+			}
+			if (!Boolean(type) || type == "null" || type == "undefined") {
+				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
+			}
+			messageDataRegistry.push(messenger.addHandler(type, handler, null, getQualifiedClassName(this)));
+			return;
+		}
+		messageDataRegistry.push(messenger.addHandler(type, handler, null));
+	}
+	
+	/**
+	 * adds handle function to be called then message of provided type is sent from remote module.
+	 * @param	type	message type for handle function to react to.
+	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
 	 * @param	remoteModuleName	COMMENT : TODO
 	 */
-	protected function addHandler(type:String, handler:Function, remoteModuleName:String = null):void {
+	protected function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
 		use namespace pureLegsCore;
 		CONFIG::debug {
 			if (handler.length < 1) {

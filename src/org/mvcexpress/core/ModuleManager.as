@@ -147,8 +147,6 @@ public class ModuleManager {
 		if (commandClass) {
 			if (moduleRegistry[remoteModuleName]) {
 				handlerVo = moduleRegistry[remoteModuleName].messenger.addCommandHandler(type, handler, commandClass);
-				// TODO :  this should be added only once per module to module...   what happens if second execute function added.???
-				//moduleRegistry[remoteModuleName].commandMap.addCommandClass(type, commandClass);
 			}
 		} else {
 			if (moduleRegistry[remoteModuleName]) {

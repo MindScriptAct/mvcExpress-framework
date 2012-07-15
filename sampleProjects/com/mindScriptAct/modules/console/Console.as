@@ -42,10 +42,13 @@ public class Console extends ModuleSprite {
 		}
 		
 		// set up commands
-		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
-		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
+		commandMap.mapRemote(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
+		commandMap.mapRemote(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
-		
+
+		// TODO : remove after dublicating messages is fixed.
+		commandMap.mapRemote(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand, ModuleNames.SHELL);
+				
 		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
 		mediatorMap.map(Console, ConsoleMediator);

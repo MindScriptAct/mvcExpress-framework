@@ -199,6 +199,11 @@ public class MvcExpressLogger {
 			currentModuleText.width = 120;
 			currentModuleText.height = 22
 			
+			var rectangle:Shape = new Shape();
+			rectangle.graphics.lineStyle(1, 0xFFFFFF);
+			rectangle.graphics.drawRect(0, 0, 120, 22);
+			logWindow.addChild(rectangle);
+			
 			allButtons = new Vector.<PushButton>();
 			
 			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_LABEL, handleButtonClick);
