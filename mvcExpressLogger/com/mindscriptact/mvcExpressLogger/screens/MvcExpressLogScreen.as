@@ -28,13 +28,8 @@ public class MvcExpressLogScreen extends Sprite {
 		txt.text = log;
 	}
 	
-	public function scrollDown():void {
-		txt.scrollDown();
-		setTimeout(doScroll, 1);
-	}
-	
-	private function doScroll():void {
-		txt.scrollDown();
+	public function scrollDown(autoScroll:Boolean = true):void {
+		txt.autoScroll = autoScroll;
 	}
 
 }

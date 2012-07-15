@@ -1,4 +1,5 @@
 package com.mindscriptact.mvcExpressLogger {
+import com.bit101.components.CheckBox;
 import com.bit101.components.List;
 import com.bit101.components.NumericStepper;
 import com.bit101.components.PushButton;
@@ -58,6 +59,8 @@ public class MvcExpressLogger {
 	private var currentModuleText:Text;
 	private var allModuleNames:Array;
 	private var isRenderWaiting:Boolean = false;
+	private var autoLogCheckBox:CheckBox;
+	private var useAutoScroll:Boolean = true;
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
@@ -200,33 +203,47 @@ public class MvcExpressLogger {
 			
 			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_LABEL, handleButtonClick);
 			logButton.toggle = true;
-			logButton.width = 100;
+			logButton.width = 50;
 			logButton.x = moduleStepper.x + moduleStepper.width + 10;
 			allButtons.push(logButton);
 			
 			var messageMapingButton:PushButton = new PushButton(logWindow, 0, -0, MESSAGES_LABEL, handleButtonClick);
 			messageMapingButton.toggle = true;
-			messageMapingButton.width = 100;
+			messageMapingButton.width = 60;
 			messageMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(messageMapingButton);
 			
 			var mediatorMapingButton:PushButton = new PushButton(logWindow, 0, -0, MEDIATORS_LABEL, handleButtonClick);
 			mediatorMapingButton.toggle = true;
-			mediatorMapingButton.width = 100;
+			mediatorMapingButton.width = 60;
 			mediatorMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(mediatorMapingButton);
 			
 			var proxyMapingButton:PushButton = new PushButton(logWindow, 0, -0, PROXIES_LABEL, handleButtonClick);
 			proxyMapingButton.toggle = true;
-			proxyMapingButton.width = 100;
+			proxyMapingButton.width = 50;
 			proxyMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(proxyMapingButton);
 			
 			var commandMapingButton:PushButton = new PushButton(logWindow, 0, -0, COMMANDS_LABEL, handleButtonClick);
 			commandMapingButton.toggle = true;
-			commandMapingButton.width = 100;
+			commandMapingButton.width = 60;
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
+			
+
+			
+			
+			
+			var clearButton:PushButton = new PushButton(logWindow, 0, 5, "clear log", handleClearLog);
+			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
+			clearButton.width = 50;
+			clearButton.height = 15;
+			
+			autoLogCheckBox = new CheckBox(logWindow, 0, 5, "autoScroll", handleAutoScrollTogle);
+			autoLogCheckBox.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 70;
+			autoLogCheckBox.selected = true;			
+			
 			
 		}
 		//forceThisOnTop();
@@ -235,6 +252,19 @@ public class MvcExpressLogger {
 		resolveCurrentModuleName();
 		
 		handleButtonClick();
+	}
+	
+	private function handleClearLog(event:MouseEvent):void {
+		trace( "MvcExpressLogger.handleClearLog > event : " + event );
+		logText = "";
+		render();
+	}
+	
+	private function handleAutoScrollTogle(event:MouseEvent):void {
+		trace("MvcExpressLogger.handleAutoScrollTogle > event : " + event);
+		
+		useAutoScroll = (event.target as CheckBox).selected;
+		(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 	}
 	
 	private function resolveCurrentModuleName():void {
@@ -292,6 +322,9 @@ public class MvcExpressLogger {
 				currentScreen = null;
 			}
 			currentTabButtonName = targetButton.label;
+			
+			autoLogCheckBox.visible = (currentTabButtonName == LOG_LABEL)
+			
 			switch (currentTabButtonName) {
 				default: 
 					currentScreen = new MvcExpressLogScreen(width - 6, height - 52);
@@ -311,22 +344,27 @@ public class MvcExpressLogger {
 	
 	private function render():void {
 		isRenderWaiting = false;
+		
 		switch (currentTabButtonName) {
 			case LOG_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(logText);
-				(currentScreen as MvcExpressLogScreen).scrollDown();
+				(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 				break;
 			case MESSAGES_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMessages(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case MEDIATORS_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMediators(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case PROXIES_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedProxies(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case COMMANDS_LABEL: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			default: 
 		}

@@ -22,6 +22,7 @@ public class ConsoleMediator extends Mediator {
 		
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 		addHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
+		
 	}
 	
 	override public function onRemove():void {
