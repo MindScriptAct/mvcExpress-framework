@@ -124,45 +124,50 @@ public class Messenger {
 				MvcExpress.debugFunction("•> Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
-		if (targetAllModules) {
-			ModuleManager.sendMessageToAll(type, params);
-		} else {
-			var messageList:Vector.<HandlerVO> = messageRegistry[type];
-			var handlerVo:HandlerVO;
-			var delCount:int = 0;
-			if (messageList) {
-				var tempListLength:int = messageList.length
-				for (var i:int = 0; i < tempListLength; i++) {
-					handlerVo = messageList[i];
-					// check if message is not marked to be removed. (disabled)
-					if (handlerVo.handler == null) {
-						delCount++;
-					} else {
-						// if some MsgVOs marked to be removed - move all other messages to there place.
-						if (delCount) {
-							messageList[i - delCount] = messageList[i];
-						}
-						// check if handling function handles commands.
-						if (handlerVo.isExecutable) {
-							handlerVo.handler(type, params);
-						} else {
-							CONFIG::debug {
-								// FOR DEBUG viewing only..
-								/* Failed message type: */
-								type
-								/* Failed handler class: */
-								handlerVo.handlerClassName
-							}
-							handlerVo.handler(params);
-						}
+		//if (targetAllModules) {
+		//ModuleManager.sendMessageToAll(type, params);
+		//} else {
+		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		var handlerVo:HandlerVO;
+		var delCount:int = 0;
+		if (messageList) {
+			var tempListLength:int = messageList.length
+			for (var i:int = 0; i < tempListLength; i++) {
+				handlerVo = messageList[i];
+				// check if message is not marked to be removed. (disabled)
+				if (handlerVo.handler == null) {
+					delCount++;
+				} else {
+					
+					// if some MsgVOs marked to be removed - move all other messages to there place.
+					if (delCount) {
+						messageList[i - delCount] = messageList[i];
 					}
-				}
-				// remove all removed handlers.
-				if (delCount) {
-					messageList.splice(tempListLength - delCount, delCount);
+					//if (handlerVo.remoteModule) {
+					
+					//} else {
+					// check if handling function handles commands.
+					if (handlerVo.isExecutable) {
+						handlerVo.handler(type, params, handlerVo.remoteModule);
+					} else {
+						CONFIG::debug {
+							// FOR DEBUG viewing only..
+							/* Failed message type: */
+							type
+							/* Failed handler class: */
+							handlerVo.handlerClassName
+						}
+						handlerVo.handler(params);
+					}
+						//}
 				}
 			}
+			// remove all removed handlers.
+			if (delCount) {
+				messageList.splice(tempListLength - delCount, delCount);
+			}
 		}
+		//}
 	}
 	
 	/**

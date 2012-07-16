@@ -13,13 +13,13 @@ import suites.featureProxyHost.testObjects.remoteModule.RemoteModule;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class FeatureProxyHostTests {
-	private var moduleSprite:HostTestModuleSprite;
+	private var mainSprite:HostTestModuleSprite;
 	private var remoteModule:RemoteModule;
 	
 	[Before]
 	
 	public function runBeforeEveryTest():void {
-		moduleSprite = new HostTestModuleSprite();
+		mainSprite = new HostTestModuleSprite();
 		remoteModule = new RemoteModule();
 		HostProxy.instances = Vector.<Proxy>([]);
 		LocalProxyWithLocalInjection.injectedProxy = null;
@@ -29,9 +29,9 @@ public class FeatureProxyHostTests {
 	[After]
 	
 	public function runAfterEveryTest():void {
-		moduleSprite.unhostTestProxy(HostProxy);
-		moduleSprite.disposeModule();
-		moduleSprite = null;
+		mainSprite.unhostTestProxy(HostProxy);
+		mainSprite.disposeModule();
+		mainSprite = null;
 		remoteModule.disposeModule();
 		remoteModule = null;
 	}
@@ -39,9 +39,8 @@ public class FeatureProxyHostTests {
 	[Test(description="just hosting")]
 	
 	public function featureHostProxy_just_hosting_no_proxy_created():void {
-		
-		moduleSprite.hostTestProxy(new HostProxy());
-		Assert.assertEquals("Hosting a proxy should not create any new proxies.", HostProxy.instances.length, 0);
+		mainSprite.hostTestProxy(new HostProxy());
+		Assert.assertEquals("Hosting a proxy should create that proxy.", HostProxy.instances.length, 1);
 	}
 	
 	// local injection should work
@@ -52,10 +51,10 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 		
-		moduleSprite.mapProxy(new LocalProxyWithLocalInjection());
+		mainSprite.mapProxy(new LocalProxyWithLocalInjection());
 		
 		Assert.assertStrictlyEquals("Host proxy must be injected in local modules WITHOUT isHosted set to true.", LocalProxyWithLocalInjection.injectedProxy, hostProxy);
 		Assert.assertEquals("Hosting a proxy should create one new proxy.", HostProxy.instances.length, 1);
@@ -67,10 +66,10 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 		
-		moduleSprite.mapProxy(new LocalProxyWithGlobalInjection());
+		mainSprite.mapProxy(new LocalProxyWithGlobalInjection());
 		
 		Assert.assertStrictlyEquals("Host proxy must be injected in local modules WITH isHosted set to true.", LocalProxyWithGlobalInjection.injectedProxy, hostProxy);
 		Assert.assertEquals("Hosting a proxy should create one new proxy.", HostProxy.instances.length, 1);
@@ -82,8 +81,8 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.mapProxy(hostProxy);
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();
 		remoteModule.mapProxyWithHostedDependency();
@@ -97,8 +96,8 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();
 		remoteModule.mapProxyWithHostedDependency();
@@ -112,8 +111,8 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithNormalInject();
 		remoteModule.mapProxyWithNormalInject();
@@ -126,8 +125,8 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 	}
 	
 	[Test(expects="Error",description="hosting same object with diferent class shloud throm error.")]
@@ -136,10 +135,10 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 		
-		moduleSprite.mapProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 	}
 	
 	[Test(expects="Error",description="hosting same object with diferent class subclasses shloud throm error.")]
@@ -148,10 +147,10 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxySubclass = new HostProxySubclass()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.hostTestProxy(hostProxy, HostProxySubclass);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy, HostProxySubclass);
 		
-		moduleSprite.mapProxy(hostProxy as HostProxy);
+		mainSprite.mapProxy(hostProxy as HostProxy);
 		
 		throw Error("TODO");
 	}
@@ -162,7 +161,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 		remoteModule.mapProxy(hostProxy);
 	
 	}
@@ -174,7 +173,7 @@ public class FeatureProxyHostTests {
 		var hostProxy:HostProxy = new HostProxy();
 		
 		remoteModule.mapProxy(hostProxy);
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 	}
 	
 	[Test(expects="Error",description="2 diferent proxies shold not map and host hosted proxy")]
@@ -183,7 +182,7 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy();
 		
-		moduleSprite.hostTestProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
 		remoteModule.mapProxy(hostProxy);
 	}	
 	
@@ -194,15 +193,15 @@ public class FeatureProxyHostTests {
 		
 		var hostProxy:HostProxy = new HostProxy()
 		
-		moduleSprite.hostTestProxy(hostProxy);
-		moduleSprite.mapProxy(hostProxy);
+		mainSprite.hostTestProxy(hostProxy);
+		mainSprite.mapProxy(hostProxy);
 		
 		remoteModule.createProxyWithHostedDependency();
 		remoteModule.mapProxyWithHostedDependency();
 		
 		hostProxy.dataChange();
 		
-		Assert.assertTrue("Host module hosted proxy message must be handled", moduleSprite.messageHandled());
+		Assert.assertTrue("Host module hosted proxy message must be handled", mainSprite.messageHandled());
 		Assert.assertTrue("Remote module hosted proxy message must be handled", remoteModule.messageHandled());
 	}
 }

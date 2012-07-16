@@ -57,8 +57,8 @@ public class CommandMap {
 		}
 		if (!classRegistry[type]) {
 			classRegistry[type] = new Vector.<Class>();
+			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		}
-		messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[type].push(commandClass);
 	}
@@ -82,12 +82,13 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		if (!classRegistry[type]) {
-			classRegistry[type] = new Vector.<Class>();
+		var messageId:String = type + ModuleManager.MESSAGE_MODULE_SEPARATOR + moduleName;
+		if (!classRegistry[messageId]) {
+			classRegistry[messageId] = new Vector.<Class>();
 		}
 		ModuleManager.addRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
 		// TODO : check if command is already added. (in DEBUG mode only?.)
-		classRegistry[type].push(commandClass);
+		classRegistry[messageId].push(commandClass);
 	}
 	
 	/**
@@ -156,8 +157,14 @@ public class CommandMap {
 	}
 	
 	/** function to be called by messenger on needed mesage type sent */
-	private function handleCommandExecute(messageType:String, params:Object):void {
-		var commandList:Vector.<Class> = classRegistry[messageType];
+	private function handleCommandExecute(messageType:String, params:Object, remoteModule:String):void {
+		var commandList:Vector.<Class>;
+		if (remoteModule) {
+			commandList = classRegistry[messageType + ModuleManager.MESSAGE_MODULE_SEPARATOR + remoteModule];
+		} else {
+			commandList = classRegistry[messageType];
+		}
+		
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {
 				//////////////////////////////////////////////

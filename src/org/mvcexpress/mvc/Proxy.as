@@ -19,7 +19,7 @@ public class Proxy {
 	
 	private var _isReady:Boolean = false;
 	
-	pureLegsCore var isHosted:Boolean = false;
+	pureLegsCore var hostModuleName:String;
 	
 	/** CONSTRUCTOR */
 	public function Proxy() {
@@ -35,9 +35,9 @@ public class Proxy {
 		// send message to self.
 		messenger.send(type, params);
 		// send message to all remote modules.. (but only if all modules are not already targeted.)
-		if (isHosted) {
+		if (hostModuleName != null) {
 			messenger.sendTo(type, params, ProxyMap.getRemoteMudules(this));
-		} 
+		}
 	}
 	
 	/**
@@ -46,8 +46,12 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function register():void {
-		_isReady = true;
-		onRegister();
+		if (!_isReady) {
+			_isReady = true;
+			onRegister();
+		} else {
+			throw Error("Proxy:" + this + " is already registered. You can register one proxy only once.");
+		}
 	}
 	
 	/**

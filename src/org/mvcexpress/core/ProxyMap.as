@@ -67,6 +67,11 @@ public class ProxyMap {
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectObjectRegistry[className + name]) {
 			use namespace pureLegsCore;
+			if (proxyObject.hostModuleName) {
+				if (proxyObject.hostModuleName != moduleName) {
+					throw Error("Proxy cant be hosted in one module("+proxyObject.hostModuleName+") and then mappend in another("+moduleName+"). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+				}
+			}
 			proxyObject.messenger = messenger;
 			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
@@ -362,22 +367,26 @@ public class ProxyMap {
 			
 			// TODO : check if isHosted is needed.
 			// TODO : check if HostedProxy class is needed.
-			proxyObject.isHosted = true;
-			hostObjectRegistry[className + name].proxy = proxyObject;
-			hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
+			if (proxyObject.hostModuleName == null) {
+				proxyObject.hostModuleName = moduleName;
+				hostObjectRegistry[className + name].proxy = proxyObject;
+				hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
+			} else {
+				throw Error("Same proxy should not be hosted by more then one module. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+			}
 			
-				// check if proxy is not mapped already in other modules.
-				// TODO : decide what to do with this check.
-				//var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
-				//if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
-				//var remoteModuleNamse:String = " ";
-				//for (var i:int = 0; i < remoteProxies.length; i++) {
-				//if (remoteProxies[i] != injectObject) {
-				//remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
-				//}
-				//}
-				//throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > injectClass : " + injectClass + ", name : " + name);
-				//}
+			// check if proxy is not mapped already in other modules.
+			// TODO : decide what to do with this check.
+			var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
+			if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
+				var remoteModuleNamse:String = " ";
+				for (var i:int = 0; i < remoteProxies.length; i++) {
+					if (remoteProxies[i] != injectObject) {
+						remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
+					}
+				}
+				throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > injectClass : " + injectClass + ", name : " + name);
+			}
 		}
 	}
 	
@@ -395,7 +404,7 @@ public class ProxyMap {
 			// mark proxy as not hosted.
 			if (hostObjectRegistry[className + name].proxy) {
 				use namespace pureLegsCore;
-				hostObjectRegistry[className + name].proxy.isHosted = false;
+				hostObjectRegistry[className + name].proxy.hostModuleName = null;
 			}
 			// remove hosted proxy from registry
 			delete hostObjectRegistry[className + name];

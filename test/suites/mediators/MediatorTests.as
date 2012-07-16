@@ -1,4 +1,5 @@
 package suites.mediators {
+import flexunit.framework.Assert;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.ProxyMap;
@@ -16,6 +17,7 @@ public class MediatorTests {
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
+	private var testView:MediatorSprite;
 	
 	[Before]
 	
@@ -29,7 +31,9 @@ public class MediatorTests {
 		
 		mediatorMap.map(MediatorSprite, MediatorSpriteMediator);
 		
-		mediatorMap.mediate(new MediatorSprite());
+		testView = new MediatorSprite()
+		
+		mediatorMap.mediate(testView);
 	}
 	
 	[After]
@@ -39,6 +43,7 @@ public class MediatorTests {
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
+		testView = null;
 	}
 	
 	[Test(expects="Error")]
@@ -74,6 +79,19 @@ public class MediatorTests {
 	public function test_handler_two_params_one_optional():void {
 		messenger.send("test_handler_two_params_one_optional");
 	}
+	
+	[Test]
+	
+	public function test_same_handler_added_twice_fails():void {
+		if (CONFIG::debug == true) {
+			try {
+				testView.tryAddingHandlerTwice();
+				Assert.fail("Adding handlen twice should fail.");
+			} catch (err:Error) {
+			}
+		}
+	}
+	
 
 }
 }

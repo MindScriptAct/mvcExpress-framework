@@ -1,7 +1,9 @@
 package suites.mediators.mediatorObj {
 import flash.display.Sprite;
+import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 import suites.testObjects.SuperObject;
+import suites.ViewTestEvents;
 
 /**
  * COMMENT
@@ -19,6 +21,12 @@ public class MediatorSpriteMediator extends Mediator {
 		addHandler("test_handler_bad_params", handleTestWithBadParams);
 		addHandler("test_handler_two_params", handleTestWithTwoParams);
 		addHandler("test_handler_two_params_one_optional", handleTestWithTwoParamsOneOptional);
+		
+		view.addEventListener(ViewTestEvents.TRIGER_ADD_HANDLER, addTestHandler);
+	}
+	
+	private function addTestHandler(event:Event):void {
+		addHandler("test", handleTestEmptyHandler);
 	}
 	
 	public function handleTestEmptyHandler(params:Object):void {

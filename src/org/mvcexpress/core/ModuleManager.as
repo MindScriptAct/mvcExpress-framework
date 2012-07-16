@@ -12,6 +12,7 @@ import org.mvcexpress.MvcExpress;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ModuleManager {
+	static public const MESSAGE_MODULE_SEPARATOR:String = "_§_";
 	
 	/* messenger counter, increased with every new created module */
 	static private var _moduleId:int;
@@ -220,30 +221,28 @@ public class ModuleManager {
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
-		
-		
+	
+	}
+	
+	/*
+	 * Finds all proxy objects that are mapped with given className and name in all modules.
+	 * (needed to ensure there are no hosted proxies somethere.)
+	 * @param	className
+	 * @param	name
+	 * @return
+	 * @private
+	 */
+	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
+		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
+		use namespace pureLegsCore;
+		for each (var module:ModuleBase in moduleRegistry) {
+			var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
+			if (proxy) {
+				retVal.push(proxy);
+			}
+		}
+		return retVal;
 	}
 
-/*
- * Finds all proxy objects that are mapped with given className and name in all modules.
- * (needed to ensure there are no hosted proxies somethere.)
- * @param	className
- * @param	name
- * @return
- * @private
- */ /*
-   WORK IN PROGRESS
-   static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
-   var retVal:Vector.<Proxy> = new Vector.<Proxy>();
-   use namespace pureLegsCore;
-   for each (var module:ModuleBase in moduleRegistry) {
-   var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
-   if (proxy) {
-   retVal.push(proxy);
-   }
-   }
-   return retVal;
-   }
- */
 }
 }

@@ -28,7 +28,7 @@ public class HostTestModuleSprite extends ModuleSprite {
 	}
 	
 	public function unhostTestProxy(classToHost:Class, name:String = ""):void {
-		unhostProxy(classToHost, name);
+		proxyMap.unhost(classToHost, name);
 	}
 	
 	public function mapProxy(hostProxy:Proxy):void {

@@ -20,7 +20,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	public var messengerTests:MessengerTests;
 	
 	public var proxyMapTests:ProxyMapTests;
@@ -41,12 +41,15 @@ public class AllTestSuites {
 	
 	public var utilsTests:UtilsTests;
 	
+	
+	public var featureRemoteHandlerTest:FeatureRemoteHandlerTests;	
+	
 	//*/
 	
-	//public var featureProxyHostTests:FeatureProxyHostTests;
+	public var featureProxyHostTests:FeatureProxyHostTests;
 	
 	
-	public var featureRemoteHandlerTest:FeatureRemoteHandlerTests;
+
 	
 	
 	
