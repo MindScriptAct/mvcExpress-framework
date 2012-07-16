@@ -1,6 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.messenger {
-import org.mvcexpress.core.CommandMap;
 
 /**
  * Framework internal value data for message handlers.
@@ -24,6 +23,6 @@ public class HandlerVO {
 	
 	/** FOR INTERNAL USE ONLY. if set - indicates remote module that added this handler . */
 	public var remoteModule:String;
-	
+
 }
 }

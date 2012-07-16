@@ -2,15 +2,14 @@
 package org.mvcexpress.core {
 import flash.utils.describeType;
 import flash.utils.Dictionary;
-import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.
@@ -18,7 +17,9 @@ import org.mvcexpress.core.namespace.pureLegsCore;
  */
 public class ProxyMap {
 	
+	// name of the module CommandMap is working for.
 	private var moduleName:String;
+	
 	private var messenger:Messenger;
 	
 	/** all objects ready for injection stored by key. (className + inject name) */
@@ -69,7 +70,7 @@ public class ProxyMap {
 			use namespace pureLegsCore;
 			if (proxyObject.hostModuleName) {
 				if (proxyObject.hostModuleName != moduleName) {
-					throw Error("Proxy cant be hosted in one module("+proxyObject.hostModuleName+") and then mappend in another("+moduleName+"). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+					throw Error("Proxy cant be hosted in one module(" + proxyObject.hostModuleName + ") and then mappend in another(" + moduleName + "). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 				}
 			}
 			proxyObject.messenger = messenger;

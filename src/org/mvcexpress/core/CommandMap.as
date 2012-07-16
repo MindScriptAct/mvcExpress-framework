@@ -5,9 +5,9 @@ import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
@@ -16,6 +16,7 @@ import org.mvcexpress.utils.checkClassSuperclass;
  */
 public class CommandMap {
 	
+	// name of the module CommandMap is working for.
 	private var moduleName:String;
 	
 	private var messenger:Messenger;

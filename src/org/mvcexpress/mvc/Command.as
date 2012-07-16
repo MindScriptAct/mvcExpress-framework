@@ -2,9 +2,9 @@
 package org.mvcexpress.mvc {
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProxyMap;
 
 /**
  * Command, handles business logic of your application. 												</br>

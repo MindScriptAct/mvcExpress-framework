@@ -5,9 +5,9 @@ import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
-import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
@@ -15,7 +15,10 @@ import org.mvcexpress.utils.checkClassSuperclass;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MediatorMap implements IMediatorMap {
+	
+	// name of the module MediatorMap is working for.
 	private var moduleName:String;
+	
 	protected var proxyMap:ProxyMap;
 	protected var messenger:Messenger;
 	
@@ -92,7 +95,7 @@ public class MediatorMap implements IMediatorMap {
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("§*+ MediatorMap.mediate > viewObject : " + viewObject +" (viewClass:"+viewClass+")" + " WITH > mediatorClass : " + mediatorClass);
+					MvcExpress.debugFunction("§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass);
 				}
 				// Allows Mediator to be constructed. (removed from release build to save some performance.)
 				Mediator.canConstruct = true

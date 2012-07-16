@@ -3,8 +3,8 @@ package org.mvcexpress.core.messenger {
 import flash.utils.Dictionary;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Handles framework communications.
@@ -12,7 +12,8 @@ import org.mvcexpress.core.namespace.pureLegsCore;
  */
 public class Messenger {
 	
-	private var _moduleName:String;
+	// name of the module messenger is working for.
+	pureLegsCore var moduleName:String;
 	
 	// defines if messenger can be instantiated.
 	static pureLegsCore var allowInstantiation:Boolean = false;
@@ -31,7 +32,7 @@ public class Messenger {
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
-		this._moduleName = moduleName;
+		this.moduleName = moduleName;
 	}
 	
 	/**
@@ -66,7 +67,7 @@ public class Messenger {
 		}
 		if (remoteModuleName) {
 			use namespace pureLegsCore;
-			msgData = ModuleManager.addRemoteHandler(type, handler, _moduleName, remoteModuleName);
+			msgData = ModuleManager.addRemoteHandler(type, handler, moduleName, remoteModuleName);
 			CONFIG::debug {
 				msgData.handlerClassName = handlerClassName;
 			}
@@ -113,10 +114,9 @@ public class Messenger {
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
 	// TODO : consider removing targetAllModules
-	public function send(type:String, params:Object = null, targetAllModules:Boolean = false):void {
+	public function send(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
@@ -124,9 +124,6 @@ public class Messenger {
 				MvcExpress.debugFunction("•> Messenger.send > type : " + type + ", params : " + params);
 			}
 		}
-		//if (targetAllModules) {
-		//ModuleManager.sendMessageToAll(type, params);
-		//} else {
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
 		var delCount:int = 0;
@@ -143,15 +140,13 @@ public class Messenger {
 					if (delCount) {
 						messageList[i - delCount] = messageList[i];
 					}
-					//if (handlerVo.remoteModule) {
 					
-					//} else {
 					// check if handling function handles commands.
 					if (handlerVo.isExecutable) {
 						handlerVo.handler(type, params, handlerVo.remoteModule);
 					} else {
 						CONFIG::debug {
-							// FOR DEBUG viewing only..
+							// FOR DEBUG viewing only(mouse over over variables while in bedugger mode.)
 							/* Failed message type: */
 							type
 							/* Failed handler class: */
@@ -159,7 +154,6 @@ public class Messenger {
 						}
 						handlerVo.handler(params);
 					}
-						//}
 				}
 			}
 			// remove all removed handlers.
@@ -167,7 +161,16 @@ public class Messenger {
 				messageList.splice(tempListLength - delCount, delCount);
 			}
 		}
-		//}
+	}
+	
+	/**
+	 * Experimental.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 */
+	private function sendToAll(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
+		ModuleManager.sendMessageToAll(type, params);
 	}
 	
 	/**
@@ -238,13 +241,12 @@ public class Messenger {
 		return retVal;
 	}
 	
+	/**
+	 * Disposes of messenger.
+	 */
 	public function dispose():void {
 		messageRegistry = null;
 		handlerRegistry = null;
-	}
-	
-	public function get moduleName():String {
-		return _moduleName;
 	}
 
 }

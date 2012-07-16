@@ -6,9 +6,8 @@ import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.ModuleBase;
 import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.mvc.Proxy;
+import org.mvcexpress.core.ProxyMap;
 
 /**
  * Core Module class as sprite.
@@ -108,10 +107,9 @@ public class ModuleSprite extends Sprite {
 	 * Message sender.
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
-	 * @param	targetAllModules	if true, will send message to all existing modules, by default message will be internal for current module only.
 	 */
-	protected function sendMessage(type:String, params:Object = null, targetAllModules:Boolean = false):void {
-		moduleBase.sendMessage(type, params, targetAllModules);
+	protected function sendMessage(type:String, params:Object = null):void {
+		moduleBase.sendMessage(type, params);
 	}
 	
 	//----------------------------------
