@@ -4,6 +4,7 @@ import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
+import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
@@ -17,16 +18,13 @@ import org.mvcexpress.core.namespace.pureLegsCore;
  */
 public class Mediator {
 	
-	/** @private */
-	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
-	
-	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
-	private var eventListenerRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
-	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
-	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
+	private var _isReady:Boolean = false;
 	
 	/** @private */
 	pureLegsCore var messenger:Messenger;
+	
+	/** TODO : COMMENT */
+	protected var proxyMap:IProxyMap;
 	
 	/** @private */
 	CONFIG::debug
@@ -36,7 +34,13 @@ public class Mediator {
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
-	private var _isReady:Boolean = false;
+	/** @private */
+	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
+	
+	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
+	private var eventListenerRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
+	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
+	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
 	
 	/**
 	 * Handles application mediators.
@@ -51,6 +55,15 @@ public class Mediator {
 				throw Error("Mediator:" + this + " can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
 			}
 		}
+	}
+	
+	/**
+	 * sets proxyMap interface.
+	 * @param	iProxyMap
+	 * @private
+	 */
+	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
+		this.proxyMap = iProxyMap;
 	}
 	
 	/**
@@ -180,13 +193,12 @@ public class Mediator {
 	 * @param	type	message type that was set for handle function to react to.
 	 * @param	handler	function that was set to react to message.
 	 * @param	remoteModuleName	module name that should be sendng a message, for this handler to be triggered.
-	 */	
+	 */
 	public function removeRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
-		trace( "Mediator.removeRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName );
+		trace("Mediator.removeRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName);
 		use namespace pureLegsCore;
 		messenger.removeHandler(type, handler, remoteModuleName);
 	}
-	
 	
 	/**
 	 * Remove all handle functions created by this mediator. Automatically called with unmediate().

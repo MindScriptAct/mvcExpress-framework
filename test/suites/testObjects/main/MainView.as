@@ -27,6 +27,10 @@ public class MainView extends Sprite {
 	public function removeRemoteHandler(message:String):void {
 		dispatchEvent(new TestViewEvent(TestViewEvent.REMOVE_REMOTE_HANDLER, message));
 	}
+	
+	public function testGetProxyClass(proxyClass:Class):void {
+		dispatchEvent(new TestViewEvent(TestViewEvent.TEST_GET_PROXY_CLASS, null, proxyClass));
+	}
 
 }
 }

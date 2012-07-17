@@ -21,6 +21,7 @@ public class MainViewMediator extends Mediator {
 		view.addEventListener(TestViewEvent.ADD_REMOTE_HANDLER, handleAddRemoteHandler);
 		view.addEventListener(TestViewEvent.REMOVE_LOCAL_HANDLER, handleRemoveLocalHandler);
 		view.addEventListener(TestViewEvent.REMOVE_REMOTE_HANDLER, handleRemoveRemoteHandler);
+		view.addEventListener(TestViewEvent.TEST_GET_PROXY_CLASS, handleTestProxyGetHandler);
 	
 	}
 	
@@ -47,6 +48,10 @@ public class MainViewMediator extends Mediator {
 		removeRemoteHandler(event.messageType, trigerRemoteHandler, SuiteModuleNames.EXTERNAL_MODULE);
 	}
 	
+	private function handleTestProxyGetHandler(event:TestViewEvent):void {
+		dataProxy.testProxy = proxyMap.getProxy(event.testClass);
+	}
+	
 	//----------------------------------
 	//     
 	//----------------------------------
@@ -57,5 +62,7 @@ public class MainViewMediator extends Mediator {
 	private function trigerRemoteHandler(params:Object):void {
 		dataProxy.remoteHandlerCount++;
 	}
+	
+	
 }
 }

@@ -102,6 +102,15 @@ public class MainModule extends ModuleSprite {
 		return dataProxy.getTestProxy(proxyClass);
 	}
 	
+	public function getProxyFromMediator(proxyClass:Class):Proxy {
+		if (!testView) {
+			testView = new MainView();
+			mediatorMap.mediate(testView);
+		}
+		testView.testGetProxyClass(proxyClass);
+		return dataProxy.testProxy;
+	}
+	
 	//----------------------------------
 	//     
 	//----------------------------------

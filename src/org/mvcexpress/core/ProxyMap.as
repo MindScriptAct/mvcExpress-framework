@@ -95,7 +95,7 @@ public class ProxyMap implements IProxyMap {
 				}
 			}
 			proxyObject.messenger = messenger;
-			proxyObject.setProxymap(this);
+			proxyObject.setProxyMap(this);
 			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			// store proxy injection to other classes.

@@ -49,7 +49,7 @@ public class Proxy {
 	 * @param	iProxyMap
 	 * @private
 	 */
-	pureLegsCore function setProxymap(iProxyMap:IProxyMap):void {
+	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
 		this.proxyMap = iProxyMap;
 	}
 	

@@ -109,6 +109,7 @@ public class MediatorMap implements IMediatorMap {
 			}
 			
 			mediator.messenger = messenger;
+			mediator.setProxyMap(proxyMap);
 			mediator.mediatorMap = this;
 			
 			var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewClass);

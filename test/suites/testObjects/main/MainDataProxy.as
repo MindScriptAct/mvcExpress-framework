@@ -12,6 +12,8 @@ public class MainDataProxy extends Proxy {
 	public var remoteCommandCount:int = 0;
 	public var remoteHandlerCount:int = 0;
 	
+	public var testProxy:Proxy;
+	
 	public function MainDataProxy() {
 	
 	}

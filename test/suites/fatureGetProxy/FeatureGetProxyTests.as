@@ -11,20 +11,20 @@ import suites.testObjects.module.SimpleTestProxy;
 public class FeatureGetProxyTests {
 	
 	private var mainModule:MainModule;
-	private var externalModule:ExternalModule;
+	//private var externalModule:ExternalModule;
 	
 	[Before]
 	
 	public function runBeforeEveryTest():void {
 		mainModule = new MainModule();
-		externalModule = new ExternalModule();
+		//externalModule = new ExternalModule();
 	}
 	
 	[After]
 	
 	public function runAfterEveryTest():void {
 		mainModule.disposeModule();
-		externalModule.disposeModule();
+		//externalModule.disposeModule();
 	}
 	
 	//----------------------------------
@@ -37,13 +37,19 @@ public class FeatureGetProxyTests {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy);
 		var returnedObj:Object = mainModule.getProxyFromProxy(SimpleTestProxy);
-		Assert.assertStrictlyEquals("You should be abble to get maped proxies.", testProxy, returnedObj);
+		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from other proxies.", testProxy, returnedObj);
 	}
 	
 	[Test(description=" get proxy in mediator")]
-	[Ignore]
 	
 	public function featureGetProxy_get_proxy_in_mediator():void {
+		var testProxy:SimpleTestProxy = new SimpleTestProxy();
+		mainModule.mapTestProxy(testProxy);
+		
+		
+		
+		var returnedObj:Object = mainModule.getProxyFromMediator(SimpleTestProxy);
+		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
 	}
 	
 	[Test(description=" get proxy in command")]
@@ -58,7 +64,7 @@ public class FeatureGetProxyTests {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy);
 		var returnedObj:Object = mainModule.getTestProxy(SimpleTestProxy);
-		Assert.assertStrictlyEquals("You should be abble to get maped proxies.", testProxy, returnedObj);
+		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from modules.", testProxy, returnedObj);
 	}
 
 /*
