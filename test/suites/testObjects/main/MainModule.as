@@ -91,29 +91,29 @@ public class MainModule extends ModuleSprite {
 	//     
 	//----------------------------------
 	
-	public function mapTestProxy(testProxy:SimpleTestProxy):void {
-		proxyMap.map(testProxy);
+	public function mapTestProxy(testProxy:Proxy, injectClass:Class = null, name:String = ""):void {
+		proxyMap.map(testProxy, injectClass, name);
 	}
 	
-	public function getTestProxy(proxyClass:Class):Proxy {
-		return proxyMap.getProxy(proxyClass);
+	public function getTestProxy(proxyClass:Class, name:String = ""):Proxy {
+		return proxyMap.getProxy(proxyClass, name);
 	}
 	
-	public function getProxyFromProxy(proxyClass:Class):Proxy {
-		return dataProxy.getTestProxy(proxyClass);
+	public function getProxyFromProxy(proxyClass:Class, name:String = ""):Proxy {
+		return dataProxy.getTestProxy(proxyClass, name);
 	}
 	
-	public function getProxyFromMediator(proxyClass:Class):Proxy {
+	public function getProxyFromMediator(proxyClass:Class, name:String = ""):Proxy {
 		if (!testView) {
 			testView = new MainView();
 			mediatorMap.mediate(testView);
 		}
-		testView.testGetProxyClass(proxyClass);
+		testView.testGetProxyClass(proxyClass, name);
 		return dataProxy.testProxy;
 	}
 	
-	public function getProxyInCommand(proxyClass:Class):Proxy {
-		commandMap.execute(GetProxyTestCommand, proxyClass);
+	public function getProxyInCommand(proxyClass:Class, name:String = ""):Proxy {
+		commandMap.execute(GetProxyTestCommand, {moduleClass: proxyClass, moduleName: name});
 		return dataProxy.testProxy;
 	}
 	
@@ -137,5 +137,10 @@ public class MainModule extends ModuleSprite {
 		return dataProxy.remoteHandlerCount;
 	}
 
+	
+	// TODO : add tests with hosting.
+	
+	// TODO : add tests with multiply proxiest.?? (maybe dont belong here..)
+	
 }
 }

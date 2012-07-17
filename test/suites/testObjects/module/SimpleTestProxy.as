@@ -5,7 +5,7 @@ import org.mvcexpress.mvc.Proxy;
  * TODO:CLASS COMMENT
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
-public class SimpleTestProxy extends Proxy{
+public class SimpleTestProxy extends Proxy implements ISimpleTestProxy {
 	
 	public function SimpleTestProxy(){
 		

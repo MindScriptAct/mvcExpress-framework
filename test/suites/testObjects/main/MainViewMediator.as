@@ -49,7 +49,8 @@ public class MainViewMediator extends Mediator {
 	}
 	
 	private function handleTestProxyGetHandler(event:TestViewEvent):void {
-		dataProxy.testProxy = proxyMap.getProxy(event.testClass);
+																// event.messageType used as module name !!
+		dataProxy.testProxy = proxyMap.getProxy(event.testClass, event.messageType);
 	}
 	
 	//----------------------------------

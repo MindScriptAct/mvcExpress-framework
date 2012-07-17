@@ -11,8 +11,8 @@ public class GetProxyTestCommand extends Command {
 	[Inject]
 	public var dataProxy:MainDataProxy;
 	
-	public function execute(proxyClass:Class):void {
-		dataProxy.testProxy = proxyMap.getProxy(proxyClass);
+	public function execute(proxyData:Object):void {
+		dataProxy.testProxy = proxyMap.getProxy(proxyData.moduleClass, proxyData.moduleName);
 	}
 
 }
