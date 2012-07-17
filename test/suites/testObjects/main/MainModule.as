@@ -2,6 +2,7 @@ package suites.testObjects.main {
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.mvc.Proxy;
 import suites.SuiteModuleNames;
+import suites.testObjects.controller.GetProxyTestCommand;
 import suites.testObjects.module.SimpleTestProxy;
 
 /**
@@ -108,6 +109,11 @@ public class MainModule extends ModuleSprite {
 			mediatorMap.mediate(testView);
 		}
 		testView.testGetProxyClass(proxyClass);
+		return dataProxy.testProxy;
+	}
+	
+	public function getProxyInCommand(proxyClass:Class):Proxy {
+		commandMap.execute(GetProxyTestCommand, proxyClass);
 		return dataProxy.testProxy;
 	}
 	

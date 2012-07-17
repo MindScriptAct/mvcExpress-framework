@@ -21,7 +21,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	public var messengerTests:MessengerTests;
 	
 	public var proxyMapTests:ProxyMapTests;

@@ -45,17 +45,18 @@ public class FeatureGetProxyTests {
 	public function featureGetProxy_get_proxy_in_mediator():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy);
-		
-		
-		
 		var returnedObj:Object = mainModule.getProxyFromMediator(SimpleTestProxy);
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
 	}
 	
 	[Test(description=" get proxy in command")]
-	[Ignore]
 	
 	public function featureGetProxy_get_proxy_in_command():void {
+		var testProxy:SimpleTestProxy = new SimpleTestProxy();
+		mainModule.mapTestProxy(testProxy);
+		var returnedObj:Object = mainModule.getProxyInCommand(SimpleTestProxy);
+		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
+		
 	}
 	
 	[Test(description=" get proxy in module")]
