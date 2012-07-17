@@ -1,6 +1,8 @@
 package suites.testObjects.main {
 import org.mvcexpress.modules.ModuleSprite;
+import org.mvcexpress.mvc.Proxy;
 import suites.SuiteModuleNames;
+import suites.testObjects.module.SimpleTestProxy;
 
 /**
  * COMMENT
@@ -82,6 +84,22 @@ public class MainModule extends ModuleSprite {
 			mediatorMap.mediate(testView);
 		}
 		testView.removeRemoteHandler(message);
+	}
+	
+	//----------------------------------
+	//     
+	//----------------------------------
+	
+	public function mapTestProxy(testProxy:SimpleTestProxy):void {
+		proxyMap.map(testProxy);
+	}
+	
+	public function getTestProxy(proxyClass:Class):Proxy {
+		return proxyMap.getProxy(proxyClass);
+	}
+	
+	public function getProxyFromProxy(proxyClass:Class):Proxy {
+		return dataProxy.getTestProxy(proxyClass);
 	}
 	
 	//----------------------------------

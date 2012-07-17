@@ -16,6 +16,8 @@ public class MainDataProxy extends Proxy {
 	
 	}
 	
+
+	
 	override protected function onRegister():void {
 	
 	}
@@ -23,6 +25,10 @@ public class MainDataProxy extends Proxy {
 	override protected function onRemove():void {
 	
 	}
-
+	
+	
+	public function getTestProxy(proxyClass:Class):Proxy {
+		return proxyMap.getProxy(proxyClass);
+	}
 }
 }

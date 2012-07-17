@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
+import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
@@ -13,6 +14,9 @@ public class Proxy {
 	
 	/** @private */
 	pureLegsCore var messenger:Messenger;
+	
+	/** TODO : COMMENT */
+	protected var proxyMap:IProxyMap;
 	
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
@@ -38,6 +42,15 @@ public class Proxy {
 		if (hostModuleName != null) {
 			messenger.sendTo(type, params, ProxyMap.getRemoteMudules(this));
 		}
+	}
+	
+	/**
+	 * sets proxyMap interface.
+	 * @param	iProxyMap
+	 * @private
+	 */
+	pureLegsCore function setProxymap(iProxyMap:IProxyMap):void {
+		this.proxyMap = iProxyMap;
 	}
 	
 	/**

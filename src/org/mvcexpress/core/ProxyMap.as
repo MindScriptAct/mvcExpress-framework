@@ -4,6 +4,7 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Command;
@@ -15,7 +16,7 @@ import org.mvcexpress.MvcExpress;
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ProxyMap {
+public class ProxyMap implements IProxyMap {
 	
 	// name of the module CommandMap is working for.
 	private var moduleName:String;
@@ -41,6 +42,26 @@ public class ProxyMap {
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
 		this.messenger = messenger;
+	}
+	
+	/**
+	 * TODO : COMMENT
+	 * @param	injectClass
+	 * @param	name
+	 * @param	isHosted
+	 */
+	public function getProxy(injectClass:Class, name:String = "", isHosted:Boolean = false):Proxy {
+		
+		var className:String = getQualifiedClassName(injectClass);
+		
+		// TODO : check for errors;
+		
+		// TODO : implement isHosted
+		if (injectObjectRegistry[className + name]) {
+			return injectObjectRegistry[className + name];
+		} else {
+			throw Error("Proxy object is not mapped mapped. [injectClass:" + className + " name:" + name + "]");
+		}
 	}
 	
 	/**
@@ -74,6 +95,7 @@ public class ProxyMap {
 				}
 			}
 			proxyObject.messenger = messenger;
+			proxyObject.setProxymap(this);
 			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			// store proxy injection to other classes.
