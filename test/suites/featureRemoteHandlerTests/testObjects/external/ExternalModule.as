@@ -41,7 +41,7 @@ public class ExternalModule extends ModuleSprite {
 			testView = new ExternalView();
 			mediatorMap.mediate(testView);
 		}
-		testView.addLocalhandler();
+		testView.addLocalhandler(message);
 	}
 	
 	public function createRemoteCommand(message:String):void {
@@ -53,11 +53,35 @@ public class ExternalModule extends ModuleSprite {
 			testView = new ExternalView();
 			mediatorMap.mediate(testView);
 		}
-		testView.addRemoteHandler();
+		testView.addRemoteHandler(message);
 	}
 	
 	public function sendTestMessage(message:String):void {
 		sendMessage(message);
+	}
+	
+	public function removeLocalCommand(message:String):void {
+		commandMap.unmap(message, ExternalLocalCommand);
+	}
+	
+	public function removeLocalHandler(message:String):void {
+		if (!testView) {
+			testView = new ExternalView();
+			mediatorMap.mediate(testView);
+		}
+		testView.removeLocalhandler(message);
+	}
+	
+	public function removeRemoteCommand(message:String):void {
+		commandMap.unmapRemote(message, ExternalRemoteCommand, SuiteModuleNames.MAIN_MODULE);
+	}
+	
+	public function removeRemoteHandler(message:String):void {
+		if (!testView) {
+			testView = new ExternalView();
+			mediatorMap.mediate(testView);
+		}
+		testView.removeRemoteHandler(message);
 	}
 	
 	//----------------------------------

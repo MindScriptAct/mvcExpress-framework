@@ -42,11 +42,11 @@ public class AllTestSuites {
 	public var utilsTests:UtilsTests;
 	
 	
-	public var featureRemoteHandlerTest:FeatureRemoteHandlerTests;	
-	
-	//*/
 	
 	public var featureProxyHostTests:FeatureProxyHostTests;
+	//*/
+	
+	public var featureRemoteHandlerTest:FeatureRemoteHandlerTests;	
 	
 	
 

@@ -9,6 +9,7 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
+import suites.featureRemoteHandlerTests.testObjects.external.ExternalRemoteCommand;
 
 /**
  * Handles command mappings, and executes them on messages
@@ -68,7 +69,7 @@ public class CommandMap {
 	 * Map a class to be executed then message with type provied is sent from remote module.
 	 * @param	type				Message type for command class to react to.
 	 * @param	commandClass		Command class that will bi instantiated and executed.
-	 * @param	remoteModuleName	TODO:COMMENT
+	 * @param	remoteModuleName	module name that will be sending a message, for this command to trigger.
 	 */
 	public function mapRemote(type:String, commandClass:Class, remoteModuleName:String):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
@@ -93,7 +94,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Unap a class to be executed then message with type provied is sent.
+	 * Unmap a class to be executed then message with type provied is sent.
 	 * @param	type			Message type for command class to react to.
 	 * @param	commandClass	Command class that will bi instantiated and executed.
 	 */
@@ -113,6 +114,33 @@ public class CommandMap {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Unmap a class to be executed then message with type provied is sent from remote module.
+	 * @param	type				Message type for command class to react to.
+	 * @param	commandClass		Command class that will bi instantiated and executed.
+	 * @param	remoteModuleName	module name that should be sendng a message, for this command to be triggered.
+	 */
+	public function unmapRemote(type:String, commandClass:Class, remoteModuleName:String):void {
+		trace("CommandMap.unmapRemote > type : " + type + ", commandClass : " + commandClass + ", remoteModuleName : " + remoteModuleName);
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("©©©- CommandMap.unmapRemote > type : " + type + ", commandClass : " + commandClass + ", remoteModuleName : " + remoteModuleName);
+			}
+		}
+		var messageId:String = type + ModuleManager.MESSAGE_MODULE_SEPARATOR + moduleName;
+		var commandList:Vector.<Class> = classRegistry[messageId];
+		if (commandList) {
+			for (var i:int = 0; i < commandList.length; i++) {
+				if (commandClass == commandList[i]) {
+					commandList.splice(i, 1);
+					break;
+				}
+			}
+		}
+		//ModuleManager.removeRemoteHandler(type, handleCommandExecute, moduleName, remoteModuleName, commandClass);
 	}
 	
 	/**

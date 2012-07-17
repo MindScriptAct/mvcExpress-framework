@@ -1,7 +1,7 @@
 package suites.featureRemoteHandlerTests.testObjects.external {
 import flash.display.Sprite;
 import flash.events.Event;
-import suites.ViewTestEvents;
+import suites.TestViewEvent;
 
 /**
  * COMMENT
@@ -13,12 +13,20 @@ public class ExternalView extends Sprite {
 	
 	}
 	
-	public function addLocalhandler():void {
-		dispatchEvent(new Event(ViewTestEvents.ADD_LOCAL_HANDLER));
+	public function addLocalhandler(message:String):void {
+		dispatchEvent(new TestViewEvent(TestViewEvent.ADD_LOCAL_HANDLER, message));
 	}
 	
-	public function addRemoteHandler():void {
-		dispatchEvent(new Event(ViewTestEvents.ADD_REMOTE_HANDLER));
+	public function addRemoteHandler(message:String):void {
+		dispatchEvent(new TestViewEvent(TestViewEvent.ADD_REMOTE_HANDLER, message));
+	}
+	
+	public function removeLocalhandler(message:String):void {
+		dispatchEvent(new TestViewEvent(TestViewEvent.REMOVE_LOCAL_HANDLER, message));
+	}
+	
+	public function removeRemoteHandler(message:String):void {
+		dispatchEvent(new TestViewEvent(TestViewEvent.REMOVE_REMOTE_HANDLER, message));
 	}
 }
 }

@@ -163,6 +163,19 @@ public class ModuleManager {
 		return handlerVo;
 	}
 	
+	static pureLegsCore function removeRemoteHandler(type:String, handler:Function, handlerModuleName:String, remoteModuleName:String, commandClass:Class = null):void {
+		if (commandClass) {
+			if (moduleRegistry[remoteModuleName]) {
+				//moduleRegistry[remoteModuleName].messenger.(type, handler, commandClass);
+			}
+		} else {
+			if (moduleRegistry[remoteModuleName]) {
+				use namespace pureLegsCore;
+				moduleRegistry[remoteModuleName].messenger.removeHandler(type, handler);
+			}
+		}
+	}
+	
 	//----------------------------------
 	//     DEBUG
 	//----------------------------------

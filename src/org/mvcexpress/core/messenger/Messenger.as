@@ -39,8 +39,8 @@ public class Messenger {
 	 * Adds handler function that will be called then message of specified type is sent.
 	 * @param	type	message type to react to.
 	 * @param	handler	function called on sent message, this function must have one and only one parameter.
-	 * @param	handlerClassName	handler function owner class name. For debugging only.
 	 * @param	remoteModuleName	TODO : comment
+	 * @param	handlerClassName	handler function owner class name. For debugging only.
 	 * @return		returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
 	public function addHandler(type:String, handler:Function, remoteModuleName:String = null, handlerClassName:String = null):HandlerVO {
@@ -90,21 +90,26 @@ public class Messenger {
 	/**
 	 * Removes handler function that will be called then message of specified type is sent.
 	 * - if handler is not found it fails silently.
-	 * @param	type	message type that handler had to react
-	 * @param	handler	function called on sent message.
+	 * @param	type				message type that handler had to react
+	 * @param	handler				function called on sent message.
+	 * @param	remoteModuleName	TODO : COMMENT
 	 */
-	public function removeHandler(type:String, handler:Function):void {
+	public function removeHandler(type:String, handler:Function, remoteModuleName:String = null):void {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("••<- Messenger.removeHandler > type : " + type + ", handler : " + handler);
 			}
 		}
-		
-		if (handlerRegistry[type]) {
-			if (handlerRegistry[type][handler]) {
-				(handlerRegistry[type][handler] as HandlerVO).handler = null;
-				delete handlerRegistry[type][handler];
+		if (remoteModuleName) {
+			use namespace pureLegsCore;
+			ModuleManager.removeRemoteHandler(type, handler, moduleName, remoteModuleName);
+		} else {
+			if (handlerRegistry[type]) {
+				if (handlerRegistry[type][handler]) {
+					(handlerRegistry[type][handler] as HandlerVO).handler = null;
+					delete handlerRegistry[type][handler];
+				}
 			}
 		}
 	}

@@ -3,7 +3,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 import suites.testObjects.SuperObject;
-import suites.ViewTestEvents;
+import suites.TestViewEvent;
 
 /**
  * COMMENT
@@ -22,7 +22,7 @@ public class MediatorSpriteMediator extends Mediator {
 		addHandler("test_handler_two_params", handleTestWithTwoParams);
 		addHandler("test_handler_two_params_one_optional", handleTestWithTwoParamsOneOptional);
 		
-		view.addEventListener(ViewTestEvents.TRIGER_ADD_HANDLER, addTestHandler);
+		view.addEventListener(TestViewEvent.TRIGER_ADD_HANDLER, addTestHandler);
 	}
 	
 	private function addTestHandler(event:Event):void {

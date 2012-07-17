@@ -146,9 +146,9 @@ public class Mediator {
 	
 	/**
 	 * adds handle function to be called then message of provided type is sent from remote module.
-	 * @param	type	message type for handle function to react to.
-	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
-	 * @param	remoteModuleName	COMMENT : TODO
+	 * @param	type				message type for handle function to react to.
+	 * @param	handler				function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 * @param	remoteModuleName	module name that will be sending a message, for this handler to trigger.
 	 */
 	protected function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
 		use namespace pureLegsCore;
@@ -174,6 +174,19 @@ public class Mediator {
 		use namespace pureLegsCore;
 		messenger.removeHandler(type, handler);
 	}
+	
+	/**
+	 * Removes handle function from message of provided type.
+	 * @param	type	message type that was set for handle function to react to.
+	 * @param	handler	function that was set to react to message.
+	 * @param	remoteModuleName	module name that should be sendng a message, for this handler to be triggered.
+	 */	
+	public function removeRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
+		trace( "Mediator.removeRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName );
+		use namespace pureLegsCore;
+		messenger.removeHandler(type, handler, remoteModuleName);
+	}
+	
 	
 	/**
 	 * Remove all handle functions created by this mediator. Automatically called with unmediate().

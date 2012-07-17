@@ -1,7 +1,7 @@
 package suites.mediators.mediatorObj {
 import flash.display.Sprite;
 import flash.events.Event;
-import suites.ViewTestEvents;
+import suites.TestViewEvent;
 
 /**
  * COMMENT
@@ -14,7 +14,7 @@ public class MediatorSprite extends Sprite {
 	}
 	
 	public function tryAddingHandlerTwice():void {
-		dispatchEvent(new Event(ViewTestEvents.TRIGER_ADD_HANDLER));
+		dispatchEvent(new TestViewEvent(TestViewEvent.TRIGER_ADD_HANDLER));
 	}
 
 }

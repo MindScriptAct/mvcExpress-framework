@@ -126,7 +126,7 @@ public class FeatureRemoteHandlerTests {
 		
 		Assert.assertEquals("Main module local command must be called once.", mainModule.localCommandCount, 1);
 		Assert.assertEquals("Main module remote command must be called once.", mainModule.remoteCommandCount, 1);
-	}	
+	}
 	
 	[Test(description="mixed messages to local and remote handlers")]
 	
@@ -152,6 +152,86 @@ public class FeatureRemoteHandlerTests {
 		
 		Assert.assertEquals("Main module local command must be called once.", mainModule.localHandlerCount, 1);
 		Assert.assertEquals("Main module remote command must be called once.", mainModule.remoteHandlerCount, 1);
+	}
+	
+	//----------------------------------
+	//     remove local trigers
+	//----------------------------------
+	
+	[Test(description="just trigering local command in main after remove")]
+	
+	public function featureRemoteMessanging_main_local_command_remove():void {
+		mainModule.createLocalCommand("test");
+		mainModule.removeLocalCommand("test");
+		mainModule.sendTestMessage("test");
+		Assert.assertEquals("Main module local command must be not called after remove", mainModule.localCommandCount, 0);
+	}
+	
+	[Test(description="just trigering local command in external after remove")]
+	
+	public function featureRemoteMessanging_external_local_command_remove():void {
+		externalModule.createLocalCommand("test");
+		externalModule.removeLocalCommand("test");
+		externalModule.sendTestMessage("test");
+		Assert.assertEquals("External module local command must be not called after remove", externalModule.localCommandCount, 0);
+	}
+	
+	[Test(description="just trigering local handler in main after remove")]
+	
+	public function featureRemoteMessanging_main_local_handler_remove():void {
+		mainModule.createLocalHandler("test");
+		mainModule.removeLocalHandler("test");
+		mainModule.sendTestMessage("test");
+		Assert.assertEquals("Main module local handler must be not called after remove", mainModule.localHandlerCount, 0);
+	}
+	
+	[Test(description="just trigering local handler in external after remove")]
+	
+	public function featureRemoteMessanging_external_local_handler_remove():void {
+		externalModule.createLocalHandler("test");
+		externalModule.removeLocalHandler("test");
+		externalModule.sendTestMessage("test");
+		Assert.assertEquals("External module local handler must be not called after remove", externalModule.localHandlerCount, 0);
+	}
+	
+	//----------------------------------
+	//     remove remote trigers
+	//----------------------------------	
+	
+	[Test(description="trigering remote command in main after remove")]
+	
+	public function featureRemoteMessanging_main_remote_command_remove():void {
+		mainModule.createRemoteCommand("test");
+		mainModule.removeRemoteCommand("test");
+		externalModule.sendTestMessage("test");
+		Assert.assertEquals("Main module remote command must be not called after remove", mainModule.remoteCommandCount, 0);
+	}
+	
+	[Test(description="trigering remote command in external after remove")]
+	
+	public function featureRemoteMessanging_external_remote_command_remove():void {
+		externalModule.createRemoteCommand("test");
+		externalModule.removeRemoteCommand("test");
+		mainModule.sendTestMessage("test");
+		Assert.assertEquals("External module remote command must be not called after remove", externalModule.remoteCommandCount, 0);
+	}
+	
+	[Test(description="trigering remote handler in main after remove")]
+	
+	public function featureRemoteMessanging_main_remote_handler_remove():void {
+		mainModule.createRemoteHandler("test");
+		mainModule.removeRemoteHandler("test");
+		externalModule.sendTestMessage("test");
+		Assert.assertEquals("Main module remote handler must be not called after remove", mainModule.remoteHandlerCount, 0);
+	}
+	
+	[Test(description="trigering remote handler in external after remove")]
+	
+	public function featureRemoteMessanging_external_remote_handler_remove():void {
+		externalModule.createRemoteHandler("test");
+		externalModule.removeRemoteHandler("test");
+		mainModule.sendTestMessage("test");
+		Assert.assertEquals("External module remote handler must be not called after remove.", externalModule.remoteHandlerCount, 0);
 	}
 }
 }
