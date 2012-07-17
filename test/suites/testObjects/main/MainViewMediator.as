@@ -1,4 +1,4 @@
-package suites.featureRemoteHandlerTests.testObjects.main {
+package suites.testObjects.main {
 import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 import suites.SuiteModuleNames;

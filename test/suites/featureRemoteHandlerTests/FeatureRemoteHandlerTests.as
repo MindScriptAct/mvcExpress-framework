@@ -1,7 +1,7 @@
 package suites.featureRemoteHandlerTests {
 import flexunit.framework.Assert;
-import suites.featureRemoteHandlerTests.testObjects.external.ExternalModule;
-import suites.featureRemoteHandlerTests.testObjects.main.MainModule;
+import suites.testObjects.external.ExternalModule;
+import suites.testObjects.main.MainModule;
 
 /**
  * COMMENT

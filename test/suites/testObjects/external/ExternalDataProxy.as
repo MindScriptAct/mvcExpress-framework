@@ -1,4 +1,4 @@
-package suites.featureRemoteHandlerTests.testObjects.external {
+package suites.testObjects.external {
 import org.mvcexpress.mvc.Proxy;
 
 /**
