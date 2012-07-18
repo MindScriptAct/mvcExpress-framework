@@ -5,7 +5,7 @@ import suites.TestViewEvent;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ExternalView extends Sprite {
 	

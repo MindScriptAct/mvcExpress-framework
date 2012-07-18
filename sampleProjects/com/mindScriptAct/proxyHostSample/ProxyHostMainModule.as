@@ -6,7 +6,7 @@ import org.mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ProxyHostMainModule extends ModuleCore {
 	

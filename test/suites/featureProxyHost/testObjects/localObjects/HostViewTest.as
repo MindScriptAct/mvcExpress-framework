@@ -3,7 +3,7 @@ package suites.featureProxyHost.testObjects.localObjects {
 	
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class HostViewTest extends Sprite {
 	public var messageReached:Boolean = false;

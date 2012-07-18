@@ -45,26 +45,6 @@ public class ProxyMap implements IProxyMap {
 	}
 	
 	/**
-	 * TODO : COMMENT
-	 * @param	injectClass
-	 * @param	name
-	 * @param	isHosted
-	 */
-	public function getProxy(injectClass:Class, name:String = "", isHosted:Boolean = false):Proxy {
-		
-		var className:String = getQualifiedClassName(injectClass);
-		
-		// TODO : check for errors;
-		
-		// TODO : implement isHosted
-		if (injectObjectRegistry[className + name]) {
-			return injectObjectRegistry[className + name];
-		} else {
-			throw Error("Proxy object is not mapped mapped. [injectClass:" + className + " name:" + name + "]");
-		}
-	}
-	
-	/**
 	 * Maps proxy object to injectClass and name.
 	 * @param	proxyObject	Proxy instance to use for injection.
 	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
@@ -155,6 +135,24 @@ public class ProxyMap implements IProxyMap {
 	}
 	
 	/**
+	 * Get mapped proxy. This is needed to get proxy manualy instead of inject it automaticaly. 							<br>
+	 * 		You might wont to get proxy manualy then your proxy has dynamic name.										<br>
+	 * 		Also you might want to get proxy manualy if your proxy is needed only in rare cases or only for short time.
+	 * 			(for instance - you need it only in onRegister() function.)
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
+	 * @param	name		Optional name if you need more then one proxy instance of same class.
+	 */
+	//* @param	isHosted // EXPERIMENTAL
+	public function getProxy(injectClass:Class, name:String = "" /*, isHosted:Boolean = false*/):Proxy {
+		var className:String = getQualifiedClassName(injectClass);
+		if (injectObjectRegistry[className + name]) {
+			return injectObjectRegistry[className + name];
+		} else {
+			throw Error("Proxy object is not mapped mapped. [injectClass:" + className + " name:" + name + "]");
+		}
+	}
+	
+	/**
 	 * Dispose of proxyMap. Remove all registered proxies and set all internals to null.
 	 * @private
 	 */
@@ -168,6 +166,10 @@ public class ProxyMap implements IProxyMap {
 		injectObjectRegistry = null;
 		messenger = null;
 	}
+	
+	//----------------------------------
+	//     internal stuff
+	//----------------------------------
 	
 	// TODO : consider making this function public...
 	/**
@@ -357,89 +359,98 @@ public class ProxyMap implements IProxyMap {
 	//     proxy hosting
 	//----------------------------------
 	
-	public function host(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
-		use namespace pureLegsCore;
-		
-		// get proxy class
-		var proxyClass:Class = Object(proxyObject).constructor;
-		
-		// if injectClass is not provided - proxyClass will be used instead.
-		if (!injectClass) {
-			injectClass = proxyClass;
-		}
-		
-		var className:String = getQualifiedClassName(injectClass);
-		if (hostObjectRegistry[className + name]) {
-			throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-		} else {
-			// debug this action
-			CONFIG::debug {
-				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("¶¶¶¶+++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
-				}
-			}
-			// store hosting object
-			hostObjectRegistry[className + name] = new HostedProxy(moduleName);
-			// check if local object exists
-			var injectObject:Proxy = injectObjectRegistry[className + name];
-			if (injectObject) {
-				if (injectObject != proxyObject) {
-					throw Error("You are trying to host proxy to id, that is already used for another proxy. > injectClass : " + injectClass + ", name : " + name);
-				}
-			}
-			
-			// TODO : check if isHosted is needed.
-			// TODO : check if HostedProxy class is needed.
-			if (proxyObject.hostModuleName == null) {
-				proxyObject.hostModuleName = moduleName;
-				hostObjectRegistry[className + name].proxy = proxyObject;
-				hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
-			} else {
-				throw Error("Same proxy should not be hosted by more then one module. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-			}
-			
-			// check if proxy is not mapped already in other modules.
-			// TODO : decide what to do with this check.
-			var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
-			if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
-				var remoteModuleNamse:String = " ";
-				for (var i:int = 0; i < remoteProxies.length; i++) {
-					if (remoteProxies[i] != injectObject) {
-						remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
-					}
-				}
-				throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > injectClass : " + injectClass + ", name : " + name);
-			}
-		}
-	}
+	// EXPERIMENTAL
+	/*
+	   public function host(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+	   use namespace pureLegsCore;
 	
-	public function unhost(injectClass:Class = null, name:String = ""):void {
-		var className:String = getQualifiedClassName(injectClass);
-		if (hostObjectRegistry[className + name]) {
-			// debug this action
-			CONFIG::debug {
-				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("¶¶¶¶--- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
-				}
-			}
-			
-			// TODO : remove proxy from all remote modules.
-			// mark proxy as not hosted.
-			if (hostObjectRegistry[className + name].proxy) {
-				use namespace pureLegsCore;
-				hostObjectRegistry[className + name].proxy.hostModuleName = null;
-			}
-			// remove hosted proxy from registry
-			delete hostObjectRegistry[className + name];
-		}
-	}
+	   // get proxy class
+	   var proxyClass:Class = Object(proxyObject).constructor;
 	
-	static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {
-		if (hostedProxyRegistry[proxy]) {
-			return hostedProxyRegistry[proxy].remoteModuleNames;
-		}
-		return null;
-	}
+	   // if injectClass is not provided - proxyClass will be used instead.
+	   if (!injectClass) {
+	   injectClass = proxyClass;
+	   }
+	
+	   var className:String = getQualifiedClassName(injectClass);
+	   if (hostObjectRegistry[className + name]) {
+	   throw Error("ProxyMap.host failed. Only one proxy can be hosted with single class and name. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+	   } else {
+	   // debug this action
+	   CONFIG::debug {
+	   if (MvcExpress.debugFunction != null) {
+	   MvcExpress.debugFunction("¶¶¶¶+++ ProxyMap.host > injectClass : " + injectClass + ", name : " + name);
+	   }
+	   }
+	   // store hosting object
+	   hostObjectRegistry[className + name] = new HostedProxy(moduleName);
+	   // check if local object exists
+	   var injectObject:Proxy = injectObjectRegistry[className + name];
+	   if (injectObject) {
+	   if (injectObject != proxyObject) {
+	   throw Error("You are trying to host proxy to id, that is already used for another proxy. > injectClass : " + injectClass + ", name : " + name);
+	   }
+	   }
+	
+	   // TODO : check if isHosted is needed.
+	   // TODO : check if HostedProxy class is needed.
+	   if (proxyObject.hostModuleName == null) {
+	   proxyObject.hostModuleName = moduleName;
+	   hostObjectRegistry[className + name].proxy = proxyObject;
+	   hostedProxyRegistry[proxyObject] = hostObjectRegistry[className + name];
+	   } else {
+	   throw Error("Same proxy should not be hosted by more then one module. > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+	   }
+	
+	   // check if proxy is not mapped already in other modules.
+	   // TODO : decide what to do with this check.
+	   var remoteProxies:Vector.<Proxy> = ModuleManager.findAllProxies(className, name);
+	   if (remoteProxies.length > 1 || (remoteProxies.length == 1 && remoteProxies[0] != injectObject)) {
+	   var remoteModuleNamse:String = " ";
+	   for (var i:int = 0; i < remoteProxies.length; i++) {
+	   if (remoteProxies[i] != injectObject) {
+	   remoteModuleNamse += remoteProxies[i].messenger.moduleName + " ";
+	   }
+	   }
+	   throw Error("You can't host proxy that is already used as not hosted proxy in other modules:[" + remoteModuleNamse + "]. > injectClass : " + injectClass + ", name : " + name);
+	   }
+	   }
+	   }
+	 //*/
+	
+	// EXPERIMENTAL
+	/*
+	   public function unhost(injectClass:Class = null, name:String = ""):void {
+	   var className:String = getQualifiedClassName(injectClass);
+	   if (hostObjectRegistry[className + name]) {
+	   // debug this action
+	   CONFIG::debug {
+	   if (MvcExpress.debugFunction != null) {
+	   MvcExpress.debugFunction("¶¶¶¶--- ProxyMap.unhost > injectClass : " + injectClass + ", name : " + name);
+	   }
+	   }
+	
+	   // TODO : remove proxy from all remote modules.
+	   // mark proxy as not hosted.
+	   if (hostObjectRegistry[className + name].proxy) {
+	   use namespace pureLegsCore;
+	   hostObjectRegistry[className + name].proxy.hostModuleName = null;
+	   }
+	   // remove hosted proxy from registry
+	   delete hostObjectRegistry[className + name];
+	   }
+	   }
+	 //*/
+	
+	// EXPERIMENTAL
+	/*
+	   static pureLegsCore function getRemoteMudules(proxy:Proxy):Vector.<String> {
+	   if (hostedProxyRegistry[proxy]) {
+	   return hostedProxyRegistry[proxy].remoteModuleNames;
+	   }
+	   return null;
+	   }
+	 //*/
 	
 	//----------------------------------
 	//     Debug
@@ -484,7 +495,6 @@ public class ProxyMap implements IProxyMap {
 
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-import org.mvcexpress.mvc.Proxy;
 
 class PendingInject {
 	
@@ -517,24 +527,27 @@ class PendingInject {
 	}
 }
 
-class HostedProxy {
-	
-	public var hostModuleName:String;
-	
-	public var remoteModuleNames:Vector.<String> = new Vector.<String>();
-	
-	public var proxy:Proxy;
-	
-	public function HostedProxy(moduleName:String) {
-		this.hostModuleName = moduleName;
-	}
-	
-	public function addRemoteModuleName(moduleName:String):void {
-		for (var i:int = 0; i < remoteModuleNames.length; i++) {
-			if (remoteModuleNames[i] == moduleName) {
-				return;
-			}
-		}
-		remoteModuleNames.push(moduleName);
-	}
-}
+// EXPERIMENTAL
+/*
+   class HostedProxy {
+
+   public var hostModuleName:String;
+
+   public var remoteModuleNames:Vector.<String> = new Vector.<String>();
+
+   public var proxy:Proxy;
+
+   public function HostedProxy(moduleName:String) {
+   this.hostModuleName = moduleName;
+   }
+
+   public function addRemoteModuleName(moduleName:String):void {
+   for (var i:int = 0; i < remoteModuleNames.length; i++) {
+   if (remoteModuleNames[i] == moduleName) {
+   return;
+   }
+   }
+   remoteModuleNames.push(moduleName);
+   }
+   }
+ //*/

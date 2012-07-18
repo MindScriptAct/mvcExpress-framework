@@ -3,7 +3,7 @@ import flash.display.Sprite;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class RemoteViewTest extends Sprite {
 	public var messageReached:Boolean = false;

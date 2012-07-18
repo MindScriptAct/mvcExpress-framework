@@ -3,7 +3,7 @@ import org.mvcexpress.modules.ModuleSprite;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestModule extends ModuleSprite {
 	

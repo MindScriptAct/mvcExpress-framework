@@ -1,17 +1,12 @@
 package suites {
 import suites.commandMap.CommandMapTests;
-import suites.commands.CommandsTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
-import suites.featureProxyHost.FeatureProxyHostTests;
-import suites.featureRemoteHandlerTests.FeatureRemoteHandlerScenarioTests;
-import suites.featureRemoteHandlerTests.FeatureRemoteHandlerTests;
 import suites.mediatorMap.MediatorMapTests;
 import suites.mediators.MediatorTests;
 import suites.messenger.MessengerTests;
 import suites.modules.ModularTests;
-import suites.proxies.ProxyTests;
-import suites.proxyMap.ProxyMapTests;
 import suites.proxyMap.NamedInterfacedProxyMapTests;
+import suites.proxyMap.ProxyMapTests;
 import suites.utils.UtilsTests;
 
 /**

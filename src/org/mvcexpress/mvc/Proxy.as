@@ -12,17 +12,21 @@ import org.mvcexpress.core.ProxyMap;
  */
 public class Proxy {
 	
+	// Shows if proxy is ready. Read only.
+	private var _isReady:Boolean = false;
+	
+	/**
+	 * Interface to work with proxies.
+	 */
+	protected var proxyMap:IProxyMap;
+	
 	/** @private */
 	pureLegsCore var messenger:Messenger;
-	
-	/** TODO : COMMENT */
-	protected var proxyMap:IProxyMap;
 	
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
-	private var _isReady:Boolean = false;
-	
+	/** @private */
 	pureLegsCore var hostModuleName:String;
 	
 	/** CONSTRUCTOR */
@@ -39,18 +43,10 @@ public class Proxy {
 		// send message to self.
 		messenger.send(type, params);
 		// send message to all remote modules.. (but only if all modules are not already targeted.)
-		if (hostModuleName != null) {
-			messenger.sendTo(type, params, ProxyMap.getRemoteMudules(this));
-		}
-	}
-	
-	/**
-	 * sets proxyMap interface.
-	 * @param	iProxyMap
-	 * @private
-	 */
-	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
-		this.proxyMap = iProxyMap;
+		// EXPERIMENTAL
+		//if (hostModuleName != null) {
+			//messenger.sendTo(type, params, ProxyMap.getRemoteMudules(this));
+		//}
 	}
 	
 	/**
@@ -96,6 +92,19 @@ public class Proxy {
 	 */
 	protected function get isReady():Boolean {
 		return _isReady;
+	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
+	
+	/**
+	 * sets proxyMap interface.
+	 * @param	iProxyMap
+	 * @private
+	 */
+	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
+		this.proxyMap = iProxyMap;
 	}
 
 }
