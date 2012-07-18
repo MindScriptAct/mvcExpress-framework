@@ -69,7 +69,9 @@ public class Messenger {
 			use namespace pureLegsCore;
 			msgData = ModuleManager.addRemoteHandler(type, handler, moduleName, remoteModuleName);
 			CONFIG::debug {
-				msgData.handlerClassName = handlerClassName;
+				if (msgData) {
+					msgData.handlerClassName = handlerClassName;
+				}
 			}
 			return msgData;
 		} else {

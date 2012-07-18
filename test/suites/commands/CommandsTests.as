@@ -1,14 +1,10 @@
 package suites.commands {
-	
+
 /**
  * COMMENT
- * @author 
+ * @author
  */
 public class CommandsTests {
-	
-	public function CommandsTests() {
-		
-	}
-	
+
 }
 }

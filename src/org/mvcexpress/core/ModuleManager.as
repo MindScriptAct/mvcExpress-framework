@@ -26,6 +26,9 @@ public class ModuleManager {
 	/* TODO : comment */
 	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
 	
+	/* pending handrels stored by module name */
+	static private var pendingRemoteHandlers:Dictionary = new Dictionary(); /* of Vector.<PendingRemoteHandler> by String */
+	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
 		throw Error("ModuleFactory is static framework class for internal use. Not meant to be instantiated.");
@@ -148,18 +151,28 @@ public class ModuleManager {
 		if (commandClass) {
 			if (moduleRegistry[remoteModuleName]) {
 				handlerVo = moduleRegistry[remoteModuleName].messenger.addCommandHandler(type, handler, commandClass);
+			} else {
+				if (!pendingRemoteHandlers[remoteModuleName]) {
+					pendingRemoteHandlers[remoteModuleName] = new Vector.<PendingRemoteHandler>();
+				}
+				pendingRemoteHandlers[remoteModuleName].push(new PendingRemoteHandler(type, handler, handlerModuleName, remoteModuleName, commandClass));
 			}
 		} else {
 			if (moduleRegistry[remoteModuleName]) {
 				use namespace pureLegsCore;
 				handlerVo = moduleRegistry[remoteModuleName].messenger.addHandler(type, handler);
+			} else {
+				if (!pendingRemoteHandlers[remoteModuleName]) {
+					pendingRemoteHandlers[remoteModuleName] = new Vector.<PendingRemoteHandler>();
+				}
+				pendingRemoteHandlers[remoteModuleName].push(new PendingRemoteHandler(type, handler, handlerModuleName, remoteModuleName, commandClass));
 			}
 		}
 		//
-		
-		handlerVo.remoteModule = handlerModuleName;
-		remoteHandlerRegistry[handlerModuleName][remoteModuleName][type].push(handlerVo);
-		
+		if (handlerVo) {
+			handlerVo.remoteModule = handlerModuleName;
+			remoteHandlerRegistry[handlerModuleName][remoteModuleName][type].push(handlerVo);
+		}
 		return handlerVo;
 	}
 	
@@ -246,10 +259,10 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
-		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
 		use namespace pureLegsCore;
+		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
 		for each (var module:ModuleBase in moduleRegistry) {
-			var proxy:Proxy = module.proxyMap.getMappedProxy(className, name);
+			var proxy:Proxy = (module.proxyMap as ProxyMap).getMappedProxy(className, name);
 			if (proxy) {
 				retVal.push(proxy);
 			}
@@ -258,4 +271,21 @@ public class ModuleManager {
 	}
 
 }
+}
+
+class PendingRemoteHandler {
+	
+	public var type:String;
+	public var handler:Function;
+	public var handlerModuleName:String;
+	public var remoteModuleName:String;
+	public var commandClass:Object;
+	
+	public function PendingRemoteHandler(type:String, handler:Function, handlerModuleName:String, remoteModuleName:String, commandClass:Class) {
+		this.type = type;
+		this.handler = handler;
+		this.handlerModuleName = handlerModuleName;
+		this.remoteModuleName = remoteModuleName;
+		this.commandClass = commandClass;
+	}
 }

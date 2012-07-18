@@ -233,5 +233,7 @@ public class FeatureRemoteHandlerTests {
 		mainModule.sendTestMessage("test");
 		Assert.assertEquals("External module remote handler must be not called after remove.", externalModule.remoteHandlerCount, 0);
 	}
+		
+	
 }
 }

@@ -1,14 +1,10 @@
 package suites.proxies {
-	
+
 /**
  * COMMENT
- * @author 
+ * @author
  */
 public class ProxyTests {
-	
-	public function ProxyTests() {
-		
-	}
-	
+
 }
 }

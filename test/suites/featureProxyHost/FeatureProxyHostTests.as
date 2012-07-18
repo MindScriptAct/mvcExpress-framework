@@ -204,5 +204,6 @@ public class FeatureProxyHostTests {
 		Assert.assertTrue("Host module hosted proxy message must be handled", mainSprite.messageHandled());
 		Assert.assertTrue("Remote module hosted proxy message must be handled", remoteModule.messageHandled());
 	}
+	
 }
 }

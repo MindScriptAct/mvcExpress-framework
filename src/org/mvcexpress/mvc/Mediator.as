@@ -165,6 +165,7 @@ public class Mediator {
 	 */
 	protected function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
 		use namespace pureLegsCore;
+		var handlerVo:HandlerVO;
 		CONFIG::debug {
 			if (handler.length < 1) {
 				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
@@ -172,10 +173,16 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			messageDataRegistry.push(messenger.addHandler(type, handler, remoteModuleName, getQualifiedClassName(this)));
+			handlerVo = messenger.addHandler(type, handler, remoteModuleName, getQualifiedClassName(this));
+			if (handlerVo) {
+				messageDataRegistry.push(handlerVo);
+			}
 			return;
 		}
-		messageDataRegistry.push(messenger.addHandler(type, handler, remoteModuleName));
+		handlerVo = messenger.addHandler(type, handler, remoteModuleName);
+		if (handlerVo) {
+			messageDataRegistry.push(handlerVo);
+		}
 	}
 	
 	/**
