@@ -10,8 +10,8 @@ import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
-import suites.mediators.mediatorObj.MediatorSprite;
-import suites.mediators.mediatorObj.MediatorSpriteMediator;
+import suites.testObjects.view.MediatorSprite;
+import suites.testObjects.view.MediatorSpriteMediator;
 import utils.AsyncUtil;
 
 /**

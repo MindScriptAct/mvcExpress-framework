@@ -1,4 +1,4 @@
-package suites.testObjects.module {
+package suites.testObjects.model {
 	
 /**
  * COMMENT

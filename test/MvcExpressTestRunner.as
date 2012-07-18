@@ -1,5 +1,6 @@
 package {
 import flash.display.Sprite;
+import flash.display.Stage;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import noiseandheat.flexunit.visuallistener.VisualListener;
@@ -16,7 +17,12 @@ import suites.AllTestSuites;
 public class MvcExpressTestRunner extends Sprite {
 	private var listener:VisualListener;
 	
-	public function MvcExpressTestRunner(){
+	static public var stage:Stage;
+	
+	public function MvcExpressTestRunner() {
+		
+		MvcExpressTestRunner.stage = this.stage;
+		
 		var core:FlexUnitCore = new FlexUnitCore();
 		
 		this.stage.align = StageAlign.TOP_LEFT;

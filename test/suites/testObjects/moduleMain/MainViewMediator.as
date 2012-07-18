@@ -1,4 +1,4 @@
-package suites.testObjects.main {
+package suites.testObjects.moduleMain {
 import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 import suites.SuiteModuleNames;

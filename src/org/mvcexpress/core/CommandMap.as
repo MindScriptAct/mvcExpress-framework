@@ -9,7 +9,6 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
-import suites.testObjects.external.ExternalRemoteCommand;
 
 /**
  * Handles command mappings, and executes them on messages

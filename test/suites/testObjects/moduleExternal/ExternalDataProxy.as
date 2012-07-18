@@ -1,4 +1,4 @@
-package suites.testObjects.external {
+package suites.testObjects.moduleExternal {
 import org.mvcexpress.mvc.Proxy;
 
 /**

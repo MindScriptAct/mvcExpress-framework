@@ -1,4 +1,4 @@
-package suites.testObjects.main {
+package suites.testObjects.moduleMain {
 import flash.display.Sprite;
 import flash.events.Event;
 import suites.TestViewEvent;

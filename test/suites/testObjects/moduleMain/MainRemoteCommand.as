@@ -1,4 +1,4 @@
-package suites.testObjects.main {
+package suites.testObjects.moduleMain {
 import org.mvcexpress.mvc.Command;
 	
 /**

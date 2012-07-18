@@ -1,12 +1,11 @@
 package suites.mediators {
 import flexunit.framework.Assert;
 import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import suites.mediators.mediatorObj.MediatorSprite;
-import suites.mediators.mediatorObj.MediatorSpriteMediator;
+import org.mvcexpress.core.ProxyMap;
+import suites.testObjects.view.MediatorSprite;
+import suites.testObjects.view.MediatorSpriteMediator;
 
 /**
  * COMMENT
@@ -48,7 +47,16 @@ public class MediatorTests {
 	
 	[Test(expects="Error")]
 	
-	public function test_empty_handler():void {
+	public function mediator_constructor_fails():void {
+		new MediatorSpriteMediator();
+	}	
+	
+	
+	
+	
+	[Test(expects="Error")]
+	
+	public function mediator_empty_handler():void {
 		if (CONFIG::debug == true) {
 			messenger.send("test_add_empty_handler");
 		} else {
@@ -58,31 +66,31 @@ public class MediatorTests {
 	
 	[Test]
 	
-	public function test_handler_object_params():void {
+	public function mediator_handler_object_params():void {
 		messenger.send("test_handler_object_params");
 	}
 	
 	[Test]
 	
-	public function test_handler_bad_params():void {
+	public function mediator_handler_bad_params():void {
 		messenger.send("test_handler_bad_params");
 	}
 	
 	[Test(expects="Error")]
 	
-	public function test_handler_two_params():void {
+	public function mediator_handler_two_params():void {
 		messenger.send("test_handler_two_params");
 	}
 	
 	[Test]
 	
-	public function test_handler_two_params_one_optional():void {
+	public function mediator_handler_two_params_one_optional():void {
 		messenger.send("test_handler_two_params_one_optional");
 	}
 	
 	[Test]
 	
-	public function test_same_handler_added_twice_fails():void {
+	public function mediator_same_handler_added_twice_fails():void {
 		if (CONFIG::debug == true) {
 			try {
 				testView.tryAddingHandlerTwice();

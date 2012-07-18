@@ -1,22 +1,21 @@
-package suites.testObjects.main {
+package suites.testObjects.moduleMain {
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.mvc.Proxy;
 import suites.SuiteModuleNames;
 import suites.testObjects.controller.GetProxyTestCommand;
-import suites.testObjects.module.SimpleTestProxy;
 
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class MainModuleFull extends ModuleSprite {
+public class MainModule extends ModuleSprite {
 	
 	private var dataProxy:MainDataProxy;
 	private var testView:MainView;
 	
 	static public const NAME:String = SuiteModuleNames.MAIN_MODULE;
 	
-	public function MainModuleFull() {
+	public function MainModule() {
 		super(MainModule.NAME, true, false);
 	}
 	
@@ -47,9 +46,9 @@ public class MainModuleFull extends ModuleSprite {
 		testView.addLocalhandler(message);
 	}
 	
-	public function createRemoteCommand(message:String):void {
-		commandMap.mapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
-	}
+	//public function createRemoteCommand(message:String):void {
+		//commandMap.mapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
+	//}
 	
 	public function createRemoteHandler(message:String):void {
 		if (!testView) {
@@ -75,9 +74,9 @@ public class MainModuleFull extends ModuleSprite {
 		testView.removeLocalhandler(message);
 	}
 	
-	public function removeRemoteCommand(message:String):void {
-		commandMap.unmapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
-	}
+	//public function removeRemoteCommand(message:String):void {
+		//commandMap.unmapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
+	//}
 	
 	public function removeRemoteHandler(message:String):void {
 		if (!testView) {

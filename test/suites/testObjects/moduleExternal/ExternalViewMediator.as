@@ -1,4 +1,4 @@
-package suites.testObjects.external {
+package suites.testObjects.moduleExternal {
 import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 import suites.SuiteModuleNames;

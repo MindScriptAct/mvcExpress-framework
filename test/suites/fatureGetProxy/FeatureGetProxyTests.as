@@ -1,9 +1,8 @@
 package suites.fatureGetProxy {
 import flexunit.framework.Assert;
-import suites.testObjects.external.ExternalModule;
-import suites.testObjects.main.MainModule;
-import suites.testObjects.module.ISimpleTestProxy;
-import suites.testObjects.module.SimpleTestProxy;
+import suites.testObjects.model.ISimpleTestProxy;
+import suites.testObjects.model.SimpleTestProxy;
+import suites.testObjects.moduleMain.MainModule;
 
 /**
  * COMMENT

@@ -1,4 +1,4 @@
-package suites.testObjects.testModule {
+package suites.testObjects.moduleTest {
 import org.mvcexpress.modules.ModuleSprite;
 
 /**

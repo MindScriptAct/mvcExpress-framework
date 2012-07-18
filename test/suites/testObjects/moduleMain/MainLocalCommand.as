@@ -1,17 +1,17 @@
-package suites.testObjects.external {
+package suites.testObjects.moduleMain {
 import org.mvcexpress.mvc.Command;
 	
 /**
  * TODO:CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ExternalRemoteCommand extends Command{
+public class MainLocalCommand extends Command{
 	
 	[Inject]
-	public var dataProxy:ExternalDataProxy;
+	public var dataProxy:MainDataProxy;
 	
 	public function execute(blank:Object):void{
-		dataProxy.remoteCommandCount++;
+		dataProxy.localCommandCount++;
 	}
 	
 }
