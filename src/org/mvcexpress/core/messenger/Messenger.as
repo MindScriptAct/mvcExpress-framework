@@ -175,9 +175,12 @@ public class Messenger {
 	/**
 	 * sends message to all existing modules.
 	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
 	 */
-	private function sendToAll(type:String, params:Object = null):void {
+	public function sendToAll(type:String, params:Object = null):void {
+		//if (CONFIG::disableSendToAll == true) {
+		//throw Error("sendToAll feature is disabled by compile argument: '-define=CONFIG::disableSendToAll,true'.");
+		//}
 		use namespace pureLegsCore;
 		ModuleManager.sendMessageToAll(type, params);
 	}

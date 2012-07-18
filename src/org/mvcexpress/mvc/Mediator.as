@@ -137,6 +137,16 @@ public class Mediator {
 		messenger.send(type, params);
 	}
 	
+	/**
+	 * Sends message to all existing modules.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 */
+	protected function sendMessageToAll(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
+		messenger.sendToAll(type, params);
+	}
+	
 	//----------------------------------
 	//     message handlers
 	//----------------------------------

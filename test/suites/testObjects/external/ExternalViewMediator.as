@@ -21,7 +21,6 @@ public class ExternalViewMediator extends Mediator {
 		view.addEventListener(TestViewEvent.ADD_REMOTE_HANDLER, handleAddRemoteHandler);
 		view.addEventListener(TestViewEvent.REMOVE_LOCAL_HANDLER, handleRemoveLocalHandler);
 		view.addEventListener(TestViewEvent.REMOVE_REMOTE_HANDLER, handleRemoveRemoteHandler);
-	
 	}
 	
 	override public function onRemove():void {

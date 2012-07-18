@@ -25,13 +25,14 @@ dynamic public class Command {
 	
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;	
+	static pureLegsCore var canConstruct:Boolean;
 	
 	/** CONSTRUCTOR */
 	public function Command() {
 		CONFIG::debug {
-			if (!pureLegsCore::canConstruct) {
-				throw Error("Command:"+this+" can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()")
+			use namespace pureLegsCore;
+			if (!canConstruct) {
+				throw Error("Command:" + this + " can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()")
 			}
 		}
 	}
@@ -46,13 +47,20 @@ dynamic public class Command {
 		messenger.send(type, params);
 	}
 	
-	
+	/**
+	 * Sends message to all existing modules.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 */
+	protected function sendMessageToAll(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
+		messenger.sendToAll(type, params);
+	}
+
 	// execute function is not meant to be overridden in mvcExpress.
 	// Because I want commands to have custom parameter object - you have to manually create execute() function in your commands.
-	/*
-	public function execute(params:Object):void {
-	}
-	*/
+	//public function execute(params:Object):void {
+	//}
 
 }
 }
