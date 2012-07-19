@@ -69,11 +69,6 @@ public class ProxyMap implements IProxyMap {
 		var className:String = getQualifiedClassName(injectClass);
 		if (!injectObjectRegistry[className + name]) {
 			use namespace pureLegsCore;
-			if (proxyObject.hostModuleName) {
-				if (proxyObject.hostModuleName != moduleName) {
-					throw Error("Proxy cant be hosted in one module(" + proxyObject.hostModuleName + ") and then mapped in another(" + moduleName + "). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-				}
-			}
 			proxyObject.messenger = messenger;
 			proxyObject.setProxyMap(this);
 			// inject dependencies
@@ -312,16 +307,6 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		return retVal;
-	}
-	
-	/**
-	 * INTERNAL FRAMEWORK FUNCTION. Returns proxy mapped with classname and name.
-	 * @param	className	proxy class to search for
-	 * @param	name		proxy name to search for
-	 * @private
-	 */
-	pureLegsCore function getMappedProxy(className:String, name:String):Proxy {
-		return injectObjectRegistry[className + name];
 	}
 	
 	//----------------------------------

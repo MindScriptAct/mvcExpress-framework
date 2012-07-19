@@ -26,9 +26,6 @@ public class Proxy {
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
-	/** @private */
-	pureLegsCore var hostModuleName:String;
-	
 	/** CONSTRUCTOR */
 	public function Proxy() {
 	}

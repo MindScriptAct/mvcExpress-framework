@@ -169,27 +169,6 @@ public class ModuleManager {
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
-	
-	}
-	
-	/*
-	 * Finds all proxy objects that are mapped with given className and name in all modules.
-	 * (needed to ensure there are no hosted proxies somewhere.)
-	 * @param	className
-	 * @param	name
-	 * @return
-	 * @private
-	 */
-	static pureLegsCore function findAllProxies(className:String, name:String):Vector.<Proxy> {
-		use namespace pureLegsCore;
-		var retVal:Vector.<Proxy> = new Vector.<Proxy>();
-		for each (var module:ModuleBase in moduleRegistry) {
-			var proxy:Proxy = (module.proxyMap as ProxyMap).getMappedProxy(className, name);
-			if (proxy) {
-				retVal.push(proxy);
-			}
-		}
-		return retVal;
 	}
 
 }
