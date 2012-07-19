@@ -13,9 +13,6 @@ public class InjectRuleVO {
 	
 	/** VARIABLE FOR INTERNAL USE. Injection identifier, formed by class name and your custom inject name. */
 	public var injectClassAndName:String;
-	
-	/** VARIABLE FOR INTERNAL USE. Flag to use hosted global proxies instead of local once. */
-	public var isHosted:Boolean;
 
 }
 }

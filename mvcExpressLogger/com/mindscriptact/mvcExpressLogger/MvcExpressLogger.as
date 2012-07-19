@@ -70,27 +70,31 @@ public class MvcExpressLogger {
 	
 	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
 		
+		
+		
 		if (!instance) {
 			allowInstantiation = true;
 			instance = new MvcExpressLogger();
 			allowInstantiation = false;
+			
+			//
+			instance.stage = stage;
+			stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
+			
+			instance.x = x;
+			instance.y = y;
+			instance.width = width;
+			instance.height = height;
+			instance.alpha = alpha;
+			instance.openKeyCode = openKeyCode;
+			instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
+			instance.isShiftKeyNeeded = isShiftKeyNeeded;
+			instance.isAltKeyNeeded = isAltKeyNeeded;
+			Style.setStyle(Style.DARK);
+			Style.LABEL_TEXT = 0xFFFFFF;
 		}
-		MvcExpress.debugFunction = instance.traceMvcExpress;
-		//
-		instance.stage = stage;
-		stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
 		
-		instance.x = x;
-		instance.y = y;
-		instance.width = width;
-		instance.height = height;
-		instance.alpha = alpha;
-		instance.openKeyCode = openKeyCode;
-		instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
-		instance.isShiftKeyNeeded = isShiftKeyNeeded;
-		instance.isAltKeyNeeded = isAltKeyNeeded;
-		Style.setStyle(Style.DARK);
-		Style.LABEL_TEXT = 0xFFFFFF;
+		MvcExpress.debugFunction = instance.traceMvcExpress;
 		
 		if (autoShow) {
 			instance.showLogger();
@@ -236,10 +240,6 @@ public class MvcExpressLogger {
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
 			
-
-			
-			
-			
 			var clearButton:PushButton = new PushButton(logWindow, 0, 5, "clear log", handleClearLog);
 			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
 			clearButton.width = 50;
@@ -247,8 +247,7 @@ public class MvcExpressLogger {
 			
 			autoLogCheckBox = new CheckBox(logWindow, 0, 5, "autoScroll", handleAutoScrollTogle);
 			autoLogCheckBox.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 70;
-			autoLogCheckBox.selected = true;			
-			
+			autoLogCheckBox.selected = true;
 			
 		}
 		//forceThisOnTop();
@@ -260,7 +259,7 @@ public class MvcExpressLogger {
 	}
 	
 	private function handleClearLog(event:MouseEvent):void {
-		trace( "MvcExpressLogger.handleClearLog > event : " + event );
+		trace("MvcExpressLogger.handleClearLog > event : " + event);
 		logText = "";
 		render();
 	}

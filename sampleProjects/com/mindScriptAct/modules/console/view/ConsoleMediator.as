@@ -21,7 +21,7 @@ public class ConsoleMediator extends Mediator {
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
 		
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
-		addRemoteHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
+		//addRemoteHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
 		
 	}
 	

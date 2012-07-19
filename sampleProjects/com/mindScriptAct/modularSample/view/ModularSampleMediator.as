@@ -41,8 +41,8 @@ public class ModularSampleMediator extends Mediator {
 		new PushButton(view, 500, 345, "message to #1", handleMessageToFirst).width = 150;
 		new PushButton(view, 500, 370, "message to #2 and #4", handleMessageToEven).width = 150;
 		new PushButton(view, 500, 395, "message to all", handleMessageToAll).width = 150;
-		new PushButton(view, 500, 425, "message to all no store", handleMessageToAllNoStore).width = 150;
-		new PushButton(view, 500, 525, "testing....", handleMessageToAllDublicate).width = 150;
+		//new PushButton(view, 500, 425, "message to all no store", handleMessageToAllNoStore).width = 150;
+		//new PushButton(view, 500, 525, "testing....", handleMessageToAllDublicate).width = 150;
 	}
 	
 	override public function onRemove():void {
@@ -106,23 +106,23 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	public function handleMessageToFirst(event:MouseEvent):void {
-		sendMessage(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to FIRST module!!!", [1]));
+		sendMessageToAll(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to FIRST module!!!", [1]));
 	}
 	
 	public function handleMessageToEven(event:MouseEvent):void {
-		sendMessage(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to even modules!!! (2 and 4)", [2, 4]));
+		sendMessageToAll(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to even modules!!! (2 and 4)", [2, 4]));
 	}
 	
 	public function handleMessageToAll(event:MouseEvent):void {
-		sendMessage(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, "Global message to all modules!!!");
+		sendMessageToAll(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, "Global message to all modules!!!");
 	}
 	
-	public function handleMessageToAllNoStore(event:MouseEvent):void {
-		sendMessage(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, "Global message to all modules without using proxy!!!");
-	}
-	
-	public function handleMessageToAllDublicate(event:MouseEvent):void {
-		sendMessage(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules without using proxy!!!");
-	}
+	//public function handleMessageToAllNoStore(event:MouseEvent):void {
+		//sendMessageToAll(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, "Global message to all modules without using proxy!!!");
+	//}
+	//
+	//public function handleMessageToAllDublicate(event:MouseEvent):void {
+		//sendMessageToAll(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules without using proxy!!!");
+	//}
 }
 }

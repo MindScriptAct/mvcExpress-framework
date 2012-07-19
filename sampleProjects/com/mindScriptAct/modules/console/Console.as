@@ -10,6 +10,7 @@ import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modules.console.view.ConsoleMediator;
 import com.mindScriptAct.modules.globalMessages.GlobalMessage;
 import com.mindScriptAct.modules.ModuleNames;
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldType;
@@ -39,15 +40,18 @@ public class Console extends ModuleSprite {
 		// for debugging
 		CONFIG::debug {
 			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
+			MvcExpressLogger.init(this.stage, 700, 0, 800, 400, 1, true);
 		}
 		
 		// set up commands
-		commandMap.mapRemote(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
-		commandMap.mapRemote(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
+		//commandMap.mapRemote(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
+		//commandMap.mapRemote(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
+		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
+		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand);
 
 		// TODO : remove after dublicating messages is fixed.
-		commandMap.mapRemote(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand, ModuleNames.SHELL);
+		//commandMap.mapRemote(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand, ModuleNames.SHELL);
 				
 		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
