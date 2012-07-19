@@ -130,13 +130,9 @@ public class CommandMap {
 	}
 	
 	/** function to be called by messenger on needed message type sent */
-	private function handleCommandExecute(messageType:String, params:Object, remoteModule:String):void {
+	private function handleCommandExecute(messageType:String, params:Object):void {
 		var commandList:Vector.<Class>;
-		if (remoteModule) {
-			commandList = classRegistry[messageType + ModuleManager.MESSAGE_MODULE_SEPARATOR + remoteModule];
-		} else {
-			commandList = classRegistry[messageType];
-		}
+		commandList = classRegistry[messageType];
 		
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {

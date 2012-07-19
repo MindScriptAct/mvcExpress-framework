@@ -41,7 +41,7 @@ public function checkClassStringConstants(... args:Array):void {
 				}
 			}
 		} else {
-			throw Error("Please send Class names to checkClassStringConstants() only(not object).");
+			throw Error("Please send Class names to checkClassStringConstants() only(not object or strings).");
 		}
 	}
 }

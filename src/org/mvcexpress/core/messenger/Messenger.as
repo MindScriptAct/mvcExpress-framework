@@ -131,7 +131,7 @@ public class Messenger {
 					
 					// check if handling function handles commands.
 					if (handlerVo.isExecutable) {
-						handlerVo.handler(type, params, handlerVo.remoteModule);
+						handlerVo.handler(type, params);
 					} else {
 						CONFIG::debug {
 							// FOR DEBUG viewing only(mouse over over variables while in debugger mode.)
@@ -204,18 +204,10 @@ public class Messenger {
 			var messageHandlers:String = "";
 			for (var i:int = 0; i < msgList.length; i++) {
 				var handlerVo:HandlerVO = msgList[i];
-				if (handlerVo.remoteModule) {
-					if (handlerVo.isExecutable) {
-						messageHandlers += "[EXECUTES {" + handlerVo.remoteModule + "} :" + ModuleManager.listModuleMessageCommands(handlerVo.remoteModule, key) + "], ";
-					} else {
-						messageHandlers += "[{" + handlerVo.remoteModule + "}:" + handlerVo.handlerClassName + "], ";
-					}
+				if (handlerVo.isExecutable) {
+					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
 				} else {
-					if (handlerVo.isExecutable) {
-						messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
-					} else {
-						messageHandlers += "[" + handlerVo.handlerClassName + "], ";
-					}
+					messageHandlers += "[" + handlerVo.handlerClassName + "], ";
 				}
 			}
 			

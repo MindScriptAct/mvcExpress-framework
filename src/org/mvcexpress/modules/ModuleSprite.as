@@ -112,6 +112,15 @@ public class ModuleSprite extends Sprite {
 		moduleBase.sendMessage(type, params);
 	}
 	
+	/**
+	 * Sends message to all existing modules.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 */
+	protected function sendMessageToAll(type:String, params:Object = null):void {
+		moduleBase.sendMessageToAll(type, params);
+	}
+	
 	//----------------------------------
 	//     Debug
 	//----------------------------------

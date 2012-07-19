@@ -13,6 +13,7 @@ import org.mvcexpress.mvc.Mediator;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class FlexMediatorMap extends MediatorMap {
+	
 	private var uiComponentClass:Class;
 	
 	/* CONSTRUCTOR */

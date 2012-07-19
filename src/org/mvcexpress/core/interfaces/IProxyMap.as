@@ -7,6 +7,5 @@ import org.mvcexpress.mvc.Proxy;
  */
 public interface IProxyMap {
 	function getProxy(injectClass:Class, name:String = ""):Proxy;
-
 }
 }

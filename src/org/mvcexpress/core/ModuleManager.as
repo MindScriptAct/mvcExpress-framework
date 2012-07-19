@@ -12,7 +12,6 @@ import org.mvcexpress.MvcExpress;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ModuleManager {
-	static public const MESSAGE_MODULE_SEPARATOR:String = "_§_";
 	
 	/* messenger counter, increased with every new created module */
 	static private var _moduleId:int;

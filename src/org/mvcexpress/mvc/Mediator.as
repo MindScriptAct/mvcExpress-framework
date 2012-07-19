@@ -34,10 +34,6 @@ public class Mediator {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
-	/** @private */
-	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;
-	
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
@@ -50,6 +46,10 @@ public class Mediator {
 	
 	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
 	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
+	
+	/** @private */
+	CONFIG::debug
+	static pureLegsCore var canConstruct:Boolean;
 	
 	/** CONSTRUCTOR */
 	public function Mediator() {
