@@ -7,7 +7,7 @@ import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
 
 /**
- * INTERNAR FRAMEWORK CLASS.
+ * INTERNAL FRAMEWORK CLASS.
  * Creates and manages modules.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -174,7 +174,7 @@ public class ModuleManager {
 	
 	/*
 	 * Finds all proxy objects that are mapped with given className and name in all modules.
-	 * (needed to ensure there are no hosted proxies somethere.)
+	 * (needed to ensure there are no hosted proxies somewhere.)
 	 * @param	className
 	 * @param	name
 	 * @return

@@ -12,7 +12,7 @@ import org.mvcexpress.core.ProxyMap;
 /**
  * Core Module class as sprite.
  * <p>
- * It inits framework and lets you set up your application. (or execute Cammands that will do it.)
+ * It starts framework and lets you set up your application. (or execute Commands that will do it.)
  * Also you can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
@@ -85,7 +85,7 @@ public class ModuleSprite extends Sprite {
 	
 	/**
 	 * Function to get rid of module.
-	 * - All module cammands are unmapped.
+	 * - All module commands are unmapped.
 	 * - All module mediators are unmediated
 	 * - All module proxies are unmapped
 	 * - All internals are nulled.

@@ -25,7 +25,7 @@ public class MediatorMap implements IMediatorMap {
 	// stores all mediator classes using view class(mediator must mediate) as a key.
 	protected var classRegistry:Dictionary = new Dictionary(); /* of Class by Class */
 	
-	// stores all mediators using use view object(midiator is mediating) as a key.
+	// stores all mediators using use view object(mediator is mediating) as a key.
 	protected var mediatorRegistry:Dictionary = new Dictionary(); /* of Mediator by Object */
 	
 	/** CONSTRUCTOR */

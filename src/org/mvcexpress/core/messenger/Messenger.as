@@ -83,7 +83,7 @@ public class Messenger {
 	 * @param	type				message type that handler had to react
 	 * @param	handler				function called on sent message.
 	 */
-	public function removeHandler(type:String, handler:Function /*, remoteModuleName:String = null*/):void {
+	public function removeHandler(type:String, handler:Function):void {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
@@ -104,7 +104,6 @@ public class Messenger {
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
 	 */
-	// TODO : consider removing targetAllModules
 	public function send(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// debug this action
@@ -135,7 +134,7 @@ public class Messenger {
 						handlerVo.handler(type, params, handlerVo.remoteModule);
 					} else {
 						CONFIG::debug {
-							// FOR DEBUG viewing only(mouse over over variables while in bedugger mode.)
+							// FOR DEBUG viewing only(mouse over over variables while in debugger mode.)
 							/* Failed message type: */
 							type
 							/* Failed handler class: */

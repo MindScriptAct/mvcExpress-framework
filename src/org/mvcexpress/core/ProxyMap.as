@@ -71,7 +71,7 @@ public class ProxyMap implements IProxyMap {
 			use namespace pureLegsCore;
 			if (proxyObject.hostModuleName) {
 				if (proxyObject.hostModuleName != moduleName) {
-					throw Error("Proxy cant be hosted in one module(" + proxyObject.hostModuleName + ") and then mappend in another(" + moduleName + "). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+					throw Error("Proxy cant be hosted in one module(" + proxyObject.hostModuleName + ") and then mapped in another(" + moduleName + "). > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 				}
 			}
 			proxyObject.messenger = messenger;
@@ -125,9 +125,9 @@ public class ProxyMap implements IProxyMap {
 	}
 	
 	/**
-	 * Get mapped proxy. This is needed to get proxy manualy instead of inject it automaticaly. 							<br>
-	 * 		You might wont to get proxy manualy then your proxy has dynamic name.										<br>
-	 * 		Also you might want to get proxy manualy if your proxy is needed only in rare cases or only for short time.
+	 * Get mapped proxy. This is needed to get proxy manually instead of inject it automatically. 							<br>
+	 * 		You might wont to get proxy manually then your proxy has dynamic name.										<br>
+	 * 		Also you might want to get proxy manually if your proxy is needed only in rare cases or only for short time.
 	 * 			(for instance - you need it only in onRegister() function.)
 	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
@@ -250,7 +250,7 @@ public class ProxyMap implements IProxyMap {
 			
 			// get rules. (by now rules for this class must be created.)
 			var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[pendingInjection.signatureClass];
-			var pendingInject:Object = pendingInjection.pendingObject
+			var pendingInject:Object = pendingInjection.pendingObject;
 			for (var j:int = 0; j < rules.length; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
 					
@@ -290,12 +290,12 @@ public class ProxyMap implements IProxyMap {
 		
 		for (var i:int = 0; i < factoryNodes.length(); i++) {
 			var node:XML = factoryNodes[i];
-			var nodeNome:String = node.name();
-			if (nodeNome == "variable" || nodeNome == "accessor") {
+			var nodeName:String = node.name();
+			if (nodeName == "variable" || nodeName == "accessor") {
 				var metadataList:XMLList = node.metadata;
 				for (var j:int = 0; j < metadataList.length(); j++) {
-					nodeNome = metadataList[j].@name;
-					if (nodeNome == "Inject") {
+					nodeName = metadataList[j].@name;
+					if (nodeName == "Inject") {
 						var injectName:String = "";
 						var args:XMLList = metadataList[j].arg;
 						for (var k:int = 0; k < args.length(); k++) {
@@ -316,8 +316,8 @@ public class ProxyMap implements IProxyMap {
 	
 	/**
 	 * INTERNAL FRAMEWORK FUNCTION. Returns proxy mapped with classname and name.
-	 * @param	className
-	 * @param	name
+	 * @param	className	proxy class to search for
+	 * @param	name		proxy name to search for
 	 * @private
 	 */
 	pureLegsCore function getMappedProxy(className:String, name:String):Proxy {

@@ -78,12 +78,12 @@ public class Mediator {
 	}
 	
 	//----------------------------------
-	//     mediator start-up and tier-down life cicle
+	//     mediator start-up and tier-down life cycle
 	//----------------------------------
 	
 	/**
 	 * marks mediator as ready and calls onRegister()
-	 * Executed automaticaly BEFORE mediator is created. (with proxyMap.mediate(...))
+	 * Executed automatically BEFORE mediator is created. (with proxyMap.mediate(...))
 	 * @private */
 	pureLegsCore function register():void {
 		_isReady = true;
@@ -91,7 +91,7 @@ public class Mediator {
 	}
 	
 	/**
-	 * Then viewObject is mediated by this mediator - it is innited first and then this function is called.
+	 * Then viewObject is mediated by this mediator - it is inited first and then this function is called.
 	 */
 	public function onRegister():void {
 		// for override
@@ -106,7 +106,7 @@ public class Mediator {
 	
 	/**
 	 * framework function to dispose this mediator. 																			<br>
-	 * Executed automaticaly AFTER mediator is removed. (with proxyMap.unmediate(...))											<br>
+	 * Executed automatically AFTER mediator is removed. (with proxyMap.unmediate(...))											<br>
 	 * It:																														<br>
 	 * - remove all handle functions created by this mediator																	<br>
 	 * - remove all event listeners created by internal addEventListener() function of this mediator							<br>
@@ -198,7 +198,7 @@ public class Mediator {
 	
 	/**
 	 * Registers an event listener object with viewObject, so that the listener receives notification of an event.
-	 * @param	viewObject	view object that can dispaches events.
+	 * @param	viewObject	view object that can dispatch events.
 	 * @param	type	The type of event.
 	 * @param	listener	The listener function that processes the event. This function must accept an event object
 	 *   as its only parameter and must return nothing, as this example shows:
@@ -232,7 +232,7 @@ public class Mediator {
 	
 	/**
 	 * Removes a listener from the viewObject.
-	 * @param	viewObject	view object that can dispaches events.
+	 * @param	viewObject	view object that can dispatch events.
 	 * @param	type		The type of event.
 	 * @param	listener	The listener object to remove.
 	 * @param	useCapture	Specifies whether the listener was registered for the capture phase or the target and bubbling phases.

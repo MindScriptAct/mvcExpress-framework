@@ -39,7 +39,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Map a class to be executed then message with type provied is sent.
+	 * Map a class to be executed then message with provided type is sent.
 	 * @param	type				Message type for command class to react to.
 	 * @param	commandClass		Command class that will bi instantiated and executed.
 	 */
@@ -65,7 +65,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Unmap a class to be executed then message with type provied is sent.
+	 * Unmap a class to be executed then message with provided type is sent.
 	 * @param	type			Message type for command class to react to.
 	 * @param	commandClass	Command class that will bi instantiated and executed.
 	 */
@@ -129,7 +129,7 @@ public class CommandMap {
 		//////////////////////////////////////////////	
 	}
 	
-	/** function to be called by messenger on needed mesage type sent */
+	/** function to be called by messenger on needed message type sent */
 	private function handleCommandExecute(messageType:String, params:Object, remoteModule:String):void {
 		var commandList:Vector.<Class>;
 		if (remoteModule) {
@@ -179,7 +179,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Dispose commandMap on module shutDown
+	 * Dispose commandMap on disposeModule()
 	 * @private
 	 */
 	pureLegsCore function dispose():void {
@@ -194,7 +194,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Helper funcitons for error checking
+	 * Helper functions for error checking
 	 * @private
 	 */
 	CONFIG::debug
