@@ -1,9 +1,7 @@
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
-import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
 
 /**

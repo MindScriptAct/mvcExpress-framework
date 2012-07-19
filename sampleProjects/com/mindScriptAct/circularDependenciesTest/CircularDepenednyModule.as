@@ -20,6 +20,10 @@ public class CircularDepenednyModule extends ModuleSprite {
 	}
 	
 	override protected function onInit():void {
+		var aProxy:AProxy;
+		var bProxy:BProxy;
+		var cProxy:CProxy;
+		var dProxy:DProxy;
 		trace("CircularDepenednyModule.onInit");
 		
 		// enable pending injection feature. (by default it is disabled.)
@@ -28,15 +32,15 @@ public class CircularDepenednyModule extends ModuleSprite {
 		// debug function
 		MvcExpress.debugFunction = trace;
 		
-		// create proxies for testing
-		var aProxy:AProxy = new AProxy();
-		var bProxy:BProxy = new BProxy();
-		var cProxy:CProxy = new CProxy();
-		var dProxy:DProxy = new DProxy();
-		
 		//----------------------------------
 		//     Circular/pending proxy dependency test
 		//----------------------------------
+		
+		// create proxies for testing
+		aProxy = new AProxy();
+		bProxy = new BProxy();
+		cProxy = new CProxy();
+		dProxy = new DProxy();
 		
 		//*
 		// map proxies.
@@ -62,6 +66,12 @@ public class CircularDepenednyModule extends ModuleSprite {
 		//----------------------------------
 		//     Pending mediator dependency test
 		//----------------------------------
+		
+		// create proxies for testing
+		aProxy = new AProxy();
+		bProxy = new BProxy();
+		cProxy = new CProxy();
+		dProxy = new DProxy();
 		
 		//*
 		

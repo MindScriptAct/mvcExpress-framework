@@ -63,6 +63,8 @@ public class ProxyMap implements IProxyMap {
 			injectClass = proxyClass;
 		}
 		
+		var className:String = getQualifiedClassName(injectClass);
+		
 		use namespace pureLegsCore;
 		if (proxyObject.messenger == null) {
 			proxyObject.messenger = messenger;
@@ -82,7 +84,7 @@ public class ProxyMap implements IProxyMap {
 			
 		}
 		
-		var className:String = getQualifiedClassName(injectClass);
+		
 		if (!injectObjectRegistry[className + name]) {
 			// store proxy injection for other classes.
 			injectObjectRegistry[className + name] = proxyObject;
