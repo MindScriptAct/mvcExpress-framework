@@ -193,58 +193,6 @@ public class Mediator {
 	}
 	
 	//----------------------------------
-	//     add remote handler Feature
-	//----------------------------------
-	
-	/*
-	 * adds handle function to be called then message of provided type is sent from remote module.
-	 * @param	type				message type for handle function to react to.
-	 * @param	handler				function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
-	 * @param	remoteModuleName	module name that will be sending a message, for this handler to trigger.
-	 */
-	//
-	/*
-	   // EXPERIMENTAL
-	   protected function addRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
-	   use namespace pureLegsCore;
-	   var handlerVo:HandlerVO;
-	   CONFIG::debug {
-	   if (handler.length < 1) {
-	   throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
-	   }
-	   if (!Boolean(type) || type == "null" || type == "undefined") {
-	   throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
-	   }
-	   handlerVo = messenger.addHandler(type, handler, remoteModuleName, getQualifiedClassName(this));
-	   if (handlerVo) {
-	   messageDataRegistry.push(handlerVo);
-	   }
-	   return;
-	   }
-	   handlerVo = messenger.addHandler(type, handler, remoteModuleName);
-	   if (handlerVo) {
-	   messageDataRegistry.push(handlerVo);
-	   }
-	   }
-	 //*/
-	
-	/*
-	 * Removes handle function from message of provided type.
-	 * @param	type	message type that was set for handle function to react to.
-	 * @param	handler	function that was set to react to message.
-	 * @param	remoteModuleName	module name that should be sendng a message, for this handler to be triggered.
-	 */
-	//
-	/*
-	   // EXPERIMENTAL
-	   public function removeRemoteHandler(type:String, handler:Function, remoteModuleName:String):void {
-	   trace("Mediator.removeRemoteHandler > type : " + type + ", handler : " + handler + ", remoteModuleName : " + remoteModuleName);
-	   use namespace pureLegsCore;
-	   messenger.removeHandler(type, handler, remoteModuleName);
-	   }
-	 //*/
-	
-	//----------------------------------
 	//     event handling
 	//----------------------------------
 	

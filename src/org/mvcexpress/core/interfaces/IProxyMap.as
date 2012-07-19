@@ -6,7 +6,7 @@ import org.mvcexpress.mvc.Proxy;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public interface IProxyMap {
-	function getProxy(injectClass:Class, name:String = ""/*, isHosted:Boolean = false*/):Proxy;
+	function getProxy(injectClass:Class, name:String = ""):Proxy;
 
 }
 }

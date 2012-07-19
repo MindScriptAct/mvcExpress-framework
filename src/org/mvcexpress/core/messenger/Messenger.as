@@ -42,8 +42,7 @@ public class Messenger {
 	 * @param	handlerClassName	handler function owner class name. For debugging only.
 	 * @return		returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
-	// * @param	remoteModuleName	TODO : comment // EXPERIMENTAL
-	public function addHandler(type:String, handler:Function, handlerClassName:String = null /*, remoteModuleName:String = null*/):HandlerVO {
+	public function addHandler(type:String, handler:Function, handlerClassName:String = null):HandlerVO {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
@@ -65,18 +64,6 @@ public class Messenger {
 				throw Error("This handler function is already mapped to message type :" + type);
 			}
 		}
-		// EXPERIMENTAL
-		//if (remoteModuleName) {
-		//use namespace pureLegsCore;
-		//msgData = ModuleManager.addRemoteHandler(type, handler, moduleName, remoteModuleName);
-		//CONFIG::debug {
-		//if (msgData) {
-		//msgData.handlerClassName = handlerClassName;
-		//}
-		//}
-		//return msgData;
-		//} else {
-		// create message handler data.
 		if (!msgData) {
 			msgData = new HandlerVO();
 			CONFIG::debug {
@@ -96,7 +83,6 @@ public class Messenger {
 	 * @param	type				message type that handler had to react
 	 * @param	handler				function called on sent message.
 	 */
-	// * @param	remoteModuleName	TODO : COMMENT // EXPERIMENTAL
 	public function removeHandler(type:String, handler:Function /*, remoteModuleName:String = null*/):void {
 		// debug this action
 		CONFIG::debug {
@@ -104,18 +90,12 @@ public class Messenger {
 				MvcExpress.debugFunction("••<- Messenger.removeHandler > type : " + type + ", handler : " + handler);
 			}
 		}
-		// EXPERIMENTAL
-		//if (remoteModuleName) {
-		//use namespace pureLegsCore;
-		//ModuleManager.removeRemoteHandler(type, handler, moduleName, remoteModuleName);
-		//} else {
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
 				(handlerRegistry[type][handler] as HandlerVO).handler = null;
 				delete handlerRegistry[type][handler];
 			}
 		}
-		//}
 	}
 	
 	// TODO : consider adding error checking that will FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpful for debug mode.)
@@ -190,26 +170,6 @@ public class Messenger {
 		use namespace pureLegsCore;
 		ModuleManager.sendMessageToAll(type, params);
 	}
-	
-	/*
-	 * TODO : COMMENT
-	 * @param	type
-	 * @param	params
-	 * @param	targetModules
-	 * @private
-	 */
-	//
-	/*
-	   // EXPERIMENTAL
-	
-	   public function sendTo(type:String, params:Object, targetModules:Vector.<String>):void {
-	   use namespace pureLegsCore;
-	   for (var i:int = 0; i < targetModules.length; i++) {
-	   ModuleManager.getMessenger(targetModules[i]).send(type, params);
-	   }
-	   }
-	
-	 //*/
 	
 	/**
 	 * function to add command execute function.
