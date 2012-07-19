@@ -39,6 +39,7 @@ public class MediatorTests {
 	
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+		mediatorMap.unmediate(testView);
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
@@ -49,10 +50,12 @@ public class MediatorTests {
 	
 	public function mediator_constructor_fails():void {
 		new MediatorSpriteMediator();
+	}
+	
+	[Test]
+	public function mediator_isReady():void {
+		Assert.assertTrue("After view mediating mediator isReady must be true.", MediatorSpriteMediator.instance.getIsReady());
 	}	
-	
-	
-	
 	
 	[Test(expects="Error")]
 	
@@ -63,6 +66,28 @@ public class MediatorTests {
 			throw Error("Debug mode is needed for this test.");
 		}
 	}
+
+	
+	//[Test]
+	//[Ignore]
+	//public function mediator_add_listener():void {
+		//
+	//}
+	//
+	//[Test]
+	//[Ignore]
+	//public function mediator_remove_listener():void {
+		//
+	//}
+	//
+	//[Test]
+	//[Ignore]
+	//public function mediator_remove_all_listeners():void {
+		//
+	//}
+	
+
+	
 	
 	[Test]
 	
@@ -99,6 +124,19 @@ public class MediatorTests {
 			}
 		}
 	}
+	
+	//[Test]
+	//[Ignore]
+	//public function mediator_remove_handler():void {
+		//
+	//}	
+	//
+	//
+	//[Test]
+	//[Ignore]
+	//public function mediator_remove_all_handler():void {
+		//
+	//}
 	
 
 }

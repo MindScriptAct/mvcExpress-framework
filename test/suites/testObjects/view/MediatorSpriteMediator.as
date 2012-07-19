@@ -11,6 +11,8 @@ import suites.TestViewEvent;
  */
 public class MediatorSpriteMediator extends Mediator {
 	
+	static public var instance:MediatorSpriteMediator;
+	
 	[Inject]
 	public var view:MediatorSprite;
 	
@@ -23,6 +25,12 @@ public class MediatorSpriteMediator extends Mediator {
 		addHandler("test_handler_two_params_one_optional", handleTestWithTwoParamsOneOptional);
 		
 		view.addEventListener(TestViewEvent.TRIGER_ADD_HANDLER, addTestHandler);
+		
+		MediatorSpriteMediator.instance = this;
+	}
+	
+	override public function onRemove():void {
+		MediatorSpriteMediator.instance = null;
 	}
 	
 	private function addTestHandler(event:Event):void {
@@ -51,6 +59,10 @@ public class MediatorSpriteMediator extends Mediator {
 	
 	public function handleTestWithTwoParamsOneOptional(params:Object, extraParam:String = null):void {
 	
+	}
+	
+	public function getIsReady():Boolean {
+		return this.isReady;
 	}
 
 }
