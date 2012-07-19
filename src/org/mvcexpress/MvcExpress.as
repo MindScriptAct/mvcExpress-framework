@@ -43,6 +43,12 @@ public class MvcExpress {
 	 * ATTENTION : it will work only with compile variable CONFIG:debug set to true.
 	 */
 	static public var debugFunction:Function = null;
+	
+	/**
+	 * Flag to force sendMessageToAll function throw an error in debug mode.
+	 * For people who don't what this feature in.
+	 */
+	static public var disableSendToAllFeature:Boolean = false;
 
 }
 }

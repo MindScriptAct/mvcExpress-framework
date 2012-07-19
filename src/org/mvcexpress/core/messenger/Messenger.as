@@ -178,9 +178,15 @@ public class Messenger {
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
 	 */
 	public function sendToAll(type:String, params:Object = null):void {
-		//if (CONFIG::disableSendToAll == true) {
-		//throw Error("sendToAll feature is disabled by compile argument: '-define=CONFIG::disableSendToAll,true'.");
-		//}
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.disableSendToAllFeature) {
+				throw Error("sendMessageToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
+			}
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("•>>> Messenger.sendToAll > type : " + type + ", params : " + params);
+			}
+		}
 		use namespace pureLegsCore;
 		ModuleManager.sendMessageToAll(type, params);
 	}
