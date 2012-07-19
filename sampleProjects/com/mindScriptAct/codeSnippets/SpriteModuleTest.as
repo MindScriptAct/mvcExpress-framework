@@ -58,7 +58,7 @@ public class SpriteModuleTest extends ModuleSprite {
 		
 		var sameSampleProxy:SampleProxy = new SampleProxy()
 		
-		proxyMap.unmap(SampleEmptyProxy);
+		//proxyMap.unmap(SampleEmptyProxy);
 		
 		proxyMap.map(sameSampleProxy);
 		proxyMap.map(sameSampleProxy, ISampleProxy);
