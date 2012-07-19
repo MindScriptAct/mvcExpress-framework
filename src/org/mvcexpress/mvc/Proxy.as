@@ -59,8 +59,6 @@ public class Proxy {
 		if (!_isReady) {
 			_isReady = true;
 			onRegister();
-		} else {
-			throw Error("Proxy:" + this + " is already registered. You can register one proxy only once.");
 		}
 	}
 	

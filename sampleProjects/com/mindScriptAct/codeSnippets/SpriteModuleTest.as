@@ -1,4 +1,5 @@
 package com.mindScriptAct.codeSnippets {
+import com.mindScriptAct.codeSnippets.controller.ManyInjectsCommand;
 import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
 import com.mindScriptAct.codeSnippets.controller.SampleCommand;
 import com.mindScriptAct.codeSnippets.messages.DataMsg;
@@ -12,6 +13,7 @@ import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
 import com.mindScriptAct.codeSnippets.view.MainAppMediator;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
+import flash.utils.Proxy;
 import flash.utils.setTimeout;
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
@@ -54,10 +56,14 @@ public class SpriteModuleTest extends ModuleSprite {
 		proxyMap.map(new SampleEmptyProxy("Named proxy"), SampleEmptyProxy, "namedSampleProxy");
 		proxyMap.map(new SampleEmptyProxy("Named and interfaced proxy"), ISampleEmptyProxy, "namedSampleInterfacedProxy");
 		
-		proxyMap.map(new SampleProxy());
-		proxyMap.map(new SampleProxy(), ISampleProxy);
-		proxyMap.map(new SampleProxy(), SampleProxy, "testType");
-		proxyMap.map(new SampleProxy(), ISampleProxy, "interfaceProxy");
+		var sameSampleProxy:SampleProxy = new SampleProxy()
+		
+		proxyMap.unmap(SampleEmptyProxy);
+		
+		proxyMap.map(sameSampleProxy);
+		proxyMap.map(sameSampleProxy, ISampleProxy);
+		proxyMap.map(sameSampleProxy, SampleProxy, "testType");
+		proxyMap.map(sameSampleProxy, ISampleProxy, "interfaceProxy");
 		
 		////////////////////////////
 		// View
@@ -82,6 +88,11 @@ public class SpriteModuleTest extends ModuleSprite {
 		commandMap.execute(SampleCommand);
 		commandMap.execute(SampleCommand, "single execute parameter");
 		commandMap.execute(SampleCommand, new ComplexParams("complex execute parameters"));
+		
+		
+		
+		// command with many injects
+		commandMap.execute(ManyInjectsCommand);
 		
 		////////////////////////////
 		// comunication

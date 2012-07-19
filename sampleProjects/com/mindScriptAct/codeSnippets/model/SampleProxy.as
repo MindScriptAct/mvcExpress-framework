@@ -11,19 +11,27 @@ public class SampleProxy extends Proxy implements ISampleProxy {
 	////////////////////////////
 	// geting proxies...
 	////////////////////////////
-	[Inject]
-	public var sampleEmptyProxy:SampleEmptyProxy;
+	//[Inject]
+	//public var sampleEmptyProxy:SampleEmptyProxy;
 	
 	[Inject]
 	public var sampleEmptyProxyInterfaced:ISampleEmptyProxy;
 	
-	[Inject(namespace = 'namedSampleEmptyProxy')]
+	[Inject(name = 'namedSampleProxy')]
+	public var sampleEmptyProxyNamed:SampleEmptyProxy;	
+	
+	[Inject(name = 'namedSampleInterfacedProxy')]
 	public var sampleEmptyProxyInterfacedAndNamed:ISampleEmptyProxy;
 	
 	public var testData:String = "someTestData";
 	
 	public function SampleProxy() {
 	
+	}
+	
+	override protected function onRegister():void {
+		trace( "SampleProxy.onRegister" );
+		
 	}
 	
 	public function sendTestMessage():void {

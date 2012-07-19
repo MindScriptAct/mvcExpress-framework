@@ -29,9 +29,6 @@ public class ProxyMap implements IProxyMap {
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
-	/** all hosted proxy objects stored by key */
-	static private var hostObjectRegistry:Dictionary = new Dictionary(); /* of HostedProxy by String */
-	
 	/** all hostedProxy data stored by hosted Proxy objects stored */
 	static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
 	
@@ -66,24 +63,14 @@ public class ProxyMap implements IProxyMap {
 			injectClass = proxyClass;
 		}
 		
-		var className:String = getQualifiedClassName(injectClass);
-		if (!injectObjectRegistry[className + name]) {
-			use namespace pureLegsCore;
+		use namespace pureLegsCore;
+		if (proxyObject.messenger == null) {
 			proxyObject.messenger = messenger;
 			proxyObject.setProxyMap(this);
+			
 			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
-			// store proxy injection to other classes.
-			injectObjectRegistry[className + name] = proxyObject;
-			// check if there is no waiting hosted proxies with this key.
-			if (hostObjectRegistry[className + name]) {
-				// check if hosted object is pending..
-				if (hostObjectRegistry[className + name].proxy) {
-					if (hostObjectRegistry[className + name].proxy != proxyObject) {
-						throw Error("Hosted proxy object is already mapped for:[injectClass:" + className + " name:" + name + "] only one hosted proxy can be mapped at any given time.");
-					}
-				}
-			}
+			
 			// check if there is no pending injection with this key.
 			if (pendingInjectionsRegistry[className + name]) {
 				injectPendingStuff(className + name, proxyObject);
@@ -92,9 +79,17 @@ public class ProxyMap implements IProxyMap {
 			if (isAllInjected) {
 				proxyObject.register();
 			}
+			
+		}
+		
+		var className:String = getQualifiedClassName(injectClass);
+		if (!injectObjectRegistry[className + name]) {
+			// store proxy injection for other classes.
+			injectObjectRegistry[className + name] = proxyObject;
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
 		}
+	
 	}
 	
 	/**
