@@ -2,7 +2,7 @@ package suites.testObjects {
 	
 /**
  */
-public interface IExtendedeSuperObject {
+public interface IExtendedTestObject {
 	
 }
 }

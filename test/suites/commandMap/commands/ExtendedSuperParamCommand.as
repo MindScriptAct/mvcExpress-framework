@@ -1,12 +1,12 @@
 package suites.commandMap.commands {
 import org.mvcexpress.mvc.Command;
-import suites.testObjects.ExtendedSuperObject;
+import suites.testObjects.ExtendedTestObject;
 
 /**
  */
 public class ExtendedSuperParamCommand extends Command {
 	
-	public function execute(params:ExtendedSuperObject):void {
+	public function execute(params:ExtendedTestObject):void {
 	
 	}
 

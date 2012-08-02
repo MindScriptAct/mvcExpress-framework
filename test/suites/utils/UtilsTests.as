@@ -5,6 +5,7 @@ import org.mvcexpress.utils.checkClassStringConstants;
 import org.mvcexpress.utils.checkClassSuperclass;
 import suites.utils.objects.ClassA;
 import suites.utils.objects.ClassASubclass;
+import suites.utils.objects.ClassASubclassSubclass;
 import suites.utils.objects.ClassB;
 import suites.utils.objects.ClassBSubclass;
 import suites.utils.objects.ConstantsA;
@@ -57,27 +58,13 @@ public class UtilsTests {
 	
 	[Test(description="single class check")]
 	
-	public function utils_same_class_is_false():void {
+	public function utils_checkClassSuperclass_tests():void {
 		Assert.assertFalse("Same class is not a subclass to self", checkClassSuperclass(ClassA, getQualifiedClassName(ClassA)));
-	}
-	
-	[Test(description="single class check")]
-	
-	public function utils_sub_class_is_true():void {
 		Assert.assertTrue("Subclass of class should be true", checkClassSuperclass(ClassASubclass, getQualifiedClassName(ClassA)));
-	}
-	
-	[Test(description="2 diferent class")]
-	
-	public function utils_2_diferent_class_is_false():void {
+		Assert.assertTrue("Subclass of Subclass of class should be true", checkClassSuperclass(ClassASubclassSubclass, getQualifiedClassName(ClassA)));
 		Assert.assertFalse("Two diferent classes sould return false", checkClassSuperclass(ClassB, getQualifiedClassName(ClassA)));
-	}
-	
-	[Test(description="2_diferent_class")]
-	
-	public function utils_diferent_superclass_and_class_is_false():void {
 		Assert.assertFalse("superclass of another class sould return false", checkClassSuperclass(ClassBSubclass, getQualifiedClassName(ClassA)));
-	}	
+	}
 
 }
 }

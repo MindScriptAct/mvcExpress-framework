@@ -2,7 +2,7 @@ package suites.testObjects.view {
 import flash.display.Sprite;
 import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
-import suites.testObjects.SuperObject;
+import suites.testObjects.TestObject;
 import suites.TestViewEvent;
 
 /**
@@ -49,7 +49,7 @@ public class MediatorSpriteMediator extends Mediator {
 	
 	}
 	
-	public function handleTestWithBadParams(params:SuperObject):void {
+	public function handleTestWithBadParams(params:TestObject):void {
 	
 	}
 	

@@ -1,13 +1,19 @@
 package suites.general {
+import flash.utils.getQualifiedClassName;
 import org.flexunit.Assert;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
+import org.mvcexpress.utils.checkClassSuperclass;
 import suites.featureProxyHost.testObjects.HostTestModuleSprite;
 import suites.featureProxyHost.testObjects.localObjects.HostProxy;
 import suites.featureProxyHost.testObjects.localObjects.HostProxySubclass;
 import suites.featureProxyHost.testObjects.localObjects.LocalProxyWithGlobalInjection;
 import suites.featureProxyHost.testObjects.localObjects.LocalProxyWithLocalInjection;
 import suites.featureProxyHost.testObjects.remoteModule.RemoteModule;
+import suites.testObjects.ExtendedTestObject;
+import suites.testObjects.IExtendedTestObject;
+import suites.testObjects.ITestObject;
+import suites.testObjects.TestObject;
 
 /**
  * COMMENT
@@ -39,7 +45,7 @@ public class GeneralTests {
 			return;
 		}
 		Assert.assertFalse("While compiling in debug - MvcExpress.DEBUG_COMPILE must be false.", MvcExpress.DEBUG_COMPILE);
-	}	
+	}
 	
 }
 }

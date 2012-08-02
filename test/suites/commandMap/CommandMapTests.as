@@ -15,7 +15,7 @@ import suites.commandMap.commands.SuperInterfaceParamCommand;
 import suites.commandMap.commands.SuperParamCommand;
 import suites.commandMap.commands.TestCommand1;
 import suites.commandMap.commands.TestCommand2;
-import suites.testObjects.ExtendedSuperObject;
+import suites.testObjects.ExtendedTestObject;
 import utils.AsyncUtil;
 
 /**
@@ -30,7 +30,7 @@ public class CommandMapTests {
 	private var commandMap:CommandMap;
 	private var callCaunter:int;
 	private var callsExpected:int;
-	private var testParamObject:ExtendedSuperObject;
+	private var testParamObject:ExtendedTestObject;
 	
 	[Before]
 	
@@ -44,7 +44,7 @@ public class CommandMapTests {
 		commandMap = new CommandMap("test",messenger, proxyMap, mediatorMap);
 		callCaunter = 0;
 		callsExpected = 0;
-		testParamObject = new ExtendedSuperObject();
+		testParamObject = new ExtendedTestObject();
 	}
 	
 	[After]
