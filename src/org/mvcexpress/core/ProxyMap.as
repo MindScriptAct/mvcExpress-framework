@@ -48,12 +48,6 @@ public class ProxyMap implements IProxyMap {
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
-		// debug this action
-		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-			}
-		}
 		
 		// get proxy class
 		var proxyClass:Class = Object(proxyObject).constructor;
@@ -61,6 +55,16 @@ public class ProxyMap implements IProxyMap {
 		// if injectClass is not provided - proxyClass will be used instead.
 		if (!injectClass) {
 			injectClass = proxyClass;
+		}
+		
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "ProxyMap.map", moduleName: moduleName, proxyObject: proxyObject, injectClass: injectClass, name: name});
+			}
 		}
 		
 		var className:String = getQualifiedClassName(injectClass);
@@ -84,7 +88,6 @@ public class ProxyMap implements IProxyMap {
 			
 		}
 		
-		
 		if (!injectObjectRegistry[className + name]) {
 			// store proxy injection for other classes.
 			injectObjectRegistry[className + name] = proxyObject;
@@ -105,6 +108,9 @@ public class ProxyMap implements IProxyMap {
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("¶¶¶¶- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
+			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "ProxyMap.unmap", moduleName: moduleName, injectClass: injectClass, name: name});
 			}
 		}
 		// remove proxy if it exists.

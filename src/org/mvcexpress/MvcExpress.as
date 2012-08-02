@@ -45,6 +45,12 @@ public class MvcExpress {
 	static public var debugFunction:Function = null;
 	
 	/**
+	 * Sets a logger function that will get framework activity messages as untiped Objects's.
+	 * ATTENTION : it will work only with compile variable CONFIG:debug set to true.
+	 */
+	static public var loggerFunction:Function = null;	
+	
+	/**
 	 * Flag to force sendMessageToAll function throw an error in debug mode.
 	 * (For people who don't what this feature in.)
 	 */

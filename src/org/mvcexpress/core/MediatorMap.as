@@ -97,6 +97,9 @@ public class MediatorMap implements IMediatorMap {
 				if (MvcExpress.debugFunction != null) {
 					MvcExpress.debugFunction("§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass);
 				}
+				if (MvcExpress.loggerFunction != null) {
+					MvcExpress.loggerFunction({action: "MediatorMap.mediate", moduleName:moduleName, viewObject: viewObject, viewClass: viewClass, mediatorClass: mediatorClass});
+				}
 				// Allows Mediator to be constructed. (removed from release build to save some performance.)
 				Mediator.canConstruct = true
 			}
@@ -132,6 +135,9 @@ public class MediatorMap implements IMediatorMap {
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("§*- MediatorMap.unmediate > viewObject : " + viewObject);
+			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "MediatorMap.unmediate", moduleName:moduleName, viewObject: viewObject});
 			}
 		}
 		// get object mediator

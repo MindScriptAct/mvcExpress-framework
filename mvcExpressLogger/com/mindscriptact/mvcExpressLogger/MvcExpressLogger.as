@@ -7,6 +7,8 @@ import com.bit101.components.Style;
 import com.bit101.components.Text;
 import com.bit101.components.Window;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressLogScreen;
+import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
+import com.mindscriptact.mvcExpressLogger.visualizer.VisualizerManager;
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.display.Stage;
@@ -30,9 +32,11 @@ public class MvcExpressLogger {
 	static private const MEDIATORS_LABEL:String = "MEDIATORS";
 	static private const PROXIES_LABEL:String = "PROXIES";
 	static private const COMMANDS_LABEL:String = "COMMANDS";
+	static private const VISUALIZER_LABEL:String = "VISUALIZER";
 	//
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
+	static private var visualizerManager:VisualizerManager;
 	// view params
 	private var stage:Stage;
 	private var x:int;
@@ -64,19 +68,18 @@ public class MvcExpressLogger {
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
-			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.logModule() or MvcExpressLogger.showIn()");
+			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init() or MvcExpressLogger.showIn()");
 		}
 	}
 	
 	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
 		
-		
-		
 		if (!instance) {
 			allowInstantiation = true;
 			instance = new MvcExpressLogger();
 			allowInstantiation = false;
-			
+			//
+			visualizerManager = new VisualizerManager();
 			//
 			instance.stage = stage;
 			stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
@@ -94,7 +97,8 @@ public class MvcExpressLogger {
 			Style.LABEL_TEXT = 0xFFFFFF;
 		}
 		
-		MvcExpress.debugFunction = instance.traceMvcExpress;
+		MvcExpress.debugFunction = instance.debugMvcExpress;
+		MvcExpress.loggerFunction = visualizerManager.logMvcExpress;
 		
 		if (autoShow) {
 			instance.showLogger();
@@ -117,7 +121,7 @@ public class MvcExpressLogger {
 		}
 	}
 	
-	private function traceMvcExpress(msg:String):void {
+	private function debugMvcExpress(msg:String):void {
 		// TODO: refactor
 		logText += msg + "\n";
 		//
@@ -163,6 +167,8 @@ public class MvcExpressLogger {
 								setTimeout(render, 1);
 							}
 						}
+						break;
+					case VISUALIZER_LABEL: 
 						break;
 					default: 
 				}
@@ -249,6 +255,12 @@ public class MvcExpressLogger {
 			autoLogCheckBox.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 70;
 			autoLogCheckBox.selected = true;
 			
+			var visualizerButton:PushButton = new PushButton(logWindow, 0, -0, VISUALIZER_LABEL, handleButtonClick);
+			visualizerButton.toggle = true;
+			visualizerButton.width = 60;
+			visualizerButton.x = 600;
+			allButtons.push(visualizerButton);
+			
 		}
 		//forceThisOnTop();
 		stage.addChild(logWindow);
@@ -330,12 +342,20 @@ public class MvcExpressLogger {
 			autoLogCheckBox.visible = (currentTabButtonName == LOG_LABEL)
 			
 			switch (currentTabButtonName) {
+				case VISUALIZER_LABEL: 
+					currentScreen = new MvcExpressVisualizerScreen(width - 6, height - 52);
+					currentScreen.x = 3;
+					currentScreen.y = 25;
+					visualizerManager.manageThisScreen(currentModuleName, currentScreen as MvcExpressVisualizerScreen);
+					break;
 				default: 
 					currentScreen = new MvcExpressLogScreen(width - 6, height - 52);
 					currentScreen.x = 3;
 					currentScreen.y = 25;
-					render();
+					visualizerManager.manageNothing();
+					break;
 			}
+			render();
 			if (currentScreen) {
 				logWindow.addChild(currentScreen);
 				
@@ -366,9 +386,11 @@ public class MvcExpressLogger {
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedProxies(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
-			case COMMANDS_LABEL: 
+			case COMMANDS_LABEL:
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
+				break;
+			case VISUALIZER_LABEL:
 				break;
 			default: 
 		}
