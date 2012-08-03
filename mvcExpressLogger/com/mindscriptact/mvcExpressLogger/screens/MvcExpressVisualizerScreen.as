@@ -98,7 +98,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		for (var i:int = 0; i < proxies.length; i++) {
 			if (proxies[i].proxyObject == injectedObject) {
 				var mediatorLabel:Label = (mediatorObject.view as Label);
-				mediatorLabel.graphics.lineStyle(1, 0xFF8000, 0.5);
+				mediatorLabel.graphics.lineStyle(1, 0xFF0000, 0.5);
 				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
 				mediatorLabel.graphics.lineTo(proxies[i].view.x - mediatorLabel.x, proxies[i].view.y - mediatorLabel.y + 5);
 				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
@@ -234,9 +234,40 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	public function clearCommands():void {
 		while (commands.length) {
 			var command:Object = commands.pop();
-			if (command.view) {
-				if (this.contains(command.view)) {
-					this.removeChild(command.view);
+			if (command) {
+				if (command.view) {
+					if (this.contains(command.view)) {
+						this.removeChild(command.view);
+					}
+				}
+			}
+		}
+	}
+	
+	public function drawCommandDependency(commandObject:Object, injectedObject:Object):void {
+		for (var i:int = 0; i < commands.length; i++) {
+			if (commands[i]) {
+				if (commands[i].commandObject == commandObject) {
+					if (commands[i].view) {
+						var commandLabel:Label = commands[i].view;
+						//
+						for (var j:int = 0; j < proxies.length; j++) {
+							if (proxies[j].proxyObject == injectedObject) {
+								if (proxies[j].view) {
+									var proxyLabel:Label = (proxies[j].view as Label);
+								}
+							}
+						}
+						if (proxyLabel) {
+							commandLabel.graphics.lineStyle(1, 0xFF8040, 0.5);
+							commandLabel.graphics.moveTo(commandLabel.width, 5);
+							commandLabel.graphics.lineTo(proxyLabel.x - commandLabel.x, proxyLabel.y - commandLabel.y + 17);
+							commandLabel.graphics.moveTo(commandLabel.width, 5);
+							commandLabel.graphics.lineTo(commandLabel.width + 5, 5 - 2);
+							commandLabel.graphics.moveTo(commandLabel.width, 5);
+							commandLabel.graphics.lineTo(commandLabel.width + 5, 5 + 2);
+						}
+					}
 				}
 			}
 		}

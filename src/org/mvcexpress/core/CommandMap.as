@@ -112,7 +112,7 @@ public class CommandMap {
 				MvcExpress.debugFunction("©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction( { action: "CommandMap.execute", moduleName: moduleName, commandObject: command, commandClass: commandClass, params: params } );
+				MvcExpress.loggerFunction({action: "CommandMap.execute", moduleName: moduleName, commandObject: command, commandClass: commandClass, params: params});
 			}
 			validateCommandParams(commandClass, params);
 		}
@@ -156,6 +156,16 @@ public class CommandMap {
 					Command.canConstruct = false;
 				}
 				
+				// debug this action
+				CONFIG::debug {
+					if (MvcExpress.debugFunction != null) {
+						MvcExpress.debugFunction("©* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
+					}
+					if (MvcExpress.loggerFunction != null) {
+						MvcExpress.loggerFunction({action: "CommandMap.handleCommandExecute", moduleName: moduleName, commandObject: command, commandClass: commandList[i], params: params});
+					}
+				}
+				
 				use namespace pureLegsCore;
 				command.messenger = messenger;
 				command.mediatorMap = mediatorMap;
@@ -164,12 +174,7 @@ public class CommandMap {
 				command.commandMap = this;
 				
 				proxyMap.injectStuff(command, commandList[i]);
-				// debug this action
-				CONFIG::debug {
-					if (MvcExpress.debugFunction != null) {
-						MvcExpress.debugFunction("©* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
-					}
-				}
+				
 				command.execute(params);
 				
 					////// INLINE FUNCTION runCommand() END

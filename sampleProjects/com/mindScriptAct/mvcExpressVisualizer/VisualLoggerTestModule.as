@@ -6,6 +6,7 @@ import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandA;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandB;
+import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyB;
@@ -54,6 +55,9 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	
 	override protected function onInit():void {
 		trace("ModularSampleShellModule.onInit");
+		
+		// set up controller
+		commandMap.map(Message.TEST_COMMAND_B, TestCommandB);
 		
 		// set up data
 		proxyMap.map(new TestProxyA());
@@ -162,7 +166,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	}
 	
 	private function handleCommandB(event:Event):void {
-		commandMap.execute(TestCommandB, new Point(10, 20));
+		sendMessage(Message.TEST_COMMAND_B, new Point(10, 20));
 	}
 
 }

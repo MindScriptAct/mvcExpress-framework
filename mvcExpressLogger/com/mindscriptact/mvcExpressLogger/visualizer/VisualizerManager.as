@@ -123,13 +123,18 @@ public class VisualizerManager {
 							}
 						}
 					} else if (hostObject is Command) {
-						trace("hostObject : " + hostObject);
+						if (this.mvcExpressVisualizerScreen) {
+							if (currentModuleName == logObj.moduleName) {
+								this.mvcExpressVisualizerScreen.drawCommandDependency(hostObject, injectedObject);
+							}
+						}
 					} else {
 						trace("!!!!!!!!!!!!ERROR!!!!!!!!!!!!! : fail to handle... ProxyMap.injectStuff object : " + hostObject);
 					}
 				}
 				break;
 			case "CommandMap.execute": 
+			case "CommandMap.handleCommandExecute": 
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						this.mvcExpressVisualizerScreen.addCommand(logObj);
@@ -137,7 +142,7 @@ public class VisualizerManager {
 				}
 				break;
 			default: 
-				throw Error("NOT HANDLED");
+				throw Error("NOT HANDLED:" + logObj);
 		}
 	}
 	
