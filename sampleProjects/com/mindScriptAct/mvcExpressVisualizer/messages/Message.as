@@ -6,6 +6,8 @@ package com.mindScriptAct.mvcExpressVisualizer.messages {
  */
 public class Message {
 	static public const TEST_COMMAND_B:String = "testCommandB";
+	static public const TEST_MEDIATOR_A_COMMAND:String = "testMediatorACommand";
+	static public const TEST_MEDIATOR_B_COMMAND:String = "testMediatorBCommand";
 	
 	
 }

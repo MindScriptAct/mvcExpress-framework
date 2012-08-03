@@ -111,6 +111,9 @@ public class Messenger {
 			if (MvcExpress.debugFunction != null) {
 				MvcExpress.debugFunction("•> Messenger.send > type : " + type + ", params : " + params);
 			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Messenger.send", moduleName: moduleName, type: type, params: params});
+			}
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;

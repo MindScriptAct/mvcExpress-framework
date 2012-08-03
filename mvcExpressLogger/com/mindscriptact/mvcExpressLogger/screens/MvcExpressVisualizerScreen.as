@@ -216,6 +216,27 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		commandLabel.y = commandPosition * 20 + 60;
 		this.addChild(commandLabel);
 		
+		// handle message from mediator
+		var messageFromObject:Object = commandLogObj.messageFromMediator;
+		if (messageFromObject) {
+			for (var j:int = 0; j < mediators.length; j++) {
+				if (mediators[j].mediatorObject == messageFromObject) {
+					var mediatorLabel:Label = mediators[j].view;
+					if (mediatorLabel) {
+						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.5);
+						commandLabel.graphics.moveTo(0, 10);
+						commandLabel.graphics.lineTo(-commandLabel.x + mediatorLabel.x + mediatorLabel.width, -commandLabel.y + mediatorLabel.y + mediatorLabel.height - 10);
+						commandLabel.graphics.moveTo(0, 10);
+						commandLabel.graphics.lineTo(-10, 10 - 2);
+						commandLabel.graphics.moveTo(0, 10);
+						commandLabel.graphics.lineTo(-10, 10 + 2);
+					}
+					break;
+				}
+			}
+				//mediators.
+		}
+		
 		setTimeout(removeObject, 1500, commandPosition, commandLogObj);
 	}
 	

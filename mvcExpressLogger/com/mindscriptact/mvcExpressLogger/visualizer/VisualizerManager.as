@@ -17,8 +17,10 @@ public class VisualizerManager {
 	private var moduleMediators:Dictionary = new Dictionary();
 	private var moduleProxies:Dictionary = new Dictionary();
 	private var currentModuleName:String;
+	private var sendMessageStack:Vector.<Object> = new Vector.<Object>();
 	
 	public function logMvcExpress(logObj:Object):void {
+		var topObject:Object;
 		var mediators:Vector.<Object>;
 		var proxies:Vector.<Object>;
 		var i:int;
@@ -137,22 +139,69 @@ public class VisualizerManager {
 			case "CommandMap.handleCommandExecute": 
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
+						topObject = sendMessageStack[sendMessageStack.length - 1];
+						if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
+							if (topObject.mediatorObject) {
+								logObj.messageFromMediator = topObject.mediatorObject;
+							}
+						}
 						this.mvcExpressVisualizerScreen.addCommand(logObj);
 					}
 				}
 				break;
+			case "Mediator.sendMessage": 
+				sendMessageStack.push(logObj);
+				break;
+			case "Messenger.send": 
+				topObject = sendMessageStack[sendMessageStack.length - 1];
+				if (topObject) {
+					if (logObj.type == topObject.type) {
+						if (logObj.params == topObject.params) {
+							if (topObject.moduleName == null) {
+								topObject.moduleName = logObj.moduleName;
+							} else {
+								if (topObject.moduleName == logObj.moduleName) {
+									// ALL IS GOOD...
+								} else {
+									CONFIG::debug {
+										throw Error("NOT HANDLED:" + logObj);
+									}
+								}
+							}
+						} else {
+							CONFIG::debug {
+								throw Error("NOT HANDLED:" + logObj);
+							}
+						}
+					} else {
+						CONFIG::debug {
+							throw Error("NOT HANDLED:" + logObj);
+						}
+					}
+				} else {
+					CONFIG::debug {
+						throw Error("NOT HANDLED:" + logObj);
+					}
+				}
+				break;
+			
 			default: 
+				CONFIG::debug {
 				throw Error("NOT HANDLED:" + logObj);
+			}
+				break;
 		}
 	}
 	
 	public function manageThisScreen(currentModuleName:String, mvcExpressVisualizerScreen:MvcExpressVisualizerScreen):void {
 		this.currentModuleName = currentModuleName;
-		this.mvcExpressVisualizerScreen = mvcExpressVisualizerScreen;
-		//
-		this.mvcExpressVisualizerScreen.addProxies(moduleProxies[currentModuleName]);
-		this.mvcExpressVisualizerScreen.addMediators(moduleMediators[currentModuleName]);
-		this.mvcExpressVisualizerScreen.clearCommands();
+		if (mvcExpressVisualizerScreen) {
+			this.mvcExpressVisualizerScreen = mvcExpressVisualizerScreen;
+			//
+			this.mvcExpressVisualizerScreen.addProxies(moduleProxies[currentModuleName]);
+			this.mvcExpressVisualizerScreen.addMediators(moduleMediators[currentModuleName]);
+			this.mvcExpressVisualizerScreen.clearCommands();
+		}
 	}
 	
 	public function manageNothing():void {

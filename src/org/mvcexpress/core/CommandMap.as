@@ -162,7 +162,7 @@ public class CommandMap {
 						MvcExpress.debugFunction("©* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
 					}
 					if (MvcExpress.loggerFunction != null) {
-						MvcExpress.loggerFunction({action: "CommandMap.handleCommandExecute", moduleName: moduleName, commandObject: command, commandClass: commandList[i], params: params});
+						MvcExpress.loggerFunction( { action: "CommandMap.handleCommandExecute", moduleName: moduleName, commandObject: command, commandClass: commandList[i], type:messageType, params: params } );
 					}
 				}
 				

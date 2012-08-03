@@ -1,6 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer {
 import com.bit101.components.PushButton;
-import com.mindScriptAct.circularDependenciesTest.controller.TestCommand;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
@@ -58,6 +57,8 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		
 		// set up controller
 		commandMap.map(Message.TEST_COMMAND_B, TestCommandB);
+		commandMap.map(Message.TEST_MEDIATOR_A_COMMAND, TestCommandA);
+		commandMap.map(Message.TEST_MEDIATOR_B_COMMAND, TestCommandB);
 		
 		// set up data
 		proxyMap.map(new TestProxyA());
@@ -78,14 +79,16 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		testViewB1Button = new PushButton(this, 10, 530, "Add TestViewB 1", handleAddMediatorB1);
 		testViewB2Button = new PushButton(this, 150, 530, "Add TestViewB 2", handleAddMediatorB2);
 		
-		testViewB1Button = new PushButton(this, 300, 500, "Execute Command A", handleCommandA);
-		testViewB2Button = new PushButton(this, 300, 530, "Execute Command B", handleCommandB);
+		testViewB1Button = new PushButton(this, 300, 500, "Module:Execute CommandA", handleCommandA);
+		testViewB1Button.width = 150;
+		testViewB2Button = new PushButton(this, 300, 530, "Module:Send message", handleCommandB);
+		testViewB2Button.width = 150;
 		
 		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
 		
 		var console:Console = new Console();
 		this.addChild(console);
-		console.x = 500;
+		console.x = 600;
 		console.y = 450;
 	}
 	
@@ -141,7 +144,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			this.addChild(testViewB1);
 			mediatorMap.mediate(testViewB1);
 			testViewB1Button.label = "Remove TestViewB 1";
-			testViewB1.y = 250;
+			testViewB1.y = 200;
 		}
 	}
 	
@@ -157,7 +160,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			mediatorMap.mediate(testViewB2);
 			testViewB2Button.label = "Remove TestViewB 2";
 			testViewB2.x = 300;
-			testViewB2.y = 250;
+			testViewB2.y = 200;
 		}
 	}
 	

@@ -8,6 +8,7 @@ import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Mediates single view object. 																</br>
@@ -134,6 +135,11 @@ public class Mediator {
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction( { action: "Mediator.sendMessage", mediatorObject: this, type: type, params: params } );
+			}
+		}
 		messenger.send(type, params);
 	}
 	

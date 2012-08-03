@@ -11,9 +11,9 @@ public class TestViewB extends Sprite {
 	
 	public function TestViewB() {
 		var rectangle:Shape = new Shape();
-		rectangle.graphics.lineStyle(0.1, 0xFF0000);
-		rectangle.graphics.beginFill(0x00FF40);
-		rectangle.graphics.drawRect(0, 0, 100, 100);
+		rectangle.graphics.lineStyle(2, 0x00FF00);
+		rectangle.graphics.beginFill(0xCEFFCE);
+		rectangle.graphics.drawRect(5, 5, 250, 150);
 		rectangle.graphics.endFill();
 		this.addChild(rectangle);
 	}
