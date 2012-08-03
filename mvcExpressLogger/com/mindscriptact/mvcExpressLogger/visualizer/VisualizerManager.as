@@ -129,6 +129,13 @@ public class VisualizerManager {
 					}
 				}
 				break;
+			case "CommandMap.execute": 
+				if (this.mvcExpressVisualizerScreen) {
+					if (currentModuleName == logObj.moduleName) {
+						this.mvcExpressVisualizerScreen.addCommand(logObj);
+					}
+				}
+				break;
 			default: 
 				throw Error("NOT HANDLED");
 		}
@@ -140,6 +147,7 @@ public class VisualizerManager {
 		//
 		this.mvcExpressVisualizerScreen.addProxies(moduleProxies[currentModuleName]);
 		this.mvcExpressVisualizerScreen.addMediators(moduleMediators[currentModuleName]);
+		this.mvcExpressVisualizerScreen.clearCommands();
 	}
 	
 	public function manageNothing():void {

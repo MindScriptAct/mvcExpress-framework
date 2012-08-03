@@ -97,13 +97,6 @@ public class CommandMap {
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
-		// debug this action
-		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
-			}
-			validateCommandParams(commandClass, params);
-		}
 		
 		CONFIG::debug {
 			Command.canConstruct = true;
@@ -111,6 +104,17 @@ public class CommandMap {
 		var command:Command = new commandClass();
 		CONFIG::debug {
 			Command.canConstruct = false;
+		}
+		
+		// debug this action
+		CONFIG::debug {
+			if (MvcExpress.debugFunction != null) {
+				MvcExpress.debugFunction("©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
+			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction( { action: "CommandMap.execute", moduleName: moduleName, commandObject: command, commandClass: commandClass, params: params } );
+			}
+			validateCommandParams(commandClass, params);
 		}
 		
 		use namespace pureLegsCore;

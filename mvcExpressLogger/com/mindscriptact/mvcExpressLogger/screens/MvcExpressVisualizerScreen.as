@@ -2,6 +2,7 @@ package com.mindscriptact.mvcExpressLogger.screens {
 import com.bit101.components.Label;
 import flash.display.Sprite;
 import flash.utils.getQualifiedClassName;
+import flash.utils.setTimeout;
 
 /**
  * COMMENT
@@ -12,6 +13,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	private var screenHeight:int;
 	private var mediators:Vector.<Object>;
 	private var proxies:Vector.<Object>;
+	private var commands:Vector.<Object> = new Vector.<Object>();
 	
 	public function MvcExpressVisualizerScreen(screenWidth:int, screenHeight:int) {
 		this.screenWidth = screenWidth;
@@ -178,7 +180,64 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				proxyLabel.graphics.lineTo(-5, 15 - 2);
 				proxyLabel.graphics.moveTo(0, 15);
 				proxyLabel.graphics.lineTo(-5, 15 + 2);
-				
+			}
+		}
+	}
+	
+	//----------------------------------
+	//     commands
+	//----------------------------------
+	
+	public function addCommand(commandLogObj:Object):void {
+		var commandPosition:int = -1;
+		//
+		for (var i:int = 0; i < commands.length; i++) {
+			if (commands[i] == null) {
+				commandPosition = i;
+				commands[i] = commandLogObj;
+				break;
+			}
+		}
+		if (commandPosition == -1) {
+			commandPosition = commands.length;
+			commands.push(commandLogObj);
+		}
+		
+		//
+		var commandLabel:Label;
+		if (commandLogObj.view == null) {
+			commandLogObj.view = new Label(null, 5, 0, commandLogObj.commandObject + " - " + commandLogObj.params);
+			(commandLogObj.view as Label).textField.borderColor = 0xFFFF00;
+			(commandLogObj.view as Label).textField.border = true;
+		}
+		commandLabel = commandLogObj.view;
+		//
+		commandLabel.x = 450 - (commandLabel.width >> 1);
+		commandLabel.y = commandPosition * 20 + 60;
+		this.addChild(commandLabel);
+		
+		setTimeout(removeObject, 1500, commandPosition, commandLogObj);
+	}
+	
+	private function removeObject(commandPosition:int, commandLogObj:Object):void {
+		
+		if (commands.length > commandPosition) {
+			if (commands[commandPosition] == commandLogObj) {
+				if (this.contains(commandLogObj.view)) {
+					this.removeChild(commandLogObj.view);
+				}
+				commands[commandPosition] = null;
+			}
+		}
+	}
+	
+	public function clearCommands():void {
+		while (commands.length) {
+			var command:Object = commands.pop();
+			if (command.view) {
+				if (this.contains(command.view)) {
+					this.removeChild(command.view);
+				}
 			}
 		}
 	}

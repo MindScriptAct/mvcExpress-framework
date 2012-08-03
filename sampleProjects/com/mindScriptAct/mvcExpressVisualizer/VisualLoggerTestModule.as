@@ -1,8 +1,11 @@
 package com.mindScriptAct.mvcExpressVisualizer {
 import com.bit101.components.PushButton;
+import com.mindScriptAct.circularDependenciesTest.controller.TestCommand;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandA;
+import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandB;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyB;
@@ -18,6 +21,7 @@ import com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediato
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
+import flash.geom.Point;
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.utils.checkClassStringConstants;
 
@@ -58,7 +62,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		// set-up view
 		mediatorMap.map(VisualLoggerTestModule, VisualLoggerTestModuleMediator);
 		mediatorMap.map(TestViewA, TestViewAMediator);
-		mediatorMap.map(TestViewB, TestViewBMediator);		
+		mediatorMap.map(TestViewB, TestViewBMediator);
 		
 		// start
 		mediatorMap.mediate(this);
@@ -66,11 +70,14 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		//
 		testViewA1Button = new PushButton(this, 10, 500, "Add TestViewA 1", handleAddMediatorA1);
 		testViewA2Button = new PushButton(this, 150, 500, "Add TestViewA 2", handleAddMediatorA2);
+		
 		testViewB1Button = new PushButton(this, 10, 530, "Add TestViewB 1", handleAddMediatorB1);
 		testViewB2Button = new PushButton(this, 150, 530, "Add TestViewB 2", handleAddMediatorB2);
 		
-		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
+		testViewB1Button = new PushButton(this, 300, 500, "Execute Command A", handleCommandA);
+		testViewB2Button = new PushButton(this, 300, 530, "Execute Command B", handleCommandB);
 		
+		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
 		
 		var console:Console = new Console();
 		this.addChild(console);
@@ -148,6 +155,14 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			testViewB2.x = 300;
 			testViewB2.y = 250;
 		}
+	}
+	
+	private function handleCommandA(event:Event):void {
+		commandMap.execute(TestCommandA, "test param A")
+	}
+	
+	private function handleCommandB(event:Event):void {
+		commandMap.execute(TestCommandB, new Point(10, 20));
 	}
 
 }
