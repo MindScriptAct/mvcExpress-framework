@@ -1,7 +1,9 @@
 package com.mindScriptAct.mvcExpressVisualizer {
 import com.bit101.components.PushButton;
+import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyC;
@@ -13,7 +15,6 @@ import com.mindScriptAct.mvcExpressVisualizer.view.testA.TestViewAMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewB;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewBMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator;
-import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
@@ -39,7 +40,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	public function VisualLoggerTestModule() {
 		CONFIG::debug {
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
-			MvcExpressLogger.init(this.stage, 700, 0, 800, 400, 1, true);
+			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true);
 		}
 		super(ModuleNames.SHELL);
 		//
@@ -49,13 +50,15 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	
 	override protected function onInit():void {
 		trace("ModularSampleShellModule.onInit");
+		
+		// set up data
+		proxyMap.map(new TestProxyA());
+		proxyMap.map(new TestProxyB(), ITestProxyB, "BProxyName");
+		
 		// set-up view
 		mediatorMap.map(VisualLoggerTestModule, VisualLoggerTestModuleMediator);
 		mediatorMap.map(TestViewA, TestViewAMediator);
-		mediatorMap.map(TestViewB, TestViewBMediator);
-		// set up data
-		proxyMap.map(new TestProxyA());
-		proxyMap.map(new TestProxyB());
+		mediatorMap.map(TestViewB, TestViewBMediator);		
 		
 		// start
 		mediatorMap.mediate(this);
@@ -67,6 +70,12 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		testViewB2Button = new PushButton(this, 150, 530, "Add TestViewB 2", handleAddMediatorB2);
 		
 		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
+		
+		
+		var console:Console = new Console();
+		this.addChild(console);
+		console.x = 500;
+		console.y = 450;
 	}
 	
 	private function handleAddProxyC(event:Event):void {

@@ -198,6 +198,13 @@ public class ProxyMap implements IProxyMap {
 			var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				object[rules[i].varName] = injectObject;
+				
+				// debug this action
+				CONFIG::debug {
+					if (MvcExpress.loggerFunction != null) {
+						MvcExpress.loggerFunction({action: "ProxyMap.injectStuff", moduleName: moduleName, hostObject: object, injectObject: injectObject, rule: rules[i]});
+					}
+				}
 			} else {
 				// if local injection fails... test for global(hosted) injections
 				

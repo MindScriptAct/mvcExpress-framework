@@ -1,6 +1,5 @@
 package com.mindscriptact.mvcExpressLogger {
 import com.bit101.components.CheckBox;
-import com.bit101.components.List;
 import com.bit101.components.NumericStepper;
 import com.bit101.components.PushButton;
 import com.bit101.components.Style;
@@ -15,10 +14,8 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
-import flash.ui.Mouse;
 import flash.utils.setTimeout;
 import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.modules.ModuleCore;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -314,6 +311,7 @@ public class MvcExpressLogger {
 	private function handleModuleChange(event:Event):void {
 		currentModuleName = allModuleNames[moduleStepper.value];
 		currentModuleText.text = currentModuleName;
+		visualizerManager.manageThisScreen(currentModuleName, currentScreen as MvcExpressVisualizerScreen);
 		render();
 	}
 	
@@ -391,6 +389,7 @@ public class MvcExpressLogger {
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case VISUALIZER_LABEL:
+				
 				break;
 			default: 
 		}

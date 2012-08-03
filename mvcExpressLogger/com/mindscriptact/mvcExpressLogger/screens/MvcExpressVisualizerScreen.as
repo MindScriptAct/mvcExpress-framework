@@ -1,10 +1,7 @@
 package com.mindscriptact.mvcExpressLogger.screens {
 import com.bit101.components.Label;
-import com.bit101.components.Text;
-import com.bit101.components.TextArea;
 import flash.display.Sprite;
-import flash.text.TextFieldAutoSize;
-import flash.utils.setTimeout;
+import flash.utils.getQualifiedClassName;
 
 /**
  * COMMENT
@@ -32,7 +29,22 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		trace("MvcExpressVisualizerScreen.updateProxies > listMappedProxies : " + listMappedProxies);
 	}
 	
+	//----------------------------------
+	//     mediators
+	//----------------------------------
+	
 	public function addMediators(mediators:Vector.<Object>):void {
+		// remove old mediators
+		if (this.mediators) {
+			for (var k:int = 0; k < this.mediators.length; k++) {
+				if (this.mediators[k].view) {
+					if (this.contains(this.mediators[k].view)) {
+						this.removeChild(this.mediators[k].view);
+					}
+				}
+			}
+		}
+		//
 		if (mediators) {
 			this.mediators = mediators;
 			//trace("MvcExpressVisualizerScreen.addMediators > mediators : " + mediators);
@@ -41,6 +53,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 			for (var j:int = 0; j < mediators.length; j++) {
 				mediators[j].view.y = j * 20 + 50;
+				redrawMediatorDependencies(mediators[j]);
 			}
 		}
 	}
@@ -60,15 +73,54 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	}
 	
 	public function removeMediatorFromPossition(possition:int):void {
-		if (this.contains(mediators[possition].view)) {
+		if (mediators[possition] && this.contains(mediators[possition].view)) {
 			this.removeChild(mediators[possition].view);
 		}
 		for (var i:int = possition + 1; i < mediators.length; i++) {
 			mediators[i].view.y = (i - 1) * 20 + 50;
+			redrawMediatorDependencies(mediators[i]);
 		}
 	}
 	
+	private function redrawMediatorDependencies(mediatorObject:Object):void {
+		var dependencies:Vector.<Object> = mediatorObject.dependencies
+		if (dependencies) {
+			mediatorObject.view.graphics.clear();
+			for (var i:int = 0; i < dependencies.length; i++) {
+				drawMediatorDependency(mediatorObject, dependencies[i]);
+			}
+		}
+	}
+	
+	public function drawMediatorDependency(mediatorObject:Object, injectedObject:Object):void {
+		for (var i:int = 0; i < proxies.length; i++) {
+			if (proxies[i].proxyObject == injectedObject) {
+				var mediatorLabel:Label = (mediatorObject.view as Label);
+				mediatorLabel.graphics.lineStyle(1, 0xFF8000, 0.5);
+				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
+				mediatorLabel.graphics.lineTo(proxies[i].view.x - mediatorLabel.x, proxies[i].view.y - mediatorLabel.y + 5);
+				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
+				mediatorLabel.graphics.lineTo(mediatorLabel.width + 5, 5 - 2);
+				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
+				mediatorLabel.graphics.lineTo(mediatorLabel.width + 5, 5 + 2);
+			}
+		}
+	}
+	
+	//----------------------------------
+	//     proxies
+	//----------------------------------
+	
 	public function addProxies(proxies:Vector.<Object>):void {
+		// remove old proxies
+		if (this.proxies) {
+			for (var k:int = 0; k < this.proxies.length; k++) {
+				if (this.contains(this.proxies[k].view)) {
+					this.removeChild(this.proxies[k].view);
+				}
+			}
+		}
+		//
 		if (proxies) {
 			this.proxies = proxies;
 		}
@@ -77,13 +129,14 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		}
 		for (var j:int = 0; j < proxies.length; j++) {
 			proxies[j].view.y = j * 20 + 50;
+			redrawProxyDependencies(proxies[j]);
 		}
 	}
 	
 	public function addProxy(proxyLogObj:Object):void {
 		var proxyLabel:Label;
 		if (proxyLogObj.view == null) {
-			proxyLogObj.view = new Label(null, 5, 0, proxyLogObj.proxyObject + "-" + proxyLogObj.injectClass + proxyLogObj.name);
+			proxyLogObj.view = new Label(null, 5, 0, proxyLogObj.proxyObject + "-" + proxyLogObj.injectClass + " " + proxyLogObj.name);
 			(proxyLogObj.view as Label).textField.borderColor = 0x3E3EFF;
 			(proxyLogObj.view as Label).textField.border = true;
 		}
@@ -95,11 +148,38 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	}
 	
 	public function removeProxyFromPossition(possition:int):void {
-		if (this.contains(proxies[possition].view)) {
+		if (proxies[possition] && this.contains(proxies[possition].view)) {
 			this.removeChild(proxies[possition].view);
 		}
 		for (var i:int = possition + 1; i < proxies.length; i++) {
 			proxies[i].view.y = (i - 1) * 20 + 50;
+			redrawProxyDependencies(proxies[i]);
+		}
+	}
+	
+	private function redrawProxyDependencies(proxyObject:Object):void {
+		var dependencies:Vector.<Object> = proxyObject.dependencies
+		if (dependencies) {
+			proxyObject.view.graphics.clear();
+			for (var i:int = 0; i < dependencies.length; i++) {
+				drawProxyDependency(proxyObject, dependencies[i]);
+			}
+		}
+	}
+	
+	public function drawProxyDependency(proxyObject:Object, injectedObject:Object):void {
+		for (var i:int = 0; i < proxies.length; i++) {
+			if (proxies[i].proxyObject == injectedObject) {
+				var proxyLabel:Label = (proxyObject.view as Label);
+				proxyLabel.graphics.lineStyle(1, 0xFF00FF, 0.5);
+				proxyLabel.graphics.moveTo(0, 15);
+				proxyLabel.graphics.curveTo(-50, 15, proxies[i].view.x - proxyLabel.x, proxies[i].view.y - proxyLabel.y + 17);
+				proxyLabel.graphics.moveTo(0, 15);
+				proxyLabel.graphics.lineTo(-5, 15 - 2);
+				proxyLabel.graphics.moveTo(0, 15);
+				proxyLabel.graphics.lineTo(-5, 15 + 2);
+				
+			}
 		}
 	}
 

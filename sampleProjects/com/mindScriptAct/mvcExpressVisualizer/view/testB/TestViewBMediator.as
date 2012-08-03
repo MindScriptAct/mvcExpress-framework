@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer.view.testB {
+import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -10,8 +11,8 @@ public class TestViewBMediator extends Mediator{
 	[Inject]
 	public var view:TestViewB;
 	
-	//[Inject]
-	//public var myProxy:MyProxy;
+	[Inject(name="BProxyName")]
+	public var testProxyB:ITestProxyB;
 	
 	override public function onRegister():void{
 		
