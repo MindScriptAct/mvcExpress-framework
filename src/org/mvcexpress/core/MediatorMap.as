@@ -106,7 +106,7 @@ public class MediatorMap implements IMediatorMap {
 					MvcExpress.debugFunction("§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass);
 				}
 				if (MvcExpress.loggerFunction != null) {
-					MvcExpress.loggerFunction({action: "MediatorMap.mediate", moduleName: moduleName, viewObject: viewObject, mediatorObject: mediator, viewClass: viewClass, mediatorClass: mediatorClass});
+					MvcExpress.loggerFunction({action: "MediatorMap.mediate", moduleName: moduleName, viewObject: viewObject, mediatorObject: mediator, viewClass: viewClass, mediatorClass: mediatorClass, mediatorClassName: getQualifiedClassName(mediatorClass)});
 				}
 			}
 			

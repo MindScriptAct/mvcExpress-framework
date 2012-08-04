@@ -18,12 +18,31 @@ public class TestViewAMediator extends Mediator {
 	public var testProxyA:TestProxyA;
 	
 	override public function onRegister():void {
-		var pushButton:PushButton = new PushButton(view, 20, 50, "Send A mediator message", handleSendTestMessage);
+		var pushButton:PushButton;
+		pushButton = new PushButton(view, 15, 50, "Send command message", handleSendCommandMessage);
 		pushButton.width = 150;
+		pushButton = new PushButton(view, 15, 75, "Send mediator message", handleSendMediatorMessage);
+		pushButton.width = 150;
+		pushButton = new PushButton(view, 15, 100, "Triger proxy", handleSendProxyMessage);
+		pushButton.width = 150;
+		
+		addHandler(Message.TEST_MESSAGE_TO_MEDIATORS_A, handleMediatorTest);
 	}
 	
-	private function handleSendTestMessage(event:Event):void {
+	private function handleMediatorTest(blank:Object):void {
+	
+	}
+	
+	private function handleSendCommandMessage(event:Event):void {
 		sendMessage(Message.TEST_MEDIATOR_A_COMMAND, "A params..");
+	}
+	
+	private function handleSendMediatorMessage(event:Event):void {
+		sendMessage(Message.TEST_MESSAGE_TO_MEDIATORS_B);
+	}
+	
+	private function handleSendProxyMessage(event:Event):void {
+	
 	}
 	
 	override public function onRemove():void {

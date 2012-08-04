@@ -134,13 +134,22 @@ public class Mediator {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
-		use namespace pureLegsCore;
+		// log the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction( { action: "Mediator.sendMessage", mediatorObject: this, type: type, params: params } );
+				MvcExpress.loggerFunction({action: "Mediator.sendMessage", mediatorObject: this, type: type, params: params});
 			}
 		}
+		//
+		use namespace pureLegsCore;
 		messenger.send(type, params);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Mediator.sendMessage.CLEAN", mediatorObject: this, type: type, params: params});
+			}
+		}
 	}
 	
 	/**
@@ -170,6 +179,9 @@ public class Mediator {
 			}
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
+			}
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Mediator.addHandler", moduleName: messenger.moduleName, mediatorObject: this, type: type, handler: handler});
 			}
 			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;

@@ -142,6 +142,10 @@ public class Messenger {
 							type
 							/* Failed handler class: */
 							handlerVo.handlerClassName
+							//
+							if (MvcExpress.loggerFunction != null) {
+								MvcExpress.loggerFunction({action: "Messenger.send.HANDLER", moduleName: moduleName, type: type, params: params, handler: handlerVo.handler, handlerClassName: handlerVo.handlerClassName});
+							}
 						}
 						handlerVo.handler(params);
 					}

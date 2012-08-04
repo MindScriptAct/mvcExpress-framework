@@ -1,6 +1,7 @@
 package com.mindscriptact.mvcExpressLogger.visualizer {
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import flash.utils.Dictionary;
+import org.flexunit.async.AsyncNativeTestResponder;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
@@ -149,8 +150,34 @@ public class VisualizerManager {
 					}
 				}
 				break;
+			case "Mediator.addHandler": 
+				// add handler to mediator
+				mediators = getModuleMediators(logObj.moduleName);
+				for (var k:int = 0; k < mediators.length; k++) {
+					if (mediators[k].mediatorObject == logObj.mediatorObject) {
+						if (!mediators[k].handleObjects) {
+							mediators[k].handleObjects = new Vector.<Object>();
+						}
+						mediators[k].handleObjects.push(logObj);
+					}
+				}
+				break;
 			case "Mediator.sendMessage": 
 				sendMessageStack.push(logObj);
+				break;
+			case "Mediator.sendMessage.CLEAN": 
+				topObject = sendMessageStack.pop();
+				if (logObj.type != topObject.type) {
+					CONFIG::debug {
+						throw Error("NOT HANDLED:" + logObj);
+					}
+				} else {
+					if (logObj.params != topObject.params) {
+						CONFIG::debug {
+							throw Error("NOT HANDLED:" + logObj);
+						}
+					}
+				}
 				break;
 			case "Messenger.send": 
 				topObject = sendMessageStack[sendMessageStack.length - 1];
@@ -184,7 +211,59 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			
+			case "Messenger.send.HANDLER": 
+				if (mvcExpressVisualizerScreen) {
+					if (currentModuleName == logObj.moduleName) {
+						//
+						topObject = sendMessageStack[sendMessageStack.length - 1];
+						if (topObject) {
+							if (logObj.type == topObject.type) {
+								if (logObj.params == topObject.params) {
+									if (topObject.moduleName == logObj.moduleName) {
+										// ALL IS GOOD...
+										// find mediator with handler function.
+										mediators = getModuleMediators(logObj.moduleName);
+										for (var l:int = 0; l < mediators.length; l++) {
+											if (mediators[l].mediatorClassName == logObj.handlerClassName) {
+												var handlerObjects:Vector.<Object> = mediators[l].handleObjects;
+												if (handlerObjects) {
+													for (var m:int = 0; m < handlerObjects.length; m++) {
+														if (handlerObjects[m].handler == logObj.handler) {
+															if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
+																if (topObject.mediatorObject) {
+																	logObj.messageFromMediator = topObject.mediatorObject;
+																}
+															}
+															this.mvcExpressVisualizerScreen.drawMessageToMediator(logObj, l);
+														}
+													}
+												}
+											}
+										}
+										
+									} else {
+										CONFIG::debug {
+											throw Error("NOT HANDLED:" + logObj);
+										}
+									}
+								} else {
+									CONFIG::debug {
+										throw Error("NOT HANDLED:" + logObj);
+									}
+								}
+							} else {
+								CONFIG::debug {
+									throw Error("NOT HANDLED:" + logObj);
+								}
+							}
+						} else {
+							CONFIG::debug {
+								throw Error("NOT HANDLED:" + logObj);
+							}
+						}
+					}
+				}
+				break;
 			default: 
 				CONFIG::debug {
 				throw Error("NOT HANDLED:" + logObj);
