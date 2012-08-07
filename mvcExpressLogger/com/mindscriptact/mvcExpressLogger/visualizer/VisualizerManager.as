@@ -146,6 +146,8 @@ public class VisualizerManager {
 								logObj.messageFromMediator = topObject.mediatorObject;
 							} else if (topObject.proxyObject) {
 								logObj.messageFromProxy = topObject.proxyObject;
+							} else if (topObject.commandObject) {
+								logObj.messageFromCommand = topObject.commandObject;								
 							} else {
 								CONFIG::debug {
 									throw Error("NOT HANDLED:" + logObj);
@@ -170,10 +172,12 @@ public class VisualizerManager {
 				break;
 			case "Mediator.sendMessage": 
 			case "Proxy.sendMessage": 
+			case "Command.sendMessage": 
 				sendMessageStack.push(logObj);
 				break;
 			case "Mediator.sendMessage.CLEAN": 
 			case "Proxy.sendMessage.CLEAN": 
+			case "Command.sendMessage.CLEAN": 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {
@@ -243,6 +247,8 @@ public class VisualizerManager {
 																	logObj.messageFromMediator = topObject.mediatorObject;
 																} else if (topObject.proxyObject) {
 																	logObj.messageFromProxy = topObject.proxyObject;
+																} else if (topObject.commandObject) {
+																	logObj.messageFromCommand = topObject.commandObject;																	
 																} else {
 																	CONFIG::debug {
 																		throw Error("NOT HANDLED:" + logObj);
@@ -250,7 +256,6 @@ public class VisualizerManager {
 																}
 																this.mvcExpressVisualizerScreen.drawMessageToMediator(logObj, l);
 															}
-															
 														}
 													}
 												}

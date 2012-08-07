@@ -63,6 +63,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		commandMap.map(Message.TEST_MEDIATOR_A_COMMAND, TestCommandA);
 		commandMap.map(Message.TEST_MEDIATOR_B_COMMAND, TestCommandB);
 		commandMap.map(Message.TEST_PROXY_TO_COMMAND, TestCommandBlank);
+		commandMap.map(Message.TEST_COMMAND_TO_COMMAND, TestCommandBlank);
 		
 		// set up data
 		proxyMap.map(new TestProxyA());

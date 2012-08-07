@@ -29,6 +29,7 @@ public class TestViewBMediator extends Mediator {
 		
 		addHandler(Message.TEST_MESSAGE_TO_MEDIATORS_B, handleMediatorTest);
 		addHandler(Message.TEST_PROXY_TO_MEDIATOR, handleProxyTest);
+		addHandler(Message.TEST_COMMAND_TO_MEDIATOR, handleCommandTest);
 	}
 	
 	private function handleSendCommandMessage(event:Event):void {
@@ -52,6 +53,10 @@ public class TestViewBMediator extends Mediator {
 	}
 	
 	private function handleMediatorTest(blank:Object):void {
+		// do nothing.
+	}
+	
+	private function handleCommandTest(blank:Object):void {
 		// do nothing.
 	}
 }

@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer.controller {
+import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import org.mvcexpress.mvc.Command;
 
@@ -12,7 +13,7 @@ public class TestCommandA extends Command {
 	public var testProxyA:TestProxyA;
 	
 	public function execute(testText:String):void {
-	
+		sendMessage(Message.TEST_COMMAND_TO_MEDIATOR);
 	}
 
 }

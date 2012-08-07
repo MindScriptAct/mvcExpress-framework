@@ -171,6 +171,35 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						}
 					}
 				}
+				// handle message from command
+				messageFromObject = messageLogObj.messageFromCommand;
+				if (messageFromObject) {
+					for (var m:int = 0; m < commands.length; m++) {
+						if (commands[m].commandObject == messageFromObject) {
+							var sourceCommandLabel:Label = commands[m].view;
+							if (sourceCommandLabel) {
+								
+								messageShape = new Shape();
+								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
+								messageShape.graphics.lineTo(50, (sourceCommandLabel.y - mediatorLabel.y) * 0.2);
+								messageShape.graphics.lineTo(450 - 300 - sourceCommandLabel.width / 2, sourceCommandLabel.y - mediatorLabel.y);
+								
+								messageShape.graphics.moveTo(0, 0);
+								messageShape.graphics.lineTo(10, -2);
+								messageShape.graphics.lineTo(10, 2);
+								messageShape.graphics.lineTo(0, 0);
+								
+								messageShape.x = mediatorLabel.width;
+								messageShape.y = 10;
+								mediatorLabel.addChild(messageShape);
+								
+								setTimeout(hideShape, 1500, messageShape);
+							}
+							break;
+						}
+					}
+				}
+				
 			}
 		}
 	}
@@ -325,6 +354,34 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						commandLabel.graphics.lineTo(commandLabel.width + 10, 10 - 2);
 						commandLabel.graphics.lineTo(commandLabel.width + 10, 10 + 2);
 						commandLabel.graphics.lineTo(commandLabel.width, 10);
+					}
+					break;
+				}
+			}
+		}
+		
+		// handle message from command
+		messageFromObject = commandLogObj.messageFromCommand;
+		if (messageFromObject) {
+			for (var m:int = 0; m < commands.length; m++) {
+				if (commands[m].commandObject == messageFromObject) {
+					var anotherCommandLabel:Label = commands[m].view;
+					if (anotherCommandLabel) {
+						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
+						commandLabel.graphics.moveTo(0, 10);
+						commandLabel.graphics.lineTo( - anotherCommandLabel.width / 2 + commandLabel.width / 2 - 30, //
+							//-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
+							5
+							);
+							
+						commandLabel.graphics.lineTo( - anotherCommandLabel.width / 2 + commandLabel.width / 2, //
+							-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
+							);
+						
+						commandLabel.graphics.moveTo(0, 10);
+						commandLabel.graphics.lineTo(0 - 10, 10 - 2);
+						commandLabel.graphics.lineTo(0 - 10, 10 + 2);
+						commandLabel.graphics.lineTo(0, 10);
 					}
 					break;
 				}

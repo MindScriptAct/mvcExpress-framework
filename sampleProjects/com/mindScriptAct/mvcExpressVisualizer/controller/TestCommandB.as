@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer.controller {
+import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyB;
@@ -18,7 +19,7 @@ public class TestCommandB extends Command {
 	public var testProxyB:ITestProxyB;
 	
 	public function execute(testPoint:Point):void {
-	
+		sendMessage(Message.TEST_COMMAND_TO_COMMAND);
 	}
 
 }

@@ -5,6 +5,7 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Command, handles business logic of your application. 												</br>
@@ -43,8 +44,22 @@ dynamic public class Command {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
+		// log the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Command.sendMessage", commandObject: this, type: type, params: params});
+			}
+		}
+		//
 		use namespace pureLegsCore;
 		messenger.send(type, params);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Command.sendMessage.CLEAN", commandObject: this, type: type, params: params});
+			}
+		}
 	}
 	
 	/**
