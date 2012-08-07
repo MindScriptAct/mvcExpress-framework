@@ -4,6 +4,7 @@ import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>
@@ -36,8 +37,22 @@ public class Proxy {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
+		// log the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Proxy.sendMessage", proxyObject: this, type: type, params: params});
+			}
+		}
+		//
 		use namespace pureLegsCore;
 		messenger.send(type, params);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "Proxy.sendMessage.CLEAN", proxyObject: this, type: type, params: params});
+			}
+		}
 	}
 	
 	/**

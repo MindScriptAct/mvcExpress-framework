@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer.model {
+import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import org.mvcexpress.mvc.Proxy;
 
 /**
@@ -25,7 +26,7 @@ public class TestProxyB extends Proxy implements ITestProxyB {
 	/* INTERFACE com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB */
 	
 	public function testFunction():void {
-	
+		sendMessage(Message.TEST_PROXY_TO_COMMAND);
 	}
 }
 }

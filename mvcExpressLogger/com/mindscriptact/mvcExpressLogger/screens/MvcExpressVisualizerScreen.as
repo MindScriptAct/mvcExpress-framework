@@ -110,12 +110,13 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	}
 	
 	public function drawMessageToMediator(messageLogObj:Object, possition:int):void {
+		var messageFromObject:Object;
 		var messageShape:Shape;
 		if (mediators[possition]) {
 			var mediatorLabel:Label = mediators[possition].view;
 			if (mediatorLabel) {
 				// handle message from mediator
-				var messageFromObject:Object = messageLogObj.messageFromMediator;
+				messageFromObject = messageLogObj.messageFromMediator;
 				if (messageFromObject) {
 					for (var j:int = 0; j < mediators.length; j++) {
 						if (mediators[j].mediatorObject == messageFromObject) {
@@ -126,6 +127,34 @@ public class MvcExpressVisualizerScreen extends Sprite {
 								messageShape.graphics.lineStyle(2, 0xD9FFD9, 0.3);
 								messageShape.graphics.lineTo(50, (sourceMediatorLabel.y - mediatorLabel.y) * 0.2);
 								messageShape.graphics.lineTo(0, sourceMediatorLabel.y - mediatorLabel.y);
+								
+								messageShape.graphics.moveTo(0, 0);
+								messageShape.graphics.lineTo(10, -2);
+								messageShape.graphics.lineTo(10, 2);
+								messageShape.graphics.lineTo(0, 0);
+								
+								messageShape.x = mediatorLabel.width;
+								messageShape.y = 10;
+								mediatorLabel.addChild(messageShape);
+								
+								setTimeout(hideShape, 1500, messageShape);
+							}
+							break;
+						}
+					}
+				}
+				// handle message from proxy
+				messageFromObject = messageLogObj.messageFromProxy;
+				if (messageFromObject) {
+					for (var k:int = 0; k < proxies.length; k++) {
+						if (proxies[k].proxyObject == messageFromObject) {
+							var sourceProxyLabel:Label = proxies[k].view;
+							if (sourceProxyLabel) {
+								
+								messageShape = new Shape();
+								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
+								//messageShape.graphics.lineTo(50, (sourceProxyLabel.y - mediatorLabel.y) * 0.2);
+								messageShape.graphics.lineTo(600 - 300, sourceProxyLabel.y - mediatorLabel.y);
 								
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
@@ -234,6 +263,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	//----------------------------------
 	
 	public function addCommand(commandLogObj:Object):void {
+		var messageFromObject:Object;
 		var commandPosition:int = -1;
 		//
 		for (var i:int = 0; i < commands.length; i++) {
@@ -262,7 +292,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		this.addChild(commandLabel);
 		
 		// handle message from mediator
-		var messageFromObject:Object = commandLogObj.messageFromMediator;
+		messageFromObject = commandLogObj.messageFromMediator;
 		if (messageFromObject) {
 			for (var j:int = 0; j < mediators.length; j++) {
 				if (mediators[j].mediatorObject == messageFromObject) {
@@ -275,6 +305,26 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						commandLabel.graphics.lineTo(-10, 10 - 2);
 						commandLabel.graphics.lineTo(-10, 10 + 2);
 						commandLabel.graphics.lineTo(0, 10);
+					}
+					break;
+				}
+			}
+		}
+		// handle message from proxy
+		messageFromObject = commandLogObj.messageFromProxy;
+		if (messageFromObject) {
+			for (var k:int = 0; k < proxies.length; k++) {
+				if (proxies[k].proxyObject == messageFromObject) {
+					var proxyLabel:Label = proxies[k].view;
+					if (proxyLabel) {
+						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
+						commandLabel.graphics.moveTo(commandLabel.width, 10);
+						commandLabel.graphics.lineTo(-commandLabel.x + proxyLabel.x, -commandLabel.y + proxyLabel.y + proxyLabel.height - 10);
+						//
+						commandLabel.graphics.moveTo(commandLabel.width, 10);
+						commandLabel.graphics.lineTo(commandLabel.width + 10, 10 - 2);
+						commandLabel.graphics.lineTo(commandLabel.width + 10, 10 + 2);
+						commandLabel.graphics.lineTo(commandLabel.width, 10);
 					}
 					break;
 				}

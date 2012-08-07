@@ -144,6 +144,12 @@ public class VisualizerManager {
 						if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
 							if (topObject.mediatorObject) {
 								logObj.messageFromMediator = topObject.mediatorObject;
+							} else if (topObject.proxyObject) {
+								logObj.messageFromProxy = topObject.proxyObject;
+							} else {
+								CONFIG::debug {
+									throw Error("NOT HANDLED:" + logObj);
+								}
 							}
 						}
 						this.mvcExpressVisualizerScreen.addCommand(logObj);
@@ -163,9 +169,11 @@ public class VisualizerManager {
 				}
 				break;
 			case "Mediator.sendMessage": 
+			case "Proxy.sendMessage": 
 				sendMessageStack.push(logObj);
 				break;
 			case "Mediator.sendMessage.CLEAN": 
+			case "Proxy.sendMessage.CLEAN": 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {
@@ -230,17 +238,24 @@ public class VisualizerManager {
 													for (var m:int = 0; m < handlerObjects.length; m++) {
 														if (handlerObjects[m].handler == logObj.handler) {
 															if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
+																// remember there message comes from.
 																if (topObject.mediatorObject) {
 																	logObj.messageFromMediator = topObject.mediatorObject;
+																} else if (topObject.proxyObject) {
+																	logObj.messageFromProxy = topObject.proxyObject;
+																} else {
+																	CONFIG::debug {
+																		throw Error("NOT HANDLED:" + logObj);
+																	}
 																}
+																this.mvcExpressVisualizerScreen.drawMessageToMediator(logObj, l);
 															}
-															this.mvcExpressVisualizerScreen.drawMessageToMediator(logObj, l);
+															
 														}
 													}
 												}
 											}
 										}
-										
 									} else {
 										CONFIG::debug {
 											throw Error("NOT HANDLED:" + logObj);

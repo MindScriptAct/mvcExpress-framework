@@ -42,7 +42,7 @@ public class TestViewAMediator extends Mediator {
 	}
 	
 	private function handleSendProxyMessage(event:Event):void {
-	
+		testProxyA.changeSomething();
 	}
 	
 	override public function onRemove():void {

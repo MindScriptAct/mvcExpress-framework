@@ -28,10 +28,7 @@ public class TestViewBMediator extends Mediator {
 		pushButton.width = 150;
 		
 		addHandler(Message.TEST_MESSAGE_TO_MEDIATORS_B, handleMediatorTest);
-	}
-	
-	private function handleMediatorTest(blank:Object):void {
-	
+		addHandler(Message.TEST_PROXY_TO_MEDIATOR, handleProxyTest);
 	}
 	
 	private function handleSendCommandMessage(event:Event):void {
@@ -43,12 +40,19 @@ public class TestViewBMediator extends Mediator {
 	}
 	
 	private function handleSendProxyMessage(event:Event):void {
-	
+		testProxyB.testFunction();
 	}
 	
 	override public function onRemove():void {
-	
+		// do nothing.
 	}
-
+	
+	private function handleProxyTest(blank:Object):void {
+		// do nothing.
+	}
+	
+	private function handleMediatorTest(blank:Object):void {
+		// do nothing.
+	}
 }
 }

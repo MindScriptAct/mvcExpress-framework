@@ -5,6 +5,7 @@ import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandA;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandB;
+import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandBlank;
 import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
@@ -40,6 +41,8 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	private var testViewB2:TestViewB;
 	private var testProxyCButton:PushButton;
 	private var testProxyC:TestProxyC;
+	private var testMessageB1Button:PushButton;
+	private var testMessageB2Button:PushButton;
 	
 	public function VisualLoggerTestModule() {
 		CONFIG::debug {
@@ -59,6 +62,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		commandMap.map(Message.TEST_COMMAND_B, TestCommandB);
 		commandMap.map(Message.TEST_MEDIATOR_A_COMMAND, TestCommandA);
 		commandMap.map(Message.TEST_MEDIATOR_B_COMMAND, TestCommandB);
+		commandMap.map(Message.TEST_PROXY_TO_COMMAND, TestCommandBlank);
 		
 		// set up data
 		proxyMap.map(new TestProxyA());
@@ -79,10 +83,10 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		testViewB1Button = new PushButton(this, 10, 530, "Add TestViewB 1", handleAddMediatorB1);
 		testViewB2Button = new PushButton(this, 150, 530, "Add TestViewB 2", handleAddMediatorB2);
 		
-		testViewB1Button = new PushButton(this, 300, 500, "Module:Execute CommandA", handleCommandA);
-		testViewB1Button.width = 150;
-		testViewB2Button = new PushButton(this, 300, 530, "Module:Send message", handleCommandB);
-		testViewB2Button.width = 150;
+		testMessageB1Button = new PushButton(this, 300, 500, "Module:Execute CommandA", handleCommandA);
+		testMessageB1Button.width = 150;
+		testMessageB2Button = new PushButton(this, 300, 530, "Module:Send message", handleCommandB);
+		testMessageB2Button.width = 150;
 		
 		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
 		
