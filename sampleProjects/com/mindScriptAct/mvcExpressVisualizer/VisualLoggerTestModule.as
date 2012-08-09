@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer {
+import com.bit101.components.Label;
 import com.bit101.components.PushButton;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.ModuleNames;
@@ -19,6 +20,7 @@ import com.mindScriptAct.mvcExpressVisualizer.view.testA.TestViewAMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewB;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewBMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator;
+import flash.display.Shape;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
@@ -43,11 +45,12 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	private var testProxyC:TestProxyC;
 	private var testMessageB1Button:PushButton;
 	private var testMessageB2Button:PushButton;
+	private var testMessageB3Button:PushButton;
 	
 	public function VisualLoggerTestModule() {
 		CONFIG::debug {
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
-			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true);
+			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true, MvcExpressLogger.VISUALIZER_TAB);
 		}
 		super(ModuleNames.SHELL);
 		//
@@ -56,7 +59,21 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	}
 	
 	override protected function onInit():void {
+		var moduleLabel:Label;
+		var roundRectangle:Shape;
 		trace("ModularSampleShellModule.onInit");
+		
+		// shell module area
+		roundRectangle = new Shape();
+		roundRectangle.graphics.lineStyle(2, 0x000000);
+		roundRectangle.graphics.beginFill(0xE1E1FF);
+		roundRectangle.graphics.drawRoundRect(5, 5, 570, 590, 20);
+		roundRectangle.graphics.endFill();
+		this.addChild(roundRectangle);
+		
+		moduleLabel = new Label(this, 10, 5, "MODULE:shell");
+		moduleLabel.textField.textColor = 0x000000;
+		
 		
 		// set up controller
 		commandMap.map(Message.TEST_COMMAND_B, TestCommandB);
@@ -85,17 +102,39 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		testViewB2Button = new PushButton(this, 150, 530, "Add TestViewB 2", handleAddMediatorB2);
 		
 		testMessageB1Button = new PushButton(this, 300, 500, "Module:Execute CommandA", handleCommandA);
-		testMessageB1Button.width = 150;
-		testMessageB2Button = new PushButton(this, 300, 530, "Module:Send message", handleCommandB);
-		testMessageB2Button.width = 150;
+		testMessageB1Button.width = 170;
+		testMessageB2Button = new PushButton(this, 300, 530, "Module: message to command", handleCommandB);
+		testMessageB3Button = new PushButton(this, 300, 555, "Module: message to mediator", handleCommandC);
+		testMessageB2Button.width = 170;
+		testMessageB3Button.width = 170;
 		
 		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
+		
+
+		
+		
+		
+		
+		
+		
+		// console module area
+		roundRectangle = new Shape();
+		roundRectangle.graphics.lineStyle(2, 0x000000);
+		roundRectangle.graphics.beginFill(0xE1E1FF);
+		roundRectangle.graphics.drawRoundRect(600, 430, 380, 170, 20);
+		roundRectangle.graphics.endFill();
+		this.addChild(roundRectangle);
+		
+		moduleLabel = new Label(this, 600+10, 430+5, "MODULE:Console0");
+		moduleLabel.textField.textColor = 0x000000;
 		
 		var console:Console = new Console();
 		this.addChild(console);
 		console.x = 600;
 		console.y = 450;
 	}
+	
+
 	
 	private function handleAddProxyC(event:Event):void {
 		if (testProxyC) {
@@ -120,6 +159,8 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			this.addChild(testViewA1);
 			mediatorMap.mediate(testViewA1);
 			testViewA1Button.label = "Remove TestViewA 1";
+			testViewA1.x = 20;
+			testViewA1.y = 20;
 		}
 	}
 	
@@ -135,6 +176,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			mediatorMap.mediate(testViewA2);
 			testViewA2Button.label = "Remove TestViewA 2";
 			testViewA2.x = 300;
+			testViewA2.y = 20;
 		}
 	}
 	
@@ -144,11 +186,13 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			this.removeChild(testViewB1);
 			testViewB1 = null;
 			testViewB1Button.label = "Add TestViewB 1";
+			
 		} else {
 			testViewB1 = new TestViewB();
 			this.addChild(testViewB1);
 			mediatorMap.mediate(testViewB1);
 			testViewB1Button.label = "Remove TestViewB 1";
+			testViewB1.x = 20;
 			testViewB1.y = 200;
 		}
 	}
@@ -175,6 +219,10 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	
 	private function handleCommandB(event:Event):void {
 		sendMessage(Message.TEST_COMMAND_B, new Point(10, 20));
+	}
+	
+	private function handleCommandC(event:Event):void {
+		sendMessage(Message.TEST_MODULE_TO_MEDIATORS_A);
 	}
 
 }

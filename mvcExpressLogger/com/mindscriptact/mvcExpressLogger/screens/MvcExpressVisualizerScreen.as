@@ -14,6 +14,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	private var mediators:Vector.<Object>;
 	private var proxies:Vector.<Object>;
 	private var commands:Vector.<Object> = new Vector.<Object>();
+	private var currentModuleName:String;
+	private var moduleLabel:Label;
+	static private const PROXY_START_X:Number = 600;
+	static private const MEDIATOR_END_X:Number = 300;
+	static private const COMMAND_MIDDLE_X:Number = (PROXY_START_X + MEDIATOR_END_X) / 2;
 	
 	public function MvcExpressVisualizerScreen(screenWidth:int, screenHeight:int) {
 		this.screenWidth = screenWidth;
@@ -29,6 +34,28 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	
 	public function updateProxies(listMappedProxies:String):void {
 		trace("MvcExpressVisualizerScreen.updateProxies > listMappedProxies : " + listMappedProxies);
+	}
+	
+	//----------------------------------
+	//     module
+	//----------------------------------
+	
+	public function showModule(currentModuleName:String):void {
+		this.currentModuleName = currentModuleName;
+		// remove old
+		if (moduleLabel) {
+			this.removeChild(moduleLabel);
+		}
+		moduleLabel = new Label(this, 0, 15, "MODULE:" + currentModuleName);
+		moduleLabel.textField.borderColor = 0xFFFFFF;
+		moduleLabel.textField.border = true;
+		moduleLabel.x = COMMAND_MIDDLE_X - moduleLabel.width / 2;
+		//
+		var rectangle:Shape = new Shape();
+		rectangle.graphics.lineStyle(3, 0xFFFFFF);
+		rectangle.graphics.drawRect(-3, -3, moduleLabel.width + 6, moduleLabel.height + 6);
+		moduleLabel.addChild(rectangle);
+	
 	}
 	
 	//----------------------------------
@@ -69,7 +96,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		}
 		mediatorLabel = mediatorLogObj.view;
 		//
-		mediatorLabel.x = 300 - mediatorLabel.width;
+		mediatorLabel.x = MEDIATOR_END_X - mediatorLabel.width;
 		mediatorLabel.y = (mediators.length - 1) * 20 + 50;
 		this.addChild(mediatorLabel);
 	}
@@ -115,6 +142,28 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		if (mediators[possition]) {
 			var mediatorLabel:Label = mediators[possition].view;
 			if (mediatorLabel) {
+				// handle message from module
+				messageFromObject = messageLogObj.messageFromModule;
+				if (messageFromObject) {
+					if (moduleLabel) {
+						messageShape = new Shape();
+						messageShape.graphics.lineStyle(2, 0xE8E8E8, 0.3);
+						messageShape.graphics.lineTo(40, (moduleLabel.y - mediatorLabel.y) * 0.2);
+						messageShape.graphics.lineTo(60, (moduleLabel.y - mediatorLabel.y) * 0.8);
+						messageShape.graphics.lineTo(moduleLabel.x - mediatorLabel.x - mediatorLabel.width, moduleLabel.y - mediatorLabel.y);
+						
+						messageShape.graphics.moveTo(0, 0);
+						messageShape.graphics.lineTo(10, -2);
+						messageShape.graphics.lineTo(10, 2);
+						messageShape.graphics.lineTo(0, 0);
+						
+						messageShape.x = mediatorLabel.width;
+						messageShape.y = 10;
+						mediatorLabel.addChild(messageShape);
+						
+						setTimeout(hideShape, 1500, messageShape);
+					}
+				}
 				// handle message from mediator
 				messageFromObject = messageLogObj.messageFromMediator;
 				if (messageFromObject) {
@@ -154,7 +203,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 								messageShape = new Shape();
 								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
 								//messageShape.graphics.lineTo(50, (sourceProxyLabel.y - mediatorLabel.y) * 0.2);
-								messageShape.graphics.lineTo(600 - 300, sourceProxyLabel.y - mediatorLabel.y);
+								messageShape.graphics.lineTo(PROXY_START_X - MEDIATOR_END_X, sourceProxyLabel.y - mediatorLabel.y);
 								
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
@@ -182,7 +231,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 								messageShape = new Shape();
 								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
 								messageShape.graphics.lineTo(50, (sourceCommandLabel.y - mediatorLabel.y) * 0.2);
-								messageShape.graphics.lineTo(450 - 300 - sourceCommandLabel.width / 2, sourceCommandLabel.y - mediatorLabel.y);
+								messageShape.graphics.lineTo(COMMAND_MIDDLE_X - MEDIATOR_END_X - sourceCommandLabel.width / 2, sourceCommandLabel.y - mediatorLabel.y);
 								
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
@@ -247,7 +296,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		}
 		proxyLabel = proxyLogObj.view;
 		//
-		proxyLabel.x = 600;
+		proxyLabel.x = PROXY_START_X;
 		proxyLabel.y = (proxies.length - 1) * 20 + 50;
 		this.addChild(proxyLabel);
 	}
@@ -316,9 +365,26 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		}
 		commandLabel = commandLogObj.view;
 		//
-		commandLabel.x = 450 - (commandLabel.width >> 1);
+		commandLabel.x = COMMAND_MIDDLE_X - (commandLabel.width >> 1);
 		commandLabel.y = commandPosition * 20 + 60;
 		this.addChild(commandLabel);
+		
+		// handle message from module
+		messageFromObject = commandLogObj.messageFromModule;
+		if (messageFromObject) {
+			if (moduleLabel) {
+				commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
+				commandLabel.graphics.moveTo(0, 10);
+				commandLabel.graphics.lineTo(-30, moduleLabel.y - commandLabel.y * 0.2);
+				commandLabel.graphics.lineTo(-20, moduleLabel.y - commandLabel.y * 0.8);
+				commandLabel.graphics.lineTo( -commandLabel.x + moduleLabel.x, -commandLabel.y + moduleLabel.y + moduleLabel.height - 10);
+				
+				commandLabel.graphics.moveTo(0, 10);
+				commandLabel.graphics.lineTo(-10, 10 - 2);
+				commandLabel.graphics.lineTo(-10, 10 + 2);
+				commandLabel.graphics.lineTo(0, 10);
+			}
+		}
 		
 		// handle message from mediator
 		messageFromObject = commandLogObj.messageFromMediator;
@@ -339,6 +405,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				}
 			}
 		}
+		
 		// handle message from proxy
 		messageFromObject = commandLogObj.messageFromProxy;
 		if (messageFromObject) {
@@ -369,12 +436,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 					if (anotherCommandLabel) {
 						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
 						commandLabel.graphics.moveTo(0, 10);
-						commandLabel.graphics.lineTo( - anotherCommandLabel.width / 2 + commandLabel.width / 2 - 30, //
+						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2 - 30, //
 							//-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
-							5
-							);
-							
-						commandLabel.graphics.lineTo( - anotherCommandLabel.width / 2 + commandLabel.width / 2, //
+							5);
+						
+						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2, //
 							-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
 							);
 						

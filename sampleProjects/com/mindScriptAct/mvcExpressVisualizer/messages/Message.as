@@ -19,6 +19,8 @@ public class Message {
 	static public const TEST_COMMAND_TO_MEDIATOR:String = "testCommandToMediator";
 	static public const TEST_COMMAND_TO_COMMAND:String = "testCommandToCommand";
 	
+	static public const TEST_MODULE_TO_MEDIATORS_A:String = "testModuleToMediatorsA";
+	
 	
 }
 }

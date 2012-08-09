@@ -140,17 +140,21 @@ public class VisualizerManager {
 			case "CommandMap.handleCommandExecute": 
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
-						topObject = sendMessageStack[sendMessageStack.length - 1];
-						if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
-							if (topObject.mediatorObject) {
-								logObj.messageFromMediator = topObject.mediatorObject;
-							} else if (topObject.proxyObject) {
-								logObj.messageFromProxy = topObject.proxyObject;
-							} else if (topObject.commandObject) {
-								logObj.messageFromCommand = topObject.commandObject;								
-							} else {
-								CONFIG::debug {
-									throw Error("NOT HANDLED:" + logObj);
+						if (sendMessageStack.length) {
+							topObject = sendMessageStack[sendMessageStack.length - 1];
+							if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
+								if (topObject.moduleObject) {
+									logObj.messageFromModule = topObject.moduleObject;
+								} else if (topObject.mediatorObject) {
+									logObj.messageFromMediator = topObject.mediatorObject;
+								} else if (topObject.proxyObject) {
+									logObj.messageFromProxy = topObject.proxyObject;
+								} else if (topObject.commandObject) {
+									logObj.messageFromCommand = topObject.commandObject;
+								} else {
+									CONFIG::debug {
+										throw Error("NOT HANDLED:" + logObj);
+									}
 								}
 							}
 						}
@@ -170,11 +174,13 @@ public class VisualizerManager {
 					}
 				}
 				break;
+			case "ModuleBase.sendMessage": 
 			case "Mediator.sendMessage": 
 			case "Proxy.sendMessage": 
 			case "Command.sendMessage": 
 				sendMessageStack.push(logObj);
 				break;
+			case "ModuleBase.sendMessage.CLEAN": 
 			case "Mediator.sendMessage.CLEAN": 
 			case "Proxy.sendMessage.CLEAN": 
 			case "Command.sendMessage.CLEAN": 
@@ -243,12 +249,14 @@ public class VisualizerManager {
 														if (handlerObjects[m].handler == logObj.handler) {
 															if (topObject.moduleName == logObj.moduleName && topObject.type == logObj.type && topObject.params == logObj.params) {
 																// remember there message comes from.
-																if (topObject.mediatorObject) {
+																if (topObject.moduleObject) {
+																	logObj.messageFromModule = topObject.moduleObject;
+																} else if (topObject.mediatorObject) {
 																	logObj.messageFromMediator = topObject.mediatorObject;
 																} else if (topObject.proxyObject) {
 																	logObj.messageFromProxy = topObject.proxyObject;
 																} else if (topObject.commandObject) {
-																	logObj.messageFromCommand = topObject.commandObject;																	
+																	logObj.messageFromCommand = topObject.commandObject;
 																} else {
 																	CONFIG::debug {
 																		throw Error("NOT HANDLED:" + logObj);
@@ -297,9 +305,12 @@ public class VisualizerManager {
 		if (mvcExpressVisualizerScreen) {
 			this.mvcExpressVisualizerScreen = mvcExpressVisualizerScreen;
 			//
-			this.mvcExpressVisualizerScreen.addProxies(moduleProxies[currentModuleName]);
-			this.mvcExpressVisualizerScreen.addMediators(moduleMediators[currentModuleName]);
-			this.mvcExpressVisualizerScreen.clearCommands();
+			if (currentModuleName != "") {
+				this.mvcExpressVisualizerScreen.showModule(currentModuleName);
+				this.mvcExpressVisualizerScreen.addProxies(moduleProxies[currentModuleName]);
+				this.mvcExpressVisualizerScreen.addMediators(moduleMediators[currentModuleName]);
+				this.mvcExpressVisualizerScreen.clearCommands();
+			}
 		}
 	}
 	

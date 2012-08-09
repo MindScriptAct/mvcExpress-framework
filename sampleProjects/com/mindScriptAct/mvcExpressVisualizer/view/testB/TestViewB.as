@@ -1,8 +1,8 @@
 package com.mindScriptAct.mvcExpressVisualizer.view.testB {
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	
-	
+import com.bit101.components.Label;
+import flash.display.Shape;
+import flash.display.Sprite;
+
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
@@ -16,7 +16,10 @@ public class TestViewB extends Sprite {
 		rectangle.graphics.drawRect(5, 5, 250, 150);
 		rectangle.graphics.endFill();
 		this.addChild(rectangle);
+		
+		var viewLabel:Label = new Label(this, 10, 5, "VIEW:" + this + " (name:" + this.name + ")");
+		viewLabel.textField.textColor = 0x000000;
 	}
-	
+
 }
 }

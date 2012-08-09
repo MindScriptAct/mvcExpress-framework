@@ -24,12 +24,12 @@ import org.mvcexpress.MvcExpress;
  */
 public class MvcExpressLogger {
 	
-	static private const LOG_LABEL:String = "LOG";
-	static private const MESSAGES_LABEL:String = "MESSAGES";
-	static private const MEDIATORS_LABEL:String = "MEDIATORS";
-	static private const PROXIES_LABEL:String = "PROXIES";
-	static private const COMMANDS_LABEL:String = "COMMANDS";
-	static private const VISUALIZER_LABEL:String = "VISUALIZER";
+	static public const LOG_TAB:String = "LOG";
+	static public const MESSAGES_TAB:String = "MESSAGES";
+	static public const MEDIATORS_TAB:String = "MEDIATORS";
+	static public const PROXIES_TAB:String = "PROXIES";
+	static public const COMMANDS_TAB:String = "COMMANDS";
+	static public const VISUALIZER_TAB:String = "VISUALIZER";
 	//
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
@@ -62,6 +62,7 @@ public class MvcExpressLogger {
 	private var isRenderWaiting:Boolean = false;
 	private var autoLogCheckBox:CheckBox;
 	private var useAutoScroll:Boolean = true;
+	private var initTab:String;
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
@@ -69,7 +70,7 @@ public class MvcExpressLogger {
 		}
 	}
 	
-	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
+	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 600, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, initTab:String = "LOG", openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
 		
 		if (!instance) {
 			allowInstantiation = true;
@@ -86,6 +87,7 @@ public class MvcExpressLogger {
 			instance.width = width;
 			instance.height = height;
 			instance.alpha = alpha;
+			instance.initTab = initTab;
 			instance.openKeyCode = openKeyCode;
 			instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
 			instance.isShiftKeyNeeded = isShiftKeyNeeded;
@@ -130,10 +132,10 @@ public class MvcExpressLogger {
 				setTimeout(resolveCurrentModuleName, 1);
 			} else {
 				switch (currentTabButtonName) {
-					case LOG_LABEL: 
+					case LOG_TAB: 
 						render();
 						break;
-					case MESSAGES_LABEL: 
+					case MESSAGES_TAB: 
 						if (logType == "••" || logType == "•>") {
 							if (!isRenderWaiting) {
 								isRenderWaiting = true;
@@ -141,7 +143,7 @@ public class MvcExpressLogger {
 							}
 						}
 						break;
-					case MEDIATORS_LABEL: 
+					case MEDIATORS_TAB: 
 						if (logType == "§§") {
 							if (!isRenderWaiting) {
 								isRenderWaiting = true;
@@ -149,7 +151,7 @@ public class MvcExpressLogger {
 							}
 						}
 						break;
-					case PROXIES_LABEL: 
+					case PROXIES_TAB: 
 						if (logType == "¶¶") {
 							if (!isRenderWaiting) {
 								isRenderWaiting = true;
@@ -157,7 +159,7 @@ public class MvcExpressLogger {
 							}
 						}
 						break;
-					case COMMANDS_LABEL: 
+					case COMMANDS_TAB: 
 						if (logType == "©©") {
 							if (!isRenderWaiting) {
 								isRenderWaiting = true;
@@ -165,7 +167,7 @@ public class MvcExpressLogger {
 							}
 						}
 						break;
-					case VISUALIZER_LABEL: 
+					case VISUALIZER_TAB: 
 						break;
 					default: 
 				}
@@ -213,31 +215,31 @@ public class MvcExpressLogger {
 			
 			allButtons = new Vector.<PushButton>();
 			
-			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_LABEL, handleButtonClick);
+			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_TAB, handleButtonClick);
 			logButton.toggle = true;
 			logButton.width = 50;
 			logButton.x = moduleStepper.x + moduleStepper.width + 10;
 			allButtons.push(logButton);
 			
-			var messageMapingButton:PushButton = new PushButton(logWindow, 0, -0, MESSAGES_LABEL, handleButtonClick);
+			var messageMapingButton:PushButton = new PushButton(logWindow, 0, -0, MESSAGES_TAB, handleButtonClick);
 			messageMapingButton.toggle = true;
 			messageMapingButton.width = 60;
 			messageMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(messageMapingButton);
 			
-			var mediatorMapingButton:PushButton = new PushButton(logWindow, 0, -0, MEDIATORS_LABEL, handleButtonClick);
+			var mediatorMapingButton:PushButton = new PushButton(logWindow, 0, -0, MEDIATORS_TAB, handleButtonClick);
 			mediatorMapingButton.toggle = true;
 			mediatorMapingButton.width = 60;
 			mediatorMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(mediatorMapingButton);
 			
-			var proxyMapingButton:PushButton = new PushButton(logWindow, 0, -0, PROXIES_LABEL, handleButtonClick);
+			var proxyMapingButton:PushButton = new PushButton(logWindow, 0, -0, PROXIES_TAB, handleButtonClick);
 			proxyMapingButton.toggle = true;
 			proxyMapingButton.width = 50;
 			proxyMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(proxyMapingButton);
 			
-			var commandMapingButton:PushButton = new PushButton(logWindow, 0, -0, COMMANDS_LABEL, handleButtonClick);
+			var commandMapingButton:PushButton = new PushButton(logWindow, 0, -0, COMMANDS_TAB, handleButtonClick);
 			commandMapingButton.toggle = true;
 			commandMapingButton.width = 60;
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
@@ -252,7 +254,7 @@ public class MvcExpressLogger {
 			autoLogCheckBox.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 70;
 			autoLogCheckBox.selected = true;
 			
-			var visualizerButton:PushButton = new PushButton(logWindow, 0, -0, VISUALIZER_LABEL, handleButtonClick);
+			var visualizerButton:PushButton = new PushButton(logWindow, 0, -0, VISUALIZER_TAB, handleButtonClick);
 			visualizerButton.toggle = true;
 			visualizerButton.width = 60;
 			visualizerButton.x = 600;
@@ -264,7 +266,19 @@ public class MvcExpressLogger {
 		
 		resolveCurrentModuleName();
 		
-		handleButtonClick();
+		delayedAutoButtonClick()
+	}
+	
+	private function delayedAutoButtonClick():void {
+		if (!currentTabButtonName) {
+			resolveCurrentModuleName();
+			if (currentModuleName != "") {
+				handleButtonClick();
+			} else {
+				setTimeout(delayedAutoButtonClick, 100);
+			}
+		}
+	
 	}
 	
 	private function handleClearLog(event:MouseEvent):void {
@@ -319,8 +333,17 @@ public class MvcExpressLogger {
 		if (event) {
 			var targetButton:PushButton = (event.target as PushButton);
 		} else {
+			// select first button by default.
 			targetButton = allButtons[0];
 			targetButton.selected = true;
+			// if initTab properly passed - start with that tab.
+			for (var j:int = 0; j < allButtons.length; j++) {
+				if (allButtons[j].label == initTab) {
+					targetButton = allButtons[j];
+					targetButton.selected = true;
+					break;
+				}
+			}
 		}
 		
 		if (currentTogleButton != targetButton) {
@@ -337,10 +360,10 @@ public class MvcExpressLogger {
 			}
 			currentTabButtonName = targetButton.label;
 			
-			autoLogCheckBox.visible = (currentTabButtonName == LOG_LABEL)
+			autoLogCheckBox.visible = (currentTabButtonName == LOG_TAB)
 			
 			switch (currentTabButtonName) {
-				case VISUALIZER_LABEL: 
+				case VISUALIZER_TAB: 
 					currentScreen = new MvcExpressVisualizerScreen(width - 6, height - 52);
 					currentScreen.x = 3;
 					currentScreen.y = 25;
@@ -368,27 +391,27 @@ public class MvcExpressLogger {
 		isRenderWaiting = false;
 		
 		switch (currentTabButtonName) {
-			case LOG_LABEL: 
+			case LOG_TAB: 
 				(currentScreen as MvcExpressLogScreen).showLog(logText);
 				(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 				break;
-			case MESSAGES_LABEL: 
+			case MESSAGES_TAB: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMessages(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
-			case MEDIATORS_LABEL: 
+			case MEDIATORS_TAB: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMediators(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
-			case PROXIES_LABEL: 
+			case PROXIES_TAB: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedProxies(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
-			case COMMANDS_LABEL:
+			case COMMANDS_TAB: 
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
-			case VISUALIZER_LABEL:
+			case VISUALIZER_TAB:
 				
 				break;
 			default: 

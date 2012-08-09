@@ -22,16 +22,10 @@ public class VisualLoggerTestModuleMediator extends Mediator {
 	//public var myProxy:MyProxy;
 	
 	override public function onRegister():void {
-		testViewB2Button = new PushButton(view, 320, 560, "Mediator:Send Message", handleCommandB);
-		testViewB2Button.width = 150
 	}
 	
 	override public function onRemove():void {
-	
 	}
-	
-	private function handleCommandB(event:Event):void {
-		sendMessage(Message.TEST_COMMAND_B, new Point(123, 321));
-	}
+
 }
 }

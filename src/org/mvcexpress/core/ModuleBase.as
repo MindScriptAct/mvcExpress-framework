@@ -8,6 +8,7 @@ import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Internal framework class. Not meant to be constructed.
@@ -130,7 +131,22 @@ public class ModuleBase {
 	// @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	// @param	params	Object that will be send to Command execute() or to handle function as parameter.
 	public function sendMessage(type:String, params:Object = null):void {
+		// log the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "ModuleBase.sendMessage", moduleObject: this, type: type, params: params});
+			}
+		}
+		//
 		_messenger.send(type, params);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			if (MvcExpress.loggerFunction != null) {
+				MvcExpress.loggerFunction({action: "ModuleBase.sendMessage.CLEAN", moduleObject: this, type: type, params: params});
+			}
+		}
+	
 	}
 	
 	/**

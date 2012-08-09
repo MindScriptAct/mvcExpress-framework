@@ -27,6 +27,7 @@ public class TestViewAMediator extends Mediator {
 		pushButton.width = 150;
 		
 		addHandler(Message.TEST_MESSAGE_TO_MEDIATORS_A, handleMediatorTest);
+		addHandler(Message.TEST_MODULE_TO_MEDIATORS_A, handleMediatorTest);
 	}
 	
 	private function handleMediatorTest(blank:Object):void {
