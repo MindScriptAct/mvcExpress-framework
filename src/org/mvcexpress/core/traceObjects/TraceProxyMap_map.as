@@ -24,7 +24,7 @@ public class TraceProxyMap_map extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name;
+		return "¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name + "     {" + moduleName + "}";
 	}
 
 }

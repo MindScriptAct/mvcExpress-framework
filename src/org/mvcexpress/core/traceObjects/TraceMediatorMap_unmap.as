@@ -14,7 +14,7 @@ public class TraceMediatorMap_unmap extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "§§§- MediatorMap.unmap > viewClass : " + viewClass;
+		return "§§§- MediatorMap.unmap > viewClass : " + viewClass + "     {" + moduleName + "}";
 	}
 
 }

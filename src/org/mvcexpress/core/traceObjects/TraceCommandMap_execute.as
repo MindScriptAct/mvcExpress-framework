@@ -30,7 +30,7 @@ public class TraceCommandMap_execute extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params;
+		return "©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params + "     {" + moduleName + "}";
 	}
 
 }

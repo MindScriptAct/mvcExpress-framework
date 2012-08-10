@@ -18,7 +18,7 @@ public class TraceMessenger_addHandler extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "••<+ Messenger.addHandler > type : " + type + ", handlerClassName : " + handlerClassName;
+		return "••<+ Messenger.addHandler > type : " + type + ", handlerClassName : " + handlerClassName + "     {" + moduleName + "}";
 	}
 }
 }

@@ -22,7 +22,7 @@ public class TraceProxyMap_unmap extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "¶¶¶¶- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name;
+		return "¶¶¶¶- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name + "     {" + moduleName + "}";
 	}
 
 }

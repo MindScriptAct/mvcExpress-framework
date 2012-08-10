@@ -16,7 +16,7 @@ public class TraceCommandMap_unmap extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "©©©- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass;
+		return "©©©- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass + "     {" + moduleName + "}";
 	}
 
 }

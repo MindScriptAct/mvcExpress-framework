@@ -28,7 +28,7 @@ public class TraceMediatorMap_mediate extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass;
+		return "§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
 	}
 
 }
