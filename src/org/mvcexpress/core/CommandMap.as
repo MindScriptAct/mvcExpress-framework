@@ -6,6 +6,10 @@ import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.TraceCommandMap_execute;
+import org.mvcexpress.core.traceObjects.TraceCommandMap_handleCommandExecute;
+import org.mvcexpress.core.traceObjects.TraceCommandMap_map;
+import org.mvcexpress.core.traceObjects.TraceCommandMap_unmap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -49,7 +53,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("©©©+ CommandMap.map > type : " + type + ", commandClass : " + commandClass);
+				MvcExpress.debugFunction(new TraceCommandMap_map("CommandMap.map", moduleName, type, commandClass));
 			}
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
@@ -73,7 +77,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("©©©- CommandMap.unmap > type : " + type + ", commandClass : " + commandClass);
+				MvcExpress.debugFunction(new TraceCommandMap_unmap("CommandMap.unmap", moduleName, type, commandClass));
 			}
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
@@ -109,10 +113,11 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("©* CommandMap.execute > commandClass : " + commandClass + ", params : " + params);
+				MvcExpress.debugFunction(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
+				
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "CommandMap.execute", moduleName: moduleName, commandObject: command, commandClass: commandClass, params: params});
+				MvcExpress.loggerFunction(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
 			}
 			validateCommandParams(commandClass, params);
 		}
@@ -159,10 +164,10 @@ public class CommandMap {
 				// debug this action
 				CONFIG::debug {
 					if (MvcExpress.debugFunction != null) {
-						MvcExpress.debugFunction("©* CommandMap.handleCommandExecute > messageType : " + messageType + ", params : " + params + " Executed with : " + commandList[i]);
+						MvcExpress.debugFunction(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
 					}
 					if (MvcExpress.loggerFunction != null) {
-						MvcExpress.loggerFunction( { action: "CommandMap.handleCommandExecute", moduleName: moduleName, commandObject: command, commandClass: commandList[i], type:messageType, params: params } );
+						MvcExpress.loggerFunction(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
 					}
 				}
 				

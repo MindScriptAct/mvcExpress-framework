@@ -8,6 +8,7 @@ import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.core.traceObjects.TraceModuleBase_sendMessage;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -134,7 +135,7 @@ public class ModuleBase {
 		// log the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "ModuleBase.sendMessage", moduleObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceModuleBase_sendMessage("ModuleBase.sendMessage", moduleName, this, type, params));
 			}
 		}
 		//
@@ -143,7 +144,7 @@ public class ModuleBase {
 		// clean up loging the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "ModuleBase.sendMessage.CLEAN", moduleObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceModuleBase_sendMessage("ModuleBase.sendMessage.CLEAN", moduleName, this, type, params));
 			}
 		}
 	

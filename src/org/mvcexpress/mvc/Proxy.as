@@ -3,7 +3,7 @@ package org.mvcexpress.mvc {
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -21,6 +21,7 @@ public class Proxy {
 	 */
 	protected var proxyMap:IProxyMap;
 	
+	// for comunication.
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
@@ -37,20 +38,20 @@ public class Proxy {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "Proxy.sendMessage", proxyObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceProxy_sendMessage("Proxy.sendMessage", messenger.moduleName, this, type, params));
 			}
 		}
 		//
-		use namespace pureLegsCore;
 		messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "Proxy.sendMessage.CLEAN", proxyObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceProxy_sendMessage("Proxy.sendMessage.CLEAN", messenger.moduleName, this, type, params));
 			}
 		}
 	}

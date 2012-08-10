@@ -7,6 +7,10 @@ import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.TraceProxyMap_injectPending;
+import org.mvcexpress.core.traceObjects.TraceProxyMap_injectStuff;
+import org.mvcexpress.core.traceObjects.TraceProxyMap_map;
+import org.mvcexpress.core.traceObjects.TraceProxyMap_unmap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
@@ -60,10 +64,10 @@ public class ProxyMap implements IProxyMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("¶¶¶+ ProxyMap.map > proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+				MvcExpress.debugFunction(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "ProxyMap.map", moduleName: moduleName, proxyObject: proxyObject, injectClass: injectClass, name: name});
+				MvcExpress.loggerFunction(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
 			}
 		}
 		
@@ -107,10 +111,10 @@ public class ProxyMap implements IProxyMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("¶¶¶¶- ProxyMap.unmap > injectClass : " + injectClass + ", name : " + name);
+				MvcExpress.debugFunction(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "ProxyMap.unmap", moduleName: moduleName, injectClass: injectClass, name: name});
+				MvcExpress.loggerFunction(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
 			}
 		}
 		// remove proxy if it exists.
@@ -202,7 +206,7 @@ public class ProxyMap implements IProxyMap {
 				// debug this action
 				CONFIG::debug {
 					if (MvcExpress.loggerFunction != null) {
-						MvcExpress.loggerFunction({action: "ProxyMap.injectStuff", moduleName: moduleName, hostObject: object, injectObject: injectObject, rule: rules[i]});
+						MvcExpress.loggerFunction(new TraceProxyMap_injectStuff("ProxyMap.injectStuff", moduleName, object, injectObject, rules[i]));
 					}
 				}
 			} else {
@@ -217,8 +221,7 @@ public class ProxyMap implements IProxyMap {
 					// debug this action
 					CONFIG::debug {
 						if (MvcExpress.debugFunction != null) {
-							// TODO: add option to ignore this warning.
-							MvcExpress.debugFunction("WARNING: Pending injection. Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+							MvcExpress.debugFunction(new TraceProxyMap_injectPending("ProxyMap.injectPending", moduleName, object, injectObject, rules[i]));
 						}
 					}
 					//

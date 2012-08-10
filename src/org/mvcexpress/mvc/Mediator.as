@@ -8,6 +8,8 @@ import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
+import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -19,9 +21,6 @@ import org.mvcexpress.MvcExpress;
  */
 public class Mediator {
 	
-	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
-	
 	/**
 	 * Interface to work with proxies.
 	 */
@@ -32,6 +31,10 @@ public class Mediator {
 	 */
 	public var mediatorMap:IMediatorMap;
 	
+	// Shows if proxy is ready. Read only.
+	private var _isReady:Boolean = false;
+	
+	// for message comunication
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
@@ -134,20 +137,20 @@ public class Mediator {
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "Mediator.sendMessage", mediatorObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceMediator_sendMessage("Mediator.sendMessage", messenger.moduleName, this, type, params));
 			}
 		}
 		//
-		use namespace pureLegsCore;
 		messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "Mediator.sendMessage.CLEAN", mediatorObject: this, type: type, params: params});
+				MvcExpress.loggerFunction(new TraceMediator_sendMessage("Mediator.sendMessage.CLEAN", messenger.moduleName, this, type, params));
 			}
 		}
 	}
@@ -181,7 +184,7 @@ public class Mediator {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "Mediator.addHandler", moduleName: messenger.moduleName, mediatorObject: this, type: type, handler: handler});
+				MvcExpress.loggerFunction(new TraceMediator_addHandler("Mediator.addHandler", messenger.moduleName, this, type, handler));
 			}
 			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;

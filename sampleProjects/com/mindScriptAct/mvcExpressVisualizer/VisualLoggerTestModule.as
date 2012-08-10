@@ -54,7 +54,6 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		}
 		super(ModuleNames.SHELL);
 		//
-		this.stage.align = StageAlign.TOP_LEFT;
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
 	}
 	

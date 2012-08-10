@@ -6,6 +6,10 @@ import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.TraceMediatorMap_map;
+import org.mvcexpress.core.traceObjects.TraceMediatorMap_mediate;
+import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmap;
+import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmediate;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -44,7 +48,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("§§§+ MediatorMap.map > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass);
+				MvcExpress.debugFunction(new TraceMediatorMap_map("MediatorMap.map", moduleName, viewClass, mediatorClass));
 			}
 			// check if mediatorClass is subclass of Mediator class
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
@@ -67,7 +71,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("§§§- MediatorMap.unmap > viewClass : " + viewClass);
+				MvcExpress.debugFunction(new TraceMediatorMap_unmap("MediatorMap.unmap", moduleName, viewClass));
 			}
 		}
 		// clear mapping
@@ -103,10 +107,10 @@ public class MediatorMap implements IMediatorMap {
 			// debug this action
 			CONFIG::debug {
 				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction("§*+ MediatorMap.mediate > viewObject : " + viewObject + " (viewClass:" + viewClass + ")" + " WITH > mediatorClass : " + mediatorClass);
+					MvcExpress.debugFunction(new TraceMediatorMap_mediate("MediatorMap.mediate", moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
 				}
 				if (MvcExpress.loggerFunction != null) {
-					MvcExpress.loggerFunction({action: "MediatorMap.mediate", moduleName: moduleName, viewObject: viewObject, mediatorObject: mediator, viewClass: viewClass, mediatorClass: mediatorClass, mediatorClassName: getQualifiedClassName(mediatorClass)});
+					MvcExpress.loggerFunction(new TraceMediatorMap_mediate("MediatorMap.mediate", moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
 				}
 			}
 			
@@ -138,10 +142,10 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction("§*- MediatorMap.unmediate > viewObject : " + viewObject);
+				MvcExpress.debugFunction(new TraceMediatorMap_unmediate("MediatorMap.unmediate", moduleName, viewObject));
 			}
 			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction({action: "MediatorMap.unmediate", moduleName: moduleName, viewObject: viewObject});
+				MvcExpress.loggerFunction(new TraceMediatorMap_unmediate("MediatorMap.unmediate", moduleName, viewObject));
 			}
 		}
 		// get object mediator
