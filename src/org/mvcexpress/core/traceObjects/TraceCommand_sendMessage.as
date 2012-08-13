@@ -16,6 +16,8 @@ public class TraceCommand_sendMessage extends TraceObj_SendMessage {
 		this.commandObject = commandObject;
 		this.type = type;
 		this.params = params;
+		//
+		canPrint = false;
 	}
 
 }

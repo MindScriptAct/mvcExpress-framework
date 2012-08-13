@@ -60,18 +60,16 @@ dynamic public class Command {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceCommand_sendMessage("Command.sendMessage", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommand_sendMessage("Command.sendMessage", messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceCommand_sendMessage("Command.sendMessage.CLEAN", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommand_sendMessage("Command.sendMessage.CLEAN", messenger.moduleName, this, type, params));
 		}
 	}
 	

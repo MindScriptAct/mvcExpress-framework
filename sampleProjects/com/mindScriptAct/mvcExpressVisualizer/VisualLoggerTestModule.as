@@ -26,6 +26,7 @@ import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.geom.Point;
 import org.mvcexpress.modules.ModuleSprite;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassStringConstants;
 
 /**
@@ -49,6 +50,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	
 	public function VisualLoggerTestModule() {
 		CONFIG::debug {
+			MvcExpress.debugFunction = trace;
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true, MvcExpressLogger.VISUALIZER_TAB);
 		}

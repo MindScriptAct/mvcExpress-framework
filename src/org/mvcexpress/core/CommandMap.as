@@ -52,9 +52,8 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceCommandMap_map("CommandMap.map", moduleName, type, commandClass));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommandMap_map("CommandMap.map", moduleName, type, commandClass));
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
@@ -76,9 +75,8 @@ public class CommandMap {
 	public function unmap(type:String, commandClass:Class):void {
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceCommandMap_unmap("CommandMap.unmap", moduleName, type, commandClass));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommandMap_unmap("CommandMap.unmap", moduleName, type, commandClass));
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
@@ -112,13 +110,9 @@ public class CommandMap {
 		
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
-				
-			}
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
+			
 			validateCommandParams(commandClass, params);
 		}
 		
@@ -163,12 +157,8 @@ public class CommandMap {
 				
 				// debug this action
 				CONFIG::debug {
-					if (MvcExpress.debugFunction != null) {
-						MvcExpress.debugFunction(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
-					}
-					if (MvcExpress.loggerFunction != null) {
-						MvcExpress.loggerFunction(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
-					}
+					use namespace pureLegsCore;
+					MvcExpress.debug(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
 				}
 				
 				use namespace pureLegsCore;

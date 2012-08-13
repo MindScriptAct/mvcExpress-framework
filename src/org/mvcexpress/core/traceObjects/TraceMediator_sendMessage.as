@@ -16,6 +16,8 @@ public class TraceMediator_sendMessage extends TraceObj_SendMessage {
 		this.mediatorObject = mediatorObject;
 		this.type = type;
 		this.params = params;
+		//
+		canPrint = false;
 	}
 
 }

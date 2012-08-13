@@ -41,18 +41,16 @@ public class Proxy {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceProxy_sendMessage("Proxy.sendMessage", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxy_sendMessage("Proxy.sendMessage", messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceProxy_sendMessage("Proxy.sendMessage.CLEAN", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxy_sendMessage("Proxy.sendMessage.CLEAN", messenger.moduleName, this, type, params));
 		}
 	}
 	

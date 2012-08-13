@@ -5,8 +5,12 @@ package org.mvcexpress.core.traceObjects {
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceObj {
+	
 	public var moduleName:String;
 	public var action:String;
+	
+	// can print debug text.
+	public var canPrint:Boolean = true;
 	
 	public function TraceObj(action:String, moduleName:String) {
 		this.action = action;

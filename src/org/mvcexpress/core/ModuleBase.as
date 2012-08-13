@@ -134,20 +134,17 @@ public class ModuleBase {
 	public function sendMessage(type:String, params:Object = null):void {
 		// log the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceModuleBase_sendMessage("ModuleBase.sendMessage", moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleBase_sendMessage("ModuleBase.sendMessage", moduleName, this, type, params));
 		}
 		//
 		_messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceModuleBase_sendMessage("ModuleBase.sendMessage.CLEAN", moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleBase_sendMessage("ModuleBase.sendMessage.CLEAN", moduleName, this, type, params));
 		}
-	
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 package org.mvcexpress.core.traceObjects {
-	import org.mvcexpress.mvc.Mediator;
+import org.mvcexpress.mvc.Mediator;
 
 /**
  * COMMENT
@@ -16,6 +16,8 @@ public class TraceMediator_addHandler extends TraceObj {
 		this.mediatorObject = mediatorObject;
 		this.type = type;
 		this.handler = handler;
+		//
+		canPrint = false;
 	}
 
 }

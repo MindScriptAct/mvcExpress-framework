@@ -140,18 +140,16 @@ public class Mediator {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceMediator_sendMessage("Mediator.sendMessage", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediator_sendMessage("Mediator.sendMessage", messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceMediator_sendMessage("Mediator.sendMessage.CLEAN", messenger.moduleName, this, type, params));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediator_sendMessage("Mediator.sendMessage.CLEAN", messenger.moduleName, this, type, params));
 		}
 	}
 	
@@ -183,9 +181,9 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceMediator_addHandler("Mediator.addHandler", messenger.moduleName, this, type, handler));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediator_addHandler("Mediator.addHandler", messenger.moduleName, this, type, handler));
+			
 			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;
 		}

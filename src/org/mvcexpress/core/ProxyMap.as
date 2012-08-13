@@ -63,12 +63,8 @@ public class ProxyMap implements IProxyMap {
 		
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
-			}
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
 		}
 		
 		var className:String = getQualifiedClassName(injectClass);
@@ -110,12 +106,8 @@ public class ProxyMap implements IProxyMap {
 	public function unmap(injectClass:Class, name:String = ""):void {
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
-			}
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
 		}
 		// remove proxy if it exists.
 		var className:String = getQualifiedClassName(injectClass);
@@ -205,9 +197,8 @@ public class ProxyMap implements IProxyMap {
 				
 				// debug this action
 				CONFIG::debug {
-					if (MvcExpress.loggerFunction != null) {
-						MvcExpress.loggerFunction(new TraceProxyMap_injectStuff("ProxyMap.injectStuff", moduleName, object, injectObject, rules[i]));
-					}
+					use namespace pureLegsCore;
+					MvcExpress.debug(new TraceProxyMap_injectStuff("ProxyMap.injectStuff", moduleName, object, injectObject, rules[i]));
 				}
 			} else {
 				// if local injection fails... test for global(hosted) injections
@@ -220,9 +211,8 @@ public class ProxyMap implements IProxyMap {
 					
 					// debug this action
 					CONFIG::debug {
-						if (MvcExpress.debugFunction != null) {
-							MvcExpress.debugFunction(new TraceProxyMap_injectPending("ProxyMap.injectPending", moduleName, object, injectObject, rules[i]));
-						}
+						use namespace pureLegsCore;
+						MvcExpress.debug(new TraceProxyMap_injectPending("ProxyMap.injectPending", moduleName, object, injectObject, rules[i]));
 					}
 					//
 					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {

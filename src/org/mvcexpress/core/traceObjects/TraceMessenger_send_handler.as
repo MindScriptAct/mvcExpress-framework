@@ -26,6 +26,8 @@ public class TraceMessenger_send_handler extends TraceObj {
 		this.params = params;
 		this.handler = handler;
 		this.handlerClassName = handlerClassName;
+		//
+		canPrint = false;
 	}
 
 }

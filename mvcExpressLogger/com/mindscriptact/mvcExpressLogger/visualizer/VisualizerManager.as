@@ -153,7 +153,7 @@ public class VisualizerManager {
 									logObj.messageFromCommand = topObject.commandObject;
 								} else {
 									CONFIG::debug {
-										throw Error("NOT HANDLED:" + logObj);
+										//throw Error("NOT HANDLED:" + logObj);
 									}
 								}
 							}
@@ -187,12 +187,12 @@ public class VisualizerManager {
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {
-						throw Error("NOT HANDLED:" + logObj);
+						//throw Error("NOT HANDLED:" + logObj);
 					}
 				} else {
 					if (logObj.params != topObject.params) {
 						CONFIG::debug {
-							throw Error("NOT HANDLED:" + logObj);
+							//throw Error("NOT HANDLED:" + logObj);
 						}
 					}
 				}
@@ -209,23 +209,23 @@ public class VisualizerManager {
 									// ALL IS GOOD...
 								} else {
 									CONFIG::debug {
-										throw Error("NOT HANDLED:" + logObj);
+										//throw Error("NOT HANDLED:" + logObj);
 									}
 								}
 							}
 						} else {
 							CONFIG::debug {
-								throw Error("NOT HANDLED:" + logObj);
+								//throw Error("NOT HANDLED:" + logObj);
 							}
 						}
 					} else {
 						CONFIG::debug {
-							throw Error("NOT HANDLED:" + logObj);
+							//throw Error("NOT HANDLED:" + logObj);
 						}
 					}
 				} else {
 					CONFIG::debug {
-						throw Error("NOT HANDLED:" + logObj);
+						//throw Error("NOT HANDLED:" + logObj);
 					}
 				}
 				break;
@@ -259,7 +259,7 @@ public class VisualizerManager {
 																	logObj.messageFromCommand = topObject.commandObject;
 																} else {
 																	CONFIG::debug {
-																		throw Error("NOT HANDLED:" + logObj);
+																		//throw Error("NOT HANDLED:" + logObj);
 																	}
 																}
 																this.mvcExpressVisualizerScreen.drawMessageToMediator(logObj, l);
@@ -271,22 +271,22 @@ public class VisualizerManager {
 										}
 									} else {
 										CONFIG::debug {
-											throw Error("NOT HANDLED:" + logObj);
+											//throw Error("NOT HANDLED:" + logObj);
 										}
 									}
 								} else {
 									CONFIG::debug {
-										throw Error("NOT HANDLED:" + logObj);
+										//throw Error("NOT HANDLED:" + logObj);
 									}
 								}
 							} else {
 								CONFIG::debug {
-									throw Error("NOT HANDLED:" + logObj);
+									//throw Error("NOT HANDLED:" + logObj);
 								}
 							}
 						} else {
 							CONFIG::debug {
-								throw Error("NOT HANDLED:" + logObj);
+								//throw Error("NOT HANDLED:" + logObj);
 							}
 						}
 					}
@@ -294,7 +294,7 @@ public class VisualizerManager {
 				break;
 			default: 
 				CONFIG::debug {
-				throw Error("NOT HANDLED:" + logObj);
+					//throw Error("NOT HANDLED:" + logObj);
 			}
 				break;
 		}

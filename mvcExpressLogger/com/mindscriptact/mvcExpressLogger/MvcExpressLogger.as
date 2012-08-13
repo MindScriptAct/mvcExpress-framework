@@ -16,6 +16,8 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.utils.setTimeout;
 import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -96,8 +98,8 @@ public class MvcExpressLogger {
 			Style.LABEL_TEXT = 0xFFFFFF;
 		}
 		
-		MvcExpress.debugFunction = instance.debugMvcExpress;
-		MvcExpress.loggerFunction = visualizerManager.logMvcExpress;
+		use namespace pureLegsCore;
+		MvcExpress.loggerFunction = instance.debugMvcExpress;
 		
 		if (autoShow) {
 			instance.showLogger();
@@ -120,56 +122,62 @@ public class MvcExpressLogger {
 		}
 	}
 	
-	private function debugMvcExpress(msg:String):void {
-		// TODO: refactor
-		logText += msg + "\n";
+	private function debugMvcExpress(traceObj:TraceObj):void {
 		//
-		if (isLogShown) {
+		visualizerManager.logMvcExpress(traceObj);
+		//
+		if (traceObj.canPrint) {
 			
-			var logType:String = msg.substr(0, 2);
-			
-			if (logType == "##") {
-				setTimeout(resolveCurrentModuleName, 1);
-			} else {
-				switch (currentTabButtonName) {
-					case LOG_TAB: 
-						render();
-						break;
-					case MESSAGES_TAB: 
-						if (logType == "••" || logType == "•>") {
-							if (!isRenderWaiting) {
-								isRenderWaiting = true;
-								setTimeout(render, 1);
+			// TODO: refactor 
+			logText += traceObj + "\n";
+			//
+			if (isLogShown) {
+				
+				var logType:String = String(traceObj).substr(0, 2);
+				
+				if (logType == "##") {
+					setTimeout(resolveCurrentModuleName, 1);
+				} else {
+					switch (currentTabButtonName) {
+						case LOG_TAB: 
+							render();
+							break;
+						case MESSAGES_TAB: 
+							if (logType == "••" || logType == "•>") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
 							}
-						}
-						break;
-					case MEDIATORS_TAB: 
-						if (logType == "§§") {
-							if (!isRenderWaiting) {
-								isRenderWaiting = true;
-								setTimeout(render, 1);
+							break;
+						case MEDIATORS_TAB: 
+							if (logType == "§§") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
 							}
-						}
-						break;
-					case PROXIES_TAB: 
-						if (logType == "¶¶") {
-							if (!isRenderWaiting) {
-								isRenderWaiting = true;
-								setTimeout(render, 1);
+							break;
+						case PROXIES_TAB: 
+							if (logType == "¶¶") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
 							}
-						}
-						break;
-					case COMMANDS_TAB: 
-						if (logType == "©©") {
-							if (!isRenderWaiting) {
-								isRenderWaiting = true;
-								setTimeout(render, 1);
+							break;
+						case COMMANDS_TAB: 
+							if (logType == "©©") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
 							}
-						}
-						break;
-					case VISUALIZER_TAB: 
-						break;
-					default: 
+							break;
+						case VISUALIZER_TAB: 
+							break;
+						default: 
+					}
 				}
 			}
 		}

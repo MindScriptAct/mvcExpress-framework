@@ -47,9 +47,8 @@ public class MediatorMap implements IMediatorMap {
 	public function map(viewClass:Class, mediatorClass:Class):void {
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceMediatorMap_map("MediatorMap.map", moduleName, viewClass, mediatorClass));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediatorMap_map("MediatorMap.map", moduleName, viewClass, mediatorClass));
 			// check if mediatorClass is subclass of Mediator class
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'org.mvcexpress.mvc::Mediator' class.");
@@ -70,9 +69,8 @@ public class MediatorMap implements IMediatorMap {
 	public function unmap(viewClass:Class):void {
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceMediatorMap_unmap("MediatorMap.unmap", moduleName, viewClass));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediatorMap_unmap("MediatorMap.unmap", moduleName, viewClass));
 		}
 		// clear mapping
 		delete classRegistry[viewClass];
@@ -106,12 +104,8 @@ public class MediatorMap implements IMediatorMap {
 			
 			// debug this action
 			CONFIG::debug {
-				if (MvcExpress.debugFunction != null) {
-					MvcExpress.debugFunction(new TraceMediatorMap_mediate("MediatorMap.mediate", moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
-				}
-				if (MvcExpress.loggerFunction != null) {
-					MvcExpress.loggerFunction(new TraceMediatorMap_mediate("MediatorMap.mediate", moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
-				}
+				use namespace pureLegsCore;
+				MvcExpress.debug(new TraceMediatorMap_mediate("MediatorMap.mediate", moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
 			}
 			
 			CONFIG::debug {
@@ -141,12 +135,8 @@ public class MediatorMap implements IMediatorMap {
 	public function unmediate(viewObject:Object):void {
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceMediatorMap_unmediate("MediatorMap.unmediate", moduleName, viewObject));
-			}
-			if (MvcExpress.loggerFunction != null) {
-				MvcExpress.loggerFunction(new TraceMediatorMap_unmediate("MediatorMap.unmediate", moduleName, viewObject));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediatorMap_unmediate("MediatorMap.unmediate", moduleName, viewObject));		
 		}
 		// get object mediator
 		var mediator:Mediator = mediatorRegistry[viewObject];

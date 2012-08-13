@@ -16,6 +16,8 @@ public class TraceProxyMap_injectStuff extends TraceObj {
 		this.hostObject = hostObject;
 		this.injectObject = injectObject;
 		this.rule = rule;
+		//
+		canPrint = false;
 	}
 
 }

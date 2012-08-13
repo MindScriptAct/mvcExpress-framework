@@ -35,13 +35,11 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
-		trace();
 		var retVal:ModuleBase;
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceModuleManager_createModule("ModuleManager.createModule", moduleName, autoInit));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleManager_createModule("ModuleManager.createModule", moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++
@@ -80,9 +78,8 @@ public class ModuleManager {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			if (MvcExpress.debugFunction != null) {
-				MvcExpress.debugFunction(new TraceModuleManager_disposeModule("ModuleManager.disposeModule", moduleName));
-			}
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleManager_disposeModule("ModuleManager.disposeModule", moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
 			delete moduleRegistry[moduleName];

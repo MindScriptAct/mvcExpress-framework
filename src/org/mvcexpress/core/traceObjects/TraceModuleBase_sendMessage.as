@@ -16,6 +16,8 @@ public class TraceModuleBase_sendMessage extends TraceObj_SendMessage {
 		this.moduleObject = moduleObject;
 		this.type = type;
 		this.params = params;
+		//
+		canPrint = false;
 	}
 
 }
