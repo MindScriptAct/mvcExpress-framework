@@ -3,6 +3,8 @@ package org.mvcexpress.mvc {
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
 import org.mvcexpress.MvcExpress;
 
@@ -42,7 +44,7 @@ public class Proxy {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxy_sendMessage("Proxy.sendMessage", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendMessage(MvcTraceActions.PROXY_SENDMESSAGE, messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
@@ -50,7 +52,7 @@ public class Proxy {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxy_sendMessage("Proxy.sendMessage.CLEAN", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendMessage(MvcTraceActions.PROXY_SENDMESSAGE_CLEAN, messenger.moduleName, this, type, params));
 		}
 	}
 	

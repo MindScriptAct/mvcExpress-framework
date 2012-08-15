@@ -8,8 +8,10 @@ import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -141,7 +143,7 @@ public class Mediator {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_sendMessage("Mediator.sendMessage", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendMessage(MvcTraceActions.MEDIATOR_SENDMESSAGE, messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
@@ -149,7 +151,7 @@ public class Mediator {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_sendMessage("Mediator.sendMessage.CLEAN", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendMessage(MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN, messenger.moduleName, this, type, params));
 		}
 	}
 	
@@ -182,7 +184,7 @@ public class Mediator {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_addHandler("Mediator.addHandler", messenger.moduleName, this, type, handler));
+			MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
 			
 			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;

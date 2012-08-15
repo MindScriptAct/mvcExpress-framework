@@ -32,7 +32,7 @@ public class TraceCommandMap_handleCommandExecute extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "©* CommandMap.handleCommandExecute > messageType : " + type + ", params : " + params + " Executed with : " + commandClass + "{" + moduleName + "}";
+		return "©* " + MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE + " > messageType : " + type + ", params : " + params + " Executed with : " + commandClass + "{" + moduleName + "}";
 	}
 
 }

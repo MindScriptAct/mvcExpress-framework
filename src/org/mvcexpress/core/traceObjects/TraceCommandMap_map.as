@@ -16,7 +16,7 @@ public class TraceCommandMap_map extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "©©©+ CommandMap.map > type : " + type + ", commandClass : " + commandClass + "     {" + moduleName + "}";
+		return "©©©+ " + MvcTraceActions.COMMANDMAP_MAP + " > type : " + type + ", commandClass : " + commandClass + "     {" + moduleName + "}";
 	}
 
 }

@@ -16,7 +16,7 @@ public class TraceMediatorMap_map extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "§§§+ MediatorMap.map > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
+		return "§§§+ " + MvcTraceActions.MEDIATORMAP_MAP + " > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
 	}
 
 }

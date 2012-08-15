@@ -4,11 +4,13 @@ import flash.utils.Dictionary;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMessenger_addHandler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_removeHandler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_send;
 import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_sendToAll;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -51,7 +53,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_addHandler("Messenger.addHandler", moduleName, type, handler, handlerClassName));
+			MvcExpress.debug(new TraceMessenger_addHandler(MvcTraceActions.MESSENGER_ADDHANDLER, moduleName, type, handler, handlerClassName));
 		}
 		
 		// if this message type used for the first time - create data placeholders.
@@ -91,7 +93,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_removeHandler("Messenger.removeHandler", moduleName, type, handler));
+			MvcExpress.debug(new TraceMessenger_removeHandler(MvcTraceActions.MESSENGER_REMOVEHANDLER, moduleName, type, handler));
 		}
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
@@ -112,7 +114,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_send("Messenger.send", moduleName, type, params));
+			MvcExpress.debug(new TraceMessenger_send(MvcTraceActions.MESSENGER_SEND, moduleName, type, params));
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
@@ -143,7 +145,7 @@ public class Messenger {
 							handlerVo.handlerClassName
 							//
 							use namespace pureLegsCore;
-							MvcExpress.debug(new TraceMessenger_send_handler("Messenger.send.HANDLER", moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
+							MvcExpress.debug(new TraceMessenger_send_handler(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
 						}
 						handlerVo.handler(params);
 					}
@@ -169,7 +171,7 @@ public class Messenger {
 			}
 			
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_sendToAll("Messenger.sendToAll", moduleName, type, params))
+			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params))
 		}
 		use namespace pureLegsCore;
 		ModuleManager.sendMessageToAll(type, params);

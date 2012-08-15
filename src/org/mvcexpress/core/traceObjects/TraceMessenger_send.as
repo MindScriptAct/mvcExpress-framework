@@ -16,7 +16,7 @@ public class TraceMessenger_send extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "•> Messenger.send > type : " + type + ", params : " + params + "     {" + moduleName + "}";
+		return "•> " + MvcTraceActions.MESSENGER_SEND + " > type : " + type + ", params : " + params + "     {" + moduleName + "}";
 	}
 }
 }

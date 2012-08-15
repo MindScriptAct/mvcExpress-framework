@@ -5,7 +5,9 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceCommand_sendMessage;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -61,7 +63,7 @@ dynamic public class Command {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage("Command.sendMessage", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, messenger.moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
@@ -69,7 +71,7 @@ dynamic public class Command {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage("Command.sendMessage.CLEAN", messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, messenger.moduleName, this, type, params));
 		}
 	}
 	

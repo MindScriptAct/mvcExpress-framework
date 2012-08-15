@@ -20,7 +20,7 @@ public class TraceProxyMap_injectPending extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "WARNING: Pending injection. Inject object is not found for class with id:" + rule.injectClassAndName + "(needed in " + hostObject + ")" + "     {" + moduleName + "}";
+		return "!!!!! " + MvcTraceActions.PROXYMAP_INJECTPENDING + " > for id:" + rule.injectClassAndName + "(needed in " + hostObject + ")" + "     {" + moduleName + "}";
 	}
 }
 }

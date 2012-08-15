@@ -18,7 +18,7 @@ public class TraceMediatorMap_unmediate extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "§*- MediatorMap.unmediate > viewObject : " + viewObject + "     {" + moduleName + "}";
+		return "§*- " + MvcTraceActions.MEDIATORMAP_UNMEDIATE + " > viewObject : " + viewObject + "     {" + moduleName + "}";
 	}
 
 }

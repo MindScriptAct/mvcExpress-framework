@@ -14,7 +14,7 @@ public class TraceModuleManager_createModule extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "#####+ ModuleManager.createModule > moduleName : " + moduleName + ", autoInit : " + autoInit;
+		return "#####+ " + MvcTraceActions.MODULEMANAGER_CREATEMODULE + " > moduleName : " + moduleName + ", autoInit : " + autoInit;
 	}
 
 }

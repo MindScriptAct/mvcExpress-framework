@@ -7,6 +7,8 @@ import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_injectPending;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_injectStuff;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_map;
@@ -64,7 +66,7 @@ public class ProxyMap implements IProxyMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxyMap_map("ProxyMap.map", moduleName, proxyObject, injectClass, name));
+			MvcExpress.debug(new TraceProxyMap_map(MvcTraceActions.PROXYMAP_MAP, moduleName, proxyObject, injectClass, name));
 		}
 		
 		var className:String = getQualifiedClassName(injectClass);
@@ -107,7 +109,7 @@ public class ProxyMap implements IProxyMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxyMap_unmap("ProxyMap.unmap", moduleName, injectClass, name));
+			MvcExpress.debug(new TraceProxyMap_unmap(MvcTraceActions.PROXYMAP_UNMAP, moduleName, injectClass, name));
 		}
 		// remove proxy if it exists.
 		var className:String = getQualifiedClassName(injectClass);
@@ -198,7 +200,7 @@ public class ProxyMap implements IProxyMap {
 				// debug this action
 				CONFIG::debug {
 					use namespace pureLegsCore;
-					MvcExpress.debug(new TraceProxyMap_injectStuff("ProxyMap.injectStuff", moduleName, object, injectObject, rules[i]));
+					MvcExpress.debug(new TraceProxyMap_injectStuff(MvcTraceActions.PROXYMAP_INJECTSTUFF, moduleName, object, injectObject, rules[i]));
 				}
 			} else {
 				// if local injection fails... test for global(hosted) injections
@@ -212,7 +214,7 @@ public class ProxyMap implements IProxyMap {
 					// debug this action
 					CONFIG::debug {
 						use namespace pureLegsCore;
-						MvcExpress.debug(new TraceProxyMap_injectPending("ProxyMap.injectPending", moduleName, object, injectObject, rules[i]));
+						MvcExpress.debug(new TraceProxyMap_injectPending(MvcTraceActions.PROXYMAP_INJECTPENDING, moduleName, object, injectObject, rules[i]));
 					}
 					//
 					if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {

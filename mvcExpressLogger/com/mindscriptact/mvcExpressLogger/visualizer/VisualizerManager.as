@@ -1,8 +1,8 @@
 package com.mindscriptact.mvcExpressLogger.visualizer {
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import flash.utils.Dictionary;
-import org.flexunit.async.AsyncNativeTestResponder;
-import org.mvcexpress.core.CommandMap;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
@@ -21,13 +21,14 @@ public class VisualizerManager {
 	private var sendMessageStack:Vector.<Object> = new Vector.<Object>();
 	
 	public function logMvcExpress(logObj:Object):void {
+		use namespace pureLegsCore;
 		var topObject:Object;
 		var mediators:Vector.<Object>;
 		var proxies:Vector.<Object>;
 		var i:int;
 		//trace("VisualizerManager.logMvcExpress > logObj : " + logObj);
 		switch (logObj.action) {
-			case "MediatorMap.mediate": 
+			case MvcTraceActions.MEDIATORMAP_MEDIATE: 
 				mediators = getModuleMediators(logObj.moduleName);
 				mediators.push(logObj);
 				//mediatorClass = com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator$)
@@ -39,7 +40,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "MediatorMap.unmediate": 
+			case MvcTraceActions.MEDIATORMAP_UNMEDIATE: 
 				mediators = getModuleMediators(logObj.moduleName);
 				for (i = 0; i < mediators.length; i++) {
 					if (mediators[i].viewObject == logObj.viewObject) {
@@ -53,7 +54,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.map": 
+			case MvcTraceActions.PROXYMAP_MAP: 
 				proxies = getModuleProxies(logObj.moduleName);
 				proxies.push(logObj);
 				if (this.mvcExpressVisualizerScreen) {
@@ -62,7 +63,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.unmap": 
+			case MvcTraceActions.PROXYMAP_UNMAP: 
 				proxies = getModuleProxies(logObj.moduleName);
 				for (i = 0; i < proxies.length; i++) {
 					if (proxies[i].injectClass == logObj.injectClass && proxies[i].name == logObj.name) {
@@ -76,7 +77,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.injectStuff": 
+			case MvcTraceActions.PROXYMAP_INJECTSTUFF: 
 				var hostObject:Object = logObj.hostObject;
 				var injectedObject:Object = logObj.injectObject;
 				var a:Object = injectedObject as Proxy;
@@ -136,8 +137,8 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "CommandMap.execute": 
-			case "CommandMap.handleCommandExecute": 
+			case MvcTraceActions.COMMANDMAP_EXECUTE: 
+			case MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE: 
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						if (sendMessageStack.length) {
@@ -162,7 +163,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Mediator.addHandler": 
+			case MvcTraceActions.MEDIATOR_ADDHANDLER: 
 				// add handler to mediator
 				mediators = getModuleMediators(logObj.moduleName);
 				for (var k:int = 0; k < mediators.length; k++) {
@@ -174,16 +175,16 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ModuleBase.sendMessage": 
-			case "Mediator.sendMessage": 
-			case "Proxy.sendMessage": 
-			case "Command.sendMessage": 
+			case MvcTraceActions.MODULEBASE_SENDMESSAGE: 
+			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
+			case MvcTraceActions.PROXY_SENDMESSAGE: 
+			case MvcTraceActions.COMMAND_SENDMESSAGE: 
 				sendMessageStack.push(logObj);
 				break;
-			case "ModuleBase.sendMessage.CLEAN": 
-			case "Mediator.sendMessage.CLEAN": 
-			case "Proxy.sendMessage.CLEAN": 
-			case "Command.sendMessage.CLEAN": 
+			case MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {
@@ -197,7 +198,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Messenger.send": 
+			case MvcTraceActions.MESSENGER_SEND: 
 				topObject = sendMessageStack[sendMessageStack.length - 1];
 				if (topObject) {
 					if (logObj.type == topObject.type) {
@@ -229,7 +230,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Messenger.send.HANDLER": 
+			case MvcTraceActions.MESSENGER_SEND_HANDLER: 
 				if (mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						//

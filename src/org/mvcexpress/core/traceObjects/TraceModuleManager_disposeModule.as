@@ -11,7 +11,7 @@ public class TraceModuleManager_disposeModule extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "#####- ModuleManager.disposeModule > moduleName : " + moduleName;
+		return "#####- " + MvcTraceActions.MODULEMANAGER_DISPOSEMODULE + " > moduleName : " + moduleName;
 	}
 
 }

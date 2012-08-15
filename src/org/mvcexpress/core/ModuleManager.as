@@ -2,8 +2,10 @@ package org.mvcexpress.core {
 import flash.utils.Dictionary;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -39,7 +41,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_createModule("ModuleManager.createModule", moduleName, autoInit));
+			MvcExpress.debug(new TraceModuleManager_createModule(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++
@@ -79,7 +81,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_disposeModule("ModuleManager.disposeModule", moduleName));
+			MvcExpress.debug(new TraceModuleManager_disposeModule(MvcTraceActions.MODULEMANAGER_DISPOSEMODULE, moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
 			delete moduleRegistry[moduleName];

@@ -6,10 +6,12 @@ import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_execute;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_handleCommandExecute;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_map;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_unmap;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -53,7 +55,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_map("CommandMap.map", moduleName, type, commandClass));
+			MvcExpress.debug(new TraceCommandMap_map(MvcTraceActions.COMMANDMAP_MAP, moduleName, type, commandClass));
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
@@ -76,7 +78,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_unmap("CommandMap.unmap", moduleName, type, commandClass));
+			MvcExpress.debug(new TraceCommandMap_unmap(MvcTraceActions.COMMANDMAP_UNMAP, moduleName, type, commandClass));
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
@@ -111,7 +113,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_execute("CommandMap.execute", moduleName, command, commandClass, params));
+			MvcExpress.debug(new TraceCommandMap_execute(MvcTraceActions.COMMANDMAP_EXECUTE, moduleName, command, commandClass, params));
 			
 			validateCommandParams(commandClass, params);
 		}
@@ -158,7 +160,7 @@ public class CommandMap {
 				// debug this action
 				CONFIG::debug {
 					use namespace pureLegsCore;
-					MvcExpress.debug(new TraceCommandMap_handleCommandExecute("CommandMap.handleCommandExecute", moduleName, command, commandList[i], messageType, params));
+					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName, command, commandList[i], messageType, params));
 				}
 				
 				use namespace pureLegsCore;
