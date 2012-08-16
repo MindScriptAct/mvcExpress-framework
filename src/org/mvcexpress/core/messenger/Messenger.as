@@ -10,6 +10,7 @@ import org.mvcexpress.core.traceObjects.TraceMessenger_removeHandler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_send;
 import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_sendToAll;
+import org.mvcexpress.core.traceObjects.TraceMessenger_sendToAll_clean;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
@@ -164,17 +165,21 @@ public class Messenger {
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
 	 */
 	public function sendToAll(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.disableSendToAllFeature) {
 				throw Error("sendMessageToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
 			}
 			
-			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params))
 		}
-		use namespace pureLegsCore;
 		ModuleManager.sendMessageToAll(type, params);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			MvcExpress.debug(new TraceMessenger_sendToAll_clean(MvcTraceActions.MESSENGER_SENDTOALL_CLEAN, moduleName, type, params))
+		}
 	}
 	
 	/**

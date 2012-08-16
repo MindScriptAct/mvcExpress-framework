@@ -11,6 +11,7 @@ import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.SampleProxy;
 import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
 import com.mindScriptAct.codeSnippets.view.MainAppMediator;
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.utils.Proxy;
@@ -26,6 +27,8 @@ import org.mvcexpress.utils.checkClassStringConstants;
 public class SpriteModuleTest extends ModuleSprite {
 	
 	public function SpriteModuleTest() {
+		MvcExpressLogger.init(this.stage, 0, 0, 900, 500, 0.9, true, MvcExpressLogger.VISUALIZER_TAB);
+		super();
 		trace("SpriteModuleTest.SpriteModuleTest");
 		
 		//

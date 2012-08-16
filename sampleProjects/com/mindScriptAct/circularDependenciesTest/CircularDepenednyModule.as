@@ -6,6 +6,7 @@ import com.mindScriptAct.circularDependenciesTest.model.CProxy;
 import com.mindScriptAct.circularDependenciesTest.model.DProxy;
 import com.mindScriptAct.circularDependenciesTest.view.TestView;
 import com.mindScriptAct.circularDependenciesTest.view.TestViewMediator;
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
 
@@ -16,7 +17,8 @@ import org.mvcexpress.MvcExpress;
 public class CircularDepenednyModule extends ModuleSprite {
 	
 	public function CircularDepenednyModule() {
-	
+		MvcExpressLogger.init(this.stage, 0, 0, 900, 500, 0.9, true, MvcExpressLogger.VISUALIZER_TAB);
+		super();
 	}
 	
 	override protected function onInit():void {
@@ -84,11 +86,11 @@ public class CircularDepenednyModule extends ModuleSprite {
 		proxyMap.map(aProxy);
 		proxyMap.map(bProxy);
 		proxyMap.map(cProxy);
-		
+	
 		// unmap proxies.
-		proxyMap.unmap(AProxy);
-		proxyMap.unmap(BProxy);
-		proxyMap.unmap(CProxy);
+		//proxyMap.unmap(AProxy);
+		//proxyMap.unmap(BProxy);
+		//proxyMap.unmap(CProxy);
 	
 		//*/
 	

@@ -16,6 +16,7 @@ public class MvcExpressSnippets extends Sprite {
 	private var appModule:SnippetAppModule;
 	
 	public function MvcExpressSnippets():void {
+		MvcExpressLogger.init(this.stage, 0, 0, 900, 500, 0.9, true, MvcExpressLogger.VISUALIZER_TAB);
 		if (stage)
 			init();
 		else

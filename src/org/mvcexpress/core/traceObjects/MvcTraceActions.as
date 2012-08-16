@@ -37,6 +37,7 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXYMAP_INJECTSTUFF:String = "ProxyMap.injectStuff";
 	
 	static pureLegsCore const MESSENGER_SEND_HANDLER:String = "Messenger.send.HANDLER";
+	static pureLegsCore const MESSENGER_SENDTOALL_CLEAN:String = "Messenger.sendToAll.CLEAN";
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";

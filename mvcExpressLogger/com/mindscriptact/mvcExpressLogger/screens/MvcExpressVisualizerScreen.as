@@ -11,8 +11,8 @@ import flash.utils.setTimeout;
 public class MvcExpressVisualizerScreen extends Sprite {
 	private var screenWidth:int;
 	private var screenHeight:int;
-	private var mediators:Vector.<Object>;
-	private var proxies:Vector.<Object>;
+	private var mediators:Vector.<Object> = new Vector.<Object>();
+	private var proxies:Vector.<Object>  = new Vector.<Object>();
 	private var commands:Vector.<Object> = new Vector.<Object>();
 	private var currentModuleName:String;
 	private var moduleLabel:Label;
@@ -277,13 +277,14 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		//
 		if (proxies) {
 			this.proxies = proxies;
-		}
-		for (var i:int = 0; i < proxies.length; i++) {
-			addProxy(proxies[i]);
-		}
-		for (var j:int = 0; j < proxies.length; j++) {
-			proxies[j].view.y = j * 20 + 50;
-			redrawProxyDependencies(proxies[j]);
+			
+			for (var i:int = 0; i < proxies.length; i++) {
+				addProxy(proxies[i]);
+			}
+			for (var j:int = 0; j < proxies.length; j++) {
+				proxies[j].view.y = j * 20 + 50;
+				redrawProxyDependencies(proxies[j]);
+			}
 		}
 	}
 	
@@ -377,7 +378,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				commandLabel.graphics.moveTo(0, 10);
 				commandLabel.graphics.lineTo(-30, moduleLabel.y - commandLabel.y * 0.2);
 				commandLabel.graphics.lineTo(-20, moduleLabel.y - commandLabel.y * 0.8);
-				commandLabel.graphics.lineTo( -commandLabel.x + moduleLabel.x, -commandLabel.y + moduleLabel.y + moduleLabel.height - 10);
+				commandLabel.graphics.lineTo(-commandLabel.x + moduleLabel.x, -commandLabel.y + moduleLabel.y + moduleLabel.height - 10);
 				
 				commandLabel.graphics.moveTo(0, 10);
 				commandLabel.graphics.lineTo(-10, 10 - 2);
