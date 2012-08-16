@@ -39,108 +39,106 @@
 	<h2>Framework classes you will work with:</h2>
 	
 </br>	
-		<h3><a href="org/mvcexpress/core/ModuleSprite.html">ModuleSprite</a>,<a href="org/mvcexpress/core/ModuleMovieClip.html">ModuleMovieClip</a> and <a href="org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:</h3>
-		
-You will extend this classes to initiate framework, set up your application and start it. (all your modules will be started also by extending this class.)<br>
-Set up and start your application in <code>onInit()</code> function.<br>
-Module can be disposed with <code>dispose()</code> function.<br>
-You can name your modules by sending moduleName to constructor. By default your modules will be named automatically. (module1, module2...)<br>
+		<h3><a href="org/mvcexpress/core/ModuleSprite.html">ModuleSprite</a>,<a href="org/mvcexpress/core/ModuleMovieClip.html">ModuleMovieClip</a> and <a href="org/mvcexpress/core/ModuleCore.html">ModuleCore</a>:        </h3>
+		<p>You will extend these classes to create all your  modules.<br>
+		  These classes will be used to  set up your application and start it. (theyw will also automaticaly initiate framework)<br>
+		  You can name your modules by sending moduleName to super() constructor. (By default your modules will be named automatically: module1, module2...)<br>
+          Set up and start your application by overiding <a href="http://mvcexpress.org/documentation/org/mvcexpress/core/ModuleSprite.html#onInit()">onInit</a>() function.<br>
+          Module can be disposed with  <a href="http://mvcexpress.org/documentation/org/mvcexpress/core/ModuleSprite.html#disposeModule()">disposeModule</a>() function.</p>
+		<a href="org/mvcexpress/mvc/Proxy.html"><h3>Proxy:
+		  </p>
 
-<br>
-		<h3><a href="org/mvcexpress/mvc/Command.html">Command</a>:</h3>
-		
-Extend this class to create executable command.<br>
-Your class must have public execute(params:Object) function. (you can change type of params object)<br>
+			
+          </h3></a>
+<p>Extend this class then you need place to store data and application state.<br>
+              Create public functions(API) to manipulate your data and application state, and send messages about changes.
+              Proxy can't listen for framework messages, only send them.<br>
+    Proxies are injected in your application with help of meta-tag <code>[Inject]</code>. This tag must be used right in front of <code>public</code> variable for proxy object.(It is injected using object Type)<br>
+              It is possible to have more then one proxy with same Type by using name. 
+              <code>[Inject(name='myProxyName')]</code><br>
+              
+              <br>
+            </p>
+<h3><a href="org/mvcexpress/mvc/Mediator.html">Mediator</a>:</h3>
+			
+<p>Extend this class to create mediators for your view objects.<br>
+  Mediators should focus only on mediating and not managing view.<br>
+  Mediators get view object injected with help of meta-tag <code>[Inject]</code>. This tag must be used right in front of <code>public</code> view object variable.<br>
+  Mediators can injected proxy instances with help of meta-tag <code>[Inject]</code> to get needed data, but this will create dependencies. If you want/need your view to stay independent from proxy classes - use messages instead.</p>
+<p>Mediators also have functions to handle AS3 events better: <a href="http://mvcexpress.org/documentation/org/mvcexpress/mvc/Mediator.html#addListener()">addListener</a>(), <a href="http://mvcexpress.org/documentation/org/mvcexpress/mvc/Mediator.html#removeListener()">removeListener</a>(), <a href="http://mvcexpress.org/documentation/org/mvcexpress/mvc/Mediator.html#removeAllListeners()">removeAllListeners</a>().<br>
+Event listeners added this way by default have weak references. And are automatically removed them mediator is removed. <br>
+</p>
+<h3><a href="org/mvcexpress/mvc/Command.html">Command</a>:</h3>
+<p>Extend this class to create executable command.<br>
+Your command class must have public execute(params:Object) function. (you can change type of params object to have strong type)<br>
 Commands should be stateless - do not hold data.<br>
-Commands should do one specific job and die.<br>
-
-<br>
-			<h3><a href="org/mvcexpress/mvc/Proxy.html">Proxy</a>:</h3>
-
-			
-Extend this class then you need place to store data and application state.<br>
-Create public functions(API) to manipulate your data and application state, and send messages about changes.
-Proxy can't listen for framework messages, only send them.<br>
-Proxies are injected in your application with help of meta-tag <code>[Inject]</code>. This tag must be used right in front of <code>public</code> variable for proxy object.<br>
-
-<br>
-			<h3><a href="org/mvcexpress/mvc/Mediator.html">Mediator</a>:</h3>
-			
-Extend this class to create mediators for your view objects.<br>
-Mediators should focus only on mediating and not managing view.<br>
-Mediators get view object injected with help of meta-tag <code>[Inject]</code>. This tag must be used right in front of <code>public</code> view object variable.<br>
-Mediators can injected proxy instances with help of meta-tag <code>[Inject]</code> to get needed data, but this will create dependencies. If you want/need your view to stay independent from proxy classes - use messages instead.<br>
-
-
-
-<br>
+Commands should do one specific job, do it well and die.<br>
+</p>
 <hr>
 <h2>Set Up:</h2>
-<p>You can set up your application in your module classes with <code>onInit()</code> function or execute() command classes to do the job.<br>
- Usually it's better to do it in commands, unless you have really small module.</p>
+<p>You can set up your application in your module classes with <code>onInit()</code> function or execute() Command classes to do the job.(Usually it's better to do it in commands, unless you have really small module.)</p>
  
  
  
  
 <p style="font-weight: bold;">To set up commands use <a href="org/mvcexpress/base/CommandMap.html">commandMap:</a></p>
-<p>Map a class to be executed then message with type provided is sent:<br>
+<p>To use commands you will map your custom commands to  message types, for them to be executed automaticaly then specific message is send, or execute them directly using <a href="org/mvcexpress/base/CommandMap.html">CommandMap</a> object. commandMap can be used from Modules and Commands.<br>
+  <br>
+  Map a class to be executed then message with type provided is sent:<br>
   <a href="org/mvcexpress/base/CommandMap.html#map%28%29" class="signatureLink">commandMap.map</a>(type:String, commandClass:Class):void</p>
 <p>Or unmap mapped class:<br>
   <a href="org/mvcexpress/base/CommandMap.html#unmap%28%29" class="signatureLink">commandMap.unmap</a>(type:String, commandClass:Class):void</p>
-<p>Commands also can be executed directly:<br>
+<p>Commands also can be executed directly, without need to map to message:<br>
   <a href="org/mvcexpress/base/CommandMap.html#execute%28%29" class="signatureLink">commandMap.execute</a>(commandClass:Class, params:Object = null):void</p>
   
   
   
-<span style="font-weight: bold;">To set up proxies use </span><a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html">proxylMap</a><span style="font-weight: bold;">:<br>
-<br>
-
-
-</span>Maps proxy object to injectClass and name.<br>
-<a href="org/mvcexpress/base/ProxyMap.html#map%28%29" class="signatureLink">proxyMap.map</a>(proxyObject:<a href="org/mvcexpress/mvc/Proxy.html">Proxy</a>, injectClass:Class = null, name:String):void<br>
-<br>
-Removes proxy mapped for injection by injectClass and name.<br>
-<a href="org/mvcexpress/base/ProxyMap.html#unmap%28%29" class="signatureLink">proxyMap.unmap</a>(proxyClass:Class, name:String):void<br>
-<br>
-
-
+<p><span style="font-weight: bold;">To set up proxies use </span><a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html">proxylMap</a><span style="font-weight: bold;">:<br>
+  </span></p>
+<p>You will manualy create your proxies and map them using <a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html">ProxylMap</a> object, it can be used from Modules and Commands.<br>
+  <span style="font-weight: bold;"><br>
+  
+  
+  </span>Maps proxy object to injectClass and name.<br>
+  <a href="org/mvcexpress/base/ProxyMap.html#map%28%29" class="signatureLink">proxyMap.map</a>(proxyObject:<a href="org/mvcexpress/mvc/Proxy.html">Proxy</a>, injectClass:Class = null, name:String = &quot;&quot;):void<br>
+  <br>
+  Removes proxy mapped for injection by injectClass and name.<br>
+  <a href="org/mvcexpress/base/ProxyMap.html#unmap%28%29" class="signatureLink">proxyMap.unmap</a>(proxyClass:Class, name:String = &quot;&quot;):void<br>
+  <br>
+</p>
 <p style="font-weight: bold;">To set up mediators use <a href="org/mvcexpress/base/MediatorMap.html">mediatorMap:</a></p>
-Map mediator class to view class.<br>
-<a href="org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br>
+<p>You will   map your  view classes to mediator classes using <a href="org/mvcexpress/base/MediatorMap.html">MediatorMap</a><a style="font-weight: bold;" href="org/mvcexpress/base/ProxyMap.html"></a> object, it can be used from Modules and Commands.<br>
+</p>
+<p>Map mediator class to view class.<br>
+  <a href="org/mvcexpress/base/MediatorMap.html#map%28%29" class="signatureLink">mediatorMap.map</a>(viewClass:Class, mediatorClass:Class):void<br>
+</p>
 <p> Unmaps any mediator class to given view class.<br>
   <a href="org/mvcexpress/base/MediatorMap.html#unmap%28%29" class="signatureLink">mediatorMap.unmap</a>(viewClass:Class):void</p>
 <br>
-Then view and mediator pairs are mapped you can start mediating view object. It can be done from modules, Commands or Mediators:
+Then view and mediator pairs are mapped you can start mediating view object. It can be done from Modules, Commands and Mediators:
 
 <p> Automatically instantiate mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function:<br>
   <a href="org/mvcexpress/base/MediatorMap.html#mediate%28%29" class="signatureLink">mediatorMap.mediate</a>(viewObject:Object):void</p>
 <p> If any mediator is mediating viewObject: it calls onRemove, automatically removes all handler functions listening for messages from that mediator and disposes it:<br>
   <a href="org/mvcexpress/base/MediatorMap.html#unmediate%28%29" class="signatureLink">mediatorMap.unmediate</a>(viewObject:Object):void</p>
-<p><br>
-</p>
-<p>Mediators also have functions to handle AS3 events better: addListener(), removeListener(), removeAllListeners().<br>
-Event listeners added this way by default have weak references. And are automatically removed them mediator is removed.
-</p>
-
-
-
+<p>&nbsp;</p>
 <hr>
 <h2>Communication:</h2>
-<p>You can send messages from modules, commands, proxies and mediators framework classes, optionally send parameter object(it will be passed to handle function or commands execute() function), and optionaly send message to all existing modules instead of just one - sender module.:<br>
-  <a href="org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String, params:Object = null, targetAllModules:Boolean = false):void</code></p>
+<p>You can send messages from modules, commands, proxies and mediators framework classes, optionally send parameter object(it will be passed to handle function or commands execute() function):<br>
+  <a href="org/mvcexpress/mvc/Mediator.html#sendMessage%28%29" class="signatureLink">sendMessage</a><code>(type:String, params:Object = null):void</code></p>
 <p>You can listen for messages in Mediators by adding handle function:<br>
   <a href="org/mvcexpress/mvc/Mediator.html#addHandler%28%29" class="signatureLink">addHandler</a><code>(type:String, handler:Function):void</code></p>
 <p><code>Or in Mediators remove existing handle functions:<br>
   </code><a href="org/mvcexpress/mvc/Mediator.html#removeHandler%28%29" class="signatureLink">removeHandler</a><code>(type:String, handler:Function):void</code></p>
   
-<p><code>Also you can use </code><a href="org/mvcexpress/base/CommandMap.html">commandMap</a> to map command class to be executed then message is sent. </p>
+<p><code>(Also you can use </code><a href="org/mvcexpress/base/CommandMap.html">commandMap</a> to map command class to be executed then message is sent.)</p>
 
-<span style="font-weight: bold;"> Both handler function and execute() function in your commands must contain one parameter. </span><br>
-Type of that parameter must be the same as params object sent with <code>sentMessage()</code>, or you can set it to type: <code>Object</code>.
-	
-<br>	
+<p><span style="font-weight: bold;"> Both handler function and execute() function in your commands must contain one parameter!</span><br>
+  Type of that parameter must be the same as params object sent with <code>sentMessage()</code>, or you can set it to type: <code>Object</code>.  <br>
+  If you don't send any parameters with message - <em>null</em> will be passed to handling function. <br>	
+</p>
 <hr>
-<h2>MvcExpress.as:</h2>
+<h2> <a href="http://mvcexpress.org/documentation/org/mvcexpress/MvcExpress.html">MvcExpress</a>.as:</h2>
 You can use MvcExpress.as to change global settings of how framework works.<br>
 <p>To get framework debug data use : <code>MvcExpress.debugFunction = trace;</code>  (will work only during debug compile.)</p>
 <p>To enable circular dependency support set pendingInjectsTimeOut value. : <code>MvcExpress.pendingInjectsTimeOut = 1000;</code> </p>
