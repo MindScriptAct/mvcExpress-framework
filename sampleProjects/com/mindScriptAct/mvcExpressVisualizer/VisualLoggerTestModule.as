@@ -25,6 +25,8 @@ import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.geom.Point;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.modules.ModuleSprite;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassStringConstants;
@@ -51,12 +53,21 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	public function VisualLoggerTestModule() {
 		CONFIG::debug {
 			MvcExpress.debugFunction = trace;
+			//MvcExpress.debugFunction = myDebugFunction;
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true, MvcExpressLogger.VISUALIZER_TAB);
 		}
 		super(ModuleNames.SHELL);
 		//
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
+	}
+	
+	private function myDebugFunction(traceObj:TraceObj):void {
+		if (traceObj.action == MvcTraceActions.MEDIATORMAP_MEDIATE) {
+			if (traceObj.mediatorClass == TestViewAMediator) {
+				trace( "TestViewAMediator mediates :" +  traceObj.viewObject);
+			}
+		}
 	}
 	
 	override protected function onInit():void {
@@ -110,13 +121,6 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		testMessageB3Button.width = 170;
 		
 		testProxyCButton = new PushButton(this, 180, 570, "Add TestProxyC", handleAddProxyC);
-		
-
-		
-		
-		
-		
-		
 		
 		// console module area
 		roundRectangle = new Shape();

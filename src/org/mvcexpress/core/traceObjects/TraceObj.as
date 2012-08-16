@@ -1,10 +1,11 @@
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.traceObjects {
 
 /**
  * Base of all trace objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class TraceObj {
+dynamic public class TraceObj {
 	
 	public var moduleName:String;
 	public var action:String;

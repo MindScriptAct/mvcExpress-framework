@@ -1,3 +1,4 @@
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.core.namespace.pureLegsCore;
 
@@ -28,6 +29,10 @@ public class MvcTraceActions {
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
 	static public const MESSENGER_SENDTOALL:String = "Messenger.sendToAll";
+	
+	//----------------------------------
+	//     For internal use
+	//----------------------------------
 	
 	static pureLegsCore const PROXYMAP_INJECTSTUFF:String = "ProxyMap.injectStuff";
 	
