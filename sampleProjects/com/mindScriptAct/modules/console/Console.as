@@ -47,6 +47,7 @@ public class Console extends ModuleSprite {
 		//commandMap.mapRemote(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
 		//commandMap.mapRemote(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
+		
 		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
 		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand);
 

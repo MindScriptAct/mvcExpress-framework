@@ -29,6 +29,7 @@ public class MvcTraceActions {
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
 	static public const MESSENGER_SENDTOALL:String = "Messenger.sendToAll";
+
 	
 	//----------------------------------
 	//     For internal use
@@ -38,6 +39,8 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const MESSENGER_SEND_HANDLER:String = "Messenger.send.HANDLER";
 	static pureLegsCore const MESSENGER_SENDTOALL_CLEAN:String = "Messenger.sendToAll.CLEAN";
+	static pureLegsCore const MEDIATOR_CHANNELMESSAGE:String = "Mediator.channelmessage";
+	static pureLegsCore const MEDIATOR_CHANNELMESSAGE_CLEAN:String = "Mediator.channelmessage.CLEAN";
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";

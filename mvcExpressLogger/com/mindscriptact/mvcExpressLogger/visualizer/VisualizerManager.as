@@ -177,6 +177,7 @@ public class VisualizerManager {
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
+			case MvcTraceActions.MEDIATOR_CHANNELMESSAGE: 
 			case MvcTraceActions.PROXY_SENDMESSAGE: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE: 
 			case MvcTraceActions.MESSENGER_SENDTOALL: 
@@ -184,9 +185,10 @@ public class VisualizerManager {
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.MEDIATOR_CHANNELMESSAGE_CLEAN: 
 			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.MESSENGER_SENDTOALL_CLEAN:
+			case MvcTraceActions.MESSENGER_SENDTOALL_CLEAN: 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {

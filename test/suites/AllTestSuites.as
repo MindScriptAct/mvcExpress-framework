@@ -1,4 +1,5 @@
 package suites {
+import integration.channeling.ChannelingTests;
 import suites.commandMap.CommandMapTests;
 import suites.commands.CommandsTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
@@ -22,7 +23,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	//*
+	/*
 	
 	public var generalTests:GeneralTests;
 	
@@ -46,10 +47,14 @@ public class AllTestSuites {
 	
 	public var featureGetProxyTest:FeatureGetProxyTests;
 	
-	//*/
 	
 	public var mediatorTests:MediatorTests;
+	
+	//*/
 
+	public var channelingTests:ChannelingTests;
+	
+	
 	//
 	//
 	//

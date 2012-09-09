@@ -1,4 +1,5 @@
 package com.mindScriptAct.modules.console.view {
+import com.mindScriptAct.modularSample.constants.ChannelNames;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
@@ -22,6 +23,13 @@ public class ConsoleMediator extends Mediator {
 		
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 		//addRemoteHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
+		
+		addChannelHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleTargeterMessage, ChannelNames.FIRST_CHANNEL);
+		
+	}
+	
+	private function handleTargeterMessage(params:ConsoleParams):void {
+		trace( "ConsoleMediator.handleTargeterMessage > params : " + params );
 		
 	}
 	

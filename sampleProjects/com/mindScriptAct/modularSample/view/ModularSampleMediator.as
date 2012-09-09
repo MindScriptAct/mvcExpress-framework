@@ -1,5 +1,6 @@
 package com.mindScriptAct.modularSample.view {
 import com.bit101.components.PushButton;
+import com.mindScriptAct.modularSample.constants.ChannelNames;
 import com.mindScriptAct.modularSample.ModularSample;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.console.msg.ConsoleMsg;
@@ -106,15 +107,15 @@ public class ModularSampleMediator extends Mediator {
 	}
 	
 	public function handleMessageToFirst(event:MouseEvent):void {
-		sendMessageToAll(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to FIRST module!!!", [1]));
+		sendChannelMessage(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to FIRST module!!!", [1]), ChannelNames.FIRST_CHANNEL);
 	}
 	
 	public function handleMessageToEven(event:MouseEvent):void {
-		sendMessageToAll(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to even modules!!! (2 and 4)", [2, 4]));
+		sendChannelMessage(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, new ConsoleParams("Message to even modules!!! (2 and 4)", [2, 4]), ChannelNames.EVEN_CHANNEL);
 	}
 	
 	public function handleMessageToAll(event:MouseEvent):void {
-		sendMessageToAll(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, "Global message to all modules!!!");
+		sendChannelMessage(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, "Global message to all modules!!!");
 	}
 	
 	//public function handleMessageToAllNoStore(event:MouseEvent):void {

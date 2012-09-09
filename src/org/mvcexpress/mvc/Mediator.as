@@ -7,9 +7,11 @@ import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
+import org.mvcexpress.core.traceObjects.TraceMediator_channelMessage;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
@@ -156,13 +158,32 @@ public class Mediator {
 	}
 	
 	/**
-	 * Sends message to all existing modules.
+	 * DEPRICATED : Sends message to all existing modules.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 * @deprecated v1.1
 	 */
 	protected function sendMessageToAll(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		messenger.sendToAll(type, params);
+	}
+	
+	/**
+	 */
+	protected function sendChannelMessage(type:String, params:Object = null, channelName:String = "global"):void {
+		use namespace pureLegsCore;
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_CHANNELMESSAGE, messenger.moduleName, this, type, params));
+		}
+		ModuleManager.sendChannelMessage(type, params, channelName);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_CHANNELMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+		}
 	}
 	
 	//----------------------------------
@@ -203,7 +224,8 @@ public class Mediator {
 	}
 	
 	/**
-	 * Remove all handle functions created by this mediator. Automatically called with unmediate().
+	 * Remove all handle functions created by this mediator, internal module handlers AND channel handlers. 
+	 * Automatically called with unmediate(). 
 	 * (but don't forget to remove your event handler manualy...)
 	 */
 	protected function removeAllHandlers():void {
@@ -299,6 +321,20 @@ public class Mediator {
 				viewObject.removeEventListener(type, listener as Function, false);
 			}
 		}
+	}
+	
+	//----------------------------------
+	//     channel
+	//----------------------------------
+	
+	protected function addChannelHandler(type:String, handler:Function, channelName:String = "global"):void {
+		use namespace pureLegsCore;
+		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, channelName));
+	}
+	
+	protected function removeChannelHandler(type:String, handler:Function, channelName:String = "global"):void {
+		use namespace pureLegsCore;
+		ModuleManager.removeChannelHandler(type, handler, channelName);
 	}
 
 }
