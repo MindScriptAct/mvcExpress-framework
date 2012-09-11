@@ -105,30 +105,30 @@ public class ModuleManager {
 	//     channel
 	//----------------------------------
 	
-	static pureLegsCore function sendChannelMessage(type:String, params:Object, channelName:String):void {
-		trace("ModuleManager.channelMessage > type : " + type + ", params : " + params + ", channelName : " + channelName);
+	static pureLegsCore function sendChannelMessage(type:String, params:Object, scopeName:String):void {
+		trace("ModuleManager.channelMessage > type : " + type + ", params : " + params + ", scopeName " + scopeName);
 		use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[channelName];
+		var channelMesanger:Messenger = channels[scopeName];
 		if (channelMesanger) {
 			channelMesanger.send(type, params);
 		}
 	}
 	
-	static pureLegsCore function addChannelHandler(type:String, handler:Function, channelName:String):HandlerVO {
-		var channelMesanger:Messenger = channels[channelName];
+	static pureLegsCore function addChannelHandler(type:String, handler:Function, scopeName:String):HandlerVO {
+		var channelMesanger:Messenger = channels[scopeName];
 		if (!channelMesanger) {
 			use namespace pureLegsCore;
 			Messenger.allowInstantiation = true;
-			channelMesanger = new Messenger("$channel_" + channelName);
+			channelMesanger = new Messenger("$channel_" + scopeName);
 			Messenger.allowInstantiation = false;
-			channels[channelName] = channelMesanger;
+			channels[scopeName] = channelMesanger;
 		}
 		return channelMesanger.addHandler(type, handler);
 	}
 	
-	static pureLegsCore function removeChannelHandler(type:String, handler:Function, channelName:String):void {
+	static pureLegsCore function removeChannelHandler(type:String, handler:Function, scopeName:String):void {
 		//use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[channelName];
+		var channelMesanger:Messenger = channels[scopeName];
 		if (channelMesanger) {
 			channelMesanger.removeHandler(type, handler);
 		}

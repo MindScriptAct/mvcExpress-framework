@@ -1,6 +1,7 @@
 package integration.channeling.testObj.moduleA {
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.geom.Point;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -19,6 +20,7 @@ public class ChannelAMediator extends Mediator {
 		view.addEventListener("addChannelHandler_test1", addChannelHandler1);
 		view.addEventListener("addChannelHandler_test2", addChannelHandler2);
 		view.addEventListener("addChannelHandler_testChannel_test3", addChannelHandler3);
+		view.addEventListener("addChannelHandler_testChannel_test4_withParams", addChannelHandler4);
 		view.addEventListener("removeChannelHandler_test1", removeChannelHandler1);
 	}
 	
@@ -32,6 +34,10 @@ public class ChannelAMediator extends Mediator {
 	
 	private function addChannelHandler3(event:Event):void {
 		addChannelHandler("test3", handleTest3Channelmessage, "testChannel");
+	}
+	
+	private function addChannelHandler4(event:Event):void {
+		addChannelHandler("test4", handleTest4Channelmessage, "testChannel");
 	}
 	
 	private function removeChannelHandler1(event:Event):void {
@@ -52,6 +58,12 @@ public class ChannelAMediator extends Mediator {
 		trace("ChannelAMediator.handleTest3Channelmessage > blank : " + blank);
 		view.test3handled = true;
 	}
+	
+	private function handleTest4Channelmessage(testParams:String):void {
+		trace( "ChannelAMediator.handleTest4Channelmessage > testParams : " + testParams );
+		view.test4handled = true;
+		view.test4params = testParams;
+	}	
 	
 	override public function onRemove():void {
 	

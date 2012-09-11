@@ -36,6 +36,7 @@ public class ChannelingTests {
 		Assert.assertFalse("test1 handler must be false", channelModulA.view.test1handled);
 		Assert.assertFalse("test2 handler must be false", channelModulA.view.test2handled);
 		Assert.assertFalse("test3 handler must be false", channelModulA.view.test3handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test4handled);
 		//
 		channelModulA.addChannelHandler_test1();
 		
@@ -54,6 +55,7 @@ public class ChannelingTests {
 		Assert.assertFalse("test1 handler must be false", channelModulA.view.test1handled);
 		Assert.assertFalse("test2 handler must be false", channelModulA.view.test2handled);
 		Assert.assertFalse("test3 handler must be false", channelModulA.view.test3handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test4handled);
 		//
 		channelModulA.addChannelHandler_test1();
 		
@@ -74,6 +76,7 @@ public class ChannelingTests {
 		Assert.assertFalse("test1 handler must be false", channelModulA.view.test1handled);
 		Assert.assertFalse("test2 handler must be false", channelModulA.view.test2handled);
 		Assert.assertFalse("test3 handler must be false", channelModulA.view.test3handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test4handled);
 		//
 		channelModulA.addChannelHandler_test1();
 		channelModulA.addChannelHandler_test2();
@@ -94,8 +97,10 @@ public class ChannelingTests {
 		Assert.assertFalse("test1 handler must be false", channelModulA.view.test1handled);
 		Assert.assertFalse("test2 handler must be false", channelModulA.view.test2handled);
 		Assert.assertFalse("test3 handler must be false", channelModulA.view.test3handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test4handled);
 		//
 		channelModulA.addChannelHandler_test1();
+		channelModulA.addChannelHandler_test2();
 		channelModulA.addChannelHandler_testChannel_test3();
 		
 		channelModulB.sendChannelMessage_testChannel_test3();
@@ -103,6 +108,34 @@ public class ChannelingTests {
 		Assert.assertTrue("test3 handler must be true after addChannelHandler() and sendChannelMessage()", channelModulA.view.test3handled);
 		Assert.assertFalse(channelModulA.view.test1handled);
 		Assert.assertFalse(channelModulA.view.test2handled);
+	}
+	
+	[Test]
+	
+	public function channeling_moduleToModuleChanneling_addChannelHandler_sendsMessageWithParams():void {
+		//
+		channelModulA.cheateTestMediator();
+		channelModulB.cheateTestMediator();
+		//
+		Assert.assertFalse("test1 handler must be false", channelModulA.view.test1handled);
+		Assert.assertFalse("test2 handler must be false", channelModulA.view.test2handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test3handled);
+		Assert.assertFalse("test3 handler must be false", channelModulA.view.test4handled);
+		//
+		channelModulA.addChannelHandler_test1();
+		channelModulA.addChannelHandler_test2();
+		channelModulA.addChannelHandler_testChannel_test3();
+		channelModulA.addChannelHandler_testChannel_test4_withParams();
+		
+		channelModulB.sendChannelMessage_testChannel_test4_withParams();
+		//
+		
+		"test4 params string"
+		Assert.assertEquals("params must be sent properly", channelModulA.view.test4params, "test4 params string");
+		Assert.assertTrue("test4 handler must be true after addChannelHandler() and sendChannelMessage()", channelModulA.view.test4handled);
+		Assert.assertFalse(channelModulA.view.test1handled);
+		Assert.assertFalse(channelModulA.view.test2handled);
+		Assert.assertFalse(channelModulA.view.test3handled);
 	}
 
 }

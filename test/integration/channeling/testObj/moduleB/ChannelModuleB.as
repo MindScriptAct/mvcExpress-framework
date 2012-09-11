@@ -34,6 +34,10 @@ public class ChannelModuleB extends ModuleCore {
 		view.dispatchEvent(new Event("sendChannelMessage_testChannel_test3"));
 	}
 	
+	public function sendChannelMessage_testChannel_test4_withParams():void {
+		view.dispatchEvent(new Event("sendChannelMessage_testChannel_test4_withParams"));
+	}
+	
 	override protected function onInit():void {
 	
 	}

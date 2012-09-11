@@ -20,6 +20,7 @@ public class ChannelBMediator extends Mediator {
 		view.addEventListener("sendChannelMessage_test1", sendChannelMessage1);
 		view.addEventListener("sendChannelMessage_test2", sendChannelMessage2);
 		view.addEventListener("sendChannelMessage_testChannel_test3", sendChannelMessage3);
+		view.addEventListener("sendChannelMessage_testChannel_test4_withParams", sendChannelMessage4);
 	}
 	
 	private function sendChannelMessage1(event:Event):void {
@@ -33,6 +34,10 @@ public class ChannelBMediator extends Mediator {
 	private function sendChannelMessage3(event:Event):void {
 		sendChannelMessage("test3", null, "testChannel");
 	}
+	
+	private function sendChannelMessage4(event:Event):void {
+		sendChannelMessage("test4", "test4 params string", "testChannel");
+	}	
 	
 	override public function onRemove():void {
 	

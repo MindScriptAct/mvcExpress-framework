@@ -170,14 +170,14 @@ public class Mediator {
 	
 	/**
 	 */
-	protected function sendChannelMessage(type:String, params:Object = null, channelName:String = "global"):void {
+	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_CHANNELMESSAGE, messenger.moduleName, this, type, params));
 		}
-		ModuleManager.sendChannelMessage(type, params, channelName);
+		ModuleManager.sendChannelMessage(type, params, scopeName);
 		//
 		// clean up loging the action
 		CONFIG::debug {
@@ -327,14 +327,14 @@ public class Mediator {
 	//     channel
 	//----------------------------------
 	
-	protected function addChannelHandler(type:String, handler:Function, channelName:String = "global"):void {
+	protected function addChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
-		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, channelName));
+		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, scopeName));
 	}
 	
-	protected function removeChannelHandler(type:String, handler:Function, channelName:String = "global"):void {
+	protected function removeChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
-		ModuleManager.removeChannelHandler(type, handler, channelName);
+		ModuleManager.removeChannelHandler(type, handler, scopeName);
 	}
 
 }
