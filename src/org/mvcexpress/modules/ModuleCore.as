@@ -104,6 +104,10 @@ public class ModuleCore {
 		moduleBase.sendMessageToAll(type, params);
 	}
 	
+	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
+		trace("ModuleCore.sendChannelMessage > type : " + type + ", params : " + params + ", scopeName : " + scopeName);
+	}
+	
 	//----------------------------------
 	//     Debug
 	//----------------------------------

@@ -4,6 +4,7 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import integration.channeling.testObj.moduleA.ComTest1Command;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -133,6 +134,19 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() END
 		//////////////////////////////////////////////	
 	}
+	
+	//----------------------------------
+	//     CHANNELING
+	//----------------------------------
+	
+	public function channelMap(type:String, commandClass:Class, scopeName:String = "global"):void {
+		trace( "CommandMap.channelMap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName );
+		
+	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
 	
 	/** function to be called by messenger on needed message type sent */
 	private function handleCommandExecute(messageType:String, params:Object):void {
