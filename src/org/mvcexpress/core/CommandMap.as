@@ -4,7 +4,6 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import integration.channeling.testObj.moduleA.ComTest1Command;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -140,8 +139,17 @@ public class CommandMap {
 	//----------------------------------
 	
 	public function channelMap(type:String, commandClass:Class, scopeName:String = "global"):void {
-		trace( "CommandMap.channelMap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName );
-		
+		trace("CommandMap.channelMap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName);
+		use namespace pureLegsCore;
+		//
+		var scopedType:String = scopeName + "_«¬_" + type;
+		if (!classRegistry[scopedType]) {
+			classRegistry[scopedType] = new Vector.<Class>();
+			// TODO : check if chonnelCommandMap must be here...
+			ModuleManager.channelCommandMap(handleCommandExecute, type, commandClass, scopeName);
+		}
+		// TODO : check if command is already added. (in DEBUG mode only?.)
+		classRegistry[scopedType].push(commandClass);
 	}
 	
 	//----------------------------------
@@ -149,7 +157,7 @@ public class CommandMap {
 	//----------------------------------
 	
 	/** function to be called by messenger on needed message type sent */
-	private function handleCommandExecute(messageType:String, params:Object):void {
+	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
 		var commandList:Vector.<Class>;
 		commandList = classRegistry[messageType];
 		

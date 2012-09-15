@@ -12,8 +12,6 @@ public class ChannelModuleA extends ModuleCore {
 	
 	static public const NAME:String = "ChannelModuleA";
 	
-	public var command1executed:Boolean = false;
-	
 	public function ChannelModuleA() {
 		super(ChannelModuleA.NAME);
 	}
@@ -46,10 +44,6 @@ public class ChannelModuleA extends ModuleCore {
 	
 	public function mapCommand_ComTest1():void {
 		commandMap.channelMap("CommTest1", ComTest1Command);
-	}
-	
-	public function sendChannelMessage_comTest1():void {
-		sendChannelMessage("CommTest1", this);
 	}
 	
 	override protected function onInit():void {

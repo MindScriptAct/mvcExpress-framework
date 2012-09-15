@@ -110,7 +110,7 @@ public class ModuleManager {
 		use namespace pureLegsCore;
 		var channelMesanger:Messenger = channels[scopeName];
 		if (channelMesanger) {
-			channelMesanger.send(type, params);
+			channelMesanger.send(scopeName + "_«¬_" + type, params);
 		}
 	}
 	
@@ -123,16 +123,34 @@ public class ModuleManager {
 			Messenger.allowInstantiation = false;
 			channels[scopeName] = channelMesanger;
 		}
-		return channelMesanger.addHandler(type, handler);
+		return channelMesanger.addHandler(scopeName + "_«¬_" + type, handler);
 	}
 	
 	static pureLegsCore function removeChannelHandler(type:String, handler:Function, scopeName:String):void {
 		//use namespace pureLegsCore;
 		var channelMesanger:Messenger = channels[scopeName];
 		if (channelMesanger) {
-			channelMesanger.removeHandler(type, handler);
+			channelMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
 		}
 	}
+	
+	
+	//----------------------------------
+	//     Command channeling
+	//----------------------------------
+	
+	static public function channelCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "global"):void {
+		var channelMesanger:Messenger = channels[scopeName];
+		if (!channelMesanger) {
+			use namespace pureLegsCore;
+			Messenger.allowInstantiation = true;
+			channelMesanger = new Messenger("$channel_" + scopeName);
+			Messenger.allowInstantiation = false;
+			channels[scopeName] = channelMesanger;
+		}
+		channelMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
+	}
+	
 	
 	//----------------------------------
 	//     DEBUG

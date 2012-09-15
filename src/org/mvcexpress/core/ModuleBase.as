@@ -9,6 +9,7 @@ import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.TraceModuleBase_sendChannelMessage;
 import org.mvcexpress.core.traceObjects.TraceModuleBase_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
@@ -156,6 +157,28 @@ public class ModuleBase {
 	 */
 	public function sendMessageToAll(type:String, params:Object = null):void {
 		_messenger.sendToAll(type, params);
+	}
+	
+	/**
+	 * TODO : comment
+	 * @param	type
+	 * @param	params
+	 * @param	scopeName
+	 */
+	public function sendChannelMessage(type:String, params:Object, scopeName:String):void {
+		use namespace pureLegsCore;
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleBase_sendChannelMessage(MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE, _moduleName, this, type, params));
+		}
+		ModuleManager.sendChannelMessage(type, params, scopeName);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleBase_sendChannelMessage(MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE_CLEAN, _moduleName, this, type, params));
+		}
 	}
 	
 	//----------------------------------

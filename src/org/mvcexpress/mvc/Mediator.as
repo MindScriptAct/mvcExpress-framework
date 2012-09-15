@@ -175,14 +175,14 @@ public class Mediator {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_CHANNELMESSAGE, messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE, messenger.moduleName, this, type, params));
 		}
 		ModuleManager.sendChannelMessage(type, params, scopeName);
 		//
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_CHANNELMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE_CLEAN, messenger.moduleName, this, type, params));
 		}
 	}
 	

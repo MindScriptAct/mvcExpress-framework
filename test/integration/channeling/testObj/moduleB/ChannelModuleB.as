@@ -11,6 +11,7 @@ public class ChannelModuleB extends ModuleCore {
 	private var view:Sprite;
 	
 	static public const NAME:String = "ChannelModuleB";
+	public var command1executed:Boolean = false;
 	
 	public function ChannelModuleB() {
 		super(ChannelModuleB.NAME);
@@ -36,6 +37,10 @@ public class ChannelModuleB extends ModuleCore {
 	
 	public function sendChannelMessage_testChannel_test4_withParams():void {
 		view.dispatchEvent(new Event("sendChannelMessage_testChannel_test4_withParams"));
+	}
+	
+	public function sendChannelMessage_comTest1():void {
+		sendChannelMessage("CommTest1", this);
 	}
 	
 	override protected function onInit():void {

@@ -138,20 +138,19 @@ public class ChannelingTests {
 		Assert.assertFalse(channelModulA.view.test3handled);
 	}
 	
-		[Test]
+	[Test]
 	
 	public function channeling_messegeToCommandChanneling_addChannelCommand_commandsHandlesMessage():void {
 		//
 		channelModulA.mapCommand_ComTest1();
 		//
-		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulA.command1executed);
+		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
 		//
-		channelModulA.sendChannelMessage_comTest1();
+		channelModulB.sendChannelMessage_comTest1();
 		//
-		Assert.assertTrue("Command test1 must be true after commandMap.channelMap() and  sendChannelMessage()", channelModulA.command1executed);
-
-	}
+		Assert.assertTrue("Command test1 must be true after commandMap.channelMap() and  sendChannelMessage()", channelModulB.command1executed);
 	
+	}
 
 }
 }

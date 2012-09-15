@@ -1,4 +1,5 @@
 package integration.channeling.testObj.moduleA {
+import integration.channeling.testObj.moduleB.ChannelModuleB;
 import org.mvcexpress.mvc.Command;
 
 /**
@@ -10,8 +11,8 @@ public class ComTest1Command extends Command {
 	//[Inject]
 	//public var myProxy:MyProxy;
 	
-	public function execute(moduleA:ChannelModuleA):void {
-		moduleA.command1executed = true;
+public function execute(moduleB:ChannelModuleB):void {
+		moduleB.command1executed = true;
 	}
 
 }

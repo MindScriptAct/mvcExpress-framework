@@ -176,16 +176,18 @@ public class VisualizerManager {
 				}
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE: 
+			case MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
-			case MvcTraceActions.MEDIATOR_CHANNELMESSAGE: 
+			case MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE: 
 			case MvcTraceActions.PROXY_SENDMESSAGE: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE: 
 			case MvcTraceActions.MESSENGER_SENDTOALL: 
 				sendMessageStack.push(logObj);
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.MEDIATOR_CHANNELMESSAGE_CLEAN: 
+			case MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE_CLEAN: 
 			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.MESSENGER_SENDTOALL_CLEAN: 
