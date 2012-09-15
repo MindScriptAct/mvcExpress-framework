@@ -160,15 +160,11 @@ public class Messenger {
 	}
 	
 	/**
-	 * 
-	 * DEPRICATED : sends message to all existing modules.
+	 * sends message to all existing modules.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
-	 * @deprecated 1.1
 	 */
 	public function sendToAll(type:String, params:Object = null):void {
-		trace("WARNING: sendToAll() is depricated in favour of sendChannelMessage().");
-		//
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {

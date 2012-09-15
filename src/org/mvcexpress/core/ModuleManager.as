@@ -1,7 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
-import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -23,11 +22,8 @@ public class ModuleManager {
 	/* modules stored by moduleName */
 	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleBase by String */
 	
-	/* all modules stared by module name */
+	/* TODO : comment */
 	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
-	
-	/* all channel messengers stored by channel name */
-	static private var channels:Dictionary = new Dictionary(); /* of Messenger by String*/
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -101,56 +97,18 @@ public class ModuleManager {
 		}
 	}
 	
-	//----------------------------------
-	//     channel
-	//----------------------------------
-	
-	static pureLegsCore function sendChannelMessage(type:String, params:Object, scopeName:String):void {
-		trace("ModuleManager.channelMessage > type : " + type + ", params : " + params + ", scopeName " + scopeName);
+	/**
+	 * sends message to all messengers.
+	 * @param	type				message type to find needed handlers
+	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 * @private
+	 */
+	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
 		use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[scopeName];
-		if (channelMesanger) {
-			channelMesanger.send(scopeName + "_«¬_" + type, params);
+		for (var i:int = 0; i < allModules.length; i++) {
+			allModules[i].messenger.send(type, params);
 		}
 	}
-	
-	static pureLegsCore function addChannelHandler(type:String, handler:Function, scopeName:String):HandlerVO {
-		var channelMesanger:Messenger = channels[scopeName];
-		if (!channelMesanger) {
-			use namespace pureLegsCore;
-			Messenger.allowInstantiation = true;
-			channelMesanger = new Messenger("$channel_" + scopeName);
-			Messenger.allowInstantiation = false;
-			channels[scopeName] = channelMesanger;
-		}
-		return channelMesanger.addHandler(scopeName + "_«¬_" + type, handler);
-	}
-	
-	static pureLegsCore function removeChannelHandler(type:String, handler:Function, scopeName:String):void {
-		//use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[scopeName];
-		if (channelMesanger) {
-			channelMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
-		}
-	}
-	
-	
-	//----------------------------------
-	//     Command channeling
-	//----------------------------------
-	
-	static public function channelCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "global"):void {
-		var channelMesanger:Messenger = channels[scopeName];
-		if (!channelMesanger) {
-			use namespace pureLegsCore;
-			Messenger.allowInstantiation = true;
-			channelMesanger = new Messenger("$channel_" + scopeName);
-			Messenger.allowInstantiation = false;
-			channels[scopeName] = channelMesanger;
-		}
-		channelMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
-	}
-	
 	
 	//----------------------------------
 	//     DEBUG
@@ -211,22 +169,6 @@ public class ModuleManager {
 			return "Module with name :" + moduleName + " is not found.";
 		}
 	}
-	
-	//----------------------------------
-	//     DEPRICATED
-	//----------------------------------
-	
-	/**
-	 * sends message to all messengers.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @private
-	 */
-	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
-		use namespace pureLegsCore;
-		for (var i:int = 0; i < allModules.length; i++) {
-			allModules[i].messenger.send(type, params);
-		}
-	}
+
 }
 }

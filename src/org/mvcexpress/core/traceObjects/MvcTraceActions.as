@@ -29,9 +29,6 @@ public class MvcTraceActions {
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
 	static public const MESSENGER_SENDTOALL:String = "Messenger.sendToAll";
-
-
-
 	
 	//----------------------------------
 	//     For internal use
@@ -44,17 +41,11 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";
-	static pureLegsCore const MODULEBASE_SENDCHANNELMESSAGE:String = "ModuleBase.sendChannelMessage";
-	static pureLegsCore const MODULEBASE_SENDCHANNELMESSAGE_CLEAN:String = "ModuleBase.sendChannelMessage.CLEAN";	
-	
-	
 	static pureLegsCore const COMMAND_SENDMESSAGE:String = "Command.sendMessage";
 	static pureLegsCore const COMMAND_SENDMESSAGE_CLEAN:String = "Command.sendMessage.CLEAN";
 	
 	static pureLegsCore const MEDIATOR_SENDMESSAGE:String = "Mediator.sendMessage";
 	static pureLegsCore const MEDIATOR_SENDMESSAGE_CLEAN:String = "Mediator.sendMessage.CLEAN";
-	static pureLegsCore const MEDIATOR_SENDCHANNELMESSAGE:String = "Mediator.sendChannelMessage";
-	static pureLegsCore const MEDIATOR_SENDCHANNELMESSAGE_CLEAN:String = "Mediator.sendChannelMessage.CLEAN";	
 	static pureLegsCore const MEDIATOR_ADDHANDLER:String = "Mediator.addHandler";
 	
 	static pureLegsCore const PROXY_SENDMESSAGE:String = "Proxy.sendMessage";

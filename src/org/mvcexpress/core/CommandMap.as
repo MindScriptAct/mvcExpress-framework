@@ -134,30 +134,8 @@ public class CommandMap {
 		//////////////////////////////////////////////	
 	}
 	
-	//----------------------------------
-	//     CHANNELING
-	//----------------------------------
-	
-	public function channelMap(type:String, commandClass:Class, scopeName:String = "global"):void {
-		trace("CommandMap.channelMap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName);
-		use namespace pureLegsCore;
-		//
-		var scopedType:String = scopeName + "_«¬_" + type;
-		if (!classRegistry[scopedType]) {
-			classRegistry[scopedType] = new Vector.<Class>();
-			// TODO : check if chonnelCommandMap must be here...
-			ModuleManager.channelCommandMap(handleCommandExecute, type, commandClass, scopeName);
-		}
-		// TODO : check if command is already added. (in DEBUG mode only?.)
-		classRegistry[scopedType].push(commandClass);
-	}
-	
-	//----------------------------------
-	//     INTERNAL
-	//----------------------------------
-	
 	/** function to be called by messenger on needed message type sent */
-	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
+	private function handleCommandExecute(messageType:String, params:Object):void {
 		var commandList:Vector.<Class>;
 		commandList = classRegistry[messageType];
 		

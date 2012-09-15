@@ -104,16 +104,6 @@ public class ModuleCore {
 		moduleBase.sendMessageToAll(type, params);
 	}
 	
-	/**
-	 * TODO : comment
-	 * @param	type
-	 * @param	params
-	 * @param	scopeName
-	 */
-	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
-		moduleBase.sendChannelMessage(type, params, scopeName);
-	}
-	
 	//----------------------------------
 	//     Debug
 	//----------------------------------
