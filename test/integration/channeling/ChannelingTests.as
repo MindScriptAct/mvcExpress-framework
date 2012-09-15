@@ -27,7 +27,7 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
+	//[Ignore]
 	public function channeling_moduleToModuleChanneling_addChannelHandler_sendsMessage():void {
 		//
 		channelModulA.cheateTestMediator();
@@ -46,7 +46,7 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
+	//[Ignore]
 	public function channeling_moduleToModuleChannelingRemoveHandler_sendMessageDoesNothing():void {
 		//
 		channelModulA.cheateTestMediator();
@@ -67,7 +67,7 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
+	//[Ignore]
 	public function channeling_moduleToModuleChanneling_addChannel2Handler_sendsMessage():void {
 		//
 		channelModulA.cheateTestMediator();
@@ -88,7 +88,7 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
+	//[Ignore]
 	public function channeling_moduleToModuleChanneling_add2ChannelHandler_sendsMessage():void {
 		//
 		channelModulA.cheateTestMediator();
@@ -111,7 +111,7 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
+	//[Ignore]
 	public function channeling_moduleToModuleChanneling_addChannelHandler_sendsMessageWithParams():void {
 		//
 		channelModulA.cheateTestMediator();
@@ -139,16 +139,30 @@ public class ChannelingTests {
 	}
 	
 	[Test]
-	
 	public function channeling_messegeToCommandChanneling_addChannelCommand_commandsHandlesMessage():void {
 		//
-		channelModulA.mapCommand_ComTest1();
-		//
 		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
+		//
+		channelModulA.mapCommand_ComTest1();
 		//
 		channelModulB.sendChannelMessage_comTest1();
 		//
 		Assert.assertTrue("Command test1 must be true after commandMap.channelMap() and  sendChannelMessage()", channelModulB.command1executed);
+	
+	}
+	
+	[Test]
+	public function channeling_messegeToCommandChanneling_addAndRemoveChannelCommand_commandsHandlesNothing():void {
+		//
+		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
+		//
+		channelModulA.mapCommand_ComTest1();
+		channelModulA.unmapCommand_ComTest1();
+		
+		//
+		channelModulB.sendChannelMessage_comTest1();
+		//
+		Assert.assertFalse("Command test1 must be false after commandMap.channelMap() then commandMap.channelUnmap() and  sendChannelMessage()", channelModulB.command1executed);
 	
 	}
 

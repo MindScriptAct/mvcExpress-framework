@@ -139,7 +139,7 @@ public class ModuleManager {
 	//     Command channeling
 	//----------------------------------
 	
-	static public function channelCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "global"):void {
+	static public function channelCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "global"):HandlerVO {
 		var channelMesanger:Messenger = channels[scopeName];
 		if (!channelMesanger) {
 			use namespace pureLegsCore;
@@ -148,7 +148,7 @@ public class ModuleManager {
 			Messenger.allowInstantiation = false;
 			channels[scopeName] = channelMesanger;
 		}
-		channelMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
+		return channelMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
 	}
 	
 	

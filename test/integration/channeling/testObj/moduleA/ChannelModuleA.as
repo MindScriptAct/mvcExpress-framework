@@ -46,6 +46,10 @@ public class ChannelModuleA extends ModuleCore {
 		commandMap.channelMap("CommTest1", ComTest1Command);
 	}
 	
+	public function unmapCommand_ComTest1():void {
+		commandMap.channelUnmap("CommTest1", ComTest1Command);
+	}
+	
 	override protected function onInit():void {
 	
 	}

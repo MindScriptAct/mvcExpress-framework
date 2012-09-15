@@ -4,6 +4,8 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import integration.channeling.testObj.moduleA.ComTest1Command;
+import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -35,6 +37,8 @@ public class CommandMap {
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
 	private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
+	
+	private var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
 	/** CONSTRUCTOR */
 	public function CommandMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
@@ -146,10 +150,26 @@ public class CommandMap {
 		if (!classRegistry[scopedType]) {
 			classRegistry[scopedType] = new Vector.<Class>();
 			// TODO : check if chonnelCommandMap must be here...
-			ModuleManager.channelCommandMap(handleCommandExecute, type, commandClass, scopeName);
+			scopeHandlers.push(ModuleManager.channelCommandMap(handleCommandExecute, type, commandClass, scopeName));
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[scopedType].push(commandClass);
+	}
+	
+	public function channelUnmap(type:String, commandClass:Class, scopeName:String = "global"):void {
+		trace("CommandMap.channelUnmap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName);
+		
+		var scopedType:String = scopeName + "_«¬_" + type;
+		
+		var commandList:Vector.<Class> = classRegistry[scopedType];
+		if (commandList) {
+			for (var i:int = 0; i < commandList.length; i++) {
+				if (commandClass == commandList[i]) {
+					commandList.splice(i, 1);
+					break;
+				}
+			}
+		}
 	}
 	
 	//----------------------------------
@@ -210,6 +230,10 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		for (var type:String in classRegistry) {
 			messenger.removeHandler(type, handleCommandExecute);
+		}
+		//
+		for (var i:int = 0; i < scopeHandlers.length; i++) {
+			scopeHandlers[i].handler = null;
 		}
 		messenger = null;
 		proxyMap = null;
