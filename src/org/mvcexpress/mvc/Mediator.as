@@ -79,26 +79,6 @@ public class Mediator {
 	}
 	
 	/**
-	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
-	 */
-	protected function get isReady():Boolean {
-		return _isReady;
-	}
-	
-	//----------------------------------
-	//     mediator start-up and tier-down life cycle
-	//----------------------------------
-	
-	/**
-	 * marks mediator as ready and calls onRegister()
-	 * Executed automatically BEFORE mediator is created. (with proxyMap.mediate(...))
-	 * @private */
-	pureLegsCore function register():void {
-		_isReady = true;
-		onRegister();
-	}
-	
-	/**
 	 * Then viewObject is mediated by this mediator - it is inited first and then this function is called.
 	 */
 	public function onRegister():void {
@@ -113,31 +93,19 @@ public class Mediator {
 	}
 	
 	/**
-	 * framework function to dispose this mediator. 																			<br>
-	 * Executed automatically AFTER mediator is removed. (with proxyMap.unmediate(...))											<br>
-	 * It:																														<br>
-	 * - remove all handle functions created by this mediator																	<br>
-	 * - remove all event listeners created by internal addEventListener() function of this mediator							<br>
-	 * - set internals to null																									<br>
-	 * @private
+	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
 	 */
-	pureLegsCore function disposeThisMediator():void {
-		use namespace pureLegsCore;
-		removeAllHandlers();
-		removeAllListeners();
-		messageDataRegistry = null;
-		eventListenerRegistry = null;
-		messenger = null;
-		mediatorMap = null;
+	protected function get isReady():Boolean {
+		return _isReady;
 	}
 	
 	//----------------------------------
-	//     send messages
+	//     MESSAGING
 	//----------------------------------	
 	
 	/**
-	 * Sends a message with optional params object.
-	 * @param	type	type of the message for Commands and handle function to react to.
+	 * Sends a message with optional params object inside of current module.
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
@@ -169,6 +137,10 @@ public class Mediator {
 	}
 	
 	/**
+	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
 	 */
 	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
@@ -177,6 +149,7 @@ public class Mediator {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceMediator_channelMessage(MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE, messenger.moduleName, this, type, params));
 		}
+		//
 		ModuleManager.sendChannelMessage(type, params, scopeName);
 		//
 		// clean up loging the action
@@ -224,8 +197,8 @@ public class Mediator {
 	}
 	
 	/**
-	 * Remove all handle functions created by this mediator, internal module handlers AND channel handlers. 
-	 * Automatically called with unmediate(). 
+	 * Remove all handle functions created by this mediator, internal module handlers AND channel handlers.
+	 * Automatically called with unmediate().
 	 * (but don't forget to remove your event handler manualy...)
 	 */
 	protected function removeAllHandlers():void {
@@ -233,6 +206,32 @@ public class Mediator {
 		while (messageDataRegistry.length) {
 			messageDataRegistry.pop().handler = null;
 		}
+	}
+	
+	//----------------------------------
+	//     channel handling
+	//----------------------------------
+	
+	/**
+	 * TODO : COMMENT
+	 * @param	type
+	 * @param	handler
+	 * @param	scopeName
+	 */
+	protected function addChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
+		use namespace pureLegsCore;
+		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, scopeName));
+	}
+	
+	/**
+	 * TODO : COMMENT
+	 * @param	type
+	 * @param	handler
+	 * @param	scopeName
+	 */
+	protected function removeChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
+		use namespace pureLegsCore;
+		ModuleManager.removeChannelHandler(type, handler, scopeName);
 	}
 	
 	//----------------------------------
@@ -324,18 +323,35 @@ public class Mediator {
 	}
 	
 	//----------------------------------
-	//     channel
+	//     INTERNAL
 	//----------------------------------
 	
-	protected function addChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
-		use namespace pureLegsCore;
-		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, scopeName));
+	/**
+	 * marks mediator as ready and calls onRegister()
+	 * Executed automatically BEFORE mediator is created. (with proxyMap.mediate(...))
+	 * @private */
+	pureLegsCore function register():void {
+		_isReady = true;
+		onRegister();
 	}
 	
-	protected function removeChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
+	/**
+	 * framework function to dispose this mediator. 																			<br>
+	 * Executed automatically AFTER mediator is removed. (with proxyMap.unmediate(...))											<br>
+	 * It:																														<br>
+	 * - remove all handle functions created by this mediator																	<br>
+	 * - remove all event listeners created by internal addEventListener() function of this mediator							<br>
+	 * - set internals to null																									<br>
+	 * @private
+	 */
+	pureLegsCore function disposeThisMediator():void {
 		use namespace pureLegsCore;
-		ModuleManager.removeChannelHandler(type, handler, scopeName);
+		removeAllHandlers();
+		removeAllListeners();
+		messageDataRegistry = null;
+		eventListenerRegistry = null;
+		messenger = null;
+		mediatorMap = null;
 	}
-
 }
 }

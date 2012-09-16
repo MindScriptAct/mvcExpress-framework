@@ -50,6 +50,8 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const COMMAND_SENDMESSAGE:String = "Command.sendMessage";
 	static pureLegsCore const COMMAND_SENDMESSAGE_CLEAN:String = "Command.sendMessage.CLEAN";
+	static pureLegsCore const COMMAND_SENDCHANNELMESSAGE:String = "Command.sendChannelMessage";
+	static pureLegsCore const COMMAND_SENDCHANNELMESSAGE_CLEAN:String = "Command.sendChannelMessage.CLEAN";	
 	
 	static pureLegsCore const MEDIATOR_SENDMESSAGE:String = "Mediator.sendMessage";
 	static pureLegsCore const MEDIATOR_SENDMESSAGE_CLEAN:String = "Mediator.sendMessage.CLEAN";
@@ -59,6 +61,7 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const PROXY_SENDMESSAGE:String = "Proxy.sendMessage";
 	static pureLegsCore const PROXY_SENDMESSAGE_CLEAN:String = "Proxy.sendMessage.CLEAN";
-
+	static pureLegsCore const PROXY_SENDCHANNELMESSAGE:String = "Proxy.sendChannelMessage";
+	static pureLegsCore const PROXY_SENDCHANNELMESSAGE_CLEAN:String = "Proxy.sendChannelMessage.CLEAN";
 }
 }

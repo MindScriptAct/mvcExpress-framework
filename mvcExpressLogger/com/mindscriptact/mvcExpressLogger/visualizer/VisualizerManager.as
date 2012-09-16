@@ -180,7 +180,9 @@ public class VisualizerManager {
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
 			case MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE: 
 			case MvcTraceActions.PROXY_SENDMESSAGE: 
+			case MvcTraceActions.PROXY_SENDCHANNELMESSAGE: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE: 
+			case MvcTraceActions.COMMAND_SENDCHANNELMESSAGE: 
 			case MvcTraceActions.MESSENGER_SENDTOALL: 
 				sendMessageStack.push(logObj);
 				break;
@@ -188,8 +190,10 @@ public class VisualizerManager {
 			case MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDCHANNELMESSAGE_CLEAN: 
-			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN:
+			case MvcTraceActions.PROXY_SENDCHANNELMESSAGE_CLEAN:
+			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN:
+			case MvcTraceActions.COMMAND_SENDCHANNELMESSAGE_CLEAN:
 			case MvcTraceActions.MESSENGER_SENDTOALL_CLEAN: 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {

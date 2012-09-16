@@ -2,9 +2,11 @@
 package org.mvcexpress.mvc {
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceObj;
+import org.mvcexpress.core.traceObjects.TraceProxy_channelMessage;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
 import org.mvcexpress.MvcExpress;
 
@@ -35,8 +37,33 @@ public class Proxy {
 	}
 	
 	/**
-	 * Sends a message with optional params object.
-	 * @param	type	type of the message for Commands and handle function to react to.
+	 * Then proxy is mapped with proxyMap this function is called.
+	 */
+	protected function onRegister():void {
+		// for override
+	}
+	
+	/**
+	 * Then proxy is unmapped with proxyMap this function is called.
+	 */
+	protected function onRemove():void {
+		// for override
+	}
+	
+	/**
+	 * Indicates if proxy is ready for usage. (all dependencies are injected.)
+	 */
+	protected function get isReady():Boolean {
+		return _isReady;
+	}
+	
+	//----------------------------------
+	//     MESSAGING
+	//----------------------------------
+	
+	/**
+	 * Sends a message with optional params object inside of current module.
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
@@ -57,14 +84,42 @@ public class Proxy {
 	}
 	
 	/**
-	 * Sends message to all existing modules.
+	 * DEPRICATED : Sends message to all existing modules. (Planned to be removed in 1.3)
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 * @deprecated v1.1
 	 */
 	protected function sendMessageToAll(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		messenger.sendToAll(type, params);
 	}
+	
+	/**
+	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 */
+	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
+		use namespace pureLegsCore;
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxy_channelMessage(MvcTraceActions.PROXY_SENDCHANNELMESSAGE, messenger.moduleName, this, type, params));
+		}
+		//
+		ModuleManager.sendChannelMessage(type, params, scopeName);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProxy_channelMessage(MvcTraceActions.PROXY_SENDCHANNELMESSAGE, messenger.moduleName, this, type, params));
+		}
+	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
 	
 	/**
 	 * marks mediator as ready and calls onRegister()
@@ -87,31 +142,6 @@ public class Proxy {
 		_isReady = false;
 		onRemove();
 	}
-	
-	/**
-	 * Then proxy is mapped with proxyMap this function is called.
-	 */
-	protected function onRegister():void {
-		// for override
-	}
-	
-	/**
-	 * Then proxy is unmapped with proxyMap this function is called.
-	 */
-	protected function onRemove():void {
-		// for override
-	}
-	
-	/**
-	 * Indicates if proxy is ready for usage. (all dependencies are injected.)
-	 */
-	protected function get isReady():Boolean {
-		return _isReady;
-	}
-	
-	//----------------------------------
-	//     INTERNAL
-	//----------------------------------
 	
 	/**
 	 * sets proxyMap interface.

@@ -129,11 +129,10 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Internal framework function. Not meant to be used from outside.
+	 * Sends a message with optional params object inside of current module.
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
-	// Message sender.
-	// @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
-	// @param	params	Object that will be send to Command execute() or to handle function as parameter.
 	public function sendMessage(type:String, params:Object = null):void {
 		// log the action
 		CONFIG::debug {
@@ -151,19 +150,20 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Sends message to all existing modules.
+	 * DEPRICATED : Sends message to all existing modules.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 * @deprecated v1.1
 	 */
 	public function sendMessageToAll(type:String, params:Object = null):void {
 		_messenger.sendToAll(type, params);
 	}
 	
 	/**
-	 * TODO : comment
-	 * @param	type
-	 * @param	params
-	 * @param	scopeName
+	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
 	 */
 	public function sendChannelMessage(type:String, params:Object, scopeName:String):void {
 		use namespace pureLegsCore;
@@ -172,6 +172,7 @@ public class ModuleBase {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceModuleBase_sendChannelMessage(MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE, _moduleName, this, type, params));
 		}
+		//
 		ModuleManager.sendChannelMessage(type, params, scopeName);
 		//
 		// clean up loging the action

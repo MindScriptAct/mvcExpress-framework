@@ -3,9 +3,11 @@ package org.mvcexpress.mvc {
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.TraceCommand_channelMessage;
 import org.mvcexpress.core.traceObjects.TraceCommand_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
@@ -53,9 +55,13 @@ dynamic public class Command {
 		}
 	}
 	
+	//----------------------------------
+	//     MESSAGING
+	//----------------------------------
+	
 	/**
-	 * Sends a message with optional params object.
-	 * @param	type	type of the message for Commands and handle function to react to.
+	 * Sends a message with optional params object inside of current module.
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
@@ -76,13 +82,37 @@ dynamic public class Command {
 	}
 	
 	/**
-	 * Sends message to all existing modules.
+	 * DEPRICATED : Sends message to all existing modules.
 	 * @param	type				message type to find needed handlers
 	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
+	 * @deprecated v1.1
 	 */
 	protected function sendMessageToAll(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		messenger.sendToAll(type, params);
+	}
+	
+	/**
+	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 */
+	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
+		use namespace pureLegsCore;
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommand_channelMessage(MvcTraceActions.COMMAND_SENDCHANNELMESSAGE, messenger.moduleName, this, type, params));
+		}
+		//
+		ModuleManager.sendChannelMessage(type, params, scopeName);
+		//
+		// clean up loging the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceCommand_channelMessage(MvcTraceActions.COMMAND_SENDCHANNELMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+		}
 	}
 
 	// execute function is not meant to be overridden in mvcExpress.
