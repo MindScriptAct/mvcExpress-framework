@@ -17,13 +17,13 @@ import org.mvcexpress.MvcExpress;
  */
 public class Proxy {
 	
-	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
-	
 	/**
 	 * Interface to work with proxies.
 	 */
 	protected var proxyMap:IProxyMap;
+	
+	// Shows if proxy is ready. Read only.
+	private var _isReady:Boolean = false;
 	
 	// for comunication.
 	/** @private */
@@ -98,7 +98,7 @@ public class Proxy {
 	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
@@ -122,6 +122,15 @@ public class Proxy {
 	//----------------------------------
 	
 	/**
+	 * sets proxyMap interface.
+	 * @param	iProxyMap
+	 * @private
+	 */
+	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
+		this.proxyMap = iProxyMap;
+	}
+	
+	/**
 	 * marks mediator as ready and calls onRegister()
 	 * called from proxyMap
 	 * @private
@@ -141,15 +150,6 @@ public class Proxy {
 	pureLegsCore function remove():void {
 		_isReady = false;
 		onRemove();
-	}
-	
-	/**
-	 * sets proxyMap interface.
-	 * @param	iProxyMap
-	 * @private
-	 */
-	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
-		this.proxyMap = iProxyMap;
 	}
 
 }

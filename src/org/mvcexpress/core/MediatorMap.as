@@ -116,7 +116,7 @@ public class MediatorMap implements IMediatorMap {
 			}
 			
 			mediator.messenger = messenger;
-			mediator.setProxyMap(proxyMap);
+			mediator.proxyMap = proxyMap;
 			mediator.mediatorMap = this;
 			
 			var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, viewClass);
@@ -145,7 +145,7 @@ public class MediatorMap implements IMediatorMap {
 		if (mediator) {
 			mediator.onRemove();
 			use namespace pureLegsCore;
-			mediator.disposeThisMediator();
+			mediator.remove();
 			delete mediatorRegistry[viewObject];
 		} else {
 			throw Error("View object:" + viewObject + " has no mediator created for it.");

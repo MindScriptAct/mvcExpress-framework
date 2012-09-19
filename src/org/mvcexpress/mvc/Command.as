@@ -22,23 +22,17 @@ import org.mvcexpress.MvcExpress;
  */
 dynamic public class Command {
 	
-	/**
-	 * Handles application Commands.
-	 */
+	/** Handles application Commands. */
 	public var commandMap:CommandMap;
 	
-	/**
-	 * Handles application Mediators.
-	 */
-	public var mediatorMap:MediatorMap;
-	
-	/**
-	 * Handles application Proxies.
-	 */
+	/** Handles application Proxies. */
 	public var proxyMap:ProxyMap;
 	
-	// for comunication.
-	/** @private */
+	/** Handles application Mediators. */
+	public var mediatorMap:MediatorMap;
+	
+	/** for comunication.
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 	
 	/** @private */
@@ -96,7 +90,7 @@ dynamic public class Command {
 	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
 		use namespace pureLegsCore;

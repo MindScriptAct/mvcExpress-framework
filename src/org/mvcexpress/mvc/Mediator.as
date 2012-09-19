@@ -46,8 +46,8 @@ public class Mediator {
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
-	/** @private */
-	pureLegsCore var messageDataRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
+	/** all added message handlers. */
+	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
 	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
 	private var eventListenerRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
@@ -62,20 +62,11 @@ public class Mediator {
 	/** CONSTRUCTOR */
 	public function Mediator() {
 		CONFIG::debug {
-			use namespace pureLegsCore
+			use namespace pureLegsCore;
 			if (!canConstruct) {
 				throw Error("Mediator:" + this + " can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
 			}
 		}
-	}
-	
-	/**
-	 * sets proxyMap interface.
-	 * @param	iProxyMap
-	 * @private
-	 */
-	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
-		this.proxyMap = iProxyMap;
 	}
 	
 	/**
@@ -140,7 +131,7 @@ public class Mediator {
 	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	protected function sendChannelMessage(type:String, params:Object = null, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
@@ -180,10 +171,10 @@ public class Mediator {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
 			
-			messageDataRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;
 		}
-		messageDataRegistry.push(messenger.addHandler(type, handler));
+		handlerVoRegistry.push(messenger.addHandler(type, handler));
 	}
 	
 	/**
@@ -203,8 +194,8 @@ public class Mediator {
 	 */
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
-		while (messageDataRegistry.length) {
-			messageDataRegistry.pop().handler = null;
+		while (handlerVoRegistry.length) {
+			handlerVoRegistry.pop().handler = null;
 		}
 	}
 	
@@ -213,21 +204,21 @@ public class Mediator {
 	//----------------------------------
 	
 	/**
-	 * TODO : COMMENT
-	 * @param	type
-	 * @param	handler
-	 * @param	scopeName
+	 * Adds handle function to be called then message of provided type is sent to provided scopeName.
+	 * @param	type		type	message type for handle function to react to.
+	 * @param	handler		andler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	protected function addChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
-		messageDataRegistry.push(ModuleManager.addChannelHandler(type, handler, scopeName));
+		handlerVoRegistry.push(ModuleManager.addChannelHandler(type, handler, scopeName));
 	}
 	
 	/**
-	 * TODO : COMMENT
-	 * @param	type
-	 * @param	handler
-	 * @param	scopeName
+	 * Removes handle function from message of provided type, sent to provided scopeName.
+	 * @param	type		type	message type for handle function to react to.
+	 * @param	handler		andler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	protected function removeChannelHandler(type:String, handler:Function, scopeName:String = "global"):void {
 		use namespace pureLegsCore;
@@ -344,11 +335,11 @@ public class Mediator {
 	 * - set internals to null																									<br>
 	 * @private
 	 */
-	pureLegsCore function disposeThisMediator():void {
+	pureLegsCore function remove():void {
 		use namespace pureLegsCore;
 		removeAllHandlers();
 		removeAllListeners();
-		messageDataRegistry = null;
+		handlerVoRegistry = null;
 		eventListenerRegistry = null;
 		messenger = null;
 		mediatorMap = null;

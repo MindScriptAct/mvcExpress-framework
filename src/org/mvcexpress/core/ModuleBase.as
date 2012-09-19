@@ -28,9 +28,16 @@ public class ModuleBase {
 	
 	private var _moduleName:String;
 	
-	public var proxyMap:ProxyMap;
-	public var mediatorMap:MediatorMap;
+	/** Handles application Commands. */
 	public var commandMap:CommandMap;
+
+	/** Handles application Proxies. */
+	public var proxyMap:ProxyMap;
+	
+	/** Handles application Mediators. */
+	public var mediatorMap:MediatorMap;
+	
+	/** for comunication. */
 	private var _messenger:Messenger;
 	
 	/**
@@ -163,7 +170,7 @@ public class ModuleBase {
 	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to madule comminication. Defaults to "global".
+	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
 	 */
 	public function sendChannelMessage(type:String, params:Object, scopeName:String):void {
 		use namespace pureLegsCore;
