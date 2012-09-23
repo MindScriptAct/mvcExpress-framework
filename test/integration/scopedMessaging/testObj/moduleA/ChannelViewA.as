@@ -1,4 +1,4 @@
-package integration.channeling.testObj.moduleA {
+package integration.scopedMessaging.testObj.moduleA {
 import flash.display.Sprite;
 import flash.geom.Point;
 

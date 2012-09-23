@@ -1,5 +1,5 @@
-package integration.channeling.testObj.moduleA {
-import integration.channeling.testObj.moduleB.ChannelModuleB;
+package integration.scopedMessaging.testObj.moduleA {
+import integration.scopedMessaging.testObj.moduleB.ChannelModuleB;
 import org.mvcexpress.mvc.Command;
 
 /**

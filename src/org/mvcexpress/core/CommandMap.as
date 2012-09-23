@@ -4,7 +4,7 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import integration.channeling.testObj.moduleA.ComTest1Command;
+import integration.scopedMessaging.testObj.moduleA.ComTest1Command;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
@@ -51,7 +51,7 @@ public class CommandMap {
 	/**
 	 * Map a class to be executed then message with provided type is sent.
 	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will bi instantiated and executed.
+	 * @param	commandClass		Command class that will be instantiated and executed.
 	 */
 	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
@@ -76,7 +76,7 @@ public class CommandMap {
 	/**
 	 * Unmap a class to be executed then message with provided type is sent.
 	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 * @param	commandClass	Command class that will be instantiated and executed.
 	 */
 	public function unmap(type:String, commandClass:Class):void {
 		// debug this action
@@ -139,26 +139,35 @@ public class CommandMap {
 	}
 	
 	//----------------------------------
-	//     CHANNELING
+	//     SCOPE 
 	//----------------------------------
 	
-	public function channelMap(type:String, commandClass:Class, scopeName:String = "global"):void {
-		trace("CommandMap.channelMap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName);
+	/**
+	 * Map a class to be executed then message with provided type and scopeName is sent to maped scope.
+	 * @param	type				Message type for command class to react to.
+	 * @param	commandClass		Command class that will be instantiated and executed.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
+	 */
+	public function scopeMap(type:String, commandClass:Class, scopeName:String = "default"):void {
 		use namespace pureLegsCore;
 		//
 		var scopedType:String = scopeName + "_«¬_" + type;
 		if (!classRegistry[scopedType]) {
 			classRegistry[scopedType] = new Vector.<Class>();
 			// TODO : check if chonnelCommandMap must be here...
-			scopeHandlers.push(ModuleManager.channelCommandMap(handleCommandExecute, type, commandClass, scopeName));
+			scopeHandlers.push(ModuleManager.scopedCommandMap(handleCommandExecute, type, commandClass, scopeName));
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[scopedType].push(commandClass);
 	}
 	
-	public function channelUnmap(type:String, commandClass:Class, scopeName:String = "global"):void {
-		trace("CommandMap.channelUnmap > type : " + type + ", commandClass : " + commandClass + ", scopeName : " + scopeName);
-		
+	/**
+	 * Unmaps a class to be executed then message with provided type and scopeName is sent to maped scope.
+	 * @param	type				Message type for command class to react to.
+	 * @param	commandClass		Command class that will be instantiated and executed.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
+	 */
+	public function scopeUnmap(type:String, commandClass:Class, scopeName:String = "default"):void {
 		var scopedType:String = scopeName + "_«¬_" + type;
 		
 		var commandList:Vector.<Class> = classRegistry[scopedType];
@@ -301,7 +310,7 @@ public class CommandMap {
 	/**
 	 * Checks if Command class is already added to message type
 	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will bi instantiated and executed.
+	 * @param	commandClass	Command class that will be instantiated and executed.
 	 * @return					true if Command class is already mapped to message
 	 */
 	public function isMapped(type:String, commandClass:Class):Boolean {

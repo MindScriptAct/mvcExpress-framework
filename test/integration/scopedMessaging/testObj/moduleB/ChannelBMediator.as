@@ -1,4 +1,4 @@
-package integration.channeling.testObj.moduleB {
+package integration.scopedMessaging.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Point;
@@ -24,19 +24,19 @@ public class ChannelBMediator extends Mediator {
 	}
 	
 	private function sendChannelMessage1(event:Event):void {
-		sendChannelMessage("test1");
+		sendScopeMessage("test1");
 	}
 	
 	private function sendChannelMessage2(event:Event):void {
-		sendChannelMessage("test2");
+		sendScopeMessage("test2");
 	}
 	
 	private function sendChannelMessage3(event:Event):void {
-		sendChannelMessage("test3", null, "testChannel");
+		sendScopeMessage("test3", null, "testChannel");
 	}
 	
 	private function sendChannelMessage4(event:Event):void {
-		sendChannelMessage("test4", "test4 params string", "testChannel");
+		sendScopeMessage("test4", "test4 params string", "testChannel");
 	}	
 	
 	override public function onRemove():void {

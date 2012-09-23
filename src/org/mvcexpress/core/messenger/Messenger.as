@@ -167,7 +167,7 @@ public class Messenger {
 	 * @deprecated 1.1
 	 */
 	public function sendToAll(type:String, params:Object = null):void {
-		trace("WARNING: sendToAll() is depricated in favour of sendChannelMessage().");
+		trace("WARNING: sendToAll() is depricated in favour of sendScopeMessage().");
 		//
 		use namespace pureLegsCore;
 		// debug this action

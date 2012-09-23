@@ -1,4 +1,4 @@
-package integration.channeling.testObj.moduleA {
+package integration.scopedMessaging.testObj.moduleA {
 import flash.display.Sprite;
 import flash.events.Event;
 import org.mvcexpress.modules.ModuleCore;
@@ -43,11 +43,11 @@ public class ChannelModuleA extends ModuleCore {
 	}
 	
 	public function mapCommand_ComTest1():void {
-		commandMap.channelMap("CommTest1", ComTest1Command);
+		commandMap.scopeMap("CommTest1", ComTest1Command);
 	}
 	
 	public function unmapCommand_ComTest1():void {
-		commandMap.channelUnmap("CommTest1", ComTest1Command);
+		commandMap.scopeUnmap("CommTest1", ComTest1Command);
 	}
 	
 	override protected function onInit():void {

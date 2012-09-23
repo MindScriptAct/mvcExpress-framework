@@ -1,4 +1,4 @@
-package integration.channeling.testObj.moduleA {
+package integration.scopedMessaging.testObj.moduleA {
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Point;
@@ -25,23 +25,23 @@ public class ChannelAMediator extends Mediator {
 	}
 	
 	private function addChannelHandler1(event:Event):void {
-		addChannelHandler("test1", handleTest1Channelmessage);
+		addScopeHandler("test1", handleTest1Channelmessage);
 	}
 	
 	private function addChannelHandler2(event:Event):void {
-		addChannelHandler("test2", handleTest2Channelmessage);
+		addScopeHandler("test2", handleTest2Channelmessage);
 	}
 	
 	private function addChannelHandler3(event:Event):void {
-		addChannelHandler("test3", handleTest3Channelmessage, "testChannel");
+		addScopeHandler("test3", handleTest3Channelmessage, "testChannel");
 	}
 	
 	private function addChannelHandler4(event:Event):void {
-		addChannelHandler("test4", handleTest4Channelmessage, "testChannel");
+		addScopeHandler("test4", handleTest4Channelmessage, "testChannel");
 	}
 	
 	private function removeChannelHandler1(event:Event):void {
-		removeChannelHandler("test1", handleTest1Channelmessage);
+		removeScopeHandler("test1", handleTest1Channelmessage);
 	}
 	
 	private function handleTest1Channelmessage(blank:Object):void {

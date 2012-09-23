@@ -24,7 +24,7 @@ public class ConsoleMediator extends Mediator {
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 		//addRemoteHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
 		
-		addChannelHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleTargeterMessage, ScopeNames.FIRST_SCOPE);
+		addScopeHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleTargeterMessage, ScopeNames.FIRST_SCOPE);
 		
 	}
 	

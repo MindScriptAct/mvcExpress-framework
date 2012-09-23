@@ -1,6 +1,6 @@
-package integration.channeling {
-import integration.channeling.testObj.moduleA.ChannelModuleA;
-import integration.channeling.testObj.moduleB.ChannelModuleB;
+package integration.scopedMessaging {
+import integration.scopedMessaging.testObj.moduleA.ChannelModuleA;
+import integration.scopedMessaging.testObj.moduleB.ChannelModuleB;
 import org.flexunit.Assert;
 
 /**

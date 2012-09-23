@@ -1,5 +1,5 @@
 package suites {
-import integration.channeling.ChannelingTests;
+import integration.scopedMessaging.ChannelingTests;
 import suites.commandMap.CommandMapTests;
 import suites.commands.CommandsTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;

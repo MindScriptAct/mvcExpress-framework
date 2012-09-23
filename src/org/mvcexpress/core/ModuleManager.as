@@ -26,7 +26,7 @@ public class ModuleManager {
 	/* all modules stared by module name */
 	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
 	
-	/* all channel messengers stored by channel name */
+	/* all messengers by scope name */
 	static private var channels:Dictionary = new Dictionary(); /* of Messenger by String*/
 	
 	/** CONSTRUCTOR */
@@ -102,53 +102,58 @@ public class ModuleManager {
 	}
 	
 	//----------------------------------
-	//     channel
+	//     message scoping
 	//----------------------------------
 	
-	static pureLegsCore function sendChannelMessage(type:String, params:Object, scopeName:String):void {
-		trace("ModuleManager.channelMessage > type : " + type + ", params : " + params + ", scopeName " + scopeName);
+	/** sends scoped message 
+	 * @private */
+	static pureLegsCore function sendScopeMessage(type:String, params:Object, scopeName:String):void {
 		use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[scopeName];
-		if (channelMesanger) {
-			channelMesanger.send(scopeName + "_«¬_" + type, params);
+		var scopeMesanger:Messenger = channels[scopeName];
+		if (scopeMesanger) {
+			scopeMesanger.send(scopeName + "_«¬_" + type, params);
 		}
 	}
 	
-	static pureLegsCore function addChannelHandler(type:String, handler:Function, scopeName:String):HandlerVO {
-		var channelMesanger:Messenger = channels[scopeName];
-		if (!channelMesanger) {
+	/** add scoped handler 
+	 * @private */
+	static pureLegsCore function addScopeHandler(type:String, handler:Function, scopeName:String):HandlerVO {
+		var scopeMesanger:Messenger = channels[scopeName];
+		if (!scopeMesanger) {
 			use namespace pureLegsCore;
 			Messenger.allowInstantiation = true;
-			channelMesanger = new Messenger("$channel_" + scopeName);
+			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
-			channels[scopeName] = channelMesanger;
+			channels[scopeName] = scopeMesanger;
 		}
-		return channelMesanger.addHandler(scopeName + "_«¬_" + type, handler);
+		return scopeMesanger.addHandler(scopeName + "_«¬_" + type, handler);
 	}
 	
-	static pureLegsCore function removeChannelHandler(type:String, handler:Function, scopeName:String):void {
+	/** remove scoped handler 
+	 * @private */
+	static pureLegsCore function removeScopeHandler(type:String, handler:Function, scopeName:String):void {
 		//use namespace pureLegsCore;
-		var channelMesanger:Messenger = channels[scopeName];
-		if (channelMesanger) {
-			channelMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
+		var scopeMesanger:Messenger = channels[scopeName];
+		if (scopeMesanger) {
+			scopeMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
 		}
 	}
 	
 	
 	//----------------------------------
-	//     Command channeling
+	//     Command scoping
 	//----------------------------------
 	
-	static public function channelCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "global"):HandlerVO {
-		var channelMesanger:Messenger = channels[scopeName];
-		if (!channelMesanger) {
+	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "default"):HandlerVO {
+		var scopeMesanger:Messenger = channels[scopeName];
+		if (!scopeMesanger) {
 			use namespace pureLegsCore;
 			Messenger.allowInstantiation = true;
-			channelMesanger = new Messenger("$channel_" + scopeName);
+			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
-			channels[scopeName] = channelMesanger;
+			channels[scopeName] = scopeMesanger;
 		}
-		return channelMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
+		return scopeMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
 	}
 	
 	

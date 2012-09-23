@@ -1,4 +1,4 @@
-package integration.channeling.testObj.moduleB {
+package integration.scopedMessaging.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
 import org.mvcexpress.modules.ModuleCore;
@@ -40,7 +40,7 @@ public class ChannelModuleB extends ModuleCore {
 	}
 	
 	public function sendChannelMessage_comTest1():void {
-		sendChannelMessage("CommTest1", this);
+		sendScopeMessage("CommTest1", this);
 	}
 	
 	override protected function onInit():void {

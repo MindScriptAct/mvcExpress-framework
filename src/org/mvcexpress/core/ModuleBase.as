@@ -9,8 +9,8 @@ import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceModuleBase_sendChannelMessage;
 import org.mvcexpress.core.traceObjects.TraceModuleBase_sendMessage;
+import org.mvcexpress.core.traceObjects.TraceModuleBase_sendScopeMessage;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
@@ -167,25 +167,25 @@ public class ModuleBase {
 	}
 	
 	/**
-	 * Sends channeled module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	scope of the channel, both sending and receiving modules must use same scope to make module to module comminication. Defaults to "global".
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 */
-	public function sendChannelMessage(type:String, params:Object, scopeName:String):void {
+	public function sendScopeMessage(type:String, params:Object, scopeName:String):void {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendChannelMessage(MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE, _moduleName, this, type, params));
 		}
 		//
-		ModuleManager.sendChannelMessage(type, params, scopeName);
+		ModuleManager.sendScopeMessage(type, params, scopeName);
 		//
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendChannelMessage(MvcTraceActions.MODULEBASE_SENDCHANNELMESSAGE_CLEAN, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN, _moduleName, this, type, params));
 		}
 	}
 	

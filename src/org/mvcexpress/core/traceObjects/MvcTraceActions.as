@@ -44,24 +44,24 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";
-	static pureLegsCore const MODULEBASE_SENDCHANNELMESSAGE:String = "ModuleBase.sendChannelMessage";
-	static pureLegsCore const MODULEBASE_SENDCHANNELMESSAGE_CLEAN:String = "ModuleBase.sendChannelMessage.CLEAN";	
+	static pureLegsCore const MODULEBASE_SENDSCOPEMESSAGE:String = "ModuleBase.sendScopeMessage";
+	static pureLegsCore const MODULEBASE_SENDSCOPEMESSAGE_CLEAN:String = "ModuleBase.sendScopeMessage.CLEAN";	
 	
 	
 	static pureLegsCore const COMMAND_SENDMESSAGE:String = "Command.sendMessage";
 	static pureLegsCore const COMMAND_SENDMESSAGE_CLEAN:String = "Command.sendMessage.CLEAN";
-	static pureLegsCore const COMMAND_SENDCHANNELMESSAGE:String = "Command.sendChannelMessage";
-	static pureLegsCore const COMMAND_SENDCHANNELMESSAGE_CLEAN:String = "Command.sendChannelMessage.CLEAN";	
+	static pureLegsCore const COMMAND_SENDSCOPEMESSAGE:String = "Command.sendScopeMessage";
+	static pureLegsCore const COMMAND_SENDSCOPEMESSAGE_CLEAN:String = "Command.sendScopeMessage.CLEAN";	
 	
 	static pureLegsCore const MEDIATOR_SENDMESSAGE:String = "Mediator.sendMessage";
 	static pureLegsCore const MEDIATOR_SENDMESSAGE_CLEAN:String = "Mediator.sendMessage.CLEAN";
-	static pureLegsCore const MEDIATOR_SENDCHANNELMESSAGE:String = "Mediator.sendChannelMessage";
-	static pureLegsCore const MEDIATOR_SENDCHANNELMESSAGE_CLEAN:String = "Mediator.sendChannelMessage.CLEAN";	
+	static pureLegsCore const MEDIATOR_SENDSCOPEMESSAGE:String = "Mediator.sendScopeMessage";
+	static pureLegsCore const MEDIATOR_SENDSCOPEMESSAGE_CLEAN:String = "Mediator.sendScopeMessage.CLEAN";	
 	static pureLegsCore const MEDIATOR_ADDHANDLER:String = "Mediator.addHandler";
 	
 	static pureLegsCore const PROXY_SENDMESSAGE:String = "Proxy.sendMessage";
 	static pureLegsCore const PROXY_SENDMESSAGE_CLEAN:String = "Proxy.sendMessage.CLEAN";
-	static pureLegsCore const PROXY_SENDCHANNELMESSAGE:String = "Proxy.sendChannelMessage";
-	static pureLegsCore const PROXY_SENDCHANNELMESSAGE_CLEAN:String = "Proxy.sendChannelMessage.CLEAN";
+	static pureLegsCore const PROXY_SENDSCOPEMESSAGE:String = "Proxy.sendScopeMessage";
+	static pureLegsCore const PROXY_SENDSCOPEMESSAGE_CLEAN:String = "Proxy.sendScopeMessage.CLEAN";
 }
 }
