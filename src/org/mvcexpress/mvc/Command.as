@@ -9,7 +9,6 @@ import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceCommand_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceCommand_sendScopeMessage;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**

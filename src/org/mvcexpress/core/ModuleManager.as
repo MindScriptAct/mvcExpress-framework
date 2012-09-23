@@ -7,7 +7,6 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**

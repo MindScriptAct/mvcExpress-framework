@@ -5,7 +5,6 @@ import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendScopeMessage;
 import org.mvcexpress.MvcExpress;

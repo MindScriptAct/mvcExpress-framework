@@ -11,7 +11,6 @@ import org.mvcexpress.core.traceObjects.TraceMediatorMap_map;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_mediate;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmap;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmediate;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;

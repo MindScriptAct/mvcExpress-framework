@@ -13,7 +13,6 @@ import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendScopeMessage;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
