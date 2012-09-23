@@ -1,5 +1,6 @@
 package suites {
 import integration.scopedMessaging.ChannelingTests;
+import integration.scopedProxy.ScopedProxyTests;
 import suites.commandMap.CommandMapTests;
 import suites.commands.CommandsTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
@@ -23,7 +24,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	//*
+	/*
 	
 	public var generalTests:GeneralTests;
 	
@@ -50,9 +51,10 @@ public class AllTestSuites {
 	
 	public var mediatorTests:MediatorTests;
 	
+	public var channelingTests:ChannelingTests;
 	//*/
 
-	public var channelingTests:ChannelingTests;
+	public var scopedProxyTests:ScopedProxyTests;
 	
 	
 	//
