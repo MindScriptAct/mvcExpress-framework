@@ -16,6 +16,30 @@ public class ScopedProxyModuleB extends ModuleCore {
 		super(ScopedProxyModuleB.NAME);
 	}
 	
+	public function createMediatorWithItject():void {
+		
+	}
+	
+	public function createProxyWithItject():void {
+		
+	}
+	
+	public function storeStuffToMediator(testData:String):void {
+		
+	}
+	
+	public function storeStuffToProxy(testData:String):void {
+		
+	}
+	
+	public function storeStuffToCommand(testData:String):void {
+		
+	}
+	
+	public function getMediatorProxyTestData():String {
+		return "";
+	}
+	
 	override protected function onInit():void {
 	
 	}

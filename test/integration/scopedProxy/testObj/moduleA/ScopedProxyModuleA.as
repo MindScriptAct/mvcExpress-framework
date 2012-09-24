@@ -15,6 +15,18 @@ public class ScopedProxyModuleA extends ModuleCore {
 		super(ScopedProxyModuleA.NAME);
 	}
 	
+	public function hostTestProxy(scopedTestProxy:ScopedTestProxy):void {
+		
+	}
+	
+	public function unhostTestProxy():void {
+		
+	}
+	
+	public function trigerMediatorMessage(testData:String):void {
+		
+	}
+	
 	override protected function onInit():void {
 	
 	}
