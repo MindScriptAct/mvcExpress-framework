@@ -17,7 +17,7 @@ public class MvcExpress {
 	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 0;
 	/** Current framework revision version */
-	public static const REVISION:uint = 1;
+	public static const REVISION:uint = 2;
 	
 	/** Current framework version */
 	public static function get VERSION():String {
@@ -52,6 +52,12 @@ public class MvcExpress {
 	 * (For people who don't what this feature in.)
 	 */
 	static public var disableSendToAllFeature:Boolean = false;
+	
+	/**
+	 * Flag to force mediatorMap function mediateWith() throw an error in debug mode.
+	 * If you have situation there you cant have view object with unique class.(this should happen very raraly) - you will need this feature enabled.
+	 */
+	static public var feature_mediateWith_enabled:Boolean = false;
 	
 	//----------------------------------
 	//     Internal

@@ -4,6 +4,7 @@ import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
 import com.mindScriptAct.codeSnippets.SnippetAppModule;
 import com.mindScriptAct.codeSnippets.SpriteModuleTest;
+import com.mindScriptAct.codeSnippets.view.mediateWithTest.ChildSpriteTest;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -38,7 +39,10 @@ public class MainAppMediator extends Mediator {
 		sendMessage(Msg.TEST_DATA_MESSAGE, "SampleAppMediator works!!!");
 		
 		removeHandler(Msg.TEST_DATA_MESSAGE, handleTestDataMessage);
-	
+		
+		var childTest:ChildSpriteTest = new ChildSpriteTest();
+		view.addChild(childTest);
+		mediatorMap.mediate(childTest);
 	}
 	
 	// callBack MUST have 1 and only one parameter. This parameter can be typed(or be Object type)

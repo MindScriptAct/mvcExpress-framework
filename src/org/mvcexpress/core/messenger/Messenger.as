@@ -169,7 +169,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			if (MvcExpress.disableSendToAllFeature) {
-				throw Error("sendMessageToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
+				throw Error("sendToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
 			}
 			
 			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params))
