@@ -7,6 +7,7 @@ package org.mvcexpress.core.interfaces {
  */
 public interface IMediatorMap {
 	function mediate(viewObject:Object):void;
+	function mediateWith(viewObject:Object, mediatorClass:Class):void;
 	function unmediate(viewObject:Object):void;
 }
 }

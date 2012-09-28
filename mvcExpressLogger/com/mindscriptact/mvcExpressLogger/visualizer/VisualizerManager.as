@@ -176,7 +176,7 @@ public class VisualizerManager {
 				}
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE: 
-			case MvcTraceActions.MODULEBASE_SENDCSCOPEMESSAGE: 
+			case MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
 			case MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE: 
 			case MvcTraceActions.PROXY_SENDMESSAGE: 
