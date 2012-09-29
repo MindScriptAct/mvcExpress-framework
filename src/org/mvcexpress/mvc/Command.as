@@ -87,11 +87,11 @@ dynamic public class Command {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 */
-	protected function sendScopeMessage(type:String, params:Object = null, scopeName:String = "default"):void {
+	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
@@ -99,7 +99,7 @@ dynamic public class Command {
 			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE, messenger.moduleName, this, type, params));
 		}
 		//
-		ModuleManager.sendScopeMessage(type, params, scopeName);
+		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {

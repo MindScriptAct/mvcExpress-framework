@@ -142,18 +142,18 @@ public class CommandMap {
 	
 	/**
 	 * Map a class to be executed then message with provided type and scopeName is sent to maped scope.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
 	 * @param	type				Message type for command class to react to.
 	 * @param	commandClass		Command class that will be instantiated and executed.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
 	 */
-	public function scopeMap(type:String, commandClass:Class, scopeName:String = "default"):void {
+	public function scopeMap(scopeName:String, type:String, commandClass:Class):void {
 		use namespace pureLegsCore;
 		//
 		var scopedType:String = scopeName + "_«¬_" + type;
 		if (!classRegistry[scopedType]) {
 			classRegistry[scopedType] = new Vector.<Class>();
 			// TODO : check if chonnelCommandMap must be here...
-			scopeHandlers.push(ModuleManager.scopedCommandMap(handleCommandExecute, type, commandClass, scopeName));
+			scopeHandlers.push(ModuleManager.scopedCommandMap(handleCommandExecute, scopeName, type, commandClass));
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		classRegistry[scopedType].push(commandClass);
@@ -161,11 +161,11 @@ public class CommandMap {
 	
 	/**
 	 * Unmaps a class to be executed then message with provided type and scopeName is sent to maped scope.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
 	 * @param	type				Message type for command class to react to.
 	 * @param	commandClass		Command class that will be instantiated and executed.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
 	 */
-	public function scopeUnmap(type:String, commandClass:Class, scopeName:String = "default"):void {
+	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_«¬_" + type;
 		
 		var commandList:Vector.<Class> = classRegistry[scopedType];

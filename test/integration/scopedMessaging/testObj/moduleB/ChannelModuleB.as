@@ -40,7 +40,7 @@ public class ChannelModuleB extends ModuleCore {
 	}
 	
 	public function sendChannelMessage_comTest1():void {
-		sendScopeMessage("CommTest1", this);
+		sendScopeMessage("default", "CommTest1", this);
 	}
 	
 	override protected function onInit():void {

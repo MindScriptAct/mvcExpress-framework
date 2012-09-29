@@ -123,12 +123,12 @@ public class ModuleMovieClip extends MovieClip {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 */
-	protected function sendScopeMessage(type:String, params:Object = null, scopeName:String = "default"):void {
-		moduleBase.sendScopeMessage(type, params, scopeName);
+	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
+		moduleBase.sendScopeMessage(scopeName, type, params);
 	}
 	
 	//----------------------------------

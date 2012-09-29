@@ -24,19 +24,19 @@ public class ChannelBMediator extends Mediator {
 	}
 	
 	private function sendChannelMessage1(event:Event):void {
-		sendScopeMessage("test1");
+		sendScopeMessage("default", "test1");
 	}
 	
 	private function sendChannelMessage2(event:Event):void {
-		sendScopeMessage("test2");
+		sendScopeMessage("default", "test2");
 	}
 	
 	private function sendChannelMessage3(event:Event):void {
-		sendScopeMessage("test3", null, "testChannel");
+		sendScopeMessage("testChannel", "test3", null);
 	}
 	
 	private function sendChannelMessage4(event:Event):void {
-		sendScopeMessage("test4", "test4 params string", "testChannel");
+		sendScopeMessage("testChannel", "test4", "test4 params string");
 	}	
 	
 	override public function onRemove():void {

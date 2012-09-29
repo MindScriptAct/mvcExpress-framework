@@ -1,7 +1,7 @@
 package com.mindScriptAct.modules.console {
 import com.bit101.components.PushButton;
 import com.bit101.components.TextArea;
-import com.mindScriptAct.modules.console.controller.HandleTargetedMessageCommand;
+import com.mindScriptAct.modularSample.constants.ScopeNames;
 import com.mindScriptAct.modules.console.controller.HandleInputCommand;
 import com.mindScriptAct.modules.console.model.ConsoleLogProxy;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
@@ -49,11 +49,18 @@ public class Console extends ModuleSprite {
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
 		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
-		commandMap.map(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand);
-
+		
+		if (consoleId == 1) {
+			commandMap.scopeMap(ScopeNames.FIRST_SCOPE, GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleInputCommand);
+		}
+		if (consoleId == 2 || consoleId == 4) {
+			commandMap.scopeMap(ScopeNames.EVEN_SCOPE, GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleInputCommand);
+		}
+		commandMap.scopeMap(ScopeNames.ALL_SCORE, GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleInputCommand);
+		
 		// TODO : remove after dublicating messages is fixed.
 		//commandMap.mapRemote(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand, ModuleNames.SHELL);
-				
+		
 		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
 		mediatorMap.map(Console, ConsoleMediator);

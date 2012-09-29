@@ -25,23 +25,23 @@ public class ChannelAMediator extends Mediator {
 	}
 	
 	private function addChannelHandler1(event:Event):void {
-		addScopeHandler("test1", handleTest1Channelmessage);
+		addScopeHandler("default", "test1", handleTest1Channelmessage);
 	}
 	
 	private function addChannelHandler2(event:Event):void {
-		addScopeHandler("test2", handleTest2Channelmessage);
+		addScopeHandler("default", "test2", handleTest2Channelmessage);
 	}
 	
 	private function addChannelHandler3(event:Event):void {
-		addScopeHandler("test3", handleTest3Channelmessage, "testChannel");
+		addScopeHandler("testChannel", "test3", handleTest3Channelmessage);
 	}
 	
 	private function addChannelHandler4(event:Event):void {
-		addScopeHandler("test4", handleTest4Channelmessage, "testChannel");
+		addScopeHandler("testChannel", "test4", handleTest4Channelmessage);
 	}
 	
 	private function removeChannelHandler1(event:Event):void {
-		removeScopeHandler("test1", handleTest1Channelmessage);
+		removeScopeHandler("default", "test1", handleTest1Channelmessage);
 	}
 	
 	private function handleTest1Channelmessage(blank:Object):void {

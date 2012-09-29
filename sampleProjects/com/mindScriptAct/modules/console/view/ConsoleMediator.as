@@ -24,13 +24,12 @@ public class ConsoleMediator extends Mediator {
 		addHandler(ConsoleDataMsg.MESSAGE_ADDED, handleMessageAdded);
 		//addRemoteHandler(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, handleMessageAdded, ModuleNames.SHELL);
 		
-		addScopeHandler(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleTargeterMessage, ScopeNames.FIRST_SCOPE);
+		//addScopeHandler(ScopeNames.FIRST_SCOPE, GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, handleTargeterMessage);
 		
 	}
 	
-	private function handleTargeterMessage(params:ConsoleParams):void {
-		trace( "ConsoleMediator.handleTargeterMessage > params : " + params );
-		
+	private function handleTargeterMessage(text:String):void {
+		//trace( "ConsoleMediator.handleTargeterMessage > text : " + text );
 	}
 	
 	override public function onRemove():void {

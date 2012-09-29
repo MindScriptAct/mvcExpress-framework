@@ -106,7 +106,7 @@ public class ModuleManager {
 	
 	/** sends scoped message 
 	 * @private */
-	static pureLegsCore function sendScopeMessage(type:String, params:Object, scopeName:String):void {
+	static pureLegsCore function sendScopeMessage(scopeName:String, type:String, params:Object):void {
 		use namespace pureLegsCore;
 		var scopeMesanger:Messenger = channels[scopeName];
 		if (scopeMesanger) {
@@ -116,7 +116,7 @@ public class ModuleManager {
 	
 	/** add scoped handler 
 	 * @private */
-	static pureLegsCore function addScopeHandler(type:String, handler:Function, scopeName:String):HandlerVO {
+	static pureLegsCore function addScopeHandler(scopeName:String, type:String, handler:Function):HandlerVO {
 		var scopeMesanger:Messenger = channels[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
@@ -130,7 +130,7 @@ public class ModuleManager {
 	
 	/** remove scoped handler 
 	 * @private */
-	static pureLegsCore function removeScopeHandler(type:String, handler:Function, scopeName:String):void {
+	static pureLegsCore function removeScopeHandler(scopeName:String, type:String, handler:Function):void {
 		//use namespace pureLegsCore;
 		var scopeMesanger:Messenger = channels[scopeName];
 		if (scopeMesanger) {
@@ -143,7 +143,7 @@ public class ModuleManager {
 	//     Command scoping
 	//----------------------------------
 	
-	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, type:String, commandClass:Class, scopeName:String = "default"):HandlerVO {
+	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
 		var scopeMesanger:Messenger = channels[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
