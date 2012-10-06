@@ -12,7 +12,6 @@ import org.mvcexpress.MvcExpress;
 public class ScopedProxyTests {
 	private var scopedProxyModuleA:ScopedProxyModuleA;
 	private var scopedProxyModuleB:ScopedProxyModuleB;
-	;
 	
 	[Before]
 	
@@ -44,6 +43,7 @@ public class ScopedProxyTests {
 		
 		Assert.assertEquals(" Mediator should be able to inject hosted proxy, and manipulate it.", scopedTestProxy.storedData, "storedTestContent");
 	}
+	/*
 	
 	// A host
 	// B inject to proxy
@@ -165,6 +165,6 @@ public class ScopedProxyTests {
 		
 		Assert.assertEquals(" Command should be able to inject hosted proxy, and manipulate it.", scopedTestProxy.storedData, "storedTestContent");
 	}
-
+*/
 }
 }

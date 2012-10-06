@@ -13,6 +13,9 @@ public class InjectRuleVO {
 	
 	/** VARIABLE FOR INTERNAL USE. Injection identifier, formed by class name and your custom inject name. */
 	public var injectClassAndName:String;
+	
+	/** VARIABLE FOR INTERNAL USE. Injection identifier, formed by class name and your custom inject name. */
+	public var scopeName:String;
 
 }
 }

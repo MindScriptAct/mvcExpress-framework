@@ -1,12 +1,14 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
+import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
+import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -26,7 +28,10 @@ public class ModuleManager {
 	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
 	
 	/* all messengers by scope name */
-	static private var channels:Dictionary = new Dictionary(); /* of Messenger by String*/
+	static private var scopedMessengers:Dictionary = new Dictionary(); /* of Messenger by String*/
+	
+	/* all proxies by scope name */
+	static private var scopedProxies:Dictionary = new Dictionary(); /* of Proxy by String*/
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -104,57 +109,94 @@ public class ModuleManager {
 	//     message scoping
 	//----------------------------------
 	
-	/** sends scoped message 
+	/** sends scoped message
 	 * @private */
 	static pureLegsCore function sendScopeMessage(scopeName:String, type:String, params:Object):void {
 		use namespace pureLegsCore;
-		var scopeMesanger:Messenger = channels[scopeName];
+		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.send(scopeName + "_«¬_" + type, params);
 		}
 	}
 	
-	/** add scoped handler 
+	/** add scoped handler
 	 * @private */
 	static pureLegsCore function addScopeHandler(scopeName:String, type:String, handler:Function):HandlerVO {
-		var scopeMesanger:Messenger = channels[scopeName];
+		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
 			Messenger.allowInstantiation = true;
 			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
-			channels[scopeName] = scopeMesanger;
+			scopedMessengers[scopeName] = scopeMesanger;
 		}
 		return scopeMesanger.addHandler(scopeName + "_«¬_" + type, handler);
 	}
 	
-	/** remove scoped handler 
+	/** remove scoped handler
 	 * @private */
 	static pureLegsCore function removeScopeHandler(scopeName:String, type:String, handler:Function):void {
 		//use namespace pureLegsCore;
-		var scopeMesanger:Messenger = channels[scopeName];
+		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
 		}
 	}
 	
+	//----------------------------------
+	//     proxy scoping
+	//----------------------------------
+	
+	static pureLegsCore function scopeMap(scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
+		trace("ModuleManager.scopeMap > scopeName : " + scopeName + ", proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
+		var scopedProxy:ProxyMap = scopedProxies[scopeName];
+		if (!scopedProxy) {
+			var scopedMesanger:Messenger = scopedMessengers[scopeName];
+			if (!scopedMesanger) {
+				use namespace pureLegsCore;
+				Messenger.allowInstantiation = true;
+				scopedMesanger = new Messenger("$scope_" + scopeName);
+				Messenger.allowInstantiation = false;
+				scopedMessengers[scopeName] = scopedMesanger;
+			}
+			scopedProxy = new ProxyMap("$scope_" + scopeName, scopedMesanger);
+			scopedProxies[scopeName] = scopedProxy;
+		}
+		scopedProxy.map(proxyObject, injectClass, name);
+	}
+	
+	static pureLegsCore function scopeUnmap(scopeName:String, injectClass:Class, name:String):void {
+		trace("ModuleManager.scopeUnmap > scopeName : " + scopeName + ", injectClass : " + injectClass + ", name : " + name);
+	}
+	
+	static pureLegsCore function injectScopedProxy(object:Object, injectRule:InjectRuleVO):Boolean {
+		var scopedProxyMap:ProxyMap = scopedProxies[injectRule.scopeName];
+		if (scopedProxyMap) {
+			use namespace pureLegsCore;
+			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
+			if (ijectProxy) {
+				object[injectRule.varName] = ijectProxy;
+				return true;
+			}
+		}
+		return false
+	}
 	
 	//----------------------------------
 	//     Command scoping
 	//----------------------------------
 	
 	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
-		var scopeMesanger:Messenger = channels[scopeName];
+		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
 			Messenger.allowInstantiation = true;
 			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
-			channels[scopeName] = scopeMesanger;
+			scopedMessengers[scopeName] = scopeMesanger;
 		}
 		return scopeMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
 	}
-	
 	
 	//----------------------------------
 	//     DEBUG
