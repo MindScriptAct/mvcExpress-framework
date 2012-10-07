@@ -28,10 +28,13 @@ public class ModuleManager {
 	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
 	
 	/* all messengers by scope name */
-	static private var scopedMessengers:Dictionary = new Dictionary(); /* of Messenger by String*/
+	static private var scopedMessengers:Dictionary = new Dictionary(); /* of Messenger by String{moduleName} */
 	
 	/* all proxies by scope name */
-	static private var scopedProxies:Dictionary = new Dictionary(); /* of Proxy by String*/
+	static private var scopedProxyMaps:Dictionary = new Dictionary(); /* of ProxyMap by String{moduleName} */
+	
+	/* all proxies maped to scope */
+	static private var scopedProxiesByScope:Dictionary = new Dictionary(); /* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -93,6 +96,17 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_disposeModule(MvcTraceActions.MODULEMANAGER_DISPOSEMODULE, moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
+			// TODO : optimize unmaping for module disposing
+			// remove scoped proxies from this module
+			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
+			if (scopiedProxies) {
+				for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
+					//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
+					//delete scopiedProxies[scopedProxy];
+					scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
+				}
+			}
+			//
 			delete moduleRegistry[moduleName];
 			for (var j:int = 0; j < allModules.length; j++) {
 				if (allModules[j].moduleName == moduleName) {
@@ -147,10 +161,11 @@ public class ModuleManager {
 	//     proxy scoping
 	//----------------------------------
 	
-	static pureLegsCore function scopeMap(scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
+	static pureLegsCore function scopeMap(moduleName:String, moduleScopeMap:ProxyMap, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
 		trace("ModuleManager.scopeMap > scopeName : " + scopeName + ", proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-		var scopedProxy:ProxyMap = scopedProxies[scopeName];
-		if (!scopedProxy) {
+		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
+		if (!scopedProxyMap) {
+			scopedProxiesByScope[moduleName] = new Dictionary(true);
 			var scopedMesanger:Messenger = scopedMessengers[scopeName];
 			if (!scopedMesanger) {
 				use namespace pureLegsCore;
@@ -159,18 +174,39 @@ public class ModuleManager {
 				Messenger.allowInstantiation = false;
 				scopedMessengers[scopeName] = scopedMesanger;
 			}
-			scopedProxy = new ProxyMap("$scope_" + scopeName, scopedMesanger);
-			scopedProxies[scopeName] = scopedProxy;
+			scopedProxyMap = new ProxyMap("$scope_" + scopeName, scopedMesanger);
+			scopedProxyMaps[scopeName] = scopedProxyMap;
 		}
-		scopedProxy.map(proxyObject, injectClass, name);
+		scopedProxyMap.map(proxyObject, injectClass, name);
+		
+		// if injectClass is not provided - proxyClass will be used instead.
+		
+		// TODO : optimize unmaping for module disposing
+		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
+		scopedProxyData.scopedProxyMap = moduleScopeMap;
+		scopedProxyData.scopeName = scopeName;
+		if (injectClass) {
+			scopedProxyData.injectClass = injectClass;
+		} else {
+			scopedProxyData.injectClass = Object(proxyObject).constructor;
+		}
+		scopedProxyData.name = name;
+		scopedProxiesByScope[moduleName][proxyObject] = scopedProxyData;
 	}
 	
-	static pureLegsCore function scopeUnmap(scopeName:String, injectClass:Class, name:String):void {
+	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
 		trace("ModuleManager.scopeUnmap > scopeName : " + scopeName + ", injectClass : " + injectClass + ", name : " + name);
+		var scopedProxy:ProxyMap = scopedProxyMaps[scopeName];
+		if (scopedProxy) {
+			// TODO : optimize unmaping for module disposing
+			var proxyObject:Proxy = scopedProxy.getProxy(injectClass, name);
+			delete scopedProxiesByScope[moduleName][proxyObject];
+			scopedProxy.unmap(injectClass, name);
+		}
 	}
 	
 	static pureLegsCore function injectScopedProxy(object:Object, injectRule:InjectRuleVO):Boolean {
-		var scopedProxyMap:ProxyMap = scopedProxies[injectRule.scopeName];
+		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;
 			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
@@ -275,4 +311,13 @@ public class ModuleManager {
 		}
 	}
 }
+}
+
+import org.mvcexpress.core.ProxyMap;
+
+class ScopedProxyData {
+	public var scopedProxyMap:ProxyMap;
+	public var scopeName:String;
+	public var injectClass:Class;
+	public var name:String;
 }

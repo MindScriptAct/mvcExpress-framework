@@ -9,32 +9,37 @@ import org.mvcexpress.modules.ModuleCore;
  */
 public class ScopedProxyModuleB extends ModuleCore {
 	private var view:Sprite;
-	private var viewObject:ScopedProxyInjectView;
+	private var testViewObject:ScopedProxyInjectView;
+	private var testProxy:ScopedProxyInjectProxy;
 	
 	static public const NAME:String = "ScopedProxyModuleB";
+	
+	static public var TEST_FUNCTION:Function = function(msg:*):void {
+		trace( "TEST_FUNCTION : " + TEST_FUNCTION );
+	};
 	
 	public function ScopedProxyModuleB() {
 		super(ScopedProxyModuleB.NAME);
 	}
 	
 	public function createMediatorWithItject():void {
-		viewObject = new ScopedProxyInjectView();
+		testViewObject = new ScopedProxyInjectView();
 		
 		mediatorMap.map(ScopedProxyInjectView, ScopedProxyInjectMediator);
-		mediatorMap.mediate(viewObject);
-	
-	}
-	
-	public function createProxyWithItject():void {
-	
+		mediatorMap.mediate(testViewObject);
 	}
 	
 	public function storeStuffToMediator(testData:String):void {
-		viewObject.sendDataToProxy(testData);
+		testViewObject.sendDataToProxy(testData);
+	}
+	
+	public function createProxyWithItject():void {
+		testProxy = new ScopedProxyInjectProxy();
+		proxyMap.map(testProxy);
 	}
 	
 	public function storeStuffToProxy(testData:String):void {
-	
+		testProxy.storeTestData(testData);
 	}
 	
 	public function storeStuffToCommand(testData:String):void {

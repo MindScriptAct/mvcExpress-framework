@@ -9,11 +9,14 @@ public class ScopedProxyInjectView extends Sprite {
 	private var scopedProxyInjectMediator:ScopedProxyInjectMediator;
 	
 	public function pushMediatorIn(scopedProxyInjectMediator:ScopedProxyInjectMediator):void {
+		trace( "ScopedProxyInjectView.pushMediatorIn > scopedProxyInjectMediator : " + scopedProxyInjectMediator );
 		this.scopedProxyInjectMediator = scopedProxyInjectMediator;
 	
 	}
 	
 	public function sendDataToProxy(testData:String):void {
+		trace( "ScopedProxyInjectView.sendDataToProxy > testData : " + testData );
+		trace( "scopedProxyInjectMediator : " + scopedProxyInjectMediator );
 		scopedProxyInjectMediator.sendDataToProxy(testData);
 	}
 }

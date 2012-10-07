@@ -20,8 +20,8 @@ public class ScopedProxyModuleA extends ModuleCore {
 		proxyMap.scopeMap(ScoppedProxyConstants.PROXY_SCOPE, scopedTestProxy);
 	}
 	
-	public function unhostTestProxy():void {
-	
+	public function unhostTestProxy(injectClass:Class):void {
+		proxyMap.scopeUnmap(ScoppedProxyConstants.PROXY_SCOPE, injectClass);
 	}
 	
 	public function trigerMediatorMessage(testData:String):void {
