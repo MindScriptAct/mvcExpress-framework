@@ -168,6 +168,7 @@ public class ScopedProxyTests {
 	
 	[Test(expects="Error")]
 	[Ignore]
+	
 	public function scopedProxy_injectHosted_injectFails():void {
 		scopedProxyModuleB.createMediatorWithItject();
 	}

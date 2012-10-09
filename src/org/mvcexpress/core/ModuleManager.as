@@ -56,7 +56,7 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_createModule(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
-			_moduleId++
+			_moduleId++;
 			//
 			if (!moduleName) {
 				moduleName = "module" + _moduleId;
@@ -100,10 +100,17 @@ public class ModuleManager {
 			// remove scoped proxies from this module
 			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
 			if (scopiedProxies) {
-				for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
+				//for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
 					//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
 					//delete scopiedProxies[scopedProxy];
-					scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
+					//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
+				//}
+				
+				for (var injectId:String in scopiedProxies) {
+					var scopedProxyData:ScopedProxyData = scopiedProxies[injectId];
+					var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
+					scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
+					delete scopiedProxies[injectId];
 				}
 			}
 			//
@@ -158,10 +165,26 @@ public class ModuleManager {
 	}
 	
 	//----------------------------------
+	//     Command scoping
+	//----------------------------------
+	
+	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
+		var scopeMesanger:Messenger = scopedMessengers[scopeName];
+		if (!scopeMesanger) {
+			use namespace pureLegsCore;
+			Messenger.allowInstantiation = true;
+			scopeMesanger = new Messenger("$scope_" + scopeName);
+			Messenger.allowInstantiation = false;
+			scopedMessengers[scopeName] = scopeMesanger;
+		}
+		return scopeMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
+	}
+	
+	//----------------------------------
 	//     proxy scoping
 	//----------------------------------
 	
-	static pureLegsCore function scopeMap(moduleName:String, moduleScopeMap:ProxyMap, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
+	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
 		trace("ModuleManager.scopeMap > scopeName : " + scopeName + ", proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
@@ -177,31 +200,32 @@ public class ModuleManager {
 			scopedProxyMap = new ProxyMap("$scope_" + scopeName, scopedMesanger);
 			scopedProxyMaps[scopeName] = scopedProxyMap;
 		}
-		scopedProxyMap.map(proxyObject, injectClass, name);
+		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 		
 		// if injectClass is not provided - proxyClass will be used instead.
 		
 		// TODO : optimize unmaping for module disposing
+		
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
-		scopedProxyData.scopedProxyMap = moduleScopeMap;
 		scopedProxyData.scopeName = scopeName;
+		
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
 		} else {
 			scopedProxyData.injectClass = Object(proxyObject).constructor;
 		}
 		scopedProxyData.name = name;
-		scopedProxiesByScope[moduleName][proxyObject] = scopedProxyData;
+		
+		scopedProxiesByScope[moduleName][injectId] = scopedProxyData;
 	}
 	
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
 		trace("ModuleManager.scopeUnmap > scopeName : " + scopeName + ", injectClass : " + injectClass + ", name : " + name);
-		var scopedProxy:ProxyMap = scopedProxyMaps[scopeName];
-		if (scopedProxy) {
+		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
+		if (scopedProxyMap) {
 			// TODO : optimize unmaping for module disposing
-			var proxyObject:Proxy = scopedProxy.getProxy(injectClass, name);
-			delete scopedProxiesByScope[moduleName][proxyObject];
-			scopedProxy.unmap(injectClass, name);
+			var injectId:String = scopedProxyMap.unmap(injectClass, name);
+			delete scopedProxiesByScope[moduleName][injectId];
 		}
 	}
 	
@@ -216,22 +240,6 @@ public class ModuleManager {
 			}
 		}
 		return false
-	}
-	
-	//----------------------------------
-	//     Command scoping
-	//----------------------------------
-	
-	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
-		var scopeMesanger:Messenger = scopedMessengers[scopeName];
-		if (!scopeMesanger) {
-			use namespace pureLegsCore;
-			Messenger.allowInstantiation = true;
-			scopeMesanger = new Messenger("$scope_" + scopeName);
-			Messenger.allowInstantiation = false;
-			scopedMessengers[scopeName] = scopeMesanger;
-		}
-		return scopeMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
 	}
 	
 	//----------------------------------
@@ -316,7 +324,6 @@ public class ModuleManager {
 import org.mvcexpress.core.ProxyMap;
 
 class ScopedProxyData {
-	public var scopedProxyMap:ProxyMap;
 	public var scopeName:String;
 	public var injectClass:Class;
 	public var name:String;

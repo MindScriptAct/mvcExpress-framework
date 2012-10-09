@@ -37,7 +37,7 @@ public class ProxyMap implements IProxyMap {
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
 	/** all hostedProxy data stored by hosted Proxy objects stored */
-	static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
+	//static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
 	
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
 	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
@@ -54,7 +54,7 @@ public class ProxyMap implements IProxyMap {
 	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
-	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
+	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):String {
 		
 		// get proxy class
 		var proxyClass:Class = Object(proxyObject).constructor;
@@ -72,6 +72,8 @@ public class ProxyMap implements IProxyMap {
 		
 		var className:String = getQualifiedClassName(injectClass);
 		
+		var injectId:String = className + name;
+		
 		use namespace pureLegsCore;
 		if (proxyObject.messenger == null) {
 			proxyObject.messenger = messenger;
@@ -81,8 +83,8 @@ public class ProxyMap implements IProxyMap {
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			
 			// check if there is no pending injection with this key.
-			if (pendingInjectionsRegistry[className + name]) {
-				injectPendingStuff(className + name, proxyObject);
+			if (pendingInjectionsRegistry[injectId]) {
+				injectPendingStuff(injectId, proxyObject);
 			}
 			// register proxy is all injections are done.
 			if (isAllInjected) {
@@ -90,13 +92,14 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		
-		if (!injectObjectRegistry[className + name]) {
+		if (!injectObjectRegistry[injectId]) {
 			// store proxy injection for other classes.
-			injectObjectRegistry[className + name] = proxyObject;
+			injectObjectRegistry[injectId] = proxyObject;
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
 		}
-	
+		
+		return injectId;
 	}
 	
 	/**
@@ -105,7 +108,7 @@ public class ProxyMap implements IProxyMap {
 	 * @param	injectClass	class previously mapped for injection
 	 * @param	name		name added to class, that was previously mapped for injection
 	 */
-	public function unmap(injectClass:Class, name:String = ""):void {
+	public function unmap(injectClass:Class, name:String = ""):String {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -113,11 +116,15 @@ public class ProxyMap implements IProxyMap {
 		}
 		// remove proxy if it exists.
 		var className:String = getQualifiedClassName(injectClass);
-		if (injectObjectRegistry[className + name]) {
+		
+		var injectId:String = className + name;
+		
+		if (injectObjectRegistry[injectId]) {
 			use namespace pureLegsCore;
-			(injectObjectRegistry[className + name] as Proxy).remove();
-			delete injectObjectRegistry[className + name];
+			(injectObjectRegistry[injectId] as Proxy).remove();
+			delete injectObjectRegistry[injectId];
 		}
+		return injectId;
 	}
 	
 	/**
@@ -156,7 +163,7 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		use namespace pureLegsCore;
-		ModuleManager.scopeMap(moduleName, this, scopeName, proxyObject, injectClass, name);
+		ModuleManager.scopeMap(moduleName, scopeName, proxyObject, injectClass, name);
 	}
 	
 	/**
@@ -175,6 +182,7 @@ public class ProxyMap implements IProxyMap {
 		
 		use namespace pureLegsCore;
 		ModuleManager.scopeUnmap(moduleName, scopeName, injectClass, name);
+	
 	}
 	
 	//----------------------------------
