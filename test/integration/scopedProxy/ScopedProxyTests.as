@@ -152,7 +152,6 @@ public class ScopedProxyTests {
 	// inject ok
 	
 	[Test]
-	[Ignore]
 	
 	public function scopedProxy_hostAndInjectHostedToCommand_injectOk():void {
 		scopedTestProxy = new ScopedTestProxy();

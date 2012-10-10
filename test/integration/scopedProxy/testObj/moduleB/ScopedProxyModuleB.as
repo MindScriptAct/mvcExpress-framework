@@ -43,7 +43,7 @@ public class ScopedProxyModuleB extends ModuleCore {
 	}
 	
 	public function storeStuffToCommand(testData:String):void {
-	
+		commandMap.execute(ScopedProxpyTestCommand, testData);
 	}
 	
 	public function getMediatorProxyTestData():String {
