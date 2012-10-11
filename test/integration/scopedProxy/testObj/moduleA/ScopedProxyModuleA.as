@@ -1,7 +1,7 @@
 package integration.scopedProxy.testObj.moduleA {
 import flash.display.Sprite;
 import flash.events.Event;
-import integration.scopedProxy.ScoppedProxyConstants;
+import integration.scopedProxy.ScopedProxyTests;
 import org.mvcexpress.modules.ModuleCore;
 
 /**
@@ -17,15 +17,16 @@ public class ScopedProxyModuleA extends ModuleCore {
 	}
 	
 	public function hostTestProxy(scopedTestProxy:ScopedTestProxy):void {
-		proxyMap.scopeMap(ScoppedProxyConstants.PROXY_SCOPE, scopedTestProxy);
+		//trace( "ScopedProxyModuleA.hostTestProxy > scopedTestProxy : " + scopedTestProxy );
+		proxyMap.scopeMap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, scopedTestProxy);
 	}
 	
 	public function unhostTestProxy(injectClass:Class):void {
-		proxyMap.scopeUnmap(ScoppedProxyConstants.PROXY_SCOPE, injectClass);
+		proxyMap.scopeUnmap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, injectClass);
 	}
 	
 	public function trigerMediatorMessage(testData:String):void {
-	
+		
 	}
 	
 	override protected function onInit():void {

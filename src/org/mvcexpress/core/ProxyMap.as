@@ -78,7 +78,6 @@ public class ProxyMap implements IProxyMap {
 		if (proxyObject.messenger == null) {
 			proxyObject.messenger = messenger;
 			proxyObject.setProxyMap(this);
-			
 			// inject dependencies
 			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 			
@@ -195,9 +194,11 @@ public class ProxyMap implements IProxyMap {
 	 */
 	pureLegsCore function dispose():void {
 		// Remove all registered proxies
-		for each (var proxyObject:Proxy in injectObjectRegistry) {
+		for each (var proxyObject:Object in injectObjectRegistry) {
 			use namespace pureLegsCore;
-			proxyObject.remove();
+			if (proxyObject is Proxy) {
+				(proxyObject as Proxy).remove();
+			}
 		}
 		// set internals to null
 		injectObjectRegistry = null;
@@ -237,7 +238,7 @@ public class ProxyMap implements IProxyMap {
 			ProxyMap.classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
-		}
+		}		
 		
 		// injects all dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
@@ -249,29 +250,23 @@ public class ProxyMap implements IProxyMap {
 						throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
 					} else {
 						throw Error("Inject object is not found in scope:" + rules[i].scopeName + " for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
-						
-					}
-				}
+					}				}
 			} else {
 				var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
 				if (injectObject) {
 					object[rules[i].varName] = injectObject;
-					
-					// debug this action
+					// debug this action					
 					CONFIG::debug {
 						use namespace pureLegsCore;
 						MvcExpress.debug(new TraceProxyMap_injectStuff(MvcTraceActions.PROXYMAP_INJECTSTUFF, moduleName, object, injectObject, rules[i]));
 					}
 				} else {
 					// if local injection fails... test for global(hosted) injections
-					
-					// remember that not all injections exists
-					isAllInjected = false;
+					// remember that not all injections exists					isAllInjected = false;
 					
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
 						//add injection to pending injections.
-						
-						// debug this action
+						// debug this action						
 						CONFIG::debug {
 							use namespace pureLegsCore;
 							MvcExpress.debug(new TraceProxyMap_injectPending(MvcTraceActions.PROXYMAP_INJECTPENDING, moduleName, object, injectObject, rules[i]));
@@ -356,7 +351,7 @@ public class ProxyMap implements IProxyMap {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
 						var injectName:String = "";
-						var scopeName:String;
+						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
 						for (var k:int = 0; k < args.length(); k++) {
 							if (args[k].@key == "name") {

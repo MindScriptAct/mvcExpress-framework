@@ -1,4 +1,5 @@
 package integration.scopedProxy.testObj.moduleA {
+import integration.scopedProxy.ScopedProxyTests;
 import org.mvcexpress.mvc.Proxy;
 
 /**
@@ -12,6 +13,8 @@ public class ScopedTestProxy extends Proxy {
 	
 	}
 	
+
+	
 	override protected function onRegister():void {
 	
 	}
@@ -19,6 +22,10 @@ public class ScopedTestProxy extends Proxy {
 	override protected function onRemove():void {
 	
 	}
-
+	
+	
+	public function trigerMediatorMessage(messagedata:String):void {
+		sendMessage(ScopedProxyTests.SCOPED_PROXY_MESSAGE_NAME, messagedata);
+	}
 }
 }

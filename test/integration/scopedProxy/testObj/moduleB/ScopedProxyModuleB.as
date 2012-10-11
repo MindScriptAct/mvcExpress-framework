@@ -15,7 +15,7 @@ public class ScopedProxyModuleB extends ModuleCore {
 	static public const NAME:String = "ScopedProxyModuleB";
 	
 	static public var TEST_FUNCTION:Function = function(msg:*):void {
-		trace( "TEST_FUNCTION : " + TEST_FUNCTION );
+		//trace( "TEST_FUNCTION : " + TEST_FUNCTION );
 	};
 	
 	public function ScopedProxyModuleB() {

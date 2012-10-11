@@ -185,7 +185,6 @@ public class ModuleManager {
 	//----------------------------------
 	
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
-		trace("ModuleManager.scopeMap > scopeName : " + scopeName + ", proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			scopedProxiesByScope[moduleName] = new Dictionary(true);
@@ -208,19 +207,16 @@ public class ModuleManager {
 		
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
 		scopedProxyData.scopeName = scopeName;
-		
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
 		} else {
 			scopedProxyData.injectClass = Object(proxyObject).constructor;
 		}
 		scopedProxyData.name = name;
-		
 		scopedProxiesByScope[moduleName][injectId] = scopedProxyData;
 	}
 	
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
-		trace("ModuleManager.scopeUnmap > scopeName : " + scopeName + ", injectClass : " + injectClass + ", name : " + name);
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (scopedProxyMap) {
 			// TODO : optimize unmaping for module disposing

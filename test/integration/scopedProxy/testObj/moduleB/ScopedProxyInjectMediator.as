@@ -1,5 +1,6 @@
 package integration.scopedProxy.testObj.moduleB {
 import flash.display.Sprite;
+import integration.scopedProxy.ScopedProxyTests;
 import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
@@ -19,6 +20,13 @@ public class ScopedProxyInjectMediator extends Mediator {
 		trace("ScopedProxyInjectMediator.onRegister");
 		view.pushMediatorIn(this);
 		ScopedProxyModuleB.TEST_FUNCTION();
+		
+		addScopeHandler(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, ScopedProxyTests.SCOPED_PROXY_MESSAGE_NAME, handleScopedMessage);
+	}
+	
+	private function handleScopedMessage(testdata:String):void {
+		trace("ScopedProxyInjectMediator.handleScopedMessage > testdata : " + testdata);
+		myProxy.storedData = testdata;
 	}
 	
 	override public function onRemove():void {
