@@ -212,6 +212,53 @@ public class ScopedProxyTests {
 	}
 	
 	//
+	// A Map
+	// A host
+	// A send message
+	// A mapped sends message localy.
+	
+	[Test]
+	
+	public function scopedProxy_MapAndHostThenMessageLocaly_communicatinOk():void {
+		scopedTestProxy = new ScopedTestProxy();
+		
+		scopedProxyModuleA.mapTestProxy(scopedTestProxy);
+		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
+		
+		scopedProxyModuleA.createMediatorWithLocalItject();
+		
+		randomData = "storedTestContent" + Math.floor(Math.random() * 10000000);
+		
+		scopedTestProxy.trigerMessage(randomData);
+		
+		//
+		Assert.assertEquals(" Mediator should be able to map, host, inject local proxy, and send message to manipulate it.", randomData, scopedTestProxy.storedData);
+	}	
+	
+	// A host
+	// A Map
+	// A send message
+	// A mapped sends message localy.
+	
+	[Test]
+	
+	public function scopedProxy_HostAndMapThenMessageLocaly_communicatinOk():void {
+		scopedTestProxy = new ScopedTestProxy();
+		
+		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
+		scopedProxyModuleA.mapTestProxy(scopedTestProxy);
+		
+		scopedProxyModuleA.createMediatorWithLocalItject();
+		
+		randomData = "storedTestContent" + Math.floor(Math.random() * 10000000);
+		
+		scopedTestProxy.trigerMessage(randomData);
+		
+		//
+		Assert.assertEquals(" Mediator should be able host, map, inject local proxy, and send message to manipulate it.", randomData, scopedTestProxy.storedData);
+	}	
+	
+	//
 	// A host
 	// B inject
 	// A send message
@@ -226,7 +273,7 @@ public class ScopedProxyTests {
 		
 		randomData = "storedTestContent" + Math.floor(Math.random() * 10000000);
 		
-		scopedTestProxy.trigerMediatorMessage(randomData);
+		scopedTestProxy.trigerMessage(randomData);
 		
 		Assert.assertEquals(" Mediator should be able to inject hosted proxy, and manipulate it.", randomData, scopedProxyModuleB.getMediatorProxyTestData());
 	}

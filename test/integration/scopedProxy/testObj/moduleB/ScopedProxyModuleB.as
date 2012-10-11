@@ -47,7 +47,7 @@ public class ScopedProxyModuleB extends ModuleCore {
 	}
 	
 	public function getMediatorProxyTestData():String {
-		return "";
+		return testViewObject.testData;
 	}
 	
 	override protected function onInit():void {

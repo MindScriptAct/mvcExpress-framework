@@ -51,8 +51,9 @@ public class AllTestSuites {
 	
 	public var mediatorTests:MediatorTests;
 	
-	public var channelingTests:ChannelingTests;
 	//*/
+	
+	public var channelingTests:ChannelingTests;
 
 	public var scopedProxyTests:ScopedProxyTests;
 	

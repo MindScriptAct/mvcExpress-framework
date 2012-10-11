@@ -6,6 +6,8 @@ import flash.display.Sprite;
  */
 public class ScopedProxyInjectView extends Sprite {
 	
+	public var testData:String;
+	
 	private var scopedProxyInjectMediator:ScopedProxyInjectMediator;
 	
 	public function pushMediatorIn(scopedProxyInjectMediator:ScopedProxyInjectMediator):void {

@@ -24,7 +24,7 @@ public class ScopedTestProxy extends Proxy {
 	}
 	
 	
-	public function trigerMediatorMessage(messagedata:String):void {
+	public function trigerMessage(messagedata:String):void {
 		sendMessage(ScopedProxyTests.SCOPED_PROXY_MESSAGE_NAME, messagedata);
 	}
 }

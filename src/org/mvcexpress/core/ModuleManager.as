@@ -201,11 +201,15 @@ public class ModuleManager {
 		}
 		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 		
+		// add scope to proxy so it could send scoped messages.
+		proxyObject.addScope(scopeName);
+		
 		// if injectClass is not provided - proxyClass will be used instead.
 		
 		// TODO : optimize unmaping for module disposing
 		
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
+		scopedProxyData.scopedProxy = proxyObject;
 		scopedProxyData.scopeName = scopeName;
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
@@ -221,6 +225,9 @@ public class ModuleManager {
 		if (scopedProxyMap) {
 			// TODO : optimize unmaping for module disposing
 			var injectId:String = scopedProxyMap.unmap(injectClass, name);
+			// remove scope from proxy, so it would stop sending scoped messages.
+			use namespace pureLegsCore;
+			scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
 			delete scopedProxiesByScope[moduleName][injectId];
 		}
 	}
@@ -318,8 +325,10 @@ public class ModuleManager {
 }
 
 import org.mvcexpress.core.ProxyMap;
+import org.mvcexpress.mvc.Proxy;
 
 class ScopedProxyData {
+	public var scopedProxy:Proxy;
 	public var scopeName:String;
 	public var injectClass:Class;
 	public var name:String;

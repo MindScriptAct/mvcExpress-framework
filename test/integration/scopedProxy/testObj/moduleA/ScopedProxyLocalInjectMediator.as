@@ -1,4 +1,4 @@
-package integration.scopedProxy.testObj.moduleB {
+package integration.scopedProxy.testObj.moduleA {
 import flash.display.Sprite;
 import integration.scopedProxy.ScopedProxyTests;
 import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
@@ -8,26 +8,25 @@ import org.mvcexpress.mvc.Mediator;
  * TODO:CLASS COMMENT
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
-public class ScopedProxyInjectMediator extends Mediator {
+public class ScopedProxyLocalInjectMediator extends Mediator {
 	
 	[Inject]
-	public var view:ScopedProxyInjectView;
+	public var view:ScopedProxyLocalInjectView;
 	
-	[Inject(scope="proxyScope")]
+	[Inject]
 	public var myProxy:ScopedTestProxy;
 	
 	override public function onRegister():void {
 		trace("ScopedProxyInjectMediator.onRegister");
 		view.pushMediatorIn(this);
-		ScopedProxyModuleB.TEST_FUNCTION(null);
+		//ScopedProxyModuleB.TEST_FUNCTION(null);
 		
-		addScopeHandler(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, ScopedProxyTests.SCOPED_PROXY_MESSAGE_NAME, handleScopedMessage);
+		addHandler(ScopedProxyTests.SCOPED_PROXY_MESSAGE_NAME, handleScopedMessage);
 	}
 	
 	private function handleScopedMessage(testdata:String):void {
 		trace("ScopedProxyInjectMediator.handleScopedMessage > testdata : " + testdata);
 		myProxy.storedData = testdata;
-		view.testData = testdata;
 	}
 	
 	override public function onRemove():void {

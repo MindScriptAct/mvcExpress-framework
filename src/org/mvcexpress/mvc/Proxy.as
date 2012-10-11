@@ -28,6 +28,9 @@ public class Proxy {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
+	// for sending scoped messages then injected by scope.
+	private var proxyScopes:Vector.<String> = new Vector.<String>();
+	
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
@@ -74,6 +77,10 @@ public class Proxy {
 		}
 		//
 		messenger.send(type, params);
+		//
+		for (var i:int = 0; i < proxyScopes.length; i++) {
+			ModuleManager.sendScopeMessage(proxyScopes[i], type, params);
+		}
 		//
 		// clean up loging the action
 		CONFIG::debug {
@@ -150,6 +157,32 @@ public class Proxy {
 		_isReady = false;
 		onRemove();
 	}
+	
+	pureLegsCore function addScope(scapeName:String):void {
+		//CONFIG::debug {
+		var messengerFound:Boolean = false;
+		for (var i:int = 0; i < proxyScopes.length; i++) {
+			if (proxyScopes[i] == scapeName) {
+				messengerFound = true;
+				break;
+			}
+		}
+		//}
+		if (!messengerFound) {
+			proxyScopes.push(scapeName);
+		}
+	}
+	
+	pureLegsCore function removeScope(scapeName:String):void {
+		//CONFIG::debug {
+		var messengerFound:Boolean = false;
+		for (var i:int = 0; i < scapeName.length; i++) {
+			if (proxyScopes[i] == scapeName) {
+				proxyScopes.splice(i, 1);
+				break;
+			}
+		}
+	}	
 
 }
 }

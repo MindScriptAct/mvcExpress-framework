@@ -9,6 +9,7 @@ import org.mvcexpress.modules.ModuleCore;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class ScopedProxyModuleA extends ModuleCore {
+	private var testViewObject:ScopedProxyLocalInjectView;
 	
 	static public const NAME:String = "ScopedProxyModuleA";
 	
@@ -26,6 +27,21 @@ public class ScopedProxyModuleA extends ModuleCore {
 	}
 	
 	public function trigerMediatorMessage(testData:String):void {
+		
+	}
+	
+	public function mapTestProxy(scopedTestProxy:ScopedTestProxy):void {
+		proxyMap.map(scopedTestProxy);
+	}
+	
+	public function createMediatorWithLocalItject():void {
+		testViewObject = new ScopedProxyLocalInjectView();
+		
+		mediatorMap.map(ScopedProxyLocalInjectView, ScopedProxyLocalInjectMediator);
+		mediatorMap.mediate(testViewObject);
+	}
+	
+	public function getMediatorProxyTestData():void {
 		
 	}
 	

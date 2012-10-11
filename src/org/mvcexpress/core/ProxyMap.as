@@ -76,19 +76,7 @@ public class ProxyMap implements IProxyMap {
 		
 		use namespace pureLegsCore;
 		if (proxyObject.messenger == null) {
-			proxyObject.messenger = messenger;
-			proxyObject.setProxyMap(this);
-			// inject dependencies
-			var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
-			
-			// check if there is no pending injection with this key.
-			if (pendingInjectionsRegistry[injectId]) {
-				injectPendingStuff(injectId, proxyObject);
-			}
-			// register proxy is all injections are done.
-			if (isAllInjected) {
-				proxyObject.register();
-			}
+			initProxy(proxyObject, proxyClass, injectId);
 		}
 		
 		if (!injectObjectRegistry[injectId]) {
@@ -161,7 +149,21 @@ public class ProxyMap implements IProxyMap {
 			MvcExpress.debug(new TraceProxyMap_scopeMap(MvcTraceActions.PROXYMAP_MAP, moduleName, scopeName, proxyObject, injectClass, name));
 		}
 		
+		// init proxy if needed.
 		use namespace pureLegsCore;
+		if (proxyObject.messenger == null) {
+			// get proxy class
+			var proxyClass:Class = Object(proxyObject).constructor;
+			// if injectClass is not provided - proxyClass will be used instead.
+			if (!injectClass) {
+				injectClass = proxyClass;
+			}
+			var className:String = getQualifiedClassName(injectClass);
+			var injectId:String = className + name;
+			//
+			initProxy(proxyObject, proxyClass, injectId);
+		}
+		
 		ModuleManager.scopeMap(moduleName, scopeName, proxyObject, injectClass, name);
 	}
 	
@@ -181,12 +183,33 @@ public class ProxyMap implements IProxyMap {
 		
 		use namespace pureLegsCore;
 		ModuleManager.scopeUnmap(moduleName, scopeName, injectClass, name);
-	
 	}
 	
 	//----------------------------------
 	//     internal stuff
 	//----------------------------------	
+	
+	/**
+	 * Initiates proxy object.
+	 * @param	proxyObject
+	 * @private
+	 */
+	pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):void {
+		use namespace pureLegsCore;
+		proxyObject.messenger = messenger;
+		proxyObject.setProxyMap(this);
+		// inject dependencies
+		var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
+		
+		// check if there is no pending injection with this key.
+		if (pendingInjectionsRegistry[injectId]) {
+			injectPendingStuff(injectId, proxyObject);
+		}
+		// register proxy is all injections are done.
+		if (isAllInjected) {
+			proxyObject.register();
+		}
+	}
 	
 	/**
 	 * Dispose of proxyMap. Remove all registered proxies and set all internals to null.
@@ -238,7 +261,7 @@ public class ProxyMap implements IProxyMap {
 			ProxyMap.classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
-		}		
+		}
 		
 		// injects all dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
@@ -250,7 +273,8 @@ public class ProxyMap implements IProxyMap {
 						throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
 					} else {
 						throw Error("Inject object is not found in scope:" + rules[i].scopeName + " for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
-					}				}
+					}
+				}
 			} else {
 				var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
 				if (injectObject) {
