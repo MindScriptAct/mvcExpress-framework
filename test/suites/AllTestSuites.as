@@ -24,7 +24,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	
 	public var generalTests:GeneralTests;
 	
@@ -50,10 +50,11 @@ public class AllTestSuites {
 	
 	
 	public var mediatorTests:MediatorTests;
+
+	public var channelingTests:ChannelingTests;
 	
 	//*/
-	
-	public var channelingTests:ChannelingTests;
+
 
 	public var scopedProxyTests:ScopedProxyTests;
 	

@@ -11,6 +11,7 @@ import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_injectPending;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_injectStuff;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_map;
+import org.mvcexpress.core.traceObjects.TraceProxyMap_scopedInjectPending;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_scopeMap;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_scopeUnmap;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_unmap;
@@ -77,6 +78,11 @@ public class ProxyMap implements IProxyMap {
 		use namespace pureLegsCore;
 		if (proxyObject.messenger == null) {
 			initProxy(proxyObject, proxyClass, injectId);
+		}
+		
+		// check if there is no pending injection with this key.
+		if (pendingInjectionsRegistry[injectId]) {
+			injectPendingStuff(injectId, proxyObject);
 		}
 		
 		if (!injectObjectRegistry[injectId]) {
@@ -201,10 +207,6 @@ public class ProxyMap implements IProxyMap {
 		// inject dependencies
 		var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 		
-		// check if there is no pending injection with this key.
-		if (pendingInjectionsRegistry[injectId]) {
-			injectPendingStuff(injectId, proxyObject);
-		}
 		// register proxy is all injections are done.
 		if (isAllInjected) {
 			proxyObject.register();
@@ -270,7 +272,26 @@ public class ProxyMap implements IProxyMap {
 					// TODO : handle pending injection..
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
 						isAllInjected = false;
-						throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
+						//add injection to pending injections.
+						// debug this action						
+						CONFIG::debug {
+							//use namespace pureLegsCore;
+							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(MvcTraceActions.PROXYMAP_INJECTPENDING, rules[i].scopeName, moduleName, object, injectObject, rules[i]));
+						}
+						//
+						//if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
+						//pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
+						//}
+						//
+						//pendingInjectionsRegistry[rules[i].injectClassAndName].push(
+						
+						//);
+						
+						ModuleManager.addPendingScopedInjection(rules[i].scopeName, rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+						
+						object.pendingInjections++;
+						
+							//throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
 					} else {
 						throw Error("Inject object is not found in scope:" + rules[i].scopeName + " for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 					}
@@ -286,7 +307,8 @@ public class ProxyMap implements IProxyMap {
 					}
 				} else {
 					// if local injection fails... test for global(hosted) injections
-					// remember that not all injections exists					isAllInjected = false;
+					// remember that not all injections exists					
+					isAllInjected = false;
 					
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
 						//add injection to pending injections.
@@ -296,11 +318,7 @@ public class ProxyMap implements IProxyMap {
 							MvcExpress.debug(new TraceProxyMap_injectPending(MvcTraceActions.PROXYMAP_INJECTPENDING, moduleName, object, injectObject, rules[i]));
 						}
 						//
-						if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
-							pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
-						}
-						//
-						pendingInjectionsRegistry[rules[i].injectClassAndName].push(new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+						addPendingInjection(rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 						object.pendingInjections++;
 					} else {
 						throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
@@ -314,6 +332,13 @@ public class ProxyMap implements IProxyMap {
 			delete injectObjectRegistry[tempClassName];
 		}
 		return isAllInjected;
+	}
+	
+	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:Object):void {
+		if (!pendingInjectionsRegistry[injectClassAndName]) {
+			pendingInjectionsRegistry[injectClassAndName] = new Vector.<PendingInject>();
+		}
+		pendingInjectionsRegistry[injectClassAndName].push(pendingInjection);
 	}
 	
 	/**

@@ -101,9 +101,9 @@ public class ModuleManager {
 			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
 			if (scopiedProxies) {
 				//for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
-					//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
-					//delete scopiedProxies[scopedProxy];
-					//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
+				//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
+				//delete scopiedProxies[scopedProxy];
+				//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
 				//}
 				
 				for (var injectId:String in scopiedProxies) {
@@ -187,21 +187,13 @@ public class ModuleManager {
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
-			scopedProxiesByScope[moduleName] = new Dictionary(true);
-			var scopedMesanger:Messenger = scopedMessengers[scopeName];
-			if (!scopedMesanger) {
-				use namespace pureLegsCore;
-				Messenger.allowInstantiation = true;
-				scopedMesanger = new Messenger("$scope_" + scopeName);
-				Messenger.allowInstantiation = false;
-				scopedMessengers[scopeName] = scopedMesanger;
-			}
-			scopedProxyMap = new ProxyMap("$scope_" + scopeName, scopedMesanger);
-			scopedProxyMaps[scopeName] = scopedProxyMap;
+			initScopedProxyMap(scopeName);
+			scopedProxyMap = scopedProxyMaps[scopeName];
 		}
 		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 		
 		// add scope to proxy so it could send scoped messages.
+		use namespace pureLegsCore;
 		proxyObject.addScope(scopeName);
 		
 		// if injectClass is not provided - proxyClass will be used instead.
@@ -217,6 +209,10 @@ public class ModuleManager {
 			scopedProxyData.injectClass = Object(proxyObject).constructor;
 		}
 		scopedProxyData.name = name;
+		//
+		if (scopedProxiesByScope[moduleName] == null) {
+			scopedProxiesByScope[moduleName] = new Dictionary(true);
+		}
 		scopedProxiesByScope[moduleName][injectId] = scopedProxyData;
 	}
 	
@@ -243,6 +239,29 @@ public class ModuleManager {
 			}
 		}
 		return false
+	}
+	
+	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
+		trace("ModuleManager.addPendingScopedInjection > scopeName : " + scopeName + ", injectClassAndName : " + injectClassAndName + ", pendingInject : " + pendingInject);
+		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
+		if (!scopedProxyMap) {
+			initScopedProxyMap(scopeName);
+			scopedProxyMap = scopedProxyMaps[scopeName];
+		}
+		use namespace pureLegsCore;
+		scopedProxyMap.addPendingInjection(injectClassAndName, pendingInject);
+	}
+	
+	static private function initScopedProxyMap(scopeName:String):void {
+		var scopedMesanger:Messenger = scopedMessengers[scopeName];
+		if (!scopedMesanger) {
+			use namespace pureLegsCore;
+			Messenger.allowInstantiation = true;
+			scopedMesanger = new Messenger("$scope_" + scopeName);
+			Messenger.allowInstantiation = false;
+			scopedMessengers[scopeName] = scopedMesanger;
+		}
+		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger);
 	}
 	
 	//----------------------------------
@@ -321,6 +340,7 @@ public class ModuleManager {
 			allModules[i].messenger.send(type, params);
 		}
 	}
+
 }
 }
 

@@ -283,7 +283,6 @@ public class ScopedProxyTests {
 	// A host
 	// inject ok
 	[Test]
-	[Ignore]
 	
 	public function scopedProxy_injectPendingProxyToMediatorThenHost_injectOk():void {
 		MvcExpress.pendingInjectsTimeOut = 1000;
@@ -301,7 +300,6 @@ public class ScopedProxyTests {
 	// A host
 	// inject ok
 	[Test]
-	[Ignore]
 	
 	public function scopedProxy_injectPendingProxyToProxyThenHost_injectOk():void {
 		MvcExpress.pendingInjectsTimeOut = 1000;
@@ -318,10 +316,9 @@ public class ScopedProxyTests {
 	// B inject
 	// A host
 	// inject ok
-	[Test]
-	[Ignore]
+	[Test(expects="Error")]
 	
-	public function scopedProxy_injectPendingProxyToCommandThenHost_injectOk():void {
+	public function scopedProxy_injectPendingProxyToCommandThenHost_injectFails():void {
 		MvcExpress.pendingInjectsTimeOut = 1000;
 		scopedProxyModuleB.storeStuffToCommand("storedTestContent");
 		scopedTestProxy = new ScopedTestProxy();
