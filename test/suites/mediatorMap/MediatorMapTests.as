@@ -8,6 +8,7 @@ import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.MvcExpress;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
 import suites.testObjects.view.MediatorSprite;
@@ -48,6 +49,9 @@ public class MediatorMapTests {
 		mediatorMap = null;
 		callCaunter = 0;
 		callsExpected = 0;
+		
+		MvcExpress.feature_mediateWith_enabled = false;
+	
 	}
 	
 	[Test(async,description="Mediator onRegister test")]
@@ -80,6 +84,40 @@ public class MediatorMapTests {
 		mediatorMap.mediate(view);
 		
 		messenger.send(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function mediatorMap_doubleMediate_fails():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediate(view);
+		mediatorMap.mediate(view);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function mediatorMap_mediateWithWithoutEnabling_fails():void {
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
+	}
+	
+	[Test]
+	
+	public function mediatorMap_mediateWithWithEnabling_notFails():void {
+		MvcExpress.feature_mediateWith_enabled = true;
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function mediatorMap_doubleMediateWith_fails():void {
+		MvcExpress.feature_mediateWith_enabled = true;
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
+		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
+	
 	}
 	
 	//----------------------------------
