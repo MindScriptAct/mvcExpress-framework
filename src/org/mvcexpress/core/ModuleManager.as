@@ -168,6 +168,15 @@ public class ModuleManager {
 	//     Command scoping
 	//----------------------------------
 	
+	/**
+	 * Map command to scoped message.
+	 * @param	handleCommandExecute
+	 * @param	scopeName
+	 * @param	type
+	 * @param	commandClass
+	 * @return
+	 * @private
+	 */
 	static pureLegsCore function scopedCommandMap(handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
@@ -184,6 +193,15 @@ public class ModuleManager {
 	//     proxy scoping
 	//----------------------------------
 	
+	/**
+	 * Map proxy to scope
+	 * @param	moduleName
+	 * @param	scopeName
+	 * @param	proxyObject
+	 * @param	injectClass
+	 * @param	name
+	 * @private
+	 */
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
@@ -216,6 +234,14 @@ public class ModuleManager {
 		scopedProxiesByScope[moduleName][injectId] = scopedProxyData;
 	}
 	
+	/**
+	 * Unmap proxy from scope
+	 * @param	moduleName
+	 * @param	scopeName
+	 * @param	injectClass
+	 * @param	name
+	 * @private
+	 */
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (scopedProxyMap) {
@@ -228,6 +254,13 @@ public class ModuleManager {
 		}
 	}
 	
+	/**
+	 * Inject Scoped proxy.
+	 * @param	object
+	 * @param	injectRule
+	 * @return
+	 * @private
+	 */
 	static pureLegsCore function injectScopedProxy(object:Object, injectRule:InjectRuleVO):Boolean {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
@@ -241,6 +274,13 @@ public class ModuleManager {
 		return false
 	}
 	
+	/**
+	 * Adds pending scoped injection.
+	 * @param	scopeName
+	 * @param	injectClassAndName
+	 * @param	pendingInject
+	 * @private
+	 */
 	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
 		trace("ModuleManager.addPendingScopedInjection > scopeName : " + scopeName + ", injectClassAndName : " + injectClassAndName + ", pendingInject : " + pendingInject);
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
@@ -252,6 +292,10 @@ public class ModuleManager {
 		scopedProxyMap.addPendingInjection(injectClassAndName, pendingInject);
 	}
 	
+	/**
+	 * Initiates scoped proxy map.
+	 * @param	scopeName
+	 */
 	static private function initScopedProxyMap(scopeName:String):void {
 		var scopedMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopedMesanger) {

@@ -334,6 +334,12 @@ public class ProxyMap implements IProxyMap {
 		return isAllInjected;
 	}
 	
+	/**
+	 * Adds pending injection.
+	 * @param	injectClassAndName
+	 * @param	pendingInjection
+	 * @private
+	 */
 	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:Object):void {
 		if (!pendingInjectionsRegistry[injectClassAndName]) {
 			pendingInjectionsRegistry[injectClassAndName] = new Vector.<PendingInject>();

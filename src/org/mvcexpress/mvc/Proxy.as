@@ -158,8 +158,12 @@ public class Proxy {
 		onRemove();
 	}
 	
+	/**
+	 * Add scope for proxy to send all proxy messages to.
+	 * @param	scapeName
+	 * @private
+	 */
 	pureLegsCore function addScope(scapeName:String):void {
-		//CONFIG::debug {
 		var messengerFound:Boolean = false;
 		for (var i:int = 0; i < proxyScopes.length; i++) {
 			if (proxyScopes[i] == scapeName) {
@@ -167,14 +171,17 @@ public class Proxy {
 				break;
 			}
 		}
-		//}
 		if (!messengerFound) {
 			proxyScopes.push(scapeName);
 		}
 	}
 	
+	/**
+	 * Remove scope for proxy to send all proxy messages to.
+	 * @param	scapeName
+	 * @private
+	 */
 	pureLegsCore function removeScope(scapeName:String):void {
-		//CONFIG::debug {
 		var messengerFound:Boolean = false;
 		for (var i:int = 0; i < scapeName.length; i++) {
 			if (proxyScopes[i] == scapeName) {
