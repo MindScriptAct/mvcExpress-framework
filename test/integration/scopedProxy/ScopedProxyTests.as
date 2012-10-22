@@ -245,7 +245,7 @@ public class ScopedProxyTests {
 	public function scopedProxy_HostAndMapThenMessageLocaly_communicatinOk():void {
 		scopedTestProxy = new ScopedTestProxy();
 		
-.		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
+		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
 		scopedProxyModuleA.mapTestProxy(scopedTestProxy);
 		
 		scopedProxyModuleA.createMediatorWithLocalItject();
