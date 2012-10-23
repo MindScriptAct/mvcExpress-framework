@@ -75,17 +75,6 @@ dynamic public class Command {
 	}
 	
 	/**
-	 * DEPRICATED : Sends message to all existing modules.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
-	 * @deprecated v1.1
-	 */
-	protected function sendMessageToAll(type:String, params:Object = null):void {
-		use namespace pureLegsCore;
-		messenger.sendToAll(type, params);
-	}
-	
-	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.

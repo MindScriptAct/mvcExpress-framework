@@ -159,33 +159,6 @@ public class Messenger {
 	}
 	
 	/**
-	 * 
-	 * DEPRICATED : sends message to all existing modules.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler and execute functions as single parameter.
-	 * @deprecated 1.1
-	 */
-	public function sendToAll(type:String, params:Object = null):void {
-		trace("WARNING: sendToAll() is depricated in favour of sendScopeMessage().");
-		//
-		use namespace pureLegsCore;
-		// debug this action
-		CONFIG::debug {
-			if (MvcExpress.disableSendToAllFeature) {
-				throw Error("sendMessageToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
-			}
-			
-			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params))
-		}
-		ModuleManager.sendMessageToAll(type, params);
-		//
-		// clean up loging the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceMessenger_sendToAll_clean(MvcTraceActions.MESSENGER_SENDTOALL_CLEAN, moduleName, type, params))
-		}
-	}
-	
-	/**
 	 * function to add command execute function.
 	 * @private
 	 */

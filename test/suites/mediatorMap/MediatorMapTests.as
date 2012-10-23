@@ -49,8 +49,6 @@ public class MediatorMapTests {
 		mediatorMap = null;
 		callCaunter = 0;
 		callsExpected = 0;
-		
-		MvcExpress.feature_mediateWith_enabled = false;
 	
 	}
 	
@@ -95,17 +93,9 @@ public class MediatorMapTests {
 		mediatorMap.mediate(view);
 	}
 	
-	[Test(expects="Error")]
-	
-	public function mediatorMap_mediateWithWithoutEnabling_fails():void {
-		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
-		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
-	}
-	
 	[Test]
 	
-	public function mediatorMap_mediateWithWithEnabling_notFails():void {
-		MvcExpress.feature_mediateWith_enabled = true;
+	public function mediatorMap_mediateWith_notFails():void {
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
 		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
 	}
@@ -113,7 +103,6 @@ public class MediatorMapTests {
 	[Test(expects="Error")]
 	
 	public function mediatorMap_doubleMediateWith_fails():void {
-		MvcExpress.feature_mediateWith_enabled = true;
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
 		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
 		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);

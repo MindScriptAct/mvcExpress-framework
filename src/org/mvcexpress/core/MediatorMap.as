@@ -147,12 +147,6 @@ public class MediatorMap implements IMediatorMap {
 		}
 		
 		CONFIG::debug {
-			
-			if (!MvcExpress.feature_mediateWith_enabled) {
-				throw Error("mediateWith feature is disabled by MvcExpress.feature_mediateWith_enabled. Set it to true if you want to enable it. " //
-					+ "   mediateWith should be used only in rare situations there you cant have unique view object class, and can map it to mediator by using mediatorMap.map().");
-			}
-			
 			// check if mediatorClass is subclass of Mediator class
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'org.mvcexpress.mvc::Mediator' class.");

@@ -47,18 +47,6 @@ public class MvcExpress {
 	 */
 	static public var debugFunction:Function = null;
 	
-	/**
-	 * Flag to force sendMessageToAll function throw an error in debug mode.
-	 * (For people who don't what this feature in.)
-	 */
-	static public var disableSendToAllFeature:Boolean = false;
-	
-	/**
-	 * Flag to force mediatorMap function mediateWith() throw an error in debug mode.
-	 * If you have situation there you cant have view object with unique class.(this should happen very raraly) - you will need this feature enabled.
-	 */
-	static public var feature_mediateWith_enabled:Boolean = false;
-	
 	//----------------------------------
 	//     Internal
 	//----------------------------------
