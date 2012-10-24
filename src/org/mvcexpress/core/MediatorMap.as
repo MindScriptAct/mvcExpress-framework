@@ -11,7 +11,6 @@ import org.mvcexpress.core.traceObjects.TraceMediatorMap_map;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_mediate;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmap;
 import org.mvcexpress.core.traceObjects.TraceMediatorMap_unmediate;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -92,7 +91,7 @@ public class MediatorMap implements IMediatorMap {
 		
 		use namespace pureLegsCore;
 		
-		var viewClass:Class = viewObject.constructor;
+		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
 			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
@@ -173,7 +172,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			
-			var viewClass:Class = viewObject.constructor;
+			var viewClass:Class = viewObject.constructor as Class;
 			// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 			if (!viewClass) {
 				viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));

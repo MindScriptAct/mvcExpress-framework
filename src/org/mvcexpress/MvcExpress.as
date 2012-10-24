@@ -17,7 +17,7 @@ public class MvcExpress {
 	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 0;
 	/** Current framework revision version */
-	public static const REVISION:uint = 2;
+	public static const REVISION:uint = 3;
 	
 	/** Current framework version */
 	public static function get VERSION():String {

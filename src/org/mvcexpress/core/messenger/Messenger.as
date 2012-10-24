@@ -11,7 +11,6 @@ import org.mvcexpress.core.traceObjects.TraceMessenger_send;
 import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
 import org.mvcexpress.core.traceObjects.TraceMessenger_sendToAll;
 import org.mvcexpress.core.traceObjects.TraceMessenger_sendToAll_clean;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -121,7 +120,7 @@ public class Messenger {
 		var handlerVo:HandlerVO;
 		var delCount:int = 0;
 		if (messageList) {
-			var tempListLength:int = messageList.length
+			var tempListLength:int = messageList.length;
 			for (var i:int = 0; i < tempListLength; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
@@ -141,9 +140,9 @@ public class Messenger {
 						CONFIG::debug {
 							// FOR DEBUG viewing only(mouse over over variables while in debugger mode.)
 							/* Failed message type: */
-							type
+							type;
 							/* Failed handler class: */
-							handlerVo.handlerClassName
+							handlerVo.handlerClassName;
 							//
 							use namespace pureLegsCore;
 							MvcExpress.debug(new TraceMessenger_send_handler(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
@@ -172,13 +171,13 @@ public class Messenger {
 				throw Error("sendToAll feature is disabled by MvcExpress.disableSendToAllFeature set to true.");
 			}
 			
-			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params))
+			MvcExpress.debug(new TraceMessenger_sendToAll(MvcTraceActions.MESSENGER_SENDTOALL, moduleName, type, params));
 		}
 		ModuleManager.sendMessageToAll(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			MvcExpress.debug(new TraceMessenger_sendToAll_clean(MvcTraceActions.MESSENGER_SENDTOALL_CLEAN, moduleName, type, params))
+			MvcExpress.debug(new TraceMessenger_sendToAll_clean(MvcTraceActions.MESSENGER_SENDTOALL_CLEAN, moduleName, type, params));
 		}
 	}
 	

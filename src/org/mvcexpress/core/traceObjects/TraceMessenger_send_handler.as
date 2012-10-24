@@ -17,7 +17,7 @@ public class TraceMessenger_send_handler extends TraceObj {
 	public var handlerClassName:String;
 	
 	public var messageFromModule:ModuleBase;
-	public var messageFromMediator:Mediator
+	public var messageFromMediator:Mediator;
 	public var messageFromProxy:Proxy;
 	public var messageFromCommand:Command;
 	

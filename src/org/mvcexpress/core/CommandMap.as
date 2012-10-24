@@ -11,7 +11,6 @@ import org.mvcexpress.core.traceObjects.TraceCommandMap_execute;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_handleCommandExecute;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_map;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_unmap;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -213,7 +212,7 @@ public class CommandMap {
 			var parameterCount:int = 0;
 			
 			// TODO : optimize..
-			var methodList:XMLList = classDescription.factory.method //.(name() == "execute");
+			var methodList:XMLList = classDescription.factory.method;
 			for (var i:int = 0; i < methodList.length(); i++) {
 				if (methodList[i].@name == "execute") {
 					hasExecute = true;

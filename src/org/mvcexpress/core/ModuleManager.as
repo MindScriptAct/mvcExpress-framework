@@ -6,7 +6,6 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -45,7 +44,7 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_createModule(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
-			_moduleId++
+			_moduleId++;
 			//
 			if (!moduleName) {
 				moduleName = "module" + _moduleId;
@@ -131,7 +130,7 @@ public class ModuleManager {
 	
 	static public function listMappedMessages(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedMessages();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedMessages();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -139,7 +138,7 @@ public class ModuleManager {
 	
 	static public function listMappedMediators(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedMediators();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedMediators();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -147,7 +146,7 @@ public class ModuleManager {
 	
 	static public function listMappedProxies(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedProxies();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedProxies();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -155,7 +154,7 @@ public class ModuleManager {
 	
 	static public function listMappedCommands(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedCommands();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedCommands();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -164,7 +163,7 @@ public class ModuleManager {
 	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
 		use namespace pureLegsCore;
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].commandMap.listMessageCommands(key);
+			return ((moduleRegistry[moduleName] as ModuleBase).commandMap.listMessageCommands(key) as String);
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}

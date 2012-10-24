@@ -11,7 +11,6 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
-import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.MvcExpress;
 
 /**
@@ -60,9 +59,9 @@ public class Mediator {
 	/** CONSTRUCTOR */
 	public function Mediator() {
 		CONFIG::debug {
-			use namespace pureLegsCore
+			use namespace pureLegsCore;
 			if (!canConstruct) {
-				throw Error("Mediator:" + this + " can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.")
+				throw Error("Mediator:" + this + " can be constructed only by framework. If you want to use it - map it to view object class with 'mediatorMap.map()', and then mediate instance of the view object with 'mediatorMap.mediate()'.");
 			}
 		}
 	}
@@ -265,7 +264,7 @@ public class Mediator {
 			if (eventListenerCaptureRegistry[listener]) {
 				if (eventListenerCaptureRegistry[listener][type]) {
 					if (eventListenerCaptureRegistry[listener][type] == viewObject) {
-						delete eventListenerCaptureRegistry[listener][type]
+						delete eventListenerCaptureRegistry[listener][type];
 					}
 				}
 			}
@@ -273,7 +272,7 @@ public class Mediator {
 			if (eventListenerRegistry[listener]) {
 				if (eventListenerRegistry[listener][type]) {
 					if (eventListenerRegistry[listener][type] == viewObject) {
-						delete eventListenerRegistry[listener][type]
+						delete eventListenerRegistry[listener][type];
 					}
 				}
 			}
