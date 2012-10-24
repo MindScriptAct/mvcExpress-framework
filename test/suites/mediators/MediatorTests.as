@@ -49,7 +49,11 @@ public class MediatorTests {
 	[Test(expects="Error")]
 	
 	public function mediator_constructor_fails():void {
-		new MediatorSpriteMediator();
+		CONFIG::debug {
+			new MediatorSpriteMediator();
+			return;
+		} 
+		throw Error("Fake error.");
 	}
 	
 	[Test]

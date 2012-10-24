@@ -91,7 +91,7 @@ public class MediatorMap implements IMediatorMap {
 		
 		use namespace pureLegsCore;
 		
-		var viewClass:Class = viewObject.constructor;
+		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
 			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
@@ -166,7 +166,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			
-			var viewClass:Class = viewObject.constructor;
+			var viewClass:Class = viewObject.constructor as Class;
 			// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 			if (!viewClass) {
 				viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));

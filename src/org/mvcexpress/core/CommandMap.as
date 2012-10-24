@@ -149,7 +149,7 @@ public class CommandMap {
 	public function scopeMap(scopeName:String, type:String, commandClass:Class):void {
 		use namespace pureLegsCore;
 		//
-		var scopedType:String = scopeName + "_«¬_" + type;
+		var scopedType:String = scopeName + "_^~_" + type;
 		if (!classRegistry[scopedType]) {
 			classRegistry[scopedType] = new Vector.<Class>();
 			// TODO : check if chonnelCommandMap must be here...
@@ -166,7 +166,7 @@ public class CommandMap {
 	 * @param	commandClass		Command class that will be instantiated and executed.
 	 */
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
-		var scopedType:String = scopeName + "_«¬_" + type;
+		var scopedType:String = scopeName + "_^~_" + type;
 		
 		var commandList:Vector.<Class> = classRegistry[scopedType];
 		if (commandList) {
@@ -266,7 +266,7 @@ public class CommandMap {
 			var parameterCount:int = 0;
 			
 			// TODO : optimize..
-			var methodList:XMLList = classDescription.factory.method //.(name() == "execute");
+			var methodList:XMLList = classDescription.factory.method;
 			for (var i:int = 0; i < methodList.length(); i++) {
 				if (methodList[i].@name == "execute") {
 					hasExecute = true;

@@ -136,7 +136,7 @@ public class ModuleManager {
 		use namespace pureLegsCore;
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
-			scopeMesanger.send(scopeName + "_«¬_" + type, params);
+			scopeMesanger.send(scopeName + "_^~_" + type, params);
 		}
 	}
 	
@@ -151,7 +151,7 @@ public class ModuleManager {
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopeMesanger;
 		}
-		return scopeMesanger.addHandler(scopeName + "_«¬_" + type, handler);
+		return scopeMesanger.addHandler(scopeName + "_^~_" + type, handler);
 	}
 	
 	/** remove scoped handler
@@ -160,7 +160,7 @@ public class ModuleManager {
 		//use namespace pureLegsCore;
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
-			scopeMesanger.removeHandler(scopeName + "_«¬_" + type, handler);
+			scopeMesanger.removeHandler(scopeName + "_^~_" + type, handler);
 		}
 	}
 	
@@ -186,7 +186,7 @@ public class ModuleManager {
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopeMesanger;
 		}
-		return scopeMesanger.addCommandHandler(scopeName + "_«¬_" + type, handleCommandExecute, commandClass);
+		return scopeMesanger.addCommandHandler(scopeName + "_^~_" + type, handleCommandExecute, commandClass);
 	}
 	
 	//----------------------------------
@@ -329,7 +329,7 @@ public class ModuleManager {
 	
 	static public function listMappedMessages(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedMessages();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedMessages();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -337,7 +337,7 @@ public class ModuleManager {
 	
 	static public function listMappedMediators(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedMediators();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedMediators();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -345,7 +345,7 @@ public class ModuleManager {
 	
 	static public function listMappedProxies(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedProxies();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedProxies();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -353,7 +353,7 @@ public class ModuleManager {
 	
 	static public function listMappedCommands(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].listMappedCommands();
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedCommands();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -362,7 +362,7 @@ public class ModuleManager {
 	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
 		use namespace pureLegsCore;
 		if (moduleRegistry[moduleName]) {
-			return moduleRegistry[moduleName].commandMap.listMessageCommands(key);
+			return ((moduleRegistry[moduleName] as ModuleBase).commandMap.listMessageCommands(key) as String);
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}

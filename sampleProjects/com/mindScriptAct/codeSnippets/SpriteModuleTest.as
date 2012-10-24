@@ -28,7 +28,6 @@ public class SpriteModuleTest extends ModuleSprite {
 	public function SpriteModuleTest() {
 		
 		MvcExpressLogger.init(this.stage, 0, 0, 900, 500, 0.9, true, MvcExpressLogger.VISUALIZER_TAB);
-		MvcExpress.feature_mediateWith_enabled = true;
 		
 		super();
 		

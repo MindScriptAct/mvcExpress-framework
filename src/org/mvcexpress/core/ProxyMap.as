@@ -37,9 +37,6 @@ public class ProxyMap implements IProxyMap {
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
 	private var pendingInjectionsRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
-	/** all hostedProxy data stored by hosted Proxy objects stored */
-	//static private var hostedProxyRegistry:Dictionary = new Dictionary(); /* of HostedProxy by Proxy */
-	
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
 	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
 	
@@ -58,7 +55,7 @@ public class ProxyMap implements IProxyMap {
 	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):String {
 		
 		// get proxy class
-		var proxyClass:Class = Object(proxyObject).constructor;
+		var proxyClass:Class = Object(proxyObject).constructor as Class;
 		
 		// if injectClass is not provided - proxyClass will be used instead.
 		if (!injectClass) {
@@ -407,7 +404,7 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		// 
-		delete pendingInjectionsRegistry[injectClassAndName]
+		delete pendingInjectionsRegistry[injectClassAndName];
 	}
 	
 	/**
@@ -466,7 +463,7 @@ public class ProxyMap implements IProxyMap {
 	 */
 	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
 		var retVal:Boolean = false;
-		var proxyClass:Class = Object(proxyObject).constructor;
+		var proxyClass:Class = Object(proxyObject).constructor as Class;
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}

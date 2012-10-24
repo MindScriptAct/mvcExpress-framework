@@ -43,7 +43,7 @@ dynamic public class Command {
 		CONFIG::debug {
 			use namespace pureLegsCore;
 			if (!canConstruct) {
-				throw Error("Command:" + this + " can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()")
+				throw Error("Command:" + this + " can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()");
 			}
 		}
 	}
