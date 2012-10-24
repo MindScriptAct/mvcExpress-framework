@@ -1,4 +1,5 @@
-package suites {
+package  {
+import integration.lazyProxy.LazyProxyTests;
 import integration.scopedMessaging.ChannelingTests;
 import integration.scopedProxy.ScopedProxyTests;
 import suites.commandMap.CommandMapTests;
@@ -24,7 +25,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	//*
+	/*
 	
 	public var generalTests:GeneralTests;
 	
@@ -52,27 +53,15 @@ public class AllTestSuites {
 	public var mediatorTests:MediatorTests;
 
 	public var channelingTests:ChannelingTests;
-	
-	//*/
-
 
 	public var scopedProxyTests:ScopedProxyTests;
 	
 	
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	// planed for version version 1.1
+	//*/
+	
+	
+	public var lazyProxyTests:LazyProxyTests;
 
-	//public var featureProxyHostTests:FeatureProxyHostTests;
-
-	//public var featureRemoteHandlerTest:FeatureRemoteHandlerTests;	
-
-	//public var featureRemoteHandlerScenarioTest:FeatureRemoteHandlerScenarioTests;
 
 }
 

@@ -9,7 +9,6 @@ backgroundColor="#000000">
 			import org.flexunit.listeners.CIListener;
 			import org.flexunit.listeners.UIListener;
 			import org.flexunit.runner.FlexUnitCore;
-			import suites.AllTestSuites;
 			
 			/*embedded just for fun*/
 			[Bindable]

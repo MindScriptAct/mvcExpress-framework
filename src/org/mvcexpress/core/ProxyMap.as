@@ -120,6 +120,27 @@ public class ProxyMap implements IProxyMap {
 		return injectId;
 	}
 	
+	//----------------------------------
+	//     Lazy map
+	//----------------------------------
+	
+	public function lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", ...proxyParams:Array):String {
+		
+		if (!injectClass) {
+			injectClass = proxyClass;
+		}
+		
+		var className:String = getQualifiedClassName(injectClass);
+		
+		var injectId:String = className + name;
+		
+		return injectId;
+	}
+	
+	//----------------------------------
+	//     get proxy
+	//----------------------------------
+	
 	/**
 	 * Get mapped proxy. This is needed to get proxy manually instead of inject it automatically. 							<br>
 	 * 		You might wont to get proxy manually then your proxy has dynamic name.										<br>

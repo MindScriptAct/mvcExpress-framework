@@ -8,7 +8,6 @@ import org.flexunit.internals.TraceListener;
 import org.flexunit.listeners.CIListener;
 import org.flexunit.listeners.UIListener;
 import org.flexunit.runner.FlexUnitCore;
-import suites.AllTestSuites;
 
 /**
  * COMMENT
