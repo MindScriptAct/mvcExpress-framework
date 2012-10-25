@@ -224,7 +224,7 @@ public class ModuleManager {
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
 		} else {
-			scopedProxyData.injectClass = Object(proxyObject).constructor;
+			scopedProxyData.injectClass = Object(proxyObject).constructor as Class;
 		}
 		scopedProxyData.name = name;
 		//
@@ -271,7 +271,7 @@ public class ModuleManager {
 				return true;
 			}
 		}
-		return false
+		return false;
 	}
 	
 	/**
@@ -388,7 +388,6 @@ public class ModuleManager {
 }
 }
 
-import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.mvc.Proxy;
 
 class ScopedProxyData {

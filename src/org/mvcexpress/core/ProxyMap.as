@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
+import adobe.utils.CustomActions;
 import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -121,7 +122,7 @@ public class ProxyMap implements IProxyMap {
 	//     Lazy map
 	//----------------------------------
 	
-	public function lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", ...proxyParams:Array):String {
+	public function lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
 		
 		if (!injectClass) {
 			injectClass = proxyClass;
@@ -130,6 +131,12 @@ public class ProxyMap implements IProxyMap {
 		var className:String = getQualifiedClassName(injectClass);
 		
 		var injectId:String = className + name;
+		
+		var lazyInject:LazyInject = new CustomActions();
+		lazyInject.proxyClass = proxyClass;
+		lazyInject.injectClass = injectClass;
+		lazyInject.name = name;
+		lazyInject.proxyParams = proxyParams;
 		
 		return injectId;
 	}
@@ -177,7 +184,7 @@ public class ProxyMap implements IProxyMap {
 		use namespace pureLegsCore;
 		if (proxyObject.messenger == null) {
 			// get proxy class
-			var proxyClass:Class = Object(proxyObject).constructor;
+			var proxyClass:Class = Object(proxyObject).constructor as Class;
 			// if injectClass is not provided - proxyClass will be used instead.
 			if (!injectClass) {
 				injectClass = proxyClass;
@@ -498,6 +505,7 @@ class PendingInject {
 	
 	/**
 	 * Private class to store pending injection data.
+	 * @private
 	 */
 	
 	private var injectClassAndName:String;
@@ -523,4 +531,17 @@ class PendingInject {
 	private function throwError():void {
 		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
 	}
+}
+
+class LazyInject {
+	
+	/**
+	 * private class to store lazy proxy data.
+	 * @private
+	 */
+	
+	public var proxyClass:Class;
+	public var injectClass:Class;
+	public var name:String;
+	public var proxyParams:Array;
 }

@@ -171,7 +171,6 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function removeScope(scapeName:String):void {
-		var messengerFound:Boolean = false;
 		for (var i:int = 0; i < scapeName.length; i++) {
 			if (proxyScopes[i] == scapeName) {
 				proxyScopes.splice(i, 1);
