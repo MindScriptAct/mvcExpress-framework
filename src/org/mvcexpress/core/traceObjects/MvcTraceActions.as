@@ -23,6 +23,7 @@ public class MvcTraceActions {
 	
 	static public const PROXYMAP_MAP:String = "ProxyMap.map";
 	static public const PROXYMAP_UNMAP:String = "ProxyMap.unmap";
+	static public const PROXYMAP_LAZYMAP:String = "ProxyMap.lazyMap";
 	static public const PROXYMAP_SCOPEMAP:String = "ProxyMap.scopeMap";
 	static public const PROXYMAP_SCOPEUNMAP:String = "ProxyMap.scopeUnmap";
 	static public const PROXYMAP_INJECTPENDING:String = "ProxyMap.injectPending";

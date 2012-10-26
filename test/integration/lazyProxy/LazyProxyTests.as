@@ -36,6 +36,56 @@ public class LazyProxyTests {
 		lazyProxyModulA.lazyMap();
 		lazyProxyModulA.createProxyWithLazyInject();
 		Assert.assertEquals("Lazy proxy must be instantiated once.", LazyProxy.instantiateCount, 1);
-	}	
+	}
+	
+	[Test(expects="Error")]
+	
+	public function lazyProxy_lazyAndNormalMaping_fails():void {
+		lazyProxyModulA.lazyMap();
+		lazyProxyModulA.normalMap();
+	}
+	
+	[Test(expects="Error")]
+	
+	public function lazyProxy_normalAndLazyMaping_fails():void {
+		lazyProxyModulA.normalMap();
+		lazyProxyModulA.lazyMap();
+	}
+	
+	[Test(expects="Error")]
+	
+	public function lazyProxy_lazyMapingTwice_fails():void {
+		lazyProxyModulA.lazyMap();
+		lazyProxyModulA.lazyMap();
+	}
+	
+	[Test(expects="Error")]
+	
+	public function lazyProxy_lazyMapingNotProxy_fails():void {
+		lazyProxyModulA.mapNotProxy();
+	}
+	
+	//----------------------------------
+	//     params
+	//----------------------------------
+	
+	[Test]
+	
+	public function lazyProxy_lazyMaping1Param_ok():void {
+		lazyProxyModulA.mapWithParams([1]);
+	}
+	
+	[Test]
+	
+	public function lazyProxy_lazyMaping10Params_ok():void {
+		lazyProxyModulA.mapWithParams([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function lazyProxy_lazyMaping11Params_fails():void {
+		lazyProxyModulA.mapWithParams([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+	}
+
 }
 }
