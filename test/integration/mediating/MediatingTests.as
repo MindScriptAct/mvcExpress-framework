@@ -26,6 +26,31 @@ public class MediatingTests {
 		MediatingBaseView.timesRegistered = 0;
 	}
 	
+	
+	
+	[Test(expects="Error")]
+	
+	public function mediating_mediateWrongClass_fails():void {
+		mediatorMap.map(MediatingWrongView, MediatingSuperClassMediator);
+		var view:MediatingSubView = new MediatingSubView();
+		mediatorMap.mediate(view);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function mediating_mediateWithWrongClass_fails():void {
+		var view:MediatingWrongView = new MediatingWrongView();
+		mediatorMap.mediateWith(view, MediatingSuperClassMediator);
+	}	
+	
+	
+	//--------------------------------------------------------------------------
+	//
+	//      Inject mediator as another class
+	//
+	//--------------------------------------------------------------------------
+	
+	
 	[Test]
 	
 	public function mediating_mediatingAsInterface_ok():void {
@@ -59,5 +84,23 @@ public class MediatingTests {
 		mediatorMap.mediateWith(view, MediatingInterfaceMediator, IMediatingIntefrace);
 		Assert.assertEquals("Mediator should be mediated and registered once.", 1, MediatingBaseView.timesRegistered);
 	}
+	
+	
+	
+	[Test(expects="Error")]
+	
+	public function mediating_mediatingAsWrongClass_fails():void {
+		mediatorMap.map(MediatingWrongView, MediatingInterfaceMediator, IMediatingIntefrace);
+		var view:MediatingSubView = new MediatingSubView();
+		mediatorMap.mediate(view);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function mediating_mediatingWithAsWrongClass_fails():void {
+		var view:MediatingWrongView = new MediatingWrongView();
+		mediatorMap.mediateWith(view, MediatingInterfaceMediator, IMediatingIntefrace);
+	}
+
 }
 }
