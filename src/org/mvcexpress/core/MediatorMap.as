@@ -44,8 +44,9 @@ public class MediatorMap implements IMediatorMap {
 	 * Maps mediator class to view class. Only one mediator class can mediate single instance of view class.
 	 * @param	viewClass		view class that has to be mediated by mediator class then mediate() is called.
 	 * @param	mediatorClass	mediator class that will be instantiated then viewClass object is passed to mediate() function.
+	 * @param	injectClass		inject mediator as this class.
 	 */
-	public function map(viewClass:Class, mediatorClass:Class):void {
+	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -139,8 +140,9 @@ public class MediatorMap implements IMediatorMap {
 	 * Use this only if using map() and mediate() functions is not an option. (It might hapen ir cases there you have no controll over objects you are mediating. Like in third party, or legacy code.)
 	 * @param	viewObject		view object to mediate.
 	 * @param	mediatorClass	mediator class that will be instantiated and used to mediate view object
+	 * @param	injectClass		inject mediator as this class.
 	 */
-	public function mediateWith(viewObject:Object, mediatorClass:Class):void {
+	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void {
 		
 		if (mediatorRegistry[viewObject]) {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);

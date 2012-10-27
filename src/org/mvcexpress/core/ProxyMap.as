@@ -292,6 +292,7 @@ public class ProxyMap implements IProxyMap {
 		}
 		// set internals to null
 		injectObjectRegistry = null;
+		lazyProxyRegistry = null;
 		messenger = null;
 	}
 	
