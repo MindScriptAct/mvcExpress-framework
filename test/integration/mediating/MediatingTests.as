@@ -3,7 +3,7 @@ import flexunit.framework.Assert;
 import integration.mediating.testObj.*;
 import integration.mediating.testObj.view.*;
 import integration.mediating.testObj.view.viewObj.*;
-import integration.mediating.testObj.view.viewObj.viewObj.*;
+
 import org.mvcexpress.core.*;
 
 public class MediatingTests {

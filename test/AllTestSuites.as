@@ -1,4 +1,5 @@
 package  {
+import integration.commandPooling.CommandPoolingTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.scopedMessaging.ChannelingTests;
@@ -26,7 +27,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	//*
+	/*
 	
 	public var generalTests:GeneralTests;
 	
@@ -59,11 +60,11 @@ public class AllTestSuites {
 	
 	public var lazyProxyTests:LazyProxyTests;
 	
-	//*/
-	
 	public var mediatingTests:MediatingTests;
+	
+	//*/
 
-
+	public var commandPoolingTests:CommandPoolingTests;
 }
 
 }

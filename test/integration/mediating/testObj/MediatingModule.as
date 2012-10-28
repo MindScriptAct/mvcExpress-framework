@@ -1,7 +1,4 @@
 package integration.mediating.testObj {
-import flash.display.Sprite;
-import flash.events.Event;
-import integration.lazyProxy.LazyProxyTests;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.modules.ModuleCore;
 
