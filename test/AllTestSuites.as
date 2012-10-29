@@ -39,7 +39,6 @@ public class AllTestSuites {
 	
 	public var mediatorMapTests:MediatorMapTests;
 	
-	public var controllerTests:CommandMapTests;
 	
 	//public var commandTests:CommandsTests;
 	
@@ -63,6 +62,8 @@ public class AllTestSuites {
 	public var mediatingTests:MediatingTests;
 	
 	//*/
+	
+	public var controllerTests:CommandMapTests;
 
 	public var commandPoolingTests:CommandPoolingTests;
 }

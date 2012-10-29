@@ -12,6 +12,10 @@ public class CommandPoolingModule extends ModuleCore {
 	public function getCommandMap():CommandMap {
 		return commandMap;
 	}
+	
+	public function sendLocalMessage(type:String):void {
+		sendMessage(type);
+	}
 
 }
 }

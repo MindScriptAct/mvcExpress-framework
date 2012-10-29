@@ -13,6 +13,7 @@ import org.mvcexpress.core.traceObjects.TraceCommandMap_handleCommandExecute;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_map;
 import org.mvcexpress.core.traceObjects.TraceCommandMap_unmap;
 import org.mvcexpress.mvc.Command;
+import org.mvcexpress.mvc.PooledCommand;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
 
@@ -31,6 +32,9 @@ public class CommandMap {
 	
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
 	private var classRegistry:Dictionary = new Dictionary(); /* of Vector.<Class> by String */
+	
+	// holds pooled command objects, stared by command class.
+	private var commandPools:Dictionary = new Dictionary(); /* of Vector.<Object> by Class */
 	
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
@@ -186,45 +190,74 @@ public class CommandMap {
 	/** function to be called by messenger on needed message type sent */
 	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
 		var commandList:Vector.<Class>;
-		commandList = classRegistry[messageType];
+		var command:Command;
+		use namespace pureLegsCore;
 		
+		commandList = classRegistry[messageType];
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {
+				var commandClass:Class = commandList[i];
 				//////////////////////////////////////////////
 				////// INLINE FUNCTION runCommand() START
 				
-				// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
-				CONFIG::debug {
-					validateCommandParams(commandList[i], params);
-				}
-				
-				CONFIG::debug {
-					Command.canConstruct = true;
-				}
-				var command:Command = new commandList[i]();
-				CONFIG::debug {
-					Command.canConstruct = false;
+				// check if command is pooled.
+				if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
+					command = commandPools[commandClass].shift();
+				} else {
+					
+					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+					CONFIG::debug {
+						validateCommandParams(commandClass, params);
+					}
+					
+					// consturct command
+					CONFIG::debug {
+						Command.canConstruct = true;
+					}
+					command = new commandClass();
+					CONFIG::debug {
+						Command.canConstruct = false;
+					}
+					
+					
+					command.messenger = messenger;
+					command.mediatorMap = mediatorMap;
+					command.proxyMap = proxyMap;
+					command.commandMap = this;
+					
+					// inject dependencies
+					proxyMap.injectStuff(command, commandClass);
+					
 				}
 				
 				// debug this action
 				CONFIG::debug {
 					use namespace pureLegsCore;
-					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName, command, commandList[i], messageType, params));
+					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName, command, commandClass, messageType, params));
 				}
 				
-				use namespace pureLegsCore;
-				command.messenger = messenger;
-				command.mediatorMap = mediatorMap;
-				command.proxyMap = proxyMap;
+				command.isExecuting = true;
 				
-				command.commandMap = this;
-				
-				proxyMap.injectStuff(command, commandList[i]);
-				
+				// execute
 				command.execute(params);
 				
+				command.isExecuting = false;
+				
+				// TODO: PROBLEM - how to remove commands with changed injects.
+				
+				// TODO: problem - how long command shoould be pooled.. forever?
+				
+				// if not locked - pool it.
+				if (!command.isLocked) {
+					// create command pool if needed.
+					if (!commandPools[commandClass]) {
+						commandPools[commandClass] = new Vector.<Object>();
+					}
+					commandPools[commandClass].push(command);
+				}
 					////// INLINE FUNCTION runCommand() END
 					//////////////////////////////////////////////
+				
 			}
 		}
 	}
@@ -246,6 +279,7 @@ public class CommandMap {
 		proxyMap = null;
 		mediatorMap = null;
 		classRegistry = null;
+		commandPools = null;
 	}
 	
 	/**
@@ -341,6 +375,18 @@ public class CommandMap {
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
 	}
-
+	
+	/**
+	 * Pool command from outside of CommandMap.
+	 * @param	command	Command objcet to be pooled.
+	 * @private
+	 */
+	pureLegsCore function poolCommand(command:PooledCommand):void {
+		var commandClass:Class = Object(command).constructor as Class;
+		if (!commandPools[commandClass]) {
+			commandPools[commandClass] = new Vector.<Object>();
+		}
+		commandPools[commandClass].push(command);
+	}
 }
 }

@@ -30,6 +30,12 @@ dynamic public class Command {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
+	/**
+	 * flag to store if command is executed by commandMap.
+	 * @private
+	 */
+	pureLegsCore var isExecuting:Boolean = false;
+	
 	/** for comunication.
 	 * @private */
 	pureLegsCore var messenger:Messenger;
@@ -95,6 +101,13 @@ dynamic public class Command {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN, messenger.moduleName, this, type, params));
 		}
+	}
+	
+	/**
+	 * Returns always true. Commands can not be locked. (Only PooledCommands can.)
+	 */
+	public function get isLocked():Boolean {
+		return true;
 	}
 
 	// execute function is not meant to be overridden in mvcExpress.
