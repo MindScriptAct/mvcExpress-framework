@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
+import flash.utils.Dictionary;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
@@ -30,6 +31,9 @@ public class Proxy {
 	
 	// for sending scoped messages then injected by scope.
 	private var proxyScopes:Vector.<String> = new Vector.<String>();
+	
+	// for command classes that are dependant on this proxy.
+	private var dependantCommands:Dictionary = new Dictionary();
 	
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
@@ -144,6 +148,7 @@ public class Proxy {
 	 */
 	pureLegsCore function remove():void {
 		_isReady = false;
+		dependantCommands = null;
 		onRemove();
 	}
 	
@@ -177,7 +182,15 @@ public class Proxy {
 				break;
 			}
 		}
-	}	
-
+	}
+	
+	pureLegsCore function registerDependantCommand(signatureClass:Class):void {
+		// TODO : check if it is better to instantiate dictionary here.. (instead of defoult instantiation)
+		dependantCommands[signatureClass] = signatureClass;
+	}
+	
+	pureLegsCore function getDependantCommands():Dictionary {
+		return dependantCommands;
+	}
 }
 }

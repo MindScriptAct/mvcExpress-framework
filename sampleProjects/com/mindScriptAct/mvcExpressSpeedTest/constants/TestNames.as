@@ -5,7 +5,7 @@ package com.mindScriptAct.mvcExpressSpeedTest.constants {
  * @author Deril (http://www.mindscriptact.com/)
  */
 public class TestNames {
-		
+	
 	static public const CORE_INIT:String = "Core init";
 	
 	static public const COMMAND_INJECT_0:String = "Command with 0 inject";
@@ -24,6 +24,11 @@ public class TestNames {
 	static public const COMMAND_PARAMS:String = "Command with parameter"
 	static public const COMMAND_MODEL:String = "Command with Proxy"
 	static public const COMMAND_MODEL_AND_VIEW:String = "Command with Proxy and View call"
+	
+	static public const COMMAND_POOLED_EMPTY:String = "Pooled Command with nothing";
+	static public const COMMAND_POOLED_PARAMS:String = "Pooled Command with parameter";
+	static public const COMMAND_POOLED_MODEL:String = "Pooled Command with Proxy";
+	static public const COMMAND_POOLED_MODEL_AND_VIEW:String = "Pooled Command with Proxy and View call";
 	
 	static public const MEDIATOR_CREATE_100:String = "Mediator Create*100";
 	static public const MEDIATOR_CREATE_500:String = "Mediator Create*500";
@@ -44,8 +49,8 @@ public class TestNames {
 	static public const MEDIATOR_COMMUNICATE_200:String = "Mediator Communicate 200";
 	static public const MEDIATOR_COMMUNICATE_500:String = "Mediator Communicate 500";
 	static public const MEDIATOR_COMMUNICATE_1000:String = "Mediator Communicate 1000";
-	
-	
+	static public const COMMAND_MODEL_AND_VIEW_5:String = "commandModelAndView5";
+	static public const COMMAND_POOLED_MODEL_AND_VIEW_5:String = "commandPooledModelAndView5";
 
 }
 }

@@ -18,6 +18,7 @@ import org.mvcexpress.core.traceObjects.TraceProxyMap_scopeUnmap;
 import org.mvcexpress.core.traceObjects.TraceProxyMap_unmap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
+import org.mvcexpress.mvc.PooledCommand;
 import org.mvcexpress.mvc.Proxy;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -32,6 +33,8 @@ public class ProxyMap implements IProxyMap {
 	private var moduleName:String;
 	
 	private var messenger:Messenger;
+	
+	private var commandMap:CommandMap;
 	
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
@@ -79,6 +82,10 @@ public class ProxyMap implements IProxyMap {
 				throw Error("Proxy object is already lazy mapped. [injectClass:" + injectClass + " name:" + name + "]");
 			}
 			
+			if (injectObjectRegistry[injectId] != null) {
+				throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
+			}
+			
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxyMap_map(MvcTraceActions.PROXYMAP_MAP, moduleName, proxyObject, injectClass, name));
 		}
@@ -123,9 +130,18 @@ public class ProxyMap implements IProxyMap {
 		
 		if (injectObjectRegistry[injectId]) {
 			use namespace pureLegsCore;
-			(injectObjectRegistry[injectId] as Proxy).remove();
+			var proxy:Proxy = injectObjectRegistry[injectId] as Proxy;
+			
+			// handle dependencies..
+			var dependencies:Dictionary = proxy.getDependantCommands();
+			for each (var item:Class in dependencies) {
+				commandMap.clearCommandPool(item);
+			}
+			proxy.remove();
+			
 			delete injectObjectRegistry[injectId];
 		}
+		
 		return injectId;
 	}
 	
@@ -260,6 +276,10 @@ public class ProxyMap implements IProxyMap {
 	//     internal stuff
 	//----------------------------------	
 	
+	pureLegsCore function setCommandMap(value:CommandMap):void {
+		this.commandMap = value;
+	}
+	
 	/**
 	 * Initiates proxy object.
 	 * @param	proxyObject
@@ -329,6 +349,7 @@ public class ProxyMap implements IProxyMap {
 			ProxyMap.classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
+			
 		}
 		
 		// injects all dependencies using rules.
@@ -443,6 +464,19 @@ public class ProxyMap implements IProxyMap {
 							throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
 						}
 					}
+				}
+			}
+		}
+		
+		////// handle command pooling (register dependencies)
+		// chekc if object is PooledCommand, 
+		if (object is PooledCommand) {
+			var command:PooledCommand = object as PooledCommand;
+			//check if it is not pooled already.
+			if (!commandMap.checkIsClassPooled(signatureClass)) {
+				// dependencies remembers who is dependant on them.
+				for (var r:int = 0; r < rules.length; r++) {
+					(command[rules[r].varName] as Proxy).registerDependantCommand(signatureClass);
 				}
 			}
 		}

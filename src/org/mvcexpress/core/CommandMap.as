@@ -381,6 +381,15 @@ public class CommandMap {
 	//----------------------------------
 	
 	/**
+	 * Checks if PooledCommand is already pooled.
+	 * @param	commandClass
+	 * @return
+	 */
+	public function checkIsClassPooled(commandClass:Class):Boolean {
+		return (commandPools[commandClass] != null);
+	}
+	
+	/**
 	 * Clears pool created for specified command. (if command is not pooled - function fails silently.)
 	 * @param	commPoolingSimpleCommand
 	 */

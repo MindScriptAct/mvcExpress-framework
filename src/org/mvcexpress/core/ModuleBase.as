@@ -109,6 +109,7 @@ public class ModuleBase {
 			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
+		proxyMap.setCommandMap(commandMap);
 	}
 	
 	/**

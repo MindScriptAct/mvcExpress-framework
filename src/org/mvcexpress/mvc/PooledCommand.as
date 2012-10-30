@@ -1,4 +1,5 @@
 package org.mvcexpress.mvc {
+import flash.utils.Dictionary;
 import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
@@ -6,7 +7,7 @@ import org.mvcexpress.core.namespace.pureLegsCore;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class PooledCommand extends Command {
-	
+		
 	private var _isLocked:Boolean = false;
 	
 	/**

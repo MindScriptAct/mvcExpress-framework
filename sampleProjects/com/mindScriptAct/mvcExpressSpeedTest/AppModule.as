@@ -4,14 +4,20 @@ import com.gskinner.performance.PerformanceTest;
 import com.gskinner.performance.TestSuite;
 import com.mindScriptAct.mvcExpressSpeedTest.constants.TestNames;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.EmptyCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.EmptyPooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.GetParamCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.GetParamPooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject10Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject5Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject6Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.TestNamedProxysCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.TraceCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViews5Command;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViews5PooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViewsCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViewsPooledCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyPooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.model.INamedProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.model.NamedProxy;
@@ -60,7 +66,13 @@ public class AppModule extends ModuleCore {
 		commandMap.map(Note.CALL_COMMANDS_GET_PARAMS, GetParamCommand);
 		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL, WithProxyCommand);
 		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsCommand);
+		commandMap.map(Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS_5, WithProxyCommViews5Command);
 		
+		commandMap.map(Note.CALL_COMMANDS_POOLED_EMPTY, EmptyPooledCommand);
+		commandMap.map(Note.CALL_COMMANDS_POOLED_GET_PARAMS, GetParamPooledCommand);
+		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL, WithProxyPooledCommand);
+		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsPooledCommand);		
+		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS_5, WithProxyCommViews5PooledCommand);		
 		//
 		proxyMap.map(new BlankProxy());
 		//
@@ -104,15 +116,22 @@ public class AppModule extends ModuleCore {
 	
 	private function prepareTests():void {
 		performanceTest = new PerformanceTest();
-		//performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_0], TestNames.COMMAND_EMPTY, 100, 1000);
-		//performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_5], TestNames.COMMAND_INJECT_5, 100, 1000);
-		//performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_10], TestNames.COMMAND_INJECT_10, 100, 1000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_0], TestNames.COMMAND_EMPTY, 100, 1000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_5], TestNames.COMMAND_INJECT_5, 100, 1000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_10], TestNames.COMMAND_INJECT_10, 100, 1000);
 		
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_EMPTY], TestNames.COMMAND_EMPTY, 50, 10000);
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_GET_PARAMS, "testData"], TestNames.COMMAND_PARAMS, 50, 10000);
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_WITH_MODEL], TestNames.COMMAND_MODEL, 50, 10000);
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS], TestNames.COMMAND_MODEL_AND_VIEW, 50, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_WITH_MODEL_COMM_VIEWS_5], TestNames.COMMAND_MODEL_AND_VIEW_5, 50, 10000);
 		
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_POOLED_EMPTY], TestNames.COMMAND_POOLED_EMPTY, 50, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_POOLED_GET_PARAMS, "testData"], TestNames.COMMAND_POOLED_PARAMS, 50, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_POOLED_WITH_MODEL], TestNames.COMMAND_POOLED_MODEL, 50, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS], TestNames.COMMAND_POOLED_MODEL_AND_VIEW, 50, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS_5], TestNames.COMMAND_POOLED_MODEL_AND_VIEW_5, 50, 10000);
+		//
 		performanceTest.queueSimpleTest(sendMessage, [Note.CREATE_TEST_VIEW, 1], TestNames.MEDIATOR_CREATE_1000, 2, 500);
 		performanceTest.queueSimpleTest(sendMessage, [Note.REMOVE_TEST_VIEW, 1], TestNames.MEDIATOR_REMOVE_1000, 2, 500);
 		performanceTest.queueSimpleTest(sendMessage, [Note.CREATE_TEST_VIEW, 1], TestNames.MEDIATOR_CREATE_2000, 4, 500);
@@ -126,10 +145,10 @@ public class AppModule extends ModuleCore {
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_200, 50, 1000)], "Communication test 200", null, spawn100Mediators));
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_500, 40, 1000)], "Communication test 500", null, spawn300Mediators));
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_1000, 30, 1000)], "Communication test 1000", null, spawn500Mediators));
-		
+		//
 		performanceTest.addEventListener(Event.COMPLETE, handleTestComplete);
 		performanceTest.addEventListener(Event.CLOSE, handleTestClose);
-		
+		//
 		sendMessage(Note.APPEND_LINE, "mvcExpress testing:       [" + (Capabilities.isDebugger ? "DEBUG" : "RELEASE") + " PLAYER. " + Capabilities.version + "]");
 		sendMessage(Note.APPEND_LINE, TestNames.CORE_INIT + ":" + "\t" + coreInitTime);
 	}

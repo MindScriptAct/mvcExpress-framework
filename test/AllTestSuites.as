@@ -27,7 +27,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	
 	public var generalTests:GeneralTests;
 	
