@@ -169,14 +169,15 @@ public class MediatorMap implements IMediatorMap {
 		// create mediator.
 		var mediator:Mediator = new mediatorClass();
 		
+		
+		var viewClass:Class = viewObject.constructor as Class;
+		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
+		if (!viewClass) {
+			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
+		}
+
 		// debug this action
 		CONFIG::debug {
-			
-			var viewClass:Class = viewObject.constructor as Class;
-			// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
-			if (!viewClass) {
-				viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
-			}
 			
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceMediatorMap_mediate(MvcTraceActions.MEDIATORMAP_MEDIATE, moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
