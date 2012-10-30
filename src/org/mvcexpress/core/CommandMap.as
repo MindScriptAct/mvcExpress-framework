@@ -4,6 +4,7 @@ import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import integration.commandPooling.testObj.controller.CommPoolingSimpleCommand;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
@@ -219,7 +220,6 @@ public class CommandMap {
 						Command.canConstruct = false;
 					}
 					
-					
 					command.messenger = messenger;
 					command.mediatorMap = mediatorMap;
 					command.proxyMap = proxyMap;
@@ -374,6 +374,18 @@ public class CommandMap {
 	
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
+	}
+	
+	//----------------------------------
+	//     command pooling
+	//----------------------------------
+	
+	/**
+	 * Clears pool created for specified command. (if command is not pooled - function fails silently.)
+	 * @param	commPoolingSimpleCommand
+	 */
+	public function clearCommandPool(cammandClass:Class):void {
+		delete commandPools[cammandClass];
 	}
 	
 	/**

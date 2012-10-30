@@ -27,6 +27,8 @@ public class PooledCommand extends Command {
 			if (isExecuting) {
 				commandMap.poolCommand(this);
 			}
+		} else {
+			throw Error("You are trying to unlock PooledCommand that is not locked yet.");
 		}
 	}
 
