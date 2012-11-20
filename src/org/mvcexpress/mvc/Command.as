@@ -62,7 +62,8 @@ dynamic public class Command {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, messenger.moduleName, this, type, params));
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, moduleName, this, type, params));
 		}
 		//
 		messenger.send(type, params);
@@ -70,7 +71,7 @@ dynamic public class Command {
 		// clean up loging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, messenger.moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 		}
 	}
 	
