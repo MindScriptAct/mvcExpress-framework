@@ -327,6 +327,7 @@ public class Mediator {
 	 */
 	pureLegsCore function remove():void {
 		use namespace pureLegsCore;
+		onRemove();
 		removeAllHandlers();
 		removeAllListeners();
 		handlerVoRegistry = null;

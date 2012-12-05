@@ -228,7 +228,6 @@ public class MediatorMap implements IMediatorMap {
 		// get object mediator
 		var mediator:Mediator = mediatorRegistry[viewObject];
 		if (mediator) {
-			mediator.onRemove();
 			use namespace pureLegsCore;
 			mediator.remove();
 			delete mediatorRegistry[viewObject];
