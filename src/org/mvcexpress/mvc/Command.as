@@ -29,7 +29,7 @@ dynamic public class Command {
 	
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
-	
+		
 	/**
 	 * flag to store if command is executed by commandMap.
 	 * @private
@@ -105,13 +105,6 @@ dynamic public class Command {
 		}
 	}
 	
-	/**
-	 * Returns always true. Commands can not be locked. (Only PooledCommands can.)
-	 */
-	public function get isLocked():Boolean {
-		return true;
-	}
-
 	// execute function is not meant to be overridden in mvcExpress.
 	// Because I want commands to have custom parameter object - you have to manually create execute() function in your commands.
 	//public function execute(params:Object):void {

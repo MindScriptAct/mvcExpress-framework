@@ -103,41 +103,69 @@ public class CommandMap {
 	 * @param	params			Object to be sent to execute() function.
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
+		var command:Command;
+		use namespace pureLegsCore;
 		
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
-		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		
-		CONFIG::debug {
-			Command.canConstruct = true;
-		}
-		var command:Command = new commandClass();
-		CONFIG::debug {
-			Command.canConstruct = false;
+		// check if command is pooled.
+		if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
+			command = commandPools[commandClass].shift();
+		} else {
+			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+			CONFIG::debug {
+				validateCommandParams(commandClass, params);
+			}
+			
+			// consturct command
+			CONFIG::debug {
+				Command.canConstruct = true;
+			}
+			command = new commandClass();
+			CONFIG::debug {
+				Command.canConstruct = false;
+			}
+			
+			command.messenger = messenger;
+			command.mediatorMap = mediatorMap;
+			command.proxyMap = proxyMap;
+			command.commandMap = this;
+			
+			// inject dependencies
+			proxyMap.injectStuff(command, commandClass);
 		}
 		
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommandMap_execute(MvcTraceActions.COMMANDMAP_EXECUTE, moduleName, command, commandClass, params));
-			
-			validateCommandParams(commandClass, params);
 		}
 		
-		use namespace pureLegsCore;
-		command.messenger = messenger;
-		command.mediatorMap = mediatorMap;
-		command.proxyMap = proxyMap;
-		
-		command.commandMap = this;
-		proxyMap.injectStuff(command, commandClass);
-		
-		// TODO: check possibility to not send params if it is null.
-		// TODO: check possibility to send more then one param object.
-		command.execute(params);
+		if (command is PooledCommand) {
+			// init pool if needed.
+			if (!commandPools[commandClass]) {
+				commandPools[commandClass] = new Vector.<Object>();
+			}
+			command.isExecuting = true;
+			command.execute(params);
+			command.isExecuting = false;
+			
+			// if not locked - pool it.
+			if (!(command as PooledCommand).isLocked) {
+				if (commandPools[commandClass]) {
+					commandPools[commandClass].push(command);
+				}
+			}
+		} else {
+			command.isExecuting = true;
+			command.execute(params);
+			command.isExecuting = false;
+		}
 	
 		////// INLINE FUNCTION runCommand() END
 		//////////////////////////////////////////////	
+	
 	}
 	
 	//----------------------------------
@@ -197,6 +225,7 @@ public class CommandMap {
 		if (commandList) {
 			for (var i:int = 0; i < commandList.length; i++) {
 				var commandClass:Class = commandList[i];
+				
 				//////////////////////////////////////////////
 				////// INLINE FUNCTION runCommand() START
 				
@@ -204,7 +233,6 @@ public class CommandMap {
 				if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
 					command = commandPools[commandClass].shift();
 				} else {
-					
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
 						validateCommandParams(commandClass, params);
@@ -226,7 +254,6 @@ public class CommandMap {
 					
 					// inject dependencies
 					proxyMap.injectStuff(command, commandClass);
-					
 				}
 				
 				// debug this action
@@ -235,27 +262,29 @@ public class CommandMap {
 					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName, command, commandClass, messageType, params));
 				}
 				
-				command.isExecuting = true;
-				
-				// execute
-				command.execute(params);
-				
-				command.isExecuting = false;
-				
-				// TODO: PROBLEM - how to remove commands with changed injects.
-				
-				// TODO: problem - how long command shoould be pooled.. forever?
-				
-				// if not locked - pool it.
-				if (!command.isLocked) {
-					// create command pool if needed.
+				if (command is PooledCommand) {
+					// init pool if needed.
 					if (!commandPools[commandClass]) {
 						commandPools[commandClass] = new Vector.<Object>();
 					}
-					commandPools[commandClass].push(command);
+					command.isExecuting = true;
+					command.execute(params);
+					command.isExecuting = false;
+					
+					// if not locked - pool it.
+					if (!(command as PooledCommand).isLocked) {
+						if (commandPools[commandClass]) {
+							commandPools[commandClass].push(command);
+						}
+					}
+					
+				} else {
+					command.isExecuting = true;
+					command.execute(params);
+					command.isExecuting = false;
 				}
 					////// INLINE FUNCTION runCommand() END
-					//////////////////////////////////////////////
+					//////////////////////////////////////////////	
 				
 			}
 		}
@@ -403,10 +432,9 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		if (!commandPools[commandClass]) {
-			commandPools[commandClass] = new Vector.<Object>();
+		if (commandPools[commandClass]) {
+			commandPools[commandClass].push(command);
 		}
-		commandPools[commandClass].push(command);
 	}
 }
 }

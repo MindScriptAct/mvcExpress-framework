@@ -39,7 +39,6 @@ public class AllTestSuites {
 	
 	public var mediatorMapTests:MediatorMapTests;
 	
-	
 	//public var commandTests:CommandsTests;
 	
 	//public var proxyTests:ProxyTests;
@@ -49,7 +48,6 @@ public class AllTestSuites {
 	public var utilsTests:UtilsTests;
 	
 	public var featureGetProxyTest:FeatureGetProxyTests;
-	
 	
 	public var mediatorTests:MediatorTests;
 
@@ -61,9 +59,9 @@ public class AllTestSuites {
 	
 	public var mediatingTests:MediatingTests;
 	
-	//*/
-	
 	public var controllerTests:CommandMapTests;
+	
+	//*/
 
 	public var commandPoolingTests:CommandPoolingTests;
 }
