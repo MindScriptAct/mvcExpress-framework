@@ -4,7 +4,7 @@ import flash.geom.Point;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ChannelViewA extends Sprite {
 	public var test1handled:Boolean = false;

@@ -5,7 +5,7 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 /**
  * Command that is automatically pooled.
  * All PooledCommand's are automatically pooled after execution - unless lock() is used.
- * @author Raimundas Banevicius (raima156@yahoo.com)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class PooledCommand extends Command {
 	
