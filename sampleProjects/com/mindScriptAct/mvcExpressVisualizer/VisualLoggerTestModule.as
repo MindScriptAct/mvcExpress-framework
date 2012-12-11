@@ -55,25 +55,25 @@ public class VisualLoggerTestModule extends ModuleSprite {
 			MvcExpress.debugFunction = trace;
 			//MvcExpress.debugFunction = myDebugFunction;
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
-			MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true, MvcExpressLogger.VISUALIZER_TAB);
 		}
+		MvcExpressLogger.init(this.stage, 600, 0, 900, 400, 1, true, MvcExpressLogger.VISUALIZER_TAB);
 		super(ModuleNames.SHELL);
 		//
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
 	}
 	
-	private function myDebugFunction(traceObj:TraceObj):void {
-		if (traceObj.action == MvcTraceActions.MEDIATORMAP_MEDIATE) {
-			if (traceObj.mediatorClass == TestViewAMediator) {
-				trace( "TestViewAMediator mediates :" +  traceObj.viewObject);
-			}
-		}
-	}
+	//private function myDebugFunction(traceObj:TraceObj):void {
+		//if (traceObj.action == MvcTraceActions.MEDIATORMAP_MEDIATE) {
+			//if (traceObj.mediatorClass == TestViewAMediator) {
+				//trace( "TestViewAMediator mediates :" +  traceObj.viewObject);
+			//}
+		//}
+	//}
 	
 	override protected function onInit():void {
 		var moduleLabel:Label;
 		var roundRectangle:Shape;
-		trace("ModularSampleShellModule.onInit");
+		//trace("ModularSampleShellModule.onInit");
 		
 		// shell module area
 		roundRectangle = new Shape();

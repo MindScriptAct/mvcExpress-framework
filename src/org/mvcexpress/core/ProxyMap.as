@@ -54,6 +54,10 @@ public class ProxyMap implements IProxyMap {
 		this.messenger = messenger;
 	}
 	
+	//----------------------------------
+	//     set up proxies
+	//----------------------------------
+	
 	/**
 	 * Maps proxy object to injectClass and name.
 	 * @param	proxyObject	Proxy instance to use for injection.
@@ -270,6 +274,44 @@ public class ProxyMap implements IProxyMap {
 		
 		use namespace pureLegsCore;
 		ModuleManager.scopeUnmap(moduleName, scopeName, injectClass, name);
+	}
+	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
+	
+	/**
+	 * Checks if proxy object is already mapped.
+	 * @param	proxyObject	Proxy instance to use for injection.
+	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
+	 * @param	name		Optional name if you need more then one proxy instance of same class.
+	 * @return				true if object is already mapped.
+	 */
+	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
+		var retVal:Boolean = false;
+		var proxyClass:Class = Object(proxyObject).constructor as Class;
+		if (!injectClass) {
+			injectClass = proxyClass;
+		}
+		var className:String = getQualifiedClassName(injectClass);
+		if (injectObjectRegistry[className + name]) {
+			retVal = true;
+		}
+		return retVal;
+	}
+	
+	/**
+	 * Returns text of all mapped proxy objects, and keys they are mapped to. (for debugging)
+	 * @return		Text string with all mapped proxies.
+	 */
+	public function listMappings():String {
+		var retVal:String = "";
+		retVal = "====================== ProxyMap Mappings: ======================\n";
+		for (var key:Object in injectObjectRegistry) {
+			retVal += "PROXY OBJECT:'" + injectObjectRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
+		}
+		retVal += "================================================================\n";
+		return retVal;
 	}
 	
 	//----------------------------------
@@ -584,44 +626,6 @@ public class ProxyMap implements IProxyMap {
 	// gets proxy by id directly.
 	pureLegsCore function getProxyById(injectClassAndName:String):Proxy {
 		return injectObjectRegistry[injectClassAndName];
-	}
-	
-	//----------------------------------
-	//     Debug
-	//----------------------------------
-	
-	/**
-	 * Checks if proxy object is already mapped.
-	 * @param	proxyObject	Proxy instance to use for injection.
-	 * @param	injectClass	Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
-	 * @param	name		Optional name if you need more then one proxy instance of same class.
-	 * @return				true if object is already mapped.
-	 */
-	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		var retVal:Boolean = false;
-		var proxyClass:Class = Object(proxyObject).constructor as Class;
-		if (!injectClass) {
-			injectClass = proxyClass;
-		}
-		var className:String = getQualifiedClassName(injectClass);
-		if (injectObjectRegistry[className + name]) {
-			retVal = true;
-		}
-		return retVal;
-	}
-	
-	/**
-	 * Returns text of all mapped proxy objects, and keys they are mapped to.
-	 * @return		Text string with all mapped proxies.
-	 */
-	public function listMappings():String {
-		var retVal:String = "";
-		retVal = "====================== ProxyMap Mappings: ======================\n";
-		for (var key:Object in injectObjectRegistry) {
-			retVal += "PROXY OBJECT:'" + injectObjectRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
-		}
-		retVal += "================================================================\n";
-		return retVal;
 	}
 
 }

@@ -1,26 +1,30 @@
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
-import flash.utils.Dictionary;
 import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
- * Command that is autamaticaly pooled.
- * All pooled commands are pooled unless locked after execution. 
+ * Command that is automatically pooled.
+ * All PooledCommand's are automatically pooled after execution - unless lock() is used.
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class PooledCommand extends Command {
 	
+	/**
+	 * Stores information if command is locked from automatic pooling by user.
+	 * @private */
 	private var _isLocked:Boolean = false;
 	
 	/**
-	 * Is command locked for pooling or not.
+	 * Shows if command is locked, and will not be automatically pooling after execution, or not.
+	 * Asynchronous PooledCommand must be locked then used, and unlocked then they are done with there work.
 	 */
 	public function get isLocked():Boolean {
 		return _isLocked;
 	}
 	
 	/**
-	 * Locks pooled command, to avoid automatic pooling after execution.
-	 * Command lock() -> unlock() functions are used with asynchronous commands.
+	 * Locks PooledCommand to avoid automatic pooling after execution.
+	 * Command lock(), unlock() functions are used with asynchronous commands.
 	 */
 	public function lock():void {
 		_isLocked = true;
@@ -28,8 +32,8 @@ public class PooledCommand extends Command {
 	
 	/**
 	 * Unlock and pool PooledCommand.
-	 * Only previously locked commands can be unlocked.
-	 * Command lock() -> unlock() functions are used with asynchronous commands.
+	 * Only previously locked commands can be unlocked, or error will be thrown.
+	 * Command lock(), unlock() functions are used with asynchronous commands.
 	 */
 	public function unlock():void {
 		if (_isLocked) {

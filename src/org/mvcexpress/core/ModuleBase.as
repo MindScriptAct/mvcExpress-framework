@@ -69,6 +69,10 @@ public class ModuleBase {
 		return _messenger;
 	}
 	
+	//----------------------------------
+	//     Life cycle
+	//----------------------------------
+	
 	/**
 	 * Internal framework function. Not meant to be used from outside.
 	 */
@@ -134,6 +138,10 @@ public class ModuleBase {
 		//
 		ModuleManager.disposeModule(_moduleName);
 	}
+	
+	//----------------------------------
+	//     Communication
+	//----------------------------------
 	
 	/**
 	 * Sends a message with optional params object inside of current module.

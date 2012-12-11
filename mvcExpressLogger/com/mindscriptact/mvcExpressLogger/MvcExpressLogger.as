@@ -197,7 +197,11 @@ public class MvcExpressLogger {
 	private function showLogger():void {
 		isLogShown = true;
 		if (!logWindow) {
-			logWindow = new Window(null, x, y, "mvcExpress logger");
+			
+			var debugCompile:Boolean = (MvcExpress["DEBUG_COMPILE"] as Boolean);
+			
+			var version:String = "    ["+MvcExpress["VERSION"]+" - "+(debugCompile ? "DEBUG COMPILE!!!" : "Release.")+"]"
+			logWindow = new Window(null, x, y, "mvcExpress logger"+version);
 			logWindow.width = width;
 			logWindow.height = height
 			logWindow.alpha = alpha;
@@ -268,6 +272,12 @@ public class MvcExpressLogger {
 			visualizerButton.x = 600;
 			allButtons.push(visualizerButton);
 			
+			if (!debugCompile) {
+				logButton.visible = false;
+				clearButton.visible = false;
+				visualizerButton.visible = false;
+			}
+			
 		}
 		//forceThisOnTop();
 		stage.addChild(logWindow);
@@ -290,14 +300,13 @@ public class MvcExpressLogger {
 	}
 	
 	private function handleClearLog(event:MouseEvent):void {
-		trace("MvcExpressLogger.handleClearLog > event : " + event);
+		//trace("MvcExpressLogger.handleClearLog > event : " + event);
 		logText = "";
 		render();
 	}
 	
 	private function handleAutoScrollTogle(event:MouseEvent):void {
-		trace("MvcExpressLogger.handleAutoScrollTogle > event : " + event);
-		
+		//trace("MvcExpressLogger.handleAutoScrollTogle > event : " + event);
 		useAutoScroll = (event.target as CheckBox).selected;
 		(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 	}
@@ -316,15 +325,12 @@ public class MvcExpressLogger {
 						currentModuleName = allModuleNames[0];
 					}
 				}
-				
 			} else {
 				currentModuleName = allModuleNames[0];
 			}
-			
 			currentModuleText.text = currentModuleName;
 		}
 		moduleStepper.maximum = allModuleNames.length - 1;
-		
 		currentModuleName = currentModuleName;
 		
 		render();
@@ -367,7 +373,6 @@ public class MvcExpressLogger {
 				currentScreen = null;
 			}
 			currentTabButtonName = targetButton.label;
-			
 			autoLogCheckBox.visible = (currentTabButtonName == LOG_TAB)
 			
 			switch (currentTabButtonName) {

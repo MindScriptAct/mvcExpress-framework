@@ -282,7 +282,6 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
-		trace("ModuleManager.addPendingScopedInjection > scopeName : " + scopeName + ", injectClassAndName : " + injectClassAndName + ", pendingInject : " + pendingInject);
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
@@ -368,23 +367,6 @@ public class ModuleManager {
 		}
 	}
 	
-	//----------------------------------
-	//     DEPRICATED
-	//----------------------------------
-	
-	/**
-	 * sends message to all messengers.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
-	 * @private
-	 */
-	static pureLegsCore function sendMessageToAll(type:String, params:Object):void {
-		use namespace pureLegsCore;
-		for (var i:int = 0; i < allModules.length; i++) {
-			allModules[i].messenger.send(type, params);
-		}
-	}
-
 }
 }
 

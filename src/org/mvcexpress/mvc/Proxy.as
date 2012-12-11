@@ -12,7 +12,7 @@ import org.mvcexpress.MvcExpress;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>
- * Can send messages. (Usually sends one with data update)								</br>
+ * Can send messages. (Usually sends one with each data update)						</br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Proxy {
@@ -25,7 +25,7 @@ public class Proxy {
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean = false;
 	
-	// for comunication.
+	// used internally for communication
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
@@ -35,12 +35,17 @@ public class Proxy {
 	// for command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
 	
+	// amount of pending injections.
 	/** @private */
 	pureLegsCore var pendingInjections:int = 0;
 	
 	/** CONSTRUCTOR */
 	public function Proxy() {
 	}
+	
+	//----------------------------------
+	//     Life cycle functions
+	//----------------------------------
 	
 	/**
 	 * Then proxy is mapped with proxyMap this function is called.
@@ -70,7 +75,7 @@ public class Proxy {
 	/**
 	 * Sends a message with optional params object inside of current module.
 	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params	Object that will be passed to Command execute() function and to handle functions.
+	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
@@ -87,7 +92,7 @@ public class Proxy {
 			ModuleManager.sendScopeMessage(proxyScopes[i], type, params);
 		}
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxy_sendMessage(MvcTraceActions.PROXY_SENDMESSAGE_CLEAN, moduleName, this, type, params));
@@ -96,7 +101,7 @@ public class Proxy {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
 	 */
@@ -111,7 +116,7 @@ public class Proxy {
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxy_sendScopeMessage(MvcTraceActions.PROXY_SENDSCOPEMESSAGE, moduleName, this, type, params));
@@ -154,43 +159,55 @@ public class Proxy {
 		onRemove();
 	}
 	
+	//----------------------------------
+	//     Scoping
+	//----------------------------------
+	
 	/**
 	 * Add scope for proxy to send all proxy messages to.
-	 * @param	scapeName
+	 * @param	scopeName
 	 * @private
 	 */
-	pureLegsCore function addScope(scapeName:String):void {
+	pureLegsCore function addScope(scopeName:String):void {
 		var messengerFound:Boolean = false;
 		for (var i:int = 0; i < proxyScopes.length; i++) {
-			if (proxyScopes[i] == scapeName) {
+			if (proxyScopes[i] == scopeName) {
 				messengerFound = true;
 				break;
 			}
 		}
 		if (!messengerFound) {
-			proxyScopes.push(scapeName);
+			proxyScopes.push(scopeName);
 		}
 	}
 	
 	/**
 	 * Remove scope for proxy to send all proxy messages to.
-	 * @param	scapeName
+	 * @param	scopeName
 	 * @private
 	 */
-	pureLegsCore function removeScope(scapeName:String):void {
-		for (var i:int = 0; i < scapeName.length; i++) {
-			if (proxyScopes[i] == scapeName) {
+	pureLegsCore function removeScope(scopeName:String):void {
+		for (var i:int = 0; i < scopeName.length; i++) {
+			if (proxyScopes[i] == scopeName) {
 				proxyScopes.splice(i, 1);
 				break;
 			}
 		}
 	}
 	
+	//----------------------------------
+	//     Pooled commands
+	//----------------------------------
+	
+	// Registers command that needs this proxy. (used for PooledCommand's only)
+	/** @private */
 	pureLegsCore function registerDependantCommand(signatureClass:Class):void {
-		// TODO : check if it is better to instantiate dictionary here.. (instead of defoult instantiation)
+		// TODO : check if it is better to instantiate dictionary here.. (instead of default instantiation)
 		dependantCommands[signatureClass] = signatureClass;
 	}
 	
+	// gets the list of dependant commands. (used to clear all PooledCommand's then proxy is removed)
+	/** @private */
 	pureLegsCore function getDependantCommands():Dictionary {
 		return dependantCommands;
 	}

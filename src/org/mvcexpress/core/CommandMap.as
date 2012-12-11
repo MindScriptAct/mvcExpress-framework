@@ -26,8 +26,11 @@ public class CommandMap {
 	// name of the module CommandMap is working for.
 	private var moduleName:String;
 	
+	// for internal use.
 	private var messenger:Messenger;
+	// for internal use.
 	private var proxyMap:ProxyMap;
+	// for internal use.
 	private var mediatorMap:MediatorMap;
 	
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
@@ -50,10 +53,14 @@ public class CommandMap {
 		this.mediatorMap = mediatorMap;
 	}
 	
+	//----------------------------------
+	//     set up commands to execute current module messages
+	//----------------------------------
+	
 	/**
 	 * Map a class to be executed then message with provided type is sent.
 	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will be instantiated and executed.
+	 * @param	commandClass		Command class that will be executed.
 	 */
 	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
@@ -76,9 +83,9 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Unmap a class to be executed then message with provided type is sent.
+	 * Unmaps a class to be executed then message with provided type is sent.
 	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will be instantiated and executed.
+	 * @param	commandClass	Command class that would be executed.
 	 */
 	public function unmap(type:String, commandClass:Class):void {
 		// debug this action
@@ -96,6 +103,10 @@ public class CommandMap {
 			}
 		}
 	}
+	
+	//----------------------------------
+	//     Command execute
+	//----------------------------------
 	
 	/**
 	 * Instantiates and executes provided command class, and sends params to it.
@@ -118,7 +129,7 @@ public class CommandMap {
 				validateCommandParams(commandClass, params);
 			}
 			
-			// consturct command
+			// construct command
 			CONFIG::debug {
 				Command.canConstruct = true;
 			}
@@ -169,14 +180,14 @@ public class CommandMap {
 	}
 	
 	//----------------------------------
-	//     SCOPE 
+	//     set up commands to execute scoped messages
 	//----------------------------------
 	
 	/**
-	 * Map a class to be executed then message with provided type and scopeName is sent to maped scope.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
+	 * Maps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will be instantiated and executed.
+	 * @param	commandClass		Command class that will be executed.
 	 */
 	public function scopeMap(scopeName:String, type:String, commandClass:Class):void {
 		use namespace pureLegsCore;
@@ -184,7 +195,7 @@ public class CommandMap {
 		var scopedType:String = scopeName + "_^~_" + type;
 		if (!classRegistry[scopedType]) {
 			classRegistry[scopedType] = new Vector.<Class>();
-			// TODO : check if chonnelCommandMap must be here...
+			// TODO : check if channelCommandMap must be here...
 			scopeHandlers.push(ModuleManager.scopedCommandMap(handleCommandExecute, scopeName, type, commandClass));
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
@@ -192,10 +203,10 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Unmaps a class to be executed then message with provided type and scopeName is sent to maped scope.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module comminication.
+	 * Unmaps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.
+	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will be instantiated and executed.
+	 * @param	commandClass		Command class that would be executed.
 	 */
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
@@ -212,8 +223,99 @@ public class CommandMap {
 	}
 	
 	//----------------------------------
+	//     command pooling
+	//----------------------------------
+	
+	/**
+	 * Checks if PooledCommand is already pooled.
+	 * @param	commandClass
+	 * @return	true if command pool is created.
+	 */
+	public function checkIsClassPooled(commandClass:Class):Boolean {
+		return (commandPools[commandClass] != null);
+	}
+	
+	/**
+	 * Clears pool created for specified command. 
+	 * (if commands are not pooled - function fails silently.)
+	 * @param	commPoolingSimpleCommand
+	 */
+	public function clearCommandPool(commandClass:Class):void {
+		delete commandPools[commandClass];
+	}
+	
+	//----------------------------------
+	//     Debug
+	//----------------------------------
+	
+	/**
+	 * Checks if Command class is already added to message type
+	 * @param	type			Message type for command class to react to.
+	 * @param	commandClass	Command class that will be instantiated and executed.
+	 * @return					true if Command class is already mapped to message
+	 */
+	public function isMapped(type:String, commandClass:Class):Boolean {
+		var retVal:Boolean = false;
+		if (classRegistry[type]) {
+			var mappedClasses:Vector.<Class> = classRegistry[type];
+			for (var i:int = 0; i < mappedClasses.length; i++) {
+				if (commandClass == mappedClasses[i]) {
+					retVal = true;
+				}
+			}
+		}
+		return retVal;
+	}
+	
+	/**
+	 * Returns text of all command classes that are mapped to messages. (for debugging)
+	 * @return		Text with all mapped commands.
+	 */
+	public function listMappings():String {
+		var retVal:String = "";
+		retVal = "===================== CommandMap Mappings: =====================\n";
+		for (var key:String in classRegistry) {
+			retVal += "SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key] + "\n";
+		}
+		retVal += "================================================================\n";
+		return retVal;
+	}
+	
+	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
+	
+	/**
+	 * Pool command from outside of CommandMap.
+	 * @param	command	Command object to be pooled.
+	 * @private
+	 */
+	pureLegsCore function poolCommand(command:PooledCommand):void {
+		var commandClass:Class = Object(command).constructor as Class;
+		if (commandPools[commandClass]) {
+			commandPools[commandClass].push(command);
+		}
+	}
+	
+	/**
+	 * Dispose commandMap on disposeModule()
+	 * @private
+	 */
+	pureLegsCore function dispose():void {
+		use namespace pureLegsCore;
+		for (var type:String in classRegistry) {
+			messenger.removeHandler(type, handleCommandExecute);
+		}
+		//
+		for (var i:int = 0; i < scopeHandlers.length; i++) {
+			scopeHandlers[i].handler = null;
+		}
+		messenger = null;
+		proxyMap = null;
+		mediatorMap = null;
+		classRegistry = null;
+		commandPools = null;
+	}
 	
 	/** function to be called by messenger on needed message type sent */
 	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
@@ -238,7 +340,7 @@ public class CommandMap {
 						validateCommandParams(commandClass, params);
 					}
 					
-					// consturct command
+					// construct command
 					CONFIG::debug {
 						Command.canConstruct = true;
 					}
@@ -288,26 +390,6 @@ public class CommandMap {
 				
 			}
 		}
-	}
-	
-	/**
-	 * Dispose commandMap on disposeModule()
-	 * @private
-	 */
-	pureLegsCore function dispose():void {
-		use namespace pureLegsCore;
-		for (var type:String in classRegistry) {
-			messenger.removeHandler(type, handleCommandExecute);
-		}
-		//
-		for (var i:int = 0; i < scopeHandlers.length; i++) {
-			scopeHandlers[i].handler = null;
-		}
-		messenger = null;
-		proxyMap = null;
-		mediatorMap = null;
-		classRegistry = null;
-		commandPools = null;
 	}
 	
 	/**
@@ -363,78 +445,10 @@ public class CommandMap {
 		}
 	}
 	
-	//----------------------------------
-	//     Debug
-	//----------------------------------
-	
-	/**
-	 * Checks if Command class is already added to message type
-	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will be instantiated and executed.
-	 * @return					true if Command class is already mapped to message
-	 */
-	public function isMapped(type:String, commandClass:Class):Boolean {
-		var retVal:Boolean = false;
-		if (classRegistry[type]) {
-			var mappedClasses:Vector.<Class> = classRegistry[type];
-			for (var i:int = 0; i < mappedClasses.length; i++) {
-				if (commandClass == mappedClasses[i]) {
-					retVal = true;
-				}
-			}
-		}
-		return retVal;
-	}
-	
-	/**
-	 * Returns text of all command classes that are mapped to messages.
-	 * @return		Text with all mapped commands.
-	 */
-	public function listMappings():String {
-		var retVal:String = "";
-		retVal = "===================== CommandMap Mappings: =====================\n";
-		for (var key:String in classRegistry) {
-			retVal += "SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key] + "\n";
-		}
-		retVal += "================================================================\n";
-		return retVal;
-	}
-	
+	// used for debugging
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
 	}
-	
-	//----------------------------------
-	//     command pooling
-	//----------------------------------
-	
-	/**
-	 * Checks if PooledCommand is already pooled.
-	 * @param	commandClass
-	 * @return
-	 */
-	public function checkIsClassPooled(commandClass:Class):Boolean {
-		return (commandPools[commandClass] != null);
-	}
-	
-	/**
-	 * Clears pool created for specified command. (if command is not pooled - function fails silently.)
-	 * @param	commPoolingSimpleCommand
-	 */
-	public function clearCommandPool(cammandClass:Class):void {
-		delete commandPools[cammandClass];
-	}
-	
-	/**
-	 * Pool command from outside of CommandMap.
-	 * @param	command	Command objcet to be pooled.
-	 * @private
-	 */
-	pureLegsCore function poolCommand(command:PooledCommand):void {
-		var commandClass:Class = Object(command).constructor as Class;
-		if (commandPools[commandClass]) {
-			commandPools[commandClass].push(command);
-		}
-	}
+
 }
 }

@@ -4,7 +4,7 @@ import flash.display.DisplayObject;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceProxyMap_map extends TraceObj {

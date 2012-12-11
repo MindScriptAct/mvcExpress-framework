@@ -17,14 +17,18 @@ public class MvcExpress {
 	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 3;
 	/** Current framework revision version */
-	public static const REVISION:uint = 0;
+	public static const REVISION:uint = 1;
 	
 	/** Current framework version */
 	public static function get VERSION():String {
 		return "v" + MvcExpress.MAJOR_VERSION + "." + MvcExpress.MINOR_VERSION + "." + MvcExpress.REVISION;
 	}
 	
-	/** Gives CONFIG::debug variable value. If it is true framework functions has overhead code, used for debugging and error checking. */
+	/**
+	 * Checks for CONFIG::debug variable value.
+	 * If it is true framework functions has overhead code, this overhead is used for debugging and error checking.
+	 * This value can help not to forget compile with CONFIG::debug set to false for release.
+	 */
 	public static function get DEBUG_COMPILE():Boolean {
 		CONFIG::debug {
 			return true;
@@ -35,15 +39,17 @@ public class MvcExpress {
 	/**
 	 * Time in ms for framework to wait for missing dependencies.
 	 * By default pending dependency feature is disabled, as it is set to 0. If missing injection is encountered - error will be instantly thrown.
-	 * If it is > 0, framework will wait this amount of time in milliseconds for missing dependencies to be mapped. (framework will find missing dependencies and resolve them.)
+	 * If pendingInjectsTimeOut is > 0, framework will wait this amount of time in milliseconds for missing dependencies to be mapped.
+	 * If dependency is mapped during this waiting time - framework will find missing dependencies and resolve them.
 	 * If in this time dependencies will not be resolved - error will be thrown.
 	 */
 	public static var pendingInjectsTimeOut:int = 0;
 	
 	/**
 	 * Sets a debug function that will get framework activity messages as String's.
-	 * By default framework will not send debug data to any function.
-	 * ATTENTION : it will work only with compile variable CONFIG:debug set to true.
+	 * CONFIG:debug  MUST be set to true for debugFunction to get any trace data frame framework.
+	 * For example you can use : MvcExpress.debugFunction = trace; to trace all debug data.
+	 * it is good idea to set it before initializing first module.
 	 */
 	static public var debugFunction:Function = null;
 	
@@ -62,17 +68,16 @@ public class MvcExpress {
 	 * @param	traceObj
 	 * @private
 	 */
+	CONFIG::debug
 	static pureLegsCore function debug(traceObj:TraceObj):void {
-		CONFIG::debug {
-			if (debugFunction != null) {
-				if (traceObj.canPrint) {
-					debugFunction(traceObj);
-				}
+		if (debugFunction != null) {
+			if (traceObj.canPrint) {
+				debugFunction(traceObj);
 			}
-			use namespace pureLegsCore;
-			if (loggerFunction != null) {
-				loggerFunction(traceObj);
-			}
+		}
+		use namespace pureLegsCore;
+		if (loggerFunction != null) {
+			loggerFunction(traceObj);
 		}
 	}
 

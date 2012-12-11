@@ -4,7 +4,7 @@ import flash.display.DisplayObject;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceMediatorMap_mediate extends TraceObj {

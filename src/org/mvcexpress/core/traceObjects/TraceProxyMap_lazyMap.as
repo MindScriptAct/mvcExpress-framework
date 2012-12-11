@@ -4,7 +4,7 @@ import flash.display.DisplayObject;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceProxyMap_lazyMap extends TraceObj {
@@ -27,7 +27,7 @@ public class TraceProxyMap_lazyMap extends TraceObj {
 	}
 	
 	override public function toString():String {
-		return "¶¶¶+ " + MvcTraceActions.PROXYMAP_LAZYMAP + " > proxyClass : " + proxyClass + ", injectClass : " + injectClass + ", name : " + name+ ", proxyParams : " + proxyParams + "     {" + moduleName + "}";
+		return "¶¶¶+ " + MvcTraceActions.PROXYMAP_LAZYMAP + " > proxyClass : " + proxyClass + ", injectClass : " + injectClass + ", name : " + name + ", proxyParams : " + proxyParams + "     {" + moduleName + "}";
 	}
 
 }

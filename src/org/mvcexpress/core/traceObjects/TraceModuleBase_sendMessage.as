@@ -3,7 +3,7 @@ package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.core.ModuleBase;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceModuleBase_sendMessage extends TraceObj_SendMessage {

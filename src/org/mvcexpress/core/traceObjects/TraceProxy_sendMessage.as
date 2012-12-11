@@ -3,7 +3,7 @@ package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceProxy_sendMessage extends TraceObj_SendMessage {

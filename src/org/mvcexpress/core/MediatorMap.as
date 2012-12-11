@@ -24,7 +24,9 @@ public class MediatorMap implements IMediatorMap {
 	// name of the module MediatorMap is working for.
 	private var moduleName:String;
 	
+	// for internal use.
 	protected var proxyMap:ProxyMap;
+	// for internal use.
 	protected var messenger:Messenger;
 	
 	// stores all mediator classes using view class(mediator must mediate) as a key.
@@ -43,9 +45,13 @@ public class MediatorMap implements IMediatorMap {
 		this.proxyMap = proxyMap;
 	}
 	
+	//----------------------------------
+	//     set up of mediators
+	//----------------------------------
+	
 	/**
 	 * Maps mediator class to view class. Only one mediator class can mediate single instance of view class.
-	 * @param	viewClass		view class that has to be mediated by mediator class then mediate() is called.
+	 * @param	viewClass		view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param	mediatorClass	mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param	injectClass		inject mediator as this class.
 	 */
@@ -77,6 +83,7 @@ public class MediatorMap implements IMediatorMap {
 	
 	/**
 	 * Unmaps any mediator class to given view class.
+	 * If view is not mediated - it will fail silently.
 	 * @param	viewClass	view class to remove mapped mediator class from.
 	 */
 	public function unmap(viewClass:Class):void {
@@ -89,6 +96,10 @@ public class MediatorMap implements IMediatorMap {
 		delete mediatorClassRegistry[viewClass];
 		delete mediatorInjectRegistry[viewClass];
 	}
+	
+	//----------------------------------
+	//     mediating
+	//----------------------------------
 	
 	/**
 	 * Mediates provided viewObject with mapped mediator.
@@ -151,8 +162,8 @@ public class MediatorMap implements IMediatorMap {
 	}
 	
 	/**
-	 * Mediates provided viewObject with provided mediator. MvcExpress.feature_mediateWith_enabled must be set to true to use this function.
-	 * Use this only if using map() and mediate() functions is not an option. (It might hapen ir cases there you have no controll over objects you are mediating. Like in third party, or legacy code.)
+	 * Mediates viewObject with specified mediator class.
+	 * It is usually better practice to use 2 step mediation(map(), mediate()) instead of this function. But sometimes it is not possible.
 	 * @param	viewObject		view object to mediate.
 	 * @param	mediatorClass	mediator class that will be instantiated and used to mediate view object
 	 * @param	injectClass		inject mediator as this class.
@@ -216,7 +227,8 @@ public class MediatorMap implements IMediatorMap {
 	}
 	
 	/**
-	 * If any mediator is mediating viewObject: it calls onRemove on that object, automatically removes all handler functions listening for messages from that mediator and deletes it.
+	 * Unmediated view object
+	 * If any mediator is mediating viewObject - it calls onRemove on that mediator, automatically removes all message handlers, all event listeners and disposes it.
 	 * @param	viewObject	view object witch mediator will be destroyed.
 	 */
 	public function unmediate(viewObject:Object):void {
@@ -234,22 +246,6 @@ public class MediatorMap implements IMediatorMap {
 		} else {
 			throw Error("View object:" + viewObject + " has no mediator created for it.");
 		}
-	}
-	
-	/**
-	 * Dispose mediatorMap - unmediate all mediated view objects and set all internals to null.
-	 * @private
-	 */
-	pureLegsCore function dispose():void {
-		// unmediate all mediated view objects
-		for (var viewObject:Object in mediatorRegistry) {
-			unmediate(viewObject);
-		}
-		proxyMap = null;
-		messenger = null;
-		mediatorClassRegistry = null;
-		mediatorInjectRegistry = null;
-		mediatorRegistry = null;
 	}
 	
 	//----------------------------------
@@ -281,7 +277,7 @@ public class MediatorMap implements IMediatorMap {
 	}
 	
 	/**
-	 * Returns String of all view classes that are mapped to mediator classes.
+	 * Returns String of all view classes that are mapped to mediator classes. (for debugging)
 	 * @return		Text with all mapped mediators.
 	 */
 	public function listMappings():String {
@@ -292,6 +288,26 @@ public class MediatorMap implements IMediatorMap {
 		}
 		retVal += "================================================================\n";
 		return retVal;
+	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
+	
+	/**
+	 * Dispose mediatorMap - unmediate all mediated view objects and set all internals to null.
+	 * @private
+	 */
+	pureLegsCore function dispose():void {
+		// unmediate all mediated view objects
+		for (var viewObject:Object in mediatorRegistry) {
+			unmediate(viewObject);
+		}
+		proxyMap = null;
+		messenger = null;
+		mediatorClassRegistry = null;
+		mediatorInjectRegistry = null;
+		mediatorRegistry = null;
 	}
 
 }

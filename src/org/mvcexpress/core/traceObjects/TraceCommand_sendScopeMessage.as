@@ -3,7 +3,7 @@ package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.mvc.Command;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceCommand_sendScopeMessage extends TraceObj_SendMessage {

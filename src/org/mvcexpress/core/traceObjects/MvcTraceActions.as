@@ -3,7 +3,7 @@ package org.mvcexpress.core.traceObjects {
 import org.mvcexpress.core.namespace.pureLegsCore;
 
 /**
- * COMMENT
+ * Trace action id's.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MvcTraceActions {

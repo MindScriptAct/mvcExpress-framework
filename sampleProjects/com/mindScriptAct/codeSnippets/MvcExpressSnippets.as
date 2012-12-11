@@ -37,7 +37,6 @@ public class MvcExpressSnippets extends Sprite {
 	
 	private function start():void {
 		
-		
 		CONFIG::debug {
 			MvcExpressLogger.init(this.stage, 0, 0, 800);
 		}

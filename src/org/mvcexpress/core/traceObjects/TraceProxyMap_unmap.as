@@ -3,7 +3,7 @@ package org.mvcexpress.core.traceObjects {
 import flash.display.DisplayObject;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceProxyMap_unmap extends TraceObj {

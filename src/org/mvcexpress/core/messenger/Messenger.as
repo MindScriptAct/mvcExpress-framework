@@ -11,6 +11,7 @@ import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
 import org.mvcexpress.MvcExpress;
 
 /**
+ * FOR INTERNAL USE ONLY.
  * Handles framework communications.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -100,7 +101,6 @@ public class Messenger {
 		}
 	}
 	
-	// TODO : consider adding error checking that will FIND this function if it fails.. (to say what mediator failed to handle the message...) debug mode only... (most likely will be slow.. but very helpful for debug mode.)
 	/**
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param	type				message type to find needed handlers
@@ -191,8 +191,9 @@ public class Messenger {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {
 					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
-				} else {
-					messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					CONFIG::debug {
+						messageHandlers += "[" + handlerVo.handlerClassName + "], ";
+					}
 				}
 			}
 			

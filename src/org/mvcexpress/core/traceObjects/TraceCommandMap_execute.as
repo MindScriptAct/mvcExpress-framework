@@ -7,7 +7,7 @@ import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * COMMENT
+ * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TraceCommandMap_execute extends TraceObj {

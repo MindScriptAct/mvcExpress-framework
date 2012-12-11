@@ -10,10 +10,10 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 
 /**
- * Core Module class as MovieClip.
+ * Core Module class based on MovieClip.
  * <p>
- * It starts framework and lets you set up your application. (or execute Commands that will do it.)
- * Also you can create modular application by having more then one module.
+ * It starts framework and lets you set up your application. (or execute Commands for set up.)
+ * You can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -29,7 +29,6 @@ public class ModuleMovieClip extends MovieClip {
 	 * CONSTRUCTOR
 	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
-	 * 						(or you start getting null reference errors.)
 	 * @param	initOnStage	defines if module should init only then it is added to stage or not. By default it will wait for Event.ADDED_TO_STAGE before calling onInit(). If autoInit is set to false, this parameters is ignored.
 	 */
 	public function ModuleMovieClip(moduleName:String = null, autoInit:Boolean = true, initOnStage:Boolean = true) {
@@ -114,9 +113,9 @@ public class ModuleMovieClip extends MovieClip {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param	params		Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		moduleBase.sendScopeMessage(scopeName, type, params);
@@ -125,6 +124,13 @@ public class ModuleMovieClip extends MovieClip {
 	//----------------------------------
 	//     Debug
 	//----------------------------------
+	
+	/**
+	 * List all message mappings.
+	 */
+	public function listMappedMessages():String {
+		return moduleBase.listMappedMessages();
+	}
 	
 	/**
 	 * List all view mappings.
