@@ -6,8 +6,10 @@ import org.mvcexpress.mvc.Proxy;
  * @author Raimundas Banevicius (raima156@yahoo.com)
  */
 public class CommPoolingDependencyProxy extends Proxy {
+	private var _proxyName:String;
 	
-	public function CommPoolingDependencyProxy() {
+	public function CommPoolingDependencyProxy(proxyName:String = "undefined") {
+		this._proxyName = proxyName;
 		
 	}
 	
@@ -17,6 +19,10 @@ public class CommPoolingDependencyProxy extends Proxy {
 	
 	override protected function onRemove():void {
 	
+	}
+	
+	public function get proxyName():String {
+		return _proxyName;
 	}
 
 }

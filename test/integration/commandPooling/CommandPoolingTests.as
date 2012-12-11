@@ -3,7 +3,9 @@ import flexunit.framework.Assert;
 import integration.commandPooling.testObj.CommandPoolingModule;
 import integration.commandPooling.testObj.CommPoolingDependencyProxy;
 import integration.commandPooling.testObj.controller.CommPoolingDependantCommand;
+import integration.commandPooling.testObj.controller.CommPoolingDependencyRemove;
 import integration.commandPooling.testObj.controller.CommPoolingLockedCommand;
+import integration.commandPooling.testObj.controller.CommPoolingLockedFailCommand;
 import integration.commandPooling.testObj.controller.CommPoolingSimpleCommand;
 import integration.commandPooling.testObj.controller.CommPoolingUnlockedCommand;
 import integration.mediating.testObj.*;
@@ -17,6 +19,8 @@ public class CommandPoolingTests {
 	static private const EXECUTE_POOLED_COMMAND_WITH_DEPENDENCY:String = "executePooledCommandWithDependency"
 	static private const EXECUTE_POOLED_COMMAND_WITH_LOCK:String = "executePooledCommandWithLock";
 	static private const EXECUTE_POOLED_COMMAND_WITH_UNLOCK_ONLY:String = "executePooledCommandWithUnlockOnly";
+	static private const EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK:String = "executePooledCommandWithFailingLock";
+	static public const EXECUTE_REMOVED_DEPENDENCY_COMMAND:String = "executeRemovedDependencyCommand";
 	
 	private var commandPoolingModule:CommandPoolingModule;
 	private var commandPoolModuleCommandMap:CommandMap;
@@ -148,6 +152,48 @@ public class CommandPoolingTests {
 		
 		Assert.assertEquals("Pooled command should be created twice.", 2, CommPoolingDependantCommand.constructCount);
 	}
-
+	
+	// map dependency
+	// map command
+	// use command
+	// lock command
+	// remove dependency
+	// unlock command
+	// use command
+	// - must be error for missing dependency.
+	
+	[Test(expects="Error")]
+	
+	public function commandPooling_useCommandLockingWithRemovedDependery_secorndCommandUseFails():void {
+		CommPoolingLockedFailCommand.executedProxyNames = "";
+		commandPoolModuleProxyMap.map(new CommPoolingDependencyProxy("proxy1"));
+		commandPoolModuleCommandMap.map(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK, CommPoolingLockedFailCommand);
+		commandPoolModuleCommandMap.map(CommandPoolingTests.EXECUTE_REMOVED_DEPENDENCY_COMMAND, CommPoolingDependencyRemove);
+		commandPoolingModule.sendLocalMessage(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK);
+		commandPoolingModule.sendLocalMessage(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK);
+	}
+	
+	// map dependency 1
+	// map command
+	// use command
+	// lock command
+	// remove dependency
+	// unlock command
+	// map dependency 2
+	// use command
+	// - must use dependercy 2.
+	
+	[Test]
+	
+	public function commandPooling_useCommandLockingWithChangedDependery_secorndCommandUseSecondDependercy():void {
+		CommPoolingLockedFailCommand.executedProxyNames = "";
+		commandPoolModuleProxyMap.map(new CommPoolingDependencyProxy("proxy1"));
+		commandPoolModuleCommandMap.map(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK, CommPoolingLockedFailCommand);
+		commandPoolModuleCommandMap.map(CommandPoolingTests.EXECUTE_REMOVED_DEPENDENCY_COMMAND, CommPoolingDependencyRemove);
+		commandPoolingModule.sendLocalMessage(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK);
+		commandPoolModuleProxyMap.map(new CommPoolingDependencyProxy("-proxy2"));
+		commandPoolingModule.sendLocalMessage(EXECUTE_POOLED_COMMAND_WITH_FAILING_LOCK);
+		Assert.assertEquals("Pooled comamnd dependency swap while command is locked should end in pooled command reinstantiation.", "proxy1-proxy2", CommPoolingLockedFailCommand.executedProxyNames);
+	}
 }
 }
