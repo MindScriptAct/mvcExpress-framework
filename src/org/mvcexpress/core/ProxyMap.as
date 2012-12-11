@@ -79,17 +79,16 @@ public class ProxyMap implements IProxyMap {
 		
 		var injectId:String = className + name;
 		
+		if (lazyProxyRegistry[injectId] != null) {
+			throw Error("Proxy object is already lazy mapped. [injectClass:" + injectClass + " name:" + name + "]");
+		}
+		
+		if (injectObjectRegistry[injectId] != null) {
+			throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
+		}
+		
 		// debug this action
 		CONFIG::debug {
-			
-			if (lazyProxyRegistry[injectId] != null) {
-				throw Error("Proxy object is already lazy mapped. [injectClass:" + injectClass + " name:" + name + "]");
-			}
-			
-			if (injectObjectRegistry[injectId] != null) {
-				throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
-			}
-			
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxyMap_map(MvcTraceActions.PROXYMAP_MAP, moduleName, proxyObject, injectClass, name));
 		}
@@ -171,21 +170,21 @@ public class ProxyMap implements IProxyMap {
 		
 		var injectId:String = className + name;
 		
+		if (lazyProxyRegistry[injectId] != null) {
+			throw Error("Proxy class is already lazy mapped. [injectClass:" + className + " name:" + name + "]");
+		}
+		if (injectObjectRegistry[injectId] != null) {
+			throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
+		}
+		
 		//debug this action
 		CONFIG::debug {
-			if (lazyProxyRegistry[injectId] != null) {
-				throw Error("Proxy class is already lazy mapped. [injectClass:" + className + " name:" + name + "]");
-			}
-			if (injectObjectRegistry[injectId] != null) {
-				throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
-			}
 			if (!checkClassSuperclass(proxyClass, "org.mvcexpress.mvc::Proxy")) {
 				throw Error("proxyClass:" + proxyClass + " you are trying to lazy map is not extended from 'org.mvcexpress.mvc::Proxy' class.");
 			}
 			if (proxyParams && proxyParams.length > 10) {
 				throw Error("Only up to 10 Proxy parameters are supported. Please refactor some into parameter container objects. [injectClass:" + className + " name:" + name + " proxyParams:" + proxyParams + "]");
 			}
-			
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxyMap_lazyMap(MvcTraceActions.PROXYMAP_MAP, moduleName, proxyClass, injectClass, name, proxyParams));
 		}

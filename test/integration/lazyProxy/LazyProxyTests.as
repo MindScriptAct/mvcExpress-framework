@@ -62,7 +62,11 @@ public class LazyProxyTests {
 	[Test(expects="Error")]
 	
 	public function lazyProxy_lazyMapingNotProxy_fails():void {
-		lazyProxyModulA.mapNotProxy();
+		CONFIG::debug {
+			lazyProxyModulA.mapNotProxy();
+			return;
+		}
+		throw Error("debug mode only.");
 	}
 	
 	//----------------------------------
@@ -84,7 +88,10 @@ public class LazyProxyTests {
 	[Test(expects="Error")]
 	
 	public function lazyProxy_lazyMaping11Params_fails():void {
-		lazyProxyModulA.mapWithParams([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+		CONFIG::debug {
+			lazyProxyModulA.mapWithParams([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+		}
+		throw Error("debug mode only.");
 	}
 
 }
