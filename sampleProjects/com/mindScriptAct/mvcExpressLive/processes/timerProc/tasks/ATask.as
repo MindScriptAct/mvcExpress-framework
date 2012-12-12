@@ -1,4 +1,4 @@
-package com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks {
+package com.mindScriptAct.mvcExpressLive.processes.timerProc.tasks {
 import flash.geom.Point;
 import org.mvcexpress.live.Task;
 

@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.display.Stage;
+import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.sampler.NewObjectSample;
 import flash.utils.describeType;
@@ -24,21 +25,24 @@ public class ProcessMap implements IProcessMap {
 	// name of the module MediatorMap is working for.
 	private var moduleName:String;
 	
+	private var stage:Stage;
+	
 	private var timerRegistry:Dictionary = new Dictionary();
 	
 	private var processRegistry:Dictionary = new Dictionary();
 	
 	private var provideRegistry:Dictionary = new Dictionary();
 	
+	private var runningFrameProcesses:Vector.<Process> = new Vector.<Process>();
+	
 	static private var classInjectRules:Dictionary = new Dictionary();
-	private var stage:Stage;
 	
 	public function ProcessMap(moduleName:String) {
 		this.moduleName = moduleName;
 	
 	}
 	
-	public function initFrameProcess(processClass:Class):Process {
+	public function mapFrameProcess(processClass:Class, frameSkip:int = 0, name:String = ""):void {
 		
 		// check if process class provided
 		CONFIG::debug {
@@ -48,15 +52,33 @@ public class ProcessMap implements IProcessMap {
 		}
 		
 		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
+		var className:String = getQualifiedClassName(processClass);
+		var processId:String = className + name;
+		
+		CONFIG::debug {
+			Process.canConstruct = true;
+		}
 		var process:Process = new processClass();
+		CONFIG::debug {
+			Process.canConstruct = false;
+		}
+		
 		process.processMap = this;
-		return process;
+		process.type = Process.FRAME_PROCESS;
+		process.onRegister();
+		process.totalFrameSkip = frameSkip;
+		process.currentFrameSkip = frameSkip;
+		
+		processRegistry[processId] = process;
+	
 	}
 	
-	public function initTimerProcess(processClass:Class, delay:int = 1000, name:String = ""):Process {
+	public function mapTimerProcess(processClass:Class, delay:int = 1000, name:String = ""):void {
 		
 		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// check if process class provided
 		CONFIG::debug {
@@ -66,10 +88,17 @@ public class ProcessMap implements IProcessMap {
 		}
 		
 		var className:String = getQualifiedClassName(processClass);
-		
 		var processId:String = className + name;
 		
+		CONFIG::debug {
+			Process.canConstruct = true;
+		}
 		var process:Process = new processClass();
+		CONFIG::debug {
+			Process.canConstruct = false;
+		}
+		
+		process.type = Process.TIMER_PROCESS;
 		process.processMap = this;
 		
 		var timer:Timer = new Timer(delay);
@@ -77,29 +106,108 @@ public class ProcessMap implements IProcessMap {
 		
 		timerRegistry[processId] = timer;
 		
-		processRegistry[processId] = process;
+		process.onRegister();
 		
-		return process;
+		processRegistry[processId] = process;
+	
+	}
+	
+	public function unmapProcess(processClass:Class, name:String = ""):void {
+		use namespace mvcExpressLive;
+		
+		var className:String = getQualifiedClassName(processClass);
+		var processId:String = className + name;
+		
+		var process:Process = processRegistry[processId];
+		
+		if (process.isRunning) {
+			stopProcess(processClass, name);
+		}
+		
+		// TODO dispose properly...
+		process.remove();
+		
+		delete processRegistry[processId];
+	
 	}
 	
 	public function startProcess(processClass:Class, name:String = ""):void {
 		trace("ProcessMap.startProcess > processClass : " + processClass);
+		use namespace mvcExpressLive;
 		
 		var className:String = getQualifiedClassName(processClass);
 		var processId:String = className + name;
 		
-		var timer:Timer = timerRegistry[processId];
-		timer.start();
+		var process:Process = processRegistry[processId];
+		
+		if (!process.isRunning) {
+			process.setIsRunning(true);
+			if (process.type == Process.FRAME_PROCESS) {
+				if (runningFrameProcesses.length == 0) {
+					if (this.stage) {
+						this.stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+					} else {
+						throw Error("ProcessMap needs Stage set, if you want frame pcocesses to be able to run. Use 'processMap.setStage(...)' to set it. ");
+					}
+					runningFrameProcesses.push(process);
+				}
+			} else {
+				var timer:Timer = timerRegistry[processId];
+				timer.start();
+			}
+		}
+	
+	}
+	
+	private function handleFrameProcesses(event:Event):void {
+		//trace( "ProcessMap.handleFrameProcesses > event : " + event );
+		use namespace mvcExpressLive;
+		for (var i:int = 0; i < runningFrameProcesses.length; i++) {
+			var process:Process = runningFrameProcesses[i];
+			if (process.totalFrameSkip > 0) {
+				if (process.currentFrameSkip > 0) {
+					process.currentFrameSkip--;
+				} else {
+					runningFrameProcesses[i].runProcess();
+					process.currentFrameSkip = process.totalFrameSkip;
+				}
+			} else {
+				runningFrameProcesses[i].runProcess();
+			}
+		}
 	}
 	
 	public function stopProcess(processClass:Class, name:String = ""):void {
-		trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
+		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
+		use namespace mvcExpressLive;
 		
 		var className:String = getQualifiedClassName(processClass);
 		var processId:String = className + name;
 		
-		var timer:Timer = timerRegistry[processId];
-		timer.stop();
+		var process:Process = processRegistry[processId];
+		
+		if (process.isRunning) {
+			process.setIsRunning(false);
+			if (process.type == Process.FRAME_PROCESS) {
+				// find process for removal..
+				for (var i:int = 0; i < runningFrameProcesses.length; i++) {
+					if (runningFrameProcesses[i] == process) {
+						runningFrameProcesses.splice(i, 1);
+						// remove handler if there is nothing to handle.
+						if (runningFrameProcesses.length == 0) {
+							if (this.stage) {
+								this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+							}
+						}
+						break;
+					}
+				}
+			} else {
+				var timer:Timer = timerRegistry[processId];
+				timer.stop();
+			}
+		}
+	
 	}
 	
 	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */
@@ -140,7 +248,6 @@ public class ProcessMap implements IProcessMap {
 				throw Error("Process dependency is not provided with name:" + rules[i].injectClassAndName);
 			}
 		}
-	
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks {
+package com.mindScriptAct.mvcExpressLive.processes.timerProc.tasks {
 import org.mvcexpress.live.Task;
 
 /**

@@ -1,14 +1,7 @@
 package com.mindScriptAct.mvcExpressLive.contreller.setUp {
 
-import com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks.ATask;
-import com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks.BTask;
-import com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks.C1Task;
-import com.mindScriptAct.mvcExpressLive.processes.frameProc.tasks.C2Task;
-import com.mindScriptAct.mvcExpressLive.processes.frameProc.TestProcess;
-import flash.utils.getTimer;
-import org.mvcexpress.core.namespace.mvcExpressLive;
-import org.mvcexpress.live.Process;
-import org.mvcexpress.live.Task;
+import com.mindScriptAct.mvcExpressLive.processes.frameProc.LiveFrameProcess;
+import com.mindScriptAct.mvcExpressLive.processes.timerProc.LiveTimerProcess;
 import org.mvcexpress.mvc.Command;
 
 /**
@@ -22,31 +15,29 @@ public class InitProcessCommand extends Command {
 	
 	public function execute(blank:Object):void {
 		
-		var process:Process = processMap.initTimerProcess(TestProcess);
+		processMap.mapTimerProcess(LiveTimerProcess);
+		processMap.startProcess(LiveTimerProcess);
+	
 		
-		var aTask:Task = process.mapTask(ATask);
-		var bTask:Task = process.mapTask(BTask);
-		var c1Task:Task = process.mapTask(C1Task);
-		var c2Task:Task = process.mapTask(C2Task);
+		processMap.mapFrameProcess(LiveFrameProcess, 100);
+		processMap.startProcess(LiveFrameProcess);
 		
-		process.addHeadTask(aTask);
-		aTask.addTask(bTask);
-		bTask.forkTask(c1Task, c2Task);
-		
-		processMap.startProcess(TestProcess);
-		processMap.stopProcess(TestProcess);
-		processMap.startProcess(TestProcess);
-		
-		
+		//var frameProcess:Process = processMap.initFrameProcess(TestProcess, 100);
+		//
+	
+		//frameProcess.addHeadTask(bTask);
+		//
+		//processMap.startProcess(TestProcess);
+	
 		// Small speed test.
 		//var aTask:Task = process.mapTask(ATask);
 		//process.addHeadTask(aTask);
 		//
 		//var lastTask:Task = aTask;
 		//for (var i:int = 0; i < 100; i++) {
-			//var bTask:Task = process.mapTask(BTask);
-			//lastTask.addTask(bTask);
-			//lastTask = bTask;
+		//var bTask:Task = process.mapTask(BTask);
+		//lastTask.addTask(bTask);
+		//lastTask = bTask;
 		//}
 		//
 		//use namespace mvcExpressLive;
