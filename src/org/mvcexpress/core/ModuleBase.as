@@ -30,7 +30,7 @@ public class ModuleBase {
 	
 	/** Handles application Commands. */
 	public var commandMap:CommandMap;
-
+	
 	/** Handles application Proxies. */
 	public var proxyMap:ProxyMap;
 	
@@ -43,7 +43,6 @@ public class ModuleBase {
 	
 	/** for comunication. */
 	private var _messenger:Messenger;
-	
 	
 	/**
 	 * Internal framework class. Not meant to be constructed.
@@ -109,7 +108,17 @@ public class ModuleBase {
 		_messenger = new Messenger(moduleName);
 		Messenger.allowInstantiation = false;
 		
+		// processMap
+		CONFIG::mvcExpressLive {
+			processMap = new ProcessMap(_moduleName);
+		}
+		
+		// proxyMap
 		proxyMap = new ProxyMap(_moduleName, _messenger);
+		CONFIG::mvcExpressLive {
+			proxyMap.setProcessMap(processMap);
+		}
+		
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
 		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
@@ -118,15 +127,16 @@ public class ModuleBase {
 		} else {
 			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
-		// processMap
 		CONFIG::mvcExpressLive {
-			processMap = new ProcessMap();
+			mediatorMap.setProcessMap(processMap);
 		}
+		
 		// commandMap
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
 		CONFIG::mvcExpressLive {
 			commandMap.setProcessMap(processMap);
 		}
+		
 		proxyMap.setCommandMap(commandMap);
 	}
 	

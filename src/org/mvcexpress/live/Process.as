@@ -2,6 +2,7 @@
 package org.mvcexpress.live {
 import flash.events.Event;
 import org.mvcexpress.core.namespace.mvcExpressLive;
+import org.mvcexpress.core.ProcessMap;
 
 /**
  * COMMENT
@@ -10,6 +11,8 @@ import org.mvcexpress.core.namespace.mvcExpressLive;
 public class Process {
 	
 	private var head:Task;
+	
+	mvcExpressLive var processMap:ProcessMap;
 	
 	public function Process() {
 	
@@ -30,7 +33,12 @@ public class Process {
 		
 		// TODO: check for dublications. (task must be unique)
 		
+		use namespace mvcExpressLive;
+		
 		var task:Task = new taskClass();
+		
+		processMap.initTask(task, taskClass);
+		
 		return task;
 	}
 	

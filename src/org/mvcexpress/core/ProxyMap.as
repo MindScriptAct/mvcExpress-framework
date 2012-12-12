@@ -36,6 +36,9 @@ public class ProxyMap implements IProxyMap {
 	
 	private var commandMap:CommandMap;
 	
+	CONFIG::mvcExpressLive
+	private var processMap:ProcessMap;
+	
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
@@ -321,6 +324,11 @@ public class ProxyMap implements IProxyMap {
 		this.commandMap = value;
 	}
 	
+	CONFIG::mvcExpressLive
+	pureLegsCore function setProcessMap(value:ProcessMap):void {
+		this.processMap = value;
+	}	
+	
 	/**
 	 * Initiates proxy object.
 	 * @param	proxyObject
@@ -330,6 +338,9 @@ public class ProxyMap implements IProxyMap {
 		use namespace pureLegsCore;
 		proxyObject.messenger = messenger;
 		proxyObject.setProxyMap(this);
+		CONFIG::mvcExpressLive {
+			proxyObject.setProcessMap(processMap);
+		}
 		// inject dependencies
 		var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 		
@@ -615,6 +626,17 @@ public class ProxyMap implements IProxyMap {
 						mapRule.injectClassAndName = node.@type.toString() + injectName;
 						mapRule.scopeName = scopeName;
 						retVal.push(mapRule);
+					}
+					CONFIG::mvcExpressLive {
+						if (nodeName == "Provide") {
+							trace("nodeName : " + nodeName);
+							var provideArgs:XMLList = metadataList[j].arg;
+							for (var h:int = 0; h < provideArgs.length(); h++) {
+								if (provideArgs[h].@key == "name") {
+									trace(">>> : " + provideArgs[h].@value);
+								}
+							}
+						}
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import flash.utils.Dictionary;
+import org.mvcexpress.core.interfaces.IProcessMap;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
@@ -21,6 +22,12 @@ public class Proxy {
 	 * Interface to work with proxies.
 	 */
 	protected var proxyMap:IProxyMap;
+	
+	/**
+	 * Interface to provide stuff for processes.
+	 */
+	CONFIG::mvcExpressLive
+	protected var processMap:IProcessMap;
 	
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean = false;
@@ -135,6 +142,16 @@ public class Proxy {
 	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
 		this.proxyMap = iProxyMap;
 	}
+	
+	/**
+	 * sets processMap interface.
+	 * @param	iProcessMap
+	 * @private
+	 */
+	pureLegsCore function setProcessMap(iProcessMap:IProcessMap):void {
+		this.processMap = iProcessMap;
+	}	
+	
 	
 	/**
 	 * marks mediator as ready and calls onRegister()

@@ -30,14 +30,12 @@ public class InitProcessCommand extends Command {
 		var c2Task:Task = process.mapTask(C2Task);
 		
 		process.addHeadTask(aTask);
-		
 		aTask.addTask(bTask);
-		
 		bTask.forkTask(c1Task, c2Task);
 		
 		processMap.startProcess(TestProcess);
-		
-		
+		processMap.stopProcess(TestProcess);
+		processMap.startProcess(TestProcess);
 		
 		
 		// Small speed test.

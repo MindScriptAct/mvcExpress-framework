@@ -5,6 +5,7 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.ModuleBase;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.ProxyMap;
 
 /**
@@ -23,6 +24,8 @@ public class ModuleCore {
 	protected var proxyMap:ProxyMap;
 	protected var mediatorMap:MediatorMap;
 	protected var commandMap:CommandMap;
+	CONFIG::mvcExpressLive;
+	protected var processMap:ProcessMap;
 	
 	/**
 	 * CONSTRUCTOR
@@ -36,6 +39,10 @@ public class ModuleCore {
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;
 		commandMap = moduleBase.commandMap;
+		CONFIG::mvcExpressLive {
+			processMap = moduleBase.processMap;
+		}
+		
 		//
 		if (autoInit) {
 			onInit();
