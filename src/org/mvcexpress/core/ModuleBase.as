@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
+import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
 import flash.utils.getDefinitionByName;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.FlexMediatorMap;
@@ -36,8 +37,13 @@ public class ModuleBase {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
+	/** Handles application Processes. */
+	CONFIG::mvcExpressLive
+	public var processMap:ProcessMap;
+	
 	/** for comunication. */
 	private var _messenger:Messenger;
+	
 	
 	/**
 	 * Internal framework class. Not meant to be constructed.
@@ -112,7 +118,15 @@ public class ModuleBase {
 		} else {
 			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
+		// processMap
+		CONFIG::mvcExpressLive {
+			processMap = new ProcessMap();
+		}
+		// commandMap
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
+		CONFIG::mvcExpressLive {
+			commandMap.setProcessMap(processMap);
+		}
 		proxyMap.setCommandMap(commandMap);
 	}
 	

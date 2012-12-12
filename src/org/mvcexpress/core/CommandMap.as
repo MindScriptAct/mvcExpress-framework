@@ -32,6 +32,9 @@ public class CommandMap {
 	private var proxyMap:ProxyMap;
 	// for internal use.
 	private var mediatorMap:MediatorMap;
+	// for internal use.
+	CONFIG::mvcExpressLive
+	private var processMap:ProcessMap;
 	
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
 	private var classRegistry:Dictionary = new Dictionary(); /* of Vector.<Class> by String */
@@ -142,6 +145,9 @@ public class CommandMap {
 			command.mediatorMap = mediatorMap;
 			command.proxyMap = proxyMap;
 			command.commandMap = this;
+			CONFIG::mvcExpressLive {
+				command.processMap = processMap;
+			}
 			
 			// inject dependencies
 			proxyMap.injectStuff(command, commandClass);
@@ -448,6 +454,11 @@ public class CommandMap {
 	// used for debugging
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
+	}
+	
+	CONFIG::mvcExpressLive
+	pureLegsCore function setProcessMap(value:ProcessMap):void {
+		processMap = value;
 	}
 
 }

@@ -5,6 +5,7 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceCommand_sendMessage;
@@ -33,6 +34,10 @@ dynamic public class Command {
 	
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
+	
+	/** Handles application Mediators. */
+	CONFIG::mvcExpressLive
+	public var processMap:ProcessMap;	
 	
 	// used internally for communication
 	/** @private */
