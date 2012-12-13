@@ -13,7 +13,8 @@ public class XTask extends Task {
 	
 	override public function run():void {
 		trace("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! XTask.run", panel.x);
-		panel.x++;
+		panel.x+= 10;
+		panel.y+= 10;
 	}
 
 }

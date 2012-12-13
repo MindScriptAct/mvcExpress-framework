@@ -11,7 +11,7 @@ public class LiveGuiTestMediator extends Mediator {
 	[Inject]
 	public var view:LiveGuiTest;
 	
-	[Provide (name="guiPanelTest")]
+	[Provide(name="guiPanelTest")]
 	public var panel:Panel = new Panel(null, 50, 300);
 	
 	//[Inject]
@@ -26,6 +26,20 @@ public class LiveGuiTestMediator extends Mediator {
 	override public function onRemove():void {
 	
 	}
+	
+	//[Provide(name="guiPanelTest")]
+	//private var panelProvided:Boolean = false;
+	//
+	//public function get testPanel():Panel {
+		//if (panelProvided) {
+			//throw Error("This function is ment to be used only once.");
+		//}
+		//panelProvided = true;
+		//return panel;
+	//}
+	
+	
+	
 
 }
 }

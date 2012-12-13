@@ -23,6 +23,12 @@ public class C1Task extends Task {
 			pointViewObjects[i].y = pointObjects[i].y;
 		}
 	}
+	
+	[Test]
+	
+	public function test_element_count():void {
+		assert.equals(pointObjects.length, pointViewObjects.length, "data and view object count must be the same.");
+	}
 
 }
 }

@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.live {
 import org.mvcexpress.core.namespace.mvcExpressLive;
+import org.mvcexpress.utils.ExpressAssert;
 
 /**
  * COMMENT
@@ -8,9 +9,13 @@ import org.mvcexpress.core.namespace.mvcExpressLive;
  */
 public class Task {
 	
+	
+	
 	mvcExpressLive var forks:Vector.<Task>;
 	
 	mvcExpressLive var forkId:int = 0;
+	
+	protected var assert:ExpressAssert = ExpressAssert.getInstance();
 	
 	public function run():void {
 	
@@ -31,6 +36,8 @@ public class Task {
 			throw Error("Task already have next tasks defined. (addTask, addForms con be used only once. If you need to modify process - use process functions.) ");
 		}
 		
+		
+		
 		forks = new Vector.<Task>(forkTasks.length + 1);
 		
 		for (var i:int = 0; i < forkTasks.length; i++) {
@@ -42,6 +49,7 @@ public class Task {
 		}
 	
 	}
+
 
 }
 }
