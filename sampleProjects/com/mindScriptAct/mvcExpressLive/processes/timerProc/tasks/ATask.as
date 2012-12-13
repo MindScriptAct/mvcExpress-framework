@@ -12,13 +12,13 @@ public class ATask extends Task {
 	public var pointObjects:Vector.<Point>;
 	
 	override public function run():void {
-		trace("ATask.run");
+		trace("ATask.run ------- first");
 		
 		
 		for (var i:int = 0; i < pointObjects.length; i++) {
-			trace( "pointObjects >>>>>>>>>>>>>>>>>>> : " + pointObjects[i] );
-			pointObjects[i].x = Math.random() * 500;
-			pointObjects[i].y = Math.random() * 500;
+			//trace( "pointObjects >>>>>>>>>>>>>>>>>>> : " + pointObjects[i] );
+			pointObjects[i].x = Math.floor(Math.random() * 500);
+			pointObjects[i].y = Math.floor(Math.random() * 500);
 		}
 	}
 

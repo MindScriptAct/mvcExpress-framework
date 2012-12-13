@@ -17,7 +17,6 @@ public class InjectRuleVO {
 	/** FOR INTERNAL USE ONLY. Injection identifier, formed by class name and your custom inject name. */
 	public var scopeName:String;
 	
-	
 	/** FOR INTERNAL USE ONLY. Flag to mapr Provide instead of Inject variable. (mvcExrpsesLive feature) */
 	CONFIG::mvcExpressLive
 	public var isProvided:Boolean = false;

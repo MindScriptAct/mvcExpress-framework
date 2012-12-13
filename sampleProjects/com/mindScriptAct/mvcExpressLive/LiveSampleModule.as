@@ -40,9 +40,6 @@ public class LiveSampleModule extends ModuleCore {
 		mediatorMap.mediateWith(liveGuiTest, LiveGuiTestMediator);
 		
 		
-		
-		
-		
 		commandMap.execute(InitProcessCommand);
 	}
 	

@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressLive.view {
+import flash.utils.setTimeout;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -25,6 +26,17 @@ public class LiveViewMediator extends Mediator {
 		liveVectorObjects.push(obj2);
 		
 		processMap.provide(liveVectorObjects, "liveViewObjects");
+		
+		
+		//setTimeout(addOneMore, 2000);
+		
+	}
+	
+	
+	public function addOneMore():void {
+		var obj1:LiveViewTest = new LiveViewTest();
+		view.addChild(obj1);
+		liveVectorObjects.push(obj1);
 	}
 	
 	override public function onRemove():void {

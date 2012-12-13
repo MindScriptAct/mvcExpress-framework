@@ -7,11 +7,14 @@ import flash.sampler.NewObjectSample;
 import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
+import flash.utils.getTimer;
 import flash.utils.Timer;
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.inject.TestRuleVO;
 import org.mvcexpress.core.interfaces.IProcessMap;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.live.Process;
 import org.mvcexpress.live.Task;
 import org.mvcexpress.utils.checkClassSuperclass;
@@ -231,6 +234,7 @@ public class ProcessMap implements IProcessMap {
 	mvcExpressLive function initTask(task:Task, signatureClass:Class):void {
 		trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
 		use namespace pureLegsCore;
+		use namespace mvcExpressLive;
 		
 		// get class injection rules. (cashing is used.)
 		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
@@ -241,6 +245,21 @@ public class ProcessMap implements IProcessMap {
 		
 		// injects all proxy object dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
+			CONFIG::debug {
+				if (rules[i] is TestRuleVO) {
+					var testRule:TestRuleVO = rules[i] as TestRuleVO;
+					if (testRule.testCount > 0) {
+						var taskTestVo:TastTestVO = new TastTestVO();
+						taskTestVo.testFunction = task[testRule.functionName];
+						taskTestVo.totalCount = testRule.testCount;
+						taskTestVo.totalDelay = testRule.testDelay;
+						taskTestVo.currentDelay = testRule.testDelay;
+						taskTestVo.currentTimer = getTimer();
+						task.tests.push(taskTestVo);
+					}
+					continue;
+				}
+			}
 			var injectObject:Object = provideRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				task[rules[i].varName] = injectObject;
@@ -282,6 +301,34 @@ public class ProcessMap implements IProcessMap {
 						mapRule.injectClassAndName = injectName;
 						mapRule.scopeName = scopeName;
 						retVal.push(mapRule);
+					}
+					
+				}
+			}
+			CONFIG::debug {
+				if (nodeName == "method") {
+					var methodMetadataList:XMLList = node.metadata;
+					for (var m:int = 0; m < methodMetadataList.length(); m++) {
+						nodeName = methodMetadataList[m].@name;
+						if (nodeName == "Test") {
+							var testDelay:int = 0;
+							var testCount:int = 1;
+							var testArgs:XMLList = methodMetadataList[m].arg;
+							for (var n:int = 0; n < testArgs.length(); n++) {
+								if (testArgs[n].@key == "delay") {
+									testDelay = int(testArgs[n].@value);
+								} else if (testArgs[n].@key == "count") {
+									testCount = int(testArgs[n].@value);
+								}
+							}
+							
+							var testRule:TestRuleVO = new TestRuleVO();
+							testRule.functionName = node.@name;
+							testRule.testDelay = testDelay;
+							testRule.testCount = testCount;
+							
+							retVal.push(testRule);
+						}
 					}
 				}
 			}

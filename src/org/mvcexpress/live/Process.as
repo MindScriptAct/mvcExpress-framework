@@ -3,9 +3,11 @@ package org.mvcexpress.live {
 import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
+import flash.utils.getTimer;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
+import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
@@ -90,9 +92,9 @@ public class Process {
 	mvcExpressLive function remove():void {
 		use namespace mvcExpressLive;
 		onRemove();
-		// remove all forks
+		// dispose all tasks.
 		for each (var item:Task in taskRegistry) {
-			item.forks = null;
+			item.dispose();
 		}
 		taskRegistry = null;
 		// null internals
@@ -103,15 +105,45 @@ public class Process {
 	mvcExpressLive function runProcess(event:Event = null):void {
 		//trace("Process.runProcess > event : " + event);
 		use namespace mvcExpressLive;
-		
+		CONFIG::debug {
+			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
+		}
 		var current:Task = head;
 		while (current) {
 			current.run();
+			// do testing
+			CONFIG::debug {
+				var nowTimer:uint = getTimer();
+				for (var i:int = 0; i < current.tests.length; i++) {
+					var taskTestVo:TastTestVO = current.tests[i];
+					// check if function run is needed.
+					if (taskTestVo.totalDelay > 0) {
+						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;
+						taskTestVo.currentTimer = nowTimer;
+						if (taskTestVo.currentDelay <= 0) {
+							taskTestVo.currentDelay = taskTestVo.totalDelay;
+							testRuns.push(taskTestVo);
+						}
+					} else {
+						testRuns.push(taskTestVo);
+					}
+				}
+			}
+			// go to next fork.
 			if (current.forks) {
 				current = current.forks[current.forkId]
 				current.forkId = 0;
 			} else {
 				break;
+			}
+		}
+		// run needed tests.
+		CONFIG::debug {
+			for (var t:int = 0; t < testRuns.length; t++) {
+				var totalCount:int = testRuns[t].totalCount
+				for (var j:int = 0; j < totalCount; j++) {
+					testRuns[t].testFunction();
+				}
 			}
 		}
 	}

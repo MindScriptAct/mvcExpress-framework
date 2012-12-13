@@ -15,13 +15,12 @@ public class InitProcessCommand extends Command {
 	
 	public function execute(blank:Object):void {
 		
-		processMap.mapTimerProcess(LiveTimerProcess);
+		processMap.mapTimerProcess(LiveTimerProcess, 500);
 		processMap.startProcess(LiveTimerProcess);
-	
 		
 		processMap.mapFrameProcess(LiveFrameProcess, 100);
 		processMap.startProcess(LiveFrameProcess);
-		
+	
 		//var frameProcess:Process = processMap.initFrameProcess(TestProcess, 100);
 		//
 	
