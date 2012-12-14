@@ -5,7 +5,7 @@ LINKS
 
 Framework homepage : http://mvcexpress.org/
 	
-[Road map] (https://github.com/MindScriptAct/mvcExpress-framework/wiki/mvcExpress-roadMap)
+mvcExpress road map : [wiki/mvcExpress-roadMap] (https://github.com/MindScriptAct/mvcExpress-framework/wiki/mvcExpress-roadMap)
 
 The MIT License
 -----
