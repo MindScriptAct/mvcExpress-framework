@@ -20,6 +20,12 @@ public class Task {
 	 * all available forks.
 	 * @private
 	 * */
+	mvcExpressLive var previous:Task;
+	
+	/**
+	 * all available forks.
+	 * @private
+	 * */
 	mvcExpressLive var forks:Vector.<Task>;
 	
 	/**
@@ -55,6 +61,7 @@ public class Task {
 		}
 		forks = new Vector.<Task>(1);
 		forks[0] = task;
+		task.previous = this;
 	}
 	
 	/**
@@ -72,22 +79,59 @@ public class Task {
 		for (var i:int = 0; i < forkTasks.length; i++) {
 			if (forkTasks[i] is Task) {
 				forks[i] = forkTasks[i];
+				forkTasks[i].previous = this;
 			} else {
 				throw Error("Task must fork only to another Tasks.");
 			}
 		}
 	}
 	
-	public function insertTask():void {
-		// TODO
+	public function insertTask(newTask:Task):void {
+		use namespace mvcExpressLive;
+		if (!this.forks) {
+			this.forks = new Vector.<Task>(1);
+			this.forks[0] = newTask;
+			newTask.previous = this;
+		} else {
+			if (this.forks.length == 1) {
+				newTask.addTask(this.forks[0]);
+				this.forks[0].previous = newTask;
+				//
+				this.forks[0] = newTask;
+				newTask.previous = this;
+			} else {
+				throw Error("This task must have exactly 1 fork. (" + this + ")");
+			}
+		}
 	}
 	
 	public function remove():void {
-		// TODO
+		use namespace mvcExpressLive;
+		if (this.previous) {
+			if (this.forks.length == 0) {
+				this.previous.replaceFork(this, null);
+			} else if (this.forks.length == 1) {
+				this.previous.replaceFork(this, this.forks[0]);
+			} else {
+				throw Error("You cant remove task that has many forks. Remove all but one fork first. (" + this + ")");
+			}
+			this.previous = null;
+			this.forks = null;
+		}
 	}
 	
 	public function replace():void {
-		// TODO
+		throw Error("TODO");
+	}
+	
+	public function replaceFork(oldTask:Task, newTask:Task):void {
+		use namespace mvcExpressLive;
+		for (var i:int = 0; i < forks.length; i++) {
+			if (forks[i] == oldTask) {
+				forks[i] = newTask;
+				newTask.previous = this;
+			}
+		}
 	}
 	
 	//----------------------------------

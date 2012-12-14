@@ -4,6 +4,8 @@ import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import flash.utils.getTimer;
+import org.mvcexpress.core.messenger.HandlerVO;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
@@ -27,7 +29,16 @@ public class Process {
 	
 	private var taskRegistry:Dictionary = new Dictionary();
 	
+	// used internally for process management
+	/** @private */
 	mvcExpressLive var processMap:ProcessMap;
+	
+	// used internally for communication
+	/** @private */
+	pureLegsCore var messenger:Messenger;
+	
+	/** all added message handlers. */
+	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
 	private var head:Task;
 	
@@ -48,12 +59,16 @@ public class Process {
 	}
 	
 	public function onRegister():void {
-	
+		// for overide
 	}
 	
 	public function onRemove():void {
-	
+		// for overide
 	}
+	
+	//----------------------------------
+	//     task managment
+	//----------------------------------
 	
 	public function addHeadTask(headTask:Task):void {
 		if (head) {
@@ -92,6 +107,8 @@ public class Process {
 	mvcExpressLive function remove():void {
 		use namespace mvcExpressLive;
 		onRemove();
+		// remove all handlers
+		removeAllHandlers();
 		// dispose all tasks.
 		for each (var item:Task in taskRegistry) {
 			item.dispose();
@@ -101,6 +118,64 @@ public class Process {
 		head = null;
 		processMap = null;
 	}
+	
+	public function get isRunning():Boolean {
+		return _isRunning;
+	}
+	
+	//----------------------------------
+	//     message handlers
+	//----------------------------------
+	
+	/**
+	 * adds handle function to be called then message of given type is sent.
+	 * @param	type	message type for handle function to react to.
+	 * @param	handler	function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
+	 */
+	protected function addHandler(type:String, handler:Function):void {
+		use namespace pureLegsCore;
+		CONFIG::debug {
+			if (handler.length < 1) {
+				throw Error("Every message handler function needs at least one parameter. You are trying to add handler function from " + getQualifiedClassName(this) + " for message type:" + type);
+			}
+			if (!Boolean(type) || type == "null" || type == "undefined") {
+				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
+			}
+			use namespace pureLegsCore;
+			//MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
+			
+			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			return;
+		}
+		handlerVoRegistry.push(messenger.addHandler(type, handler));
+	}
+	
+	/**
+	 * Removes handle function from message of given type.
+	 * Then Mediator is removed(unmediated) all message handlers are automatically removed by framework.
+	 * @param	type	message type that was set for handle function to react to.
+	 * @param	handler	function that was set to react to message.
+	 */
+	protected function removeHandler(type:String, handler:Function):void {
+		use namespace pureLegsCore;
+		messenger.removeHandler(type, handler);
+	}
+	
+	/**
+	 * Remove all handle functions created by this mediator, internal module handlers AND scoped handlers.
+	 * Automatically called then mediator is removed(unmediated) by framework.
+	 * (You don't have to put it in mediators onRemove() function.)
+	 */
+	protected function removeAllHandlers():void {
+		use namespace pureLegsCore;
+		while (handlerVoRegistry.length) {
+			handlerVoRegistry.pop().handler = null;
+		}
+	}
+	
+	//----------------------------------
+	//     internal
+	//----------------------------------
 	
 	mvcExpressLive function runProcess(event:Event = null):void {
 		//trace("Process.runProcess > event : " + event);
@@ -146,10 +221,6 @@ public class Process {
 				}
 			}
 		}
-	}
-	
-	public function get isRunning():Boolean {
-		return _isRunning;
 	}
 	
 	mvcExpressLive function setIsRunning(value:Boolean):void {

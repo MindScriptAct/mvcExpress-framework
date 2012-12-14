@@ -3,7 +3,6 @@ package org.mvcexpress.core {
 import flash.display.Stage;
 import flash.events.Event;
 import flash.events.TimerEvent;
-import flash.sampler.NewObjectSample;
 import flash.utils.describeType;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -12,6 +11,7 @@ import flash.utils.Timer;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.inject.TestRuleVO;
 import org.mvcexpress.core.interfaces.IProcessMap;
+import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.taskTest.TastTestVO;
@@ -28,6 +28,9 @@ public class ProcessMap implements IProcessMap {
 	// name of the module MediatorMap is working for.
 	private var moduleName:String;
 	
+	// for internal use.
+	private var messenger:Messenger;
+	
 	private var stage:Stage;
 	
 	private var timerRegistry:Dictionary = new Dictionary();
@@ -40,8 +43,9 @@ public class ProcessMap implements IProcessMap {
 	
 	static private var classInjectRules:Dictionary = new Dictionary();
 	
-	public function ProcessMap(moduleName:String) {
+	public function ProcessMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
+		this.messenger = messenger;
 	
 	}
 	
@@ -68,8 +72,10 @@ public class ProcessMap implements IProcessMap {
 			Process.canConstruct = false;
 		}
 		
-		process.processMap = this;
 		process.type = Process.FRAME_PROCESS;
+		process.messenger = messenger;
+		process.processMap = this;
+		
 		process.onRegister();
 		process.totalFrameSkip = frameSkip;
 		process.currentFrameSkip = frameSkip;
@@ -102,6 +108,7 @@ public class ProcessMap implements IProcessMap {
 		}
 		
 		process.type = Process.TIMER_PROCESS;
+		process.messenger = messenger;
 		process.processMap = this;
 		
 		var timer:Timer = new Timer(delay);

@@ -1,6 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
-import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
 import flash.utils.getDefinitionByName;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.FlexMediatorMap;
@@ -110,7 +109,7 @@ public class ModuleBase {
 		
 		// processMap
 		CONFIG::mvcExpressLive {
-			processMap = new ProcessMap(_moduleName);
+			processMap = new ProcessMap(_moduleName, _messenger);
 		}
 		
 		// proxyMap
