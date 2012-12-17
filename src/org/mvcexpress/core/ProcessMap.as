@@ -68,11 +68,13 @@ public class ProcessMap implements IProcessMap {
 			Process.canConstruct = true;
 		}
 		var process:Process = new processClass();
+		process.setModuleName(moduleName);
 		CONFIG::debug {
 			Process.canConstruct = false;
 		}
 		
 		process.type = Process.FRAME_PROCESS;
+		process.processId = processId;
 		process.messenger = messenger;
 		process.processMap = this;
 		
@@ -103,11 +105,13 @@ public class ProcessMap implements IProcessMap {
 			Process.canConstruct = true;
 		}
 		var process:Process = new processClass();
+		process.setModuleName(moduleName);
 		CONFIG::debug {
 			Process.canConstruct = false;
 		}
 		
 		process.type = Process.TIMER_PROCESS;
+		process.processId = processId;
 		process.messenger = messenger;
 		process.processMap = this;
 		
@@ -148,25 +152,36 @@ public class ProcessMap implements IProcessMap {
 		var className:String = getQualifiedClassName(processClass);
 		var processId:String = className + name;
 		
-		var process:Process = processRegistry[processId];
+		//CONFIG::debug {
 		
-		if (!process.isRunning) {
-			process.setIsRunning(true);
-			if (process.type == Process.FRAME_PROCESS) {
-				if (runningFrameProcesses.length == 0) {
-					if (this.stage) {
-						this.stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
-					} else {
-						throw Error("ProcessMap needs Stage set, if you want frame pcocesses to be able to run. Use 'processMap.setStage(...)' to set it. ");
-					}
-					runningFrameProcesses.push(process);
-				}
-			} else {
-				var timer:Timer = timerRegistry[processId];
-				timer.start();
-			}
-		}
+		// TODO : check if process exists
+		//}
+		
+		startProcessObject(processRegistry[processId]);
+	}
 	
+	mvcExpressLive function startProcessObject(process:Process):void {
+		use namespace mvcExpressLive;
+		if (process) {
+			if (!process.isRunning) {
+				process.setIsRunning(true);
+				if (process.type == Process.FRAME_PROCESS) {
+					if (runningFrameProcesses.length == 0) {
+						if (this.stage) {
+							this.stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+						} else {
+							throw Error("ProcessMap needs Stage set, if you want frame pcocesses to be able to run. Use 'processMap.setStage(...)' to set it. ");
+						}
+						runningFrameProcesses.push(process);
+					}
+				} else {
+					var timer:Timer = timerRegistry[process.processId];
+					timer.start();
+				}
+			}
+		} else {
+			throw Error("Procces not found... process:" + process);
+		}
 	}
 	
 	private function handleFrameProcesses(event:Event):void {
@@ -194,30 +209,41 @@ public class ProcessMap implements IProcessMap {
 		var className:String = getQualifiedClassName(processClass);
 		var processId:String = className + name;
 		
-		var process:Process = processRegistry[processId];
+		//CONFIG::debug {
+		// TODO : check if process exists
+		//}
 		
-		if (process.isRunning) {
-			process.setIsRunning(false);
-			if (process.type == Process.FRAME_PROCESS) {
-				// find process for removal..
-				for (var i:int = 0; i < runningFrameProcesses.length; i++) {
-					if (runningFrameProcesses[i] == process) {
-						runningFrameProcesses.splice(i, 1);
-						// remove handler if there is nothing to handle.
-						if (runningFrameProcesses.length == 0) {
-							if (this.stage) {
-								this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
-							}
-						}
-						break;
-					}
-				}
-			} else {
-				var timer:Timer = timerRegistry[processId];
-				timer.stop();
-			}
-		}
+		stopProcessObject(processRegistry[processId]);
+	}
 	
+	mvcExpressLive function stopProcessObject(process:Process):void {
+		use namespace mvcExpressLive;
+		if (process) {
+			if (process.isRunning) {
+				process.setIsRunning(false);
+				if (process.type == Process.FRAME_PROCESS) {
+					// find process for removal..
+					for (var i:int = 0; i < runningFrameProcesses.length; i++) {
+						if (runningFrameProcesses[i] == process) {
+							runningFrameProcesses.splice(i, 1);
+							// remove handler if there is nothing to handle.
+							if (runningFrameProcesses.length == 0) {
+								if (this.stage) {
+									this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+								}
+							}
+							break;
+						}
+					}
+				} else {
+					var timer:Timer = timerRegistry[process.processId];
+					timer.stop();
+				}
+			}
+			
+		} else {
+			throw Error("Procces not found... process:" + process);
+		}
 	}
 	
 	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */

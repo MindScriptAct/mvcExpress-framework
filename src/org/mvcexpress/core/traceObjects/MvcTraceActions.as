@@ -62,5 +62,8 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXY_SENDMESSAGE_CLEAN:String = "Proxy.sendMessage.CLEAN";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE:String = "Proxy.sendScopeMessage";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE_CLEAN:String = "Proxy.sendScopeMessage.CLEAN";
+	
+	static pureLegsCore const PROCESS_POST_SENDMESSAGE:String = "Process.runProcess.postSendMessage";
+	static pureLegsCore const PROCESS_POST_SENDMESSAGE_CLEAN:String = "Process.runProcess.postSendMessage.CLEAN";
 }
 }

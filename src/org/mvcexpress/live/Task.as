@@ -29,6 +29,12 @@ public class Task {
 	mvcExpressLive var forks:Vector.<Task>;
 	
 	/**
+	 * process that handles the task.
+	 * @private
+	 */
+	mvcExpressLive var process:Process;
+	
+	/**
 	 * Simple object for testing.
 	 */
 	protected var assert:ExpressAssert = ExpressAssert.getInstance();
@@ -132,6 +138,14 @@ public class Task {
 				newTask.previous = this;
 			}
 		}
+	}
+	
+	//----------------------------------
+	//     message sending
+	//----------------------------------
+	protected function sendPostMessage(type:String, params:Object = null):void {
+		use namespace mvcExpressLive;
+		process.stackPostMessage(type, params);
 	}
 	
 	//----------------------------------
