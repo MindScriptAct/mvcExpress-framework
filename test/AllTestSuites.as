@@ -2,6 +2,7 @@ package  {
 import integration.commandPooling.CommandPoolingTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
+import integration.proxyMap.ProxyMapTests;
 import integration.scopedMessaging.ChannelingTests;
 import integration.scopedProxy.ScopedProxyTests;
 import suites.commandMap.CommandMapTests;
@@ -14,7 +15,7 @@ import suites.messenger.MessengerTests;
 import suites.modules.ModularTests;
 import suites.proxies.ProxyTests;
 import suites.proxyMap.NamedInterfacedProxyMapTests;
-import suites.proxyMap.ProxyMapTests;
+import suites.proxyMap.OldProxyMapTests;
 import suites.utils.UtilsTests;
 
 /**
@@ -33,7 +34,7 @@ public class AllTestSuites {
 	
 	public var messengerTests:MessengerTests;
 	
-	public var proxyMapTests:ProxyMapTests;
+	public var oldProxyMapTests:OldProxyMapTests;
 	
 	public var namedAndInterfacedProxyMapNameTests:NamedInterfacedProxyMapTests;
 	
@@ -61,9 +62,11 @@ public class AllTestSuites {
 	
 	public var controllerTests:CommandMapTests;
 	
-	//*/
-
 	public var commandPoolingTests:CommandPoolingTests;
+
+	//*/
+	
+	public var proxyMapTests:ProxyMapTests;
 }
 
 }

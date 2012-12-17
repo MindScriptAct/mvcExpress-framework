@@ -11,7 +11,7 @@ import suites.proxyMap.proxyTestObj.TestProxy;
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ProxyMapTests {
+public class OldProxyMapTests {
 	
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;

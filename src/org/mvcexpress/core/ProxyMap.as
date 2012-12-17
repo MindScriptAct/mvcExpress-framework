@@ -37,6 +37,9 @@ public class ProxyMap implements IProxyMap {
 	
 	private var commandMap:CommandMap;
 	
+	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
+	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
+	
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
@@ -46,12 +49,7 @@ public class ProxyMap implements IProxyMap {
 	/** dictionary of lazy Proxies, those proxies will be instantiated and mapped on first use. */
 	private var lazyProxyRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
-	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
-	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
-	
-	/**
-	 * Dictionary with constonts of inject names, used with constName, and constScope.
-	 */
+	/** Dictionary with constonts of inject names, used with constName, and constScope. */
 	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	/** CONSTRUCTOR */
@@ -359,7 +357,11 @@ public class ProxyMap implements IProxyMap {
 		}
 		// set internals to null
 		injectObjectRegistry = null;
+		pendingInjectionsRegistry = null;
 		lazyProxyRegistry = null;
+		classConstRegistry = null;
+		
+		commandMap = null;
 		messenger = null;
 	}
 	
@@ -633,16 +635,17 @@ public class ProxyMap implements IProxyMap {
 	}
 	
 	[Inline]
+	
+	// TODO : add error checking.
 	private function getInjectByContName(constName:String):String {
 		if (!classConstRegistry[constName]) {
-			var sprit:Array = constName.split(".");
-			CONFIG::debug {
-				if (sprit.length != 2) {
-					throw Error("Failed to parse constName:" + constName + " It must contain fully qualified class name AND constant variable name separated by '.'");
-				}
+			var split:Array = constName.split(".");
+			var className:String = split[0];
+			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+				className += "." + split[spliteIndex];
 			}
-			var constClass:Class = getDefinitionByName(sprit[0]) as Class;
-			classConstRegistry[constName] = constClass[sprit[1]];
+			var constClass:Class = getDefinitionByName(className) as Class;
+			classConstRegistry[constName] = constClass[split[spliteIndex]];
 		}
 		return classConstRegistry[constName];
 	}
