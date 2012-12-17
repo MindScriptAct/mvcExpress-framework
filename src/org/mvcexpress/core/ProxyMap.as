@@ -2,6 +2,7 @@
 package org.mvcexpress.core {
 import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
@@ -47,6 +48,11 @@ public class ProxyMap implements IProxyMap {
 	
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
 	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
+	
+	/**
+	 * Dictionary with constonts of inject names, used with constName, and constScope.
+	 */
+	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	/** CONSTRUCTOR */
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
@@ -608,6 +614,10 @@ public class ProxyMap implements IProxyMap {
 								injectName = args[k].@value;
 							} else if (args[k].@key == "scope") {
 								scopeName = args[k].@value;
+							} else if ("constName") {
+								injectName = getInjectByContName(args[k].@value);
+							} else if ("constScope") {
+								scopeName = getInjectByContName(args[k].@value);
 							}
 						}
 						var mapRule:InjectRuleVO = new InjectRuleVO();
@@ -620,6 +630,21 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		return retVal;
+	}
+	
+	[Inline]
+	private function getInjectByContName(constName:String):String {
+		if (!classConstRegistry[constName]) {
+			var sprit:Array = constName.split(".");
+			CONFIG::debug {
+				if (sprit.length != 2) {
+					throw Error("Failed to parse constName:" + constName + " It must contain fully qualified class name AND constant variable name separated by '.'");
+				}
+			}
+			var constClass:Class = getDefinitionByName(sprit[0]) as Class;
+			classConstRegistry[constName] = constClass[sprit[1]];
+		}
+		return classConstRegistry[constName];
 	}
 	
 	// gets proxy by id directly.
