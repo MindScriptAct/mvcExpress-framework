@@ -44,7 +44,7 @@ dynamic public class Command {
 	
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;
+	static pureLegsCore var canConstruct:Boolean = false;
 	
 	/** CONSTRUCTOR */
 	public function Command() {

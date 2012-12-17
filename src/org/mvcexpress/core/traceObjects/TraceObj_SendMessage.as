@@ -18,6 +18,8 @@ public class TraceObj_SendMessage extends TraceObj {
 	
 	public function TraceObj_SendMessage(action:String, moduleName:String) {
 		super(action, moduleName);
+		//
+		canPrint = false;
 	}
 
 }
