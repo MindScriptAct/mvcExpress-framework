@@ -612,13 +612,14 @@ public class ProxyMap implements IProxyMap {
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
 						for (var k:int = 0; k < args.length(); k++) {
-							if (args[k].@key == "name") {
+							var argKey:String = args[k].@key;
+							if (argKey == "name") {
 								injectName = args[k].@value;
-							} else if (args[k].@key == "scope") {
+							} else if (argKey == "scope") {
 								scopeName = args[k].@value;
-							} else if ("constName") {
+							} else if (argKey == "constName") {
 								injectName = getInjectByContName(args[k].@value);
-							} else if ("constScope") {
+							} else if (argKey == "constScope") {
 								scopeName = getInjectByContName(args[k].@value);
 							}
 						}

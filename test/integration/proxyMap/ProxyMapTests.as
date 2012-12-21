@@ -1,7 +1,11 @@
 package integration.proxyMap {
+import flash.display.Sprite;
 import integration.aGenericTestObjects.genericObjects.GenericTestProxy;
 import integration.aGenericTestObjects.GenericTestModule;
+import integration.proxyMap.testObj.CestConstCommand;
 import integration.proxyMap.testObj.TestConstObject;
+import integration.proxyMap.testObj.TestContsView;
+import integration.proxyMap.testObj.TestContsViewMediator;
 import integration.proxyMap.testObj.TexsWithConstNameInjectProxy;
 
 /**
@@ -35,5 +39,26 @@ public class ProxyMapTests {
 		//
 		module.mapProxy(new TexsWithConstNameInjectProxy());
 	}
+	
+	[Test]
+	
+	public function proxyMap_injectIntoMediatorConstNamedVariable_injectedOk():void {
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		module.mapProxy(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
+		//
+		module.mapMediatorWith(new TestContsView(), TestContsViewMediator);
+	}
+	
+	[Test]
+	
+	public function proxyMap_injectIntoCommandConstNamedVariable_injectedOk():void {
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		module.mapProxy(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
+		//
+		//module.mapProxy(new TexsWithConstNameInjectProxy());
+		module.execute(CestConstCommand)
+	}	
+	
+	
 }
 }

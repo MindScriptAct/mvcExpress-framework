@@ -9,7 +9,7 @@ import org.mvcexpress.mvc.Proxy;
 public class TexsWithConstNameInjectProxy extends Proxy{
 	
 	
-	[Inject (constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
+	[Inject (constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT", constScope="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
 	public var genericTestProxy:GenericTestProxy;
 	
 	
