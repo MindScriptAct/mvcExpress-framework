@@ -130,7 +130,6 @@ public class ChannelingTests {
 		channelModulB.sendChannelMessage_testChannel_test4_withParams();
 		//
 		
-		"test4 params string"
 		Assert.assertEquals("params must be sent properly", channelModulA.view.test4params, "test4 params string");
 		Assert.assertTrue("test4 handler must be true after addChannelHandler() and sendChannelMessage()", channelModulA.view.test4handled);
 		Assert.assertFalse(channelModulA.view.test1handled);

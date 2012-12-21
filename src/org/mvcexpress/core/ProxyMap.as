@@ -2,6 +2,7 @@
 package org.mvcexpress.core {
 import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
@@ -39,6 +40,9 @@ public class ProxyMap implements IProxyMap {
 	CONFIG::mvcExpressLive
 	private var processMap:ProcessMap;
 	
+	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
+	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
+	
 	/** all objects ready for injection stored by key. (className + inject name) */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Proxy by String */
 	
@@ -48,8 +52,8 @@ public class ProxyMap implements IProxyMap {
 	/** dictionary of lazy Proxies, those proxies will be instantiated and mapped on first use. */
 	private var lazyProxyRegistry:Dictionary = new Dictionary(); /* of Vector.<PendingInject> by String */
 	
-	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
-	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
+	/** Dictionary with constonts of inject names, used with constName, and constScope. */
+	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	/** CONSTRUCTOR */
 	public function ProxyMap(moduleName:String, messenger:Messenger) {
@@ -364,7 +368,11 @@ public class ProxyMap implements IProxyMap {
 		}
 		// set internals to null
 		injectObjectRegistry = null;
+		pendingInjectionsRegistry = null;
 		lazyProxyRegistry = null;
+		classConstRegistry = null;
+		
+		commandMap = null;
 		messenger = null;
 	}
 	
@@ -621,10 +629,15 @@ public class ProxyMap implements IProxyMap {
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
 						for (var k:int = 0; k < args.length(); k++) {
-							if (args[k].@key == "name") {
+							var argKey:String = args[k].@key;
+							if (argKey == "name") {
 								injectName = args[k].@value;
-							} else if (args[k].@key == "scope") {
+							} else if (argKey == "scope") {
 								scopeName = args[k].@value;
+							} else if (argKey == "constName") {
+								injectName = getInjectByContName(args[k].@value);
+							} else if (argKey == "constScope") {
+								scopeName = getInjectByContName(args[k].@value);
 							}
 						}
 						var mapRule:InjectRuleVO = new InjectRuleVO();
@@ -654,6 +667,22 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		return retVal;
+	}
+	
+	[Inline]
+	
+	// TODO : add error checking.
+	private function getInjectByContName(constName:String):String {
+		if (!classConstRegistry[constName]) {
+			var split:Array = constName.split(".");
+			var className:String = split[0];
+			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+				className += "." + split[spliteIndex];
+			}
+			var constClass:Class = getDefinitionByName(className) as Class;
+			classConstRegistry[constName] = constClass[split[spliteIndex]];
+		}
+		return classConstRegistry[constName];
 	}
 	
 	// gets proxy by id directly.

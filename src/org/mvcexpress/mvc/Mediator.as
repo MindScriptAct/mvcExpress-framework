@@ -65,7 +65,7 @@ public class Mediator {
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;
+	static pureLegsCore var canConstruct:Boolean = false;
 	
 	/** CONSTRUCTOR */
 	public function Mediator() {

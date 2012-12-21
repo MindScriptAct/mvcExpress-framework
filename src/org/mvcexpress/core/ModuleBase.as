@@ -104,7 +104,7 @@ public class ModuleBase {
 			throw Error("Module can be initiated only once.");
 		}
 		Messenger.allowInstantiation = true;
-		_messenger = new Messenger(moduleName);
+		_messenger = new Messenger(_moduleName);
 		Messenger.allowInstantiation = false;
 		
 		// processMap
