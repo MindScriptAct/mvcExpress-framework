@@ -14,9 +14,6 @@ LINKS
 -----
 
 Framework homepage : http://mvcexpress.org/
-
-Roadmap : https://github.com/MindScriptAct/mvcExpress-framework/wiki/mvcExpress-roadMap
-
 	
 mvcExpress road map : [wiki/mvcExpress-roadMap] (https://github.com/MindScriptAct/mvcExpress-framework/wiki/mvcExpress-roadMap)
 
