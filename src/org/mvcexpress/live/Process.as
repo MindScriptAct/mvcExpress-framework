@@ -91,86 +91,6 @@ public class Process {
 	}
 	
 	//----------------------------------
-	//     task managment
-	//----------------------------------
-	
-	protected function addHeadTask(headTask:Task):void {
-		if (head) {
-			throw Error("Head is already added.");
-		}
-		// TODO: check if task is mapped.
-		
-		head = headTask;
-		tail = headTask;
-	}
-	
-	protected function addTask(task:Task):void {
-		if (!head) {
-			addHeadTask(task);
-		} else {
-			tail.addTask(task);
-			tail = task;
-		}
-	}
-	
-	public function mapTask(taskClass:Class, name:String = ""):Task {
-		use namespace mvcExpressLive;
-		
-		var className:String = getQualifiedClassName(taskClass);
-		var taskId:String = className + name;
-		
-		CONFIG::debug {
-			// check for class type. (taskClass must be or subclass Task class.)
-			if (!checkClassSuperclass(taskClass, "org.mvcexpress.live::Task")) {
-				throw Error("taskClass:" + taskClass + " you are trying to mapTask is not extended from 'org.mvcexpress.live::Task' class.");
-			}
-			// check for dublications. (task must be unique)
-			if (taskRegistry[taskId] != null) {
-				throw Error("Task already mapped to this process: className:" + className + ", name:" + name);
-			}
-		}
-		
-		var task:Task = new taskClass();
-		processMap.initTask(task, taskClass);
-		task.process = this;
-		taskRegistry[taskId] = task;
-		
-		return task;
-	}
-	
-	mvcExpressLive function setModuleName(moduleName:String):void {
-		this.moduleName = moduleName;
-	}
-	
-	mvcExpressLive function stackPostMessage(type:String, params:Object):void {
-		postMessageTypes.push(type);
-		postMessageParams.push(params);
-	}
-	
-	mvcExpressLive function remove():void {
-		use namespace mvcExpressLive;
-		processId = null;
-		onRemove();
-		// remove all handlers
-		removeAllHandlers();
-		// dispose all tasks.
-		for each (var item:Task in taskRegistry) {
-			item.dispose();
-		}
-		taskRegistry = null;
-		// null internals
-		head = null;
-		processMap = null;
-		
-		postMessageTypes = null;
-		postMessageParams = null;
-	}
-	
-	public function get isRunning():Boolean {
-		return _isRunning;
-	}
-	
-	//----------------------------------
 	//     message handlers
 	//----------------------------------
 	
@@ -221,8 +141,88 @@ public class Process {
 	}
 	
 	//----------------------------------
-	//     internal
+	//     task managment
 	//----------------------------------
+	
+	protected function addHeadTask(headTask:Task):void {
+		if (head) {
+			throw Error("Head is already added.");
+		}
+		// TODO: check if task is mapped.
+		
+		head = headTask;
+		tail = headTask;
+	}
+	
+	protected function addTask(task:Task):void {
+		if (!head) {
+			addHeadTask(task);
+		} else {
+			tail.addTask(task);
+			tail = task;
+		}
+	}
+	
+	public function mapTask(taskClass:Class, name:String = ""):Task {
+		use namespace mvcExpressLive;
+		
+		var className:String = getQualifiedClassName(taskClass);
+		var taskId:String = className + name;
+		
+		CONFIG::debug {
+			// check for class type. (taskClass must be or subclass Task class.)
+			if (!checkClassSuperclass(taskClass, "org.mvcexpress.live::Task")) {
+				throw Error("taskClass:" + taskClass + " you are trying to mapTask is not extended from 'org.mvcexpress.live::Task' class.");
+			}
+			// check for dublications. (task must be unique)
+			if (taskRegistry[taskId] != null) {
+				throw Error("Task already mapped to this process: className:" + className + ", name:" + name);
+			}
+		}
+		
+		var task:Task = new taskClass();
+		processMap.initTask(task, taskClass);
+		task.process = this;
+		taskRegistry[taskId] = task;
+		
+		return task;
+	}
+	
+	mvcExpressLive function remove():void {
+		use namespace mvcExpressLive;
+		processId = null;
+		onRemove();
+		// remove all handlers
+		removeAllHandlers();
+		// dispose all tasks.
+		for each (var item:Task in taskRegistry) {
+			item.dispose();
+		}
+		taskRegistry = null;
+		// null internals
+		head = null;
+		processMap = null;
+		
+		postMessageTypes = null;
+		postMessageParams = null;
+	}
+	
+	public function get isRunning():Boolean {
+		return _isRunning;
+	}
+	
+//----------------------------------
+//     internal
+//----------------------------------
+	
+	mvcExpressLive function setModuleName(moduleName:String):void {
+		this.moduleName = moduleName;
+	}
+	
+	mvcExpressLive function stackPostMessage(type:String, params:Object):void {
+		postMessageTypes.push(type);
+		postMessageParams.push(params);
+	}
 	
 	mvcExpressLive function runProcess(event:Event = null):void {
 		//trace("Process.runProcess > event : " + event);
@@ -288,11 +288,11 @@ public class Process {
 				}
 			}
 		}
+	
 	}
 	
 	mvcExpressLive function setIsRunning(value:Boolean):void {
 		_isRunning = value;
 	}
-
 }
 }
