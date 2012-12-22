@@ -37,6 +37,9 @@ public class ProxyMap implements IProxyMap {
 	
 	private var commandMap:CommandMap;
 	
+	/** stares class QualifiedClassName by class */
+	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
+	
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
 	static private var classInjectRules:Dictionary = new Dictionary(); /* of Vector.<InjectRuleVO> by Class */
 	
@@ -79,8 +82,12 @@ public class ProxyMap implements IProxyMap {
 			injectClass = proxyClass;
 		}
 		
-		var className:String = getQualifiedClassName(injectClass);
-		
+		// get inject id
+		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		if (!className) {
+			className = getQualifiedClassName(injectClass);
+			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+		}
 		var injectId:String = className + name;
 		
 		if (lazyProxyRegistry[injectId] != null) {
@@ -130,11 +137,15 @@ public class ProxyMap implements IProxyMap {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProxyMap_unmap(MvcTraceActions.PROXYMAP_UNMAP, moduleName, injectClass, name));
 		}
-		// remove proxy if it exists.
-		var className:String = getQualifiedClassName(injectClass);
-		
+		// get inject id
+		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		if (!className) {
+			className = getQualifiedClassName(injectClass);
+			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+		}
 		var injectId:String = className + name;
 		
+		// remove proxy if it exists.
 		if (injectObjectRegistry[injectId]) {
 			use namespace pureLegsCore;
 			var proxy:Proxy = injectObjectRegistry[injectId] as Proxy;
@@ -170,8 +181,12 @@ public class ProxyMap implements IProxyMap {
 			injectClass = proxyClass;
 		}
 		
-		var className:String = getQualifiedClassName(injectClass);
-		
+		// get inject id
+		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		if (!className) {
+			className = getQualifiedClassName(injectClass);
+			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+		}
 		var injectId:String = className + name;
 		
 		if (lazyProxyRegistry[injectId] != null) {
@@ -217,7 +232,11 @@ public class ProxyMap implements IProxyMap {
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function getProxy(injectClass:Class, name:String = ""):Proxy {
-		var className:String = getQualifiedClassName(injectClass);
+		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		if (!className) {
+			className = getQualifiedClassName(injectClass);
+			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+		}
 		if (injectObjectRegistry[className + name]) {
 			return injectObjectRegistry[className + name];
 		} else {
@@ -252,7 +271,12 @@ public class ProxyMap implements IProxyMap {
 			if (!injectClass) {
 				injectClass = proxyClass;
 			}
-			var className:String = getQualifiedClassName(injectClass);
+			// get inject id
+			var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+			if (!className) {
+				className = getQualifiedClassName(injectClass);
+				ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			}
 			var injectId:String = className + name;
 			//
 			initProxy(proxyObject, proxyClass, injectId);
@@ -296,7 +320,11 @@ public class ProxyMap implements IProxyMap {
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
-		var className:String = getQualifiedClassName(injectClass);
+		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		if (!className) {
+			className = getQualifiedClassName(injectClass);
+			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+		}
 		if (injectObjectRegistry[className + name]) {
 			retVal = true;
 		}
@@ -379,7 +407,11 @@ public class ProxyMap implements IProxyMap {
 		var tempClassName:String;
 		if (tempValue) {
 			if (tempClass) {
-				tempClassName = getQualifiedClassName(tempClass);
+				tempClassName = ProxyMap.qualifiedClassNameRegistry[tempClass];
+				if (!tempClassName) {
+					tempClassName = getQualifiedClassName(tempClass);
+					ProxyMap.qualifiedClassNameRegistry[tempClass] = tempClassName;
+				}
 				if (!injectObjectRegistry[tempClassName]) {
 					injectObjectRegistry[tempClassName] = tempValue;
 				} else {
