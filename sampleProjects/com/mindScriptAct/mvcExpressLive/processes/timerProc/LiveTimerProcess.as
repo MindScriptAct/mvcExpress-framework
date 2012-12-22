@@ -14,25 +14,13 @@ import org.mvcexpress.live.Task;
  */
 public class LiveTimerProcess extends Process {
 	
-	private var aTask:Task;
-	private var bTask:Task;
-	private var c1Task:Task;
-	private var c2Task:Task;
-	private var d1Task:Task;
-	
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		
-		aTask = this.mapTask(ATask);
-		bTask = this.mapTask(BTask);
-		c1Task = this.mapTask(C1Task);
-		c2Task = this.mapTask(C2Task);
-		d1Task = this.mapTask(D1Task);
-		
-		this.addHeadTask(aTask);
-		aTask.addTask(bTask);
-		//bTask.forkTask(c1Task, c2Task);
-		bTask.addTask(c1Task);
-		c1Task.addTask(d1Task);
+		this.addTask(ATask);
+		this.addTask(BTask);
+		this.addTask(C1Task);
+		this.addTask(C2Task);
+		this.addTask(D1Task);
 		
 		addHandler(LiveMesasge.STOP_SQUARES, handleStopSquares);
 		addHandler(LiveMesasge.START_SQUARES, handleStartSquares);
@@ -40,14 +28,14 @@ public class LiveTimerProcess extends Process {
 	
 	private function handleStartSquares(blank:Object):void {
 		trace("LiveTimerProcess.handleStartSquares > blank : " + blank);
-		aTask.insertTask(bTask);
-		bTask.insertTask(c1Task);
+		//aTask.insertTask(bTask);
+		//bTask.insertTask(c1Task);
 	}
 	
 	private function handleStopSquares(blank:Object):void {
 		trace("LiveTimerProcess.handleStopSquares > blank : " + blank);
-		bTask.remove();
-		c1Task.remove();
+		//bTask.remove();
+		//c1Task.remove();
 	}
 
 }

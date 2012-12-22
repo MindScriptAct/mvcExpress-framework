@@ -78,7 +78,7 @@ public class ProcessMap implements IProcessMap {
 		process.messenger = messenger;
 		process.processMap = this;
 		
-		process.onRegister();
+		process.register();
 		process.totalFrameSkip = frameSkip;
 		process.currentFrameSkip = frameSkip;
 		
@@ -120,7 +120,7 @@ public class ProcessMap implements IProcessMap {
 		
 		timerRegistry[processId] = timer;
 		
-		process.onRegister();
+		process.register();
 		
 		processRegistry[processId] = process;
 	

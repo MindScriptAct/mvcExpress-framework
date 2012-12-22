@@ -27,14 +27,6 @@ public class Process {
 	
 	static public const TIMER_PROCESS:int = 1;
 	
-	mvcExpressLive var type:int;
-	mvcExpressLive var processId:String;
-	
-	mvcExpressLive var totalFrameSkip:int = 0;
-	mvcExpressLive var currentFrameSkip:int = 0;
-	
-	private var taskRegistry:Dictionary = new Dictionary();
-	
 	// used internally for process management
 	/** @private */
 	mvcExpressLive var processMap:ProcessMap;
@@ -43,16 +35,25 @@ public class Process {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
+	mvcExpressLive var type:int;
+	mvcExpressLive var processId:String;
+	
+	mvcExpressLive var totalFrameSkip:int = 0;
+	mvcExpressLive var currentFrameSkip:int = 0;
+	
+	//
+	private var taskRegistry:Dictionary = new Dictionary();
+	
+	//
+	private var tasks:Vector.<Task> = new Vector.<Task>();
+	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
-	private var head:Task;
-	private var tail:Task;
-	
-	private var _isRunning:Boolean = false;
-	
 	private var postMessageTypes:Vector.<String> = new Vector.<String>();
 	private var postMessageParams:Vector.<Object> = new Vector.<Object>();
+	
+	private var _isRunning:Boolean = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
@@ -68,12 +69,16 @@ public class Process {
 		}
 	}
 	
-	public function onRegister():void {
+	protected function onRegister():void {
 		// for overide
 	}
 	
-	public function onRemove():void {
+	protected function onRemove():void {
 		// for overide
+	}
+	
+	public function get isRunning():Boolean {
+		return _isRunning;
 	}
 	
 	//----------------------------------
@@ -144,48 +149,62 @@ public class Process {
 	//     task managment
 	//----------------------------------
 	
-	protected function addHeadTask(headTask:Task):void {
-		if (head) {
-			throw Error("Head is already added.");
-		}
-		// TODO: check if task is mapped.
-		
-		head = headTask;
-		tail = headTask;
-	}
-	
-	protected function addTask(task:Task):void {
-		if (!head) {
-			addHeadTask(task);
-		} else {
-			tail.addTask(task);
-			tail = task;
-		}
-	}
-	
-	public function mapTask(taskClass:Class, name:String = ""):Task {
-		use namespace mvcExpressLive;
+	protected function addTask(taskClass:Class, name:String = ""):void {
 		
 		var className:String = getQualifiedClassName(taskClass);
 		var taskId:String = className + name;
 		
+		var task:Task = taskRegistry[taskId]
+		if (task == null) {
+			task = initTask(taskClass, taskId);
+		}
+	
+		tasks.push(task);
+		
+	}
+	
+	//protected function addHeadTask(headTask:Task):void {
+	//if (head) {
+	//throw Error("Head is already added.");
+	//}
+	// TODO: check if task is mapped.
+	//
+	//head = headTask;
+	//tail = headTask;
+	//}
+	//
+	//protected function addTask(task:Task):void {
+	//if (!head) {
+	//addHeadTask(task);
+	//} else {
+	//tail.addTask(task);
+	//tail = task;
+	//}
+	//}
+	
+	private function initTask(taskClass:Class, taskId:String):Task {
+		use namespace mvcExpressLive;
 		CONFIG::debug {
-			// check for class type. (taskClass must be or subclass Task class.)
+			//check for class type. (taskClass must be or subclass Task class.)
 			if (!checkClassSuperclass(taskClass, "org.mvcexpress.live::Task")) {
 				throw Error("taskClass:" + taskClass + " you are trying to mapTask is not extended from 'org.mvcexpress.live::Task' class.");
 			}
-			// check for dublications. (task must be unique)
-			if (taskRegistry[taskId] != null) {
-				throw Error("Task already mapped to this process: className:" + className + ", name:" + name);
-			}
 		}
-		
+		// create task.
 		var task:Task = new taskClass();
 		processMap.initTask(task, taskClass);
 		task.process = this;
 		taskRegistry[taskId] = task;
 		
 		return task;
+	}
+	
+	//----------------------------------
+	//     internal
+	//----------------------------------
+	
+	mvcExpressLive function register():void {
+		onRegister();
 	}
 	
 	mvcExpressLive function remove():void {
@@ -200,20 +219,12 @@ public class Process {
 		}
 		taskRegistry = null;
 		// null internals
-		head = null;
+		tasks = null;
 		processMap = null;
 		
 		postMessageTypes = null;
 		postMessageParams = null;
 	}
-	
-	public function get isRunning():Boolean {
-		return _isRunning;
-	}
-	
-//----------------------------------
-//     internal
-//----------------------------------
 	
 	mvcExpressLive function setModuleName(moduleName:String):void {
 		this.moduleName = moduleName;
@@ -231,14 +242,17 @@ public class Process {
 		CONFIG::debug {
 			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
 		}
-		var current:Task = head;
-		while (current) {
-			current.run();
+		
+		for (var k:int = 0; k < tasks.length; k++) {
+			
+			// run task:
+			tasks[k].run();
+			
 			// do testing
 			CONFIG::debug {
 				var nowTimer:uint = getTimer();
-				for (var i:int = 0; i < current.tests.length; i++) {
-					var taskTestVo:TastTestVO = current.tests[i];
+				for (var i:int = 0; i < tasks[k].tests.length; i++) {
+					var taskTestVo:TastTestVO = tasks[k].tests[i];
 					// check if function run is needed.
 					if (taskTestVo.totalDelay > 0) {
 						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;
@@ -251,13 +265,6 @@ public class Process {
 						testRuns.push(taskTestVo);
 					}
 				}
-			}
-			// go to next fork.
-			if (current.forks) {
-				current = current.forks[current.forkId]
-				current.forkId = 0;
-			} else {
-				break;
 			}
 		}
 		// send post messages
@@ -294,5 +301,6 @@ public class Process {
 	mvcExpressLive function setIsRunning(value:Boolean):void {
 		_isRunning = value;
 	}
+
 }
 }

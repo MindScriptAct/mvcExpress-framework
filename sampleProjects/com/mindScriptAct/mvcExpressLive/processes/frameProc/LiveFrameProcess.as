@@ -9,10 +9,8 @@ import org.mvcexpress.live.Task;
  */
 public class LiveFrameProcess extends Process {
 	
-	override public function onRegister():void {
-		
-		var xTask:Task = this.mapTask(XTask);
-		this.addHeadTask(xTask);
+	override protected function onRegister():void {
+		this.addTask(XTask);
 	}
 
 }
