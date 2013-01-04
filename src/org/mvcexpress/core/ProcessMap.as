@@ -5,6 +5,7 @@ import flash.events.Event;
 import flash.events.TimerEvent;
 import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 import flash.utils.getTimer;
 import flash.utils.Timer;
@@ -42,6 +43,9 @@ public class ProcessMap implements IProcessMap {
 	private var runningFrameProcesses:Vector.<Process> = new Vector.<Process>();
 	
 	static private var classInjectRules:Dictionary = new Dictionary();
+	
+	/** Dictionary with constonts of inject names, used with constName, and constScope. */
+	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	public function ProcessMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
@@ -323,11 +327,17 @@ public class ProcessMap implements IProcessMap {
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
 						for (var k:int = 0; k < args.length(); k++) {
-							if (args[k].@key == "name") {
+							var argKey:String = args[k].@key
+							if (argKey == "name") {
 								injectName = args[k].@value;
-							} else if (args[k].@key == "scope") {
+							} else if (argKey == "scope") {
 								scopeName = args[k].@value;
+							} else if (argKey == "constName") {
+								injectName = getInjectByContName(args[k].@value);
+							} else if (argKey == "constScope") {
+								scopeName = getInjectByContName(args[k].@value);
 							}
+							
 						}
 						var mapRule:InjectRuleVO = new InjectRuleVO();
 						mapRule.varName = node.@name.toString();
@@ -367,6 +377,22 @@ public class ProcessMap implements IProcessMap {
 			}
 		}
 		return retVal;
+	}
+	
+	[Inline]
+	
+	// TODO : add error checking.
+	private function getInjectByContName(constName:String):String {
+		if (!classConstRegistry[constName]) {
+			var split:Array = constName.split(".");
+			var className:String = split[0];
+			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+				className += "." + split[spliteIndex];
+			}
+			var constClass:Class = getDefinitionByName(className) as Class;
+			classConstRegistry[constName] = constClass[split[spliteIndex]];
+		}
+		return classConstRegistry[constName];
 	}
 
 }
