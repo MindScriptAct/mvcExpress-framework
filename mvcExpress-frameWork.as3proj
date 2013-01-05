@@ -45,7 +45,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="-keep-as3-metadata+=Inject,Provide&#xA;-define=CONFIG::debug,true&#xA;-define=CONFIG::mvcExpressLive,true" />
+    <option additional="-keep-as3-metadata+=Inject&#xA;-define=CONFIG::debug,true&#xA;-define=CONFIG::mvcExpressLive,true" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>

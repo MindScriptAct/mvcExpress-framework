@@ -414,12 +414,6 @@ public class ProxyMap implements IProxyMap {
 		
 		// injects all dependencies using rules.
 		for (var i:int = 0; i < rules.length; i++) {
-			CONFIG::mvcExpressLive {
-				if (rules[i].isProvided) {
-					processMap.provide(object[rules[i].varName], rules[i].injectClassAndName);
-					continue;
-				}
-			}
 			if (rules[i].scopeName) {
 				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -645,23 +639,6 @@ public class ProxyMap implements IProxyMap {
 						mapRule.injectClassAndName = node.@type.toString() + injectName;
 						mapRule.scopeName = scopeName;
 						retVal.push(mapRule);
-					}
-					CONFIG::mvcExpressLive {
-						if (nodeName == "Provide") {
-							//trace("nodeName : " + nodeName);
-							var provideName:String = "";
-							var provideArgs:XMLList = metadataList[j].arg;
-							for (var h:int = 0; h < provideArgs.length(); h++) {
-								if (provideArgs[h].@key == "name") {
-									provideName = provideArgs[h].@value;
-								}
-							}
-							var mapProvideRule:InjectRuleVO = new InjectRuleVO();
-							mapProvideRule.isProvided = true;
-							mapProvideRule.varName = node.@name.toString();
-							mapProvideRule.injectClassAndName = provideName;
-							retVal.push(mapProvideRule);
-						}
 					}
 				}
 			}

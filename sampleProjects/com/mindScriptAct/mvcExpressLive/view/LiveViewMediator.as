@@ -11,7 +11,6 @@ public class LiveViewMediator extends Mediator {
 	[Inject]
 	public var view:LiveView;
 	
-	//[Provide (name="liveViewObjects")]
 	public var liveVectorObjects:Vector.<LiveViewTest> = new Vector.<LiveViewTest>();
 	
 	override public function onRegister():void {

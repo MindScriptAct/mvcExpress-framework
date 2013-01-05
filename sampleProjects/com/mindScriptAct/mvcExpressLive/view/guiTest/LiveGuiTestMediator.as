@@ -11,8 +11,7 @@ public class LiveGuiTestMediator extends Mediator {
 	[Inject]
 	public var view:LiveGuiTest;
 	
-	[Provide(name="guiPanelTest")]
-	public var panel:Panel = new Panel(null, 50, 300);
+	private var panel:Panel = new Panel(null, 50, 300);
 	
 	//[Inject]
 	//public var myProxy:MyProxy;
@@ -21,13 +20,13 @@ public class LiveGuiTestMediator extends Mediator {
 		trace("LiveGuiTestMediator.onRegister");
 		
 		view.addChild(panel);
+		processMap.provide(panel, "guiPanelTest");
 	}
 	
 	override public function onRemove():void {
 	
 	}
 	
-	//[Provide(name="guiPanelTest")]
 	//private var panelProvided:Boolean = false;
 	//
 	//public function get testPanel():Panel {

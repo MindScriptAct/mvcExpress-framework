@@ -28,10 +28,5 @@ public class LiveProxy extends Proxy {
 	
 	}
 
-	//[Provide(name="objectPoints")]
-	//public function get objectPositions():Vector.<Point> {
-	//return _objectPositions;
-	//}
-
 }
 }

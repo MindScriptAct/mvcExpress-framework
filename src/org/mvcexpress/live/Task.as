@@ -39,9 +39,35 @@ public class Task {
 	//----------------------------------
 	//     message sending
 	//----------------------------------
+	
+	/**
+	 * Sends message right now.
+	 * @param	type
+	 * @param	params
+	 */
+	protected function sendInstantMessage(type:String, params:Object = null):void {
+		use namespace mvcExpressLive;
+		process.sendInstantMessage(type, params);
+	}
+	
+	/**
+	 * Stacks message to be sent after current task is done.
+	 * @param	type
+	 * @param	params
+	 */
 	protected function sendPostMessage(type:String, params:Object = null):void {
 		use namespace mvcExpressLive;
 		process.stackPostMessage(type, params);
+	}
+	
+	/**
+	 * Stacks message to be sent after all tasks are done of current process run.
+	 * @param	type
+	 * @param	params
+	 */
+	protected function sendFinalMessage(type:String, params:Object = null):void {
+		use namespace mvcExpressLive;
+		process.stackFinalMessage(type, params);
 	}
 	
 	//----------------------------------

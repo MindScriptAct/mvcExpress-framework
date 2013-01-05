@@ -31,7 +31,6 @@ public class MvcTraceActions {
 	static public const MESSENGER_ADDHANDLER:String = "Messenger.addHandler";
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
-	static public const MESSENGER_SENDTOALL:String = "Messenger.sendToAll";
 	
 	//----------------------------------
 	//     For internal use
@@ -40,7 +39,6 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXYMAP_INJECTSTUFF:String = "ProxyMap.injectStuff";
 	
 	static pureLegsCore const MESSENGER_SEND_HANDLER:String = "Messenger.send.HANDLER";
-	static pureLegsCore const MESSENGER_SENDTOALL_CLEAN:String = "Messenger.sendToAll.CLEAN";
 	
 	static pureLegsCore const MODULEBASE_SENDMESSAGE:String = "ModuleBase.sendMessage";
 	static pureLegsCore const MODULEBASE_SENDMESSAGE_CLEAN:String = "ModuleBase.sendMessage.CLEAN";
@@ -63,7 +61,18 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE:String = "Proxy.sendScopeMessage";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE_CLEAN:String = "Proxy.sendScopeMessage.CLEAN";
 	
+	//----------------------------------
+	//     Process
+	//----------------------------------
+	
+	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE:String = "Process.runProcess.instantSendMessage";
+	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE_CLEAN:String = "Process.runProcess.instantSendMessage.CLEAN";
+	
 	static pureLegsCore const PROCESS_POST_SENDMESSAGE:String = "Process.runProcess.postSendMessage";
 	static pureLegsCore const PROCESS_POST_SENDMESSAGE_CLEAN:String = "Process.runProcess.postSendMessage.CLEAN";
+	
+	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE:String = "Process.runProcess.finalSendMessage";
+	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE_CLEAN:String = "Process.runProcess.finalSendMessage.CLEAN";
+
 }
 }

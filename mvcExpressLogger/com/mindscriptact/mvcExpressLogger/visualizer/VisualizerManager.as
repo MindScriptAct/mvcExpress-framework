@@ -183,18 +183,22 @@ public class VisualizerManager {
 			case MvcTraceActions.PROXY_SENDSCOPEMESSAGE: 
 			case MvcTraceActions.COMMAND_SENDMESSAGE: 
 			case MvcTraceActions.COMMAND_SENDSCOPEMESSAGE: 
-			case MvcTraceActions.MESSENGER_SENDTOALL: 
+			case MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE: 
+			case MvcTraceActions.PROCESS_POST_SENDMESSAGE: 
+			case MvcTraceActions.PROCESS_FINAL_SENDMESSAGE: 
 				sendMessageStack.push(logObj);
 				break;
 			case MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
 			case MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN: 
-			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN:
-			case MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN:
-			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN:
-			case MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN:
-			case MvcTraceActions.MESSENGER_SENDTOALL_CLEAN: 
+			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN: 
+			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN: 
+			case MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN: 
+			case MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN: 
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {

@@ -53,6 +53,9 @@ public class Process {
 	private var postMessageTypes:Vector.<String> = new Vector.<String>();
 	private var postMessageParams:Vector.<Object> = new Vector.<Object>();
 	
+	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
+	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
+	
 	private var _isRunning:Boolean = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
@@ -158,9 +161,9 @@ public class Process {
 		if (task == null) {
 			task = initTask(taskClass, taskId);
 		}
-	
-		tasks.push(task);
 		
+		tasks.push(task);
+	
 	}
 	
 	//protected function addHeadTask(headTask:Task):void {
@@ -224,10 +227,30 @@ public class Process {
 		
 		postMessageTypes = null;
 		postMessageParams = null;
+		
+		finalMessageTypes = null;
+		finalMessageParams = null;
 	}
 	
 	mvcExpressLive function setModuleName(moduleName:String):void {
 		this.moduleName = moduleName;
+	}
+	
+	// send instant messages
+	mvcExpressLive function sendInstantMessage(type:String, params:Object):void {
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE, moduleName, this, type, params));
+		}
+		messenger.send(type, params);
+		// clean up logging the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+		}
+	
 	}
 	
 	mvcExpressLive function stackPostMessage(type:String, params:Object):void {
@@ -235,10 +258,18 @@ public class Process {
 		postMessageParams.push(params);
 	}
 	
+	mvcExpressLive function stackFinalMessage(type:String, params:Object):void {
+		finalMessageTypes.push(type);
+		finalMessageParams.push(params);
+	}
+	
 	mvcExpressLive function runProcess(event:Event = null):void {
-		//trace("Process.runProcess > event : " + event);
+		var params:Object;
+		var type:String;
+		
 		use namespace mvcExpressLive;
 		use namespace pureLegsCore;
+		
 		CONFIG::debug {
 			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
 		}
@@ -264,27 +295,42 @@ public class Process {
 					} else {
 						testRuns.push(taskTestVo);
 					}
+					// send post messages
+					while (postMessageTypes.length) {
+						type = postMessageTypes.shift() as String;
+						params = postMessageParams.shift();
+						// log the action
+						CONFIG::debug {
+							use namespace pureLegsCore;
+							var moduleName:String = messenger.moduleName;
+							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
+						}
+						messenger.send(type, params);
+						// clean up logging the action
+						CONFIG::debug {
+							use namespace pureLegsCore;
+							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+						}
+					}
 				}
 			}
 		}
-		// send post messages
-		while (postMessageTypes.length) {
-			var type:String = postMessageTypes.shift() as String;
-			var params:Object = postMessageParams.shift();
+		// send final messages
+		while (finalMessageTypes.length) {
+			type = finalMessageTypes.shift() as String;
+			params = finalMessageParams.shift();
 			// log the action
 			CONFIG::debug {
 				use namespace pureLegsCore;
-				
 				var moduleName:String = messenger.moduleName;
-				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
+				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE, moduleName, this, type, params));
 			}
 			messenger.send(type, params);
 			// clean up logging the action
 			CONFIG::debug {
 				use namespace pureLegsCore;
-				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 			}
-			
 		}
 		// run needed tests.
 		CONFIG::debug {
