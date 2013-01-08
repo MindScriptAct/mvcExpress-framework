@@ -1,4 +1,6 @@
 package com.mindScriptAct.mvcExpressLive.view {
+import com.bit101.components.PushButton;
+import flash.events.Event;
 import flash.utils.setTimeout;
 import org.mvcexpress.mvc.Mediator;
 
@@ -26,11 +28,14 @@ public class LiveViewMediator extends Mediator {
 		
 		processMap.provide(liveVectorObjects, "liveViewObjects");
 		
-		
 		//setTimeout(addOneMore, 2000);
 		
+		var unprovideBtn:PushButton = new PushButton(view, 5, 5, "unprovideTest", handleUnprovideTest);
 	}
 	
+	private function handleUnprovideTest(event:Event):void {
+		processMap.unprovide(liveVectorObjects, "liveViewObjects");
+	}
 	
 	public function addOneMore():void {
 		var obj1:LiveViewTest = new LiveViewTest();

@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.live {
+import flash.display.Sprite;
 import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -163,27 +164,111 @@ public class Process {
 		}
 		
 		tasks.push(task);
+	}
+	
+	protected function addTaskAt(taskClass:Class, index:int, name:String = ""):void {
+		
+		var className:String = getQualifiedClassName(taskClass);
+		var taskId:String = className + name;
+		
+		var task:Task = taskRegistry[taskId]
+		if (task == null) {
+			task = initTask(taskClass, taskId);
+		}
+		
+		tasks.splice(index, 0, task);
 	
 	}
 	
-	//protected function addHeadTask(headTask:Task):void {
-	//if (head) {
-	//throw Error("Head is already added.");
-	//}
-	// TODO: check if task is mapped.
-	//
-	//head = headTask;
-	//tail = headTask;
-	//}
-	//
-	//protected function addTask(task:Task):void {
-	//if (!head) {
-	//addHeadTask(task);
-	//} else {
-	//tail.addTask(task);
-	//tail = task;
-	//}
-	//}
+	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
+		
+		//TODO: optimize getQualifiedClassName .... 
+		
+		var afterClassName:String = getQualifiedClassName(afterTaskClass);
+		var afterTaskId:String = afterClassName + afterName;
+		
+		var afterTask:Task = taskRegistry[afterTaskId];
+		if (afterTask != null) {
+			for (var i:int = 0; i < tasks.length; i++) {
+				if (tasks[i] == afterTask) {
+					
+					var className:String = getQualifiedClassName(taskClass);
+					var taskId:String = className + name;
+					
+					var task:Task = taskRegistry[taskId];
+					if (task == null) {
+						task = initTask(taskClass, taskId);
+					}
+					
+					tasks.splice(i, 0, task);
+					
+					break;
+				}
+			}
+			
+		}
+		if (task == null) {
+			throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
+		}
+	}
+	
+	protected function removeTask(taskClass:Class, name:String = ""):void {
+		
+		var className:String = getQualifiedClassName(taskClass);
+		var taskId:String = className + name;
+		//
+		var task:Task = taskRegistry[taskId];
+		if (task != null) {
+			for (var i:int = 0; i < tasks.length; i++) {
+				if (tasks[i] == task) {
+					tasks.splice(i, 1);
+					break;
+				}
+			}
+		}
+	}
+	
+	protected function removeTaskAt(index:int):void {
+		tasks.splice(index, 1);
+	}
+	
+	protected function removeAllTasks():void {
+		tasks.splice(0, int.MAX_VALUE);
+	}
+	
+	protected function disposeTask(taskClass:Class, name:String = ""):void {
+		use namespace mvcExpressLive;
+		var className:String = getQualifiedClassName(taskClass);
+		var taskId:String = className + name;
+		//
+		var task:Task = taskRegistry[taskId];
+		if (task != null) {
+			for (var i:int = 0; i < tasks.length; i++) {
+				if (tasks[i] == task) {
+					tasks.splice(i, 1);
+					break;
+				}
+			}
+			//
+			task.dispose();
+			//
+			delete taskRegistry[taskId];
+		}
+	}
+	
+	protected function disposeAllTasks():void {
+		use namespace mvcExpressLive;
+		//
+		removeAllTasks();
+		//
+		for each (var item:Task in taskRegistry) {
+			item.dispose();
+		}
+	}
+	
+	//----------------------------------
+	//     internal
+	//----------------------------------
 	
 	private function initTask(taskClass:Class, taskId:String):Task {
 		use namespace mvcExpressLive;
@@ -264,6 +349,7 @@ public class Process {
 	}
 	
 	mvcExpressLive function runProcess(event:Event = null):void {
+		var moduleName:String;
 		var params:Object;
 		var type:String;
 		
@@ -302,7 +388,7 @@ public class Process {
 						// log the action
 						CONFIG::debug {
 							use namespace pureLegsCore;
-							var moduleName:String = messenger.moduleName;
+							moduleName = messenger.moduleName;
 							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
 						}
 						messenger.send(type, params);
@@ -322,7 +408,7 @@ public class Process {
 			// log the action
 			CONFIG::debug {
 				use namespace pureLegsCore;
-				var moduleName:String = messenger.moduleName;
+				moduleName = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE, moduleName, this, type, params));
 			}
 			messenger.send(type, params);

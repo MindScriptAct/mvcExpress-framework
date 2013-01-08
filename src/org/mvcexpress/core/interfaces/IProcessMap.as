@@ -8,6 +8,7 @@ package org.mvcexpress.core.interfaces {
 public interface IProcessMap {
 	
 	function provide(object:Object, name:String):void;
+	function unprovide(object:Object, name:String):void;
 
 }
 }

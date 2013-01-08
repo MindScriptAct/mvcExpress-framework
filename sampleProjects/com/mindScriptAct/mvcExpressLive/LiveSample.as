@@ -44,6 +44,7 @@ public class LiveSample extends Sprite {
 		// start our application.
 		////////////////////////////
 		appModule.start(this);
+		
 	}
 
 }

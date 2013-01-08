@@ -47,6 +47,9 @@ public class ProcessMap implements IProcessMap {
 	/** Dictionary with constonts of inject names, used with constName, and constScope. */
 	private var classConstRegistry:Dictionary = new Dictionary();
 	
+	/** stores vectors of tasks by inject objects. */
+	//private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by Object */
+	
 	public function ProcessMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
 		this.messenger = messenger;
@@ -257,9 +260,25 @@ public class ProcessMap implements IProcessMap {
 		
 		// TODO : check stuff...
 		
+		if (provideRegistry[name] != null) {
+			// TODO : object is already provided... reinject it there needed.
+		}
+		
 		provideRegistry[name] = object;
 	
 	}
+	
+	public function unprovide(object:Object, name:String):void {
+		trace("Process.provide > object : " + object + ", name : " + name);
+		
+		// TODO : check stuff...
+		if (provideRegistry[name] != null) {
+			
+			// TODO : remove all tasks with this inject.
+			delete provideRegistry[name];
+		}
+	}	
+	
 	
 	public function setStage(stage:Stage):void {
 		if (this.stage) {
@@ -300,6 +319,12 @@ public class ProcessMap implements IProcessMap {
 			var injectObject:Object = provideRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				task[rules[i].varName] = injectObject;
+				//
+				//if (injectObjectRegistry[injectObject] == null) {
+					//injectObjectRegistry[injectObject] = new Vector.<Task>();
+				//}
+				//injectObjectRegistry[injectObject].push(task);
+				
 			} else {
 				throw Error("Process dependency is not provided with name:" + rules[i].injectClassAndName);
 			}
