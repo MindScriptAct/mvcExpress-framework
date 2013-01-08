@@ -21,9 +21,9 @@ public class Task {
 	
 	mvcExpressLive var runNext:Task;
 	
-	mvcExpressLive var _isDisabled:Boolean = false;
+	mvcExpressLive var _isEnabled:Boolean = true;
 	
-	mvcExpressLive var _missingDependencies:int = 0;
+	mvcExpressLive var _missingDependencyCount:int = 0;
 	
 	/**
 	 * Simple object for testing.
@@ -46,17 +46,23 @@ public class Task {
 	}
 	
 	//----------------------------------
-	//     
+	//    
 	//----------------------------------
 	
-	public function get missingDependencies():int {
+	/**
+	 * Returs count of missing dependencies.
+	 */
+	public function get missingDependencyCount():int {
 		use namespace mvcExpressLive;
-		return _missingDependencies;
+		return _missingDependencyCount;
 	}
 	
+	/**
+	 * Returns if task is disabled by user.
+	 */
 	public function get isDisabled():Boolean {
 		use namespace mvcExpressLive;
-		return _isDisabled as Boolean;
+		return _isEnabled as Boolean;
 	}
 	
 	//----------------------------------

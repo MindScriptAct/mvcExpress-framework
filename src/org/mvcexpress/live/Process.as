@@ -46,6 +46,8 @@ public class Process {
 	private var taskRegistry:Dictionary = new Dictionary();
 	
 	//
+	private var runHead:Task;
+	
 	private var head:Task;
 	private var tail:Task;
 	
@@ -168,6 +170,8 @@ public class Process {
 			task = initTask(taskClass, taskId);
 		}
 		
+		setNextRunner(tail, task);
+		
 		if (tail) {
 			tail.next = task;
 			tail.runNext = task;
@@ -180,35 +184,61 @@ public class Process {
 	}
 	
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
+		
+		use namespace mvcExpressLive;
+		
+		var afterClassName:String = getQualifiedClassName(afterTaskClass);
+		var afterTaskId:String = afterClassName + afterName;
+		//
+		var afterTask:Task = taskRegistry[afterTaskId];
+		if (afterTask != null) {
+			//
+			var className:String = getQualifiedClassName(taskClass);
+			var taskId:String = className + name;
+			//
+			var task:Task = taskRegistry[taskId];
+			if (task == null) {
+				task = initTask(taskClass, taskId);
+			}
+			//
+			
+			var nextTask:Task = afterTask.next;
+			
+			afterTask.next = task;
+			task.prev = afterTask;
+			
+			task.next = nextTask;
+			if (nextTask) {
+				nextTask.prev = task;
+			}
+			
+			setNextRunner(afterTask, task);
+			
+		} else {
+			throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
+		}
+	}
 	
-		//TODO: optimize getQualifiedClassName .... 
-		//
-		//var afterClassName:String = getQualifiedClassName(afterTaskClass);
-		//var afterTaskId:String = afterClassName + afterName;
-		//
-		//var afterTask:Task = taskRegistry[afterTaskId];
-		//if (afterTask != null) {
-		//for (var i:int = 0; i < tasks.length; i++) {
-		//if (tasks[i] == afterTask) {
-		//
-		//var className:String = getQualifiedClassName(taskClass);
-		//var taskId:String = className + name;
-		//
-		//var task:Task = taskRegistry[taskId];
-		//if (task == null) {
-		//task = initTask(taskClass, taskId);
-		//}
-		//
-		//tasks.splice(i, 0, task);
-		//
-		//break;
-		//}
-		//}
-		//
-		//}
-		//if (task == null) {
-		//throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
-		//}
+	[Inline]
+	
+	private function setNextRunner(baseTask:Task, runTask:Task):void {
+		use namespace mvcExpressLive;
+		var prevRunner:Task;
+		while (baseTask) {
+			if (baseTask._isEnabled && baseTask._missingDependencyCount == 0) {
+				prevRunner = baseTask;
+				baseTask = null;
+			} else {
+				baseTask = baseTask.prev;
+			}
+		}
+		if (prevRunner) {
+			prevRunner.runNext = runTask;
+		} else {
+			var lastRunHead:Task = runHead;
+			runHead = runTask;
+			runTask.runNext = lastRunHead;
+		}
 	}
 	
 	protected function removeTask(taskClass:Class, name:String = ""):void {
@@ -366,7 +396,7 @@ public class Process {
 			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
 		}
 		
-		var task:Task = head;
+		var task:Task = runHead;
 		
 		while (task) {
 			
