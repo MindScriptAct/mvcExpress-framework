@@ -46,7 +46,8 @@ public class Process {
 	private var taskRegistry:Dictionary = new Dictionary();
 	
 	//
-	private var tasks:Vector.<Task> = new Vector.<Task>();
+	private var head:Task;
+	private var tail:Task;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -57,7 +58,7 @@ public class Process {
 	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 	
-	private var _isRunning:Boolean = false;
+	mvcExpressLive var _isRunning:Boolean = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
@@ -82,7 +83,8 @@ public class Process {
 	}
 	
 	public function get isRunning():Boolean {
-		return _isRunning;
+		use namespace mvcExpressLive;
+		return _isRunning as Boolean;
 	}
 	
 	//----------------------------------
@@ -153,7 +155,10 @@ public class Process {
 	//     task managment
 	//----------------------------------
 	
+	// TODO : consider adding isEnabled:Boolean = true
+	
 	protected function addTask(taskClass:Class, name:String = ""):void {
+		use namespace mvcExpressLive;
 		
 		var className:String = getQualifiedClassName(taskClass);
 		var taskId:String = className + name;
@@ -163,108 +168,106 @@ public class Process {
 			task = initTask(taskClass, taskId);
 		}
 		
-		tasks.push(task);
-	}
-	
-	protected function addTaskAt(taskClass:Class, index:int, name:String = ""):void {
-		
-		var className:String = getQualifiedClassName(taskClass);
-		var taskId:String = className + name;
-		
-		var task:Task = taskRegistry[taskId]
-		if (task == null) {
-			task = initTask(taskClass, taskId);
+		if (tail) {
+			tail.next = task;
+			tail.runNext = task;
+			task.prev = tail;
+			tail = task;
+		} else {
+			head = task;
+			tail = task;
 		}
-		
-		tasks.splice(index, 0, task);
-	
 	}
 	
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
-		
+	
 		//TODO: optimize getQualifiedClassName .... 
-		
-		var afterClassName:String = getQualifiedClassName(afterTaskClass);
-		var afterTaskId:String = afterClassName + afterName;
-		
-		var afterTask:Task = taskRegistry[afterTaskId];
-		if (afterTask != null) {
-			for (var i:int = 0; i < tasks.length; i++) {
-				if (tasks[i] == afterTask) {
-					
-					var className:String = getQualifiedClassName(taskClass);
-					var taskId:String = className + name;
-					
-					var task:Task = taskRegistry[taskId];
-					if (task == null) {
-						task = initTask(taskClass, taskId);
-					}
-					
-					tasks.splice(i, 0, task);
-					
-					break;
-				}
-			}
-			
-		}
-		if (task == null) {
-			throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
-		}
+		//
+		//var afterClassName:String = getQualifiedClassName(afterTaskClass);
+		//var afterTaskId:String = afterClassName + afterName;
+		//
+		//var afterTask:Task = taskRegistry[afterTaskId];
+		//if (afterTask != null) {
+		//for (var i:int = 0; i < tasks.length; i++) {
+		//if (tasks[i] == afterTask) {
+		//
+		//var className:String = getQualifiedClassName(taskClass);
+		//var taskId:String = className + name;
+		//
+		//var task:Task = taskRegistry[taskId];
+		//if (task == null) {
+		//task = initTask(taskClass, taskId);
+		//}
+		//
+		//tasks.splice(i, 0, task);
+		//
+		//break;
+		//}
+		//}
+		//
+		//}
+		//if (task == null) {
+		//throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
+		//}
 	}
 	
 	protected function removeTask(taskClass:Class, name:String = ""):void {
-		
-		var className:String = getQualifiedClassName(taskClass);
-		var taskId:String = className + name;
-		//
-		var task:Task = taskRegistry[taskId];
-		if (task != null) {
-			for (var i:int = 0; i < tasks.length; i++) {
-				if (tasks[i] == task) {
-					tasks.splice(i, 1);
-					break;
-				}
-			}
-		}
-	}
 	
-	protected function removeTaskAt(index:int):void {
-		tasks.splice(index, 1);
+		//var className:String = getQualifiedClassName(taskClass);
+		//var taskId:String = className + name;
+		//
+		//var task:Task = taskRegistry[taskId];
+		//if (task != null) {
+		//for (var i:int = 0; i < tasks.length; i++) {
+		//if (tasks[i] == task) {
+		//tasks.splice(i, 1);
+		//break;
+		//}
+		//}
+		//}
 	}
 	
 	protected function removeAllTasks():void {
-		tasks.splice(0, int.MAX_VALUE);
+		//tasks.splice(0, int.MAX_VALUE);
 	}
 	
-	protected function disposeTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
-		var className:String = getQualifiedClassName(taskClass);
-		var taskId:String = className + name;
+	private function enableTask(taskClass:Class, name:String = ""):void {
 		//
-		var task:Task = taskRegistry[taskId];
-		if (task != null) {
-			for (var i:int = 0; i < tasks.length; i++) {
-				if (tasks[i] == task) {
-					tasks.splice(i, 1);
-					break;
-				}
-			}
-			//
-			task.dispose();
-			//
-			delete taskRegistry[taskId];
-		}
 	}
 	
-	protected function disposeAllTasks():void {
-		use namespace mvcExpressLive;
+	private function disableTask(taskClass:Class, name:String = ""):void {
 		//
-		removeAllTasks();
-		//
-		for each (var item:Task in taskRegistry) {
-			item.dispose();
-		}
 	}
+	
+	//protected function disposeTask(taskClass:Class, name:String = ""):void {
+	//use namespace mvcExpressLive;
+	//var className:String = getQualifiedClassName(taskClass);
+	//var taskId:String = className + name;
+	//
+	//var task:Task = taskRegistry[taskId];
+	//if (task != null) {
+	//for (var i:int = 0; i < tasks.length; i++) {
+	//if (tasks[i] == task) {
+	//tasks.splice(i, 1);
+	//break;
+	//}
+	//}
+	//
+	//task.dispose();
+	//
+	//delete taskRegistry[taskId];
+	//}
+	//}
+	//
+	//protected function disposeAllTasks():void {
+	//use namespace mvcExpressLive;
+	//
+	//removeAllTasks();
+	//
+	//for each (var item:Task in taskRegistry) {
+	//item.dispose();
+	//}
+	//}
 	
 	//----------------------------------
 	//     internal
@@ -307,7 +310,9 @@ public class Process {
 		}
 		taskRegistry = null;
 		// null internals
-		tasks = null;
+		head = null;
+		tail = null;
+		
 		processMap = null;
 		
 		postMessageTypes = null;
@@ -349,6 +354,7 @@ public class Process {
 	}
 	
 	mvcExpressLive function runProcess(event:Event = null):void {
+		
 		var moduleName:String;
 		var params:Object;
 		var type:String;
@@ -360,16 +366,18 @@ public class Process {
 			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
 		}
 		
-		for (var k:int = 0; k < tasks.length; k++) {
+		var task:Task = head;
+		
+		while (task) {
 			
 			// run task:
-			tasks[k].run();
+			task.run();
 			
 			// do testing
 			CONFIG::debug {
 				var nowTimer:uint = getTimer();
-				for (var i:int = 0; i < tasks[k].tests.length; i++) {
-					var taskTestVo:TastTestVO = tasks[k].tests[i];
+				for (var i:int = 0; i < task.tests.length; i++) {
+					var taskTestVo:TastTestVO = task.tests[i];
 					// check if function run is needed.
 					if (taskTestVo.totalDelay > 0) {
 						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;
@@ -400,6 +408,9 @@ public class Process {
 					}
 				}
 			}
+			
+			task = task.runNext;
+			
 		}
 		// send final messages
 		while (finalMessageTypes.length) {
@@ -428,10 +439,6 @@ public class Process {
 			}
 		}
 	
-	}
-	
-	mvcExpressLive function setIsRunning(value:Boolean):void {
-		_isRunning = value;
 	}
 
 }

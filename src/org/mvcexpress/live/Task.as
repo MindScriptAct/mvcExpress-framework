@@ -16,6 +16,15 @@ public class Task {
 	 */
 	mvcExpressLive var process:Process;
 	
+	mvcExpressLive var prev:Task;
+	mvcExpressLive var next:Task;
+	
+	mvcExpressLive var runNext:Task;
+	
+	mvcExpressLive var _isDisabled:Boolean = false;
+	
+	mvcExpressLive var _missingDependencies:int = 0;
+	
 	/**
 	 * Simple object for testing.
 	 */
@@ -34,6 +43,20 @@ public class Task {
 	 */
 	public function run():void {
 		// for override
+	}
+	
+	//----------------------------------
+	//     
+	//----------------------------------
+	
+	public function get missingDependencies():int {
+		use namespace mvcExpressLive;
+		return _missingDependencies;
+	}
+	
+	public function get isDisabled():Boolean {
+		use namespace mvcExpressLive;
+		return _isDisabled as Boolean;
 	}
 	
 	//----------------------------------
@@ -76,6 +99,9 @@ public class Task {
 	
 	mvcExpressLive function dispose():void {
 		use namespace mvcExpressLive;
+		prev = null;
+		next = null;
+		runNext = null;
 		assert = null;
 		CONFIG::debug {
 			for (var i:int = 0; i < tests.length; i++) {

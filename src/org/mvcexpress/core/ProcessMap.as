@@ -141,7 +141,7 @@ public class ProcessMap implements IProcessMap {
 		
 		var process:Process = processRegistry[processId];
 		
-		if (process.isRunning) {
+		if (process._isRunning) {
 			stopProcess(processClass, name);
 		}
 		
@@ -170,8 +170,8 @@ public class ProcessMap implements IProcessMap {
 	mvcExpressLive function startProcessObject(process:Process):void {
 		use namespace mvcExpressLive;
 		if (process) {
-			if (!process.isRunning) {
-				process.setIsRunning(true);
+			if (!process._isRunning) {
+				process._isRunning = true;
 				if (process.type == Process.FRAME_PROCESS) {
 					if (runningFrameProcesses.length == 0) {
 						if (this.stage) {
@@ -226,8 +226,8 @@ public class ProcessMap implements IProcessMap {
 	mvcExpressLive function stopProcessObject(process:Process):void {
 		use namespace mvcExpressLive;
 		if (process) {
-			if (process.isRunning) {
-				process.setIsRunning(false);
+			if (process._isRunning) {
+				process._isRunning = false;
 				if (process.type == Process.FRAME_PROCESS) {
 					// find process for removal..
 					for (var i:int = 0; i < runningFrameProcesses.length; i++) {
@@ -277,8 +277,7 @@ public class ProcessMap implements IProcessMap {
 			// TODO : remove all tasks with this inject.
 			delete provideRegistry[name];
 		}
-	}	
-	
+	}
 	
 	public function setStage(stage:Stage):void {
 		if (this.stage) {
@@ -286,6 +285,10 @@ public class ProcessMap implements IProcessMap {
 		}
 		this.stage = stage;
 	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
 	
 	mvcExpressLive function initTask(task:Task, signatureClass:Class):void {
 		trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
@@ -319,11 +322,11 @@ public class ProcessMap implements IProcessMap {
 			var injectObject:Object = provideRegistry[rules[i].injectClassAndName];
 			if (injectObject) {
 				task[rules[i].varName] = injectObject;
-				//
-				//if (injectObjectRegistry[injectObject] == null) {
+					//
+					//if (injectObjectRegistry[injectObject] == null) {
 					//injectObjectRegistry[injectObject] = new Vector.<Task>();
-				//}
-				//injectObjectRegistry[injectObject].push(task);
+					//}
+					//injectObjectRegistry[injectObject].push(task);
 				
 			} else {
 				throw Error("Process dependency is not provided with name:" + rules[i].injectClassAndName);
