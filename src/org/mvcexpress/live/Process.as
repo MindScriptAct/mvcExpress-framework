@@ -104,6 +104,43 @@ public class Process {
 	}
 	
 	//----------------------------------
+	//     debug
+	//----------------------------------
+	
+	public function listTasks():String {
+		use namespace mvcExpressLive;
+		var retVal:String = "TASKS:\n";
+		var currentListTask:Task = head;
+		var currentRunListTask:Task = runHead;
+		while (currentListTask) {
+			
+			retVal += "\t"
+			
+			if (currentRunListTask == currentListTask) {
+				currentRunListTask = currentRunListTask.runNext
+			} else {
+				retVal += "|\t";
+			}
+			
+			retVal += currentListTask;
+			
+			if (!currentListTask._isEnabled) {
+				retVal += "   (DISABLED)";
+			}
+			
+			if (currentListTask._missingDependencyCount > 0) {
+				retVal += "   (MISSING DEPENDENCIES:" + currentListTask._missingDependencyCount + ")";
+			}
+			
+			retVal += "\n";
+			
+			currentListTask = currentListTask.next;
+		}
+		
+		return retVal;
+	}
+	
+	//----------------------------------
 	//     message handlers
 	//----------------------------------
 	

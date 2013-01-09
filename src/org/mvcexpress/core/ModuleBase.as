@@ -260,6 +260,15 @@ public class ModuleBase {
 	public function listMappedCommands():String {
 		return commandMap.listMappings();
 	}
+	
+	/**
+	 * Internal framework function. Not meant to be used from outside.
+	 */
+	// Lists all processes and tasks.
+	CONFIG::mvcExpressLive
+	public function listMappedProcesses():String {
+		return processMap.listProcesses();
+	}
 
 }
 }

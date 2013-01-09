@@ -4,6 +4,7 @@ import flash.utils.Dictionary;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
@@ -357,6 +358,14 @@ public class ModuleManager {
 			return "Module with name :" + moduleName + " is not found.";
 		}
 	}
+	CONFIG::mvcExpressLive
+	static public function listMappedProcesses(moduleName:String):String {
+		if (moduleRegistry[moduleName]) {
+			return (moduleRegistry[moduleName] as ModuleBase).listMappedProcesses();
+		} else {
+			return "Module with name :" + moduleName + " is not found.";
+		}
+	}	
 	
 	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
 		use namespace pureLegsCore;

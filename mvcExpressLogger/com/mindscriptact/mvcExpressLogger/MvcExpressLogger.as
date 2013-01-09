@@ -32,6 +32,7 @@ public class MvcExpressLogger {
 	static public const PROXIES_TAB:String = "PROXIES";
 	static public const COMMANDS_TAB:String = "COMMANDS";
 	static public const VISUALIZER_TAB:String = "VISUALIZER";
+	static public const ENGINE_TAB:String = "ENGINE";
 	//
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
@@ -257,6 +258,17 @@ public class MvcExpressLogger {
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
 			
+			
+			// 
+			if (ModuleManager["listMappedProcesses"] != null) {
+				var processMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, ENGINE_TAB, handleButtonClick);
+				processMapingButton.toggle = true;
+				processMapingButton.width = 60;
+				processMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
+				allButtons.push(processMapingButton);				
+			}
+			
+			
 			var clearButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, 5, "clear log", handleClearLog);
 			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
 			clearButton.width = 50;
@@ -424,6 +436,10 @@ public class MvcExpressLogger {
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
+			case ENGINE_TAB: 
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager["listMappedProcesses"](currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
+				break;				
 			case VISUALIZER_TAB:
 				
 				break;

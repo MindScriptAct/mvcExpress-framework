@@ -287,6 +287,27 @@ public class ProcessMap implements IProcessMap {
 	}
 	
 	//----------------------------------
+	//     debug
+	//----------------------------------
+	
+	/**
+	 * Returns text of all command classes that are mapped to messages. (for debugging)
+	 * @return		Text with all mapped commands.
+	 */
+	public function listProcesses():String {
+		var retVal:String = "";
+		retVal = "===================== ProcessMap Mappings: =====================\n";
+		for (var key:String in processRegistry) {
+			var process:Process = processRegistry[key];
+			retVal += "PROCESS: " + process +"  (" + ((process.isRunning ? "isRunning" : "NOT RUNNING.")) + ")\n";
+			
+			retVal += process.listTasks();
+		}
+		retVal += "================================================================\n";
+		return retVal;
+	}
+	
+	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
 	
