@@ -1,9 +1,9 @@
 /**
- * ProgressBar.as
+ * Label.as
  * Keith Peters
  * version 0.9.10
  * 
- * A progress bar component for showing a changing value in relation to a total.
+ * A Label component for displaying a single line of text.
  * 
  * Copyright (c) 2011 Keith Peters
  * 
@@ -26,29 +26,33 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
 	
-	public class ProgressBar extends Component
+	[Event(name="resize", type="flash.events.Event")]
+	public class Mvce_Label extends Mvce_Component
 	{
-		protected var _back:Sprite;
-		protected var _bar:Sprite;
-		protected var _value:Number = 0;
-		protected var _max:Number = 1;
-
+		protected var _autoSize:Boolean = true;
+		protected var _text:String = "";
+		protected var _tf:TextField;
+		
 		/**
 		 * Constructor
-		 * @param parent The parent DisplayObjectContainer on which to add this ProgressBar.
+		 * @param parent The parent DisplayObjectContainer on which to add this Label.
 		 * @param xpos The x position to place this component.
 		 * @param ypos The y position to place this component.
+		 * @param text The string to use as the initial text in this component.
 		 */
-		public function ProgressBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
+		public function Mvce_Label(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, text:String = "")
 		{
+			this.text = text;
 			super(parent, xpos, ypos);
 		}
-		
 		
 		/**
 		 * Initializes the component.
@@ -56,7 +60,8 @@ package com.bit101.components
 		override protected function init():void
 		{
 			super.init();
-			setSize(100, 10);
+			mouseEnabled = false;
+			mouseChildren = false;
 		}
 		
 		/**
@@ -64,25 +69,18 @@ package com.bit101.components
 		 */
 		override protected function addChildren():void
 		{
-			_back = new Sprite();
-			_back.filters = [getShadow(2, true)];
-			addChild(_back);
-			
-			_bar = new Sprite();
-			_bar.x = 1;
-			_bar.y = 1;
-			_bar.filters = [getShadow(1)];
-			addChild(_bar);
+			_height = 18;
+			_tf = new TextField();
+			_tf.height = _height;
+			_tf.embedFonts = Mvce_Style.embedFonts;
+			_tf.selectable = false;
+			_tf.mouseEnabled = false;
+			_tf.defaultTextFormat = new TextFormat(Mvce_Style.fontName, Mvce_Style.fontSize, Mvce_Style.LABEL_TEXT);
+			_tf.text = _text;			
+			addChild(_tf);
+			draw();
 		}
 		
-		/**
-		 * Updates the size of the progress bar based on the current value.
-		 */
-		protected function update():void
-		{
-			_bar.scaleX = _value / _max;
-		}
-
 		
 		
 		
@@ -96,20 +94,20 @@ package com.bit101.components
 		override public function draw():void
 		{
 			super.draw();
-			_back.graphics.clear();
-			_back.graphics.beginFill(Style.BACKGROUND);
-			_back.graphics.drawRect(0, 0, _width, _height);
-			_back.graphics.endFill();
-			
-			_bar.graphics.clear();
-			_bar.graphics.beginFill(Style.PROGRESS_BAR);
-			_bar.graphics.drawRect(0, 0, _width - 2, _height - 2);
-			_bar.graphics.endFill();
-			update();
+			_tf.text = _text;
+			if(_autoSize)
+			{
+				_tf.autoSize = TextFieldAutoSize.LEFT;
+				_width = _tf.width;
+				dispatchEvent(new Event(Event.RESIZE));
+			}
+			else
+			{
+				_tf.autoSize = TextFieldAutoSize.NONE;
+				_tf.width = _width;
+			}
+			_height = _tf.height = 18;
 		}
-		
-		
-		
 		
 		///////////////////////////////////
 		// event handlers
@@ -120,31 +118,37 @@ package com.bit101.components
 		///////////////////////////////////
 		
 		/**
-		 * Gets / sets the maximum value of the ProgressBar.
+		 * Gets / sets the text of this Label.
 		 */
-		public function set maximum(m:Number):void
+		public function set text(t:String):void
 		{
-			_max = m;
-			_value = Math.min(_value, _max);
-			update();
+			_text = t;
+			if(_text == null) _text = "";
+			invalidate();
 		}
-		public function get maximum():Number
+		public function get text():String
 		{
-			return _max;
+			return _text;
 		}
 		
 		/**
-		 * Gets / sets the current value of the ProgressBar.
+		 * Gets / sets whether or not this Label will autosize.
 		 */
-		public function set value(v:Number):void
+		public function set autoSize(b:Boolean):void
 		{
-			_value = Math.min(v, _max);
-			update();
+			_autoSize = b;
 		}
-		public function get value():Number
+		public function get autoSize():Boolean
 		{
-			return _value;
+			return _autoSize;
 		}
 		
+		/**
+		 * Gets the internal TextField of the label if you need to do further customization of it.
+		 */
+		public function get textField():TextField
+		{
+			return _tf;
+		}
 	}
 }

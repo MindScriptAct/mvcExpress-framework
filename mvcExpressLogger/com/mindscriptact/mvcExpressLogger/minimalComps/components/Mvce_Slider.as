@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -35,7 +35,7 @@ package com.bit101.components
 	import flash.geom.Rectangle;
 	
 	[Event(name="change", type="flash.events.Event")]
-	public class Slider extends Component
+	public class Mvce_Slider extends Mvce_Component
 	{
 		protected var _handle:Sprite;
 		protected var _back:Sprite;
@@ -57,7 +57,7 @@ package com.bit101.components
 		 * @param ypos The y position to place this component.
 		 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
 		 */
-		public function Slider(orientation:String = Slider.HORIZONTAL, parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, defaultHandler:Function = null)
+		public function Mvce_Slider(orientation:String = Mvce_Slider.HORIZONTAL, parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, defaultHandler:Function = null)
 		{
 			_orientation = orientation;
 			super(parent, xpos, ypos);
@@ -107,7 +107,7 @@ package com.bit101.components
 		protected function drawBack():void
 		{
 			_back.graphics.clear();
-			_back.graphics.beginFill(Style.BACKGROUND);
+			_back.graphics.beginFill(Mvce_Style.BACKGROUND);
 			_back.graphics.drawRect(0, 0, _width, _height);
 			_back.graphics.endFill();
 
@@ -127,7 +127,7 @@ package com.bit101.components
 		protected function drawHandle():void
 		{	
 			_handle.graphics.clear();
-			_handle.graphics.beginFill(Style.BUTTON_FACE);
+			_handle.graphics.beginFill(Mvce_Style.BUTTON_FACE);
 			if(_orientation == HORIZONTAL)
 			{
 				_handle.graphics.drawRect(1, 1, _height - 2, _height - 2);

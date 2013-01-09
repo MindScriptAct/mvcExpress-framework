@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -36,7 +36,7 @@ package com.bit101.components
 	import flash.utils.Timer;
 
 	[Event(name="change", type="flash.events.Event")]
-	public class ScrollBar extends Component
+	public class Mvce_ScrollBar extends Mvce_Component
 	{
 		protected const DELAY_TIME:int = 500;
 		protected const REPEAT_TIME:int = 100; 
@@ -44,8 +44,8 @@ package com.bit101.components
 		protected const DOWN:String = "down";
 
         protected var _autoHide:Boolean = false;
-		protected var _upButton:PushButton;
-		protected var _downButton:PushButton;
+		protected var _upButton:Mvce_PushButton;
+		protected var _downButton:Mvce_PushButton;
 		protected var _scrollSlider:ScrollSlider;
 		protected var _orientation:String;
 		protected var _lineSize:int = 1;
@@ -62,7 +62,7 @@ package com.bit101.components
 		 * @param ypos The y position to place this component.
 		 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
 		 */
-		public function ScrollBar(orientation:String, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, defaultHandler:Function = null)
+		public function Mvce_ScrollBar(orientation:String, parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, defaultHandler:Function = null)
 		{
 			_orientation = orientation;
 			super(parent, xpos, ypos);
@@ -78,27 +78,27 @@ package com.bit101.components
 		override protected function addChildren():void
 		{
 			_scrollSlider = new ScrollSlider(_orientation, this, 0, 10, onChange);
-			_upButton = new PushButton(this, 0, 0, "");
+			_upButton = new Mvce_PushButton(this, 0, 0, "");
 			_upButton.addEventListener(MouseEvent.MOUSE_DOWN, onUpClick);
 			_upButton.setSize(10, 10);
 			var upArrow:Shape = new Shape();
 			_upButton.addChild(upArrow);
 			
-			_downButton = new PushButton(this, 0, 0, "");
+			_downButton = new Mvce_PushButton(this, 0, 0, "");
 			_downButton.addEventListener(MouseEvent.MOUSE_DOWN, onDownClick);
 			_downButton.setSize(10, 10);
 			var downArrow:Shape = new Shape();
 			_downButton.addChild(downArrow);
 			
-			if(_orientation == Slider.VERTICAL)
+			if(_orientation == Mvce_Slider.VERTICAL)
 			{
-				upArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
+				upArrow.graphics.beginFill(Mvce_Style.DROPSHADOW, 0.5);
 				upArrow.graphics.moveTo(5, 3);
 				upArrow.graphics.lineTo(7, 6);
 				upArrow.graphics.lineTo(3, 6);
 				upArrow.graphics.endFill();
 				
-				downArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
+				downArrow.graphics.beginFill(Mvce_Style.DROPSHADOW, 0.5);
 				downArrow.graphics.moveTo(5, 7);
 				downArrow.graphics.lineTo(7, 4);
 				downArrow.graphics.lineTo(3, 4);
@@ -106,13 +106,13 @@ package com.bit101.components
 			}
 			else
 			{
-				upArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
+				upArrow.graphics.beginFill(Mvce_Style.DROPSHADOW, 0.5);
 				upArrow.graphics.moveTo(3, 5);
 				upArrow.graphics.lineTo(6, 7);
 				upArrow.graphics.lineTo(6, 3);
 				upArrow.graphics.endFill();
 				
-				downArrow.graphics.beginFill(Style.DROPSHADOW, 0.5);
+				downArrow.graphics.beginFill(Mvce_Style.DROPSHADOW, 0.5);
 				downArrow.graphics.moveTo(7, 5);
 				downArrow.graphics.lineTo(4, 7);
 				downArrow.graphics.lineTo(4, 3);
@@ -128,7 +128,7 @@ package com.bit101.components
 		protected override function init():void
 		{
 			super.init();
-			if(_orientation == Slider.HORIZONTAL)
+			if(_orientation == Mvce_Slider.HORIZONTAL)
 			{
 				setSize(100, 10);
 			}
@@ -173,7 +173,7 @@ package com.bit101.components
 		override public function draw():void
 		{
 			super.draw();
-			if(_orientation == Slider.VERTICAL)
+			if(_orientation == Mvce_Slider.VERTICAL)
 			{
 				_scrollSlider.x = 0;
 				_scrollSlider.y = 10;
@@ -363,17 +363,17 @@ package com.bit101.components
 
 
 
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Slider;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Style;
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
-import com.bit101.components.Slider;
-import com.bit101.components.Style;
 
 /**
  * Helper class for the slider portion of the scroll bar.
  */
-class ScrollSlider extends Slider
+class ScrollSlider extends Mvce_Slider
 {
 	protected var _thumbPercent:Number = 1.0;
 	protected var _pageSize:int = 1;
@@ -419,7 +419,7 @@ class ScrollSlider extends Slider
 			_handle.graphics.beginFill(0, 0);
 			_handle.graphics.drawRect(0, 0, size, _height);
 			_handle.graphics.endFill();
-			_handle.graphics.beginFill(Style.BUTTON_FACE);
+			_handle.graphics.beginFill(Mvce_Style.BUTTON_FACE);
 			_handle.graphics.drawRect(1, 1, size - 2, _height - 2);
 		}
 		else
@@ -429,7 +429,7 @@ class ScrollSlider extends Slider
 			_handle.graphics.beginFill(0, 0);
 			_handle.graphics.drawRect(0, 0, _width  - 2, size);
 			_handle.graphics.endFill();
-			_handle.graphics.beginFill(Style.BUTTON_FACE);
+			_handle.graphics.beginFill(Mvce_Style.BUTTON_FACE);
 			_handle.graphics.drawRect(1, 1, _width - 2, size - 2);
 		}
 		_handle.graphics.endFill();

@@ -31,7 +31,7 @@
  * This is a free font obtained from http://www.dafont.com/pf-ronda-seven.font
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -43,7 +43,7 @@ package com.bit101.components
 
 	[Event(name="resize", type="flash.events.Event")]
 	[Event(name="draw", type="flash.events.Event")]
-	public class Component extends Sprite
+	public class Mvce_Component extends Sprite
 	{
 		// NOTE: Flex 4 introduces DefineFont4, which is used by default and does not work in native text fields.
 		// Use the embedAsCFF="false" param to switch back to DefineFont4. In earlier Flex 4 SDKs this was cff="false".
@@ -68,7 +68,7 @@ package com.bit101.components
 		 * @param xpos The x position to place this component.
 		 * @param ypos The y position to place this component.
 		 */
-		public function Component(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
+		public function Mvce_Component(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
 		{
 			move(xpos, ypos);
 			init();
@@ -102,7 +102,7 @@ package com.bit101.components
 		 */
 		protected function getShadow(dist:Number, knockout:Boolean = false):DropShadowFilter
 		{
-			return new DropShadowFilter(dist, 45, Style.DROPSHADOW, 1, dist, dist, .3, 1, knockout);
+			return new DropShadowFilter(dist, 45, Mvce_Style.DROPSHADOW, 1, dist, dist, .3, 1, knockout);
 		}
 		
 		/**
@@ -159,7 +159,7 @@ package com.bit101.components
 		 */
 		public function draw():void
 		{
-			dispatchEvent(new Event(Component.DRAW));
+			dispatchEvent(new Event(Mvce_Component.DRAW));
 		}
 		
 		

@@ -1,5 +1,5 @@
 package com.mindscriptact.mvcExpressLogger.screens {
-import com.bit101.components.Label;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Label;
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.utils.setTimeout;
@@ -15,7 +15,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	private var proxies:Vector.<Object>  = new Vector.<Object>();
 	private var commands:Vector.<Object> = new Vector.<Object>();
 	private var currentModuleName:String;
-	private var moduleLabel:Label;
+	private var moduleLabel:Mvce_Label;
 	static private const PROXY_START_X:Number = 600;
 	static private const MEDIATOR_END_X:Number = 300;
 	static private const COMMAND_MIDDLE_X:Number = (PROXY_START_X + MEDIATOR_END_X) / 2;
@@ -46,7 +46,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		if (moduleLabel) {
 			this.removeChild(moduleLabel);
 		}
-		moduleLabel = new Label(this, 0, 15, "MODULE:" + currentModuleName);
+		moduleLabel = new Mvce_Label(this, 0, 15, "MODULE:" + currentModuleName);
 		moduleLabel.textField.borderColor = 0xFFFFFF;
 		moduleLabel.textField.border = true;
 		moduleLabel.x = COMMAND_MIDDLE_X - moduleLabel.width / 2;
@@ -88,11 +88,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	}
 	
 	public function addMediator(mediatorLogObj:Object):void {
-		var mediatorLabel:Label;
+		var mediatorLabel:Mvce_Label;
 		if (mediatorLogObj.view == null) {
-			mediatorLogObj.view = new Label(null, 5, 0, mediatorLogObj.viewObject.name + "-" + mediatorLogObj.mediatorClass);
-			(mediatorLogObj.view as Label).textField.borderColor = 0x00AA00;
-			(mediatorLogObj.view as Label).textField.border = true;
+			mediatorLogObj.view = new Mvce_Label(null, 5, 0, mediatorLogObj.viewObject.name + "-" + mediatorLogObj.mediatorClass);
+			(mediatorLogObj.view as Mvce_Label).textField.borderColor = 0x00AA00;
+			(mediatorLogObj.view as Mvce_Label).textField.border = true;
 		}
 		mediatorLabel = mediatorLogObj.view;
 		//
@@ -124,7 +124,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	public function drawMediatorDependency(mediatorObject:Object, injectedObject:Object):void {
 		for (var i:int = 0; i < proxies.length; i++) {
 			if (proxies[i].proxyObject == injectedObject) {
-				var mediatorLabel:Label = (mediatorObject.view as Label);
+				var mediatorLabel:Mvce_Label = (mediatorObject.view as Mvce_Label);
 				mediatorLabel.graphics.lineStyle(1, 0xFF0000, 0.5);
 				mediatorLabel.graphics.moveTo(mediatorLabel.width, 5);
 				mediatorLabel.graphics.lineTo(proxies[i].view.x - mediatorLabel.x, proxies[i].view.y - mediatorLabel.y + 5);
@@ -140,7 +140,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		var messageFromObject:Object;
 		var messageShape:Shape;
 		if (mediators[possition]) {
-			var mediatorLabel:Label = mediators[possition].view;
+			var mediatorLabel:Mvce_Label = mediators[possition].view;
 			if (mediatorLabel) {
 				// handle message from module
 				messageFromObject = messageLogObj.messageFromModule;
@@ -169,7 +169,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				if (messageFromObject) {
 					for (var j:int = 0; j < mediators.length; j++) {
 						if (mediators[j].mediatorObject == messageFromObject) {
-							var sourceMediatorLabel:Label = mediators[j].view;
+							var sourceMediatorLabel:Mvce_Label = mediators[j].view;
 							if (sourceMediatorLabel) {
 								
 								messageShape = new Shape();
@@ -197,7 +197,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				if (messageFromObject) {
 					for (var k:int = 0; k < proxies.length; k++) {
 						if (proxies[k].proxyObject == messageFromObject) {
-							var sourceProxyLabel:Label = proxies[k].view;
+							var sourceProxyLabel:Mvce_Label = proxies[k].view;
 							if (sourceProxyLabel) {
 								
 								messageShape = new Shape();
@@ -225,7 +225,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				if (messageFromObject) {
 					for (var m:int = 0; m < commands.length; m++) {
 						if (commands[m].commandObject == messageFromObject) {
-							var sourceCommandLabel:Label = commands[m].view;
+							var sourceCommandLabel:Mvce_Label = commands[m].view;
 							if (sourceCommandLabel) {
 								
 								messageShape = new Shape();
@@ -289,11 +289,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	}
 	
 	public function addProxy(proxyLogObj:Object):void {
-		var proxyLabel:Label;
+		var proxyLabel:Mvce_Label;
 		if (proxyLogObj.view == null) {
-			proxyLogObj.view = new Label(null, 5, 0, proxyLogObj.proxyObject + "-" + proxyLogObj.injectClass + " " + proxyLogObj.name);
-			(proxyLogObj.view as Label).textField.borderColor = 0x3E3EFF;
-			(proxyLogObj.view as Label).textField.border = true;
+			proxyLogObj.view = new Mvce_Label(null, 5, 0, proxyLogObj.proxyObject + "-" + proxyLogObj.injectClass + " " + proxyLogObj.name);
+			(proxyLogObj.view as Mvce_Label).textField.borderColor = 0x3E3EFF;
+			(proxyLogObj.view as Mvce_Label).textField.border = true;
 		}
 		proxyLabel = proxyLogObj.view;
 		//
@@ -325,7 +325,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	public function drawProxyDependency(proxyObject:Object, injectedObject:Object):void {
 		for (var i:int = 0; i < proxies.length; i++) {
 			if (proxies[i].proxyObject == injectedObject) {
-				var proxyLabel:Label = (proxyObject.view as Label);
+				var proxyLabel:Mvce_Label = (proxyObject.view as Mvce_Label);
 				proxyLabel.graphics.lineStyle(1, 0xFF00FF, 0.5);
 				proxyLabel.graphics.moveTo(0, 15);
 				proxyLabel.graphics.curveTo(-100, 15, proxies[i].view.x - proxyLabel.x, proxies[i].view.y - proxyLabel.y + 17);
@@ -358,11 +358,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		}
 		
 		//
-		var commandLabel:Label;
+		var commandLabel:Mvce_Label;
 		if (commandLogObj.view == null) {
-			commandLogObj.view = new Label(null, 5, 0, commandLogObj.commandObject + " - " + commandLogObj.params);
-			(commandLogObj.view as Label).textField.borderColor = 0xFFFF00;
-			(commandLogObj.view as Label).textField.border = true;
+			commandLogObj.view = new Mvce_Label(null, 5, 0, commandLogObj.commandObject + " - " + commandLogObj.params);
+			(commandLogObj.view as Mvce_Label).textField.borderColor = 0xFFFF00;
+			(commandLogObj.view as Mvce_Label).textField.border = true;
 		}
 		commandLabel = commandLogObj.view;
 		//
@@ -392,7 +392,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		if (messageFromObject) {
 			for (var j:int = 0; j < mediators.length; j++) {
 				if (mediators[j].mediatorObject == messageFromObject) {
-					var mediatorLabel:Label = mediators[j].view;
+					var mediatorLabel:Mvce_Label = mediators[j].view;
 					if (mediatorLabel) {
 						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
 						commandLabel.graphics.moveTo(0, 10);
@@ -412,7 +412,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		if (messageFromObject) {
 			for (var k:int = 0; k < proxies.length; k++) {
 				if (proxies[k].proxyObject == messageFromObject) {
-					var proxyLabel:Label = proxies[k].view;
+					var proxyLabel:Mvce_Label = proxies[k].view;
 					if (proxyLabel) {
 						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
 						commandLabel.graphics.moveTo(commandLabel.width, 10);
@@ -433,7 +433,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		if (messageFromObject) {
 			for (var m:int = 0; m < commands.length; m++) {
 				if (commands[m].commandObject == messageFromObject) {
-					var anotherCommandLabel:Label = commands[m].view;
+					var anotherCommandLabel:Mvce_Label = commands[m].view;
 					if (anotherCommandLabel) {
 						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
 						commandLabel.graphics.moveTo(0, 10);
@@ -488,12 +488,12 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			if (commands[i]) {
 				if (commands[i].commandObject == commandObject) {
 					if (commands[i].view) {
-						var commandLabel:Label = commands[i].view;
+						var commandLabel:Mvce_Label = commands[i].view;
 						//
 						for (var j:int = 0; j < proxies.length; j++) {
 							if (proxies[j].proxyObject == injectedObject) {
 								if (proxies[j].view) {
-									var proxyLabel:Label = (proxies[j].view as Label);
+									var proxyLabel:Mvce_Label = (proxies[j].view as Mvce_Label);
 								}
 							}
 						}

@@ -26,15 +26,15 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.components {
+package com.mindscriptact.mvcExpressLogger.minimalComps.components {
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
-public class PushButton extends Component {
+public class Mvce_PushButton extends Mvce_Component {
 	protected var _back:Sprite;
 	protected var _face:Sprite;
-	protected var _label:Label;
+	protected var _label:Mvce_Label;
 	protected var _labelText:String = "";
 	protected var _over:Boolean = false;
 	protected var _down:Boolean = false;
@@ -49,7 +49,7 @@ public class PushButton extends Component {
 	 * @param label The string to use for the initial label of this component.
 	 * @param defaultHandler The event handling function to handle the default event for this component (click in this case).
 	 */
-	public function PushButton(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, label:String = "", defaultHandler:Function = null) {
+	public function Mvce_PushButton(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, label:String = "", defaultHandler:Function = null) {
 		super(parent, xpos, ypos);
 		if (defaultHandler != null) {
 			addEventListener(MouseEvent.CLICK, defaultHandler);
@@ -83,7 +83,7 @@ public class PushButton extends Component {
 		_face.y = 1;
 		addChild(_face);
 		
-		_label = new Label();
+		_label = new Mvce_Label();
 		addChild(_label);
 		
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseGoDown);
@@ -96,9 +96,9 @@ public class PushButton extends Component {
 	protected function drawFace():void {
 		_face.graphics.clear();
 		if (_down) {
-			_face.graphics.beginFill(Style.BUTTON_DOWN);
+			_face.graphics.beginFill(Mvce_Style.BUTTON_DOWN);
 		} else {
-			_face.graphics.beginFill(Style.BUTTON_FACE);
+			_face.graphics.beginFill(Mvce_Style.BUTTON_FACE);
 		}
 		_face.graphics.drawRect(0, 0, _width - 2, _height - 2);
 		_face.graphics.endFill();
@@ -114,7 +114,7 @@ public class PushButton extends Component {
 	override public function draw():void {
 		super.draw();
 		_back.graphics.clear();
-		_back.graphics.beginFill(Style.BACKGROUND);
+		_back.graphics.beginFill(Mvce_Style.BACKGROUND);
 		_back.graphics.drawRect(0, 0, _width, _height);
 		_back.graphics.endFill();
 		

@@ -26,13 +26,13 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.components {
+package com.mindscriptact.mvcExpressLogger.minimalComps.components {
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
-public class TextArea extends Text {
-	protected var _scrollbar:VScrollBar;
+public class Mvce_TextArea extends Mvce_Text {
+	protected var _scrollbar:Mvce_VScrollBar;
 	
 	public var autoScroll:Boolean;
 	
@@ -43,7 +43,7 @@ public class TextArea extends Text {
 	 * @param ypos The y position to place this component.
 	 * @param text The initial text to display in this component.
 	 */
-	public function TextArea(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, text:String = "") {
+	public function Mvce_TextArea(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, text:String = "") {
 		super(parent, xpos, ypos, text);
 	}
 	
@@ -60,7 +60,7 @@ public class TextArea extends Text {
 	 */
 	override protected function addChildren():void {
 		super.addChildren();
-		_scrollbar = new VScrollBar(this, 0, 0, onScrollbarScroll);
+		_scrollbar = new Mvce_VScrollBar(this, 0, 0, onScrollbarScroll);
 		_tf.addEventListener(Event.SCROLL, onTextScroll);
 	}
 	

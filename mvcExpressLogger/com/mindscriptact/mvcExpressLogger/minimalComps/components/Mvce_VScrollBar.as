@@ -1,9 +1,9 @@
 /**
- * HScrollBar.as
+ * VScrollBar.as
  * Keith Peters
  * version 0.9.10
  * 
- * A horizontal scroll bar for use in other components. 
+ * A vertical scroll bar for use in other components. 
  * 
  * Copyright (c) 2011 Keith Peters
  * 
@@ -26,22 +26,22 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
 	
-	/**
-	 * Constructor
-	 * @param parent The parent DisplayObjectContainer on which to add this ScrollBar.
-	 * @param xpos The x position to place this component.
-	 * @param ypos The y position to place this component.
-	 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
-	 */
-	public class HScrollBar extends ScrollBar
+	public class Mvce_VScrollBar extends Mvce_ScrollBar
 	{
-		public function HScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, defaultHandler:Function=null)
+		/**
+		 * Constructor
+		 * @param parent The parent DisplayObjectContainer on which to add this ScrollBar.
+		 * @param xpos The x position to place this component.
+		 * @param ypos The y position to place this component.
+		 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
+		 */
+		public function Mvce_VScrollBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, defaultHandler:Function=null)
 		{
-			super(Slider.HORIZONTAL, parent, xpos, ypos, defaultHandler);
+			super(Mvce_Slider.VERTICAL, parent, xpos, ypos, defaultHandler);
 		}
 	}
 }

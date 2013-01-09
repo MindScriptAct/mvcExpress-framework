@@ -26,22 +26,35 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.utils
+package com.mindscriptact.mvcExpressLogger.minimalComps.utils
 {
-	// usually don't use * but we really are importing everything here.
-	import com.bit101.components.*;
-	
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_CheckBox;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Component;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_InputText;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Label;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_NumericStepper;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Panel;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_PushButton;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_ScrollBar;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Slider;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Style;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Text;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_TextArea;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_VScrollBar;
+	import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Window;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.getDefinitionByName;
+	// usually don't use * but we really are importing everything here.
+	
 
 	/**
 	 * Creates and lays out minimal components based on a simple xml format.
 	 */
-	public class MinimalConfigurator extends EventDispatcher
+	public class Mvce_MinimalConfigurator extends EventDispatcher
 	{
 		protected var loader:URLLoader;
 		protected var parent:DisplayObjectContainer;
@@ -51,7 +64,7 @@ package com.bit101.utils
 		 * Constructor.
 		 * @param parent The display object container on which to create components and look for ids and event handlers.
 		 */
-		public function MinimalConfigurator(parent:DisplayObjectContainer)
+		public function Mvce_MinimalConfigurator(parent:DisplayObjectContainer)
 		{
 			this.parent = parent;
 			idMap = new Object();
@@ -106,7 +119,7 @@ package com.bit101.utils
 			for(var i:int = 0; i < xml.children().length(); i++)
 			{
 				var comp:XML = xml.children()[i];
-				var compInst:Component = parseComp(comp);
+				var compInst:Mvce_Component = parseComp(comp);
 				if(compInst != null)
 				{
 					parent.addChild(compInst);
@@ -119,7 +132,7 @@ package com.bit101.utils
 		 * @param xml The xml definition for this component.
 		 * @return A component instance.
 		 */
-		private function parseComp(xml:XML):Component
+		private function parseComp(xml:XML):Mvce_Component
 		{
 			var compInst:Object;
 			var specialProps:Object = {};
@@ -190,7 +203,7 @@ package com.bit101.utils
 				// child nodes will be added as children to the instance just created.
 				for(var j:int = 0; j < xml.children().length(); j++)
 				{
-					var child:Component = parseComp(xml.children()[j]);
+					var child:Mvce_Component = parseComp(xml.children()[j]);
 					if(child != null)
 					{
 						compInst.addChild(child);
@@ -201,7 +214,7 @@ package com.bit101.utils
 			{
 				
 			}
-			return compInst as Component;
+			return compInst as Mvce_Component;
 		}
 		
 		/**
@@ -209,7 +222,7 @@ package com.bit101.utils
 		 * @param id The id of the component you want.
 		 * @return The component with that id, if it exists.
 		 */
-		public function getCompById(id:String):Component
+		public function getCompById(id:String):Mvce_Component
 		{
 			return idMap[id];
 		}
@@ -230,7 +243,7 @@ package com.bit101.utils
 		 */
 		Accordion;
 		Calendar;
-		CheckBox;
+		Mvce_CheckBox;
 		ColorChooser;
 		ComboBox;
 		FPSMeter;
@@ -240,32 +253,32 @@ package com.bit101.utils
 		HSlider;
 		HUISlider;
 		IndicatorLight;
-		InputText;
+		Mvce_InputText;
 		Knob;
-		Label;
+		Mvce_Label;
 		List;
 		ListItem;
 		Meter;
-		NumericStepper;
-		Panel;
+		Mvce_NumericStepper;
+		Mvce_Panel;
 		ProgressBar;
-		PushButton;
+		Mvce_PushButton;
 		RadioButton;
 		RangeSlider;
 		RotarySelector;
-		ScrollBar;
+		Mvce_ScrollBar;
 		ScrollPane;
-		Slider;
-		Style;
-		Text;
-		TextArea;
+		Mvce_Slider;
+		Mvce_Style;
+		Mvce_Text;
+		Mvce_TextArea;
 		UISlider;
 		VBox;
 		VRangeSlider;
-		VScrollBar;
+		Mvce_VScrollBar;
 		VSlider;
 		VUISlider;
 		WheelMenu;
-		Window;
+		Mvce_Window;
 	}
 }

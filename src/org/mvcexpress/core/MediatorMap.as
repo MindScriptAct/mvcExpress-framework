@@ -121,7 +121,7 @@ public class MediatorMap implements IMediatorMap {
 		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
-			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
+			viewClass = getDefinitionByName(getQualifiedClassName(viewObject)) as Class;
 		}
 		
 		var injectClass:Class = mediatorInjectRegistry[viewClass];

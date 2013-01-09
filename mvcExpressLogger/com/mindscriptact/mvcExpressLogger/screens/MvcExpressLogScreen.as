@@ -1,8 +1,6 @@
 package com.mindscriptact.mvcExpressLogger.screens {
-import com.bit101.components.Text;
-import com.bit101.components.TextArea;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_TextArea;
 import flash.display.Sprite;
-import flash.utils.setTimeout;
 
 /**
  * COMMENT
@@ -11,13 +9,13 @@ import flash.utils.setTimeout;
 public class MvcExpressLogScreen extends Sprite {
 	private var screenWidth:int;
 	private var screenHeight:int;
-	private var txt:TextArea;
+	private var txt:Mvce_TextArea;
 	
 	public function MvcExpressLogScreen(screenWidth:int, screenHeight:int) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		
-		txt = new TextArea(this);
+		txt = new Mvce_TextArea(this);
 		txt.width = this.screenWidth;
 		txt.height = this.screenHeight;
 		txt.editable = false;

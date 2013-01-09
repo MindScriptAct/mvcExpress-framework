@@ -1,10 +1,10 @@
 package com.mindscriptact.mvcExpressLogger {
-import com.bit101.components.CheckBox;
-import com.bit101.components.NumericStepper;
-import com.bit101.components.PushButton;
-import com.bit101.components.Style;
-import com.bit101.components.Text;
-import com.bit101.components.Window;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_CheckBox;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_NumericStepper;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_PushButton;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Style;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Text;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Window;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressLogScreen;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import com.mindscriptact.mvcExpressLogger.visualizer.VisualizerManager;
@@ -49,20 +49,20 @@ public class MvcExpressLogger {
 	private var isAltKeyNeeded:Boolean;
 	//
 	// view
-	private var logWindow:Window;
+	private var logWindow:Mvce_Window;
 	private var isLogShown:Boolean = false;
-	private var allButtons:Vector.<PushButton>;
+	private var allButtons:Vector.<Mvce_PushButton>;
 	private var currentScreen:Sprite;
-	private var currentTogleButton:PushButton;
+	private var currentTogleButton:Mvce_PushButton;
 	private var currentTabButtonName:String;
 	//
 	private var logText:String = "";
 	private var currentModuleName:String = "";
-	private var moduleStepper:NumericStepper;
-	private var currentModuleText:Text;
+	private var moduleStepper:Mvce_NumericStepper;
+	private var currentModuleText:Mvce_Text;
 	private var allModuleNames:Array;
 	private var isRenderWaiting:Boolean = false;
-	private var autoLogCheckBox:CheckBox;
+	private var autoLogCheckBox:Mvce_CheckBox;
 	private var useAutoScroll:Boolean = true;
 	private var initTab:String;
 	
@@ -94,8 +94,8 @@ public class MvcExpressLogger {
 			instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
 			instance.isShiftKeyNeeded = isShiftKeyNeeded;
 			instance.isAltKeyNeeded = isAltKeyNeeded;
-			Style.setStyle(Style.DARK);
-			Style.LABEL_TEXT = 0xFFFFFF;
+			Mvce_Style.setStyle(Mvce_Style.DARK);
+			Mvce_Style.LABEL_TEXT = 0xFFFFFF;
 		}
 		
 		use namespace pureLegsCore;
@@ -201,7 +201,7 @@ public class MvcExpressLogger {
 			var debugCompile:Boolean = (MvcExpress["DEBUG_COMPILE"] as Boolean);
 			
 			var version:String = "    ["+MvcExpress["VERSION"]+" - "+(debugCompile ? "DEBUG COMPILE!!!" : "Release.")+"]"
-			logWindow = new Window(null, x, y, "mvcExpress logger"+version);
+			logWindow = new Mvce_Window(null, x, y, "mvcExpress logger"+version);
 			logWindow.width = width;
 			logWindow.height = height
 			logWindow.alpha = alpha;
@@ -210,12 +210,12 @@ public class MvcExpressLogger {
 			
 			//
 			
-			moduleStepper = new NumericStepper(logWindow, 120, 5, handleModuleChange);
+			moduleStepper = new Mvce_NumericStepper(logWindow, 120, 5, handleModuleChange);
 			moduleStepper.width = 32;
 			moduleStepper.minimum = 0;
 			moduleStepper.isCircular = true;
 			
-			currentModuleText = new Text(logWindow, 0, 0, "...");
+			currentModuleText = new Mvce_Text(logWindow, 0, 0, "...");
 			currentModuleText.editable = false;
 			currentModuleText.width = 120;
 			currentModuleText.height = 22
@@ -225,48 +225,48 @@ public class MvcExpressLogger {
 			rectangle.graphics.drawRect(0, 0, 120, 22);
 			logWindow.addChild(rectangle);
 			
-			allButtons = new Vector.<PushButton>();
+			allButtons = new Vector.<Mvce_PushButton>();
 			
-			var logButton:PushButton = new PushButton(logWindow, 0, -0, LOG_TAB, handleButtonClick);
+			var logButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, LOG_TAB, handleButtonClick);
 			logButton.toggle = true;
 			logButton.width = 50;
 			logButton.x = moduleStepper.x + moduleStepper.width + 10;
 			allButtons.push(logButton);
 			
-			var messageMapingButton:PushButton = new PushButton(logWindow, 0, -0, MESSAGES_TAB, handleButtonClick);
+			var messageMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, MESSAGES_TAB, handleButtonClick);
 			messageMapingButton.toggle = true;
 			messageMapingButton.width = 60;
 			messageMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(messageMapingButton);
 			
-			var mediatorMapingButton:PushButton = new PushButton(logWindow, 0, -0, MEDIATORS_TAB, handleButtonClick);
+			var mediatorMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, MEDIATORS_TAB, handleButtonClick);
 			mediatorMapingButton.toggle = true;
 			mediatorMapingButton.width = 60;
 			mediatorMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(mediatorMapingButton);
 			
-			var proxyMapingButton:PushButton = new PushButton(logWindow, 0, -0, PROXIES_TAB, handleButtonClick);
+			var proxyMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, PROXIES_TAB, handleButtonClick);
 			proxyMapingButton.toggle = true;
 			proxyMapingButton.width = 50;
 			proxyMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(proxyMapingButton);
 			
-			var commandMapingButton:PushButton = new PushButton(logWindow, 0, -0, COMMANDS_TAB, handleButtonClick);
+			var commandMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, COMMANDS_TAB, handleButtonClick);
 			commandMapingButton.toggle = true;
 			commandMapingButton.width = 60;
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
 			
-			var clearButton:PushButton = new PushButton(logWindow, 0, 5, "clear log", handleClearLog);
+			var clearButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, 5, "clear log", handleClearLog);
 			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
 			clearButton.width = 50;
 			clearButton.height = 15;
 			
-			autoLogCheckBox = new CheckBox(logWindow, 0, 5, "autoScroll", handleAutoScrollTogle);
+			autoLogCheckBox = new Mvce_CheckBox(logWindow, 0, 5, "autoScroll", handleAutoScrollTogle);
 			autoLogCheckBox.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 70;
 			autoLogCheckBox.selected = true;
 			
-			var visualizerButton:PushButton = new PushButton(logWindow, 0, -0, VISUALIZER_TAB, handleButtonClick);
+			var visualizerButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, VISUALIZER_TAB, handleButtonClick);
 			visualizerButton.toggle = true;
 			visualizerButton.width = 60;
 			visualizerButton.x = 600;
@@ -307,7 +307,7 @@ public class MvcExpressLogger {
 	
 	private function handleAutoScrollTogle(event:MouseEvent):void {
 		//trace("MvcExpressLogger.handleAutoScrollTogle > event : " + event);
-		useAutoScroll = (event.target as CheckBox).selected;
+		useAutoScroll = (event.target as Mvce_CheckBox).selected;
 		(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 	}
 	
@@ -345,7 +345,7 @@ public class MvcExpressLogger {
 	
 	private function handleButtonClick(event:MouseEvent = null):void {
 		if (event) {
-			var targetButton:PushButton = (event.target as PushButton);
+			var targetButton:Mvce_PushButton = (event.target as Mvce_PushButton);
 		} else {
 			// select first button by default.
 			targetButton = allButtons[0];

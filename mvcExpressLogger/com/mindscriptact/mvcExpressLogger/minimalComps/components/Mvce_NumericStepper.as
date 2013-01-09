@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
 
-package com.bit101.components {
+package com.mindscriptact.mvcExpressLogger.minimalComps.components {
 
 import flash.display.DisplayObjectContainer;
 import flash.events.Event;
@@ -36,16 +36,16 @@ import flash.utils.Timer;
 
 [Event(name="change",type="flash.events.Event")]
 
-public class NumericStepper extends Component {
+public class Mvce_NumericStepper extends Mvce_Component {
 	private var _isCircular:Boolean;
 	protected const DELAY_TIME:int = 500;
 	protected const UP:String = "up";
 	protected const DOWN:String = "down";
-	protected var _minusBtn:PushButton;
+	protected var _minusBtn:Mvce_PushButton;
 	
 	protected var _repeatTime:int = 100;
-	protected var _plusBtn:PushButton;
-	protected var _valueText:InputText;
+	protected var _plusBtn:Mvce_PushButton;
+	protected var _valueText:Mvce_InputText;
 	protected var _value:Number = 0;
 	protected var _step:Number = 1;
 	protected var _labelPrecision:int = 1;
@@ -62,7 +62,7 @@ public class NumericStepper extends Component {
 	 * @param ypos The y position to place this component.
 	 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
 	 */
-	public function NumericStepper(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, defaultHandler:Function = null) {
+	public function Mvce_NumericStepper(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, defaultHandler:Function = null) {
 		super(parent, xpos, ypos);
 		if (defaultHandler != null) {
 			addEventListener(Event.CHANGE, defaultHandler);
@@ -85,12 +85,12 @@ public class NumericStepper extends Component {
 	 * Creates and adds the child display objects of this component.
 	 */
 	protected override function addChildren():void {
-		_valueText = new InputText(this, 0, 0, "0", onValueTextChange);
+		_valueText = new Mvce_InputText(this, 0, 0, "0", onValueTextChange);
 		_valueText.restrict = "-0123456789.";
-		_minusBtn = new PushButton(this, 0, 0, "-");
+		_minusBtn = new Mvce_PushButton(this, 0, 0, "-");
 		_minusBtn.addEventListener(MouseEvent.MOUSE_DOWN, onMinus);
 		_minusBtn.setSize(16, 16);
-		_plusBtn = new PushButton(this, 0, 0, "+");
+		_plusBtn = new Mvce_PushButton(this, 0, 0, "+");
 		_plusBtn.addEventListener(MouseEvent.MOUSE_DOWN, onPlus);
 		_plusBtn.setSize(16, 16);
 	}
