@@ -26,13 +26,13 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	
-	public class Panel extends Component
+	public class Mvce_Panel extends Mvce_Component
 	{
 		protected var _mask:Sprite;
 		protected var _background:Sprite;
@@ -55,7 +55,7 @@ package com.bit101.components
 		 * @param xpos The x position to place this component.
 		 * @param ypos The y position to place this component.
 		 */
-		public function Panel(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
+		public function Mvce_Panel(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0)
 		{
 			super(parent, xpos, ypos);
 		}
@@ -124,7 +124,7 @@ package com.bit101.components
 			_background.graphics.lineStyle(1, 0, 0.1);
 			if(_color == -1)
 			{
-				_background.graphics.beginFill(Style.PANEL);
+				_background.graphics.beginFill(Mvce_Style.PANEL);
 			}
 			else
 			{

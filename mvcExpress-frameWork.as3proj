@@ -55,10 +55,10 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="libs\MinimalComps_0_9_10.swc" />
     <element path="libs\flexunit-uilistener-4.1.0_RC2-4-4.1.0.16076.swc" />
     <element path="libs\flexunit-cilistener-4.1.0_RC2-4-4.1.0.16076.swc" />
     <element path="libs\flexunit-4.1.0_RC2-4-as3_4.1.0.16076.swc" />
+    <element path="libs\MinimalComps_0_9_10.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

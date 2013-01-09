@@ -1,7 +1,9 @@
 /**
- * InputText.as
+ * Text.as
  * Keith Peters
  * version 0.9.10
+ * 
+ * A Text component for displaying multiple lines of text.
  * 
  * Copyright (c) 2011 Keith Peters
  * 
@@ -24,38 +26,37 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 	
-	public class InputText extends Component
+	[Event(name="change", type="flash.events.Event")]
+	public class Mvce_Text extends Mvce_Component
 	{
-		protected var _back:Sprite;
-		protected var _password:Boolean = false;
-		protected var _text:String = "";
 		protected var _tf:TextField;
+		protected var _text:String = "";
+		protected var _editable:Boolean = true;
+		protected var _panel:Mvce_Panel;
+		protected var _selectable:Boolean = true;
+		protected var _html:Boolean = false;
+		protected var _format:TextFormat;
 		
 		/**
 		 * Constructor
-		 * @param parent The parent DisplayObjectContainer on which to add this InputText.
+		 * @param parent The parent DisplayObjectContainer on which to add this Label.
 		 * @param xpos The x position to place this component.
 		 * @param ypos The y position to place this component.
-		 * @param text The string containing the initial text of this component.
-		 * @param defaultHandler The event handling function to handle the default event for this component (change in this case).
+		 * @param text The initial text to display in this component.
 		 */
-		public function InputText(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, text:String = "", defaultHandler:Function = null)
+		public function Mvce_Text(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number =  0, text:String = "")
 		{
 			this.text = text;
 			super(parent, xpos, ypos);
-			if(defaultHandler != null)
-			{
-				addEventListener(Event.CHANGE, defaultHandler);
-			}
+			setSize(200, 100);
 		}
 		
 		/**
@@ -64,26 +65,30 @@ package com.bit101.components
 		override protected function init():void
 		{
 			super.init();
-			setSize(100, 16);
 		}
 		
 		/**
-		 * Creates and adds child display objects.
+		 * Creates and adds the child display objects of this component.
 		 */
 		override protected function addChildren():void
 		{
-			_back = new Sprite();
-			_back.filters = [getShadow(2, true)];
-			addChild(_back);
+			_panel = new Mvce_Panel(this);
+			_panel.color = Mvce_Style.TEXT_BACKGROUND;
+			
+			_format = new TextFormat(Mvce_Style.fontName, Mvce_Style.fontSize, Mvce_Style.LABEL_TEXT);
 			
 			_tf = new TextField();
-			_tf.embedFonts = Style.embedFonts;
+			_tf.x = 2;
+			_tf.y = 2;
+			_tf.height = _height;
+			_tf.embedFonts = Mvce_Style.embedFonts;
+			_tf.multiline = true;
+			_tf.wordWrap = true;
 			_tf.selectable = true;
 			_tf.type = TextFieldType.INPUT;
-			_tf.defaultTextFormat = new TextFormat(Style.fontName, Style.fontSize, Style.INPUT_TEXT);
+			_tf.defaultTextFormat = _format;
+			_tf.addEventListener(Event.CHANGE, onChange);			
 			addChild(_tf);
-			_tf.addEventListener(Event.CHANGE, onChange);
-			
 		}
 		
 		
@@ -99,34 +104,33 @@ package com.bit101.components
 		override public function draw():void
 		{
 			super.draw();
-			_back.graphics.clear();
-			_back.graphics.beginFill(Style.BACKGROUND);
-			_back.graphics.drawRect(0, 0, _width, _height);
-			_back.graphics.endFill();
 			
-			_tf.displayAsPassword = _password;
+			_panel.setSize(_width, _height);
+			_panel.draw();
 			
-			if(_text != null)
-			{
-				_tf.text = _text;
-			}
-			else 
-			{
-				_tf.text = "";
-			}
 			_tf.width = _width - 4;
-			if(_tf.text == "")
+			_tf.height = _height - 4;
+			if(_html)
 			{
-				_tf.text = "X";
-				_tf.height = Math.min(_tf.textHeight + 4, _height);
-				_tf.text = "";
+				_tf.htmlText = _text;
 			}
 			else
 			{
-				_tf.height = Math.min(_tf.textHeight + 4, _height);
+				_tf.text = _text;
 			}
-			_tf.x = 2;
-			_tf.y = Math.round(_height / 2 - _tf.height / 2);
+			if(_editable)
+			{
+				_tf.mouseEnabled = true;
+				_tf.selectable = true;
+				_tf.type = TextFieldType.INPUT;
+			}
+			else
+			{
+				_tf.mouseEnabled = _selectable;
+				_tf.selectable = _selectable;
+				_tf.type = TextFieldType.DYNAMIC;
+			}
+			_tf.setTextFormat(_format);
 		}
 		
 		
@@ -137,25 +141,20 @@ package com.bit101.components
 		///////////////////////////////////
 		
 		/**
-		 * Internal change handler.
-		 * @param event The Event passed by the system.
+		 * Called when the text in the text field is manually changed.
 		 */
 		protected function onChange(event:Event):void
 		{
 			_text = _tf.text;
-			event.stopImmediatePropagation();
 			dispatchEvent(event);
 		}
-		
-		
-		
 		
 		///////////////////////////////////
 		// getter/setters
 		///////////////////////////////////
 		
 		/**
-		 * Gets / sets the text shown in this InputText.
+		 * Gets / sets the text of this Label.
 		 */
 		public function set text(t:String):void
 		{
@@ -177,40 +176,42 @@ package com.bit101.components
 		}
 		
 		/**
-		 * Gets / sets the list of characters that are allowed in this TextInput.
+		 * Gets / sets whether or not this text component will be editable.
 		 */
-		public function set restrict(str:String):void
+		public function set editable(b:Boolean):void
 		{
-			_tf.restrict = str;
-		}
-		public function get restrict():String
-		{
-			return _tf.restrict;
-		}
-		
-		/**
-		 * Gets / sets the maximum number of characters that can be shown in this InputText.
-		 */
-		public function set maxChars(max:int):void
-		{
-			_tf.maxChars = max;
-		}
-		public function get maxChars():int
-		{
-			return _tf.maxChars;
-		}
-		
-		/**
-		 * Gets / sets whether or not this input text will show up as password (asterisks).
-		 */
-		public function set password(b:Boolean):void
-		{
-			_password = b;
+			_editable = b;
 			invalidate();
 		}
-		public function get password():Boolean
+		public function get editable():Boolean
 		{
-			return _password;
+			return _editable;
+		}
+		
+		/**
+		 * Gets / sets whether or not this text component will be selectable. Only meaningful if editable is false.
+		 */
+		public function set selectable(b:Boolean):void
+		{
+			_selectable = b;
+			invalidate();
+		}
+		public function get selectable():Boolean
+		{
+			return _selectable;
+		}
+		
+		/**
+		 * Gets / sets whether or not text will be rendered as HTML or plain text.
+		 */
+		public function set html(b:Boolean):void
+		{
+			_html = b;
+			invalidate();
+		}
+		public function get html():Boolean
+		{
+			return _html;
 		}
 
         /**

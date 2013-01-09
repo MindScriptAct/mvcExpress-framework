@@ -26,7 +26,7 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -38,12 +38,12 @@ package com.bit101.components
 	[Event(name="select", type="flash.events.Event")]
 	[Event(name="close", type="flash.events.Event")]
 	[Event(name="resize", type="flash.events.Event")]
-	public class Window extends Component
+	public class Mvce_Window extends Mvce_Component
 	{
 		protected var _title:String;
-		protected var _titleBar:Panel;
-		protected var _titleLabel:Label;
-		protected var _panel:Panel;
+		protected var _titleBar:Mvce_Panel;
+		protected var _titleLabel:Mvce_Label;
+		protected var _panel:Mvce_Panel;
 		protected var _color:int = -1;
 		protected var _shadow:Boolean = true;
 		protected var _draggable:Boolean = true;
@@ -51,7 +51,7 @@ package com.bit101.components
 		protected var _hasMinimizeButton:Boolean = false;
 		protected var _minimized:Boolean = false;
 		protected var _hasCloseButton:Boolean;
-		protected var _closeButton:PushButton;
+		protected var _closeButton:Mvce_PushButton;
 		protected var _grips:Shape;
 		
 		
@@ -62,7 +62,7 @@ package com.bit101.components
 		 * @param ypos The y position to place this component.
 		 * @param title The string to display in the title bar.
 		 */
-		public function Window(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, title:String="Window")
+		public function Mvce_Window(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0, title:String="Window")
 		{
 			_title = title;
 			super(parent, xpos, ypos);
@@ -82,14 +82,14 @@ package com.bit101.components
 		 */
 		override protected function addChildren():void
 		{
-			_titleBar = new Panel();
+			_titleBar = new Mvce_Panel();
 			_titleBar.filters = [];
 			_titleBar.buttonMode = true;
 			_titleBar.useHandCursor = true;
 			_titleBar.addEventListener(MouseEvent.MOUSE_DOWN, onMouseGoDown);
 			_titleBar.height = 20;
 			super.addChild(_titleBar);
-			_titleLabel = new Label(_titleBar.content, 5, 1, _title);
+			_titleLabel = new Mvce_Label(_titleBar.content, 5, 1, _title);
 			
 			_grips = new Shape();
 			for(var i:int = 0; i < 4; i++)
@@ -104,7 +104,7 @@ package com.bit101.components
 			_titleBar.content.addChild(_grips);
 			_grips.visible = false;
 			
-			_panel = new Panel(null, 0, 20);
+			_panel = new Mvce_Panel(null, 0, 20);
 			_panel.visible = !_minimized;
 			super.addChild(_panel);
 			
@@ -124,7 +124,7 @@ package com.bit101.components
 			_minimizeButton.buttonMode = true;
 			_minimizeButton.addEventListener(MouseEvent.CLICK, onMinimize);
 			
-			_closeButton = new PushButton(null, 86, 6, "", onClose);
+			_closeButton = new Mvce_PushButton(null, 86, 6, "", onClose);
 			_closeButton.setSize(8, 8);
 			
 			filters = [getShadow(4, false)];
@@ -386,11 +386,11 @@ package com.bit101.components
 		/**
 		 * Returns a reference to the title bar for customization.
 		 */
-		public function get titleBar():Panel
+		public function get titleBar():Mvce_Panel
 		{
 			return _titleBar;
 		}
-		public function set titleBar(value:Panel):void
+		public function set titleBar(value:Mvce_Panel):void
 		{
 			_titleBar = value;
 		}

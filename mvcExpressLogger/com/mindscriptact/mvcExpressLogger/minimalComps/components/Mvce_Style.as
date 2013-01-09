@@ -27,10 +27,10 @@
  * THE SOFTWARE.
  */
  
-package com.bit101.components
+package com.mindscriptact.mvcExpressLogger.minimalComps.components
 {
 
-	public class Style
+	public class Mvce_Style
 	{
 		public static var TEXT_BACKGROUND:uint = 0xFFFFFF;
 		public static var BACKGROUND:uint = 0xCCCCCC;
@@ -61,33 +61,33 @@ package com.bit101.components
 			switch(style)
 			{
 				case DARK:
-					Style.BACKGROUND = 0x444444;
-					Style.BUTTON_FACE = 0x666666;
-					Style.BUTTON_DOWN = 0x222222;
-					Style.INPUT_TEXT = 0xBBBBBB;
-					Style.LABEL_TEXT = 0xCCCCCC;
-					Style.PANEL = 0x666666;
-					Style.PROGRESS_BAR = 0x666666;
-					Style.TEXT_BACKGROUND = 0x555555;
-					Style.LIST_DEFAULT = 0x444444;
-					Style.LIST_ALTERNATE = 0x393939;
-					Style.LIST_SELECTED = 0x666666;
-					Style.LIST_ROLLOVER = 0x777777;
+					Mvce_Style.BACKGROUND = 0x444444;
+					Mvce_Style.BUTTON_FACE = 0x666666;
+					Mvce_Style.BUTTON_DOWN = 0x222222;
+					Mvce_Style.INPUT_TEXT = 0xBBBBBB;
+					Mvce_Style.LABEL_TEXT = 0xCCCCCC;
+					Mvce_Style.PANEL = 0x666666;
+					Mvce_Style.PROGRESS_BAR = 0x666666;
+					Mvce_Style.TEXT_BACKGROUND = 0x555555;
+					Mvce_Style.LIST_DEFAULT = 0x444444;
+					Mvce_Style.LIST_ALTERNATE = 0x393939;
+					Mvce_Style.LIST_SELECTED = 0x666666;
+					Mvce_Style.LIST_ROLLOVER = 0x777777;
 					break;
 				case LIGHT:
 				default:
-					Style.BACKGROUND = 0xCCCCCC;
-					Style.BUTTON_FACE = 0xFFFFFF;
-					Style.BUTTON_DOWN = 0xEEEEEE;
-					Style.INPUT_TEXT = 0x333333;
-					Style.LABEL_TEXT = 0x666666;
-					Style.PANEL = 0xF3F3F3;
-					Style.PROGRESS_BAR = 0xFFFFFF;
-					Style.TEXT_BACKGROUND = 0xFFFFFF;
-					Style.LIST_DEFAULT = 0xFFFFFF;
-					Style.LIST_ALTERNATE = 0xF3F3F3;
-					Style.LIST_SELECTED = 0xCCCCCC;
-					Style.LIST_ROLLOVER = 0xDDDDDD;
+					Mvce_Style.BACKGROUND = 0xCCCCCC;
+					Mvce_Style.BUTTON_FACE = 0xFFFFFF;
+					Mvce_Style.BUTTON_DOWN = 0xEEEEEE;
+					Mvce_Style.INPUT_TEXT = 0x333333;
+					Mvce_Style.LABEL_TEXT = 0x666666;
+					Mvce_Style.PANEL = 0xF3F3F3;
+					Mvce_Style.PROGRESS_BAR = 0xFFFFFF;
+					Mvce_Style.TEXT_BACKGROUND = 0xFFFFFF;
+					Mvce_Style.LIST_DEFAULT = 0xFFFFFF;
+					Mvce_Style.LIST_ALTERNATE = 0xF3F3F3;
+					Mvce_Style.LIST_SELECTED = 0xCCCCCC;
+					Mvce_Style.LIST_ROLLOVER = 0xDDDDDD;
 					break;
 			}
 		}
