@@ -32,6 +32,14 @@ public class MvcTraceActions {
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
 	
+	
+	//----------------------------------
+	//     process
+	//----------------------------------
+	
+	static public const PROCESS_ADDTASK:String = "Process.addTask";
+	static public const PROCESS_REMOVETASK:String = "Process.removeTask";
+	
 	//----------------------------------
 	//     For internal use
 	//----------------------------------

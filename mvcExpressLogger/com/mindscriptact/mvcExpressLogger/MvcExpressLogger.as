@@ -175,6 +175,14 @@ public class MvcExpressLogger {
 								}
 							}
 							break;
+						case ENGINE_TAB: 
+							if (logType == "ÆÆ") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
+							}
+							break;							
 						case VISUALIZER_TAB: 
 							break;
 						default: 
