@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.live {
+import flash.utils.Dictionary;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.utils.ExpressAssert;
@@ -18,6 +19,8 @@ public class Task {
 	
 	mvcExpressLive var prev:Task;
 	mvcExpressLive var next:Task;
+	
+	private var injectPointRegistry:Dictionary = new Dictionary();
 	
 	mvcExpressLive var _isEnabled:Boolean = true;
 	
@@ -101,11 +104,25 @@ public class Task {
 	//     internal
 	//----------------------------------
 	
+	mvcExpressLive function setInjectPoint(injectName:String, varName:String):void {
+		injectPointRegistry[injectName] = varName;
+	}
+	
+	mvcExpressLive function getInjectPoint(injectName:String):String {
+		return injectPointRegistry[injectName];
+	}
+	
+	mvcExpressLive function setNotCached():void {
+		use namespace mvcExpressLive;
+		process.isCached = false;
+	}
+	
 	mvcExpressLive function dispose():void {
 		use namespace mvcExpressLive;
 		prev = null;
 		next = null;
 		assert = null;
+		injectPointRegistry = null;
 		CONFIG::debug {
 			for (var i:int = 0; i < tests.length; i++) {
 				tests[i].testFunction = null;

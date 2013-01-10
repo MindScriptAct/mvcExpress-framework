@@ -6,6 +6,7 @@ import org.mvcexpress.core.FlexMediatorMap;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
+import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -149,10 +150,14 @@ public class ModuleBase {
 	// - All internals are nulled.
 	public function disposeModule():void {
 		use namespace pureLegsCore;
+		use namespace mvcExpressLive;
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
 		proxyMap.dispose();
+		CONFIG::mvcExpressLive {
+			processMap.dispose();
+		}
 		
 		commandMap = null;
 		mediatorMap = null;

@@ -15,7 +15,6 @@ public class LiveVisualizer extends Sprite {
 	private var appModule:LiveVisualizerModule;
 	
 	public function LiveVisualizer():void {
-		
 		if (stage) {
 			init();
 		} else {

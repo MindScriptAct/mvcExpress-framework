@@ -45,7 +45,7 @@ public class Process {
 	/** Stores class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
 	
-	mvcExpressLive var type:int;
+	mvcExpressLive var processType:int;
 	mvcExpressLive var processId:String;
 	
 	mvcExpressLive var totalFrameSkip:int = 0;
@@ -59,7 +59,7 @@ public class Process {
 	
 	private var processCache:Vector.<Task> = new Vector.<Task>();
 	
-	private var isCached:Boolean = false;
+	mvcExpressLive var isCached:Boolean = false;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -86,14 +86,23 @@ public class Process {
 		}
 	}
 	
+	/**
+	 * Is executed then process is mapped.
+	 */
 	protected function onRegister():void {
 		// for overide
 	}
 	
+	/**
+	 * Is executed then process is removed.
+	 */
 	protected function onRemove():void {
 		// for overide
 	}
 	
+	/**
+	 * Is process running or not.
+	 */
 	public function get isRunning():Boolean {
 		use namespace mvcExpressLive;
 		return _isRunning as Boolean;
@@ -103,11 +112,18 @@ public class Process {
 	//     Process managment
 	//----------------------------------
 	
+	/**
+	 * Start process. All enabled tasks will be run() every process tick.
+	 * If task has missing injections - they will be skipped.
+	 */
 	public function startProcess():void {
 		use namespace mvcExpressLive;
 		processMap.startProcessObject(this);
 	}
 	
+	/**
+	 * Stop process. Process tasks will not be run().
+	 */
 	public function stopProcess():void {
 		use namespace mvcExpressLive;
 		processMap.stopProcessObject(this);
@@ -132,6 +148,7 @@ public class Process {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
 			use namespace pureLegsCore;
+			// TODO ...
 			//MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
 			
 			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
@@ -169,6 +186,11 @@ public class Process {
 	
 	// TODO : consider adding isEnabled:Boolean = true
 	
+	/**
+	 *
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 */
 	protected function addTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -191,7 +213,6 @@ public class Process {
 			// log the action
 			CONFIG::debug {
 				use namespace pureLegsCore;
-				var moduleName:String = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_addTask(MvcTraceActions.PROCESS_ADDTASK, moduleName, taskClass, name));
 			}
 			
@@ -207,13 +228,16 @@ public class Process {
 		} else {
 			// log the action
 			CONFIG::debug {
-				use namespace pureLegsCore;
-				moduleName = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_addTask(MvcTraceActions.PROCESS_ADDTASK, moduleName, taskClass, name, true));
 			}
 		}
 	}
 	
+	/**
+	 *
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 */
 	protected function addFirstTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -236,7 +260,6 @@ public class Process {
 			// log the action
 			CONFIG::debug {
 				use namespace pureLegsCore;
-				var moduleName:String = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_addFirstTask(MvcTraceActions.PROCESS_ADDFIRSTTASK, moduleName, taskClass, name));
 			}
 			
@@ -252,13 +275,18 @@ public class Process {
 		} else {
 			// log the action
 			CONFIG::debug {
-				use namespace pureLegsCore;
-				moduleName = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_addFirstTask(MvcTraceActions.PROCESS_ADDFIRSTTASK, moduleName, taskClass, name, true));
 			}
 		}
 	}
 	
+	/**
+	 *
+	 * @param	taskClass		Task class to indentify your task
+	 * @param	afterTaskClass
+	 * @param	name			optional name for the task if you need more then one instance of same task class.
+	 * @param	afterName
+	 */
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -293,7 +321,6 @@ public class Process {
 				// log the action
 				CONFIG::debug {
 					use namespace pureLegsCore;
-					moduleName = messenger.moduleName;
 					MvcExpress.debug(new TraceProcess_addTaskAfter(MvcTraceActions.PROCESS_ADDTASKAFTER, moduleName, taskClass, name));
 				}
 				
@@ -311,8 +338,6 @@ public class Process {
 			} else {
 				// log the action
 				CONFIG::debug {
-					use namespace pureLegsCore;
-					moduleName = messenger.moduleName;
 					MvcExpress.debug(new TraceProcess_addTaskAfter(MvcTraceActions.PROCESS_ADDTASKAFTER, moduleName, taskClass, name, true));
 				}
 			}
@@ -321,6 +346,11 @@ public class Process {
 		}
 	}
 	
+	/**
+	 *
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 */
 	protected function removeTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -339,7 +369,6 @@ public class Process {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProcess_removeTask(MvcTraceActions.PROCESS_REMOVETASK, moduleName, taskClass, name));
 		}
 		
@@ -369,7 +398,6 @@ public class Process {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProcess_removeAllTasks(MvcTraceActions.PROCESS_REMOVEALLTASKS, moduleName));
 		}
 		
@@ -381,6 +409,11 @@ public class Process {
 		tail = null;
 	}
 	
+	/**
+	 *
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 */
 	protected function enableTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -397,7 +430,6 @@ public class Process {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProcess_enableTask(MvcTraceActions.PROCESS_ENABLETASK, moduleName, taskClass, name));
 		}
 		
@@ -409,6 +441,11 @@ public class Process {
 		}
 	}
 	
+	/**
+	 *
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 */
 	protected function disableTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
@@ -425,7 +462,6 @@ public class Process {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProcess_disableTask(MvcTraceActions.PROCESS_DISABLETASK, moduleName, taskClass, name));
 		}
 		
@@ -475,6 +511,7 @@ public class Process {
 	//     internal
 	//----------------------------------
 	
+	// runs all enabled tasks in process.
 	mvcExpressLive function runProcess(event:Event = null):void {
 		var task:Task;
 		
@@ -540,14 +577,11 @@ public class Process {
 						params = postMessageParams.shift();
 						// log the action
 						CONFIG::debug {
-							use namespace pureLegsCore;
-							moduleName = messenger.moduleName;
 							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
 						}
 						messenger.send(type, params);
 						// clean up logging the action
 						CONFIG::debug {
-							use namespace pureLegsCore;
 							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 						}
 					}
@@ -587,14 +621,11 @@ public class Process {
 			params = finalMessageParams.shift();
 			// log the action
 			CONFIG::debug {
-				use namespace pureLegsCore;
-				moduleName = messenger.moduleName;
 				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE, moduleName, this, type, params));
 			}
 			messenger.send(type, params);
 			// clean up logging the action
 			CONFIG::debug {
-				use namespace pureLegsCore;
 				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 			}
 		}
@@ -610,6 +641,7 @@ public class Process {
 	
 	}
 	
+	// initiates a task.
 	private function initTask(taskClass:Class, taskId:String):Task {
 		use namespace mvcExpressLive;
 		CONFIG::debug {
@@ -627,10 +659,12 @@ public class Process {
 		return task;
 	}
 	
+	// trigered then process is initiated.
 	mvcExpressLive function register():void {
 		onRegister();
 	}
 	
+	// trigered then process is removed.
 	mvcExpressLive function remove():void {
 		use namespace mvcExpressLive;
 		processId = null;
@@ -655,9 +689,14 @@ public class Process {
 		finalMessageParams = null;
 	}
 	
+	// sets name of curent module.
 	mvcExpressLive function setModuleName(moduleName:String):void {
 		this.moduleName = moduleName;
 	}
+	
+	//----------------------------------
+	//     internal - message sending
+	//----------------------------------
 	
 	// send instant messages
 	mvcExpressLive function sendInstantMessage(type:String, params:Object):void {
@@ -665,24 +704,23 @@ public class Process {
 		
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE, moduleName, this, type, params));
 		}
 		messenger.send(type, params);
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 		}
 	
 	}
 	
+	// stacks message to be sent after current task is done.
 	mvcExpressLive function stackPostMessage(type:String, params:Object):void {
 		postMessageTypes.push(type);
 		postMessageParams.push(params);
 	}
 	
+	// stacks message to be sent after all tasks of current run are done.
 	mvcExpressLive function stackFinalMessage(type:String, params:Object):void {
 		finalMessageTypes.push(type);
 		finalMessageParams.push(params);

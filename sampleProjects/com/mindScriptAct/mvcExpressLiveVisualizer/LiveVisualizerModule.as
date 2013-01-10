@@ -3,6 +3,8 @@ import com.mindScriptAct.mvcExpressLiveVisualizer.controller.InitVizualizerProce
 import com.mindScriptAct.mvcExpressLiveVisualizer.view.ColorControlMediator;
 import com.mindScriptAct.mvcExpressLiveVisualizer.view.ColorControls;
 import com.mindScriptAct.mvcExpressLiveVisualizer.view.LiveVisualizerMediator;
+import com.mindScriptAct.mvcExpressLiveVisualizer.view.test.TestColorRectangle;
+import com.mindScriptAct.mvcExpressLiveVisualizer.view.test.TestColorRectangleMediator;
 import org.mvcexpress.modules.ModuleCore;
 
 /**
@@ -18,45 +20,17 @@ public class LiveVisualizerModule extends ModuleCore {
 	
 	public function start(main:LiveVisualizer):void {
 		trace("LiveVisualizerModule.start > main : " + main);
-	
+		
 		processMap.setStage(main.stage);
-		
-		
 		
 		mediatorMap.map(LiveVisualizer, LiveVisualizerMediator);
 		mediatorMap.map(ColorControls, ColorControlMediator);
+		mediatorMap.map(TestColorRectangle, TestColorRectangleMediator);
 		
 		mediatorMap.mediate(main);
 		
-		
 		commandMap.execute(InitVizualizerProcessCommand);
-		
-		//
-		//proxyMap.map(new LiveProxy());
-		//
-		//var liveView:LiveView = new LiveView();
-		//main.addChild(liveView);
-		//mediatorMap.map(LiveView, LiveViewMediator);
-		//mediatorMap.mediate(liveView);
-		//
-		//var liveGuiTest:LiveGuiTest = new LiveGuiTest();
-		//main.addChild(liveGuiTest);
-		//mediatorMap.mediateWith(liveGuiTest, LiveGuiTestMediator);
-		//
-		//commandMap.execute(InitProcessCommand);
-		//
-		//var testButton1:PushButton = new PushButton(main, 600, 510, "stopSwuares", handleStopSquares);
-		//var testButton2:PushButton = new PushButton(main, 600, 530, "startSwuares", handleStartSquares);
 	}
-	
-	//private function handleStopSquares(event:Event):void {
-	//sendMessage(LiveMesasge.STOP_SQUARES);
-	//}
-	//
-	//private function handleStartSquares(event:Event):void {
-	//sendMessage(LiveMesasge.START_SQUARES);
-	//
-	//}
 	
 	override protected function onDispose():void {
 	}

@@ -1,11 +1,11 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import flash.utils.Dictionary;
-import org.mvcexpress.core.interfaces.IProcessMap;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
 import org.mvcexpress.core.traceObjects.TraceProxy_sendScopeMessage;
@@ -27,7 +27,7 @@ public class Proxy {
 	 * Interface to provide stuff for processes.
 	 */
 	CONFIG::mvcExpressLive
-	protected var processMap:IProcessMap;
+	private var processMap:ProcessMap;
 	
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean = false;
@@ -41,6 +41,10 @@ public class Proxy {
 	
 	// for command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
+	
+	/**	all objects provided by this proxy */
+	CONFIG::mvcExpressLive
+	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 	
 	// amount of pending injections.
 	/** @private */
@@ -131,6 +135,29 @@ public class Proxy {
 	}
 	
 	//----------------------------------
+	//     mvcExpressLive functions
+	//----------------------------------
+	
+	CONFIG::mvcExpressLive
+	protected function provide(object:Object, name:String):void {
+		processMap.provide(object, name);
+		provideRegistry[name] = object;
+	}
+	
+	CONFIG::mvcExpressLive
+	protected function unprovide(object:Object, name:String):void {
+		processMap.unprovide(object, name);
+		delete provideRegistry[name];
+	}
+	
+	CONFIG::mvcExpressLive
+	protected function unprovideAll():void {
+		for (var name:String in provideRegistry) {
+			unprovide(provideRegistry[name], name);
+		}
+	}
+	
+	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
 	
@@ -148,10 +175,9 @@ public class Proxy {
 	 * @param	iProcessMap
 	 * @private
 	 */
-	pureLegsCore function setProcessMap(iProcessMap:IProcessMap):void {
-		this.processMap = iProcessMap;
-	}	
-	
+	pureLegsCore function setProcessMap(processMap:ProcessMap):void {
+		this.processMap = processMap;
+	}
 	
 	/**
 	 * marks mediator as ready and calls onRegister()
@@ -174,6 +200,7 @@ public class Proxy {
 		_isReady = false;
 		dependantCommands = null;
 		onRemove();
+		unprovideAll();
 	}
 	
 	//----------------------------------

@@ -4,12 +4,12 @@ import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 import org.mvcexpress.core.interfaces.IMediatorMap;
-import org.mvcexpress.core.interfaces.IProcessMap;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
 import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
@@ -35,7 +35,7 @@ public class Mediator {
 	 * Interface to work with processes.
 	 */
 	CONFIG::mvcExpressLive
-	public var processMap:IProcessMap;
+	pureLegsCore var processMap:ProcessMap;
 	
 	/**
 	 * Handles application mediators.
@@ -61,6 +61,10 @@ public class Mediator {
 	
 	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
 	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
+	
+	/**	all objects provided by this mediator */
+	CONFIG::mvcExpressLive
+	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 	
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
@@ -193,7 +197,7 @@ public class Mediator {
 	
 	/**
 	 * Remove all handle functions created by this mediator, internal module handlers AND scoped handlers.
-	 * Automatically called then mediator is removed(unmediated) by framework. 
+	 * Automatically called then mediator is removed(unmediated) by framework.
 	 * (You don't have to put it in mediators onRemove() function.)
 	 */
 	protected function removeAllHandlers():void {
@@ -300,7 +304,7 @@ public class Mediator {
 	/**
 	 * Removes all listeners created by mediators addEventListener() function.
 	 * WARNING: It will NOT remove events that was added normally with object.addEventListener() function.
-	 * Automatically called then mediator is removed(unmediated) by framework. 
+	 * Automatically called then mediator is removed(unmediated) by framework.
 	 * (You don't have to put it in mediators onRemove() function.)
 	 */
 	protected function removeAllListeners():void {
@@ -317,6 +321,31 @@ public class Mediator {
 				viewObject = eventTypes[type];
 				viewObject.removeEventListener(type, listener as Function, false);
 			}
+		}
+	}
+	
+	//----------------------------------
+	//     mvcExpressLive functions
+	//----------------------------------
+	
+	CONFIG::mvcExpressLive
+	public function provide(object:Object, name:String):void {
+		use namespace pureLegsCore;
+		processMap.provide(object, name);
+		provideRegistry[name] = object;
+	}
+	
+	CONFIG::mvcExpressLive
+	public function unprovide(object:Object, name:String):void {
+		use namespace pureLegsCore;
+		processMap.unprovide(object, name);
+		delete provideRegistry[name];
+	}
+	
+	CONFIG::mvcExpressLive
+	public function unprovideAll():void {
+		for (var name:String in provideRegistry) {
+			unprovide(provideRegistry[name], name);
 		}
 	}
 	
@@ -347,6 +376,7 @@ public class Mediator {
 		onRemove();
 		removeAllHandlers();
 		removeAllListeners();
+		unprovideAll();
 		handlerVoRegistry = null;
 		eventListenerRegistry = null;
 		messenger = null;

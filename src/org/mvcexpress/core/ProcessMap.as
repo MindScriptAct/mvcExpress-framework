@@ -11,20 +11,23 @@ import flash.utils.getTimer;
 import flash.utils.Timer;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.inject.TestRuleVO;
-import org.mvcexpress.core.interfaces.IProcessMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.taskTest.TastTestVO;
+import org.mvcexpress.core.traceObjects.live.processMap.TraceProcessMap_provide;
+import org.mvcexpress.core.traceObjects.live.processMap.TraceProcessMap_unprovide;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.live.Process;
 import org.mvcexpress.live.Task;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles application processes.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ProcessMap implements IProcessMap {
+public class ProcessMap {
 	
 	// name of the module MediatorMap is working for.
 	private var moduleName:String;
@@ -34,9 +37,13 @@ public class ProcessMap implements IProcessMap {
 	
 	private var stage:Stage;
 	
-	
 	/** Stores class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
+	
+	static private var classInjectRules:Dictionary = new Dictionary();
+	
+	/** Dictionary with constonts of inject names, used with constName, and constScope. */
+	static private var classConstRegistry:Dictionary = new Dictionary();
 	
 	private var timerRegistry:Dictionary = new Dictionary();
 	
@@ -46,13 +53,8 @@ public class ProcessMap implements IProcessMap {
 	
 	private var runningFrameProcesses:Vector.<Process> = new Vector.<Process>();
 	
-	static private var classInjectRules:Dictionary = new Dictionary();
-	
-	/** Dictionary with constonts of inject names, used with constName, and constScope. */
-	private var classConstRegistry:Dictionary = new Dictionary();
-	
-	/** stores vectors of tasks by inject objects. */
-	//private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by Object */
+	/** All tasks stored by inject object name  */
+	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by String */
 	
 	public function ProcessMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
@@ -88,7 +90,7 @@ public class ProcessMap implements IProcessMap {
 			Process.canConstruct = false;
 		}
 		
-		process.type = Process.FRAME_PROCESS;
+		process.processType = Process.FRAME_PROCESS;
 		process.processId = processId;
 		process.messenger = messenger;
 		process.processMap = this;
@@ -129,7 +131,7 @@ public class ProcessMap implements IProcessMap {
 			Process.canConstruct = false;
 		}
 		
-		process.type = Process.TIMER_PROCESS;
+		process.processType = Process.TIMER_PROCESS;
 		process.processId = processId;
 		process.messenger = messenger;
 		process.processMap = this;
@@ -192,7 +194,7 @@ public class ProcessMap implements IProcessMap {
 		if (process) {
 			if (!process._isRunning) {
 				process._isRunning = true;
-				if (process.type == Process.FRAME_PROCESS) {
+				if (process.processType == Process.FRAME_PROCESS) {
 					if (runningFrameProcesses.length == 0) {
 						if (this.stage) {
 							this.stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
@@ -252,7 +254,7 @@ public class ProcessMap implements IProcessMap {
 		if (process) {
 			if (process._isRunning) {
 				process._isRunning = false;
-				if (process.type == Process.FRAME_PROCESS) {
+				if (process.processType == Process.FRAME_PROCESS) {
 					// find process for removal..
 					for (var i:int = 0; i < runningFrameProcesses.length; i++) {
 						if (runningFrameProcesses[i] == process) {
@@ -280,26 +282,65 @@ public class ProcessMap implements IProcessMap {
 	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */
 	
 	public function provide(object:Object, name:String):void {
-		//trace("Process.provide > object : " + object + ", name : " + name);
-		
-		// TODO : check stuff...
-		
+		use namespace mvcExpressLive;
 		if (provideRegistry[name] != null) {
-			// TODO : object is already provided... reinject it there needed.
+			throw Error("There is already object provided with name:" + name + " - " + provideRegistry[name]);
+		}
+		provideRegistry[name] = object;
+		
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProcessMap_provide(MvcTraceActions.PROCESSMAP_PROVIDE, moduleName, name, object));
 		}
 		
-		provideRegistry[name] = object;
-	
+		//add this inject in all existing tasks using it.
+		var injectTasks:Vector.<Task> = injectObjectRegistry[name];
+		if (injectTasks) {
+			for (var i:int = 0; i < injectTasks.length; i++) {
+				var varname:String = injectTasks[i].getInjectPoint(name);
+				
+				// if varieble is empty - reduce dependency count.
+				if (injectTasks[i][varname] == null) {
+					injectTasks[i]._missingDependencyCount--;
+					// reset process cash.
+					injectTasks[i].setNotCached();
+				}
+				// set new injection.
+				injectTasks[i][varname] = object;
+			}
+		}
 	}
 	
 	public function unprovide(object:Object, name:String):void {
-		//trace("Process.provide > object : " + object + ", name : " + name);
+		use namespace mvcExpressLive;
 		
-		// TODO : check stuff...
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProcessMap_unprovide(MvcTraceActions.PROCESSMAP_UNPROVIDE, moduleName, name, object));
+		}
+		
 		if (provideRegistry[name] != null) {
 			
-			// TODO : remove all tasks with this inject.
 			delete provideRegistry[name];
+			
+			// clear all injects in tasks existing tasks...
+			var injectTasks:Vector.<Task> = injectObjectRegistry[name];
+			if (injectTasks) {
+				for (var i:int = 0; i < injectTasks.length; i++) {
+					var varname:String = injectTasks[i].getInjectPoint(name);
+					
+					//if varieble is not empty - increase dependeny count.
+					if (injectTasks[i][varname] != null) {
+						injectTasks[i]._missingDependencyCount++;
+						// reset process cash.
+						injectTasks[i].setNotCached();
+						// clear injection.
+						injectTasks[i][varname] = null;
+					}
+				}
+			}
 		}
 	}
 	
@@ -319,11 +360,12 @@ public class ProcessMap implements IProcessMap {
 	 * @return		Text with all mapped commands.
 	 */
 	public function listProcesses():String {
+		use namespace mvcExpressLive;
 		var retVal:String = "";
 		retVal = "===================== ProcessMap Mappings: =====================\n";
 		for (var key:String in processRegistry) {
 			var process:Process = processRegistry[key];
-			retVal += "PROCESS: " + process +"  (" + ((process.isRunning ? "isRunning" : "NOT RUNNING.")) + ")\n";
+			retVal += "PROCESS: " + process + "  (" + ((process.isRunning ? "isRunning" : "NOT RUNNING.")) + ")\n";
 			
 			retVal += process.listTasks();
 		}
@@ -364,18 +406,20 @@ public class ProcessMap implements IProcessMap {
 					continue;
 				}
 			}
-			var injectObject:Object = provideRegistry[rules[i].injectClassAndName];
+			var injectName:String = rules[i].injectClassAndName;
+			var injectObject:Object = provideRegistry[injectName];
+			
+			task.setInjectPoint(injectName, rules[i].varName);
+			
 			if (injectObject) {
 				task[rules[i].varName] = injectObject;
-					//
-					//if (injectObjectRegistry[injectObject] == null) {
-					//injectObjectRegistry[injectObject] = new Vector.<Task>();
-					//}
-					//injectObjectRegistry[injectObject].push(task);
-				
 			} else {
-				throw Error("Process dependency is not provided with name:" + rules[i].injectClassAndName);
+				task._missingDependencyCount++;
 			}
+			if (!injectObjectRegistry[injectName]) {
+				injectObjectRegistry[injectName] = new Vector.<Task>();
+			}
+			injectObjectRegistry[injectName].push(task);
 		}
 	}
 	
@@ -466,6 +510,20 @@ public class ProcessMap implements IProcessMap {
 			classConstRegistry[constName] = constClass[split[spliteIndex]];
 		}
 		return classConstRegistry[constName];
+	}
+	
+	mvcExpressLive function dispose():void {
+		use namespace mvcExpressLive;
+		for each (var process:Process in processRegistry) {
+			stopProcessObject(process);
+		}
+		messenger = null;
+		stage = null;
+		timerRegistry = null;
+		processRegistry = null;
+		provideRegistry = null;
+		runningFrameProcesses = null;
+		injectObjectRegistry = null;
 	}
 
 }

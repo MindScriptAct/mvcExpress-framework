@@ -45,6 +45,9 @@ public class MvcTraceActions {
 	static public const PROCESS_ENABLETASK:String = "Process.enableTask";
 	static public const PROCESS_DISABLETASK:String = "Process.disableTask";
 	
+	static public const PROCESSMAP_PROVIDE:String = "ProcessMap.provide";
+	static public const PROCESSMAP_UNPROVIDE:String = "ProcessMap.unprovide";
+	
 	//----------------------------------
 	//     For internal use
 	//----------------------------------

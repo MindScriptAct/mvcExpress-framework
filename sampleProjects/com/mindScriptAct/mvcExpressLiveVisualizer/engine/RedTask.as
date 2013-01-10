@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressLiveVisualizer.engine {
+import flash.display.Shape;
 import org.mvcexpress.live.Task;
 
 /**
@@ -7,8 +8,11 @@ import org.mvcexpress.live.Task;
  */
 public class RedTask extends Task {
 	
-	override public function run():void {
+	[Inject(name="testview_RED")]
+	public var testRectangle:Shape;
 	
+	override public function run():void {
+		testRectangle.rotation += 20;
 	}
 
 }

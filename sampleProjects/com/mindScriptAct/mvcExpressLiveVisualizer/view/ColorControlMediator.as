@@ -21,6 +21,11 @@ public class ColorControlMediator extends Mediator {
 		view.addEventListener(ColorControlEvent.ENABLE, handleEnable);
 		view.addEventListener(ColorControlEvent.DISABLE, handleDisable);
 		
+		view.addEventListener(ColorControlEvent.ADD_MEDIATOR, handleAddMediator);
+		view.addEventListener(ColorControlEvent.REMOVE_MEDIATOR, handleRemoveMediator);
+		view.addEventListener(ColorControlEvent.ADD_PROXY, handleAddProxy);
+		view.addEventListener(ColorControlEvent.REMOVE_PROXY, handleRemoveProxy);
+		
 		addHandler(VizualizerMessage.REMOVE_ALL, handleRemoveAll);
 	}
 	
@@ -49,6 +54,22 @@ public class ColorControlMediator extends Mediator {
 	
 	private function handleRemoveAll(blank:Object):void {
 		view.resetState();
+	}
+	
+	private function handleAddMediator(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.ADD_MEDIATOR, view.colorId);
+	}
+	
+	private function handleRemoveMediator(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.REMOVE_MEDIATOR, view.colorId);
+	}
+	
+	private function handleAddProxy(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.ADD_PROXY, view.colorId);
+	}
+	
+	private function handleRemoveProxy(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.REMOVE_PROXY, view.colorId);
 	}
 	
 	override public function onRemove():void {
