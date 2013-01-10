@@ -34,6 +34,10 @@ public class ProcessMap implements IProcessMap {
 	
 	private var stage:Stage;
 	
+	
+	/** Stores class QualifiedClassName by class */
+	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
+	
 	private var timerRegistry:Dictionary = new Dictionary();
 	
 	private var processRegistry:Dictionary = new Dictionary();
@@ -68,7 +72,11 @@ public class ProcessMap implements IProcessMap {
 		use namespace mvcExpressLive;
 		use namespace pureLegsCore;
 		
-		var className:String = getQualifiedClassName(processClass);
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
 		var processId:String = className + name;
 		
 		CONFIG::debug {
@@ -105,7 +113,11 @@ public class ProcessMap implements IProcessMap {
 			}
 		}
 		
-		var className:String = getQualifiedClassName(processClass);
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
 		var processId:String = className + name;
 		
 		CONFIG::debug {
@@ -136,7 +148,11 @@ public class ProcessMap implements IProcessMap {
 	public function unmapProcess(processClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
-		var className:String = getQualifiedClassName(processClass);
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
 		var processId:String = className + name;
 		
 		var process:Process = processRegistry[processId];
@@ -156,7 +172,11 @@ public class ProcessMap implements IProcessMap {
 		trace("ProcessMap.startProcess > processClass : " + processClass);
 		use namespace mvcExpressLive;
 		
-		var className:String = getQualifiedClassName(processClass);
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
 		var processId:String = className + name;
 		
 		//CONFIG::debug {
@@ -213,7 +233,11 @@ public class ProcessMap implements IProcessMap {
 		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
 		use namespace mvcExpressLive;
 		
-		var className:String = getQualifiedClassName(processClass);
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
 		var processId:String = className + name;
 		
 		//CONFIG::debug {

@@ -19,8 +19,6 @@ public class Task {
 	mvcExpressLive var prev:Task;
 	mvcExpressLive var next:Task;
 	
-	mvcExpressLive var runNext:Task;
-	
 	mvcExpressLive var _isEnabled:Boolean = true;
 	
 	mvcExpressLive var _missingDependencyCount:int = 0;
@@ -107,7 +105,6 @@ public class Task {
 		use namespace mvcExpressLive;
 		prev = null;
 		next = null;
-		runNext = null;
 		assert = null;
 		CONFIG::debug {
 			for (var i:int = 0; i < tests.length; i++) {

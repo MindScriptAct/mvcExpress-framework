@@ -1,6 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.live {
-import flash.display.Sprite;
 import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -11,8 +10,9 @@ import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.taskTest.TastTestVO;
-import org.mvcexpress.core.traceObjects.live.TraceProcess_addTask;
-import org.mvcexpress.core.traceObjects.live.TraceProcess_removeTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeTask;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceProcess_sendMessage;
 import org.mvcexpress.MvcExpress;
@@ -38,6 +38,9 @@ public class Process {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
+	/** Stores class QualifiedClassName by class */
+	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
+	
 	mvcExpressLive var type:int;
 	mvcExpressLive var processId:String;
 	
@@ -47,11 +50,12 @@ public class Process {
 	//
 	private var taskRegistry:Dictionary = new Dictionary();
 	
-	//
-	private var runHead:Task;
-	
 	private var head:Task;
 	private var tail:Task;
+	
+	private var processCache:Vector.<Task> = new Vector.<Task>();
+	
+	private var isCached:Boolean = false;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -113,14 +117,11 @@ public class Process {
 		use namespace mvcExpressLive;
 		var retVal:String = "TASKS:\n";
 		var currentListTask:Task = head;
-		var currentRunListTask:Task = runHead;
 		while (currentListTask) {
 			
 			retVal += "\t"
 			
-			if (currentRunListTask == currentListTask) {
-				currentRunListTask = currentRunListTask.runNext
-			} else {
+			if (!currentListTask._isEnabled || currentListTask._missingDependencyCount > 0) {
 				retVal += "|\t";
 			}
 			
@@ -137,14 +138,6 @@ public class Process {
 			retVal += "\n";
 			
 			currentListTask = currentListTask.next;
-		}
-		retVal += "RUN TASKS:\n";
-		currentRunListTask = runHead;
-		while (currentRunListTask) {
-			retVal += "\t\t"
-			retVal += currentRunListTask;
-			retVal += "\n";
-			currentRunListTask = currentRunListTask.runNext;
 		}
 		
 		return retVal;
@@ -209,79 +202,143 @@ public class Process {
 	protected function addTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
-		var className:String = getQualifiedClassName(taskClass);
+		// mark process as not cached.
+		isCached = false;
+		
+		// get task id
+		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			Process.qualifiedClassNameRegistry[taskClass] = className
+		}
 		var taskId:String = className + name;
 		
+		//get task, initiate it if needed.
 		var task:Task = taskRegistry[taskId];
 		if (task == null) {
 			task = initTask(taskClass, taskId);
-		}
-		
-		// log the action
-		CONFIG::debug {
-			use namespace pureLegsCore;
-			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceProcess_addTask(MvcTraceActions.PROCESS_ADDTASK, moduleName, taskClass, name));
-		}
-		
-		if (tail) {
-			tail.next = task;
-			tail.runNext = task;
-			task.prev = tail;
-			tail = task;
+			
+			// log the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				var moduleName:String = messenger.moduleName;
+				MvcExpress.debug(new TraceProcess_addTask(MvcTraceActions.PROCESS_ADDTASK, moduleName, taskClass, name));
+			}
+			
+			// add task to list
+			if (head) {
+				tail.next = task;
+				task.prev = tail;
+				tail = task;
+			} else {
+				head = task;
+				tail = task;
+			}
 		} else {
-			head = task;
-			tail = task;
+			// log the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				moduleName = messenger.moduleName;
+				MvcExpress.debug(new TraceProcess_addTask(MvcTraceActions.PROCESS_ADDTASK, moduleName, taskClass, name, true));
+			}
 		}
+	}
+	
+	protected function addFirstTask(taskClass:Class, name:String = ""):void {
+		use namespace mvcExpressLive;
 		
-		setRunner(task);
+		// mark process as not cached.
+		isCached = false;
 		
+		// get task id
+		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			Process.qualifiedClassNameRegistry[taskClass] = className
+		}
+		var taskId:String = className + name;
 		
+		//get task, initiate it if needed.
+		var task:Task = taskRegistry[taskId];
+		if (task == null) {
+			task = initTask(taskClass, taskId);
+			
+			// log the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				var moduleName:String = messenger.moduleName;
+				MvcExpress.debug(new TraceProcess_addFirstTask(MvcTraceActions.PROCESS_ADDFIRSTTASK, moduleName, taskClass, name));
+			}
+			
+			// add task to list
+			if (head) {
+				head.prev = task;
+				task.next = head;
+				head = task;
+			} else {
+				head = task;
+				tail = task;
+			}
+		} else {
+			// log the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				moduleName = messenger.moduleName;
+				MvcExpress.debug(new TraceProcess_addFirstTask(MvcTraceActions.PROCESS_ADDFIRSTTASK, moduleName, taskClass, name, true));
+			}
+		}
 	}
 	
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
-		
-		use namespace mvcExpressLive;
-		
-		var afterClassName:String = getQualifiedClassName(afterTaskClass);
-		var afterTaskId:String = afterClassName + afterName;
+	
+		//use namespace mvcExpressLive;
 		//
-		
-		var afterTask:Task = taskRegistry[afterTaskId];
-		if (afterTask != null) {
-			//
-			var className:String = getQualifiedClassName(taskClass);
-			var taskId:String = className + name;
-			//
-			var task:Task = taskRegistry[taskId];
-			if (task == null) {
-				task = initTask(taskClass, taskId);
-			}
-			//
-			
-			var nextTask:Task = afterTask.next;
-			
-			afterTask.next = task;
-			task.prev = afterTask;
-			
-			task.next = nextTask;
-			if (nextTask) {
-				nextTask.prev = task;
-			}
-			
-			//setNextRunner(afterTask, task);
-			
-		} else {
-			throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
-		}
+		//var afterClassName:String = ProcessMap.getQualifiedClassName(afterTaskClass);
+		//var afterTaskId:String = afterClassName + afterName;
+		//
+		//
+		//var afterTask:Task = taskRegistry[afterTaskId];
+		//if (afterTask != null) {
+		//
+		//var className:String = getQualifiedClassName(taskClass);
+		//var taskId:String = className + name;
+		//
+		//var task:Task = taskRegistry[taskId];
+		//if (task == null) {
+		//task = initTask(taskClass, taskId);
+		//}
+		//
+		//
+		//var nextTask:Task = afterTask.next;
+		//
+		//afterTask.next = task;
+		//task.prev = afterTask;
+		//
+		//task.next = nextTask;
+		//if (nextTask) {
+		//nextTask.prev = task;
+		//}
+		//
+		//setNextRunner(afterTask, task);
+		//
+		//} else {
+		//throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
+		//}
 	}
 	
 	protected function removeTask(taskClass:Class, name:String = ""):void {
 		use namespace mvcExpressLive;
 		
-		var className:String = getQualifiedClassName(taskClass);
+		// mark process as not cached.
+		isCached = false;
+		
+		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			Process.qualifiedClassNameRegistry[taskClass] = className
+		}
 		var taskId:String = className + name;
-		//
+		
 		var task:Task = taskRegistry[taskId];
 		
 		// log the action
@@ -291,21 +348,19 @@ public class Process {
 			MvcExpress.debug(new TraceProcess_removeTask(MvcTraceActions.PROCESS_REMOVETASK, moduleName, taskClass, name));
 		}
 		
-		
-		if (task == tail) {
-			tail = task.prev;
-		}
-		
 		if (task != null) {
 			if (task.prev) {
 				task.prev.next = task.next;
-				if (task.next) {
-					task.next.prev = task.prev;
-				}
 			} else {
+				// the first
 				head = task.next;
 			}
-			setRunner(task.next);
+			if (task.next) {
+				task.next.prev = task.prev;
+			} else {
+				// the last
+				tail = task.prev;
+			}
 			delete taskRegistry[taskId];
 		}
 	}
@@ -321,102 +376,6 @@ public class Process {
 	protected function disableTask(taskClass:Class, name:String = ""):void {
 		// TODO
 	}
-	
-	//----------------------------------
-	//     
-	//----------------------------------
-	
-	private function setRunner(task:Task):void {
-		use namespace mvcExpressLive;
-		if (task) {
-			var runner:Task = task.prev;
-		}
-		var runTask:Task = task;
-		// find  closest task that can be run.
-		while (runTask) {
-			// TODO : think about isRunnable boolean.
-			if (runTask._isEnabled && runTask._missingDependencyCount == 0) {
-				break;
-			} else {
-				runTask = runTask.next;
-			}
-		}
-		// find closes previous runnabel task, it will run the next one.
-		while (runner) {
-			if (runner._isEnabled && runner._missingDependencyCount == 0) {
-				break;
-			} else {
-				runTask = runner.prev;
-			}
-		}
-		//
-		if (runner) {
-			runner.runNext = runTask;
-		} else {
-			if (runTask) {
-				runHead = runTask
-			} else {
-				runHead = null;
-			}
-		}
-		
-		
-	}
-	
-	
-	//[Inline]
-	//
-	//private function setNextRunner(baseTask:Task, runTask:Task):void {
-		//use namespace mvcExpressLive;
-		//var prevRunner:Task;
-		//while (baseTask) {
-			//if (baseTask._isEnabled && baseTask._missingDependencyCount == 0) {
-				//prevRunner = baseTask;
-				//baseTask = null;
-			//} else {
-				//baseTask = baseTask.prev;
-			//}
-		//}
-		//if (prevRunner) {
-			//prevRunner.runNext = runTask;
-		//} else {
-			//if (runHead != runTask) {
-				//var lastRunHead:Task = runHead;
-				//runHead = runTask;
-				//runTask.runNext = lastRunHead;
-			//}
-		//}
-	//}
-	
-	//protected function disposeTask(taskClass:Class, name:String = ""):void {
-	//use namespace mvcExpressLive;
-	//var className:String = getQualifiedClassName(taskClass);
-	//var taskId:String = className + name;
-	//
-	//var task:Task = taskRegistry[taskId];
-	//if (task != null) {
-	//for (var i:int = 0; i < tasks.length; i++) {
-	//if (tasks[i] == task) {
-	//tasks.splice(i, 1);
-	//break;
-	//}
-	//}
-	//
-	//task.dispose();
-	//
-	//delete taskRegistry[taskId];
-	//}
-	//}
-	//
-	//protected function disposeAllTasks():void {
-	//use namespace mvcExpressLive;
-	//
-	//removeAllTasks();
-	//
-	//for each (var item:Task in taskRegistry) {
-	//item.dispose();
-	//}
-	//}
 	
 	//----------------------------------
 	//     internal
@@ -515,7 +474,7 @@ public class Process {
 			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
 		}
 		
-		var task:Task = runHead;
+		var task:Task = head;
 		
 		while (task) {
 			
@@ -558,7 +517,7 @@ public class Process {
 				}
 			}
 			
-			task = task.runNext;
+			task = task.next;
 			
 		}
 		// send final messages
