@@ -15,6 +15,11 @@ public class VisualizerProcess extends Process {
 		addHandler(VizualizerMessage.ADD, handleAddTask);
 		addHandler(VizualizerMessage.ADD_AFTER, handleAddAfterTask);
 		addHandler(VizualizerMessage.REMOVE, handleRemoveTask);
+		addHandler(VizualizerMessage.REMOVE_ALL, handleRemoveAllTask);
+	}
+	
+	private function handleAddTask(task:ColorControls):void {
+		removeTask(task.taskClass);
 	}
 	
 	private function handleAddAfterTask(task:ColorControls):void {
@@ -25,8 +30,8 @@ public class VisualizerProcess extends Process {
 		addTask(task.taskClass);
 	}
 	
-	private function handleAddTask(task:ColorControls):void {
-		removeTask(task.taskClass);
+	private function handleRemoveAllTask(blank:Object):void {
+		removeAllTasks();
 	}
 	
 	override protected function onRemove():void {

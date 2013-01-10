@@ -53,6 +53,14 @@ public class ColorControls extends Sprite {
 			}
 		}
 	}
+	
+	public function resetState():void {
+		if (afterTaskClass) {
+			addRemoveButton.label = ADD_AFTER;
+		} else {
+			addRemoveButton.label = ADD;
+		}
+	}
 
 }
 }

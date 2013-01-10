@@ -1,10 +1,13 @@
 package com.mindScriptAct.mvcExpressLiveVisualizer.view {
+import com.bit101.components.PushButton;
 import com.mindScriptAct.mvcExpressLiveVisualizer.constants.ColorIds;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.AlphaTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.BlueTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.GreenTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.RedTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.LiveVisualizer;
+import com.mindScriptAct.mvcExpressLiveVisualizer.messages.VizualizerMessage;
+import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 
 /**
@@ -41,7 +44,13 @@ public class LiveVisualizerMediator extends Mediator {
 		mediatorMap.mediate(greenColorControls);
 		mediatorMap.mediate(blueColorControls);
 		mediatorMap.mediate(alphaColorControls);
+		
+		var clearAll:PushButton = new PushButton(view, 100, 500, "Remove all.", handleRemoveAll);
 	
+	}
+	
+	private function handleRemoveAll(event:Event):void {
+		sendMessage(VizualizerMessage.REMOVE_ALL);
 	}
 	
 	override public function onRemove():void {

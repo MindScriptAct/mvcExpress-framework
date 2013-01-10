@@ -13,6 +13,7 @@ import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTaskAfter;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeAllTasks;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeTask;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceProcess_sendMessage;
@@ -358,7 +359,28 @@ public class Process {
 	}
 	
 	protected function removeAllTasks():void {
-		// TODO
+		use namespace mvcExpressLive;
+		
+		// mark process as not cached.
+		isCached = false;
+		
+		for each (var item:Task in taskRegistry) {
+			item.dispose();
+		}
+		
+		taskRegistry = new Dictionary();
+		head = null;
+		tail = null;
+		
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceProcess_removeAllTasks(MvcTraceActions.PROCESS_REMOVEALLTASKS, moduleName));
+		}
+		
+		//taskRegistry.
+		
 	}
 	
 	protected function enableTask(taskClass:Class, name:String = ""):void {
@@ -424,10 +446,6 @@ public class Process {
 		return task;
 	}
 	
-	//----------------------------------
-	//     internal
-	//----------------------------------
-	
 	mvcExpressLive function register():void {
 		onRegister();
 	}
@@ -462,6 +480,8 @@ public class Process {
 	
 	// send instant messages
 	mvcExpressLive function sendInstantMessage(type:String, params:Object):void {
+		use namespace pureLegsCore;
+		
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;

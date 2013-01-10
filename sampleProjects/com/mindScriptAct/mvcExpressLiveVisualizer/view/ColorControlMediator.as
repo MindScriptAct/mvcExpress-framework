@@ -20,6 +20,8 @@ public class ColorControlMediator extends Mediator {
 		view.addEventListener(ColorControlEvent.ADD, handleAdd);
 		view.addEventListener(ColorControlEvent.ADDAFTER, handleAddAfter);
 		view.addEventListener(ColorControlEvent.REMOVE, handleRemove);
+		
+		addHandler(VizualizerMessage.REMOVE_ALL, handleRemoveAll);
 	}
 	
 	private function handleAddAfter(event:ColorControlEvent):void {
@@ -37,8 +39,11 @@ public class ColorControlMediator extends Mediator {
 		sendMessage(VizualizerMessage.REMOVE, view);
 	}
 	
-	override public function onRemove():void {
+	private function handleRemoveAll(blank:Object):void {
+		view.resetState();
+	}
 	
+	override public function onRemove():void {
 	}
 
 }
