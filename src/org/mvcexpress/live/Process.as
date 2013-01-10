@@ -12,6 +12,7 @@ import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTaskAfter;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeTask;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceProcess_sendMessage;
@@ -107,40 +108,6 @@ public class Process {
 	public function stopProcess():void {
 		use namespace mvcExpressLive;
 		processMap.stopProcessObject(this);
-	}
-	
-	//----------------------------------
-	//     debug
-	//----------------------------------
-	
-	public function listTasks():String {
-		use namespace mvcExpressLive;
-		var retVal:String = "TASKS:\n";
-		var currentListTask:Task = head;
-		while (currentListTask) {
-			
-			retVal += "\t"
-			
-			if (!currentListTask._isEnabled || currentListTask._missingDependencyCount > 0) {
-				retVal += "|\t";
-			}
-			
-			retVal += currentListTask;
-			
-			if (!currentListTask._isEnabled) {
-				retVal += "   (DISABLED)";
-			}
-			
-			if (currentListTask._missingDependencyCount > 0) {
-				retVal += "   (MISSING DEPENDENCIES:" + currentListTask._missingDependencyCount + ")";
-			}
-			
-			retVal += "\n";
-			
-			currentListTask = currentListTask.next;
-		}
-		
-		return retVal;
 	}
 	
 	//----------------------------------
@@ -290,40 +257,65 @@ public class Process {
 	}
 	
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
-	
-		//use namespace mvcExpressLive;
-		//
-		//var afterClassName:String = ProcessMap.getQualifiedClassName(afterTaskClass);
-		//var afterTaskId:String = afterClassName + afterName;
-		//
-		//
-		//var afterTask:Task = taskRegistry[afterTaskId];
-		//if (afterTask != null) {
-		//
-		//var className:String = getQualifiedClassName(taskClass);
-		//var taskId:String = className + name;
-		//
-		//var task:Task = taskRegistry[taskId];
-		//if (task == null) {
-		//task = initTask(taskClass, taskId);
-		//}
-		//
-		//
-		//var nextTask:Task = afterTask.next;
-		//
-		//afterTask.next = task;
-		//task.prev = afterTask;
-		//
-		//task.next = nextTask;
-		//if (nextTask) {
-		//nextTask.prev = task;
-		//}
-		//
-		//setNextRunner(afterTask, task);
-		//
-		//} else {
-		//throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
-		//}
+		use namespace mvcExpressLive;
+		
+		// mark process as not cached.
+		isCached = false;
+		
+		// after task id
+		var afterClassName:String = Process.qualifiedClassNameRegistry[afterTaskClass];
+		if (!afterClassName) {
+			afterClassName = getQualifiedClassName(afterTaskClass);
+			Process.qualifiedClassNameRegistry[afterTaskClass] = afterClassName
+		}
+		var afterTaskId:String = afterClassName + afterName;
+		
+		// get after task
+		var afterTask:Task = taskRegistry[afterTaskId];
+		if (afterTask != null) {
+			
+			// get task id
+			var className:String = Process.qualifiedClassNameRegistry[taskClass];
+			if (!className) {
+				className = getQualifiedClassName(taskClass);
+				Process.qualifiedClassNameRegistry[taskClass] = className
+			}
+			var taskId:String = className + name;
+			
+			//
+			var task:Task = taskRegistry[taskId];
+			if (task == null) {
+				task = initTask(taskClass, taskId);
+				
+				// log the action
+				CONFIG::debug {
+					use namespace pureLegsCore;
+					moduleName = messenger.moduleName;
+					MvcExpress.debug(new TraceProcess_addTaskAfter(MvcTraceActions.PROCESS_ADDTASKAFTER, moduleName, taskClass, name));
+				}
+				
+				task.prev = afterTask;
+				task.next = afterTask.next;
+				
+				if (afterTask.next) {
+					afterTask.next.prev = task
+				} else {
+					// last element
+					tail = task;
+				}
+				afterTask.next = task;
+				
+			} else {
+				// log the action
+				CONFIG::debug {
+					use namespace pureLegsCore;
+					moduleName = messenger.moduleName;
+					MvcExpress.debug(new TraceProcess_addTaskAfter(MvcTraceActions.PROCESS_ADDTASKAFTER, moduleName, taskClass, name, true));
+				}
+			}
+		} else {
+			throw Error("Task with id:" + afterTaskId + " you are trying to add another task after, is not added to process yet. ");
+		}
 	}
 	
 	protected function removeTask(taskClass:Class, name:String = ""):void {
@@ -375,6 +367,40 @@ public class Process {
 	
 	protected function disableTask(taskClass:Class, name:String = ""):void {
 		// TODO
+	}
+	
+	//----------------------------------
+	//     debug
+	//----------------------------------
+	
+	public function listTasks():String {
+		use namespace mvcExpressLive;
+		var retVal:String = "TASKS:\n";
+		var currentListTask:Task = head;
+		while (currentListTask) {
+			
+			retVal += "\t"
+			
+			if (!currentListTask._isEnabled || currentListTask._missingDependencyCount > 0) {
+				retVal += "|\t";
+			}
+			
+			retVal += currentListTask;
+			
+			if (!currentListTask._isEnabled) {
+				retVal += "   (DISABLED)";
+			}
+			
+			if (currentListTask._missingDependencyCount > 0) {
+				retVal += "   (MISSING DEPENDENCIES:" + currentListTask._missingDependencyCount + ")";
+			}
+			
+			retVal += "\n";
+			
+			currentListTask = currentListTask.next;
+		}
+		
+		return retVal;
 	}
 	
 	//----------------------------------

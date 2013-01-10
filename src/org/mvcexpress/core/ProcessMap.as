@@ -169,7 +169,7 @@ public class ProcessMap implements IProcessMap {
 	}
 	
 	public function startProcess(processClass:Class, name:String = ""):void {
-		trace("ProcessMap.startProcess > processClass : " + processClass);
+		//trace("ProcessMap.startProcess > processClass : " + processClass);
 		use namespace mvcExpressLive;
 		
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
@@ -280,7 +280,7 @@ public class ProcessMap implements IProcessMap {
 	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */
 	
 	public function provide(object:Object, name:String):void {
-		trace("Process.provide > object : " + object + ", name : " + name);
+		//trace("Process.provide > object : " + object + ", name : " + name);
 		
 		// TODO : check stuff...
 		
@@ -293,7 +293,7 @@ public class ProcessMap implements IProcessMap {
 	}
 	
 	public function unprovide(object:Object, name:String):void {
-		trace("Process.provide > object : " + object + ", name : " + name);
+		//trace("Process.provide > object : " + object + ", name : " + name);
 		
 		// TODO : check stuff...
 		if (provideRegistry[name] != null) {
@@ -336,7 +336,7 @@ public class ProcessMap implements IProcessMap {
 	//----------------------------------
 	
 	mvcExpressLive function initTask(task:Task, signatureClass:Class):void {
-		trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
+		//trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
 		use namespace pureLegsCore;
 		use namespace mvcExpressLive;
 		

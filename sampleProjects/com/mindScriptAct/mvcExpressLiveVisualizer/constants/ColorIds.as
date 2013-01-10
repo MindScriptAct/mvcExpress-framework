@@ -9,6 +9,7 @@ public class ColorIds {
 	static public const RED:String = "RED";
 	static public const GREEN:String = "GREEN";
 	static public const BLUE:String = "BLUE";
+	static public const ALPHA:String = "ALPHA";
 	
 }
 }

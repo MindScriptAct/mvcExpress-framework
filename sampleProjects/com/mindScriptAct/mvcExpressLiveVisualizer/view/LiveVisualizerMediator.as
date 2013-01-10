@@ -1,5 +1,6 @@
 package com.mindScriptAct.mvcExpressLiveVisualizer.view {
 import com.mindScriptAct.mvcExpressLiveVisualizer.constants.ColorIds;
+import com.mindScriptAct.mvcExpressLiveVisualizer.engine.AlphaTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.BlueTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.GreenTask;
 import com.mindScriptAct.mvcExpressLiveVisualizer.engine.RedTask;
@@ -28,13 +29,18 @@ public class LiveVisualizerMediator extends Mediator {
 		var blueColorControls:ColorControls = new ColorControls(ColorIds.BLUE, BlueTask);
 		blueColorControls.y = 100;
 		
+		var alphaColorControls:ColorControls = new ColorControls(ColorIds.ALPHA, AlphaTask, BlueTask);
+		alphaColorControls.y = 150;		
+		
 		view.addChild(redColorControls);
 		view.addChild(greenColorControls);
 		view.addChild(blueColorControls);
+		view.addChild(alphaColorControls);
 		
 		mediatorMap.mediate(redColorControls);
 		mediatorMap.mediate(greenColorControls);
 		mediatorMap.mediate(blueColorControls);
+		mediatorMap.mediate(alphaColorControls);
 	
 	}
 	

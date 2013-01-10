@@ -18,17 +18,23 @@ public class ColorControlMediator extends Mediator {
 		trace("ColorControlMediator.onRegister", view.colorId);
 		
 		view.addEventListener(ColorControlEvent.ADD, handleAdd);
+		view.addEventListener(ColorControlEvent.ADDAFTER, handleAddAfter);
 		view.addEventListener(ColorControlEvent.REMOVE, handleRemove);
+	}
+	
+	private function handleAddAfter(event:ColorControlEvent):void {
+		//trace( "ColorControlMediator.handleAddAfter > event : " + event );
+		sendMessage(VizualizerMessage.ADD_AFTER, view);
 	}
 	
 	private function handleRemove(event:ColorControlEvent):void {
 		//trace("ColorControlMediator.handleRemove > event : " + event.colorId);
-		sendMessage(VizualizerMessage.ADD, view.taskClass);
+		sendMessage(VizualizerMessage.ADD, view);
 	}
 	
 	private function handleAdd(event:ColorControlEvent):void {
 		//trace("ColorControlMediator.handleAdd > event : " + event.colorId);
-		sendMessage(VizualizerMessage.REMOVE, view.taskClass);
+		sendMessage(VizualizerMessage.REMOVE, view);
 	}
 	
 	override public function onRemove():void {

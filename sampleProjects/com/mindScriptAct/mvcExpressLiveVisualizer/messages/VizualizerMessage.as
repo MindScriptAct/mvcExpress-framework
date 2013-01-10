@@ -7,6 +7,7 @@ package com.mindScriptAct.mvcExpressLiveVisualizer.messages {
 public class VizualizerMessage {
 	static public const REMOVE:String = "remove";
 	static public const ADD:String = "add";
+	static public const ADD_AFTER:String = "addAfter";
 	
 	
 }
