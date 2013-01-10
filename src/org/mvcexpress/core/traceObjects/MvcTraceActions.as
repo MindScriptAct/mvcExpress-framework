@@ -42,6 +42,8 @@ public class MvcTraceActions {
 	static public const PROCESS_ADDTASKAFTER:String = "Process.addTaskAfter";
 	static public const PROCESS_REMOVETASK:String = "Process.removeTask";
 	static public const PROCESS_REMOVEALLTASKS:String = "Process.removeAllTasks";
+	static public const PROCESS_ENABLETASK:String = "Process.enableTask";
+	static public const PROCESS_DISABLETASK:String = "Process.disableTask";
 	
 	//----------------------------------
 	//     For internal use

@@ -10,6 +10,8 @@ public class ColorControlEvent extends Event {
 	static public const ADD:String = "add";
 	static public const REMOVE:String = "remove";
 	static public const ADDAFTER:String = "addafter";
+	static public const DISABLE:String = "disable";
+	static public const ENABLE:String = "enable";
 	
 	public function ColorControlEvent(type:String, colorId:String) {
 		super(type);

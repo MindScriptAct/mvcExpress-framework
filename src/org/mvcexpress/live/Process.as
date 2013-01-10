@@ -13,6 +13,8 @@ import org.mvcexpress.core.taskTest.TastTestVO;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTaskAfter;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_disableTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_enableTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeAllTasks;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_removeTask;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -364,14 +366,6 @@ public class Process {
 		// mark process as not cached.
 		isCached = false;
 		
-		for each (var item:Task in taskRegistry) {
-			item.dispose();
-		}
-		
-		taskRegistry = new Dictionary();
-		head = null;
-		tail = null;
-		
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -379,16 +373,68 @@ public class Process {
 			MvcExpress.debug(new TraceProcess_removeAllTasks(MvcTraceActions.PROCESS_REMOVEALLTASKS, moduleName));
 		}
 		
-		//taskRegistry.
-		
+		for each (var item:Task in taskRegistry) {
+			item.dispose();
+		}
+		taskRegistry = new Dictionary();
+		head = null;
+		tail = null;
 	}
 	
 	protected function enableTask(taskClass:Class, name:String = ""):void {
-		// TODO
+		use namespace mvcExpressLive;
+		
+		// mark process as not cached.
+		isCached = false;
+		
+		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			Process.qualifiedClassNameRegistry[taskClass] = className
+		}
+		var taskId:String = className + name;
+		
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceProcess_enableTask(MvcTraceActions.PROCESS_ENABLETASK, moduleName, taskClass, name));
+		}
+		
+		var task:Task = taskRegistry[taskId];
+		if (task) {
+			task._isEnabled = true;
+		} else {
+			throw Error("Task you are trying to enable is not added to process. (taskClass:" + taskClass + " name:" + name + ")");
+		}
 	}
 	
 	protected function disableTask(taskClass:Class, name:String = ""):void {
-		// TODO
+		use namespace mvcExpressLive;
+		
+		// mark process as not cached.
+		isCached = false;
+		
+		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			Process.qualifiedClassNameRegistry[taskClass] = className
+		}
+		var taskId:String = className + name;
+		
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			var moduleName:String = messenger.moduleName;
+			MvcExpress.debug(new TraceProcess_disableTask(MvcTraceActions.PROCESS_DISABLETASK, moduleName, taskClass, name));
+		}
+		
+		var task:Task = taskRegistry[taskId];
+		if (task) {
+			task._isEnabled = false;
+		} else {
+			throw Error("Task you are trying to enable is not added to process. (taskClass:" + taskClass + " name:" + name + ")");
+		}
 	}
 	
 	//----------------------------------
@@ -428,6 +474,141 @@ public class Process {
 	//----------------------------------
 	//     internal
 	//----------------------------------
+	
+	mvcExpressLive function runProcess(event:Event = null):void {
+		var task:Task;
+		
+		var moduleName:String;
+		var params:Object;
+		var type:String;
+		
+		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
+		
+		CONFIG::debug {
+			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
+		}
+		
+		if (isCached) {
+			// take first cashed item.
+			var taskIndex:int = 0;
+			var cacheLength:int = processCache.length;
+			if (cacheLength > 0) {
+				task = processCache[taskIndex];
+			}
+		} else {
+			var doFindTask:Boolean = true;
+			task = head;
+			while (task && doFindTask) {
+				if (task._isEnabled && task._missingDependencyCount == 0) {
+					doFindTask = false;
+				} else {
+					task = task.next;
+				}
+			}
+			
+			// clear cashed items.
+			while (processCache.length) {
+				processCache.pop();
+			}
+		}
+		
+		while (task) {
+			
+			// run task!
+			task.run();
+			
+			// do testing
+			CONFIG::debug {
+				var nowTimer:uint = getTimer();
+				for (var i:int = 0; i < task.tests.length; i++) {
+					var taskTestVo:TastTestVO = task.tests[i];
+					// check if function run is needed.
+					if (taskTestVo.totalDelay > 0) {
+						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;
+						taskTestVo.currentTimer = nowTimer;
+						if (taskTestVo.currentDelay <= 0) {
+							taskTestVo.currentDelay = taskTestVo.totalDelay;
+							testRuns.push(taskTestVo);
+						}
+					} else {
+						testRuns.push(taskTestVo);
+					}
+					// send post messages
+					while (postMessageTypes.length) {
+						type = postMessageTypes.shift() as String;
+						params = postMessageParams.shift();
+						// log the action
+						CONFIG::debug {
+							use namespace pureLegsCore;
+							moduleName = messenger.moduleName;
+							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
+						}
+						messenger.send(type, params);
+						// clean up logging the action
+						CONFIG::debug {
+							use namespace pureLegsCore;
+							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+						}
+					}
+				}
+			}
+			
+			// take next task.
+			if (isCached) {
+				taskIndex++;
+				if (cacheLength > taskIndex) {
+					task = processCache[taskIndex];
+				} else {
+					task = null;
+				}
+			} else {
+				//add curent task to cache
+				processCache.push(task);
+				//
+				doFindTask = true;
+				task = task.next;
+				while (task && doFindTask) {
+					if (task._isEnabled && task._missingDependencyCount == 0) {
+						doFindTask = false;
+					} else {
+						task = task.next;
+					}
+				}
+			}
+		}
+		
+		// set process as cached
+		isCached = true;
+		
+		// send final messages
+		while (finalMessageTypes.length) {
+			type = finalMessageTypes.shift() as String;
+			params = finalMessageParams.shift();
+			// log the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				moduleName = messenger.moduleName;
+				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE, moduleName, this, type, params));
+			}
+			messenger.send(type, params);
+			// clean up logging the action
+			CONFIG::debug {
+				use namespace pureLegsCore;
+				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+			}
+		}
+		// run needed tests.
+		CONFIG::debug {
+			for (var t:int = 0; t < testRuns.length; t++) {
+				var totalCount:int = testRuns[t].totalCount
+				for (var j:int = 0; j < totalCount; j++) {
+					testRuns[t].testFunction();
+				}
+			}
+		}
+	
+	}
 	
 	private function initTask(taskClass:Class, taskId:String):Task {
 		use namespace mvcExpressLive;
@@ -505,94 +686,6 @@ public class Process {
 	mvcExpressLive function stackFinalMessage(type:String, params:Object):void {
 		finalMessageTypes.push(type);
 		finalMessageParams.push(params);
-	}
-	
-	mvcExpressLive function runProcess(event:Event = null):void {
-		
-		var moduleName:String;
-		var params:Object;
-		var type:String;
-		
-		use namespace mvcExpressLive;
-		use namespace pureLegsCore;
-		
-		CONFIG::debug {
-			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
-		}
-		
-		var task:Task = head;
-		
-		while (task) {
-			
-			// run task:
-			task.run();
-			
-			// do testing
-			CONFIG::debug {
-				var nowTimer:uint = getTimer();
-				for (var i:int = 0; i < task.tests.length; i++) {
-					var taskTestVo:TastTestVO = task.tests[i];
-					// check if function run is needed.
-					if (taskTestVo.totalDelay > 0) {
-						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;
-						taskTestVo.currentTimer = nowTimer;
-						if (taskTestVo.currentDelay <= 0) {
-							taskTestVo.currentDelay = taskTestVo.totalDelay;
-							testRuns.push(taskTestVo);
-						}
-					} else {
-						testRuns.push(taskTestVo);
-					}
-					// send post messages
-					while (postMessageTypes.length) {
-						type = postMessageTypes.shift() as String;
-						params = postMessageParams.shift();
-						// log the action
-						CONFIG::debug {
-							use namespace pureLegsCore;
-							moduleName = messenger.moduleName;
-							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
-						}
-						messenger.send(type, params);
-						// clean up logging the action
-						CONFIG::debug {
-							use namespace pureLegsCore;
-							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
-						}
-					}
-				}
-			}
-			
-			task = task.next;
-			
-		}
-		// send final messages
-		while (finalMessageTypes.length) {
-			type = finalMessageTypes.shift() as String;
-			params = finalMessageParams.shift();
-			// log the action
-			CONFIG::debug {
-				use namespace pureLegsCore;
-				moduleName = messenger.moduleName;
-				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE, moduleName, this, type, params));
-			}
-			messenger.send(type, params);
-			// clean up logging the action
-			CONFIG::debug {
-				use namespace pureLegsCore;
-				MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN, moduleName, this, type, params));
-			}
-		}
-		// run needed tests.
-		CONFIG::debug {
-			for (var t:int = 0; t < testRuns.length; t++) {
-				var totalCount:int = testRuns[t].totalCount
-				for (var j:int = 0; j < totalCount; j++) {
-					testRuns[t].testFunction();
-				}
-			}
-		}
-	
 	}
 
 }

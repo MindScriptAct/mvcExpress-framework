@@ -11,15 +11,15 @@ public class ColorControlMediator extends Mediator {
 	[Inject]
 	public var view:ColorControls;
 	
-	//[Inject]
-	//public var myProxy:MyProxy;
-	
 	override public function onRegister():void {
 		trace("ColorControlMediator.onRegister", view.colorId);
 		
 		view.addEventListener(ColorControlEvent.ADD, handleAdd);
 		view.addEventListener(ColorControlEvent.ADDAFTER, handleAddAfter);
 		view.addEventListener(ColorControlEvent.REMOVE, handleRemove);
+		
+		view.addEventListener(ColorControlEvent.ENABLE, handleEnable);
+		view.addEventListener(ColorControlEvent.DISABLE, handleDisable);
 		
 		addHandler(VizualizerMessage.REMOVE_ALL, handleRemoveAll);
 	}
@@ -37,6 +37,14 @@ public class ColorControlMediator extends Mediator {
 	private function handleAdd(event:ColorControlEvent):void {
 		//trace("ColorControlMediator.handleAdd > event : " + event.colorId);
 		sendMessage(VizualizerMessage.REMOVE, view);
+	}
+	
+	private function handleEnable(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.ENABLE, view);
+	}
+	
+	private function handleDisable(event:ColorControlEvent):void {
+		sendMessage(VizualizerMessage.DISABLE, view);
 	}
 	
 	private function handleRemoveAll(blank:Object):void {
