@@ -45,7 +45,6 @@ public class Mediator {
 	pureLegsCore var processMap:ProcessMap;
 
 	/**	all objects provided by this mediator */
-	CONFIG::mvcExpressLive
 	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 
 	// mvcExpressLive
@@ -336,21 +335,18 @@ public class Mediator {
 	//     mvcExpressLive functions
 	//----------------------------------
 	
-	CONFIG::mvcExpressLive
 	public function provide(object:Object, name:String):void {
 		use namespace pureLegsCore;
 		processMap.provide(object, name);
 		provideRegistry[name] = object;
 	}
 	
-	CONFIG::mvcExpressLive
 	public function unprovide(object:Object, name:String):void {
 		use namespace pureLegsCore;
 		processMap.unprovide(object, name);
 		delete provideRegistry[name];
 	}
 	
-	CONFIG::mvcExpressLive
 	public function unprovideAll():void {
 		for (var name:String in provideRegistry) {
 			unprovide(provideRegistry[name], name);

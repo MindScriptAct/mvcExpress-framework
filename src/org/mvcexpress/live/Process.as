@@ -6,7 +6,6 @@ import flash.utils.getQualifiedClassName;
 import flash.utils.getTimer;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.taskTest.TaskTestVO;
@@ -36,7 +35,7 @@ public class Process {
 	
 	// used internally for process management
 	/** @private */
-	mvcExpressLive var processMap:ProcessMap;
+	pureLegsCore var processMap:ProcessMap;
 	
 	// used internally for communication
 	/** @private */
@@ -45,11 +44,11 @@ public class Process {
 	/** Stores class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
 	
-	mvcExpressLive var processType:int;
-	mvcExpressLive var processId:String;
+	pureLegsCore var processType:int;
+	pureLegsCore var processId:String;
 	
-	mvcExpressLive var totalFrameSkip:int = 0;
-	mvcExpressLive var currentFrameSkip:int = 0;
+	pureLegsCore var totalFrameSkip:int = 0;
+	pureLegsCore var currentFrameSkip:int = 0;
 	
 	//
 	private var taskRegistry:Dictionary = new Dictionary();
@@ -59,7 +58,7 @@ public class Process {
 	
 	private var processCache:Vector.<Task> = new Vector.<Task>();
 	
-	mvcExpressLive var isCached:Boolean = false;
+	pureLegsCore var isCached:Boolean = false;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -70,7 +69,7 @@ public class Process {
 	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 	
-	mvcExpressLive var _isRunning:Boolean = false;
+	pureLegsCore var _isRunning:Boolean = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
@@ -104,7 +103,7 @@ public class Process {
 	 * Is process running or not.
 	 */
 	public function get isRunning():Boolean {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		return _isRunning as Boolean;
 	}
 	
@@ -117,7 +116,7 @@ public class Process {
 	 * If task has missing injections - they will be skipped.
 	 */
 	public function startProcess():void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		processMap.startProcessObject(this);
 	}
 	
@@ -125,7 +124,7 @@ public class Process {
 	 * Stop process. Process tasks will not be run().
 	 */
 	public function stopProcess():void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		processMap.stopProcessObject(this);
 	}
 	
@@ -192,7 +191,7 @@ public class Process {
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
 	protected function addTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -239,7 +238,7 @@ public class Process {
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
 	protected function addFirstTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -288,7 +287,7 @@ public class Process {
 	 * @param	afterName
 	 */
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -352,7 +351,7 @@ public class Process {
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
 	protected function removeTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -393,7 +392,7 @@ public class Process {
 	}
 	
 	protected function removeAllTasks():void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -421,7 +420,7 @@ public class Process {
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
 	protected function enableTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -453,7 +452,7 @@ public class Process {
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
 	protected function disableTask(taskClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// mark process as not cached.
 		isCached = false;
@@ -484,7 +483,7 @@ public class Process {
 	//----------------------------------
 	
 	public function listTasks():String {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		var retVal:String = "TASKS:\n";
 		var currentListTask:Task = head;
 		while (currentListTask) {
@@ -526,14 +525,13 @@ public class Process {
 	//----------------------------------
 	
 	// runs all enabled tasks in process.
-	mvcExpressLive function runProcess(event:Event = null):void {
+	pureLegsCore function runProcess(event:Event = null):void {
 		var task:Task;
 		
 		var moduleName:String;
 		var params:Object;
 		var type:String;
 		
-		use namespace mvcExpressLive;
 		use namespace pureLegsCore;
 		
 		CONFIG::debug {
@@ -657,7 +655,7 @@ public class Process {
 	
 	// initiates a task.
 	private function initTask(taskClass:Class, taskId:String):Task {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		CONFIG::debug {
 			//check for class type. (taskClass must be or subclass Task class.)
 			if (!checkClassSuperclass(taskClass, "org.mvcexpress.live::Task")) {
@@ -674,13 +672,13 @@ public class Process {
 	}
 	
 	// trigered then process is initiated.
-	mvcExpressLive function register():void {
+	pureLegsCore function register():void {
 		onRegister();
 	}
 	
 	// trigered then process is removed.
-	mvcExpressLive function remove():void {
-		use namespace mvcExpressLive;
+	pureLegsCore function remove():void {
+		use namespace pureLegsCore;
 		processId = null;
 		onRemove();
 		// remove all handlers
@@ -704,7 +702,7 @@ public class Process {
 	}
 	
 	// sets name of curent module.
-	mvcExpressLive function setModuleName(moduleName:String):void {
+	pureLegsCore function setModuleName(moduleName:String):void {
 		this.moduleName = moduleName;
 	}
 	
@@ -713,7 +711,7 @@ public class Process {
 	//----------------------------------
 	
 	// send instant messages
-	mvcExpressLive function sendInstantMessage(type:String, params:Object):void {
+	pureLegsCore function sendInstantMessage(type:String, params:Object):void {
 		use namespace pureLegsCore;
 		
 		// log the action
@@ -729,13 +727,13 @@ public class Process {
 	}
 	
 	// stacks message to be sent after current task is done.
-	mvcExpressLive function stackPostMessage(type:String, params:Object):void {
+	pureLegsCore function stackPostMessage(type:String, params:Object):void {
 		postMessageTypes.push(type);
 		postMessageParams.push(params);
 	}
 	
 	// stacks message to be sent after all tasks of current run are done.
-	mvcExpressLive function stackFinalMessage(type:String, params:Object):void {
+	pureLegsCore function stackFinalMessage(type:String, params:Object):void {
 		finalMessageTypes.push(type);
 		finalMessageParams.push(params);
 	}

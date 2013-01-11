@@ -6,7 +6,6 @@ import org.mvcexpress.core.FlexMediatorMap;
 import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProxyMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -271,7 +270,6 @@ public class ModuleBase {
 	 * Internal framework function. Not meant to be used from outside.
 	 */
 	// Lists all processes and tasks.
-	CONFIG::mvcExpressLive
 	public function listMappedProcesses():String {
 		return processMap.listProcesses();
 	}

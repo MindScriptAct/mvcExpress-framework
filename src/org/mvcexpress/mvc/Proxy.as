@@ -142,19 +142,16 @@ public class Proxy {
 	//     mvcExpressLive functions
 	//----------------------------------
 	
-	CONFIG::mvcExpressLive
 	protected function provide(object:Object, name:String):void {
 		processMap.provide(object, name);
 		provideRegistry[name] = object;
 	}
 	
-	CONFIG::mvcExpressLive
 	protected function unprovide(object:Object, name:String):void {
 		processMap.unprovide(object, name);
 		delete provideRegistry[name];
 	}
 	
-	CONFIG::mvcExpressLive
 	protected function unprovideAll():void {
 		for (var name:String in provideRegistry) {
 			unprovide(provideRegistry[name], name);

@@ -12,7 +12,6 @@ import flash.utils.Timer;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.inject.TestRuleVO;
 import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.taskTest.TaskTestVO;
 import org.mvcexpress.core.traceObjects.live.processMap.TraceProcessMap_provide;
@@ -71,7 +70,6 @@ public class ProcessMap {
 			}
 		}
 		
-		use namespace mvcExpressLive;
 		use namespace pureLegsCore;
 		
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
@@ -104,8 +102,6 @@ public class ProcessMap {
 	}
 	
 	public function mapTimerProcess(processClass:Class, delay:int = 1000, name:String = ""):void {
-		
-		use namespace mvcExpressLive;
 		use namespace pureLegsCore;
 		
 		// check if process class provided
@@ -148,7 +144,7 @@ public class ProcessMap {
 	}
 	
 	public function unmapProcess(processClass:Class, name:String = ""):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
@@ -172,7 +168,7 @@ public class ProcessMap {
 	
 	public function startProcess(processClass:Class, name:String = ""):void {
 		//trace("ProcessMap.startProcess > processClass : " + processClass);
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
@@ -189,8 +185,8 @@ public class ProcessMap {
 		startProcessObject(processRegistry[processId]);
 	}
 	
-	mvcExpressLive function startProcessObject(process:Process):void {
-		use namespace mvcExpressLive;
+	pureLegsCore function startProcessObject(process:Process):void {
+		use namespace pureLegsCore;
 		if (process) {
 			if (!process._isRunning) {
 				process._isRunning = true;
@@ -215,7 +211,7 @@ public class ProcessMap {
 	
 	private function handleFrameProcesses(event:Event):void {
 		//trace( "ProcessMap.handleFrameProcesses > event : " + event );
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		for (var i:int = 0; i < runningFrameProcesses.length; i++) {
 			var process:Process = runningFrameProcesses[i];
 			if (process.totalFrameSkip > 0) {
@@ -233,7 +229,7 @@ public class ProcessMap {
 	
 	public function stopProcess(processClass:Class, name:String = ""):void {
 		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
@@ -249,8 +245,8 @@ public class ProcessMap {
 		stopProcessObject(processRegistry[processId]);
 	}
 	
-	mvcExpressLive function stopProcessObject(process:Process):void {
-		use namespace mvcExpressLive;
+	pureLegsCore function stopProcessObject(process:Process):void {
+		use namespace pureLegsCore;
 		if (process) {
 			if (process._isRunning) {
 				process._isRunning = false;
@@ -282,7 +278,7 @@ public class ProcessMap {
 	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */
 	
 	public function provide(object:Object, name:String):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		if (provideRegistry[name] != null) {
 			throw Error("There is already object provided with name:" + name + " - " + provideRegistry[name]);
 		}
@@ -313,7 +309,7 @@ public class ProcessMap {
 	}
 	
 	public function unprovide(object:Object, name:String):void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		
 		// log the action
 		CONFIG::debug {
@@ -360,7 +356,7 @@ public class ProcessMap {
 	 * @return		Text with all mapped commands.
 	 */
 	public function listProcesses():String {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		var retVal:String = "";
 		retVal = "===================== ProcessMap Mappings: =====================\n";
 		for (var key:String in processRegistry) {
@@ -377,10 +373,9 @@ public class ProcessMap {
 	//     INTERNAL
 	//----------------------------------
 	
-	mvcExpressLive function initTask(task:Task, signatureClass:Class):void {
+	pureLegsCore function initTask(task:Task, signatureClass:Class):void {
 		//trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
 		use namespace pureLegsCore;
-		use namespace mvcExpressLive;
 		
 		// get class injection rules. (cashing is used.)
 		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
@@ -425,7 +420,7 @@ public class ProcessMap {
 	
 	
 	// TODO : vector search used... think if its posible to optimize it. (use linked list?)
-	mvcExpressLive function removeTask(task:Task, signatureClass:Class):void {
+	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
 		// get class injection rules. (cache is used.)
 		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
 		
@@ -444,7 +439,7 @@ public class ProcessMap {
 	}
 	
 	// remove indejet object registry data then all tasks are removed.
-	mvcExpressLive function removeAllTasks():void {
+	pureLegsCore function removeAllTasks():void {
 		injectObjectRegistry = new Dictionary();
 	}
 	
@@ -538,7 +533,7 @@ public class ProcessMap {
 	}
 	
 	pureLegsCore function dispose():void {
-		use namespace mvcExpressLive;
+		use namespace pureLegsCore;
 		for each (var process:Process in processRegistry) {
 			stopProcessObject(process);
 		}
