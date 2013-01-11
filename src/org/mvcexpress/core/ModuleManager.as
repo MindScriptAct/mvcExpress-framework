@@ -1,15 +1,15 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceModuleManager_createModule;
-import org.mvcexpress.core.traceObjects.TraceModuleManager_disposeModule;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModule;
+import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
 import org.mvcexpress.mvc.Proxy;
-import org.mvcexpress.MvcExpress;
 
 /**
  * INTERNAL FRAMEWORK CLASS.

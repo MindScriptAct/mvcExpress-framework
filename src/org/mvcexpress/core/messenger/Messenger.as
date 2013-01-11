@@ -1,14 +1,14 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.messenger {
 import flash.utils.Dictionary;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceMessenger_addHandler;
-import org.mvcexpress.core.traceObjects.TraceMessenger_removeHandler;
-import org.mvcexpress.core.traceObjects.TraceMessenger_send;
-import org.mvcexpress.core.traceObjects.TraceMessenger_send_handler;
-import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_addHandler;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_removeHandler;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
+import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 
 /**
  * FOR INTERNAL USE ONLY.

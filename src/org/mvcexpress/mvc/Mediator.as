@@ -3,17 +3,17 @@ package org.mvcexpress.mvc {
 import flash.events.IEventDispatcher;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
+import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceMediator_addHandler;
-import org.mvcexpress.core.traceObjects.TraceMediator_sendMessage;
-import org.mvcexpress.core.traceObjects.TraceMediator_sendScopeMessage;
-import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.traceObjects.mediator.TraceMediator_addHandler;
+import org.mvcexpress.core.traceObjects.mediator.TraceMediator_sendMessage;
+import org.mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 
 /**
  * Mediates single view object. 																															</br>

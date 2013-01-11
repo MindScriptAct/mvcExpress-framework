@@ -1,27 +1,27 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
-import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_injectPending;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_injectStuff;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_lazyMap;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_map;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_scopedInjectPending;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_scopeMap;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_scopeUnmap;
-import org.mvcexpress.core.traceObjects.TraceProxyMap_unmap;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectPending;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectStuff;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_lazyMap;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_map;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeMap;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeUnmap;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopedInjectPending;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_unmap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.PooledCommand;
 import org.mvcexpress.mvc.Proxy;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
