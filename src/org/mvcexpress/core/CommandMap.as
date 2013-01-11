@@ -67,8 +67,7 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_map(MvcTraceActions.COMMANDMAP_MAP, moduleName, type, commandClass));
+			MvcExpress.debug(new TraceCommandMap_map(moduleName, type, commandClass));
 			validateCommandClass(commandClass);
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
@@ -91,7 +90,7 @@ public class CommandMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_unmap(MvcTraceActions.COMMANDMAP_UNMAP, moduleName, type, commandClass));
+			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
@@ -114,8 +113,9 @@ public class CommandMap {
 	 * @param	params			Object to be sent to execute() function.
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
-		var command:Command;
 		use namespace pureLegsCore;
+
+		var command:Command;
 		
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
@@ -149,8 +149,7 @@ public class CommandMap {
 		
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommandMap_execute(MvcTraceActions.COMMANDMAP_EXECUTE, moduleName, command, commandClass, params));
+			MvcExpress.debug(new TraceCommandMap_execute(moduleName, command, commandClass, params));
 		}
 		
 		if (command is PooledCommand) {
@@ -319,9 +318,10 @@ public class CommandMap {
 	
 	/** function to be called by messenger on needed message type sent */
 	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
-		var commandList:Vector.<Class>;
-		var command:Command;
 		use namespace pureLegsCore;
+		
+		var command:Command;
+		var commandList:Vector.<Class>;
 		
 		commandList = classRegistry[messageType];
 		if (commandList) {
@@ -360,8 +360,7 @@ public class CommandMap {
 				
 				// debug this action
 				CONFIG::debug {
-					use namespace pureLegsCore;
-					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName, command, commandClass, messageType, params));
+					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
 				}
 				
 				if (command is PooledCommand) {

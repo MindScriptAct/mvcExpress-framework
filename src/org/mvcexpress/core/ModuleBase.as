@@ -76,8 +76,8 @@ public class ModuleBase {
 	// @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	// 						(or you start getting null reference errors.)
 	static public function getModuleInstance(moduleName:String, autoInit:Boolean):ModuleBase {
-		var retVal:ModuleBase;
 		use namespace pureLegsCore;
+		var retVal:ModuleBase;
 		ModuleBase.allowInstantiation = true;
 		retVal = new ModuleBase(moduleName, autoInit);
 		ModuleBase.allowInstantiation = false;
@@ -152,15 +152,14 @@ public class ModuleBase {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendMessage(MvcTraceActions.MODULEBASE_SENDMESSAGE, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, true));
 		}
 		//
 		_messenger.send(type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendMessage(MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, false));
 		}
 	}
 	
@@ -174,16 +173,14 @@ public class ModuleBase {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
 		}
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN, _moduleName, this, type, params));
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
 		}
 	}
 	

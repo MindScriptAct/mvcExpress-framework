@@ -1,6 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.traceObjects.proxyMap {
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceObj;
 
 /**
@@ -13,8 +15,9 @@ public class TraceProxyMap_injectStuff extends TraceObj {
 	public var injectObject:Object;
 	public var rule:InjectRuleVO;
 	
-	public function TraceProxyMap_injectStuff(action:String, moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
-		super(action, moduleName);
+	public function TraceProxyMap_injectStuff(moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
+		use namespace pureLegsCore;
+		super(MvcTraceActions.PROXYMAP_INJECTSTUFF, moduleName);
 		this.hostObject = hostObject;
 		this.injectObject = injectObject;
 		this.rule = rule;

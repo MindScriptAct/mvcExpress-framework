@@ -18,8 +18,8 @@ public class TraceProxyMap_scopeUnmap extends TraceObj {
 	
 	public var view:DisplayObject;
 	
-	public function TraceProxyMap_scopeUnmap(action:String, moduleName:String, scopeName:String, injectClass:Class, name:String) {
-		super(action, moduleName);
+	public function TraceProxyMap_scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String) {
+		super(MvcTraceActions.PROXYMAP_SCOPEUNMAP, moduleName);
 		this.scopeName = scopeName;
 		this.injectClass = injectClass;
 		this.name = name;

@@ -21,8 +21,8 @@ public class TraceMediatorMap_mediate extends TraceObj {
 	
 	public var handleObjects:Vector.<Object>;
 	
-	public function TraceMediatorMap_mediate(action:String, moduleName:String, viewObject:Object, mediatorObject:Mediator, viewClass:Class, mediatorClass:Class, mediatorClassName:String) {
-		super(action, moduleName);
+	public function TraceMediatorMap_mediate(moduleName:String, viewObject:Object, mediatorObject:Mediator, viewClass:Class, mediatorClass:Class, mediatorClassName:String) {
+		super(MvcTraceActions.MEDIATORMAP_MEDIATE, moduleName);
 		this.viewObject = viewObject;
 		this.mediatorObject = mediatorObject;
 		this.viewClass = viewClass;

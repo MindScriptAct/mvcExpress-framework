@@ -1,5 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.traceObjects.mediator {
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.mvc.Mediator;
 
@@ -13,8 +15,9 @@ public class TraceMediator_addHandler extends TraceObj {
 	public var handler:Function;
 	public var mediatorObject:Mediator;
 	
-	public function TraceMediator_addHandler(action:String, moduleName:String, mediatorObject:Mediator, type:String, handler:Function) {
-		super(action, moduleName);
+	public function TraceMediator_addHandler(moduleName:String, mediatorObject:Mediator, type:String, handler:Function) {
+		use namespace pureLegsCore;
+		super(MvcTraceActions.MEDIATOR_ADDHANDLER, moduleName);
 		this.mediatorObject = mediatorObject;
 		this.type = type;
 		this.handler = handler;

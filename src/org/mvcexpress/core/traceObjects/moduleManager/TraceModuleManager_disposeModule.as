@@ -9,8 +9,8 @@ import org.mvcexpress.core.traceObjects.TraceObj;
  */
 public class TraceModuleManager_disposeModule extends TraceObj {
 	
-	public function TraceModuleManager_disposeModule(action:String, moduleName:String) {
-		super(action, moduleName);
+	public function TraceModuleManager_disposeModule(moduleName:String) {
+		super(MvcTraceActions.MODULEMANAGER_DISPOSEMODULE, moduleName);
 	}
 	
 	override public function toString():String {

@@ -53,7 +53,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_createModule(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName, autoInit));
+			MvcExpress.debug(new TraceModuleManager_createModule(moduleName, autoInit));
 		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++;
@@ -92,8 +92,7 @@ public class ModuleManager {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_disposeModule(MvcTraceActions.MODULEMANAGER_DISPOSEMODULE, moduleName));
+			MvcExpress.debug(new TraceModuleManager_disposeModule(moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
 			// TODO : optimize unmaping for module disposing
@@ -157,7 +156,6 @@ public class ModuleManager {
 	/** remove scoped handler
 	 * @private */
 	static pureLegsCore function removeScopeHandler(scopeName:String, type:String, handler:Function):void {
-		//use namespace pureLegsCore;
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.removeHandler(scopeName + "_^~_" + type, handler);
@@ -203,6 +201,7 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
+		use namespace pureLegsCore;
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
@@ -211,7 +210,6 @@ public class ModuleManager {
 		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 		
 		// add scope to proxy so it could send scoped messages.
-		use namespace pureLegsCore;
 		proxyObject.addScope(scopeName);
 		
 		// if injectClass is not provided - proxyClass will be used instead.
@@ -282,12 +280,12 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
+		use namespace pureLegsCore;
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
 			scopedProxyMap = scopedProxyMaps[scopeName];
 		}
-		use namespace pureLegsCore;
 		scopedProxyMap.addPendingInjection(injectClassAndName, pendingInject);
 	}
 	

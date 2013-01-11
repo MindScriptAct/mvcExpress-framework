@@ -51,7 +51,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_addHandler(MvcTraceActions.MESSENGER_ADDHANDLER, moduleName, type, handler, handlerClassName));
+			MvcExpress.debug(new TraceMessenger_addHandler(moduleName, type, handler, handlerClassName));
 		}
 		
 		// if this message type used for the first time - create data placeholders.
@@ -91,7 +91,7 @@ public class Messenger {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_removeHandler(MvcTraceActions.MESSENGER_REMOVEHANDLER, moduleName, type, handler));
+			MvcExpress.debug(new TraceMessenger_removeHandler(moduleName, type, handler));
 		}
 		if (handlerRegistry[type]) {
 			if (handlerRegistry[type][handler]) {
@@ -110,8 +110,7 @@ public class Messenger {
 		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMessenger_send(MvcTraceActions.MESSENGER_SEND, moduleName, type, params));
+			MvcExpress.debug(new TraceMessenger_send(moduleName, type, params));
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
@@ -141,8 +140,7 @@ public class Messenger {
 							/* Failed handler class: */
 							handlerVo.handlerClassName;
 							//
-							use namespace pureLegsCore;
-							MvcExpress.debug(new TraceMessenger_send_handler(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
+							MvcExpress.debug(new TraceMessenger_send_handler(moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
 						}
 						handlerVo.handler(params);
 					}

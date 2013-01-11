@@ -73,12 +73,12 @@ public class MvcExpress {
 	 */
 	CONFIG::debug
 	static pureLegsCore function debug(traceObj:TraceObj):void {
+		use namespace pureLegsCore;
 		if (debugFunction != null) {
 			if (traceObj.canPrint) {
 				debugFunction(traceObj);
 			}
 		}
-		use namespace pureLegsCore;
 		if (loggerFunction != null) {
 			loggerFunction(traceObj);
 		}
