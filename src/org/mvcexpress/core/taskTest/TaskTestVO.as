@@ -5,7 +5,7 @@ import org.mvcexpress.core.inject.TestRuleVO;
  * INTERNAL.
  * @author rBanevicius
  */
-public class TastTestVO {
+public class TaskTestVO {
 	
 	public var testFunction:Function;
 	

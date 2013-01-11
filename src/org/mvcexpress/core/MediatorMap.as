@@ -26,11 +26,18 @@ public class MediatorMap implements IMediatorMap {
 	
 	// for internal use.
 	protected var proxyMap:ProxyMap;
-	// for internal use.
-	CONFIG::mvcExpressLive
-	private var processMap:ProcessMap;
+	
 	// for internal use.
 	protected var messenger:Messenger;
+	
+	/////////////////
+	// mvcExpressLive
+	
+	// for internal use.
+	private var processMap:ProcessMap;
+	
+	// mvcExpressLive
+	/////////////////
 	
 	// stores all mediator classes using view class(mediator must mediate) as a key.
 	protected var mediatorClassRegistry:Dictionary = new Dictionary(); /* of Class by Class */
@@ -152,9 +159,10 @@ public class MediatorMap implements IMediatorMap {
 			mediator.messenger = messenger;
 			mediator.proxyMap = proxyMap;
 			mediator.mediatorMap = this;
-			CONFIG::mvcExpressLive {
-				mediator.processMap = processMap;
-			}
+			/////////////////
+			// mvcExpressLive
+			mediator.processMap = processMap;
+			/////////////////
 			
 			var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
 			mediatorRegistry[viewObject] = mediator;
@@ -222,9 +230,10 @@ public class MediatorMap implements IMediatorMap {
 		mediator.messenger = messenger;
 		mediator.proxyMap = proxyMap;
 		mediator.mediatorMap = this;
-		CONFIG::mvcExpressLive {
-			mediator.processMap = processMap;
-		}
+		/////////////////
+		// mvcExpressLive
+		mediator.processMap = processMap;
+		/////////////////
 		
 		var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
 		mediatorRegistry[viewObject] = mediator;
@@ -303,11 +312,6 @@ public class MediatorMap implements IMediatorMap {
 	//     INTERNAL
 	//----------------------------------
 	
-	CONFIG::mvcExpressLive
-	pureLegsCore function setProcessMap(value:ProcessMap):void {
-		this.processMap = value;
-	}
-	
 	/**
 	 * Dispose mediatorMap - unmediate all mediated view objects and set all internals to null.
 	 * @private
@@ -323,6 +327,12 @@ public class MediatorMap implements IMediatorMap {
 		mediatorInjectRegistry = null;
 		mediatorRegistry = null;
 	}
-
+	
+	/////////////////
+	// mvcExpressLive
+	pureLegsCore function setProcessMap(value:ProcessMap):void {
+		this.processMap = value;
+	}
+	/////////////////
 }
 }

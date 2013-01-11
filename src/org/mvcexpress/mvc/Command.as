@@ -35,9 +35,11 @@ dynamic public class Command {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
+	/////////////////
+	// mvcExpressLive
 	/** Handles application Mediators. */
-	CONFIG::mvcExpressLive
-	public var processMap:ProcessMap;	
+	public var processMap:ProcessMap;
+	/////////////////
 	
 	// used internally for communication
 	/** @private */

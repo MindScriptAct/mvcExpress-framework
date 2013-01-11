@@ -32,22 +32,32 @@ public class Mediator {
 	public var proxyMap:IProxyMap;
 	
 	/**
-	 * Interface to work with processes.
-	 */
-	CONFIG::mvcExpressLive
-	pureLegsCore var processMap:ProcessMap;
-	
-	/**
 	 * Handles application mediators.
 	 */
 	public var mediatorMap:IMediatorMap;
 	
-	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
+	/////////////////
+	// mvcExpressLive
+
+	/**
+	 * Interface to work with processes.
+	 */
+	pureLegsCore var processMap:ProcessMap;
+
+	/**	all objects provided by this mediator */
+	CONFIG::mvcExpressLive
+	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
+
+	// mvcExpressLive
+	/////////////////
+	
 	
 	// used internally for communication
 	/** @private */
 	pureLegsCore var messenger:Messenger;
+	
+	// Shows if proxy is ready. Read only.
+	private var _isReady:Boolean = false;
 	
 	// amount of pending injections.
 	/** @private */
@@ -61,10 +71,6 @@ public class Mediator {
 	
 	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
 	private var eventListenerCaptureRegistry:Dictionary = new Dictionary(); /* or Dictionary by Function */
-	
-	/**	all objects provided by this mediator */
-	CONFIG::mvcExpressLive
-	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 	
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
@@ -324,6 +330,8 @@ public class Mediator {
 		}
 	}
 	
+	/////////////////
+	// mvcExpressLive
 	//----------------------------------
 	//     mvcExpressLive functions
 	//----------------------------------
@@ -348,6 +356,7 @@ public class Mediator {
 			unprovide(provideRegistry[name], name);
 		}
 	}
+	/////////////////
 	
 	//----------------------------------
 	//     INTERNAL
@@ -376,7 +385,10 @@ public class Mediator {
 		onRemove();
 		removeAllHandlers();
 		removeAllListeners();
+		/////////////////
+		// mvcExpressLive
 		unprovideAll();
+		/////////////////
 		handlerVoRegistry = null;
 		eventListenerRegistry = null;
 		messenger = null;

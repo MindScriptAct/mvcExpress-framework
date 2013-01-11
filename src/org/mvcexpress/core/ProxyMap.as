@@ -37,8 +37,14 @@ public class ProxyMap implements IProxyMap {
 	
 	private var commandMap:CommandMap;
 	
-	CONFIG::mvcExpressLive
+	/////////////////
+	// mvcExpressLive
+
+	// pushed into proxies so they could provide data objects
 	private var processMap:ProcessMap;
+	
+	// mvcExpressLive
+	/////////////////
 	
 	/** stares class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
@@ -356,10 +362,12 @@ public class ProxyMap implements IProxyMap {
 		this.commandMap = value;
 	}
 	
-	CONFIG::mvcExpressLive
+	/////////////////
+	// mvcExpressLive
 	pureLegsCore function setProcessMap(value:ProcessMap):void {
 		this.processMap = value;
 	}
+	/////////////////
 	
 	/**
 	 * Initiates proxy object.
@@ -370,9 +378,10 @@ public class ProxyMap implements IProxyMap {
 		use namespace pureLegsCore;
 		proxyObject.messenger = messenger;
 		proxyObject.setProxyMap(this);
-		CONFIG::mvcExpressLive {
-			proxyObject.setProcessMap(processMap);
-		}
+		/////////////////
+		// mvcExpressLive
+		proxyObject.setProcessMap(processMap);
+		/////////////////
 		// inject dependencies
 		var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
 		

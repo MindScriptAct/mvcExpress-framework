@@ -23,12 +23,6 @@ public class Proxy {
 	 */
 	protected var proxyMap:IProxyMap;
 	
-	/**
-	 * Interface to provide stuff for processes.
-	 */
-	CONFIG::mvcExpressLive
-	private var processMap:ProcessMap;
-	
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean = false;
 	
@@ -36,15 +30,23 @@ public class Proxy {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 	
+	/////////////////
+	// mvcExpressLive
+	
+	/** Used to provide stuff for processes. */
+	private var processMap:ProcessMap;
+	
+	/**	all objects provided by this proxy */
+	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
+	
+	// mvcExpressLive
+	/////////////////
+	
 	// for sending scoped messages then injected by scope.
 	private var proxyScopes:Vector.<String> = new Vector.<String>();
 	
 	// for command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
-	
-	/**	all objects provided by this proxy */
-	CONFIG::mvcExpressLive
-	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 	
 	// amount of pending injections.
 	/** @private */
@@ -134,6 +136,8 @@ public class Proxy {
 		}
 	}
 	
+	/////////////////
+	// mvcExpressLive
 	//----------------------------------
 	//     mvcExpressLive functions
 	//----------------------------------
@@ -156,7 +160,19 @@ public class Proxy {
 			unprovide(provideRegistry[name], name);
 		}
 	}
-	
+
+	/**
+	 * sets processMap interface.
+	 * @param	iProcessMap
+	 * @private
+	 */
+	pureLegsCore function setProcessMap(processMap:ProcessMap):void {
+		this.processMap = processMap;
+	}
+
+	// mvcExpressLive
+	/////////////////	
+
 	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
@@ -168,15 +184,6 @@ public class Proxy {
 	 */
 	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
 		this.proxyMap = iProxyMap;
-	}
-	
-	/**
-	 * sets processMap interface.
-	 * @param	iProcessMap
-	 * @private
-	 */
-	pureLegsCore function setProcessMap(processMap:ProcessMap):void {
-		this.processMap = processMap;
 	}
 	
 	/**
@@ -200,7 +207,10 @@ public class Proxy {
 		_isReady = false;
 		dependantCommands = null;
 		onRemove();
+		/////////////////
+		// mvcExpressLive		
 		unprovideAll();
+		/////////////////
 	}
 	
 	//----------------------------------

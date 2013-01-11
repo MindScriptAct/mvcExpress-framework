@@ -32,22 +32,6 @@ public class MvcTraceActions {
 	static public const MESSENGER_REMOVEHANDLER:String = "Messenger.removeHandler";
 	static public const MESSENGER_SEND:String = "Messenger.send";
 	
-	
-	//----------------------------------
-	//     process
-	//----------------------------------
-	
-	static public const PROCESS_ADDTASK:String = "Process.addTask";
-	static public const PROCESS_ADDFIRSTTASK:String = "Process.addFirstTask";
-	static public const PROCESS_ADDTASKAFTER:String = "Process.addTaskAfter";
-	static public const PROCESS_REMOVETASK:String = "Process.removeTask";
-	static public const PROCESS_REMOVEALLTASKS:String = "Process.removeAllTasks";
-	static public const PROCESS_ENABLETASK:String = "Process.enableTask";
-	static public const PROCESS_DISABLETASK:String = "Process.disableTask";
-	
-	static public const PROCESSMAP_PROVIDE:String = "ProcessMap.provide";
-	static public const PROCESSMAP_UNPROVIDE:String = "ProcessMap.unprovide";
-	
 	//----------------------------------
 	//     For internal use
 	//----------------------------------
@@ -77,9 +61,22 @@ public class MvcTraceActions {
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE:String = "Proxy.sendScopeMessage";
 	static pureLegsCore const PROXY_SENDSCOPEMESSAGE_CLEAN:String = "Proxy.sendScopeMessage.CLEAN";
 	
+	/////////////////
+	// mvcExpressLive
 	//----------------------------------
-	//     Process
+	//     process
 	//----------------------------------
+	
+	static public const PROCESS_ADDTASK:String = "Process.addTask";
+	static public const PROCESS_ADDFIRSTTASK:String = "Process.addFirstTask";
+	static public const PROCESS_ADDTASKAFTER:String = "Process.addTaskAfter";
+	static public const PROCESS_REMOVETASK:String = "Process.removeTask";
+	static public const PROCESS_REMOVEALLTASKS:String = "Process.removeAllTasks";
+	static public const PROCESS_ENABLETASK:String = "Process.enableTask";
+	static public const PROCESS_DISABLETASK:String = "Process.disableTask";
+	
+	static public const PROCESSMAP_PROVIDE:String = "ProcessMap.provide";
+	static public const PROCESSMAP_UNPROVIDE:String = "ProcessMap.unprovide";
 	
 	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE:String = "Process.runProcess.instantSendMessage";
 	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE_CLEAN:String = "Process.runProcess.instantSendMessage.CLEAN";
@@ -90,5 +87,7 @@ public class MvcTraceActions {
 	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE:String = "Process.runProcess.finalSendMessage";
 	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE_CLEAN:String = "Process.runProcess.finalSendMessage.CLEAN";
 
+	// mvcExpressLive
+	/////////////////
 }
 }

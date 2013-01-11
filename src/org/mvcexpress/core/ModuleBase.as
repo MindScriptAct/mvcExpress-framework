@@ -37,10 +37,12 @@ public class ModuleBase {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
+	/////////////////
+	// mvcExpressLive
 	/** Handles application Processes. */
-	CONFIG::mvcExpressLive
 	public var processMap:ProcessMap;
-	
+	/////////////////
+
 	/** for comunication. */
 	private var _messenger:Messenger;
 	
@@ -108,17 +110,10 @@ public class ModuleBase {
 		_messenger = new Messenger(_moduleName);
 		Messenger.allowInstantiation = false;
 		
-		// processMap
-		CONFIG::mvcExpressLive {
-			processMap = new ProcessMap(_moduleName, _messenger);
-		}
-		
 		// proxyMap
 		proxyMap = new ProxyMap(_moduleName, _messenger);
-		CONFIG::mvcExpressLive {
-			proxyMap.setProcessMap(processMap);
-		}
 		
+		// mediatorMap
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
 		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
@@ -127,16 +122,20 @@ public class ModuleBase {
 		} else {
 			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
-		CONFIG::mvcExpressLive {
-			mediatorMap.setProcessMap(processMap);
-		}
 		
 		// commandMap
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
-		CONFIG::mvcExpressLive {
-			commandMap.setProcessMap(processMap);
-		}
 		
+		/////////////////
+		// mvcExpressLive
+		// processMap
+		processMap = new ProcessMap(_moduleName, _messenger);
+		proxyMap.setProcessMap(processMap);
+		mediatorMap.setProcessMap(processMap);
+		commandMap.setProcessMap(processMap);
+		/////////////////
+		
+
 		proxyMap.setCommandMap(commandMap);
 	}
 	
@@ -150,14 +149,14 @@ public class ModuleBase {
 	// - All internals are nulled.
 	public function disposeModule():void {
 		use namespace pureLegsCore;
-		use namespace mvcExpressLive;
 		//
 		commandMap.dispose();
 		mediatorMap.dispose();
 		proxyMap.dispose();
-		CONFIG::mvcExpressLive {
-			processMap.dispose();
-		}
+		/////////////////
+		// mvcExpressLive
+		processMap.dispose();
+		/////////////////
 		
 		commandMap = null;
 		mediatorMap = null;
@@ -266,6 +265,8 @@ public class ModuleBase {
 		return commandMap.listMappings();
 	}
 	
+	/////////////////
+	// mvcExpressLive
 	/**
 	 * Internal framework function. Not meant to be used from outside.
 	 */
@@ -274,6 +275,6 @@ public class ModuleBase {
 	public function listMappedProcesses():String {
 		return processMap.listProcesses();
 	}
-
+	/////////////////
 }
 }

@@ -24,8 +24,11 @@ public class ModuleCore {
 	protected var proxyMap:ProxyMap;
 	protected var mediatorMap:MediatorMap;
 	protected var commandMap:CommandMap;
-	CONFIG::mvcExpressLive;
+
+	/////////////////
+	// mvcExpressLive
 	protected var processMap:ProcessMap;
+	/////////////////
 	
 	/**
 	 * CONSTRUCTOR
@@ -39,11 +42,11 @@ public class ModuleCore {
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;
 		commandMap = moduleBase.commandMap;
-		CONFIG::mvcExpressLive {
-			processMap = moduleBase.processMap;
-		}
+		/////////////////
+		// mvcExpressLive
+		processMap = moduleBase.processMap;
+		/////////////////
 		
-		//
 		if (autoInit) {
 			onInit();
 		}
