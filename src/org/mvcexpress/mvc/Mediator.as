@@ -35,12 +35,12 @@ public class Mediator {
 	 */
 	public var mediatorMap:IMediatorMap;
 	
-	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
-	
 	// used internally for communication
 	/** @private */
 	pureLegsCore var messenger:Messenger;
+	
+	// Shows if proxy is ready. Read only.
+	private var _isReady:Boolean = false;
 	
 	// amount of pending injections.
 	/** @private */
@@ -186,7 +186,7 @@ public class Mediator {
 	
 	/**
 	 * Remove all handle functions created by this mediator, internal module handlers AND scoped handlers.
-	 * Automatically called then mediator is removed(unmediated) by framework. 
+	 * Automatically called then mediator is removed(unmediated) by framework.
 	 * (You don't have to put it in mediators onRemove() function.)
 	 */
 	protected function removeAllHandlers():void {
@@ -293,7 +293,7 @@ public class Mediator {
 	/**
 	 * Removes all listeners created by mediators addEventListener() function.
 	 * WARNING: It will NOT remove events that was added normally with object.addEventListener() function.
-	 * Automatically called then mediator is removed(unmediated) by framework. 
+	 * Automatically called then mediator is removed(unmediated) by framework.
 	 * (You don't have to put it in mediators onRemove() function.)
 	 */
 	protected function removeAllListeners():void {

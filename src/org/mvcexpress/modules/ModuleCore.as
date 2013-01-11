@@ -36,7 +36,7 @@ public class ModuleCore {
 		proxyMap = moduleBase.proxyMap;
 		mediatorMap = moduleBase.mediatorMap;
 		commandMap = moduleBase.commandMap;
-		//
+		
 		if (autoInit) {
 			onInit();
 		}

@@ -26,6 +26,7 @@ public class MediatorMap implements IMediatorMap {
 	
 	// for internal use.
 	protected var proxyMap:ProxyMap;
+	
 	// for internal use.
 	protected var messenger:Messenger;
 	
@@ -309,6 +310,6 @@ public class MediatorMap implements IMediatorMap {
 		mediatorInjectRegistry = null;
 		mediatorRegistry = null;
 	}
-
+	
 }
 }

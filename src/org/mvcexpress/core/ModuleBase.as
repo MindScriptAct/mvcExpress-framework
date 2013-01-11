@@ -29,7 +29,7 @@ public class ModuleBase {
 	
 	/** Handles application Commands. */
 	public var commandMap:CommandMap;
-
+	
 	/** Handles application Proxies. */
 	public var proxyMap:ProxyMap;
 	
@@ -103,7 +103,10 @@ public class ModuleBase {
 		_messenger = new Messenger(_moduleName);
 		Messenger.allowInstantiation = false;
 		
+		// proxyMap
 		proxyMap = new ProxyMap(_moduleName, _messenger);
+		
+		// mediatorMap
 		// check if flex is used.
 		var uiComponentClass:Class = getFlexClass();
 		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
@@ -112,6 +115,8 @@ public class ModuleBase {
 		} else {
 			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
 		}
+		
+		// commandMap
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 	}
@@ -237,6 +242,6 @@ public class ModuleBase {
 	public function listMappedCommands():String {
 		return commandMap.listMappings();
 	}
-
+	
 }
 }

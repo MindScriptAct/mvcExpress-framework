@@ -449,6 +449,6 @@ public class CommandMap {
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
 	}
-
+	
 }
 }
