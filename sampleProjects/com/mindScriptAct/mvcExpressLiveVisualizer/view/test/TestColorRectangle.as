@@ -19,19 +19,19 @@ public class TestColorRectangle extends Sprite {
 		testRectangle.graphics.lineStyle(0.1, 0x000000);
 		switch (colorId) {
 			case ColorIds.RED: 
-				testRectangle.y = 50 - 25;
+				testRectangle.y = 100 - 25;
 				testRectangle.graphics.beginFill(0xFF0000);
 				break;
 			case ColorIds.GREEN: 
-				testRectangle.y = 100 - 25;
+				testRectangle.y = 150 - 25;
 				testRectangle.graphics.beginFill(0x00FF00);
 				break;
 			case ColorIds.BLUE: 
-				testRectangle.y = 150 - 25;
+				testRectangle.y = 200 - 25;
 				testRectangle.graphics.beginFill(0x0000FF);
 				break;
 			case ColorIds.ALPHA: 
-				testRectangle.y = 200 - 25;
+				testRectangle.y = 250 - 25;
 				testRectangle.graphics.beginFill(0xFFFFFF);
 				break;
 			default: 

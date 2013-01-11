@@ -112,6 +112,16 @@ public class Task {
 		return injectPointRegistry[injectName];
 	}
 	
+	mvcExpressLive function getMissingInjects():Vector.<String> {
+		var retVal:Vector.<String> = new Vector.<String>();
+		for (var name:String in injectPointRegistry) {
+			if (this[injectPointRegistry[name]] == null) {
+				retVal.push(name);
+			}
+		}
+		return retVal;
+	}	
+	
 	mvcExpressLive function setNotCached():void {
 		use namespace mvcExpressLive;
 		process.isCached = false;

@@ -7,16 +7,16 @@ import org.mvcexpress.live.Task;
  * COMMENT
  * @author rBanevicius
  */
-public class BlueTask extends Task {
-	
-	[Inject(name="testview_BLUE")]
-	public var testRectangle:Shape;
+public class ResetColorTask extends Task {
 	
 	[Inject(name="testdata")]
 	public var testData:TestColorVO;
 	
+	[Inject(name="testViewReset")]
+	public var testView:Shape;
+	
 	override public function run():void {
-		testRectangle.rotation += 10;
+		testView.rotation += 10;
 	}
 
 }

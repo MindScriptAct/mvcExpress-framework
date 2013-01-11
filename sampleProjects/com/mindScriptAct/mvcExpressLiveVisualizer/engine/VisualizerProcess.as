@@ -12,6 +12,11 @@ public class VisualizerProcess extends Process {
 	
 	override protected function onRegister():void {
 		
+
+	
+		addHandler(VizualizerMessage.ADD_RESET_TASK, handleAddResetTask);
+		addHandler(VizualizerMessage.REMOVE_RESET_TASK, handleRemoveResetTask);
+		
 		addHandler(VizualizerMessage.ADD, handleAddTask);
 		addHandler(VizualizerMessage.ADD_AFTER, handleAddAfterTask);
 		addHandler(VizualizerMessage.REMOVE, handleRemoveTask);
@@ -19,6 +24,14 @@ public class VisualizerProcess extends Process {
 		
 		addHandler(VizualizerMessage.ENABLE, handleEnableTask);
 		addHandler(VizualizerMessage.DISABLE, handleDisableTask);
+	}
+	
+	private function handleAddResetTask(blank:Object):void {
+		addFirstTask(ResetColorTask);
+	}
+	
+	private function handleRemoveResetTask(blank:Object):void {
+		removeTask(ResetColorTask);
 	}
 	
 	private function handleAddTask(task:ColorControls):void {

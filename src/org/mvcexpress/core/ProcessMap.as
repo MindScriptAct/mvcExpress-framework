@@ -423,6 +423,31 @@ public class ProcessMap {
 		}
 	}
 	
+	
+	// TODO : vector search used... think if its posible to optimize it. (use linked list?)
+	mvcExpressLive function removeTask(task:Task, signatureClass:Class):void {
+		// get class injection rules. (cache is used.)
+		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
+		
+		// find task by inject object name and remove it.
+		for (var i:int = 0; i < rules.length; i++) {
+			var allTasks:Vector.<Task> = injectObjectRegistry[rules[i].injectClassAndName];
+			if (allTasks) {
+				for (var j:int = 0; j < allTasks.length; j++) {
+					if (allTasks[j] == task) {
+						allTasks.splice(j, 1);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	// remove indejet object registry data then all tasks are removed.
+	mvcExpressLive function removeAllTasks():void {
+		injectObjectRegistry = new Dictionary();
+	}
+	
 	/**
 	 * Finds and cashes class injection point rules.
 	 */

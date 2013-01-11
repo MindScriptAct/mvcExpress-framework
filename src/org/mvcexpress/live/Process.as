@@ -373,6 +373,9 @@ public class Process {
 		}
 		
 		if (task != null) {
+			
+			processMap.removeTask(task, taskClass);
+			
 			if (task.prev) {
 				task.prev.next = task.next;
 			} else {
@@ -401,9 +404,12 @@ public class Process {
 			MvcExpress.debug(new TraceProcess_removeAllTasks(MvcTraceActions.PROCESS_REMOVEALLTASKS, moduleName));
 		}
 		
+		processMap.removeAllTasks();
+		
 		for each (var item:Task in taskRegistry) {
 			item.dispose();
 		}
+		
 		taskRegistry = new Dictionary();
 		head = null;
 		tail = null;
@@ -496,7 +502,15 @@ public class Process {
 			}
 			
 			if (currentListTask._missingDependencyCount > 0) {
-				retVal += "   (MISSING DEPENDENCIES:" + currentListTask._missingDependencyCount + ")";
+				var missingInjectNames:String = "";
+				var missingInjects:Vector.<String> = currentListTask.getMissingInjects();
+				for (var i:int = 0; i < missingInjects.length; i++) {
+					if (missingInjectNames != "") {
+						missingInjectNames += ", "
+					}
+					missingInjectNames += missingInjects[i];
+				}
+				retVal += "   (" + currentListTask._missingDependencyCount + " MISSING DEPENDENCIES:" +  missingInjectNames + ")";
 			}
 			
 			retVal += "\n";
