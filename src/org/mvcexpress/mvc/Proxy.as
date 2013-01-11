@@ -1,15 +1,15 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import flash.utils.Dictionary;
+import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceProxy_sendMessage;
-import org.mvcexpress.core.traceObjects.TraceProxy_sendScopeMessage;
-import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
+import org.mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>

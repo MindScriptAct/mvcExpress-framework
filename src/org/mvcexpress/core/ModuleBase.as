@@ -1,17 +1,12 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.getDefinitionByName;
-import org.mvcexpress.core.CommandMap;
-import org.mvcexpress.core.FlexMediatorMap;
-import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.ModuleManager;
-import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.ProxyMap;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.core.traceObjects.TraceModuleBase_sendMessage;
-import org.mvcexpress.core.traceObjects.TraceModuleBase_sendScopeMessage;
 import org.mvcexpress.MvcExpress;
+import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.traceObjects.MvcTraceActions;
+import org.mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
+import org.mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 
 /**
  * Internal framework class. Not meant to be constructed.
