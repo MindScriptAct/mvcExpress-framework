@@ -9,7 +9,7 @@ import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
-import org.mvcexpress.core.taskTest.TastTestVO;
+import org.mvcexpress.core.taskTest.TaskTestVO;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTaskAfter;
@@ -537,7 +537,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		CONFIG::debug {
-			var testRuns:Vector.<TastTestVO> = new Vector.<TastTestVO>();
+			var testRuns:Vector.<TaskTestVO> = new Vector.<TaskTestVO>();
 		}
 		
 		if (isCached) {
@@ -573,7 +573,7 @@ public class Process {
 			CONFIG::debug {
 				var nowTimer:uint = getTimer();
 				for (var i:int = 0; i < task.tests.length; i++) {
-					var taskTestVo:TastTestVO = task.tests[i];
+					var taskTestVo:TaskTestVO = task.tests[i];
 					// check if function run is needed.
 					if (taskTestVo.totalDelay > 0) {
 						taskTestVo.currentDelay -= nowTimer - taskTestVo.currentTimer;

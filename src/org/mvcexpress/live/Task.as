@@ -2,7 +2,7 @@
 package org.mvcexpress.live {
 import flash.utils.Dictionary;
 import org.mvcexpress.core.namespace.mvcExpressLive;
-import org.mvcexpress.core.taskTest.TastTestVO;
+import org.mvcexpress.core.taskTest.TaskTestVO;
 import org.mvcexpress.utils.ExpressAssert;
 
 /**
@@ -36,7 +36,7 @@ public class Task {
 	 * @private
 	 * */
 	CONFIG::debug
-	mvcExpressLive var tests:Vector.<TastTestVO> = new Vector.<TastTestVO>();
+	mvcExpressLive var tests:Vector.<TaskTestVO> = new Vector.<TaskTestVO>();
 	
 	/**
 	 * Runnable function. It will be executed everytime process runs.

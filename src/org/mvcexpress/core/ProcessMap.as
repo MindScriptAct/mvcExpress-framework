@@ -14,7 +14,7 @@ import org.mvcexpress.core.inject.TestRuleVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.mvcExpressLive;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.taskTest.TastTestVO;
+import org.mvcexpress.core.taskTest.TaskTestVO;
 import org.mvcexpress.core.traceObjects.live.processMap.TraceProcessMap_provide;
 import org.mvcexpress.core.traceObjects.live.processMap.TraceProcessMap_unprovide;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
@@ -395,7 +395,7 @@ public class ProcessMap {
 				if (rules[i] is TestRuleVO) {
 					var testRule:TestRuleVO = rules[i] as TestRuleVO;
 					if (testRule.testCount > 0) {
-						var taskTestVo:TastTestVO = new TastTestVO();
+						var taskTestVo:TaskTestVO = new TaskTestVO();
 						taskTestVo.testFunction = task[testRule.functionName];
 						taskTestVo.totalCount = testRule.testCount;
 						taskTestVo.totalDelay = testRule.testDelay;
@@ -537,7 +537,7 @@ public class ProcessMap {
 		return classConstRegistry[constName];
 	}
 	
-	mvcExpressLive function dispose():void {
+	pureLegsCore function dispose():void {
 		use namespace mvcExpressLive;
 		for each (var process:Process in processRegistry) {
 			stopProcessObject(process);
