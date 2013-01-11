@@ -12,6 +12,9 @@ public class MvcExpress {
 	/** Home website of mvcExpress. */
 	public static const WEBSITE_URL:String = "http://mvcexpress.org";
 	
+	/** Framework name */
+	public static const NAME:String = "mvcExpress";
+	
 	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 1;
 	/** Current framework minor version */
