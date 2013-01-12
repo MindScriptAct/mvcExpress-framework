@@ -32,6 +32,7 @@ public class MvcExpressLogger {
 	static public const PROXIES_TAB:String = "PROXIES";
 	static public const COMMANDS_TAB:String = "COMMANDS";
 	static public const VISUALIZER_TAB:String = "VISUALIZER";
+	static public const ENGINE_TAB:String = "ENGINE";
 	//
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
@@ -68,7 +69,7 @@ public class MvcExpressLogger {
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
-			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init() or MvcExpressLogger.showIn()");
+			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init()");
 		}
 	}
 	
@@ -174,6 +175,14 @@ public class MvcExpressLogger {
 								}
 							}
 							break;
+						case ENGINE_TAB: 
+							if (logType == "ÆÆ") {
+								if (!isRenderWaiting) {
+									isRenderWaiting = true;
+									setTimeout(render, 1);
+								}
+							}
+							break;							
 						case VISUALIZER_TAB: 
 							break;
 						default: 
@@ -201,7 +210,7 @@ public class MvcExpressLogger {
 			var debugCompile:Boolean = (MvcExpress["DEBUG_COMPILE"] as Boolean);
 			
 			var version:String = "    ["+MvcExpress["VERSION"]+" - "+(debugCompile ? "DEBUG COMPILE!!!" : "Release.")+"]"
-			logWindow = new Mvce_Window(null, x, y, "mvcExpress logger"+version);
+			logWindow = new Mvce_Window(null, x, y, MvcExpress["NAME"]+" logger"+version);
 			logWindow.width = width;
 			logWindow.height = height
 			logWindow.alpha = alpha;
@@ -256,6 +265,17 @@ public class MvcExpressLogger {
 			commandMapingButton.width = 60;
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
+			
+			
+			// 
+			if (ModuleManager["listMappedProcesses"] != null) {
+				var processMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, ENGINE_TAB, handleButtonClick);
+				processMapingButton.toggle = true;
+				processMapingButton.width = 60;
+				processMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
+				allButtons.push(processMapingButton);				
+			}
+			
 			
 			var clearButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, 5, "clear log", handleClearLog);
 			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
@@ -424,6 +444,10 @@ public class MvcExpressLogger {
 				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
+			case ENGINE_TAB: 
+				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager["listMappedProcesses"](currentModuleName));
+				(currentScreen as MvcExpressLogScreen).scrollDown(false);
+				break;				
 			case VISUALIZER_TAB:
 				
 				break;
