@@ -1,5 +1,6 @@
 package com.mindScriptAct.mvcExpressLiveVisualizer.engine {
 import com.mindScriptAct.mvcExpressLiveVisualizer.messages.VizualizerMessage;
+import com.mindScriptAct.mvcExpressLiveVisualizer.model.ProcessInjectProxy;
 import com.mindScriptAct.mvcExpressLiveVisualizer.view.ColorControls;
 import org.mvcexpress.live.Process;
 import org.mvcexpress.live.Task;
@@ -10,9 +11,13 @@ import org.mvcexpress.live.Task;
  */
 public class VisualizerProcess extends Process {
 	
+	[Inject]
+	public var processInject:ProcessInjectProxy;
+	
+	
 	override protected function onRegister():void {
 		
-
+		trace(processInject.testData);
 	
 		addHandler(VizualizerMessage.ADD_RESET_TASK, handleAddResetTask);
 		addHandler(VizualizerMessage.REMOVE_RESET_TASK, handleRemoveResetTask);

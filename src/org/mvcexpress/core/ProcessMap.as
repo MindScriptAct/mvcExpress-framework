@@ -34,6 +34,9 @@ public class ProcessMap {
 	// for internal use.
 	private var messenger:Messenger;
 	
+	// for internal use.
+	private var proxyMap:ProxyMap;
+	
 	// stage for enterFrame based processes.
 	private var stage:Stage;
 	
@@ -62,9 +65,10 @@ public class ProcessMap {
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by String */
 	
 	/* CONSTUCTOR */
-	public function ProcessMap(moduleName:String, messenger:Messenger) {
+	public function ProcessMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap) {
 		this.moduleName = moduleName;
 		this.messenger = messenger;
+		this.proxyMap = proxyMap;
 	}
 	
 	//----------------------------------
@@ -121,6 +125,9 @@ public class ProcessMap {
 			Process.canConstruct = false;
 		}
 		
+		// inject dependencies
+		proxyMap.injectStuff(process, processClass);
+		
 		// init process.
 		process.processType = Process.FRAME_PROCESS;
 		process.processId = processId;
@@ -170,6 +177,9 @@ public class ProcessMap {
 		CONFIG::debug {
 			Process.canConstruct = false;
 		}
+		
+		// inject dependencies
+		proxyMap.injectStuff(process, processClass);
 		
 		// init process.
 		process.processType = Process.TIMER_PROCESS;
@@ -617,6 +627,7 @@ public class ProcessMap {
 	pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
 		messenger = null;
+		proxyMap = null;
 		for each (var process:Process in processRegistry) {
 			stopProcessObject(process);
 			if (process.processType == Process.TIMER_PROCESS) {

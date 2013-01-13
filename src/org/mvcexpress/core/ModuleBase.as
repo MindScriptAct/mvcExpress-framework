@@ -123,7 +123,7 @@ public class ModuleBase {
 		/////////////////
 		// mvcExpressLive
 		// processMap
-		processMap = new ProcessMap(_moduleName, _messenger);
+		processMap = new ProcessMap(_moduleName, _messenger, proxyMap);
 		proxyMap.setProcessMap(processMap);
 		mediatorMap.setProcessMap(processMap);
 		commandMap.setProcessMap(processMap);
