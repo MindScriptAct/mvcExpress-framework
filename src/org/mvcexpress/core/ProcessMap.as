@@ -284,6 +284,14 @@ public class ProcessMap {
 		}
 		provideRegistry[name] = object;
 		
+		// check for invalid primitive data types.
+		CONFIG::debug {
+			var objectClassName:String = getQualifiedClassName(object);
+			if (objectClassName == "String" || objectClassName == "Boolean" || objectClassName == "Number" || objectClassName == "int" || objectClassName == "uint" || objectClassName == "null") {
+				throw Error("You provided primitive data type(" + objectClassName + ") value named:" + name + ". Only complex data types can be provided.");
+			}
+		}
+		
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -417,7 +425,6 @@ public class ProcessMap {
 			injectObjectRegistry[injectName].push(task);
 		}
 	}
-	
 	
 	// TODO : vector search used... think if its posible to optimize it. (use linked list?)
 	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
