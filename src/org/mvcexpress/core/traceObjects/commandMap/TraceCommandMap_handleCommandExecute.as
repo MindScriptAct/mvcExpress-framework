@@ -26,8 +26,8 @@ public class TraceCommandMap_handleCommandExecute extends TraceObj {
 	public var messageFromProxy:Proxy;
 	public var messageFromCommand:Command;
 	
-	public function TraceCommandMap_handleCommandExecute(action:String, moduleName:String, commandObject:Command, commandClass:Class, type:String, params:Object) {
-		super(action, moduleName);
+	public function TraceCommandMap_handleCommandExecute(moduleName:String, commandObject:Command, commandClass:Class, type:String, params:Object) {
+		super(MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE, moduleName);
 		this.commandObject = commandObject;
 		this.commandClass = commandClass;
 		this.type = type;

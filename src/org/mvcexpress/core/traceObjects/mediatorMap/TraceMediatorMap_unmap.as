@@ -11,8 +11,8 @@ public class TraceMediatorMap_unmap extends TraceObj {
 	
 	public var viewClass:Class;
 	
-	public function TraceMediatorMap_unmap(action:String, moduleName:String, viewClass:Class) {
-		super(action, moduleName);
+	public function TraceMediatorMap_unmap(moduleName:String, viewClass:Class) {
+		super(MvcTraceActions.MEDIATORMAP_UNMAP, moduleName);
 		this.viewClass = viewClass;
 	}
 	

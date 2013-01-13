@@ -8,8 +8,8 @@
     <movie fps="30" />
     <movie width="1500" />
     <movie height="600" />
-    <movie version="10" />
-    <movie minorVersion="0" />
+    <movie version="11" />
+    <movie minorVersion="5" />
     <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
   </output>
@@ -94,5 +94,8 @@
     <option testMovie="Default" />
   </options>
   <!-- Plugin storage -->
-  <storage />
+  <storage>
+    <entry key="at_enabled"><![CDATA[0]]></entry>
+    <entry key="at_password"><![CDATA[]]></entry>
+  </storage>
 </project>

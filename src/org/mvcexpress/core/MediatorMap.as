@@ -69,7 +69,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediatorMap_map(MvcTraceActions.MEDIATORMAP_MAP, moduleName, viewClass, mediatorClass));
+			MvcExpress.debug(new TraceMediatorMap_map(moduleName, viewClass, mediatorClass));
 			// check if mediatorClass is subclass of Mediator class
 			if (!checkClassSuperclass(mediatorClass, "org.mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'org.mvcexpress.mvc::Mediator' class.");
@@ -100,7 +100,7 @@ public class MediatorMap implements IMediatorMap {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediatorMap_unmap(MvcTraceActions.MEDIATORMAP_UNMAP, moduleName, viewClass));
+			MvcExpress.debug(new TraceMediatorMap_unmap(moduleName, viewClass));
 		}
 		// clear mapping
 		delete mediatorClassRegistry[viewClass];
@@ -118,12 +118,12 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewObject	view object to mediate.
 	 */
 	public function mediate(viewObject:Object):void {
+		use namespace pureLegsCore;
 		
 		if (mediatorRegistry[viewObject]) {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);
 		}
 		
-		use namespace pureLegsCore;
 		
 		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
@@ -147,8 +147,7 @@ public class MediatorMap implements IMediatorMap {
 			
 			// debug this action
 			CONFIG::debug {
-				use namespace pureLegsCore;
-				MvcExpress.debug(new TraceMediatorMap_mediate(MvcTraceActions.MEDIATORMAP_MEDIATE, moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
+				MvcExpress.debug(new TraceMediatorMap_mediate(moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
 			}
 			
 			CONFIG::debug {
@@ -183,6 +182,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	injectClass		inject mediator as this class.
 	 */
 	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void {
+		use namespace pureLegsCore;
 		
 		if (mediatorRegistry[viewObject]) {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);
@@ -195,7 +195,6 @@ public class MediatorMap implements IMediatorMap {
 			}
 		}
 		
-		use namespace pureLegsCore;
 		
 		CONFIG::debug {
 			// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -218,8 +217,7 @@ public class MediatorMap implements IMediatorMap {
 		
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediatorMap_mediate(MvcTraceActions.MEDIATORMAP_MEDIATE, moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
+			MvcExpress.debug(new TraceMediatorMap_mediate(moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
 		}
 		
 		CONFIG::debug {
@@ -250,15 +248,14 @@ public class MediatorMap implements IMediatorMap {
 	 * @param	viewObject	view object witch mediator will be destroyed.
 	 */
 	public function unmediate(viewObject:Object):void {
+		use namespace pureLegsCore;
 		// debug this action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediatorMap_unmediate(MvcTraceActions.MEDIATORMAP_UNMEDIATE, moduleName, viewObject));
+			MvcExpress.debug(new TraceMediatorMap_unmediate(moduleName, viewObject));
 		}
 		// get object mediator
 		var mediator:Mediator = mediatorRegistry[viewObject];
 		if (mediator) {
-			use namespace pureLegsCore;
 			mediator.remove();
 			delete mediatorRegistry[viewObject];
 		} else {

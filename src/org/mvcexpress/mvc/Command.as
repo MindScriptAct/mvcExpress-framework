@@ -77,17 +77,15 @@ dynamic public class Command {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(moduleName, this, type, params, true));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendMessage(MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendMessage(moduleName, this, type, params, false));
 		}
 	}
 	
@@ -101,17 +99,15 @@ dynamic public class Command {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN, moduleName, this, type, params));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(moduleName, this, type, params, false));
 		}
 	}
 

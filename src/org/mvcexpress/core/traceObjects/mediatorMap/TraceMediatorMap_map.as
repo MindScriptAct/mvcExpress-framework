@@ -12,8 +12,8 @@ public class TraceMediatorMap_map extends TraceObj {
 	public var viewClass:Class;
 	public var mediatorClass:Class;
 	
-	public function TraceMediatorMap_map(action:String, moduleName:String, viewClass:Class, mediatorClass:Class) {
-		super(action, moduleName);
+	public function TraceMediatorMap_map(moduleName:String, viewClass:Class, mediatorClass:Class) {
+		super(MvcTraceActions.MEDIATORMAP_MAP, moduleName);
 		this.viewClass = viewClass;
 		this.mediatorClass = mediatorClass;
 	}

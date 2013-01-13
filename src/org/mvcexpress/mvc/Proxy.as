@@ -94,9 +94,8 @@ public class Proxy {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceProxy_sendMessage(MvcTraceActions.PROXY_SENDMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendMessage(moduleName, this, type, params, true));
 		}
 		//
 		messenger.send(type, params);
@@ -107,8 +106,7 @@ public class Proxy {
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxy_sendMessage(MvcTraceActions.PROXY_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendMessage(moduleName, this, type, params, false));
 		}
 	}
 	
@@ -122,17 +120,15 @@ public class Proxy {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceProxy_sendScopeMessage(MvcTraceActions.PROXY_SENDSCOPEMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProxy_sendScopeMessage(MvcTraceActions.PROXY_SENDSCOPEMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, false));
 		}
 	}
 	

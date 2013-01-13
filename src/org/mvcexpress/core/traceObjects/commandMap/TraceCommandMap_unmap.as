@@ -12,8 +12,8 @@ public class TraceCommandMap_unmap extends TraceObj {
 	public var type:String;
 	public var commandClass:Class;
 	
-	public function TraceCommandMap_unmap(action:String, moduleName:String, type:String, commandClass:Class) {
-		super(action, moduleName);
+	public function TraceCommandMap_unmap(moduleName:String, type:String, commandClass:Class) {
+		super(MvcTraceActions.COMMANDMAP_UNMAP, moduleName);
 		this.type = type;
 		this.commandClass = commandClass;
 	}

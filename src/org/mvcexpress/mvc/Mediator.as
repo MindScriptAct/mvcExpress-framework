@@ -124,17 +124,15 @@ public class Mediator {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceMediator_sendMessage(MvcTraceActions.MEDIATOR_SENDMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendMessage(moduleName, this, type, params, true));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_sendMessage(MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN, moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendMessage(moduleName, this, type, params, false));
 		}
 	}
 	
@@ -148,17 +146,15 @@ public class Mediator {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
 			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceMediator_sendScopeMessage(MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE, moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
 		ModuleManager.sendScopeMessage(scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_sendScopeMessage(MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN, moduleName, this, type, params));
+			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, false));
 		}
 	}
 	
@@ -180,8 +176,7 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
+			MvcExpress.debug(new TraceMediator_addHandler(messenger.moduleName, this, type, handler));
 			
 			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
 			return;

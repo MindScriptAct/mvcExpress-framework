@@ -13,8 +13,8 @@ public class TraceMessenger_addHandler extends TraceObj {
 	public var handler:Function;
 	public var handlerClassName:String;
 	
-	public function TraceMessenger_addHandler(action:String, moduleName:String, type:String, handler:Function, handlerClassName:String) {
-		super(action, moduleName);
+	public function TraceMessenger_addHandler(moduleName:String, type:String, handler:Function, handlerClassName:String) {
+		super(MvcTraceActions.MESSENGER_ADDHANDLER, moduleName);
 		this.type = type;
 		this.handler = handler;
 		this.handlerClassName = handlerClassName;

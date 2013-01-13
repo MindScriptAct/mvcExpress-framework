@@ -69,7 +69,7 @@ public class MvcExpressLogger {
 	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
-			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init() or MvcExpressLogger.showIn()");
+			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init()");
 		}
 	}
 	
@@ -210,7 +210,7 @@ public class MvcExpressLogger {
 			var debugCompile:Boolean = (MvcExpress["DEBUG_COMPILE"] as Boolean);
 			
 			var version:String = "    ["+MvcExpress["VERSION"]+" - "+(debugCompile ? "DEBUG COMPILE!!!" : "Release.")+"]"
-			logWindow = new Mvce_Window(null, x, y, "mvcExpress logger"+version);
+			logWindow = new Mvce_Window(null, x, y, MvcExpress["NAME"]+" logger"+version);
 			logWindow.width = width;
 			logWindow.height = height
 			logWindow.alpha = alpha;

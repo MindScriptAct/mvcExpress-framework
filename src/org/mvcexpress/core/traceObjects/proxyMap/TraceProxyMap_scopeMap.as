@@ -20,9 +20,8 @@ public class TraceProxyMap_scopeMap extends TraceObj {
 	
 	public var view:DisplayObject;
 	
-	public function TraceProxyMap_scopeMap(action:String, moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String) {
-		trace("TraceProxyMap_scopeMap.TraceProxyMap_scopeMap > action : " + action + ", moduleName : " + moduleName + ", scopeName : " + scopeName + ", proxyObject : " + proxyObject + ", injectClass : " + injectClass + ", name : " + name);
-		super(action, moduleName);
+	public function TraceProxyMap_scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String) {
+		super(MvcTraceActions.PROXYMAP_SCOPEMAP, moduleName);
 		this.scopeName = scopeName;
 		this.proxyObject = proxyObject;
 		this.injectClass = injectClass;

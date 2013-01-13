@@ -15,8 +15,8 @@ public class TraceProxyMap_scopedInjectPending extends TraceObj {
 	public var injectObject:Object;
 	public var rule:InjectRuleVO;
 	
-	public function TraceProxyMap_scopedInjectPending(action:String, scopeName:String, moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
-		super(action, moduleName);
+	public function TraceProxyMap_scopedInjectPending(scopeName:String, moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
+		super(MvcTraceActions.PROXYMAP_INJECTPENDING, moduleName);
 		this.scopeName = scopeName;
 		this.hostObject = hostObject;
 		this.injectObject = injectObject;
