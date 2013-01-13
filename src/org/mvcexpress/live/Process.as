@@ -612,20 +612,21 @@ public class Process {
 					} else {
 						testRuns.push(taskTestVo);
 					}
-					// send post messages
-					while (postMessageTypes.length) {
-						type = postMessageTypes.shift() as String;
-						params = postMessageParams.shift();
-						// log the action
-						CONFIG::debug {
-							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
-						}
-						messenger.send(type, params);
-						// clean up logging the action
-						CONFIG::debug {
-							MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
-						}
-					}
+				}
+			}
+			
+			// send post messages
+			while (postMessageTypes.length) {
+				type = postMessageTypes.shift() as String;
+				params = postMessageParams.shift();
+				// log the action
+				CONFIG::debug {
+					MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE, moduleName, this, type, params));
+				}
+				messenger.send(type, params);
+				// clean up logging the action
+				CONFIG::debug {
+					MvcExpress.debug(new TraceProcess_sendMessage(MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN, moduleName, this, type, params));
 				}
 			}
 			
