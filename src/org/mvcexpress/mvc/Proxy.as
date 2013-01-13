@@ -36,7 +36,7 @@ public class Proxy {
 	/** Used to provide stuff for processes. */
 	private var processMap:ProcessMap;
 	
-	/**	all objects provided by this proxy */
+	/**	all objects provided by this proxy stored by name */
 	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 	
 	// mvcExpressLive
@@ -138,19 +138,35 @@ public class Proxy {
 	//     mvcExpressLive functions
 	//----------------------------------
 	
+	/**
+	 * Provides any complex object under given name. Provided object can be Injected into Tasks.			<br>
+	 * Providing primitive data typse will throw error in debug mode.
+	 * @param	object	any complex object
+	 * @param	name	name for complex object. (bust be unique, or error will be thrown.)
+	 */
 	protected function provide(object:Object, name:String):void {
+		use namespace pureLegsCore;
 		processMap.provide(object, name);
 		provideRegistry[name] = object;
 	}
 	
-	protected function unprovide(object:Object, name:String):void {
-		processMap.unprovide(object, name);
+	/**
+	 * Remove pasibility for provided object with given name to be Injected into Tasks.			<br>
+	 * If object never been provided with this name - action will fail silently
+	 * @param	name	name for provided object.
+	 */
+	protected function unprovide(name:String):void {
+		use namespace pureLegsCore;
+		processMap.unprovide(name);
 		delete provideRegistry[name];
 	}
 	
+	/**
+	 * Remove all from this proxy provided object.
+	 */
 	protected function unprovideAll():void {
 		for (var name:String in provideRegistry) {
-			unprovide(provideRegistry[name], name);
+			unprovide(name);
 		}
 	}
 
@@ -203,6 +219,7 @@ public class Proxy {
 		/////////////////
 		// mvcExpressLive		
 		unprovideAll();
+		provideRegistry = null;
 		/////////////////
 	}
 	

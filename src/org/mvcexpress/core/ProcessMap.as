@@ -34,44 +34,76 @@ public class ProcessMap {
 	// for internal use.
 	private var messenger:Messenger;
 	
+	// stage for enterFrame based processes.
 	private var stage:Stage;
 	
 	/** Stores class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); /* of String by Class*/
 	
+	/** Stores all inject points by class. */
 	static private var classInjectRules:Dictionary = new Dictionary();
 	
 	/** Dictionary with constonts of inject names, used with constName, and constScope. */
 	static private var classConstRegistry:Dictionary = new Dictionary();
 	
-	private var timerRegistry:Dictionary = new Dictionary();
+	/* Timers for timer besad processes, by name. */
+	private var timerRegistry:Dictionary = new Dictionary(); /* of Timer by String */
 	
-	private var processRegistry:Dictionary = new Dictionary();
+	/* all processes storeb by id.(class definition + name) */
+	private var processRegistry:Dictionary = new Dictionary(); /* of Process by String */
 	
-	private var provideRegistry:Dictionary = new Dictionary();
+	/* all provided object by name*/
+	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String */
 	
+	/* all running enterFrame processes */
 	private var runningFrameProcesses:Vector.<Process> = new Vector.<Process>();
 	
 	/** All tasks stored by inject object name  */
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by String */
 	
+	/* CONSTUCTOR */
 	public function ProcessMap(moduleName:String, messenger:Messenger) {
 		this.moduleName = moduleName;
 		this.messenger = messenger;
-	
 	}
 	
+	//----------------------------------
+	//     Set Stage
+	//----------------------------------
+	
+	/**
+	 * Sets stage for framework to be used for enterFrame processes.
+	 * @param	stage	application Stage.
+	 */
+	public function setStage(stage:Stage):void {
+		if (this.stage) {
+			throw Error("Stage was already set for ProcessMap.");
+		}
+		this.stage = stage;
+	}
+	
+	//----------------------------------
+	//     process maping
+	//----------------------------------
+	
+	/**
+	 * Maps enterFrame based process to class and optional name.			<br>
+	 * Process onRegister() function  will be called at the end of this function.
+	 * @param	processClass	Class of process
+	 * @param	frameSkip		Option for process to skip frames to run all tasks.
+	 * @param	name			Optional name for process. (if you will need 2 processes with same class running).
+	 */
 	public function mapFrameProcess(processClass:Class, frameSkip:int = 0, name:String = ""):void {
+		use namespace pureLegsCore;
 		
-		// check if process class provided
+		// check if process class is valid
 		CONFIG::debug {
 			if (!checkClassSuperclass(processClass, "org.mvcexpress.live::Process")) {
 				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'org.mvcexpress.live::Process' class.");
 			}
 		}
 		
-		use namespace pureLegsCore;
-		
+		// get process id
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
@@ -79,6 +111,7 @@ public class ProcessMap {
 		}
 		var processId:String = className + name;
 		
+		// create process
 		CONFIG::debug {
 			Process.canConstruct = true;
 		}
@@ -88,29 +121,39 @@ public class ProcessMap {
 			Process.canConstruct = false;
 		}
 		
+		// init process.
 		process.processType = Process.FRAME_PROCESS;
 		process.processId = processId;
 		process.messenger = messenger;
 		process.processMap = this;
 		
-		process.register();
 		process.totalFrameSkip = frameSkip;
 		process.currentFrameSkip = frameSkip;
-		
 		processRegistry[processId] = process;
+		
+		// register process.
+		process.register();
 	
 	}
 	
+	/**
+	 * Maps Timer based process to class and optional name.						<br>
+	 * Process onRegister() function  will be called at the end of this function.
+	 * @param	processClass	Class of process
+	 * @param	delay			Delay of how often process will run all it's tasks.
+	 * @param	name			Optional name for process. (if you will need 2 processes with same class running).
+	 */
 	public function mapTimerProcess(processClass:Class, delay:int = 1000, name:String = ""):void {
 		use namespace pureLegsCore;
 		
-		// check if process class provided
+		// check if process class is valid
 		CONFIG::debug {
 			if (!checkClassSuperclass(processClass, "org.mvcexpress.live::Process")) {
 				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'org.mvcexpress.live::Process' class.");
 			}
 		}
 		
+		// get process id
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
@@ -118,6 +161,7 @@ public class ProcessMap {
 		}
 		var processId:String = className + name;
 		
+		// create process
 		CONFIG::debug {
 			Process.canConstruct = true;
 		}
@@ -127,6 +171,7 @@ public class ProcessMap {
 			Process.canConstruct = false;
 		}
 		
+		// init process.
 		process.processType = Process.TIMER_PROCESS;
 		process.processId = processId;
 		process.messenger = messenger;
@@ -134,18 +179,24 @@ public class ProcessMap {
 		
 		var timer:Timer = new Timer(delay);
 		timer.addEventListener(TimerEvent.TIMER, process.runProcess);
-		
 		timerRegistry[processId] = timer;
 		
-		process.register();
-		
 		processRegistry[processId] = process;
+		
+		// register process.
+		process.register();
 	
 	}
 	
+	/**
+	 * Unmaps process. Process will be stoped, all tasks and process disposed.
+	 * @param	processClass	Class of process
+	 * @param	name			Optional name for process.
+	 */
 	public function unmapProcess(processClass:Class, name:String = ""):void {
 		use namespace pureLegsCore;
 		
+		// get process id
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
@@ -159,17 +210,32 @@ public class ProcessMap {
 			stopProcess(processClass, name);
 		}
 		
-		// TODO dispose properly...
+		if (process.processType == Process.TIMER_PROCESS) {
+			var timer:Timer = timerRegistry[processId];
+			timer.removeEventListener(TimerEvent.TIMER, process.runProcess);
+			delete timerRegistry[processId];
+		}
+		
 		process.remove();
 		
 		delete processRegistry[processId];
-	
 	}
 	
+	//----------------------------------
+	//     Stop/start process
+	//----------------------------------
+	
+	/**
+	 * Start process indentified by class and optional name. <br>
+	 * Process will start running all it's tasks.
+	 * @param	processClass	Class of process
+	 * @param	name			Optional name for process.
+	 */
 	public function startProcess(processClass:Class, name:String = ""):void {
 		//trace("ProcessMap.startProcess > processClass : " + processClass);
 		use namespace pureLegsCore;
 		
+		// get process id
 		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
@@ -177,14 +243,63 @@ public class ProcessMap {
 		}
 		var processId:String = className + name;
 		
-		//CONFIG::debug {
-		
-		// TODO : check if process exists
-		//}
+		CONFIG::debug {
+			if (!processRegistry[processId]) {
+				throw Error("Process :" + processClass + "(" + name + ") you are trying to start is not mapped yet. Use mapFrameProcess() or mapTimerProcess() first.");
+			}
+		}
 		
 		startProcessObject(processRegistry[processId]);
 	}
 	
+	/**
+	 * Stop process indentified by class and optional name. <br>
+	 * Process will halt running all it's tasks.
+	 * @param	processClass	Class of process
+	 * @param	name			Optional name for process.
+	 */
+	public function stopProcess(processClass:Class, name:String = ""):void {
+		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
+		use namespace pureLegsCore;
+		
+		// get process id
+		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		if (!className) {
+			className = getQualifiedClassName(processClass);
+			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+		}
+		var processId:String = className + name;
+		
+		stopProcessObject(processRegistry[processId]);
+	}
+	
+	//----------------------------------
+	//     debug
+	//----------------------------------
+	
+	/**
+	 * Returns text of all command classes that are mapped to messages. (for debugging)
+	 * @return		Text with all mapped commands.
+	 */
+	public function listProcesses():String {
+		use namespace pureLegsCore;
+		var retVal:String = "";
+		retVal = "===================== ProcessMap Mappings: =====================\n";
+		for (var key:String in processRegistry) {
+			var process:Process = processRegistry[key];
+			retVal += "PROCESS: " + process + "  (" + ((process.isRunning ? "isRunning" : "NOT RUNNING.")) + ")\n";
+			
+			retVal += process.listTasks();
+		}
+		retVal += "================================================================\n";
+		return retVal;
+	}
+	
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
+	
+	// start process timer or add it to running enter frame processes.
 	pureLegsCore function startProcessObject(process:Process):void {
 		use namespace pureLegsCore;
 		if (process) {
@@ -209,6 +324,7 @@ public class ProcessMap {
 		}
 	}
 	
+	// special function to handle enter frame events.
 	private function handleFrameProcesses(event:Event):void {
 		//trace( "ProcessMap.handleFrameProcesses > event : " + event );
 		use namespace pureLegsCore;
@@ -227,24 +343,7 @@ public class ProcessMap {
 		}
 	}
 	
-	public function stopProcess(processClass:Class, name:String = ""):void {
-		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
-		use namespace pureLegsCore;
-		
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
-		if (!className) {
-			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
-		}
-		var processId:String = className + name;
-		
-		//CONFIG::debug {
-		// TODO : check if process exists
-		//}
-		
-		stopProcessObject(processRegistry[processId]);
-	}
-	
+	// stop process
 	pureLegsCore function stopProcessObject(process:Process):void {
 		use namespace pureLegsCore;
 		if (process) {
@@ -275,9 +374,12 @@ public class ProcessMap {
 		}
 	}
 	
-	/* INTERFACE org.mvcexpress.core.interfaces.IProcessMap */
+	//----------------------------------
+	//     provide/unprovide
+	//----------------------------------
 	
-	public function provide(object:Object, name:String):void {
+	// provides existing tasks with objects(fill or replaces them), stores provided objects for new tasks.
+	pureLegsCore function provide(object:Object, name:String):void {
 		use namespace pureLegsCore;
 		if (provideRegistry[name] != null) {
 			throw Error("There is already object provided with name:" + name + " - " + provideRegistry[name]);
@@ -316,13 +418,14 @@ public class ProcessMap {
 		}
 	}
 	
-	public function unprovide(object:Object, name:String):void {
+	// removes injected objects from tasks
+	pureLegsCore function unprovide(name:String):void {
 		use namespace pureLegsCore;
 		
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceProcessMap_unprovide(MvcTraceActions.PROCESSMAP_UNPROVIDE, moduleName, name, object));
+			MvcExpress.debug(new TraceProcessMap_unprovide(MvcTraceActions.PROCESSMAP_UNPROVIDE, moduleName, name, provideRegistry[name]));
 		}
 		
 		if (provideRegistry[name] != null) {
@@ -348,37 +451,8 @@ public class ProcessMap {
 		}
 	}
 	
-	public function setStage(stage:Stage):void {
-		if (this.stage) {
-			throw Error("Stage was already set for ProcessMap.");
-		}
-		this.stage = stage;
-	}
-	
 	//----------------------------------
-	//     debug
-	//----------------------------------
-	
-	/**
-	 * Returns text of all command classes that are mapped to messages. (for debugging)
-	 * @return		Text with all mapped commands.
-	 */
-	public function listProcesses():String {
-		use namespace pureLegsCore;
-		var retVal:String = "";
-		retVal = "===================== ProcessMap Mappings: =====================\n";
-		for (var key:String in processRegistry) {
-			var process:Process = processRegistry[key];
-			retVal += "PROCESS: " + process + "  (" + ((process.isRunning ? "isRunning" : "NOT RUNNING.")) + ")\n";
-			
-			retVal += process.listTasks();
-		}
-		retVal += "================================================================\n";
-		return retVal;
-	}
-	
-	//----------------------------------
-	//     INTERNAL
+	//     INTERNAL - tasks
 	//----------------------------------
 	
 	pureLegsCore function initTask(task:Task, signatureClass:Class):void {
@@ -426,7 +500,7 @@ public class ProcessMap {
 		}
 	}
 	
-	// TODO : vector search used... think if its posible to optimize it. (use linked list?)
+	// TODO : vector search used... think if it's posible to optimize it. (use linked list?)
 	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
 		// get class injection rules. (cache is used.)
 		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
@@ -445,15 +519,15 @@ public class ProcessMap {
 		}
 	}
 	
-	// remove indejet object registry data then all tasks are removed.
+	// clear inject object registry then all tasks are removed.
 	pureLegsCore function removeAllTasks():void {
 		injectObjectRegistry = new Dictionary();
 	}
 	
 	/**
 	 * Finds and cashes class injection point rules.
+	 * Same function is in ProxyMap.
 	 */
-	// TODO : dublicated code... (from ProxyMap .... but it deffers... injectClassAndName... provide tag...)
 	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleVO> {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
 		var classDescription:XML = describeType(signatureClass);
@@ -539,15 +613,26 @@ public class ProcessMap {
 		return classConstRegistry[constName];
 	}
 	
+	// stop and remove all process, tasks, all dictionaries, remove timer events and stage event.
 	pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
+		messenger = null;
 		for each (var process:Process in processRegistry) {
 			stopProcessObject(process);
+			if (process.processType == Process.TIMER_PROCESS) {
+				var timer:Timer = timerRegistry[process.processId];
+				timer.removeEventListener(TimerEvent.TIMER, process.runProcess);
+			}
+			process.remove();
 		}
-		messenger = null;
+		processRegistry = null;
+		if (this.stage) {
+			if (this.stage.hasEventListener(Event.ENTER_FRAME)) {
+				this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+			}
+		}
 		stage = null;
 		timerRegistry = null;
-		processRegistry = null;
 		provideRegistry = null;
 		runningFrameProcesses = null;
 		injectObjectRegistry = null;

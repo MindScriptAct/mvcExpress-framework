@@ -17,22 +17,30 @@ public class Task {
 	 */
 	pureLegsCore var process:Process;
 	
+	// previous process in linked list
 	pureLegsCore var prev:Task;
+	// next process in linked list
 	pureLegsCore var next:Task;
 	
-	private var injectPointRegistry:Dictionary = new Dictionary();
+	// stores inject point variable names by inject object names.
+	private var injectPointRegistry:Dictionary = new Dictionary(); /* of Strnig by String */
 	
+	
+	// TODO : consider adding isRunnable:Boolean = true to cover _isEnabled and _missingDependencyCount
+	
+	// stores info if task is disabled by user. 
 	pureLegsCore var _isEnabled:Boolean = true;
 	
+	// stores how much injections this task is missing.
 	pureLegsCore var _missingDependencyCount:int = 0;
 	
 	/**
-	 * Simple object for testing.
+	 * Simple object for assert testing.
 	 */
 	protected var assert:ExpressAssert = ExpressAssert.getInstance();
 	
 	/**
-	 * Vector of all tests on this task.
+	 * Vector of all tests for this task.
 	 * @private
 	 * */
 	CONFIG::debug
@@ -47,7 +55,7 @@ public class Task {
 	}
 	
 	//----------------------------------
-	//    
+	//    task state.
 	//----------------------------------
 	
 	/**
@@ -59,7 +67,7 @@ public class Task {
 	}
 	
 	/**
-	 * Returns if task is disabled by user.
+	 * Returns if task is manualy disabled by process.
 	 */
 	public function get isDisabled():Boolean {
 		use namespace pureLegsCore;
@@ -72,8 +80,8 @@ public class Task {
 	
 	/**
 	 * Sends message right now.
-	 * @param	type
-	 * @param	params
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendInstantMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
@@ -82,8 +90,8 @@ public class Task {
 	
 	/**
 	 * Stacks message to be sent after current task is done.
-	 * @param	type
-	 * @param	params
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendPostMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
@@ -92,8 +100,8 @@ public class Task {
 	
 	/**
 	 * Stacks message to be sent after all tasks are done of current process run.
-	 * @param	type
-	 * @param	params
+	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
+	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendFinalMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
@@ -104,14 +112,17 @@ public class Task {
 	//     internal
 	//----------------------------------
 	
+	// set all inject points. (variable name + inject name). done once then task is initiated.
 	pureLegsCore function setInjectPoint(injectName:String, varName:String):void {
 		injectPointRegistry[injectName] = varName;
 	}
 	
+	// used to get inject points then object are provided. (and check inject status)
 	pureLegsCore function getInjectPoint(injectName:String):String {
 		return injectPointRegistry[injectName];
 	}
 	
+	// for debuging
 	pureLegsCore function getMissingInjects():Vector.<String> {
 		var retVal:Vector.<String> = new Vector.<String>();
 		for (var name:String in injectPointRegistry) {
@@ -120,15 +131,18 @@ public class Task {
 			}
 		}
 		return retVal;
-	}	
+	}
 	
+	// function for this task to force process to clear task cache
 	pureLegsCore function setNotCached():void {
 		use namespace pureLegsCore;
 		process.isCached = false;
 	}
 	
+	// dispose task
 	pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
+		process = null;
 		prev = null;
 		next = null;
 		assert = null;

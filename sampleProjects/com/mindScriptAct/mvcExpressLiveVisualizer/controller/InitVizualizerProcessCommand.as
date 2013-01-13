@@ -16,6 +16,12 @@ public class InitVizualizerProcessCommand extends Command {
 		processMap.mapTimerProcess(VisualizerProcess, 100);
 		
 		processMap.startProcess(VisualizerProcess);
+				
+		
+		
+		
+		
+		
 	}
 
 }

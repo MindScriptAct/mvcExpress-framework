@@ -39,12 +39,10 @@ public class Mediator {
 	/////////////////
 	// mvcExpressLive
 
-	/**
-	 * Interface to work with processes.
-	 */
+	/** Used to provide stuff for processes. */
 	pureLegsCore var processMap:ProcessMap;
 
-	/**	all objects provided by this mediator */
+	/**	all objects provided by this mediator storeb by name */
 	private var provideRegistry:Dictionary = new Dictionary(); /* of Object by String*/
 
 	// mvcExpressLive
@@ -330,21 +328,35 @@ public class Mediator {
 	//     mvcExpressLive functions
 	//----------------------------------
 	
+	/**
+	 * Provides any complex object under given name. Provided object can be Injected into Tasks.			<br>
+	 * Providing primitive data typse will throw error in debug mode.
+	 * @param	object	any complex object
+	 * @param	name	name for complex object. (bust be unique, or error will be thrown.)
+	 */
 	public function provide(object:Object, name:String):void {
 		use namespace pureLegsCore;
 		processMap.provide(object, name);
 		provideRegistry[name] = object;
 	}
 	
-	public function unprovide(object:Object, name:String):void {
+	/**
+	 * Remove pasibility for provided object with given name to be Injected into Tasks.			<br>
+	 * If object never been provided with this name - action will fail silently
+	 * @param	name	name for provided object.
+	 */
+	public function unprovide(name:String):void {
 		use namespace pureLegsCore;
-		processMap.unprovide(object, name);
+		processMap.unprovide(name);
 		delete provideRegistry[name];
 	}
 	
+	/**
+	 * Remove all from this mediator provided object.
+	 */
 	public function unprovideAll():void {
 		for (var name:String in provideRegistry) {
-			unprovide(provideRegistry[name], name);
+			unprovide(name);
 		}
 	}
 	/////////////////
@@ -379,6 +391,7 @@ public class Mediator {
 		/////////////////
 		// mvcExpressLive
 		unprovideAll();
+		provideRegistry = null;
 		/////////////////
 		handlerVoRegistry = null;
 		eventListenerRegistry = null;

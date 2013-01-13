@@ -27,11 +27,13 @@ import org.mvcexpress.utils.checkClassSuperclass;
  */
 public class Process {
 	
-	private var moduleName:String
-	
+	// indicates frame based process
 	static public const FRAME_PROCESS:int = 0;
-	
+	// indicates timer based process
 	static public const TIMER_PROCESS:int = 1;
+	
+	// name of the module this process is working for.
+	private var moduleName:String
 	
 	// used internally for process management
 	/** @private */
@@ -50,25 +52,32 @@ public class Process {
 	pureLegsCore var totalFrameSkip:int = 0;
 	pureLegsCore var currentFrameSkip:int = 0;
 	
-	//
+	// all process tasks.
 	private var taskRegistry:Dictionary = new Dictionary();
 	
+	// first task in linked list
 	private var head:Task;
+	// last task in linked list
 	private var tail:Task;
 	
-	private var processCache:Vector.<Task> = new Vector.<Task>();
-	
+	// indicates if task cash is ready for use. Reset with every task add/remove or injection provide/unprovide or task enable/disable.
 	pureLegsCore var isCached:Boolean = false;
+	
+	// cash of running tasks. 
+	private var processCache:Vector.<Task> = new Vector.<Task>();
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
+	// messages sent after curent task is done running.
 	private var postMessageTypes:Vector.<String> = new Vector.<String>();
 	private var postMessageParams:Vector.<Object> = new Vector.<Object>();
 	
+	// messages sent after all tasks are done running.
 	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 	
+	// indicates if process is running.
 	pureLegsCore var _isRunning:Boolean = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
@@ -84,6 +93,10 @@ public class Process {
 			}
 		}
 	}
+	
+	//----------------------------------
+	//     life cicle
+	//----------------------------------
 	
 	/**
 	 * Is executed then process is mapped.
@@ -158,7 +171,7 @@ public class Process {
 	
 	/**
 	 * Removes handle function from message of given type.
-	 * Then Mediator is removed(unmediated) all message handlers are automatically removed by framework.
+	 * Then process is removed all message handlers are automatically removed.
 	 * @param	type	message type that was set for handle function to react to.
 	 * @param	handler	function that was set to react to message.
 	 */
@@ -183,10 +196,8 @@ public class Process {
 	//     task managment
 	//----------------------------------
 	
-	// TODO : consider adding isEnabled:Boolean = true
-	
 	/**
-	 *
+	 * Add task at the end of run queue.
 	 * @param	taskClass	Task class to indentify your task
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
@@ -233,7 +244,7 @@ public class Process {
 	}
 	
 	/**
-	 *
+	 * Add task at start of run queue.
 	 * @param	taskClass	Task class to indentify your task
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
@@ -280,11 +291,11 @@ public class Process {
 	}
 	
 	/**
-	 *
+	 * Add task after anether task
 	 * @param	taskClass		Task class to indentify your task
-	 * @param	afterTaskClass
+	 * @param	afterTaskClass	Task class to add another task after
 	 * @param	name			optional name for the task if you need more then one instance of same task class.
-	 * @param	afterName
+	 * @param	afterName		optional name for task, to add another task after
 	 */
 	protected function addTaskAfter(taskClass:Class, afterTaskClass:Class, name:String = "", afterName:String = ""):void {
 		use namespace pureLegsCore;
@@ -346,7 +357,7 @@ public class Process {
 	}
 	
 	/**
-	 *
+	 * Removes the task from queue.
 	 * @param	taskClass	Task class to indentify your task
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
@@ -391,6 +402,9 @@ public class Process {
 		}
 	}
 	
+	/**
+	 * Removes all tasks for curent queue
+	 */
 	protected function removeAllTasks():void {
 		use namespace pureLegsCore;
 		
@@ -414,8 +428,13 @@ public class Process {
 		tail = null;
 	}
 	
+	//----------------------------------
+	//     enable/disable task
+	//----------------------------------
+	
 	/**
-	 *
+	 * Enable task to be run in the queue.			<br>
+	 * Then task is adde it is automaticaly enabled.
 	 * @param	taskClass	Task class to indentify your task
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
@@ -447,7 +466,8 @@ public class Process {
 	}
 	
 	/**
-	 *
+	 * Disable task from running. 	<br>
+	 * Task will not be removed, it can be enabled to be run again.
 	 * @param	taskClass	Task class to indentify your task
 	 * @param	name		optional name for the task if you need more then one instance of same task class.
 	 */
@@ -482,6 +502,10 @@ public class Process {
 	//     debug
 	//----------------------------------
 	
+	/**
+	 * Returs string with all curent tasks for debugging.
+	 * @return	String of all tasks.
+	 */
 	public function listTasks():String {
 		use namespace pureLegsCore;
 		var retVal:String = "TASKS:\n";
@@ -509,7 +533,7 @@ public class Process {
 					}
 					missingInjectNames += missingInjects[i];
 				}
-				retVal += "   (" + currentListTask._missingDependencyCount + " MISSING DEPENDENCIES:" +  missingInjectNames + ")";
+				retVal += "   (" + currentListTask._missingDependencyCount + " MISSING DEPENDENCIES:" + missingInjectNames + ")";
 			}
 			
 			retVal += "\n";
@@ -523,6 +547,11 @@ public class Process {
 	//----------------------------------
 	//     internal
 	//----------------------------------
+	
+	// sets name of curent module.
+	pureLegsCore function setModuleName(moduleName:String):void {
+		this.moduleName = moduleName;
+	}
 	
 	// runs all enabled tasks in process.
 	pureLegsCore function runProcess(event:Event = null):void {
@@ -684,8 +713,8 @@ public class Process {
 		// remove all handlers
 		removeAllHandlers();
 		// dispose all tasks.
-		for each (var item:Task in taskRegistry) {
-			item.dispose();
+		for each (var task:Task in taskRegistry) {
+			task.dispose();
 		}
 		taskRegistry = null;
 		// null internals
@@ -699,11 +728,6 @@ public class Process {
 		
 		finalMessageTypes = null;
 		finalMessageParams = null;
-	}
-	
-	// sets name of curent module.
-	pureLegsCore function setModuleName(moduleName:String):void {
-		this.moduleName = moduleName;
 	}
 	
 	//----------------------------------
