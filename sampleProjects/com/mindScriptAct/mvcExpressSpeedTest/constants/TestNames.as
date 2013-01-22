@@ -24,11 +24,13 @@ public class TestNames {
 	static public const COMMAND_PARAMS:String = "Command with parameter"
 	static public const COMMAND_MODEL:String = "Command with Proxy"
 	static public const COMMAND_MODEL_AND_VIEW:String = "Command with Proxy and View call"
+	static public const COMMAND_MODEL_AND_VIEW_5:String = "Command(injects * 5) with Proxy and View call";
 	
 	static public const COMMAND_POOLED_EMPTY:String = "Pooled Command with nothing";
 	static public const COMMAND_POOLED_PARAMS:String = "Pooled Command with parameter";
 	static public const COMMAND_POOLED_MODEL:String = "Pooled Command with Proxy";
 	static public const COMMAND_POOLED_MODEL_AND_VIEW:String = "Pooled Command with Proxy and View call";
+	static public const COMMAND_POOLED_MODEL_AND_VIEW_5:String = "Pooled Command(injects * 5) with Proxy and View call";
 	
 	static public const MEDIATOR_CREATE_100:String = "Mediator Create*100";
 	static public const MEDIATOR_CREATE_500:String = "Mediator Create*500";
@@ -49,8 +51,12 @@ public class TestNames {
 	static public const MEDIATOR_COMMUNICATE_200:String = "Mediator Communicate 200";
 	static public const MEDIATOR_COMMUNICATE_500:String = "Mediator Communicate 500";
 	static public const MEDIATOR_COMMUNICATE_1000:String = "Mediator Communicate 1000";
-	static public const COMMAND_MODEL_AND_VIEW_5:String = "commandModelAndView5";
-	static public const COMMAND_POOLED_MODEL_AND_VIEW_5:String = "commandPooledModelAndView5";
+	
+	static public const SCOPED_MEDIATOR_COMMUNICATE_1:String = "Mediator scoped communicate 1";
+	static public const SCOPED_MEDIATOR_COMMUNICATE_100:String = "Mediator scoped communicate 100";
+	static public const SCOPED_MEDIATOR_COMMUNICATE_200:String = "Mediator scoped communicate 200";
+	static public const SCOPED_MEDIATOR_COMMUNICATE_500:String = "Mediator scoped communicate 500";
+	static public const SCOPED_MEDIATOR_COMMUNICATE_1000:String = "Mediator scoped communicate 1000";
 
 }
 }
