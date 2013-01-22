@@ -234,6 +234,6 @@ public class ModuleBase {
 	public function listMappedCommands():String {
 		return commandMap.listMappings();
 	}
-	
+
 }
 }

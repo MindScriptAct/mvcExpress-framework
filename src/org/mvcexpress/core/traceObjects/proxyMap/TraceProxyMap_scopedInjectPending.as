@@ -21,7 +21,6 @@ public class TraceProxyMap_scopedInjectPending extends TraceObj {
 		this.hostObject = hostObject;
 		this.injectObject = injectObject;
 		this.rule = rule;
-	
 	}
 	
 	override public function toString():String {

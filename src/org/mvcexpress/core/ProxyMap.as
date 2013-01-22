@@ -4,6 +4,7 @@ import flash.utils.Dictionary;
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import org.mvcexpress.core.inject.PendingInject;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
@@ -444,14 +445,6 @@ public class ProxyMap implements IProxyMap {
 						CONFIG::debug {
 							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(rules[i].scopeName, moduleName, object, injectObject, rules[i]));
 						}
-						//
-						//if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
-						//pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
-						//}
-						//
-						//pendingInjectionsRegistry[rules[i].injectClassAndName].push(
-						
-						//);
 						
 						ModuleManager.addPendingScopedInjection(rules[i].scopeName, rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 						
@@ -573,11 +566,13 @@ public class ProxyMap implements IProxyMap {
 	 * @param	pendingInjection
 	 * @private
 	 */
-	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:Object):void {
-		if (!pendingInjectionsRegistry[injectClassAndName]) {
-			pendingInjectionsRegistry[injectClassAndName] = new Vector.<PendingInject>();
+	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:PendingInject):void {
+		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName]
+		if (!pendingInjections) {
+			pendingInjections = new Vector.<PendingInject>();
+			pendingInjectionsRegistry[injectClassAndName] = pendingInjections;
 		}
-		pendingInjectionsRegistry[injectClassAndName].push(pendingInjection);
+		pendingInjections[pendingInjections.length] = pendingInjection;
 	}
 	
 	/**
@@ -660,7 +655,7 @@ public class ProxyMap implements IProxyMap {
 						mapRule.varName = node.@name.toString();
 						mapRule.injectClassAndName = node.@type.toString() + injectName;
 						mapRule.scopeName = scopeName;
-						retVal.push(mapRule);
+						retVal[retVal.length] = mapRule;
 					}
 				}
 			}
@@ -691,41 +686,6 @@ public class ProxyMap implements IProxyMap {
 	}
 
 }
-}
-
-import flash.utils.clearTimeout;
-import flash.utils.setTimeout;
-
-class PendingInject {
-	
-	/**
-	 * Private class to store pending injection data.
-	 * @private
-	 */
-	
-	private var injectClassAndName:String;
-	public var pendingObject:Object;
-	public var signatureClass:Class;
-	private var pendingInjectTime:int;
-	
-	private var timerId:uint;
-	
-	public function PendingInject(injectClassAndName:String, pendingObject:Object, signatureClass:Class, pendingInjectTime:int) {
-		this.pendingInjectTime = pendingInjectTime;
-		this.injectClassAndName = injectClassAndName;
-		this.pendingObject = pendingObject;
-		this.signatureClass = signatureClass;
-		// start timer to throw an error of unresolved injection.
-		timerId = setTimeout(throwError, pendingInjectTime);
-	}
-	
-	public function stopTimer():void {
-		clearTimeout(timerId);
-	}
-	
-	private function throwError():void {
-		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
-	}
 }
 
 class LazyProxyData {

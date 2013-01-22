@@ -55,8 +55,10 @@ public class Messenger {
 		}
 		
 		// if this message type used for the first time - create data placeholders.
-		if (!messageRegistry[type]) {
-			messageRegistry[type] = new Vector.<HandlerVO>();
+		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		if (!messageList) {
+			messageList = new Vector.<HandlerVO>()
+			messageRegistry[type] = messageList;
 			handlerRegistry[type] = new Dictionary();
 		}
 		
@@ -74,7 +76,7 @@ public class Messenger {
 				msgData.handlerClassName = handlerClassName;
 			}
 			msgData.handler = handler;
-			messageRegistry[type].push(msgData);
+			messageList[messageList.length] = msgData;
 			handlerRegistry[type][handler] = msgData;
 		}
 		return msgData;

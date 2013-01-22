@@ -37,7 +37,7 @@ public class CommandMap {
 	private var classRegistry:Dictionary = new Dictionary(); /* of Vector.<Class> by String */
 	
 	// holds pooled command objects, stared by command class.
-	private var commandPools:Dictionary = new Dictionary(); /* of Vector.<Object> by Class */
+	private var commandPools:Dictionary = new Dictionary(); /* of Vector.<PooledCommand> by Class */
 	
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
@@ -73,12 +73,14 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		if (!classRegistry[type]) {
-			classRegistry[type] = new Vector.<Class>();
+		var messageClasses:Vector.<Class> = classRegistry[type]
+		if (!messageClasses) {
+			messageClasses = new Vector.<Class>();
+			classRegistry[type] = messageClasses;
 			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
-		classRegistry[type].push(commandClass);
+		messageClasses[messageClasses.length] = commandClass;
 	}
 	
 	/**
@@ -115,7 +117,7 @@ public class CommandMap {
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
 		use namespace pureLegsCore;
-
+		
 		var command:Command;
 		
 		//////////////////////////////////////////////
@@ -164,8 +166,9 @@ public class CommandMap {
 			
 			// if not locked - pool it.
 			if (!(command as PooledCommand).isLocked) {
-				if (commandPools[commandClass]) {
-					commandPools[commandClass].push(command);
+				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+				if (pooledCommands) {
+					pooledCommands[pooledCommands.length] = command as PooledCommand;
 				}
 			}
 		} else {
@@ -193,13 +196,16 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
-		if (!classRegistry[scopedType]) {
-			classRegistry[scopedType] = new Vector.<Class>();
+		
+		var commandList:Vector.<Class> = classRegistry[scopedType];
+		if (!commandList) {
+			commandList = new Vector.<Class>();
+			classRegistry[scopedType] = commandList;
 			// TODO : check if channelCommandMap must be here...
-			scopeHandlers.push(ModuleManager.scopedCommandMap(handleCommandExecute, scopeName, type, commandClass));
+			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(handleCommandExecute, scopeName, type, commandClass)
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
-		classRegistry[scopedType].push(commandClass);
+		commandList[commandList.length] = commandClass;
 	}
 	
 	/**
@@ -237,7 +243,7 @@ public class CommandMap {
 	}
 	
 	/**
-	 * Clears pool created for specified command. 
+	 * Clears pool created for specified command.
 	 * (if commands are not pooled - function fails silently.)
 	 * @param	commPoolingSimpleCommand
 	 */
@@ -294,8 +300,9 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		if (commandPools[commandClass]) {
-			commandPools[commandClass].push(command);
+		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+		if (pooledCommands) {
+			pooledCommands[pooledCommands.length] = command;
 		}
 	}
 	
@@ -371,7 +378,7 @@ public class CommandMap {
 				if (command is PooledCommand) {
 					// init pool if needed.
 					if (!commandPools[commandClass]) {
-						commandPools[commandClass] = new Vector.<Object>();
+						commandPools[commandClass] = new Vector.<PooledCommand>();
 					}
 					command.isExecuting = true;
 					command.execute(params);
@@ -379,11 +386,11 @@ public class CommandMap {
 					
 					// if not locked - pool it.
 					if (!(command as PooledCommand).isLocked) {
-						if (commandPools[commandClass]) {
-							commandPools[commandClass].push(command);
+						var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+						if (pooledCommands) {
+							pooledCommands[pooledCommands.length] = command as PooledCommand;
 						}
 					}
-					
 				} else {
 					command.isExecuting = true;
 					command.execute(params);
@@ -454,6 +461,6 @@ public class CommandMap {
 	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
 		return classRegistry[messageType];
 	}
-	
+
 }
 }

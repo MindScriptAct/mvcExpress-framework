@@ -115,7 +115,6 @@ public class MediatorMap implements IMediatorMap {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);
 		}
 		
-		
 		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
@@ -181,7 +180,6 @@ public class MediatorMap implements IMediatorMap {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'org.mvcexpress.mvc::Mediator' class.");
 			}
 		}
-		
 		
 		CONFIG::debug {
 			// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -307,6 +305,6 @@ public class MediatorMap implements IMediatorMap {
 		mediatorInjectRegistry = null;
 		mediatorRegistry = null;
 	}
-	
+
 }
 }

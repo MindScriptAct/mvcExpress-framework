@@ -167,14 +167,15 @@ public class Proxy {
 	 */
 	pureLegsCore function addScope(scopeName:String):void {
 		var messengerFound:Boolean = false;
-		for (var i:int = 0; i < proxyScopes.length; i++) {
+		var scopeCount:int = proxyScopes.length
+		for (var i:int = 0; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {
 				messengerFound = true;
 				break;
 			}
 		}
 		if (!messengerFound) {
-			proxyScopes.push(scopeName);
+			proxyScopes[proxyScopes.length] = scopeName;
 		}
 	}
 	

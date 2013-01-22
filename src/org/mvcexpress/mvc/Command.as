@@ -40,7 +40,7 @@ dynamic public class Command {
 	
 	//flag to store if command is executed by commandMap.
 	/** @private */
-	pureLegsCore var isExecuting:Boolean = false;	
+	pureLegsCore var isExecuting:Boolean = false;
 	
 	/** @private */
 	CONFIG::debug
@@ -106,7 +106,7 @@ dynamic public class Command {
 	//----------------------------------
 	//     Misc
 	//----------------------------------
-	
+
 	// execute function is not meant to be overridden in mvcExpress.
 	// You have to manually create execute() function in your commands, this gives possibility to set any type to params object.
 	//public function execute(params:Object):void {

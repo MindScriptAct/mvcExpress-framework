@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
+import org.mvcexpress.core.inject.PendingInject;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.messenger.HandlerVO;
@@ -64,7 +65,7 @@ public class ModuleManager {
 			//
 			retVal = ModuleBase.getModuleInstance(moduleName, autoInit);
 			moduleRegistry[moduleName] = retVal;
-			allModules.push(retVal);
+			allModules[allModules.length] = retVal;
 				//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
@@ -281,7 +282,7 @@ public class ModuleManager {
 	 * @param	pendingInject
 	 * @private
 	 */
-	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:Object):void {
+	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:PendingInject):void {
 		use namespace pureLegsCore;
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
@@ -366,7 +367,7 @@ public class ModuleManager {
 			return "Module with name :" + moduleName + " is not found.";
 		}
 	}
-	
+
 }
 }
 

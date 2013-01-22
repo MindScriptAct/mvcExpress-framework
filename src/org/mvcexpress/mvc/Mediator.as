@@ -162,10 +162,10 @@ public class Mediator {
 			}
 			MvcExpress.debug(new TraceMediator_addHandler(messenger.moduleName, this, type, handler));
 			
-			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler, getQualifiedClassName(this));
 			return;
 		}
-		handlerVoRegistry.push(messenger.addHandler(type, handler));
+		handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler);
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class Mediator {
 	 */
 	protected function addScopeHandler(scopeName:String, type:String, handler:Function):void {
 		use namespace pureLegsCore;
-		handlerVoRegistry.push(ModuleManager.addScopeHandler(scopeName, type, handler));
+		handlerVoRegistry[handlerVoRegistry.length] = ModuleManager.addScopeHandler(scopeName, type, handler);
 	}
 	
 	/**
