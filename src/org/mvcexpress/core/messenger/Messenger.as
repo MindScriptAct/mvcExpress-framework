@@ -116,8 +116,8 @@ public class Messenger {
 		var handlerVo:HandlerVO;
 		var delCount:int = 0;
 		if (messageList) {
-			var tempListLength:int = messageList.length;
-			for (var i:int = 0; i < tempListLength; i++) {
+			var mesageCount:int = messageList.length;
+			for (var i:int = 0; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
 				if (handlerVo.handler == null) {
@@ -148,7 +148,7 @@ public class Messenger {
 			}
 			// remove all removed handlers.
 			if (delCount) {
-				messageList.splice(tempListLength - delCount, delCount);
+				messageList.splice(mesageCount - delCount, delCount);
 			}
 		}
 	}
@@ -185,7 +185,8 @@ public class Messenger {
 		for (var key:String in messageRegistry) {
 			var msgList:Vector.<HandlerVO> = messageRegistry[key];
 			var messageHandlers:String = "";
-			for (var i:int = 0; i < msgList.length; i++) {
+			var msgCount:int = msgList.length
+			for (var i:int = 0; i < msgCount; i++) {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {
 					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";

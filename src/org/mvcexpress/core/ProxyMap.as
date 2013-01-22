@@ -433,7 +433,8 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// injects all dependencies using rules.
-		for (var i:int = 0; i < rules.length; i++) {
+		var ruleCount:int = rules.length
+		for (var i:int = 0; i < ruleCount; i++) {
 			if (rules[i].scopeName) {
 				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -552,7 +553,8 @@ public class ProxyMap implements IProxyMap {
 			//check if it is not pooled already.
 			if (!commandMap.checkIsClassPooled(signatureClass)) {
 				// dependencies remembers who is dependant on them.
-				for (var r:int = 0; r < rules.length; r++) {
+				ruleCount = rules.length;
+				for (var r:int = 0; r < ruleCount; r++) {
 					(command[rules[r].varName] as Proxy).registerDependantCommand(signatureClass);
 				}
 			}
@@ -592,7 +594,8 @@ public class ProxyMap implements IProxyMap {
 			// get rules. (by now rules for this class must be created.)
 			var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
-			for (var j:int = 0; j < rules.length; j++) {
+			var ruleCount:int = rules.length
+			for (var j:int = 0; j < ruleCount; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
 					
 					// satisfy missing injection.
@@ -627,19 +630,21 @@ public class ProxyMap implements IProxyMap {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
-		
-		for (var i:int = 0; i < factoryNodes.length(); i++) {
+		var nodeCount:int = factoryNodes.length();
+		for (var i:int = 0; i < nodeCount; i++) {
 			var node:XML = factoryNodes[i];
 			var nodeName:String = node.name();
 			if (nodeName == "variable" || nodeName == "accessor") {
 				var metadataList:XMLList = node.metadata;
-				for (var j:int = 0; j < metadataList.length(); j++) {
+				var metadataCount:int = metadataList.length()
+				for (var j:int = 0; j < metadataCount; j++) {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
 						var injectName:String = "";
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
-						for (var k:int = 0; k < args.length(); k++) {
+						var argCount:int = args.length()
+						for (var k:int = 0; k < argCount; k++) {
 							var argKey:String = args[k].@key;
 							if (argKey == "name") {
 								injectName = args[k].@value;
@@ -670,7 +675,8 @@ public class ProxyMap implements IProxyMap {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");
 			var className:String = split[0];
-			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+			var splitLength:int = split.length - 1;
+			for (var spliteIndex:int = 1; spliteIndex < splitLength; spliteIndex++) {
 				className += "." + split[spliteIndex];
 			}
 			var constClass:Class = getDefinitionByName(className) as Class;

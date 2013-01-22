@@ -13,7 +13,8 @@ import flash.utils.describeType;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public function checkClassStringConstants(... args:Array):void {
-	for (var i:int = 0; i < args.length; i++) {
+	var argCount:int = args.length;
+	for (var i:int = 0; i < argCount; i++) {
 		var constantClass:Class = args[i] as Class;
 		if (constantClass) {
 			var needChecking:Boolean = true;
@@ -21,7 +22,8 @@ public function checkClassStringConstants(... args:Array):void {
 			if (StringConstantRegistry.registeredClasses[constantClass] != true) {
 				var description:XML = describeType(constantClass);
 				var constantList:XMLList = description.constant;
-				for (var j:int = 0; j < constantList.length(); j++) {
+				var constantCount:int = constantList.length()
+				for (var j:int = 0; j < constantCount; j++) {
 					if (constantList[j].@type == "String") {
 						var constantValue:String = constantClass[constantList[j].@name];
 						if (StringConstantRegistry.stringRegistry[constantValue]) {

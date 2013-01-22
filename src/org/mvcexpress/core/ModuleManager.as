@@ -105,6 +105,7 @@ public class ModuleManager {
 				//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
 				//}
 				
+				// TODO : consider swiching to for-each
 				for (var injectId:String in scopiedProxies) {
 					var scopedProxyData:ScopedProxyData = scopiedProxies[injectId];
 					var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
@@ -114,7 +115,8 @@ public class ModuleManager {
 			}
 			//
 			delete moduleRegistry[moduleName];
-			for (var j:int = 0; j < allModules.length; j++) {
+			var moduleCount:int = allModules.length
+			for (var j:int = 0; j < moduleCount; j++) {
 				if (allModules[j].moduleName == moduleName) {
 					allModules.splice(j, 1);
 					break;
