@@ -97,7 +97,7 @@ public class CommandMap {
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
 			var commandCount:int = commandList.length
-			for (var i:int = 0; i < commandCount; i++) {
+			for (var i:int; i < commandCount; i++) {
 				if (commandClass == commandList[i]) {
 					commandList.splice(i, 1);
 					break;
@@ -220,7 +220,7 @@ public class CommandMap {
 		var commandList:Vector.<Class> = classRegistry[scopedType];
 		if (commandList) {
 			var commandCount:int = commandList.length
-			for (var i:int = 0; i < commandCount; i++) {
+			for (var i:int; i < commandCount; i++) {
 				if (commandClass == commandList[i]) {
 					commandList.splice(i, 1);
 					break;
@@ -262,11 +262,11 @@ public class CommandMap {
 	 * @return					true if Command class is already mapped to message
 	 */
 	public function isMapped(type:String, commandClass:Class):Boolean {
-		var retVal:Boolean = false;
+		var retVal:Boolean;// = false;
 		if (classRegistry[type]) {
 			var mappedClasses:Vector.<Class> = classRegistry[type];
 			var classCaunt:int = mappedClasses.length
-			for (var i:int = 0; i < classCaunt; i++) {
+			for (var i:int; i < classCaunt; i++) {
 				if (commandClass == mappedClasses[i]) {
 					retVal = true;
 				}
@@ -317,7 +317,7 @@ public class CommandMap {
 		}
 		//
 		var scopeHandlerCount:int = scopeHandlers.length;
-		for (var i:int = 0; i < scopeHandlerCount; i++) {
+		for (var i:int; i < scopeHandlerCount; i++) {
 			scopeHandlers[i].handler = null;
 		}
 		messenger = null;
@@ -337,7 +337,7 @@ public class CommandMap {
 		commandList = classRegistry[messageType];
 		if (commandList) {
 			var commandCount:int = commandList.length;
-			for (var i:int = 0; i < commandCount; i++) {
+			for (var i:int; i < commandCount; i++) {
 				var commandClass:Class = commandList[i];
 				
 				//////////////////////////////////////////////
@@ -417,13 +417,13 @@ public class CommandMap {
 		if (!commandClassParamTypes[commandClass]) {
 			
 			var classDescription:XML = describeType(commandClass);
-			var hasExecute:Boolean = false;
-			var parameterCount:int = 0;
+			var hasExecute:Boolean;// = false;
+			var parameterCount:int;// = 0;
 			
 			// TODO : optimize..
 			var methodList:XMLList = classDescription.factory.method;
 			var methodCount:int = methodList.length();
-			for (var i:int = 0; i < methodCount; i++) {
+			for (var i:int; i < methodCount; i++) {
 				if (methodList[i].@name == "execute") {
 					hasExecute = true;
 					var paramList:XMLList = methodList[i].parameter;

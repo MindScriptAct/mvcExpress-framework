@@ -255,7 +255,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @return					true if view class is already mapped to mediator class.
 	 */
 	public function isMapped(viewClass:Class, mediatorClass:Class):Boolean {
-		var retVal:Boolean = false;
+		var retVal:Boolean;// = false;
 		if (mediatorClassRegistry[viewClass]) {
 			if (mediatorClassRegistry[viewClass] == mediatorClass) {
 				retVal = true;

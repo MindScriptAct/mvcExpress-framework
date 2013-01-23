@@ -21,7 +21,7 @@ public class Messenger {
 	pureLegsCore var moduleName:String;
 	
 	// defines if messenger can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean = false;
+	static pureLegsCore var allowInstantiation:Boolean;// = false;
 	
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
@@ -116,10 +116,10 @@ public class Messenger {
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
-		var delCount:int = 0;
+		var delCount:int;// = 0;
 		if (messageList) {
 			var mesageCount:int = messageList.length;
-			for (var i:int = 0; i < mesageCount; i++) {
+			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
 				if (handlerVo.handler == null) {

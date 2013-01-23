@@ -12,7 +12,7 @@ import org.mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>
- * Can send messages. (Usually sends one with each data update)						</br>
+ * Can send messages. (Usually sends one with each data update)							</br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Proxy {
@@ -23,7 +23,7 @@ public class Proxy {
 	protected var proxyMap:IProxyMap;
 	
 	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
+	private var _isReady:Boolean;// = false;
 	
 	// used internally for communication
 	/** @private */
@@ -37,7 +37,7 @@ public class Proxy {
 	
 	// amount of pending injections.
 	/** @private */
-	pureLegsCore var pendingInjections:int = 0;
+	pureLegsCore var pendingInjections:int;// = 0;
 	
 	/** CONSTRUCTOR */
 	public function Proxy() {
@@ -88,7 +88,7 @@ public class Proxy {
 		messenger.send(type, params);
 		//
 		var scopeCount:int = proxyScopes.length
-		for (var i:int = 0; i < scopeCount; i++) {
+		for (var i:int; i < scopeCount; i++) {
 			ModuleManager.sendScopeMessage(proxyScopes[i], type, params);
 		}
 		//
@@ -166,9 +166,9 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function addScope(scopeName:String):void {
-		var messengerFound:Boolean = false;
+		var messengerFound:Boolean;// = false;
 		var scopeCount:int = proxyScopes.length
-		for (var i:int = 0; i < scopeCount; i++) {
+		for (var i:int; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {
 				messengerFound = true;
 				break;
@@ -186,7 +186,7 @@ public class Proxy {
 	 */
 	pureLegsCore function removeScope(scopeName:String):void {
 		var scopeCount:int = scopeName.length
-		for (var i:int = 0; i < scopeCount; i++) {
+		for (var i:int; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {
 				proxyScopes.splice(i, 1);
 				break;

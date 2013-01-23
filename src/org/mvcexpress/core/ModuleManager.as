@@ -117,7 +117,7 @@ public class ModuleManager {
 			//
 			delete moduleRegistry[moduleName];
 			var moduleCount:int = allModules.length
-			for (var j:int = 0; j < moduleCount; j++) {
+			for (var j:int; j < moduleCount; j++) {
 				if (allModules[j].moduleName == moduleName) {
 					allModules.splice(j, 1);
 					break;
@@ -318,7 +318,7 @@ public class ModuleManager {
 	 */
 	static public function listModules():String {
 		var retVal:String = "";
-		for (var i:int = 0; i < allModules.length; i++) {
+		for (var i:int; i < allModules.length; i++) {
 			if (retVal != "") {
 				retVal += ",";
 			}

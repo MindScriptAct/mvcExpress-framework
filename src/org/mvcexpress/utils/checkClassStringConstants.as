@@ -14,7 +14,7 @@ import flash.utils.describeType;
  */
 public function checkClassStringConstants(... args:Array):void {
 	var argCount:int = args.length;
-	for (var i:int = 0; i < argCount; i++) {
+	for (var i:int; i < argCount; i++) {
 		var constantClass:Class = args[i] as Class;
 		if (constantClass) {
 			var needChecking:Boolean = true;

@@ -18,7 +18,7 @@ import org.mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMess
 public class ModuleBase {
 	
 	// defines if class can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean = false;
+	static pureLegsCore var allowInstantiation:Boolean;// = false;
 	
 	private var _moduleName:String;
 	

@@ -40,11 +40,11 @@ dynamic public class Command {
 	
 	//flag to store if command is executed by commandMap.
 	/** @private */
-	pureLegsCore var isExecuting:Boolean = false;
+	pureLegsCore var isExecuting:Boolean;// = false;
 	
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean = false;
+	static pureLegsCore var canConstruct:Boolean;// = false;
 	
 	/** CONSTRUCTOR */
 	public function Command() {

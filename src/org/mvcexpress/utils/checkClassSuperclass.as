@@ -11,7 +11,7 @@ import flash.utils.getQualifiedSuperclassName;
  */
 
 public function checkClassSuperclass(classObject:Class, superClassName:String):Boolean {
-	var retVal:Boolean = false;
+	var retVal:Boolean;// = false;
 	var classObjectSuperClassName:String = getQualifiedSuperclassName(classObject);
 	if (classObjectSuperClassName != superClassName) {
 		var className:String = classObjectSuperClassName;

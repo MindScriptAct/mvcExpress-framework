@@ -314,7 +314,7 @@ public class ProxyMap implements IProxyMap {
 	 * @return				true if object is already mapped.
 	 */
 	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		var retVal:Boolean = false;
+		var retVal:Boolean;// = false;
 		var proxyClass:Class = Object(proxyObject).constructor as Class;
 		if (!injectClass) {
 			injectClass = proxyClass;
@@ -435,7 +435,7 @@ public class ProxyMap implements IProxyMap {
 		
 		// injects all dependencies using rules.
 		var ruleCount:int = rules.length
-		for (var i:int = 0; i < ruleCount; i++) {
+		for (var i:int; i < ruleCount; i++) {
 			if (rules[i].scopeName) {
 				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -547,7 +547,7 @@ public class ProxyMap implements IProxyMap {
 			if (!commandMap.checkIsClassPooled(signatureClass)) {
 				// dependencies remembers who is dependant on them.
 				ruleCount = rules.length;
-				for (var r:int = 0; r < ruleCount; r++) {
+				for (var r:int; r < ruleCount; r++) {
 					(command[rules[r].varName] as Proxy).registerDependantCommand(signatureClass);
 				}
 			}
@@ -626,7 +626,7 @@ public class ProxyMap implements IProxyMap {
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
 		var nodeCount:int = factoryNodes.length();
-		for (var i:int = 0; i < nodeCount; i++) {
+		for (var i:int; i < nodeCount; i++) {
 			var node:XML = factoryNodes[i];
 			var nodeName:String = node.name();
 			if (nodeName == "variable" || nodeName == "accessor") {

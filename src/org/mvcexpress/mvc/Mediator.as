@@ -40,11 +40,11 @@ public class Mediator {
 	pureLegsCore var messenger:Messenger;
 	
 	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
+	private var _isReady:Boolean;// = false;
 	
 	// amount of pending injections.
 	/** @private */
-	pureLegsCore var pendingInjections:int = 0;
+	pureLegsCore var pendingInjections:int;// = 0;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -58,7 +58,7 @@ public class Mediator {
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean = false;
+	static pureLegsCore var canConstruct:Boolean;// = false;
 	
 	/** CONSTRUCTOR */
 	public function Mediator() {
