@@ -60,8 +60,11 @@ public class Process {
 	// last task in linked list
 	private var tail:Task;
 	
-	// indicates if task cash is ready for use. Reset with every task add/remove or injection provide/unprovide or task enable/disable.
-	pureLegsCore var isCached:Boolean = false;
+	// indicates if task cash should be used.
+	private var isCached:Boolean = false;
+	
+	// will reset cash with next run. (with every task add/remove or injection provide/unprovide or task enable/disable.)
+	pureLegsCore var needCashNext:Boolean = false;
 	
 	// cash of running tasks. 
 	private var processCache:Vector.<Task> = new Vector.<Task>();
@@ -205,7 +208,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		// get task id
 		var className:String = Process.qualifiedClassNameRegistry[taskClass];
@@ -252,7 +255,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		// get task id
 		var className:String = Process.qualifiedClassNameRegistry[taskClass];
@@ -301,7 +304,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		// after task id
 		var afterClassName:String = Process.qualifiedClassNameRegistry[afterTaskClass];
@@ -365,7 +368,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		var className:String = Process.qualifiedClassNameRegistry[taskClass];
 		if (!className) {
@@ -409,7 +412,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		// log the action
 		CONFIG::debug {
@@ -442,7 +445,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		var className:String = Process.qualifiedClassNameRegistry[taskClass];
 		if (!className) {
@@ -475,7 +478,7 @@ public class Process {
 		use namespace pureLegsCore;
 		
 		// mark process as not cached.
-		isCached = false;
+		needCashNext = true;
 		
 		var className:String = Process.qualifiedClassNameRegistry[taskClass];
 		if (!className) {
@@ -565,6 +568,11 @@ public class Process {
 		
 		CONFIG::debug {
 			var testRuns:Vector.<TaskTestVO> = new Vector.<TaskTestVO>();
+		}
+		
+		if (needCashNext) {
+			isCached = false;
+			needCashNext = false;
 		}
 		
 		if (isCached) {

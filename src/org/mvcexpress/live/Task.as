@@ -136,7 +136,7 @@ public class Task {
 	// function for this task to force process to clear task cache
 	pureLegsCore function setNotCached():void {
 		use namespace pureLegsCore;
-		process.isCached = false;
+		process.needCashNext = true;
 	}
 	
 	// dispose task
