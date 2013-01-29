@@ -1,16 +1,16 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
 import flash.utils.Dictionary;
-import org.mvcexpress.core.inject.PendingInject;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.inject.PendingInject;
+import org.mvcexpress.core.inject.testInject;
 import org.mvcexpress.core.messenger.HandlerVO;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModule;
 import org.mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
 import org.mvcexpress.mvc.Proxy;
+import org.mvcexpress.MvcExpress;
 
 /**
  * INTERNAL FRAMEWORK CLASS.
@@ -37,6 +37,8 @@ public class ModuleManager {
 	/* all proxies maped to scope */
 	static private var scopedProxiesByScope:Dictionary = new Dictionary(); /* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 	
+	static private var needMetadataTest:Boolean = true;
+	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
 		throw Error("ModuleFactory is static framework class for internal use. Not meant to be instantiated.");
@@ -50,6 +52,16 @@ public class ModuleManager {
 	 * @private
 	 */
 	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
+		
+		// tests if framework can read 'Inject' metadata tag.
+		if (needMetadataTest) {
+			needMetadataTest = false;
+			var injectTest:testInject = new testInject();
+			if (!injectTest.testInjectMetaTag()) {
+				throw Error("mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments.");
+			}
+		}
+		
 		var retVal:ModuleBase;
 		// debug this action
 		CONFIG::debug {
