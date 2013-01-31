@@ -40,61 +40,61 @@ public class ScopeControlTests {
 	//     should fail without registering
 	//----------------------------------
 	
-	//[Test(expects="Error")]
-	//
-	//public function scopeControl_messageOutWithoutScopeRegister_fails():void {
-	//moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
-	//}
-	//
-	//[Test(expects="Error")]
-	//
-	//public function scopeControl_messageInHandleWithoutScopeRegister_fails():void {
-	//moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
-	//}
-	//
-	//[Test(expects="Error")]
-	//
-	//public function scopeControl_messageInCommandMapWithoutScopeRegister_fails():void {
-	//moduleIn.commandMap_scopeMap(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, GenericCommand);
-	//}
-	//
-	//[Test(expects="Error")]
-	//
-	//public function scopeControl_scopedInjectWithoutScopeRegister_fails():void {
-	//moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
-	//}
+	[Test(expects="Error")]
+	
+	public function scopeControl_messageOutWithoutScopeRegister_fails():void {
+		moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function scopeControl_messageInHandleWithoutScopeRegister_fails():void {
+		moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function scopeControl_messageInCommandMapWithoutScopeRegister_fails():void {
+		moduleIn.commandMap_scopeMap(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, GenericCommand);
+	}
+	
+	[Test(expects="Error")]
+	
+	public function scopeControl_scopedInjectWithoutScopeRegister_fails():void {
+		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
+	}
 	
 	//----------------------------------
 	//     should be ok after registernig
 	//----------------------------------
 	
-	//[Test]
-	//
-	//public function scopeControl_messageOutWithScopeRegister_ok():void {
-		//moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, true, false, false);
-		//moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
-	//}
-	//
-	//[Test]
-	//
-	//public function scopeControl_messageInHandleWithScopeRegister_ok():void {
-		//moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
-		//moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
-	//}
-	//
-	//[Test]
-	//
-	//public function scopeControl_messageInCommandMapWithScopeRegister_ok():void {
-		//moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
-		//moduleIn.commandMap_scopeMap(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, GenericCommand);
-	//}
-	//
-	//[Test]
-	//
-	//public function scopeControl_scopedInjectWithScopeRegister_ok():void {
-		//moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
-		//moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
-	//}
+	[Test]
+	
+	public function scopeControl_messageOutWithScopeRegister_ok():void {
+		moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, true, false, false);
+		moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
+	}
+	
+	[Test]
+	
+	public function scopeControl_messageInHandleWithScopeRegister_ok():void {
+		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
+		moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
+	}
+	
+	[Test]
+	
+	public function scopeControl_messageInCommandMapWithScopeRegister_ok():void {
+		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
+		moduleIn.commandMap_scopeMap(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, GenericCommand);
+	}
+	
+	[Test]
+	
+	public function scopeControl_scopedInjectWithScopeRegister_ok():void {
+		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
+		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
+	}
 	
 	//----------------------------------
 	//     should fail if module removed and added without registering

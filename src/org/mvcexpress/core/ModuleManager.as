@@ -41,8 +41,8 @@ public class ModuleManager {
 	
 	static private var needMetadataTest:Boolean = true;
 	
-	/* all module permision datas by modle+scope id string */
-	static private var scopePermisions:Dictionary = new Dictionary(); /* of ScopePermisionData by String */
+	/* all module permision datas by modleName and scopeName */
+	static private var scopePermissionsRegistry:Dictionary = new Dictionary(); /* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
 	
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -140,6 +140,8 @@ public class ModuleManager {
 					break;
 				}
 			}
+			//
+			delete scopePermissionsRegistry[moduleName];
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
@@ -154,12 +156,13 @@ public class ModuleManager {
 	static pureLegsCore function sendScopeMessage(moduleName:String, scopeName:String, type:String, params:Object):void {
 		use namespace pureLegsCore;
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
 		
-		// get permision object
-		var scopePermision:ScopePermisionData = scopePermisions[moduleScopeName];
-		if (!scopePermision || !scopePermision.messageSending) {
+		// check if action is available
+		if (!scopePermission || !scopePermission.messageSending) {
 			throw Error("Module with name:" + moduleName + " has no permition to send messages to scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
@@ -174,12 +177,13 @@ public class ModuleManager {
 	 * @private */
 	static pureLegsCore function addScopeHandler(moduleName:String, scopeName:String, type:String, handler:Function):HandlerVO {
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
 		
-		// get permision object
-		var scopePermision:ScopePermisionData = scopePermisions[moduleScopeName];
-		if (!scopePermision || !scopePermision.messageReceiving) {
+		// check if action is available
+		if (!scopePermission || !scopePermission.messageReceiving) {
 			throw Error("Module with name:" + moduleName + " has no permition to receive messages from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
@@ -218,12 +222,13 @@ public class ModuleManager {
 	 */
 	static pureLegsCore function scopedCommandMap(moduleName:String, handleCommandExecute:Function, scopeName:String, type:String, commandClass:Class):HandlerVO {
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
 		
-		// get permision object
-		var scopePermision:ScopePermisionData = scopePermisions[moduleScopeName];
-		if (!scopePermision || !scopePermision.messageReceiving) {
+		// check if action is available
+		if (!scopePermission || !scopePermission.messageReceiving) {
 			throw Error("Module with name:" + moduleName + " has no permition to receive messages from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
@@ -253,12 +258,13 @@ public class ModuleManager {
 	 */
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
+		// get permission object
+		if (scopePermissionsRegistry[moduleName]) {
+			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		}
 		
-		// get permision object
-		var scopePermision:ScopePermisionData = scopePermisions[moduleScopeName];
-		if (!scopePermision || !scopePermision.proxieMap) {
+		// check if action is available
+		if (!scopePermission || !scopePermission.proxieMap) {
 			throw Error("Module with name:" + moduleName + " has no permition to map proxies to scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
@@ -377,19 +383,20 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMap));
 		}
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
-		
-		// get permision object
-		var scopePermision:ScopePermisionData = scopePermisions[moduleScopeName];
-		if (!scopePermision) {
-			scopePermision = new ScopePermisionData();
-			scopePermisions[moduleScopeName] = scopePermision;
+		// create dictionary for scope permisions by moduleName
+		if (!scopePermissionsRegistry[moduleName]) {
+			scopePermissionsRegistry[moduleName] = new Dictionary();
 		}
+		if (!scopePermissionsRegistry[moduleName][scopeName]) {
+			scopePermissionsRegistry[moduleName][scopeName] = new ScopePermissionData();
+		}
+		
+		var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+		
 		// set values
-		scopePermision.messageSending = messageSending;
-		scopePermision.messageReceiving = messageReceiving;
-		scopePermision.proxieMap = proxieMap;
+		scopePermission.messageSending = messageSending;
+		scopePermission.messageReceiving = messageReceiving;
+		scopePermission.proxieMap = proxieMap;
 	}
 	
 	static pureLegsCore function unregisterScope(moduleName:String, scopeName:String):void {
@@ -399,13 +406,13 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_unregisterScope(moduleName, scopeName));
 		}
 		
-		// create module+scope id
-		var moduleScopeName:String = moduleName + "-!#!-" + scopeName;
-		
-		// remove permision
-		if (scopePermisions[moduleScopeName]) {
-			delete scopePermisions[moduleScopeName];
+		// remove permision data for scope if exists
+		if (scopePermissionsRegistry[moduleName]) {
+			if (scopePermissionsRegistry[moduleName][scopeName]) {
+				delete scopePermissionsRegistry[moduleName][scopeName];
+			}
 		}
+	
 	}
 	
 	//----------------------------------
@@ -480,7 +487,7 @@ class ScopedProxyData {
 	public var name:String;
 }
 
-class ScopePermisionData {
+class ScopePermissionData {
 	public var messageSending:Boolean;
 	public var messageReceiving:Boolean;
 	public var proxieMap:Boolean;
