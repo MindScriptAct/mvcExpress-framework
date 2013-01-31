@@ -78,9 +78,9 @@ public class ModuleBase {
 	static public function getModuleInstance(moduleName:String, autoInit:Boolean):ModuleBase {
 		use namespace pureLegsCore;
 		var retVal:ModuleBase;
-		ModuleBase.allowInstantiation = true;
+		allowInstantiation = true;
 		retVal = new ModuleBase(moduleName, autoInit);
-		ModuleBase.allowInstantiation = false;
+		allowInstantiation = false;
 		return retVal;
 	}
 	

@@ -24,7 +24,7 @@ public class MvcExpress {
 	
 	/** Current framework version */
 	public static function get VERSION():String {
-		return "v" + MvcExpress.MAJOR_VERSION + "." + MvcExpress.MINOR_VERSION + "." + MvcExpress.REVISION;
+		return "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
 	}
 	
 	/**

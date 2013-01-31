@@ -85,10 +85,10 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -139,10 +139,10 @@ public class ProxyMap implements IProxyMap {
 			MvcExpress.debug(new TraceProxyMap_unmap(moduleName, injectClass, name));
 		}
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -182,10 +182,10 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -232,10 +232,10 @@ public class ProxyMap implements IProxyMap {
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function getProxy(injectClass:Class, name:String = ""):Proxy {
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		if (injectObjectRegistry[className + name]) {
 			return injectObjectRegistry[className + name];
@@ -272,10 +272,10 @@ public class ProxyMap implements IProxyMap {
 				injectClass = proxyClass;
 			}
 			// get inject id
-			var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+			var className:String = qualifiedClassNameRegistry[injectClass];
 			if (!className) {
 				className = getQualifiedClassName(injectClass);
-				ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+				qualifiedClassNameRegistry[injectClass] = className;
 			}
 			var injectId:String = className + name;
 			//
@@ -319,10 +319,10 @@ public class ProxyMap implements IProxyMap {
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		if (injectObjectRegistry[className + name]) {
 			retVal = true;
@@ -407,10 +407,10 @@ public class ProxyMap implements IProxyMap {
 		var tempClassName:String;
 		if (tempValue) {
 			if (tempClass) {
-				tempClassName = ProxyMap.qualifiedClassNameRegistry[tempClass];
+				tempClassName = qualifiedClassNameRegistry[tempClass];
 				if (!tempClassName) {
 					tempClassName = getQualifiedClassName(tempClass);
-					ProxyMap.qualifiedClassNameRegistry[tempClass] = tempClassName;
+					qualifiedClassNameRegistry[tempClass] = tempClassName;
 				}
 				if (!injectObjectRegistry[tempClassName]) {
 					injectObjectRegistry[tempClassName] = tempValue;
@@ -421,13 +421,13 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// TODO : TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
-			ProxyMap.classInjectRules[signatureClass] = rules;
+			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
 			
@@ -587,7 +587,7 @@ public class ProxyMap implements IProxyMap {
 			pendingInjection.stopTimer();
 			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[pendingInjection.signatureClass];
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
 			var ruleCount:int = rules.length
 			for (var j:int = 0; j < ruleCount; j++) {
