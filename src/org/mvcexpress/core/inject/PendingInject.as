@@ -35,7 +35,7 @@ public class PendingInject {
 	}
 	
 	private function throwError():void {
-		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
+		throw Error("Pending inject object is not resolved in " + (pendingInjectTime / 1000) + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
 	}
 
 }

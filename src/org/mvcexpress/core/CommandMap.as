@@ -96,7 +96,7 @@ public class CommandMap {
 		}
 		var commandList:Vector.<Class> = classRegistry[type];
 		if (commandList) {
-			var commandCount:int = commandList.length
+			var commandCount:int = commandList.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == commandList[i]) {
 					commandList.splice(i, 1);
@@ -219,7 +219,7 @@ public class CommandMap {
 		
 		var commandList:Vector.<Class> = classRegistry[scopedType];
 		if (commandList) {
-			var commandCount:int = commandList.length
+			var commandCount:int = commandList.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == commandList[i]) {
 					commandList.splice(i, 1);
@@ -265,7 +265,7 @@ public class CommandMap {
 		var retVal:Boolean;// = false;
 		if (classRegistry[type]) {
 			var mappedClasses:Vector.<Class> = classRegistry[type];
-			var classCaunt:int = mappedClasses.length
+			var classCaunt:int = mappedClasses.length;
 			for (var i:int; i < classCaunt; i++) {
 				if (commandClass == mappedClasses[i]) {
 					retVal = true;

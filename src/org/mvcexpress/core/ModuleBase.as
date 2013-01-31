@@ -189,7 +189,7 @@ public class ModuleBase {
 	//----------------------------------	
 	
 	/** get flex lowest class by definition. ( way to check for flex project.) */
-	protected static function getFlexClass():Class {
+	private static function getFlexClass():Class {
 		var uiComponentClass:Class;
 		try {
 			uiComponentClass = getDefinitionByName('mx.core::UIComponent') as Class;

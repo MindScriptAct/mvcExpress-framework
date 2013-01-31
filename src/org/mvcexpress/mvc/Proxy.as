@@ -87,7 +87,7 @@ public class Proxy {
 		//
 		messenger.send(type, params);
 		//
-		var scopeCount:int = proxyScopes.length
+		var scopeCount:int = proxyScopes.length;
 		for (var i:int; i < scopeCount; i++) {
 			ModuleManager.sendScopeMessage(proxyScopes[i], type, params);
 		}
@@ -167,7 +167,7 @@ public class Proxy {
 	 */
 	pureLegsCore function addScope(scopeName:String):void {
 		var messengerFound:Boolean;// = false;
-		var scopeCount:int = proxyScopes.length
+		var scopeCount:int = proxyScopes.length;
 		for (var i:int; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {
 				messengerFound = true;
@@ -185,7 +185,7 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function removeScope(scopeName:String):void {
-		var scopeCount:int = scopeName.length
+		var scopeCount:int = scopeName.length;
 		for (var i:int; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {
 				proxyScopes.splice(i, 1);

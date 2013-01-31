@@ -187,7 +187,8 @@ public class Mediator {
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
 		while (handlerVoRegistry.length) {
-			handlerVoRegistry.pop().handler = null;
+			var handler:HandlerVO = handlerVoRegistry.pop();
+			handler.handler = null;
 		}
 	}
 	

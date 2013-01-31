@@ -187,7 +187,7 @@ public class Messenger {
 		for (var key:String in messageRegistry) {
 			var msgList:Vector.<HandlerVO> = messageRegistry[key];
 			var messageHandlers:String = "";
-			var msgCount:int = msgList.length
+			var msgCount:int = msgList.length;
 			for (var i:int = 0; i < msgCount; i++) {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {

@@ -128,7 +128,7 @@ public class ModuleManager {
 			}
 			//
 			delete moduleRegistry[moduleName];
-			var moduleCount:int = allModules.length
+			var moduleCount:int = allModules.length;
 			for (var j:int; j < moduleCount; j++) {
 				if (allModules[j].moduleName == moduleName) {
 					allModules.splice(j, 1);
@@ -274,13 +274,13 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function injectScopedProxy(object:Object, injectRule:InjectRuleVO):Boolean {
+	static pureLegsCore function injectScopedProxy(recipientObject:Object, injectRule:InjectRuleVO):Boolean {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;
 			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
 			if (ijectProxy) {
-				object[injectRule.varName] = ijectProxy;
+				recipientObject[injectRule.varName] = ijectProxy;
 				return true;
 			}
 		}

@@ -434,7 +434,7 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// injects all dependencies using rules.
-		var ruleCount:int = rules.length
+		var ruleCount:int = rules.length;
 		for (var i:int; i < ruleCount; i++) {
 			if (rules[i].scopeName) {
 				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
@@ -589,7 +589,7 @@ public class ProxyMap implements IProxyMap {
 			// get rules. (by now rules for this class must be created.)
 			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
-			var ruleCount:int = rules.length
+			var ruleCount:int = rules.length;
 			for (var j:int = 0; j < ruleCount; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
 					
@@ -631,14 +631,14 @@ public class ProxyMap implements IProxyMap {
 			var nodeName:String = node.name();
 			if (nodeName == "variable" || nodeName == "accessor") {
 				var metadataList:XMLList = node.metadata;
-				var metadataCount:int = metadataList.length()
+				var metadataCount:int = metadataList.length();
 				for (var j:int = 0; j < metadataCount; j++) {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
 						var injectName:String = "";
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
-						var argCount:int = args.length()
+						var argCount:int = args.length();
 						for (var k:int = 0; k < argCount; k++) {
 							var argKey:String = args[k].@key;
 							if (argKey == "name") {
