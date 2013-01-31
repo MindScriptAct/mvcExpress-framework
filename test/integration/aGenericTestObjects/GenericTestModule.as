@@ -3,7 +3,6 @@ import integration.proxyMap.testObj.CestConstCommand;
 import integration.proxyMap.testObj.TestContsViewMediator;
 import flash.display.Sprite;
 import flash.events.Event;
-import integration.aGenericTestObjects.genericObjects.GenericTestProxy;
 import integration.lazyProxy.LazyProxyTests;
 import integration.proxyMap.testObj.TestContsView;
 import org.mvcexpress.modules.ModuleCore;
@@ -129,6 +128,18 @@ public class GenericTestModule extends ModuleCore {
 	
 	public function commandMap_checkIsClassPooled(commandClass:Class):Boolean {
 		return commandMap.checkIsClassPooled(commandClass);
+	}
+	
+	//----------------------------------
+	//     Scope
+	//----------------------------------
+	
+	public function registerScopeTest(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		super.registerScope(scopeName, messageSending, messageReceiving, proxieMap);
+	}
+	
+	public function unregisterScopeTest(scopeName:String):void {
+		super.unregisterScope(scopeName);
 	}
 
 }

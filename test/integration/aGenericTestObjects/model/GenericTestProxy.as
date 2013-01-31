@@ -1,4 +1,4 @@
-package integration.aGenericTestObjects.genericObjects {
+package integration.aGenericTestObjects.model {
 import org.mvcexpress.mvc.Proxy;
 
 /**

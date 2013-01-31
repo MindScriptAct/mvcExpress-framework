@@ -202,7 +202,7 @@ public class CommandMap {
 			commandList = new Vector.<Class>();
 			classRegistry[scopedType] = commandList;
 			// TODO : check if channelCommandMap must be here...
-			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(handleCommandExecute, scopeName, type, commandClass)
+			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 		}
 		// TODO : check if command is already added. (in DEBUG mode only?.)
 		commandList[commandList.length] = commandClass;

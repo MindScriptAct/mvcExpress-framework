@@ -89,7 +89,7 @@ public class Proxy {
 		//
 		var scopeCount:int = proxyScopes.length;
 		for (var i:int; i < scopeCount; i++) {
-			ModuleManager.sendScopeMessage(proxyScopes[i], type, params);
+			ModuleManager.sendScopeMessage(moduleName, proxyScopes[i], type, params);
 		}
 		//
 		// clean up logging the action
@@ -112,7 +112,7 @@ public class Proxy {
 			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(scopeName, type, params);
+		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {

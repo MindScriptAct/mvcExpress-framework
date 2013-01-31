@@ -1,7 +1,7 @@
 package integration.proxyMap {
 import flash.display.Sprite;
-import integration.aGenericTestObjects.genericObjects.GenericTestProxy;
 import integration.aGenericTestObjects.GenericTestModule;
+import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.proxyMap.testObj.CestConstCommand;
 import integration.proxyMap.testObj.TestConstObject;
 import integration.proxyMap.testObj.TestContsView;

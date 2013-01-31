@@ -18,7 +18,7 @@ import org.mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMess
 public class ModuleBase {
 	
 	// defines if class can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean;// = false;
+	static pureLegsCore var allowInstantiation:Boolean; // = false;
 	
 	private var _moduleName:String;
 	
@@ -176,12 +176,40 @@ public class ModuleBase {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(scopeName, type, params);
+		ModuleManager.sendScopeMessage(_moduleName, scopeName, type, params);
 		//
 		// clean up loging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
 		}
+	}
+	
+	//----------------------------------
+	//     Scope managment
+	//----------------------------------
+	
+	/**
+	 * Registers scope name.
+	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
+	 * What features module can use with that scope is defined by parameters.
+	 * @param	scopeName			Name of the scope.
+	 * @param	messageSending		Modules can send messages to this scope.
+	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param	proxieMap			Modules can map proxies to this scope.
+	 */
+	public function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		use namespace pureLegsCore;
+		ModuleManager.registerScope(_moduleName, scopeName, messageSending, messageReceiving, proxieMap);
+	}
+	
+	/**
+	 * Unregisters scope name.
+	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
+	 * @param	scopeName			Name of the scope.
+	 */
+	public function unregisterScope(scopeName:String):void {
+		use namespace pureLegsCore;
+		ModuleManager.unregisterScope(_moduleName, scopeName);
 	}
 	
 	//----------------------------------

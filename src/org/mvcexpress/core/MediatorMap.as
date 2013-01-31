@@ -145,6 +145,7 @@ public class MediatorMap implements IMediatorMap {
 				Mediator.canConstruct = false;
 			}
 			
+			mediator.moduleName = moduleName;
 			mediator.messenger = messenger;
 			mediator.proxyMap = proxyMap;
 			mediator.mediatorMap = this;
@@ -210,6 +211,7 @@ public class MediatorMap implements IMediatorMap {
 			Mediator.canConstruct = false;
 		}
 		
+		mediator.moduleName = moduleName;
 		mediator.messenger = messenger;
 		mediator.proxyMap = proxyMap;
 		mediator.mediatorMap = this;

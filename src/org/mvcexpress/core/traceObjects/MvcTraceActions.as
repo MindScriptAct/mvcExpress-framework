@@ -10,6 +10,8 @@ public class MvcTraceActions {
 	
 	static public const MODULEMANAGER_CREATEMODULE:String = "ModuleManager.createModule";
 	static public const MODULEMANAGER_DISPOSEMODULE:String = "ModuleManager.disposeModule";
+	static public const MODULEMANAGER_REGISTERSCOPE:String = "ModuleManager.registerScope";
+	static public const MODULEMANAGER_UNREGISTERSCOPE:String = "ModuleManager.unregisterScope";
 	
 	static public const COMMANDMAP_MAP:String = "CommandMap.map";
 	static public const COMMANDMAP_UNMAP:String = "CommandMap.unmap";

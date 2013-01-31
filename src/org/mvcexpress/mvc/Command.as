@@ -96,7 +96,7 @@ dynamic public class Command {
 			MvcExpress.debug(new TraceCommand_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(scopeName, type, params);
+		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {

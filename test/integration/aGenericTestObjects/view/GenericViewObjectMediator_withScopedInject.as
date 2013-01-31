@@ -1,26 +1,26 @@
-package integration.proxyMap.testObj{
+package integration.aGenericTestObjects.view {
 import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**
  * TODO:CLASS COMMENT
- * @author Raimundas Banevicius (http://mvcexpress.org)
+ * @author rBanevicius
  */
-public class TestContsViewMediator extends Mediator {
+public class GenericViewObjectMediator_withScopedInject extends Mediator {
 	
 	[Inject]
-	public var view:TestContsView;
+	public var view:GenericViewObject;
 	
-	[Inject (constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
+	[Inject(scope="GenericScopeIds_testScope")]
 	public var genericTestProxy:GenericTestProxy;
 	
 	override public function onRegister():void {
-		
+	
 	}
 	
 	override public function onRemove():void {
-		
-	}
 	
+	}
+
 }
 }
