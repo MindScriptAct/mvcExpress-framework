@@ -3,6 +3,7 @@ import integration.commandPooling.CommandPoolingTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.proxyMap.ProxyMapTests;
+import integration.scopeControl.ScopeControlTests;
 import integration.scopedMessaging.ChannelingTests;
 import integration.scopedProxy.ScopedProxyTests;
 import suites.commandMap.CommandMapTests;
@@ -64,9 +65,11 @@ public class AllTestSuites {
 	
 	public var commandPoolingTests:CommandPoolingTests;
 	
+	public var proxyMapTests:ProxyMapTests;
+	
 	//*/
 	
-	public var proxyMapTests:ProxyMapTests;
+	public var scopeControllTest:ScopeControlTests;
 }
 
 }

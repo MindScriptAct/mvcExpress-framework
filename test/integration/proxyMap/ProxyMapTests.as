@@ -35,28 +35,28 @@ public class ProxyMapTests {
 	
 	public function proxyMap_injectIntoProxyConstNamedVariable_injectedOk():void {
 		var testProxy:GenericTestProxy = new GenericTestProxy()
-		module.mapProxy(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
+		module.proxymap_map(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
-		module.mapProxy(new TexsWithConstNameInjectProxy());
+		module.proxymap_map(new TexsWithConstNameInjectProxy());
 	}
 	
 	[Test]
 	
 	public function proxyMap_injectIntoMediatorConstNamedVariable_injectedOk():void {
 		var testProxy:GenericTestProxy = new GenericTestProxy()
-		module.mapProxy(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
+		module.proxymap_map(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
-		module.mapMediatorWith(new TestContsView(), TestContsViewMediator);
+		module.mediatorMap_mediateWith(new TestContsView(), TestContsViewMediator);
 	}
 	
 	[Test]
 	
 	public function proxyMap_injectIntoCommandConstNamedVariable_injectedOk():void {
 		var testProxy:GenericTestProxy = new GenericTestProxy()
-		module.mapProxy(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
+		module.proxymap_map(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
 		//module.mapProxy(new TexsWithConstNameInjectProxy());
-		module.execute(CestConstCommand)
+		module.commandMap_execute(CestConstCommand)
 	}	
 	
 	
