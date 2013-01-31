@@ -11,9 +11,9 @@ public class TraceModuleManager_createModule extends TraceObj {
 	
 	public var autoInit:Boolean;
 	
-	public function TraceModuleManager_createModule(moduleName:String, autoInit:Boolean) {
+	public function TraceModuleManager_createModule(moduleName:String, $autoInit:Boolean) {
 		super(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName);
-		this.autoInit = autoInit;
+		autoInit = $autoInit;
 	}
 	
 	override public function toString():String {

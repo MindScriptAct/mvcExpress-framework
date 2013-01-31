@@ -14,12 +14,12 @@ public class TraceProxy_sendScopeMessage extends TraceObj_SendMessage {
 	public var type:String;
 	public var params:Object;
 	
-	public function TraceProxy_sendScopeMessage(moduleName:String, proxyObject:Proxy, type:String, params:Object, preSend:Boolean) {
+	public function TraceProxy_sendScopeMessage(moduleName:String, $proxyObject:Proxy, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
 		super(((preSend) ? MvcTraceActions.PROXY_SENDSCOPEMESSAGE : MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN), moduleName);
-		this.proxyObject = proxyObject;
-		this.type = type;
-		this.params = params;
+		proxyObject = $proxyObject;
+		type = $type;
+		params = $params;
 		//
 		canPrint = false;
 	}

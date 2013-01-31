@@ -43,7 +43,7 @@ public class ModuleBase {
 			throw Error("ModuleBase is framework internal class and is not meant to be instantiated. Use ModuleCore, ModuleSprite or other module classes instead.");
 		}
 		//
-		this._moduleName = moduleName;
+		_moduleName = moduleName;
 		if (autoInit) {
 			initModule();
 		}

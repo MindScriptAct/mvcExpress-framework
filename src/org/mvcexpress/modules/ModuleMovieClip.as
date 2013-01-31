@@ -41,7 +41,7 @@ public class ModuleMovieClip extends MovieClip {
 		//
 		if (autoInit) {
 			if (initOnStage) {
-				if (this.stage) {
+				if (stage) {
 					onInit();
 				} else {
 					addEventListener(Event.ADDED_TO_STAGE, handleModuleAddedToStage, false, 0, true);

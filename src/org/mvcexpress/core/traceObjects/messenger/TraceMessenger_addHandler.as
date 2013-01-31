@@ -13,11 +13,11 @@ public class TraceMessenger_addHandler extends TraceObj {
 	public var handler:Function;
 	public var handlerClassName:String;
 	
-	public function TraceMessenger_addHandler(moduleName:String, type:String, handler:Function, handlerClassName:String) {
+	public function TraceMessenger_addHandler(moduleName:String, $type:String, $handler:Function, $handlerClassName:String) {
 		super(MvcTraceActions.MESSENGER_ADDHANDLER, moduleName);
-		this.type = type;
-		this.handler = handler;
-		this.handlerClassName = handlerClassName;
+		type = $type;
+		handler = $handler;
+		handlerClassName = $handlerClassName;
 	}
 	
 	override public function toString():String {

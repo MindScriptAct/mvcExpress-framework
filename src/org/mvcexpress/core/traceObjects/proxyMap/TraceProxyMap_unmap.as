@@ -17,10 +17,10 @@ public class TraceProxyMap_unmap extends TraceObj {
 	
 	public var view:DisplayObject;
 	
-	public function TraceProxyMap_unmap(moduleName:String, injectClass:Class, name:String) {
+	public function TraceProxyMap_unmap(moduleName:String, $injectClass:Class, $name:String) {
 		super(MvcTraceActions.PROXYMAP_UNMAP, moduleName);
-		this.injectClass = injectClass;
-		this.name = name;
+		injectClass = $injectClass;
+		name = $name;
 	}
 	
 	override public function toString():String {

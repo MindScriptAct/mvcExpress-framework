@@ -15,12 +15,12 @@ public class TraceProxyMap_injectStuff extends TraceObj {
 	public var injectObject:Object;
 	public var rule:InjectRuleVO;
 	
-	public function TraceProxyMap_injectStuff(moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
+	public function TraceProxyMap_injectStuff(moduleName:String, $hostObject:Object, $injectObject:Object, $rule:InjectRuleVO) {
 		use namespace pureLegsCore;
 		super(MvcTraceActions.PROXYMAP_INJECTSTUFF, moduleName);
-		this.hostObject = hostObject;
-		this.injectObject = injectObject;
-		this.rule = rule;
+		hostObject = $hostObject;
+		injectObject = $injectObject;
+		rule = $rule;
 		//
 		canPrint = false;
 	}

@@ -15,12 +15,12 @@ public class TraceProxyMap_scopedInjectPending extends TraceObj {
 	public var injectObject:Object;
 	public var rule:InjectRuleVO;
 	
-	public function TraceProxyMap_scopedInjectPending(scopeName:String, moduleName:String, hostObject:Object, injectObject:Object, rule:InjectRuleVO) {
+	public function TraceProxyMap_scopedInjectPending($scopeName:String, moduleName:String, $hostObject:Object, $injectObject:Object, $rule:InjectRuleVO) {
 		super(MvcTraceActions.PROXYMAP_INJECTPENDING, moduleName);
-		this.scopeName = scopeName;
-		this.hostObject = hostObject;
-		this.injectObject = injectObject;
-		this.rule = rule;
+		scopeName = $scopeName;
+		hostObject = $hostObject;
+		injectObject = $injectObject;
+		rule = $rule;
 	}
 	
 	override public function toString():String {

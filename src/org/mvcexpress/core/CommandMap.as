@@ -46,11 +46,11 @@ public class CommandMap {
 	private var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
 	/** CONSTRUCTOR */
-	public function CommandMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, mediatorMap:MediatorMap) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
-		this.proxyMap = proxyMap;
-		this.mediatorMap = mediatorMap;
+	public function CommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
+		moduleName = $moduleName;
+		messenger = $messenger;
+		proxyMap = $proxyMap;
+		mediatorMap = $mediatorMap;
 	}
 	
 	//----------------------------------

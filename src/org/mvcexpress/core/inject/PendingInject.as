@@ -21,13 +21,13 @@ public class PendingInject {
 	
 	private var timerId:uint;
 	
-	public function PendingInject(injectClassAndName:String, pendingObject:Object, signatureClass:Class, pendingInjectTime:int) {
-		this.pendingInjectTime = pendingInjectTime;
-		this.injectClassAndName = injectClassAndName;
-		this.pendingObject = pendingObject;
-		this.signatureClass = signatureClass;
+	public function PendingInject($injectClassAndName:String, $pendingObject:Object, $signatureClass:Class, $pendingInjectTime:int) {
+		injectClassAndName = $injectClassAndName;
+		pendingObject = $pendingObject;
+		signatureClass = $signatureClass;
+		pendingInjectTime = $pendingInjectTime;
 		// start timer to throw an error of unresolved injection.
-		timerId = setTimeout(throwError, pendingInjectTime);
+		timerId = setTimeout(throwError, $pendingInjectTime);
 	}
 	
 	public function stopTimer():void {

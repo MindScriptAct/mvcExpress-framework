@@ -20,12 +20,12 @@ public class TraceProxyMap_scopeMap extends TraceObj {
 	
 	public var view:DisplayObject;
 	
-	public function TraceProxyMap_scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String) {
+	public function TraceProxyMap_scopeMap(moduleName:String, $scopeName:String, $proxyObject:Proxy, $injectClass:Class, $name:String) {
 		super(MvcTraceActions.PROXYMAP_SCOPEMAP, moduleName);
-		this.scopeName = scopeName;
-		this.proxyObject = proxyObject;
-		this.injectClass = injectClass;
-		this.name = name;
+		scopeName = $scopeName;
+		proxyObject = $proxyObject;
+		injectClass = $injectClass;
+		name = $name;
 	}
 	
 	override public function toString():String {

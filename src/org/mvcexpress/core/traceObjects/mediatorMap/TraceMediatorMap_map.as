@@ -12,10 +12,10 @@ public class TraceMediatorMap_map extends TraceObj {
 	public var viewClass:Class;
 	public var mediatorClass:Class;
 	
-	public function TraceMediatorMap_map(moduleName:String, viewClass:Class, mediatorClass:Class) {
+	public function TraceMediatorMap_map(moduleName:String, $viewClass:Class, $mediatorClass:Class) {
 		super(MvcTraceActions.MEDIATORMAP_MAP, moduleName);
-		this.viewClass = viewClass;
-		this.mediatorClass = mediatorClass;
+		viewClass = $viewClass;
+		mediatorClass = $mediatorClass;
 	}
 	
 	override public function toString():String {

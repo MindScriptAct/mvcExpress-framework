@@ -130,7 +130,7 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
-		this.proxyMap = iProxyMap;
+		proxyMap = iProxyMap;
 	}
 	
 	/**

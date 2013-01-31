@@ -40,10 +40,10 @@ public class MediatorMap implements IMediatorMap {
 	protected var mediatorRegistry:Dictionary = new Dictionary(); /* of Mediator by Object */
 	
 	/** CONSTRUCTOR */
-	public function MediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
-		this.proxyMap = proxyMap;
+	public function MediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+		moduleName = $moduleName;
+		messenger = $messenger;
+		proxyMap = $proxyMap;
 	}
 	
 	//----------------------------------

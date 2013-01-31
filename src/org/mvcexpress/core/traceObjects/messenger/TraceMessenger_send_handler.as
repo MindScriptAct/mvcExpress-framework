@@ -24,13 +24,13 @@ public class TraceMessenger_send_handler extends TraceObj {
 	public var messageFromProxy:Proxy;
 	public var messageFromCommand:Command;
 	
-	public function TraceMessenger_send_handler(moduleName:String, type:String, params:Object, handler:Function, handlerClassName:String) {
+	public function TraceMessenger_send_handler(moduleName:String, $type:String, $params:Object, $handler:Function, $handlerClassName:String) {
 		use namespace pureLegsCore;
 		super(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName);
-		this.type = type;
-		this.params = params;
-		this.handler = handler;
-		this.handlerClassName = handlerClassName;
+		type = $type;
+		params = $params;
+		handler = $handler;
+		handlerClassName = $handlerClassName;
 		//
 		canPrint = false;
 	}

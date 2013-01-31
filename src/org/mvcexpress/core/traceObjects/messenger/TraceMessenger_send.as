@@ -12,10 +12,10 @@ public class TraceMessenger_send extends TraceObj {
 	public var type:String;
 	public var params:Object;
 	
-	public function TraceMessenger_send(moduleName:String, type:String, params:Object) {
+	public function TraceMessenger_send(moduleName:String, $type:String, $params:Object) {
 		super(MvcTraceActions.MESSENGER_SEND, moduleName);
-		this.type = type;
-		this.params = params;
+		type = $type;
+		params = $params;
 	}
 	
 	override public function toString():String {

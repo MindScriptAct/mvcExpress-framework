@@ -57,9 +57,9 @@ public class ProxyMap implements IProxyMap {
 	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	/** CONSTRUCTOR */
-	public function ProxyMap(moduleName:String, messenger:Messenger) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
+	public function ProxyMap($moduleName:String, $messenger:Messenger) {
+		moduleName = $moduleName;
+		messenger = $messenger;
 	}
 	
 	//----------------------------------
@@ -349,7 +349,7 @@ public class ProxyMap implements IProxyMap {
 	//----------------------------------	
 	
 	pureLegsCore function setCommandMap(value:CommandMap):void {
-		this.commandMap = value;
+		commandMap = value;
 	}
 	
 	/**
