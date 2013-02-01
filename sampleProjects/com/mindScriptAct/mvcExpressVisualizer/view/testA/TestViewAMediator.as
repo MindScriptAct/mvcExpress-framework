@@ -6,7 +6,7 @@ import flash.events.Event;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestViewAMediator extends Mediator {

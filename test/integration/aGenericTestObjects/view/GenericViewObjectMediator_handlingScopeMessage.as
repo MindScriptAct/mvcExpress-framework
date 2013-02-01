@@ -4,7 +4,7 @@ import integration.aGenericTestObjects.constants.GenericTestMessage;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class GenericViewObjectMediator_handlingScopeMessage extends Mediator {

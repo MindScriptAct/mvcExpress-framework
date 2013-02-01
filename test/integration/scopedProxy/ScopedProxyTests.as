@@ -16,7 +16,6 @@ public class ScopedProxyTests {
 	
 	static public const SCOPED_PROXY_SCOPE_NAME:String = "proxyScope";
 	
-	
 	private var scopedProxyModuleA:ScopedProxyModuleA;
 	private var scopedProxyModuleB:ScopedProxyModuleB;
 	private var scopedTestProxy:ScopedTestProxy;
@@ -96,7 +95,6 @@ public class ScopedProxyTests {
 		Assert.assertEquals(" Mediator should be able to inject hosted proxy, and manipulate it.", "storedTestContent 2", scopedTestProxy.storedData);
 	}
 	
-	
 	// A host
 	// B inject to proxy
 	// inject ok
@@ -170,12 +168,12 @@ public class ScopedProxyTests {
 	// B inject to mediator
 	// inject fail
 	
-	[Test(expects = "Error")]
+	[Test(expects="Error")]
 	
 	public function scopedProxy_injectHostedToMediator_injectFails():void {
 		scopedProxyModuleB.createMediatorWithItject();
 		//throw Error("aoeu");
-	}	
+	}
 	
 	// B inject to proxy
 	// inject fail
@@ -193,7 +191,7 @@ public class ScopedProxyTests {
 	
 	public function scopedProxy_injectHostedToCommand_injectFails():void {
 		scopedProxyModuleB.storeStuffToCommand("storedTestContent");
-	}	
+	}
 	
 	// A host
 	// A unhost
@@ -231,7 +229,7 @@ public class ScopedProxyTests {
 		
 		//
 		Assert.assertEquals(" Mediator should be able to map, host, inject local proxy, and send message to manipulate it.", randomData, scopedTestProxy.storedData);
-	}	
+	}
 	
 	// A host
 	// A Map
@@ -254,7 +252,7 @@ public class ScopedProxyTests {
 		
 		//
 		Assert.assertEquals(" Mediator should be able host, map, inject local proxy, and send message to manipulate it.", randomData, scopedTestProxy.storedData);
-	}	
+	}
 	
 	//
 	// A host
@@ -323,6 +321,17 @@ public class ScopedProxyTests {
 		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
 		
 		Assert.assertEquals(" Command should be able to inject hosted proxy, and manipulate it.", "storedTestContent", scopedTestProxy.storedData);
+	}
+	
+	// unmap scoped mapping twice
+	
+	[Test]
+	
+	public function scopedProxy_unmapScopedProxyTwice_ok():void {
+		scopedTestProxy = new ScopedTestProxy();
+		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
+		scopedProxyModuleA.unhostTestProxy(ScopedTestProxy);
+		scopedProxyModuleA.unhostTestProxy(ScopedTestProxy);
 	}
 
 	//*/

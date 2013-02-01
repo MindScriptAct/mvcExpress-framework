@@ -171,7 +171,6 @@ public class MvcExpressLogger {
 		//
 		if (traceObj.canPrint) {
 			
-			// TODO: refactor 
 			logText += traceObj + "\n";
 			//
 			if (isLogShown) {

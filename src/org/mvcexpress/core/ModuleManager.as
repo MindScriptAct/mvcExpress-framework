@@ -113,22 +113,14 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_disposeModule(moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
-			// TODO : optimize unmaping for module disposing
 			// remove scoped proxies from this module
 			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
 			if (scopiedProxies) {
-				//for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
-				//var scopedProxy:Proxy = scopedProxyData.scopedProxyMap.getProxy(scopedProxyData.injectClass, scopedProxyData.name);
-				//delete scopiedProxies[scopedProxy];
-				//scopedProxyData.scopedProxyMap.scopeUnmap(scopedProxyData.scopeName, scopedProxyData.injectClass, scopedProxyData.name);
-				//}
-				
-				// TODO : consider swiching to for-each
-				for (var injectId:String in scopiedProxies) {
-					var scopedProxyData:ScopedProxyData = scopiedProxies[injectId];
+				// remove scoped proxies.
+				for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
 					var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
 					scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
-					delete scopiedProxies[injectId];
+					delete scopiedProxies[scopedProxyData.injectId];
 				}
 			}
 			//
@@ -282,13 +274,11 @@ public class ModuleManager {
 		// add scope to proxy so it could send scoped messages.
 		proxyObject.addScope(scopeName);
 		
-		// if injectClass is not provided - proxyClass will be used instead.
-		
-		// TODO : optimize unmaping for module disposing
-		
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
 		scopedProxyData.scopedProxy = proxyObject;
 		scopedProxyData.scopeName = scopeName;
+		scopedProxyData.injectId = injectId;
+		// if injectClass is not provided - proxyClass will be used instead.
 		if (injectClass) {
 			scopedProxyData.injectClass = injectClass;
 		} else {
@@ -313,11 +303,14 @@ public class ModuleManager {
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (scopedProxyMap) {
-			// TODO : optimize unmaping for module disposing
 			var injectId:String = scopedProxyMap.unmap(injectClass, name);
 			// remove scope from proxy, so it would stop sending scoped messages.
 			use namespace pureLegsCore;
-			scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
+			if (scopedProxiesByScope[moduleName]) {
+				if (scopedProxiesByScope[moduleName][injectId]) {
+					scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
+				}
+			}
 			delete scopedProxiesByScope[moduleName][injectId];
 		}
 	}
@@ -486,8 +479,11 @@ import org.mvcexpress.mvc.Proxy;
 class ScopedProxyData {
 	public var scopedProxy:Proxy;
 	public var scopeName:String;
+
 	public var injectClass:Class;
 	public var name:String;
+	
+	public var injectId:String;
 }
 
 class ScopePermissionData {

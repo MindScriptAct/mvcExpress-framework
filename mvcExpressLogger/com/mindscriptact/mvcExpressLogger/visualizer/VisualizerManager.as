@@ -171,7 +171,7 @@ public class VisualizerManager {
 							}
 						}
 					} else if (hostObject is VisualizerManager.processClass) {
-						// TODO : visualise injection into process...
+						// DOIT: visualise injection into process...
 					} else {
 						trace("!!!!!!!!!!!!ERROR!!!!!!!!!!!!! : fail to handle... ProxyMap.injectStuff object : " + hostObject);
 					}

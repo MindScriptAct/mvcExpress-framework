@@ -3,7 +3,7 @@ import integration.scopedProxy.ScopedProxyTests;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ScopedTestProxy extends Proxy {

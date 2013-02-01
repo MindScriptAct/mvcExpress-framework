@@ -5,7 +5,7 @@ import com.mindScriptAct.circularDependenciesTest.model.CProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestCommand extends Command {

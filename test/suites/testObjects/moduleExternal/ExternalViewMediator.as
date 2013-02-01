@@ -5,7 +5,7 @@ import suites.SuiteModuleNames;
 import suites.TestViewEvent;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ExternalViewMediator extends Mediator {

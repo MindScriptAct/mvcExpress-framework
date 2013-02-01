@@ -48,8 +48,6 @@ public class Console extends ModuleSprite {
 		}
 		
 		// set up commands
-		//commandMap.mapRemote(GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleTargetedMessageCommand, ModuleNames.SHELL);
-		//commandMap.mapRemote(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand, ModuleNames.SHELL);
 		commandMap.map(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand);
 		
 		commandMap.map(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL, HandleInputCommand);
@@ -62,8 +60,6 @@ public class Console extends ModuleSprite {
 		}
 		commandMap.scopeMap(ScopeNames.ALL_SCORE, GlobalMessage.SEND_TARGETED_INPUT_MESSAGE, HandleInputCommand);
 		
-		// TODO : remove after dublicating messages is fixed.
-		//commandMap.mapRemote(ConsoleViewMsg.INPUT_MESSAGE, HandleInputCommand, ModuleNames.SHELL);
 		
 		// set up view
 		proxyMap.map(new ConsoleLogProxy(consoleId));
@@ -87,7 +83,6 @@ public class Console extends ModuleSprite {
 		outputTf.y = 5;
 		
 		// add message input
-		
 		inputTf = new TextField();
 		this.addChild(inputTf);
 		inputTf.text = '';

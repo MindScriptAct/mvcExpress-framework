@@ -3,7 +3,7 @@ import org.mvcexpress.mvc.Command;
 import suites.testObjects.moduleMain.MainDataProxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class GetProxyTestCommand extends Command {

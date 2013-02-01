@@ -438,7 +438,6 @@ class ScrollSlider extends Mvce_Slider
 	
 	/**
 	 * Adjusts position of handle when value, maximum or minimum have changed.
-	 * TODO: Should also be called when slider is resized.
 	 */
 	protected override function positionHandle():void
 	{

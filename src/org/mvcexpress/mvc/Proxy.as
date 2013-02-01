@@ -32,7 +32,7 @@ public class Proxy {
 	// for sending scoped messages then injected by scope.
 	private var proxyScopes:Vector.<String> = new Vector.<String>();
 	
-	// for command classes that are dependant on this proxy.
+	// for pooled command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
 	
 	// amount of pending injections.
@@ -201,7 +201,6 @@ public class Proxy {
 	// Registers command that needs this proxy. (used for PooledCommand's only)
 	/** @private */
 	pureLegsCore function registerDependantCommand(signatureClass:Class):void {
-		// TODO : check if it is better to instantiate dictionary here.. (instead of default instantiation)
 		dependantCommands[signatureClass] = signatureClass;
 	}
 	

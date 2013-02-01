@@ -2,7 +2,7 @@ package integration.aGenericTestObjects.model {
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class GenericTestProxy extends Proxy {

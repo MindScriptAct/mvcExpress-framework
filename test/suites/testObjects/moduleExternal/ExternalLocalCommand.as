@@ -2,7 +2,7 @@ package suites.testObjects.moduleExternal {
 import org.mvcexpress.mvc.Command;
 	
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ExternalLocalCommand extends Command{

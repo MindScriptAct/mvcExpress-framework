@@ -3,7 +3,7 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Command;
 	
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://mvcexpress.org)
  */
 public class CestConstCommand extends Command {
