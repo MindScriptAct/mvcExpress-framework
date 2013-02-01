@@ -19,6 +19,7 @@ public class ScopedProxyModuleA extends ModuleCore {
 	
 	public function hostTestProxy(scopedTestProxy:ScopedTestProxy):void {
 		//trace( "ScopedProxyModuleA.hostTestProxy > scopedTestProxy : " + scopedTestProxy );
+		registerScope(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, true, true, true);
 		proxyMap.scopeMap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, scopedTestProxy);
 	}
 	
@@ -27,7 +28,7 @@ public class ScopedProxyModuleA extends ModuleCore {
 	}
 	
 	public function trigerMediatorMessage(testData:String):void {
-		
+	
 	}
 	
 	public function mapTestProxy(scopedTestProxy:ScopedTestProxy):void {
@@ -42,11 +43,11 @@ public class ScopedProxyModuleA extends ModuleCore {
 	}
 	
 	public function getMediatorProxyTestData():void {
-		
+	
 	}
 	
 	override protected function onInit():void {
-	
+		registerScope(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, true, true, true);
 	}
 	
 	override protected function onDispose():void {

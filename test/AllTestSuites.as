@@ -29,7 +29,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 	
-	/*
+	//*
 	
 	public var generalTests:GeneralTests;
 	
@@ -70,6 +70,7 @@ public class AllTestSuites {
 	//*/
 	
 	public var scopeControllTest:ScopeControlTests;
+
 }
 
 }
