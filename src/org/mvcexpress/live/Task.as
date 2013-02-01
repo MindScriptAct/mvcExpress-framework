@@ -25,14 +25,14 @@ public class Task {
 	// stores inject point variable names by inject object names.
 	private var injectPointRegistry:Dictionary = new Dictionary(); /* of Strnig by String */
 	
-	
-	// TODO : consider adding isRunnable:Boolean = true to cover _isEnabled and _missingDependencyCount
-	
 	// stores info if task is disabled by user. 
 	pureLegsCore var _isEnabled:Boolean = true;
 	
 	// stores how much injections this task is missing.
 	pureLegsCore var _missingDependencyCount:int;// = 0;
+	
+	// to covers _isEnabled and _missingDependencyCount
+	pureLegsCore var _isRunning:Boolean = true; 
 	
 	/**
 	 * Simple object for assert testing.
@@ -72,6 +72,15 @@ public class Task {
 	public function get isDisabled():Boolean {
 		use namespace pureLegsCore;
 		return _isEnabled as Boolean;
+	}
+	
+	
+	/**
+	 * Returns if tast is running. (not disabled and has all proxies injected.).
+	 */
+	public function get isRunning():Boolean {
+		use namespace pureLegsCore;
+		return _isRunning;
 	}
 	
 	//----------------------------------

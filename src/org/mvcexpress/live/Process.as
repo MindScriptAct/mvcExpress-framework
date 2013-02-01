@@ -463,6 +463,7 @@ public class Process {
 		var task:Task = taskRegistry[taskId];
 		if (task) {
 			task._isEnabled = true;
+			task._isRunning = (task._missingDependencyCount == 0);
 		} else {
 			throw Error("Task you are trying to enable is not added to process. (taskClass:" + taskClass + " name:" + name + ")");
 		}
@@ -496,6 +497,7 @@ public class Process {
 		var task:Task = taskRegistry[taskId];
 		if (task) {
 			task._isEnabled = false;
+			task._isRunning = false;
 		} else {
 			throw Error("Task you are trying to enable is not added to process. (taskClass:" + taskClass + " name:" + name + ")");
 		}
@@ -517,7 +519,7 @@ public class Process {
 			
 			retVal += "\t"
 			
-			if (!currentListTask._isEnabled || currentListTask._missingDependencyCount > 0) {
+			if (!currentListTask._isRunning) {
 				retVal += "|\t";
 			}
 			
@@ -587,7 +589,7 @@ public class Process {
 			var doFindTask:Boolean = true;
 			task = head;
 			while (doFindTask && task) {
-				if (task._isEnabled && task._missingDependencyCount == 0) {
+				if (task._isRunning) {
 					doFindTask = false;
 				} else {
 					task = task.next;
@@ -655,7 +657,7 @@ public class Process {
 				doFindTask = true;
 				task = task.next;
 				while (doFindTask && task) {
-					if (task._isEnabled && task._missingDependencyCount == 0) {
+					if (task._isRunning) {
 						doFindTask = false;
 					} else {
 						task = task.next;

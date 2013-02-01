@@ -418,9 +418,11 @@ public class ProcessMap {
 				
 				// if varieble is empty - reduce dependency count.
 				if (injectTasks[i][varname] == null) {
-					injectTasks[i]._missingDependencyCount--;
+					var task:Task = injectTasks[i];
+					task._missingDependencyCount--;
+					task._isRunning = (task._isEnabled && task._missingDependencyCount == 0);
 					// reset process cash.
-					injectTasks[i].setNotCached();
+					task.setNotCached();
 				}
 				// set new injection.
 				injectTasks[i][varname] = object;
@@ -451,11 +453,13 @@ public class ProcessMap {
 					
 					//if varieble is not empty - increase dependeny count.
 					if (injectTasks[i][varname] != null) {
-						injectTasks[i]._missingDependencyCount++;
+						var task:Task = injectTasks[i];
+						task._missingDependencyCount++;
+						task._isRunning = false;
 						// reset process cash.
-						injectTasks[i].setNotCached();
+						task.setNotCached();
 						// clear injection.
-						injectTasks[i][varname] = null;
+						task[varname] = null;
 					}
 				}
 			}
@@ -504,6 +508,7 @@ public class ProcessMap {
 				task[rules[i].varName] = injectObject;
 			} else {
 				task._missingDependencyCount++;
+				task._isRunning = false;
 			}
 			if (!injectObjectRegistry[injectName]) {
 				injectObjectRegistry[injectName] = new Vector.<Task>();
@@ -513,7 +518,7 @@ public class ProcessMap {
 		}
 	}
 	
-	// TODO : vector search used... think if it's posible to optimize it. (use linked list?)
+	// DOIT : vector search used... think if it's posible to optimize it. (use linked list?)
 	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
 		// get class injection rules. (cache is used.)
 		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
@@ -617,19 +622,26 @@ public class ProcessMap {
 		return retVal;
 	}
 	
+	// !!! code dublicated. [ProxyMap]
 	[Inline]
 	
-	// TODO : add error checking.
 	private function getInjectByContName(constName:String):String {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");
 			var className:String = split[0];
-			var splitCount:int = split.length - 1;
-			for (var spliteIndex:int = 1; spliteIndex < splitCount; spliteIndex++) {
+			var splitLength:int = split.length - 1;
+			for (var spliteIndex:int = 1; spliteIndex < splitLength; spliteIndex++) {
 				className += "." + split[spliteIndex];
 			}
-			var constClass:Class = getDefinitionByName(className) as Class;
-			classConstRegistry[constName] = constClass[split[spliteIndex]];
+			try {
+				var constClass:Class = getDefinitionByName(className) as Class;
+				classConstRegistry[constName] = constClass[split[spliteIndex]];
+				if (classConstRegistry[constName] == null) {
+					throw Error("Failed to get constant out of class:" + constClass + " Check constant name: " + split[spliteIndex]);
+				}
+			} catch (error:Error) {
+				throw Error("Failed to get constant out of constName:" + constName + " Can't get class from definition : " + className);
+			}
 		}
 		return classConstRegistry[constName];
 	}

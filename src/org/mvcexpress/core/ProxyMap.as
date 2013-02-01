@@ -40,7 +40,7 @@ public class ProxyMap implements IProxyMap {
 	
 	/////////////////
 	// mvcExpressLive
-
+	
 	// pushed into proxies so they could provide data objects
 	private var processMap:ProcessMap;
 	
@@ -366,6 +366,7 @@ public class ProxyMap implements IProxyMap {
 	pureLegsCore function setProcessMap(value:ProcessMap):void {
 		processMap = value;
 	}
+	
 	/////////////////
 	
 	/**
@@ -682,6 +683,7 @@ public class ProxyMap implements IProxyMap {
 		return retVal;
 	}
 	
+	// !!! code dublicated. [ProcessMap]
 	[Inline]
 	
 	private function getInjectByContName(constName:String):String {
