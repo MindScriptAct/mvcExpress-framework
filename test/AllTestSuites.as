@@ -41,10 +41,6 @@ public class AllTestSuites {
 	
 	public var mediatorMapTests:MediatorMapTests;
 	
-	//public var commandTests:CommandsTests;
-	
-	//public var proxyTests:ProxyTests;
-	
 	public var modularTests:ModularTests;
 	
 	public var utilsTests:UtilsTests;
@@ -67,9 +63,9 @@ public class AllTestSuites {
 	
 	public var proxyMapTests:ProxyMapTests;
 	
-	//*/
-	
 	public var scopeControllTest:ScopeControlTests;
+
+	//*/
 
 }
 

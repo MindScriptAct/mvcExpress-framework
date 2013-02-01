@@ -153,17 +153,20 @@ public class ModuleManager {
 	
 	/** sends scoped message
 	 * @private */
-	static pureLegsCore function sendScopeMessage(moduleName:String, scopeName:String, type:String, params:Object):void {
+	static pureLegsCore function sendScopeMessage(moduleName:String, scopeName:String, type:String, params:Object, checkPermisions:Boolean = true):void {
 		use namespace pureLegsCore;
 		
-		// get permission object
-		if (scopePermissionsRegistry[moduleName]) {
-			var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
-		}
-		
-		// check if action is available
-		if (!scopePermission || !scopePermission.messageSending) {
-			throw Error("Module with name:" + moduleName + " has no permition to send messages to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+		if (checkPermisions) {
+			
+			// get permission object
+			if (scopePermissionsRegistry[moduleName]) {
+				var scopePermission:ScopePermissionData = scopePermissionsRegistry[moduleName][scopeName];
+			}
+			
+			// check if action is available
+			if (!scopePermission || !scopePermission.messageSending) {
+				throw Error("Module with name:" + moduleName + " has no permition to send messages to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			}
 		}
 		
 		// send messages
@@ -229,7 +232,7 @@ public class ModuleManager {
 		
 		// check if action is available
 		if (!scopePermission || !scopePermission.messageReceiving) {
-			throw Error("Module with name:" + moduleName + " has no permition to receive messages from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to receive messages and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];

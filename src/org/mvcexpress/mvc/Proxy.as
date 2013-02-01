@@ -89,7 +89,7 @@ public class Proxy {
 		//
 		var scopeCount:int = proxyScopes.length;
 		for (var i:int; i < scopeCount; i++) {
-			ModuleManager.sendScopeMessage(moduleName, proxyScopes[i], type, params);
+			ModuleManager.sendScopeMessage(moduleName, proxyScopes[i], type, params, false);
 		}
 		//
 		// clean up logging the action

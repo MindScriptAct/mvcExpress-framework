@@ -1,11 +1,14 @@
 package integration.scopeControl {
 import integration.aGenericTestObjects.constants.GenericScopeIds;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
+import integration.aGenericTestObjects.constants.GenericTestStrings;
 import integration.aGenericTestObjects.controller.GenericCommand;
 import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.aGenericTestObjects.view.GenericViewObject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingScopeMessage;
+import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject;
+import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject_handlingScopeMessage;
 import integration.scopedProxy.testObj.moduleA.ScopedProxyModuleA;
 import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
 import integration.scopedProxy.testObj.moduleB.ScopedProxyModuleB;
@@ -135,20 +138,46 @@ public class ScopeControlTests {
 		moduleIn = new GenericTestModule("moduleIn");
 		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
 	}
-
+	
 	//----------------------------------
 	//     misc
 	//----------------------------------
+	
+	/// test can send and receive
+	
+	[Test]
+	
+	public function scopeControl_messageOutAndInWithScopeRegister_ok():void {
+		moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, true, true, false);
+		moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
+		moduleOut.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
+	}
 
-	/// test can send / but not receive
+	// inject porxy, and force it to send message on change... - not fail with receiving enabled.
+	
+	[Test]
+	
+	public function scopeControl_injectedProxyChangeShouldBeHandled_ok():void {
+		
+		var testProxy:GenericTestProxy = new GenericTestProxy();
+		
+		// set up module out
+		moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
+		moduleOut.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, testProxy);
+		
+		// set up moduleIn
+		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
+		moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withScopedInject_handlingScopeMessage);
+		
+		// triger proxy.
+		testProxy.sendMessageTest(GenericTestMessage.TEST_MESSAGE);
+		
+		// test data.
+		Assert.assertEquals("remote proxy should react to message and set data.", testProxy.testData, GenericTestStrings.data1);
 
-	/// test can receive / but not send
-
-	/// test can map / but not receive or send
-
-	// test should fail with scoped inject.
-
-	// test should not fail with scoped inject with scoped map, but not send or receive.
+	}	
+	
+	
 
 }
 }

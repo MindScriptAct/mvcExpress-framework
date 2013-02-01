@@ -7,6 +7,8 @@ import org.mvcexpress.mvc.Proxy;
  */
 public class GenericTestProxy extends Proxy {
 	
+	public var testData:String;
+	
 	public function GenericTestProxy() {
 	
 	}
@@ -19,5 +21,9 @@ public class GenericTestProxy extends Proxy {
 	
 	}
 
+	
+	public function sendMessageTest(type:String, params:Object = null):void {
+		super.sendMessage(type, params);
+	}
 }
 }

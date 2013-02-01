@@ -15,6 +15,7 @@ public class GenericViewObjectMediator_withScopedInject extends Mediator {
 	public var genericTestProxy:GenericTestProxy;
 	
 	override public function onRegister():void {
+		trace( "GenericViewObjectMediator_withScopedInject.onRegister" );
 	
 	}
 	
