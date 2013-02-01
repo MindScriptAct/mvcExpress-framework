@@ -7,7 +7,7 @@ import flash.geom.Point;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestViewBMediator extends Mediator {

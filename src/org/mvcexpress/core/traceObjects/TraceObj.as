@@ -13,8 +13,6 @@ dynamic public class TraceObj {
 	// can print debug text.
 	public var canPrint:Boolean = true;
 	
-	// TODO : check if action can be passed from on level up only. (not added with every trace obj.)
-	
 	public function TraceObj($action:String, $moduleName:String) {
 		action = $action;
 		moduleName = $moduleName;

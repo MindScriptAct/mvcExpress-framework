@@ -323,7 +323,7 @@ public class ProxyMap implements IProxyMap {
 	 * @return				true if object is already mapped.
 	 */
 	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		var retVal:Boolean;// = false;
+		var retVal:Boolean; // = false;
 		var proxyClass:Class = Object(proxyObject).constructor as Class;
 		if (!injectClass) {
 			injectClass = proxyClass;
@@ -412,7 +412,6 @@ public class ProxyMap implements IProxyMap {
 		messenger = null;
 	}
 	
-	// TODO : consider making this function public...
 	/**
 	 * Finds inject points and injects dependencies.
 	 * tempValue and tempClass defines injection that will be done for current object only.
@@ -445,7 +444,7 @@ public class ProxyMap implements IProxyMap {
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
-			// TODO : TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
+			// DOIT: TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
 			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
@@ -685,7 +684,6 @@ public class ProxyMap implements IProxyMap {
 	
 	[Inline]
 	
-	// TODO : add error checking.
 	private function getInjectByContName(constName:String):String {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");
@@ -694,8 +692,15 @@ public class ProxyMap implements IProxyMap {
 			for (var spliteIndex:int = 1; spliteIndex < splitLength; spliteIndex++) {
 				className += "." + split[spliteIndex];
 			}
-			var constClass:Class = getDefinitionByName(className) as Class;
-			classConstRegistry[constName] = constClass[split[spliteIndex]];
+			try {
+				var constClass:Class = getDefinitionByName(className) as Class;
+				classConstRegistry[constName] = constClass[split[spliteIndex]];
+				if (classConstRegistry[constName] == null) {
+					throw Error("Failed to get constant out of class:" + constClass + " Check constant name: " + split[spliteIndex]);
+				}
+			} catch (error:Error) {
+				throw Error("Failed to get constant out of constName:" + constName + " Can't get class from definition : " + className);
+			}
 		}
 		return classConstRegistry[constName];
 	}

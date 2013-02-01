@@ -4,7 +4,7 @@ import integration.commandPooling.testObj.CommPoolingDependencyProxy;
 import org.mvcexpress.mvc.PooledCommand;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class CommPoolingLockedFailCommand extends PooledCommand {

@@ -4,7 +4,7 @@ import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestCommandA extends Command {

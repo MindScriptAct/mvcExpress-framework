@@ -3,7 +3,7 @@ import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
 import org.mvcexpress.mvc.Command;
 	
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rbanevicius
  */
 public class ScopedProxpyTestCommand extends Command{

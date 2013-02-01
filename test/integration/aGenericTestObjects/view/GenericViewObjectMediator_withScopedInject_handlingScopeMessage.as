@@ -6,7 +6,7 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage extends Mediator {

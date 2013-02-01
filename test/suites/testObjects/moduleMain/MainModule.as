@@ -47,7 +47,7 @@ public class MainModule extends ModuleSprite {
 	}
 	
 	//public function createRemoteCommand(message:String):void {
-		//commandMap.mapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
+	//commandMap.mapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
 	//}
 	
 	public function createRemoteHandler(message:String):void {
@@ -75,7 +75,7 @@ public class MainModule extends ModuleSprite {
 	}
 	
 	//public function removeRemoteCommand(message:String):void {
-		//commandMap.unmapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
+	//commandMap.unmapRemote(message, MainRemoteCommand, SuiteModuleNames.EXTERNAL_MODULE);
 	//}
 	
 	public function removeRemoteHandler(message:String):void {
@@ -136,10 +136,9 @@ public class MainModule extends ModuleSprite {
 		return dataProxy.remoteHandlerCount;
 	}
 
-	
-	// TODO : add tests with hosting.
-	
-	// TODO : add tests with multiply proxiest.?? (maybe dont belong here..)
-	
+	// add tests with hosting ? 
+
+	// add tests with multiply proxiest.?? (maybe dont belong here..)
+
 }
 }

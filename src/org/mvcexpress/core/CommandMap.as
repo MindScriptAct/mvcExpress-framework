@@ -79,13 +79,23 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type]
+		var messageClasses:Vector.<Class> = classRegistry[type];
 		if (!messageClasses) {
 			messageClasses = new Vector.<Class>();
 			classRegistry[type] = messageClasses;
 			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		}
-		// TODO : check if command is already added. (in DEBUG mode only?.)
+		
+		// check if command is already added.
+		CONFIG::debug {
+			var commandCount:int = messageClasses.length;
+			for (var i:int = 0; i < commandCount; i++) {
+				if (messageClasses[i] == commandClass) {
+					throw Error("Command:" + commandClass + " is already mapped to message type:" + type);
+				}
+			}
+		}
+		
 		messageClasses[messageClasses.length] = commandClass;
 	}
 	
@@ -100,12 +110,12 @@ public class CommandMap {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
-		var commandList:Vector.<Class> = classRegistry[type];
-		if (commandList) {
-			var commandCount:int = commandList.length;
+		var messageClasses:Vector.<Class> = classRegistry[type];
+		if (messageClasses) {
+			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
-				if (commandClass == commandList[i]) {
-					commandList.splice(i, 1);
+				if (commandClass == messageClasses[i]) {
+					messageClasses.splice(i, 1);
 					break;
 				}
 			}
@@ -207,15 +217,25 @@ public class CommandMap {
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var commandList:Vector.<Class> = classRegistry[scopedType];
-		if (!commandList) {
-			commandList = new Vector.<Class>();
-			classRegistry[scopedType] = commandList;
-			// TODO : check if channelCommandMap must be here...
+		var messageClasses:Vector.<Class> = classRegistry[scopedType];
+		if (!messageClasses) {
+			messageClasses = new Vector.<Class>();
+			classRegistry[scopedType] = messageClasses;
+			// add scoped command handler.
 			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 		}
-		// TODO : check if command is already added. (in DEBUG mode only?.)
-		commandList[commandList.length] = commandClass;
+		
+		// check if command is already added.
+		CONFIG::debug {
+			var commandCount:int = messageClasses.length;
+			for (var i:int = 0; i < commandCount; i++) {
+				if (messageClasses[i] == commandClass) {
+					throw Error("Command:" + commandClass + " is already mapped to scopeName:" + scopeName + " with message type:" + type);
+				}
+			}
+		}
+		
+		messageClasses[messageClasses.length] = commandClass;
 	}
 	
 	/**
@@ -227,12 +247,12 @@ public class CommandMap {
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var commandList:Vector.<Class> = classRegistry[scopedType];
-		if (commandList) {
-			var commandCount:int = commandList.length;
+		var messageClasses:Vector.<Class> = classRegistry[scopedType];
+		if (messageClasses) {
+			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
-				if (commandClass == commandList[i]) {
-					commandList.splice(i, 1);
+				if (commandClass == messageClasses[i]) {
+					messageClasses.splice(i, 1);
 					break;
 				}
 			}
@@ -272,7 +292,7 @@ public class CommandMap {
 	 * @return					true if Command class is already mapped to message
 	 */
 	public function isMapped(type:String, commandClass:Class):Boolean {
-		var retVal:Boolean;// = false;
+		var retVal:Boolean; // = false;
 		if (classRegistry[type]) {
 			var mappedClasses:Vector.<Class> = classRegistry[type];
 			var classCaunt:int = mappedClasses.length;
@@ -342,13 +362,13 @@ public class CommandMap {
 		use namespace pureLegsCore;
 		
 		var command:Command;
-		var commandList:Vector.<Class>;
+		var messageClasses:Vector.<Class>;
 		
-		commandList = classRegistry[messageType];
-		if (commandList) {
-			var commandCount:int = commandList.length;
+		messageClasses = classRegistry[messageType];
+		if (messageClasses) {
+			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
-				var commandClass:Class = commandList[i];
+				var commandClass:Class = messageClasses[i];
 				
 				//////////////////////////////////////////////
 				////// INLINE FUNCTION runCommand() START
@@ -427,15 +447,16 @@ public class CommandMap {
 		if (!commandClassParamTypes[commandClass]) {
 			
 			var classDescription:XML = describeType(commandClass);
-			var hasExecute:Boolean;// = false;
-			var parameterCount:int;// = 0;
+			var hasExecute:Boolean; // = false;
+			var parameterCount:int; // = 0;
 			
-			// TODO : optimize..
+			// find execute method.
 			var methodList:XMLList = classDescription.factory.method;
 			var methodCount:int = methodList.length();
 			for (var i:int; i < methodCount; i++) {
 				if (methodList[i].@name == "execute") {
 					hasExecute = true;
+					// check parameter ammount.
 					var paramList:XMLList = methodList[i].parameter;
 					parameterCount = paramList.length();
 					if (parameterCount == 1) {

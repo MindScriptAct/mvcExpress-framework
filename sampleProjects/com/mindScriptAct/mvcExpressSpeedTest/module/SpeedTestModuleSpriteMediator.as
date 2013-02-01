@@ -6,7 +6,7 @@ import flash.display.Sprite;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class SpeedTestModuleSpriteMediator extends Mediator {

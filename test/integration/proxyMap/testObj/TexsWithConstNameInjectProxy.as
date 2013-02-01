@@ -3,7 +3,7 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class TexsWithConstNameInjectProxy extends Proxy {

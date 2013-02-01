@@ -4,7 +4,7 @@ import com.mindScriptAct.codeSnippets.model.SampleProxy;
 import org.mvcexpress.mvc.Command;
 	
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ManyInjectsCommand extends Command{

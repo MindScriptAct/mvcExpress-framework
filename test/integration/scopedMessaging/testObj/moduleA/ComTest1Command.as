@@ -3,7 +3,7 @@ import integration.scopedMessaging.testObj.moduleB.ChannelModuleB;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ComTest1Command extends Command {

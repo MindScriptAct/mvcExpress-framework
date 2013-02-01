@@ -138,9 +138,9 @@ public class MainModuleFull extends ModuleSprite {
 	}
 
 	
-	// TODO : add tests with hosting.
+	// add tests with hosting.
 	
-	// TODO : add tests with multiply proxiest.?? (maybe dont belong here..)
+	// add tests with multiply proxiest.?? (maybe dont belong here..)
 	
 }
 }

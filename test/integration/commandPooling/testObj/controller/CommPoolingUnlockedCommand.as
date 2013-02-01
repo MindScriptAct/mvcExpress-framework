@@ -2,7 +2,7 @@ package integration.commandPooling.testObj.controller {
 import org.mvcexpress.mvc.PooledCommand;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class CommPoolingUnlockedCommand extends PooledCommand {

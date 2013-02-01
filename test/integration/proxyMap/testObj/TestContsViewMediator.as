@@ -3,7 +3,7 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://mvcexpress.org)
  */
 public class TestContsViewMediator extends Mediator {

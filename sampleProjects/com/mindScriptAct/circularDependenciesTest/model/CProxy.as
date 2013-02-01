@@ -2,7 +2,7 @@ package com.mindScriptAct.circularDependenciesTest.model {
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class CProxy extends Proxy {

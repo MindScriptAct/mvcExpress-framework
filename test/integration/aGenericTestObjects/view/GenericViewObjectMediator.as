@@ -2,7 +2,7 @@ package integration.aGenericTestObjects.view {
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class GenericViewObjectMediator extends Mediator{

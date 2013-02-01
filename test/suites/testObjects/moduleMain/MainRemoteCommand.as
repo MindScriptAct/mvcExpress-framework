@@ -2,7 +2,7 @@ package suites.testObjects.moduleMain {
 import org.mvcexpress.mvc.Command;
 	
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MainRemoteCommand extends Command{

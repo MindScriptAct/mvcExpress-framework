@@ -2,7 +2,7 @@ package com.mindScriptAct.mvcExpressVisualizer.model {
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestProxyC extends Proxy{

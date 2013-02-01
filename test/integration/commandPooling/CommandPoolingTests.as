@@ -80,7 +80,6 @@ public class CommandPoolingTests {
 		commandPoolModuleCommandMap.map(EXECUTE_SIMPLE_POOLED_COMMAND, CommPoolingSimpleCommand);
 		commandPoolingModule.sendLocalMessage(EXECUTE_SIMPLE_POOLED_COMMAND);
 		commandPoolModuleCommandMap.clearCommandPool(CommPoolingSimpleCommand);
-		commandPoolModuleCommandMap.map(EXECUTE_SIMPLE_POOLED_COMMAND, CommPoolingSimpleCommand);
 		commandPoolingModule.sendLocalMessage(EXECUTE_SIMPLE_POOLED_COMMAND);
 		
 		Assert.assertEquals("Pooled command should be created twice after it is cleared.", 2, CommPoolingSimpleCommand.constructCount);

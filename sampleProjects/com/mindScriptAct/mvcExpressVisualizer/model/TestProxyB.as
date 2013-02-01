@@ -3,7 +3,7 @@ import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class TestProxyB extends Proxy implements ITestProxyB {

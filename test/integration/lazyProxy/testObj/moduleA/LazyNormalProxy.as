@@ -2,7 +2,7 @@ package integration.lazyProxy.testObj.moduleA {
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rbanevicius
  */
 public class LazyNormalProxy extends Proxy{
