@@ -41,11 +41,11 @@ dynamic public class Command {
 	
 	//flag to store if command is executed by commandMap.
 	/** @private */
-	pureLegsCore var isExecuting:Boolean;// = false;
+	pureLegsCore var isExecuting:Boolean; // = false;
 	
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;// = false;
+	static pureLegsCore var canConstruct:Boolean; // = false;
 	
 	/** CONSTRUCTOR */
 	public function Command() {
@@ -70,15 +70,14 @@ dynamic public class Command {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceCommand_sendMessage(moduleName, this, type, params, true));
+			MvcExpress.debug(new TraceCommand_sendMessage(messenger.moduleName, this, type, params, true));
 		}
 		//
 		messenger.send(type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			MvcExpress.debug(new TraceCommand_sendMessage(moduleName, this, type, params, false));
+			MvcExpress.debug(new TraceCommand_sendMessage(messenger.moduleName, this, type, params, false));
 		}
 	}
 	
@@ -92,16 +91,39 @@ dynamic public class Command {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(moduleName, this, type, params, true));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(messenger.moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
+		ModuleManager.sendScopeMessage(messenger.moduleName, scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			MvcExpress.debug(new TraceCommand_sendScopeMessage(moduleName, this, type, params, false));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(messenger.moduleName, this, type, params, false));
 		}
+	}
+	
+	/**
+	 * Registers scope name.
+	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
+	 * What features module can use with that scope is defined by parameters.
+	 * @param	scopeName			Name of the scope.
+	 * @param	messageSending		Modules can send messages to this scope.
+	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param	proxieMap			Modules can map proxies to this scope.
+	 */
+	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		use namespace pureLegsCore;
+		ModuleManager.registerScope(messenger.moduleName, scopeName, messageSending, messageReceiving, proxieMap);
+	}
+	
+	/**
+	 * Unregisters scope name.
+	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
+	 * @param	scopeName			Name of the scope.
+	 */
+	protected function unregisterScope(scopeName:String):void {
+		use namespace pureLegsCore;
+		ModuleManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
 	//----------------------------------
