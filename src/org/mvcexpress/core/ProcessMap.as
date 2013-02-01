@@ -65,10 +65,10 @@ public class ProcessMap {
 	private var injectObjectRegistry:Dictionary = new Dictionary(); /* of Vector.<Task> by String */
 	
 	/* CONSTUCTOR */
-	public function ProcessMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
-		this.proxyMap = proxyMap;
+	public function ProcessMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+		moduleName = $moduleName;
+		messenger = $messenger;
+		proxyMap = $proxyMap;
 	}
 	
 	//----------------------------------
@@ -79,11 +79,11 @@ public class ProcessMap {
 	 * Sets stage for framework to be used for enterFrame processes.
 	 * @param	stage	application Stage.
 	 */
-	public function setStage(stage:Stage):void {
-		if (this.stage) {
+	public function setStage($stage:Stage):void {
+		if (stage) {
 			throw Error("Stage was already set for ProcessMap.");
 		}
-		this.stage = stage;
+		stage = $stage;
 	}
 	
 	//----------------------------------
@@ -108,10 +108,10 @@ public class ProcessMap {
 		}
 		
 		// get process id
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		var className:String = qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+			qualifiedClassNameRegistry[processClass] = className
 		}
 		var processId:String = className + name;
 		
@@ -161,10 +161,10 @@ public class ProcessMap {
 		}
 		
 		// get process id
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		var className:String = qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+			qualifiedClassNameRegistry[processClass] = className
 		}
 		var processId:String = className + name;
 		
@@ -207,10 +207,10 @@ public class ProcessMap {
 		use namespace pureLegsCore;
 		
 		// get process id
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		var className:String = qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+			qualifiedClassNameRegistry[processClass] = className
 		}
 		var processId:String = className + name;
 		
@@ -242,14 +242,13 @@ public class ProcessMap {
 	 * @param	name			Optional name for process.
 	 */
 	public function startProcess(processClass:Class, name:String = ""):void {
-		//trace("ProcessMap.startProcess > processClass : " + processClass);
 		use namespace pureLegsCore;
 		
 		// get process id
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		var className:String = qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+			qualifiedClassNameRegistry[processClass] = className
 		}
 		var processId:String = className + name;
 		
@@ -269,14 +268,13 @@ public class ProcessMap {
 	 * @param	name			Optional name for process.
 	 */
 	public function stopProcess(processClass:Class, name:String = ""):void {
-		//trace("ProcessMap.stopProcess > processClass : " + processClass + ", name : " + name);
 		use namespace pureLegsCore;
 		
 		// get process id
-		var className:String = ProcessMap.qualifiedClassNameRegistry[processClass];
+		var className:String = qualifiedClassNameRegistry[processClass];
 		if (!className) {
 			className = getQualifiedClassName(processClass);
-			ProcessMap.qualifiedClassNameRegistry[processClass] = className
+			qualifiedClassNameRegistry[processClass] = className
 		}
 		var processId:String = className + name;
 		
@@ -317,12 +315,12 @@ public class ProcessMap {
 				process._isRunning = true;
 				if (process.processType == Process.FRAME_PROCESS) {
 					if (runningFrameProcesses.length == 0) {
-						if (this.stage) {
-							this.stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+						if (stage) {
+							stage.addEventListener(Event.ENTER_FRAME, handleFrameProcesses);
 						} else {
 							throw Error("ProcessMap needs Stage set, if you want frame pcocesses to be able to run. Use 'processMap.setStage(...)' to set it. ");
 						}
-						runningFrameProcesses.push(process);
+						runningFrameProcesses[runningFrameProcesses.length] = process;
 					}
 				} else {
 					var timer:Timer = timerRegistry[process.processId];
@@ -336,9 +334,9 @@ public class ProcessMap {
 	
 	// special function to handle enter frame events.
 	private function handleFrameProcesses(event:Event):void {
-		//trace( "ProcessMap.handleFrameProcesses > event : " + event );
 		use namespace pureLegsCore;
-		for (var i:int = 0; i < runningFrameProcesses.length; i++) {
+		var frameProcessCount:int = runningFrameProcesses.length;
+		for (var i:int = 0; i < frameProcessCount; i++) {
 			var process:Process = runningFrameProcesses[i];
 			if (process.totalFrameSkip > 0) {
 				if (process.currentFrameSkip > 0) {
@@ -361,13 +359,14 @@ public class ProcessMap {
 				process._isRunning = false;
 				if (process.processType == Process.FRAME_PROCESS) {
 					// find process for removal..
-					for (var i:int = 0; i < runningFrameProcesses.length; i++) {
+					var frameProcessCount:int = runningFrameProcesses.length;
+					for (var i:int = 0; i < frameProcessCount; i++) {
 						if (runningFrameProcesses[i] == process) {
 							runningFrameProcesses.splice(i, 1);
 							// remove handler if there is nothing to handle.
 							if (runningFrameProcesses.length == 0) {
-								if (this.stage) {
-									this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+								if (stage) {
+									stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
 								}
 							}
 							break;
@@ -413,7 +412,8 @@ public class ProcessMap {
 		//add this inject in all existing tasks using it.
 		var injectTasks:Vector.<Task> = injectObjectRegistry[name];
 		if (injectTasks) {
-			for (var i:int = 0; i < injectTasks.length; i++) {
+			var injectTaskCount:int = injectTasks.length;
+			for (var i:int = 0; i < injectTaskCount; i++) {
 				var varname:String = injectTasks[i].getInjectPoint(name);
 				
 				// if varieble is empty - reduce dependency count.
@@ -445,7 +445,8 @@ public class ProcessMap {
 			// clear all injects in tasks existing tasks...
 			var injectTasks:Vector.<Task> = injectObjectRegistry[name];
 			if (injectTasks) {
-				for (var i:int = 0; i < injectTasks.length; i++) {
+				var injectTaskCount:int = injectTasks.length;
+				for (var i:int = 0; i < injectTaskCount; i++) {
 					var varname:String = injectTasks[i].getInjectPoint(name);
 					
 					//if varieble is not empty - increase dependeny count.
@@ -466,18 +467,18 @@ public class ProcessMap {
 	//----------------------------------
 	
 	pureLegsCore function initTask(task:Task, signatureClass:Class):void {
-		//trace("ProcessMap.initTask > task : " + task + ", signatureClass : " + signatureClass);
 		use namespace pureLegsCore;
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
 		if (!rules) {
 			rules = getInjectRules(signatureClass);
-			ProcessMap.classInjectRules[signatureClass] = rules;
+			classInjectRules[signatureClass] = rules;
 		}
 		
 		// injects all proxy object dependencies using rules.
-		for (var i:int = 0; i < rules.length; i++) {
+		var ruleCount:int = rules.length;
+		for (var i:int = 0; i < ruleCount; i++) {
 			CONFIG::debug {
 				if (rules[i] is TestRuleVO) {
 					var testRule:TestRuleVO = rules[i] as TestRuleVO;
@@ -489,6 +490,7 @@ public class ProcessMap {
 						taskTestVo.currentDelay = testRule.testDelay;
 						taskTestVo.currentTimer = getTimer();
 						task.tests.push(taskTestVo);
+						
 					}
 					continue;
 				}
@@ -506,20 +508,23 @@ public class ProcessMap {
 			if (!injectObjectRegistry[injectName]) {
 				injectObjectRegistry[injectName] = new Vector.<Task>();
 			}
-			injectObjectRegistry[injectName].push(task);
+			var injectObjectTasks:Vector.<Task> = injectObjectRegistry[injectName];
+			injectObjectTasks[injectObjectTasks.length] = task;
 		}
 	}
 	
 	// TODO : vector search used... think if it's posible to optimize it. (use linked list?)
 	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
 		// get class injection rules. (cache is used.)
-		var rules:Vector.<InjectRuleVO> = ProcessMap.classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
 		
 		// find task by inject object name and remove it.
-		for (var i:int = 0; i < rules.length; i++) {
+		var ruleCount:int = rules.length;
+		for (var i:int = 0; i < ruleCount; i++) {
 			var allTasks:Vector.<Task> = injectObjectRegistry[rules[i].injectClassAndName];
 			if (allTasks) {
-				for (var j:int = 0; j < allTasks.length; j++) {
+				var taskCount:int = allTasks.length;
+				for (var j:int = 0; j < taskCount; j++) {
 					if (allTasks[j] == task) {
 						allTasks.splice(j, 1);
 						break;
@@ -543,18 +548,21 @@ public class ProcessMap {
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
 		
-		for (var i:int = 0; i < factoryNodes.length(); i++) {
+		var nodeCount:int = factoryNodes.length();
+		for (var i:int = 0; i < nodeCount; i++) {
 			var node:XML = factoryNodes[i];
 			var nodeName:String = node.name();
 			if (nodeName == "variable" || nodeName == "accessor") {
 				var metadataList:XMLList = node.metadata;
-				for (var j:int = 0; j < metadataList.length(); j++) {
+				var metadataCount:int = metadataList.length();
+				for (var j:int = 0; j < metadataCount; j++) {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
 						var injectName:String = "";
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
-						for (var k:int = 0; k < args.length(); k++) {
+						var argCount:int = args.length();
+						for (var k:int = 0; k < argCount; k++) {
 							var argKey:String = args[k].@key
 							if (argKey == "name") {
 								injectName = args[k].@value;
@@ -571,7 +579,7 @@ public class ProcessMap {
 						mapRule.varName = node.@name.toString();
 						mapRule.injectClassAndName = injectName;
 						mapRule.scopeName = scopeName;
-						retVal.push(mapRule);
+						retVal[retVal.length] = mapRule
 					}
 					
 				}
@@ -579,13 +587,15 @@ public class ProcessMap {
 			CONFIG::debug {
 				if (nodeName == "method") {
 					var methodMetadataList:XMLList = node.metadata;
-					for (var m:int = 0; m < methodMetadataList.length(); m++) {
+					var methodCount:int = methodMetadataList.length();
+					for (var m:int = 0; m < methodCount; m++) {
 						nodeName = methodMetadataList[m].@name;
 						if (nodeName == "Test") {
 							var testDelay:int = 0;
 							var testCount:int = 1;
 							var testArgs:XMLList = methodMetadataList[m].arg;
-							for (var n:int = 0; n < testArgs.length(); n++) {
+							var cestArgCount:int = testArgs.length();
+							for (var n:int = 0; n < cestArgCount; n++) {
 								if (testArgs[n].@key == "delay") {
 									testDelay = int(testArgs[n].@value);
 								} else if (testArgs[n].@key == "count") {
@@ -598,7 +608,7 @@ public class ProcessMap {
 							testRule.testDelay = testDelay;
 							testRule.testCount = testCount;
 							
-							retVal.push(testRule);
+							retVal[retVal.length] = testRule;
 						}
 					}
 				}
@@ -614,7 +624,8 @@ public class ProcessMap {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");
 			var className:String = split[0];
-			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+			var splitCount:int = split.length - 1;
+			for (var spliteIndex:int = 1; spliteIndex < splitCount; spliteIndex++) {
 				className += "." + split[spliteIndex];
 			}
 			var constClass:Class = getDefinitionByName(className) as Class;
@@ -637,9 +648,9 @@ public class ProcessMap {
 			process.remove();
 		}
 		processRegistry = null;
-		if (this.stage) {
-			if (this.stage.hasEventListener(Event.ENTER_FRAME)) {
-				this.stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
+		if (stage) {
+			if (stage.hasEventListener(Event.ENTER_FRAME)) {
+				stage.removeEventListener(Event.ENTER_FRAME, handleFrameProcesses);
 			}
 		}
 		stage = null;

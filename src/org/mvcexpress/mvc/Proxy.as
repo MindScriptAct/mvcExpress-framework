@@ -176,8 +176,8 @@ public class Proxy {
 	 * @param	iProcessMap
 	 * @private
 	 */
-	pureLegsCore function setProcessMap(processMap:ProcessMap):void {
-		this.processMap = processMap;
+	pureLegsCore function setProcessMap($processMap:ProcessMap):void {
+		processMap = $processMap;
 	}
 
 	// mvcExpressLive

@@ -12,10 +12,10 @@ public class TraceProcess_enableTask extends TraceObj {
 	public var taskClass:Class;
 	public var name:String;
 	
-	public function TraceProcess_enableTask(action:String, moduleName:String, taskClass:Class, name:String) {
+	public function TraceProcess_enableTask(action:String, moduleName:String, $taskClass:Class, $name:String) {
 		super(action, moduleName);
-		this.taskClass = taskClass;
-		this.name = name;
+		taskClass = $taskClass;
+		name = $name;
 	}
 	
 	override public function toString():String {

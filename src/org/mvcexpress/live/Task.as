@@ -32,7 +32,7 @@ public class Task {
 	pureLegsCore var _isEnabled:Boolean = true;
 	
 	// stores how much injections this task is missing.
-	pureLegsCore var _missingDependencyCount:int = 0;
+	pureLegsCore var _missingDependencyCount:int;// = 0;
 	
 	/**
 	 * Simple object for assert testing.
@@ -127,7 +127,7 @@ public class Task {
 		var retVal:Vector.<String> = new Vector.<String>();
 		for (var name:String in injectPointRegistry) {
 			if (this[injectPointRegistry[name]] == null) {
-				retVal.push(name);
+				retVal[retVal.length] = name;
 			}
 		}
 		return retVal;
@@ -148,7 +148,8 @@ public class Task {
 		assert = null;
 		injectPointRegistry = null;
 		CONFIG::debug {
-			for (var i:int = 0; i < tests.length; i++) {
+			var taskCount:int = tests.length;
+			for (var i:int = 0; i < taskCount; i++) {
 				tests[i].testFunction = null;
 			}
 			tests = null;

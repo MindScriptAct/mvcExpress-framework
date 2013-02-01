@@ -13,11 +13,11 @@ public class TraceProcess_addTaskAfter extends TraceObj {
 	public var name:String;
 	public var skip:Boolean;
 	
-	public function TraceProcess_addTaskAfter(action:String, moduleName:String, taskClass:Class, name:String, skip:Boolean = false) {
+	public function TraceProcess_addTaskAfter(action:String, moduleName:String, $taskClass:Class, $name:String, $skip:Boolean = false) {
 		super(action, moduleName);
-		this.skip = skip;
-		this.taskClass = taskClass;
-		this.name = name;
+		skip = $skip;
+		taskClass = $taskClass;
+		name = $name;
 	}
 	
 	override public function toString():String {

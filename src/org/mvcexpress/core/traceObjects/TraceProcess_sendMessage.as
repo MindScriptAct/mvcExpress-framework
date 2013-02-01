@@ -12,11 +12,11 @@ public class TraceProcess_sendMessage extends TraceObj_SendMessage {
 	public var type:String;
 	public var params:Object;
 	
-	public function TraceProcess_sendMessage(action:String, moduleName:String, processObject:Process, type:String, params:Object) {
+	public function TraceProcess_sendMessage(action:String, moduleName:String, $processObject:Process, $type:String, $params:Object) {
 		super(action, moduleName);
-		this.processObject = processObject;
-		this.type = type;
-		this.params = params;
+		processObject = $processObject;
+		type = $type;
+		params = $params;
 		//
 		canPrint = false;
 	}

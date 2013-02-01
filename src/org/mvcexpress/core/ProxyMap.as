@@ -364,7 +364,7 @@ public class ProxyMap implements IProxyMap {
 	/////////////////
 	// mvcExpressLive
 	pureLegsCore function setProcessMap(value:ProcessMap):void {
-		this.processMap = value;
+		processMap = value;
 	}
 	/////////////////
 	

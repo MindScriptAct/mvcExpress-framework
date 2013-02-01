@@ -12,10 +12,10 @@ public class TraceProcessMap_unprovide extends TraceObj {
 	public var name:String;
 	public var object:Object;
 	
-	public function TraceProcessMap_unprovide(action:String, moduleName:String, name:String, object:Object) {
+	public function TraceProcessMap_unprovide(action:String, moduleName:String, $name:String, $object:Object) {
 		super(action, moduleName);
-		this.name = name;
-		this.object = object;
+		name = $name;
+		object = $object;
 	}
 	
 	override public function toString():String {

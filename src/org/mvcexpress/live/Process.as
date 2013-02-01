@@ -49,8 +49,8 @@ public class Process {
 	pureLegsCore var processType:int;
 	pureLegsCore var processId:String;
 	
-	pureLegsCore var totalFrameSkip:int = 0;
-	pureLegsCore var currentFrameSkip:int = 0;
+	pureLegsCore var totalFrameSkip:int;// = 0;
+	pureLegsCore var currentFrameSkip:int;// = 0;
 	
 	// all process tasks.
 	private var taskRegistry:Dictionary = new Dictionary();
@@ -61,10 +61,10 @@ public class Process {
 	private var tail:Task;
 	
 	// indicates if task cash should be used.
-	private var isCached:Boolean = false;
+	private var isCached:Boolean;// = false;
 	
 	// will reset cash with next run. (with every task add/remove or injection provide/unprovide or task enable/disable.)
-	pureLegsCore var needCashNext:Boolean = false;
+	pureLegsCore var needCashNext:Boolean;// = false;
 	
 	// cash of running tasks. 
 	private var processCache:Vector.<Task> = new Vector.<Task>();
@@ -81,12 +81,12 @@ public class Process {
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 	
 	// indicates if process is running.
-	pureLegsCore var _isRunning:Boolean = false;
+	pureLegsCore var _isRunning:Boolean;// = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean = false;
+	static pureLegsCore var canConstruct:Boolean;// = false;
 	
 	public function Process() {
 		CONFIG::debug {
@@ -166,10 +166,10 @@ public class Process {
 			// TODO ...
 			//MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
 			
-			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler, getQualifiedClassName(this));
 			return;
 		}
-		handlerVoRegistry.push(messenger.addHandler(type, handler));
+		handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler);
 	}
 	
 	/**
@@ -211,10 +211,10 @@ public class Process {
 		needCashNext = true;
 		
 		// get task id
-		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		var className:String = qualifiedClassNameRegistry[taskClass];
 		if (!className) {
 			className = getQualifiedClassName(taskClass);
-			Process.qualifiedClassNameRegistry[taskClass] = className
+			qualifiedClassNameRegistry[taskClass] = className
 		}
 		var taskId:String = className + name;
 		
@@ -258,10 +258,10 @@ public class Process {
 		needCashNext = true;
 		
 		// get task id
-		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		var className:String = qualifiedClassNameRegistry[taskClass];
 		if (!className) {
 			className = getQualifiedClassName(taskClass);
-			Process.qualifiedClassNameRegistry[taskClass] = className
+			qualifiedClassNameRegistry[taskClass] = className
 		}
 		var taskId:String = className + name;
 		
@@ -307,10 +307,10 @@ public class Process {
 		needCashNext = true;
 		
 		// after task id
-		var afterClassName:String = Process.qualifiedClassNameRegistry[afterTaskClass];
+		var afterClassName:String = qualifiedClassNameRegistry[afterTaskClass];
 		if (!afterClassName) {
 			afterClassName = getQualifiedClassName(afterTaskClass);
-			Process.qualifiedClassNameRegistry[afterTaskClass] = afterClassName
+			qualifiedClassNameRegistry[afterTaskClass] = afterClassName
 		}
 		var afterTaskId:String = afterClassName + afterName;
 		
@@ -319,10 +319,10 @@ public class Process {
 		if (afterTask != null) {
 			
 			// get task id
-			var className:String = Process.qualifiedClassNameRegistry[taskClass];
+			var className:String = qualifiedClassNameRegistry[taskClass];
 			if (!className) {
 				className = getQualifiedClassName(taskClass);
-				Process.qualifiedClassNameRegistry[taskClass] = className
+				qualifiedClassNameRegistry[taskClass] = className
 			}
 			var taskId:String = className + name;
 			
@@ -370,10 +370,10 @@ public class Process {
 		// mark process as not cached.
 		needCashNext = true;
 		
-		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		var className:String = qualifiedClassNameRegistry[taskClass];
 		if (!className) {
 			className = getQualifiedClassName(taskClass);
-			Process.qualifiedClassNameRegistry[taskClass] = className
+			qualifiedClassNameRegistry[taskClass] = className
 		}
 		var taskId:String = className + name;
 		
@@ -447,10 +447,10 @@ public class Process {
 		// mark process as not cached.
 		needCashNext = true;
 		
-		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		var className:String = qualifiedClassNameRegistry[taskClass];
 		if (!className) {
 			className = getQualifiedClassName(taskClass);
-			Process.qualifiedClassNameRegistry[taskClass] = className
+			qualifiedClassNameRegistry[taskClass] = className
 		}
 		var taskId:String = className + name;
 		
@@ -480,10 +480,10 @@ public class Process {
 		// mark process as not cached.
 		needCashNext = true;
 		
-		var className:String = Process.qualifiedClassNameRegistry[taskClass];
+		var className:String = qualifiedClassNameRegistry[taskClass];
 		if (!className) {
 			className = getQualifiedClassName(taskClass);
-			Process.qualifiedClassNameRegistry[taskClass] = className
+			qualifiedClassNameRegistry[taskClass] = className
 		}
 		var taskId:String = className + name;
 		
@@ -530,7 +530,8 @@ public class Process {
 			if (currentListTask._missingDependencyCount > 0) {
 				var missingInjectNames:String = "";
 				var missingInjects:Vector.<String> = currentListTask.getMissingInjects();
-				for (var i:int = 0; i < missingInjects.length; i++) {
+				var missingInjectCount:int = missingInjects.length;
+				for (var i:int = 0; i < missingInjectCount; i++) {
 					if (missingInjectNames != "") {
 						missingInjectNames += ", "
 					}
@@ -552,8 +553,8 @@ public class Process {
 	//----------------------------------
 	
 	// sets name of curent module.
-	pureLegsCore function setModuleName(moduleName:String):void {
-		this.moduleName = moduleName;
+	pureLegsCore function setModuleName($moduleName:String):void {
+		moduleName = $moduleName;
 	}
 	
 	// runs all enabled tasks in process.
@@ -585,7 +586,7 @@ public class Process {
 		} else {
 			var doFindTask:Boolean = true;
 			task = head;
-			while (task && doFindTask) {
+			while (doFindTask && task) {
 				if (task._isEnabled && task._missingDependencyCount == 0) {
 					doFindTask = false;
 				} else {
@@ -607,7 +608,8 @@ public class Process {
 			// do testing
 			CONFIG::debug {
 				var nowTimer:uint = getTimer();
-				for (var i:int = 0; i < task.tests.length; i++) {
+				var testCount:int = task.tests.length;
+				for (var i:int = 0; i < testCount; i++) {
 					var taskTestVo:TaskTestVO = task.tests[i];
 					// check if function run is needed.
 					if (taskTestVo.totalDelay > 0) {
@@ -615,10 +617,10 @@ public class Process {
 						taskTestVo.currentTimer = nowTimer;
 						if (taskTestVo.currentDelay <= 0) {
 							taskTestVo.currentDelay = taskTestVo.totalDelay;
-							testRuns.push(taskTestVo);
+							testRuns[testRuns.length] = taskTestVo;
 						}
 					} else {
-						testRuns.push(taskTestVo);
+						testRuns[testRuns.length] = taskTestVo;
 					}
 				}
 			}
@@ -648,11 +650,11 @@ public class Process {
 				}
 			} else {
 				//add curent task to cache
-				processCache.push(task);
+				processCache[processCache.length] = task;
 				//
 				doFindTask = true;
 				task = task.next;
-				while (task && doFindTask) {
+				while (doFindTask && task) {
 					if (task._isEnabled && task._missingDependencyCount == 0) {
 						doFindTask = false;
 					} else {
@@ -681,7 +683,8 @@ public class Process {
 		}
 		// run needed tests.
 		CONFIG::debug {
-			for (var t:int = 0; t < testRuns.length; t++) {
+			var runTestCount:int = testRuns.length;
+			for (var t:int = 0; t < runTestCount; t++) {
 				var totalCount:int = testRuns[t].totalCount
 				for (var j:int = 0; j < totalCount; j++) {
 					testRuns[t].testFunction();
@@ -761,14 +764,14 @@ public class Process {
 	
 	// stacks message to be sent after current task is done.
 	pureLegsCore function stackPostMessage(type:String, params:Object):void {
-		postMessageTypes.push(type);
-		postMessageParams.push(params);
+		postMessageTypes[postMessageTypes.length] = type;
+		postMessageParams[postMessageParams.length] = params;
 	}
 	
 	// stacks message to be sent after all tasks of current run are done.
 	pureLegsCore function stackFinalMessage(type:String, params:Object):void {
-		finalMessageTypes.push(type);
-		finalMessageParams.push(params);
+		finalMessageTypes[finalMessageTypes.length] = type;
+		finalMessageParams[finalMessageParams.length] = params;
 	}
 
 }

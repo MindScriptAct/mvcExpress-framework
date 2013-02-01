@@ -328,7 +328,7 @@ public class MediatorMap implements IMediatorMap {
 	/////////////////
 	// mvcExpressLive
 	pureLegsCore function setProcessMap(value:ProcessMap):void {
-		this.processMap = value;
+		processMap = value;
 	}
 	/////////////////
 

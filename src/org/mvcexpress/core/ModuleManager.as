@@ -428,7 +428,8 @@ public class ModuleManager {
 	 */
 	static public function listModules():String {
 		var retVal:String = "";
-		for (var i:int; i < allModules.length; i++) {
+		var moduleCount:int = allModules.length
+		for (var i:int; i < moduleCount; i++) {
 			if (retVal != "") {
 				retVal += ",";
 			}
