@@ -48,7 +48,7 @@ public class AppModule extends ModuleCore {
 	}
 	
 	override protected function onInit():void {
-	
+		registerScope(AppModule.SPEED_TEST_SCOPE);
 	}
 	
 	public function start(mvcExpressSpeedTest:MvcExpressSpeedTest):void {

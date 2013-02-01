@@ -31,7 +31,7 @@ public class ModuleBase {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
-	/** for comunication. */
+	/** for communication. */
 	private var _messenger:Messenger;
 	
 	/**
@@ -157,7 +157,7 @@ public class ModuleBase {
 		//
 		_messenger.send(type, params);
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, false));
 		}
@@ -165,7 +165,7 @@ public class ModuleBase {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
 	 */
@@ -178,14 +178,14 @@ public class ModuleBase {
 		//
 		ModuleManager.sendScopeMessage(_moduleName, scopeName, type, params);
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
 		}
 	}
 	
 	//----------------------------------
-	//     Scope managment
+	//     Scope management
 	//----------------------------------
 	
 	/**

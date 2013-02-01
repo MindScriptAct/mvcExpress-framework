@@ -1,4 +1,5 @@
 package com.mindScriptAct.mvcExpressSpeedTest.module {
+import com.mindScriptAct.mvcExpressSpeedTest.AppModule;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
 import org.mvcexpress.modules.ModuleSprite;
@@ -16,6 +17,8 @@ public class SpeedTestModuleSprite extends ModuleSprite {
 	}
 	
 	override protected function onInit():void {
+		
+		registerScope(AppModule.SPEED_TEST_SCOPE);
 		
 		proxyMap.map(new BlankProxy());
 		

@@ -121,6 +121,28 @@ public class ModuleMovieClip extends MovieClip {
 		moduleBase.sendScopeMessage(scopeName, type, params);
 	}
 	
+	/**
+	 * Registers scope name.
+	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
+	 * What features module can use with that scope is defined by parameters.
+	 * @param	scopeName			Name of the scope.
+	 * @param	messageSending		Modules can send messages to this scope.
+	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param	proxieMap			Modules can map proxies to this scope.
+	 */
+	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		moduleBase.registerScope(scopeName, messageSending, messageReceiving, proxieMap);
+	}
+	
+	/**
+	 * Unregisters scope name.
+	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
+	 * @param	scopeName			Name of the scope.
+	 */
+	protected function unregisterScope(scopeName:String):void {
+		moduleBase.unregisterScope(scopeName);
+	}
+	
 	//----------------------------------
 	//     Debug
 	//----------------------------------

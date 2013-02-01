@@ -37,6 +37,10 @@ public class Console extends ModuleSprite {
 	override protected function onInit():void {
 		trace("Console.onInit");
 		
+		registerScope(ScopeNames.FIRST_SCOPE);
+		registerScope(ScopeNames.EVEN_SCOPE);
+		registerScope(ScopeNames.ALL_SCORE);
+		
 		// for debugging
 		CONFIG::debug {
 			checkClassStringConstants(ConsoleMsg, ConsoleDataMsg, ConsoleViewMsg);
