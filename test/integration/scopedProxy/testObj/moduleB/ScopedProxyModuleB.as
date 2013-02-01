@@ -1,6 +1,7 @@
 package integration.scopedProxy.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
+import integration.scopedProxy.ScopedProxyTests;
 import org.mvcexpress.modules.ModuleCore;
 
 /**
@@ -51,7 +52,7 @@ public class ScopedProxyModuleB extends ModuleCore {
 	}
 	
 	override protected function onInit():void {
-	
+		registerScope(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, true, true, true);
 	}
 	
 	override protected function onDispose():void {

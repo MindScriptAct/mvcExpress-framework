@@ -18,13 +18,13 @@ public class MvcExpress {
 	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 1;
 	/** Current framework minor version */
-	public static const MINOR_VERSION:uint = 3;
+	public static const MINOR_VERSION:uint = 4;
 	/** Current framework revision version */
-	public static const REVISION:uint = 1;
+	public static const REVISION:uint = 0;
 	
 	/** Current framework version */
 	public static function get VERSION():String {
-		return "v" + MvcExpress.MAJOR_VERSION + "." + MvcExpress.MINOR_VERSION + "." + MvcExpress.REVISION;
+		return "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
 	}
 	
 	/**

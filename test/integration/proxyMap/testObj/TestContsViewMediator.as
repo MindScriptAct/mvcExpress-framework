@@ -1,5 +1,5 @@
 package integration.proxyMap.testObj{
-import integration.aGenericTestObjects.genericObjects.GenericTestProxy;
+import integration.aGenericTestObjects.model.GenericTestProxy;
 import org.mvcexpress.mvc.Mediator;
 
 /**

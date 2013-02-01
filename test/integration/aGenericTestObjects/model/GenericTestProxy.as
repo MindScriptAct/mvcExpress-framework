@@ -1,4 +1,4 @@
-package integration.aGenericTestObjects.genericObjects {
+package integration.aGenericTestObjects.model {
 import org.mvcexpress.mvc.Proxy;
 
 /**
@@ -6,6 +6,8 @@ import org.mvcexpress.mvc.Proxy;
  * @author rBanevicius
  */
 public class GenericTestProxy extends Proxy {
+	
+	public var testData:String;
 	
 	public function GenericTestProxy() {
 	
@@ -19,5 +21,9 @@ public class GenericTestProxy extends Proxy {
 	
 	}
 
+	
+	public function sendMessageTest(type:String, params:Object = null):void {
+		super.sendMessage(type, params);
+	}
 }
 }

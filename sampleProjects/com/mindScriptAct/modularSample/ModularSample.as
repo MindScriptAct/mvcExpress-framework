@@ -1,4 +1,5 @@
 package com.mindScriptAct.modularSample {
+import com.mindScriptAct.modularSample.constants.ScopeNames;
 import com.mindScriptAct.modularSample.msg.DataMsg;
 import com.mindScriptAct.modularSample.msg.Msg;
 import com.mindScriptAct.modularSample.msg.ViewMsg;
@@ -30,6 +31,11 @@ public class ModularSample extends ModuleSprite {
 	
 	override protected function onInit():void {
 		trace("ModularSampleShellModule.onInit");
+		
+		registerScope(ScopeNames.FIRST_SCOPE);
+		registerScope(ScopeNames.EVEN_SCOPE);
+		registerScope(ScopeNames.ALL_SCORE);
+		
 		
 		mediatorMap.map(ModularSample, ModularSampleMediator);
 		

@@ -15,9 +15,9 @@ dynamic public class TraceObj {
 	
 	// TODO : check if action can be passed from on level up only. (not added with every trace obj.)
 	
-	public function TraceObj(action:String, moduleName:String) {
-		this.action = action;
-		this.moduleName = moduleName;
+	public function TraceObj($action:String, $moduleName:String) {
+		action = $action;
+		moduleName = $moduleName;
 	}
 	
 	public function toString():String {

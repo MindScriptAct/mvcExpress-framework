@@ -21,7 +21,7 @@ public class Messenger {
 	pureLegsCore var moduleName:String;
 	
 	// defines if messenger can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean = false;
+	static pureLegsCore var allowInstantiation:Boolean;// = false;
 	
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
@@ -32,12 +32,12 @@ public class Messenger {
 	/**
 	 * CONSTRUCTOR - internal class. Not available for use.
 	 */
-	public function Messenger(moduleName:String) {
+	public function Messenger($moduleName:String) {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
-		this.moduleName = moduleName;
+		moduleName = $moduleName;
 	}
 	
 	/**
@@ -55,8 +55,10 @@ public class Messenger {
 		}
 		
 		// if this message type used for the first time - create data placeholders.
-		if (!messageRegistry[type]) {
-			messageRegistry[type] = new Vector.<HandlerVO>();
+		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		if (!messageList) {
+			messageList = new Vector.<HandlerVO>()
+			messageRegistry[type] = messageList;
 			handlerRegistry[type] = new Dictionary();
 		}
 		
@@ -74,7 +76,7 @@ public class Messenger {
 				msgData.handlerClassName = handlerClassName;
 			}
 			msgData.handler = handler;
-			messageRegistry[type].push(msgData);
+			messageList[messageList.length] = msgData;
 			handlerRegistry[type][handler] = msgData;
 		}
 		return msgData;
@@ -114,10 +116,10 @@ public class Messenger {
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
-		var delCount:int = 0;
+		var delCount:int;// = 0;
 		if (messageList) {
-			var tempListLength:int = messageList.length;
-			for (var i:int = 0; i < tempListLength; i++) {
+			var mesageCount:int = messageList.length;
+			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
 				if (handlerVo.handler == null) {
@@ -148,7 +150,7 @@ public class Messenger {
 			}
 			// remove all removed handlers.
 			if (delCount) {
-				messageList.splice(tempListLength - delCount, delCount);
+				messageList.splice(mesageCount - delCount, delCount);
 			}
 		}
 	}
@@ -185,7 +187,8 @@ public class Messenger {
 		for (var key:String in messageRegistry) {
 			var msgList:Vector.<HandlerVO> = messageRegistry[key];
 			var messageHandlers:String = "";
-			for (var i:int = 0; i < msgList.length; i++) {
+			var msgCount:int = msgList.length;
+			for (var i:int = 0; i < msgCount; i++) {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {
 					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";

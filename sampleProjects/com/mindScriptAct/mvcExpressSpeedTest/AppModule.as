@@ -21,6 +21,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyPooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.model.INamedProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.model.NamedProxy;
+import com.mindScriptAct.mvcExpressSpeedTest.module.SpeedTestModuleSprite;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 import com.mindScriptAct.mvcExpressSpeedTest.view.application.MvcExpressTestMediator;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
@@ -36,6 +37,9 @@ import org.mvcexpress.utils.checkClassStringConstants;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class AppModule extends ModuleCore {
+	
+	static public const SPEED_TEST_SCOPE:String = "speedTestScope";
+	
 	private var performanceTest:PerformanceTest;
 	private var coreInitTime:int;
 	
@@ -44,7 +48,7 @@ public class AppModule extends ModuleCore {
 	}
 	
 	override protected function onInit():void {
-	
+		registerScope(AppModule.SPEED_TEST_SCOPE);
 	}
 	
 	public function start(mvcExpressSpeedTest:MvcExpressSpeedTest):void {
@@ -71,8 +75,8 @@ public class AppModule extends ModuleCore {
 		commandMap.map(Note.CALL_COMMANDS_POOLED_EMPTY, EmptyPooledCommand);
 		commandMap.map(Note.CALL_COMMANDS_POOLED_GET_PARAMS, GetParamPooledCommand);
 		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL, WithProxyPooledCommand);
-		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsPooledCommand);		
-		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS_5, WithProxyCommViews5PooledCommand);		
+		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS, WithProxyCommViewsPooledCommand);
+		commandMap.map(Note.CALL_COMMANDS_POOLED_WITH_MODEL_COMM_VIEWS_5, WithProxyCommViews5PooledCommand);
 		//
 		proxyMap.map(new BlankProxy());
 		//
@@ -81,6 +85,10 @@ public class AppModule extends ModuleCore {
 		mediatorMap.map(TestSprite, TestSpriteMediator);
 		
 		mediatorMap.mediate(mvcExpressSpeedTest);
+		
+		var speedModuleSplite:SpeedTestModuleSprite = new SpeedTestModuleSprite();
+		mvcExpressSpeedTest.addChild(speedModuleSplite);
+		
 		//
 		// start
 		//super.startup();
@@ -94,6 +102,7 @@ public class AppModule extends ModuleCore {
 		
 		// init testing
 		prepareTests();
+	
 	}
 	
 	private function namedProxyTesting():void {
@@ -106,6 +115,7 @@ public class AppModule extends ModuleCore {
 		proxyMap.map(new NamedProxy(), INamedProxy, "namedSingletonInterface");
 		
 		commandMap.execute(TestNamedProxysCommand);
+	
 	}
 	
 	private function mediatorTest():void {
@@ -116,9 +126,10 @@ public class AppModule extends ModuleCore {
 	
 	private function prepareTests():void {
 		performanceTest = new PerformanceTest();
-		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_0], TestNames.COMMAND_EMPTY, 100, 1000);
-		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_5], TestNames.COMMAND_INJECT_5, 100, 1000);
-		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_10], TestNames.COMMAND_INJECT_10, 100, 1000);
+		
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_0], TestNames.COMMAND_EMPTY, 100, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_5], TestNames.COMMAND_INJECT_5, 100, 10000);
+		performanceTest.queueSimpleTest(sendMessage, [Note.TEST_COMMAND_10], TestNames.COMMAND_INJECT_10, 100, 10000);
 		
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_EMPTY], TestNames.COMMAND_EMPTY, 50, 10000);
 		performanceTest.queueSimpleTest(sendMessage, [Note.CALL_COMMANDS_GET_PARAMS, "testData"], TestNames.COMMAND_PARAMS, 50, 10000);
@@ -144,7 +155,15 @@ public class AppModule extends ModuleCore {
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_100, 50, 1000)], "Communication test 100", null, spawn100Mediators));
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_200, 50, 1000)], "Communication test 200", null, spawn100Mediators));
 		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_500, 40, 1000)], "Communication test 500", null, spawn300Mediators));
-		performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_1000, 30, 1000)], "Communication test 1000", null, spawn500Mediators));
+		var ts:TestSuite = performanceTest.queueTestSuite(new TestSuite([new MethodTest(sendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.MEDIATOR_COMMUNICATE_1000, 30, 1000)], "Communication test 1000", null, spawn500Mediators));
+		ts.addEventListener(Event.COMPLETE, removeAllViews);
+		
+		performanceTest.queueTestSuite(new TestSuite([new MethodTest(scopeSendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.SCOPED_MEDIATOR_COMMUNICATE_100, 50, 1000)], "Scoped communication test 100", null, spawn100ScopedMediators));
+		performanceTest.queueTestSuite(new TestSuite([new MethodTest(scopeSendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.SCOPED_MEDIATOR_COMMUNICATE_200, 50, 1000)], "scoped communication test 200", null, spawn100ScopedMediators));
+		performanceTest.queueTestSuite(new TestSuite([new MethodTest(scopeSendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.SCOPED_MEDIATOR_COMMUNICATE_500, 40, 1000)], "Scoped communication test 500", null, spawn300ScopedMediators));
+		var ts2:TestSuite = performanceTest.queueTestSuite(new TestSuite([new MethodTest(scopeSendMessage, [Note.COMMUNICATION_TEST, 1], TestNames.SCOPED_MEDIATOR_COMMUNICATE_1000, 30, 1000)], "Scoped communication test 1000", null, spawn500ScopedMediators));
+		ts2.addEventListener(Event.COMPLETE, removeAllScopedViews);
+		
 		//
 		performanceTest.addEventListener(Event.COMPLETE, handleTestComplete);
 		performanceTest.addEventListener(Event.CLOSE, handleTestClose);
@@ -153,6 +172,13 @@ public class AppModule extends ModuleCore {
 		sendMessage(Note.APPEND_LINE, TestNames.CORE_INIT + ":" + "\t" + coreInitTime);
 	}
 	
+	private function scopeSendMessage(message:String, params:Object):void {
+		sendScopeMessage(AppModule.SPEED_TEST_SCOPE, message, params);
+	}
+	
+	//----------------------------------
+	//     mediator creation
+	//----------------------------------	
 	private function spawn100Mediators():void {
 		for (var i:int = 0; i < 100; i++) {
 			sendMessage(Note.CREATE_TEST_VIEW, 1);
@@ -171,11 +197,46 @@ public class AppModule extends ModuleCore {
 		}
 	}
 	
-	private function handleTestClose(event:Event):void {
-		//trace( "RobotTestContext.handleTestClose > event : " + event );
+	private function removeAllViews(event:Event):void {
 		for (var i:int = 0; i < 1000; i++) {
 			sendMessage(Note.REMOVE_TEST_VIEW, 1);
 		}
+	}
+	
+	//----------------------------------
+	//     another module mediator creation
+	//----------------------------------
+	
+	private function spawn100ScopedMediators():void {
+		for (var i:int = 0; i < 100; i++) {
+			sendScopeMessage(AppModule.SPEED_TEST_SCOPE, Note.CREATE_TEST_VIEW, 1);
+		}
+	}
+	
+	private function spawn300ScopedMediators():void {
+		for (var i:int = 0; i < 300; i++) {
+			sendScopeMessage(AppModule.SPEED_TEST_SCOPE, Note.CREATE_TEST_VIEW, 1);
+		}
+	}
+	
+	private function spawn500ScopedMediators():void {
+		for (var i:int = 0; i < 500; i++) {
+			sendScopeMessage(AppModule.SPEED_TEST_SCOPE, Note.CREATE_TEST_VIEW, 1);
+		}
+	}
+	
+	private function removeAllScopedViews(event:Event):void {
+		for (var i:int = 0; i < 1000; i++) {
+			sendScopeMessage(AppModule.SPEED_TEST_SCOPE, Note.REMOVE_TEST_VIEW, 1);
+		}
+	}
+	
+	//----------------------------------
+	//     test handling
+	//----------------------------------
+	
+	private function handleTestClose(event:Event):void {
+		//trace( "RobotTestContext.handleTestClose > event : " + event );
 		sendMessage(Note.APPEND_LINE, "ALL TESTS DONE!");
 	}
 	
@@ -193,7 +254,7 @@ public class AppModule extends ModuleCore {
 		sendMessage(Note.TEST, "text");
 		//sendMessage(Note.TEST, new Sprite());
 	}
-	
+
 	//private function messagingTest():void {
 	//addCallback(Note.TEST, simpleTest1);
 	//
@@ -232,18 +293,10 @@ public class AppModule extends ModuleCore {
 	//trace("-----");
 	//sendMessage(Note.TEST, null);
 	//}
-	
+
 	//----------------------------------
 	//     
 	//----------------------------------
-	
-	private function simpleTest1(params:Object):void {
-		trace("AppModule.simpleTest1");
-	}
-	
-	public function simpleTest2(params:Object):void {
-		trace("AppModule.simpleTest2");
-	}
 
 }
 }

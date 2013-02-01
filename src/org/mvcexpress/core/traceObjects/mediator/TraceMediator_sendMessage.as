@@ -14,12 +14,12 @@ public class TraceMediator_sendMessage extends TraceObj_SendMessage {
 	public var type:String;
 	public var params:Object;
 	
-	public function TraceMediator_sendMessage(moduleName:String, mediatorObject:Mediator, type:String, params:Object, preSend:Boolean) {
+	public function TraceMediator_sendMessage(moduleName:String, $mediatorObject:Mediator, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
 		super(((preSend) ? MvcTraceActions.MEDIATOR_SENDMESSAGE : MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN), moduleName);
-		this.mediatorObject = mediatorObject;
-		this.type = type;
-		this.params = params;
+		mediatorObject = $mediatorObject;
+		type = $type;
+		params = $params;
 		//
 		canPrint = false;
 	}

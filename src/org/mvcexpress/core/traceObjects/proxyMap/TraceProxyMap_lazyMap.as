@@ -20,12 +20,12 @@ public class TraceProxyMap_lazyMap extends TraceObj {
 	
 	public var view:DisplayObject;
 	
-	public function TraceProxyMap_lazyMap(moduleName:String, proxyClass:Class, injectClass:Class, name:String, proxyParams:Array) {
+	public function TraceProxyMap_lazyMap(moduleName:String, $proxyClass:Class, $injectClass:Class, $name:String, $proxyParams:Array) {
 		super(MvcTraceActions.PROXYMAP_LAZYMAP, moduleName);
-		this.proxyParams = proxyParams;
-		this.proxyClass = proxyClass;
-		this.injectClass = injectClass;
-		this.name = name;
+		proxyParams = $proxyParams;
+		proxyClass = $proxyClass;
+		injectClass = $injectClass;
+		name = $name;
 	}
 	
 	override public function toString():String {

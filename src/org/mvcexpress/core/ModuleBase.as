@@ -18,7 +18,7 @@ import org.mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMess
 public class ModuleBase {
 	
 	// defines if class can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean = false;
+	static pureLegsCore var allowInstantiation:Boolean; // = false;
 	
 	private var _moduleName:String;
 	
@@ -37,7 +37,7 @@ public class ModuleBase {
 	public var processMap:ProcessMap;
 	/////////////////
 
-	/** for comunication. */
+	/** for communication. */
 	private var _messenger:Messenger;
 	
 	/**
@@ -49,7 +49,7 @@ public class ModuleBase {
 			throw Error("ModuleBase is framework internal class and is not meant to be instantiated. Use ModuleCore, ModuleSprite or other module classes instead.");
 		}
 		//
-		this._moduleName = moduleName;
+		_moduleName = moduleName;
 		if (autoInit) {
 			initModule();
 		}
@@ -84,9 +84,9 @@ public class ModuleBase {
 	static public function getModuleInstance(moduleName:String, autoInit:Boolean):ModuleBase {
 		use namespace pureLegsCore;
 		var retVal:ModuleBase;
-		ModuleBase.allowInstantiation = true;
+		allowInstantiation = true;
 		retVal = new ModuleBase(moduleName, autoInit);
-		ModuleBase.allowInstantiation = false;
+		allowInstantiation = false;
 		return retVal;
 	}
 	
@@ -178,7 +178,7 @@ public class ModuleBase {
 		//
 		_messenger.send(type, params);
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, false));
 		}
@@ -186,7 +186,7 @@ public class ModuleBase {
 	
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module comminication.
+	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
 	 */
@@ -197,12 +197,40 @@ public class ModuleBase {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(scopeName, type, params);
+		ModuleManager.sendScopeMessage(_moduleName, scopeName, type, params);
 		//
-		// clean up loging the action
+		// clean up logging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
 		}
+	}
+	
+	//----------------------------------
+	//     Scope management
+	//----------------------------------
+	
+	/**
+	 * Registers scope name.
+	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
+	 * What features module can use with that scope is defined by parameters.
+	 * @param	scopeName			Name of the scope.
+	 * @param	messageSending		Modules can send messages to this scope.
+	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param	proxieMap			Modules can map proxies to this scope.
+	 */
+	public function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		use namespace pureLegsCore;
+		ModuleManager.registerScope(_moduleName, scopeName, messageSending, messageReceiving, proxieMap);
+	}
+	
+	/**
+	 * Unregisters scope name.
+	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
+	 * @param	scopeName			Name of the scope.
+	 */
+	public function unregisterScope(scopeName:String):void {
+		use namespace pureLegsCore;
+		ModuleManager.unregisterScope(_moduleName, scopeName);
 	}
 	
 	//----------------------------------
@@ -210,7 +238,7 @@ public class ModuleBase {
 	//----------------------------------	
 	
 	/** get flex lowest class by definition. ( way to check for flex project.) */
-	protected static function getFlexClass():Class {
+	private static function getFlexClass():Class {
 		var uiComponentClass:Class;
 		try {
 			uiComponentClass = getDefinitionByName('mx.core::UIComponent') as Class;
@@ -255,7 +283,7 @@ public class ModuleBase {
 	public function listMappedCommands():String {
 		return commandMap.listMappings();
 	}
-	
+
 	/////////////////
 	// mvcExpressLive
 	/**

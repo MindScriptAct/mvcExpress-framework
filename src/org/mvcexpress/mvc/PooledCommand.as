@@ -12,7 +12,7 @@ public class PooledCommand extends Command {
 	/**
 	 * Stores information if command is locked from automatic pooling by user.
 	 * @private */
-	private var _isLocked:Boolean = false;
+	private var _isLocked:Boolean;// = false;
 	
 	/**
 	 * Shows if command is locked, and will not be automatically pooling after execution, or not.

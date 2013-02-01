@@ -15,12 +15,12 @@ public class TraceMediator_addHandler extends TraceObj {
 	public var handler:Function;
 	public var mediatorObject:Mediator;
 	
-	public function TraceMediator_addHandler(moduleName:String, mediatorObject:Mediator, type:String, handler:Function) {
+	public function TraceMediator_addHandler(moduleName:String, $mediatorObject:Mediator, $type:String, $handler:Function) {
 		use namespace pureLegsCore;
 		super(MvcTraceActions.MEDIATOR_ADDHANDLER, moduleName);
-		this.mediatorObject = mediatorObject;
-		this.type = type;
-		this.handler = handler;
+		mediatorObject = $mediatorObject;
+		type = $type;
+		handler = $handler;
 		//
 		canPrint = false;
 	}

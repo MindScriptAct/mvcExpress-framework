@@ -49,10 +49,10 @@ public class MediatorMap implements IMediatorMap {
 	protected var mediatorRegistry:Dictionary = new Dictionary(); /* of Mediator by Object */
 	
 	/** CONSTRUCTOR */
-	public function MediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
-		this.proxyMap = proxyMap;
+	public function MediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+		moduleName = $moduleName;
+		messenger = $messenger;
+		proxyMap = $proxyMap;
 	}
 	
 	//----------------------------------
@@ -124,7 +124,6 @@ public class MediatorMap implements IMediatorMap {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);
 		}
 		
-		
 		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
@@ -155,6 +154,7 @@ public class MediatorMap implements IMediatorMap {
 				Mediator.canConstruct = false;
 			}
 			
+			mediator.moduleName = moduleName;
 			mediator.messenger = messenger;
 			mediator.proxyMap = proxyMap;
 			mediator.mediatorMap = this;
@@ -195,7 +195,6 @@ public class MediatorMap implements IMediatorMap {
 			}
 		}
 		
-		
 		CONFIG::debug {
 			// Allows Mediator to be constructed. (removed from release build to save some performance.)
 			Mediator.canConstruct = true;
@@ -225,6 +224,7 @@ public class MediatorMap implements IMediatorMap {
 			Mediator.canConstruct = false;
 		}
 		
+		mediator.moduleName = moduleName;
 		mediator.messenger = messenger;
 		mediator.proxyMap = proxyMap;
 		mediator.mediatorMap = this;
@@ -274,7 +274,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @return					true if view class is already mapped to mediator class.
 	 */
 	public function isMapped(viewClass:Class, mediatorClass:Class):Boolean {
-		var retVal:Boolean = false;
+		var retVal:Boolean;// = false;
 		if (mediatorClassRegistry[viewClass]) {
 			if (mediatorClassRegistry[viewClass] == mediatorClass) {
 				retVal = true;
@@ -331,5 +331,6 @@ public class MediatorMap implements IMediatorMap {
 		this.processMap = value;
 	}
 	/////////////////
+
 }
 }

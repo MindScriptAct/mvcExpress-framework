@@ -1,5 +1,6 @@
 package com.mindscriptact.mvcExpressLogger {
 import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_CheckBox;
+import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Label;
 import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_NumericStepper;
 import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_PushButton;
 import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Style;
@@ -14,11 +15,9 @@ import flash.display.Stage;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
+import flash.utils.getDefinitionByName;
 import flash.utils.setTimeout;
-import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.TraceObj;
-import org.mvcexpress.MvcExpress;
 
 /**
  * COMMENT
@@ -37,8 +36,9 @@ public class MvcExpressLogger {
 	static private var allowInstantiation:Boolean;
 	static private var instance:MvcExpressLogger;
 	static private var visualizerManager:VisualizerManager;
+	
 	// view params
-	private var stage:Stage;
+	
 	private var x:int;
 	private var y:int;
 	private var width:int;
@@ -67,6 +67,10 @@ public class MvcExpressLogger {
 	private var useAutoScroll:Boolean = true;
 	private var initTab:String;
 	
+	static private var stage:Stage;
+	static private var mvcExpressClass:Class;
+	static private var moduleManagerClass:Class;
+	
 	public function MvcExpressLogger() {
 		if (!allowInstantiation) {
 			throw Error("MvcExpressLogger is singleton and will be instantiated with first use or MvcExpressLogger.init()");
@@ -75,36 +79,74 @@ public class MvcExpressLogger {
 	
 	static public function init(stage:Stage, x:int = 0, y:int = 0, width:int = 900, height:int = 400, alpha:Number = 0.9, autoShow:Boolean = false, initTab:String = "LOG", openKeyCode:int = 192, isCtrlKeyNeeded:Boolean = true, isShiftKeyNeeded:Boolean = false, isAltKeyNeeded:Boolean = false):void {
 		
-		if (!instance) {
-			allowInstantiation = true;
-			instance = new MvcExpressLogger();
-			allowInstantiation = false;
-			//
-			visualizerManager = new VisualizerManager();
-			//
-			instance.stage = stage;
-			stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
+		if (stage) {
 			
-			instance.x = x;
-			instance.y = y;
-			instance.width = width;
-			instance.height = height;
-			instance.alpha = alpha;
-			instance.initTab = initTab;
-			instance.openKeyCode = openKeyCode;
-			instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
-			instance.isShiftKeyNeeded = isShiftKeyNeeded;
-			instance.isAltKeyNeeded = isAltKeyNeeded;
+			MvcExpressLogger.stage = stage;
+			
+			try {
+				mvcExpressClass = getDefinitionByName("org.mvcexpress::MvcExpress") as Class;
+				moduleManagerClass = getDefinitionByName("org.mvcexpress.core::ModuleManager") as Class;
+			} catch (error:Error) {
+			}
+			
 			Mvce_Style.setStyle(Mvce_Style.DARK);
-			Mvce_Style.LABEL_TEXT = 0xFFFFFF;
+			Mvce_Style.LABEL_TEXT = 0xFFFFFF
+			
+			if (mvcExpressClass && moduleManagerClass) {
+				if (!instance) {
+					allowInstantiation = true;
+					instance = new MvcExpressLogger();
+					allowInstantiation = false;
+					//
+					visualizerManager = new VisualizerManager();
+					//
+					MvcExpressLogger.stage.root.addEventListener(KeyboardEvent.KEY_DOWN, instance.handleKeyPress);
+					
+					instance.x = x;
+					instance.y = y;
+					instance.width = width;
+					instance.height = height;
+					instance.alpha = alpha;
+					instance.initTab = initTab;
+					instance.openKeyCode = openKeyCode;
+					instance.isCtrlKeyNeeded = isCtrlKeyNeeded;
+					instance.isShiftKeyNeeded = isShiftKeyNeeded;
+					instance.isAltKeyNeeded = isAltKeyNeeded;
+					
+				}
+				
+				use namespace pureLegsCore;
+				//use namespace pureLegsCoreNameSpace;
+				mvcExpressClass["loggerFunction"] = instance.debugMvcExpress;
+				
+				if (autoShow) {
+					instance.showLogger();
+				}
+			} else {
+				
+				var logWindow:Mvce_Window = new Mvce_Window();
+				logWindow.title = "mvcExpress logger ERROR!";
+				logWindow.width = 200;
+				logWindow.hasCloseButton = true;
+				
+				var erorLabel:Mvce_Label = new Mvce_Label();
+				erorLabel.x = 10;
+				erorLabel.y = 10;
+				erorLabel.text = "mvcExpress classes not found.\n\nMake sure mvcExpress framework\n  files are added.";
+				logWindow.addChild(erorLabel);
+				
+				logWindow.addEventListener(Event.CLOSE, hideErrorWindow);
+				
+				MvcExpressLogger.stage.addChild(logWindow);
+				
+			}
+		} else {
+			throw Error("Stage must be provided for mvcExpress logger to work properly.");
 		}
-		
-		use namespace pureLegsCore;
-		MvcExpress.loggerFunction = instance.debugMvcExpress;
-		
-		if (autoShow) {
-			instance.showLogger();
-		}
+	}
+	
+	static private function hideErrorWindow(event:Event):void {
+		MvcExpressLogger.stage.removeChild(event.target as Mvce_Window);
 	}
 	
 	static public function show():void {
@@ -123,7 +165,7 @@ public class MvcExpressLogger {
 		}
 	}
 	
-	private function debugMvcExpress(traceObj:TraceObj):void {
+	private function debugMvcExpress(traceObj:Object):void {
 		//
 		visualizerManager.logMvcExpress(traceObj);
 		//
@@ -182,7 +224,7 @@ public class MvcExpressLogger {
 									setTimeout(render, 1);
 								}
 							}
-							break;							
+							break;
 						case VISUALIZER_TAB: 
 							break;
 						default: 
@@ -207,10 +249,10 @@ public class MvcExpressLogger {
 		isLogShown = true;
 		if (!logWindow) {
 			
-			var debugCompile:Boolean = (MvcExpress["DEBUG_COMPILE"] as Boolean);
+			var debugCompile:Boolean = (mvcExpressClass["DEBUG_COMPILE"] as Boolean);
 			
-			var version:String = "    ["+MvcExpress["VERSION"]+" - "+(debugCompile ? "DEBUG COMPILE!!!" : "Release.")+"]"
-			logWindow = new Mvce_Window(null, x, y, MvcExpress["NAME"]+" logger"+version);
+			var version:String = "    [" + mvcExpressClass["VERSION"] + " - " + (debugCompile ? "DEBUG COMPILE!!!" : "Release.") + "]"
+			logWindow = new Mvce_Window(null, x, y, mvcExpressClass["NAME"] + " logger" + version);
 			logWindow.width = width;
 			logWindow.height = height
 			logWindow.alpha = alpha;
@@ -266,16 +308,14 @@ public class MvcExpressLogger {
 			commandMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
 			allButtons.push(commandMapingButton);
 			
-			
 			// 
-			if (ModuleManager["listMappedProcesses"] != null) {
+			if (moduleManagerClass["listMappedProcesses"] != null) {
 				var processMapingButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, -0, ENGINE_TAB, handleButtonClick);
 				processMapingButton.toggle = true;
 				processMapingButton.width = 60;
 				processMapingButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 5;
-				allButtons.push(processMapingButton);				
+				allButtons.push(processMapingButton);
 			}
-			
 			
 			var clearButton:Mvce_PushButton = new Mvce_PushButton(logWindow, 0, 5, "clear log", handleClearLog);
 			clearButton.x = allButtons[allButtons.length - 1].x + allButtons[allButtons.length - 1].width + 10;
@@ -300,7 +340,7 @@ public class MvcExpressLogger {
 			
 		}
 		//forceThisOnTop();
-		stage.addChild(logWindow);
+		MvcExpressLogger.stage.addChild(logWindow);
 		
 		resolveCurrentModuleName();
 		
@@ -332,7 +372,7 @@ public class MvcExpressLogger {
 	}
 	
 	private function resolveCurrentModuleName():void {
-		var moduleNameList:String = ModuleManager.listModules();
+		var moduleNameList:String = moduleManagerClass["listModules"]();
 		var namesOnly:Array = moduleNameList.split(":");
 		if (namesOnly.length > 1) {
 			allModuleNames = namesOnly[1].split(",");
@@ -429,25 +469,25 @@ public class MvcExpressLogger {
 				(currentScreen as MvcExpressLogScreen).scrollDown(useAutoScroll);
 				break;
 			case MESSAGES_TAB: 
-				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMessages(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).showLog(moduleManagerClass["listMappedMessages"](currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case MEDIATORS_TAB: 
-				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedMediators(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).showLog(moduleManagerClass["listMappedMediators"](currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case PROXIES_TAB: 
-				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedProxies(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).showLog(moduleManagerClass["listMappedProxies"](currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case COMMANDS_TAB: 
-				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager.listMappedCommands(currentModuleName));
+				(currentScreen as MvcExpressLogScreen).showLog(moduleManagerClass["listMappedCommands"](currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
 				break;
 			case ENGINE_TAB: 
-				(currentScreen as MvcExpressLogScreen).showLog(ModuleManager["listMappedProcesses"](currentModuleName));
+				(currentScreen as MvcExpressLogScreen).showLog(moduleManagerClass["listMappedProcesses"](currentModuleName));
 				(currentScreen as MvcExpressLogScreen).scrollDown(false);
-				break;				
+				break;
 			case VISUALIZER_TAB:
 				
 				break;
@@ -457,7 +497,7 @@ public class MvcExpressLogger {
 	
 	private function hideLogger(event:Event = null):void {
 		isLogShown = false;
-		stage.removeChild(logWindow);
+		MvcExpressLogger.stage.removeChild(logWindow);
 	}
 
 }

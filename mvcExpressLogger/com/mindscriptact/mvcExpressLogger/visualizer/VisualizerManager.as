@@ -1,11 +1,12 @@
 package com.mindscriptact.mvcExpressLogger.visualizer {
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import flash.utils.Dictionary;
+import flash.utils.getDefinitionByName;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
-import org.mvcexpress.mvc.Command;
-import org.mvcexpress.mvc.Mediator;
-import org.mvcexpress.mvc.Proxy;
+//import org.mvcexpress.core.traceObjects.MvcTraceActions;
+//import org.mvcexpress.mvc.Command;
+//import org.mvcexpress.mvc.Mediator;
+//import org.mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
@@ -20,6 +21,43 @@ public class VisualizerManager {
 	private var currentModuleName:String;
 	private var sendMessageStack:Vector.<Object> = new Vector.<Object>();
 	
+	static private var commandClass:Class;
+	static private var mediatorClass:Class;
+	static private var proxyClass:Class;
+	static private var processClass:Class;
+	
+	public function VisualizerManager() {
+		if (!VisualizerManager.commandClass) {
+			try {
+				VisualizerManager.commandClass = getDefinitionByName("org.mvcexpress.mvc::Command") as Class;
+			} catch (error:Error) {
+				VisualizerManager.commandClass = null;
+			}
+		}
+		if (!VisualizerManager.mediatorClass) {
+			try {
+				VisualizerManager.mediatorClass = getDefinitionByName("org.mvcexpress.mvc::Mediator") as Class;
+			} catch (error:Error) {
+				VisualizerManager.mediatorClass = null;
+			}
+		}
+		if (!VisualizerManager.proxyClass) {
+			try {
+				VisualizerManager.proxyClass = getDefinitionByName("org.mvcexpress.mvc::Proxy") as Class;
+			} catch (error:Error) {
+				VisualizerManager.proxyClass = null;
+			}
+		}
+		if (!VisualizerManager.processClass) {
+			try {
+				VisualizerManager.processClass = getDefinitionByName("org.mvcexpress.live::Process") as Class;
+			} catch (error:Error) {
+				VisualizerManager.processClass = null;
+			}
+		}
+	
+	}
+	
 	public function logMvcExpress(logObj:Object):void {
 		use namespace pureLegsCore;
 		var topObject:Object;
@@ -28,7 +66,7 @@ public class VisualizerManager {
 		var i:int;
 		//trace("VisualizerManager.logMvcExpress > logObj : " + logObj);
 		switch (logObj.action) {
-			case MvcTraceActions.MEDIATORMAP_MEDIATE: 
+			case "MediatorMap.mediate"://MvcTraceActions.MEDIATORMAP_MEDIATE: 
 				mediators = getModuleMediators(logObj.moduleName);
 				mediators.push(logObj);
 				//mediatorClass = com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator$)
@@ -40,7 +78,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.MEDIATORMAP_UNMEDIATE: 
+			case "MediatorMap.unmediate"://MvcTraceActions.MEDIATORMAP_UNMEDIATE: 
 				mediators = getModuleMediators(logObj.moduleName);
 				for (i = 0; i < mediators.length; i++) {
 					if (mediators[i].viewObject == logObj.viewObject) {
@@ -54,7 +92,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.PROXYMAP_MAP: 
+			case "ProxyMap.map"://MvcTraceActions.PROXYMAP_MAP: 
 				proxies = getModuleProxies(logObj.moduleName);
 				proxies.push(logObj);
 				if (this.mvcExpressVisualizerScreen) {
@@ -63,7 +101,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.PROXYMAP_UNMAP: 
+			case "ProxyMap.unmap"://MvcTraceActions.PROXYMAP_UNMAP: 
 				proxies = getModuleProxies(logObj.moduleName);
 				for (i = 0; i < proxies.length; i++) {
 					if (proxies[i].injectClass == logObj.injectClass && proxies[i].name == logObj.name) {
@@ -77,12 +115,12 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.PROXYMAP_INJECTSTUFF: 
+			case "ProxyMap.injectStuff"://MvcTraceActions.PROXYMAP_INJECTSTUFF: 
 				var hostObject:Object = logObj.hostObject;
 				var injectedObject:Object = logObj.injectObject;
-				var a:Object = injectedObject as Proxy;
-				if (injectedObject is Proxy) {
-					if (hostObject is Mediator) {
+				var a:Object = injectedObject as VisualizerManager.proxyClass;
+				if (injectedObject is VisualizerManager.proxyClass) {
+					if (hostObject is VisualizerManager.mediatorClass) {
 						// find mediator
 						var mediatorObject:Object;
 						mediators = getModuleMediators(logObj.moduleName);
@@ -104,7 +142,7 @@ public class VisualizerManager {
 								}
 							}
 						}
-					} else if (hostObject is Proxy) {
+					} else if (hostObject is VisualizerManager.proxyClass) {
 						// find proxy
 						var proxyObject:Object;
 						proxies = getModuleProxies(logObj.moduleName);
@@ -126,19 +164,21 @@ public class VisualizerManager {
 								}
 							}
 						}
-					} else if (hostObject is Command) {
+					} else if (hostObject is VisualizerManager.commandClass) {
 						if (this.mvcExpressVisualizerScreen) {
 							if (currentModuleName == logObj.moduleName) {
 								this.mvcExpressVisualizerScreen.drawCommandDependency(hostObject, injectedObject);
 							}
 						}
+					} else if (hostObject is VisualizerManager.processClass) {
+						// TODO : visualise injection into process...
 					} else {
 						trace("!!!!!!!!!!!!ERROR!!!!!!!!!!!!! : fail to handle... ProxyMap.injectStuff object : " + hostObject);
 					}
 				}
 				break;
-			case MvcTraceActions.COMMANDMAP_EXECUTE: 
-			case MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE: 
+			case "CommandMap.execute"://MvcTraceActions.COMMANDMAP_EXECUTE: 
+			case "CommandMap.handleCommandExecute"://MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE: 
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						if (sendMessageStack.length) {
@@ -163,7 +203,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.MEDIATOR_ADDHANDLER: 
+			case "Mediator.addHandler"://MvcTraceActions.MEDIATOR_ADDHANDLER: 
 				// add handler to mediator
 				mediators = getModuleMediators(logObj.moduleName);
 				for (var k:int = 0; k < mediators.length; k++) {
@@ -175,27 +215,27 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.MODULEBASE_SENDMESSAGE: 
-			case MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE: 
-			case MvcTraceActions.MEDIATOR_SENDMESSAGE: 
-			case MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE: 
-			case MvcTraceActions.PROXY_SENDMESSAGE: 
-			case MvcTraceActions.PROXY_SENDSCOPEMESSAGE: 
-			case MvcTraceActions.COMMAND_SENDMESSAGE: 
-			case MvcTraceActions.COMMAND_SENDSCOPEMESSAGE: 
+			case "ModuleBase.sendMessage": //MvcTraceActions.MODULEBASE_SENDMESSAGE: 
+			case "ModuleBase.sendScopeMessage": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE: 
+			case "Mediator.sendMessage": //MvcTraceActions.MEDIATOR_SENDMESSAGE: 
+			case "Mediator.sendScopeMessage": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE: 
+			case "Proxy.sendMessage": //MvcTraceActions.PROXY_SENDMESSAGE: 
+			case "Proxy.sendScopeMessage": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE: 
+			case "Command.sendMessage": //MvcTraceActions.COMMAND_SENDMESSAGE: 
+			case "Command.sendScopeMessage": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE: 
 			case "Process.runProcess.instantSendMessage": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE: 
 			case "Process.runProcess.postSendMessage": //MvcTraceActions.PROCESS_POST_SENDMESSAGE: 
 			case "Process.runProcess.finalSendMessage": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE: 
 				sendMessageStack.push(logObj);
 				break;
-			case MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN: 
-			case MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN: 
-			case MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN: 
-			case MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
-			case MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN: 
+			case "ModuleBase.sendMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
+			case "ModuleBase.sendScopeMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN: 
+			case "Mediator.sendMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
+			case "Mediator.sendScopeMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN: 
+			case "Proxy.sendMessage.CLEAN": //MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
+			case "Proxy.sendScopeMessage.CLEAN": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN: 
+			case "Command.sendMessage.CLEAN": //MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
+			case "Command.sendScopeMessage.CLEAN": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN: 
 			case "Process.runProcess.instantSendMessage.CLEAN": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN: 
 			case "Process.runProcess.postSendMessage.CLEAN": //MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN: 
 			case "Process.runProcess.finalSendMessage.CLEAN": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN: 
@@ -212,7 +252,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.MESSENGER_SEND: 
+			case "Messenger.send": //MvcTraceActions.MESSENGER_SEND: 
 				topObject = sendMessageStack[sendMessageStack.length - 1];
 				if (topObject) {
 					if (logObj.type == topObject.type) {
@@ -244,7 +284,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case MvcTraceActions.MESSENGER_SEND_HANDLER: 
+			case "Messenger.send.HANDLER": //MvcTraceActions.MESSENGER_SEND_HANDLER: 
 				if (mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						//

@@ -4,6 +4,7 @@ import flash.utils.Dictionary;
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import org.mvcexpress.core.inject.PendingInject;
 import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
 import org.mvcexpress.core.interfaces.IProxyMap;
@@ -65,9 +66,9 @@ public class ProxyMap implements IProxyMap {
 	private var classConstRegistry:Dictionary = new Dictionary();
 	
 	/** CONSTRUCTOR */
-	public function ProxyMap(moduleName:String, messenger:Messenger) {
-		this.moduleName = moduleName;
-		this.messenger = messenger;
+	public function ProxyMap($moduleName:String, $messenger:Messenger) {
+		moduleName = $moduleName;
+		messenger = $messenger;
 	}
 	
 	//----------------------------------
@@ -93,10 +94,10 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -147,10 +148,10 @@ public class ProxyMap implements IProxyMap {
 			MvcExpress.debug(new TraceProxyMap_unmap(moduleName, injectClass, name));
 		}
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -190,10 +191,10 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get inject id
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		var injectId:String = className + name;
 		
@@ -240,10 +241,10 @@ public class ProxyMap implements IProxyMap {
 	 * @param	name		Optional name if you need more then one proxy instance of same class.
 	 */
 	public function getProxy(injectClass:Class, name:String = ""):Proxy {
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		if (injectObjectRegistry[className + name]) {
 			return injectObjectRegistry[className + name];
@@ -280,10 +281,10 @@ public class ProxyMap implements IProxyMap {
 				injectClass = proxyClass;
 			}
 			// get inject id
-			var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+			var className:String = qualifiedClassNameRegistry[injectClass];
 			if (!className) {
 				className = getQualifiedClassName(injectClass);
-				ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+				qualifiedClassNameRegistry[injectClass] = className;
 			}
 			var injectId:String = className + name;
 			//
@@ -322,15 +323,15 @@ public class ProxyMap implements IProxyMap {
 	 * @return				true if object is already mapped.
 	 */
 	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		var retVal:Boolean = false;
+		var retVal:Boolean;// = false;
 		var proxyClass:Class = Object(proxyObject).constructor as Class;
 		if (!injectClass) {
 			injectClass = proxyClass;
 		}
-		var className:String = ProxyMap.qualifiedClassNameRegistry[injectClass];
+		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
-			ProxyMap.qualifiedClassNameRegistry[injectClass] = className;
+			qualifiedClassNameRegistry[injectClass] = className;
 		}
 		if (injectObjectRegistry[className + name]) {
 			retVal = true;
@@ -357,7 +358,7 @@ public class ProxyMap implements IProxyMap {
 	//----------------------------------	
 	
 	pureLegsCore function setCommandMap(value:CommandMap):void {
-		this.commandMap = value;
+		commandMap = value;
 	}
 	
 	/////////////////
@@ -426,10 +427,10 @@ public class ProxyMap implements IProxyMap {
 		var tempClassName:String;
 		if (tempValue) {
 			if (tempClass) {
-				tempClassName = ProxyMap.qualifiedClassNameRegistry[tempClass];
+				tempClassName = qualifiedClassNameRegistry[tempClass];
 				if (!tempClassName) {
 					tempClassName = getQualifiedClassName(tempClass);
-					ProxyMap.qualifiedClassNameRegistry[tempClass] = tempClassName;
+					qualifiedClassNameRegistry[tempClass] = tempClassName;
 				}
 				if (!injectObjectRegistry[tempClassName]) {
 					injectObjectRegistry[tempClassName] = tempValue;
@@ -440,20 +441,21 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// TODO : TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
 			rules = getInjectRules(signatureClass);
-			ProxyMap.classInjectRules[signatureClass] = rules;
+			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
 			
 		}
 		
 		// injects all dependencies using rules.
-		for (var i:int = 0; i < rules.length; i++) {
+		var ruleCount:int = rules.length;
+		for (var i:int; i < ruleCount; i++) {
 			if (rules[i].scopeName) {
 				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -463,14 +465,6 @@ public class ProxyMap implements IProxyMap {
 						CONFIG::debug {
 							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(rules[i].scopeName, moduleName, object, injectObject, rules[i]));
 						}
-						//
-						//if (!pendingInjectionsRegistry[rules[i].injectClassAndName]) {
-						//pendingInjectionsRegistry[rules[i].injectClassAndName] = new Vector.<PendingInject>();
-						//}
-						//
-						//pendingInjectionsRegistry[rules[i].injectClassAndName].push(
-						
-						//);
 						
 						ModuleManager.addPendingScopedInjection(rules[i].scopeName, rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 						
@@ -572,7 +566,8 @@ public class ProxyMap implements IProxyMap {
 			//check if it is not pooled already.
 			if (!commandMap.checkIsClassPooled(signatureClass)) {
 				// dependencies remembers who is dependant on them.
-				for (var r:int = 0; r < rules.length; r++) {
+				ruleCount = rules.length;
+				for (var r:int; r < ruleCount; r++) {
 					(command[rules[r].varName] as Proxy).registerDependantCommand(signatureClass);
 				}
 			}
@@ -591,11 +586,13 @@ public class ProxyMap implements IProxyMap {
 	 * @param	pendingInjection
 	 * @private
 	 */
-	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:Object):void {
-		if (!pendingInjectionsRegistry[injectClassAndName]) {
-			pendingInjectionsRegistry[injectClassAndName] = new Vector.<PendingInject>();
+	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:PendingInject):void {
+		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName]
+		if (!pendingInjections) {
+			pendingInjections = new Vector.<PendingInject>();
+			pendingInjectionsRegistry[injectClassAndName] = pendingInjections;
 		}
-		pendingInjectionsRegistry[injectClassAndName].push(pendingInjection);
+		pendingInjections[pendingInjections.length] = pendingInjection;
 	}
 	
 	/**
@@ -610,9 +607,10 @@ public class ProxyMap implements IProxyMap {
 			pendingInjection.stopTimer();
 			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = ProxyMap.classInjectRules[pendingInjection.signatureClass];
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
-			for (var j:int = 0; j < rules.length; j++) {
+			var ruleCount:int = rules.length;
+			for (var j:int = 0; j < ruleCount; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {
 					
 					// satisfy missing injection.
@@ -647,19 +645,21 @@ public class ProxyMap implements IProxyMap {
 		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
-		
-		for (var i:int = 0; i < factoryNodes.length(); i++) {
+		var nodeCount:int = factoryNodes.length();
+		for (var i:int; i < nodeCount; i++) {
 			var node:XML = factoryNodes[i];
 			var nodeName:String = node.name();
 			if (nodeName == "variable" || nodeName == "accessor") {
 				var metadataList:XMLList = node.metadata;
-				for (var j:int = 0; j < metadataList.length(); j++) {
+				var metadataCount:int = metadataList.length();
+				for (var j:int = 0; j < metadataCount; j++) {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
 						var injectName:String = "";
 						var scopeName:String = "";
 						var args:XMLList = metadataList[j].arg;
-						for (var k:int = 0; k < args.length(); k++) {
+						var argCount:int = args.length();
+						for (var k:int = 0; k < argCount; k++) {
 							var argKey:String = args[k].@key;
 							if (argKey == "name") {
 								injectName = args[k].@value;
@@ -675,7 +675,7 @@ public class ProxyMap implements IProxyMap {
 						mapRule.varName = node.@name.toString();
 						mapRule.injectClassAndName = node.@type.toString() + injectName;
 						mapRule.scopeName = scopeName;
-						retVal.push(mapRule);
+						retVal[retVal.length] = mapRule;
 					}
 				}
 			}
@@ -690,7 +690,8 @@ public class ProxyMap implements IProxyMap {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");
 			var className:String = split[0];
-			for (var spliteIndex:int = 1; spliteIndex < split.length - 1; spliteIndex++) {
+			var splitLength:int = split.length - 1;
+			for (var spliteIndex:int = 1; spliteIndex < splitLength; spliteIndex++) {
 				className += "." + split[spliteIndex];
 			}
 			var constClass:Class = getDefinitionByName(className) as Class;
@@ -705,41 +706,6 @@ public class ProxyMap implements IProxyMap {
 	}
 
 }
-}
-
-import flash.utils.clearTimeout;
-import flash.utils.setTimeout;
-
-class PendingInject {
-	
-	/**
-	 * Private class to store pending injection data.
-	 * @private
-	 */
-	
-	private var injectClassAndName:String;
-	public var pendingObject:Object;
-	public var signatureClass:Class;
-	private var pendingInjectTime:int;
-	
-	private var timerId:uint;
-	
-	public function PendingInject(injectClassAndName:String, pendingObject:Object, signatureClass:Class, pendingInjectTime:int) {
-		this.pendingInjectTime = pendingInjectTime;
-		this.injectClassAndName = injectClassAndName;
-		this.pendingObject = pendingObject;
-		this.signatureClass = signatureClass;
-		// start timer to throw an error of unresolved injection.
-		timerId = setTimeout(throwError, pendingInjectTime);
-	}
-	
-	public function stopTimer():void {
-		clearTimeout(timerId);
-	}
-	
-	private function throwError():void {
-		throw Error("Pending inject object is not resolved in " + pendingInjectTime / 1000 + " second for class with id:" + injectClassAndName + "(needed in " + pendingObject + ")");
-	}
 }
 
 class LazyProxyData {

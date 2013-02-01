@@ -14,12 +14,12 @@ public class TraceCommand_sendScopeMessage extends TraceObj_SendMessage {
 	public var type:String;
 	public var params:Object;
 	
-	public function TraceCommand_sendScopeMessage(moduleName:String, commandObject:Command, type:String, params:Object, preSend:Boolean) {
+	public function TraceCommand_sendScopeMessage(moduleName:String, $commandObject:Command, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
 		super(((preSend) ? MvcTraceActions.COMMAND_SENDSCOPEMESSAGE : MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN), moduleName);
-		this.commandObject = commandObject;
-		this.type = type;
-		this.params = params;
+		commandObject = $commandObject;
+		type = $type;
+		params = $params;
 		//
 		canPrint = false;
 	}

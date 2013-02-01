@@ -47,7 +47,7 @@ public class ScopedProxyTests {
 	
 	public function scopedProxy_hostAndInjectHostedToMediator_injectOk():void {
 		scopedTestProxy = new ScopedTestProxy();
-		ScopedProxyModuleB.TEST_FUNCTION = AsyncUtil.asyncHandler(this, checkMediator, null, 2000, failMediatorCheck)
+		ScopedProxyModuleB.TEST_FUNCTION = AsyncUtil.asyncHandler(this, checkMediator, null, 2000, failMediatorCheck);
 		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
 		scopedProxyModuleB.createMediatorWithItject();
 	}
@@ -95,7 +95,6 @@ public class ScopedProxyTests {
 		scopedProxyModuleB.storeStuffToMediator("storedTestContent 2");
 		Assert.assertEquals(" Mediator should be able to inject hosted proxy, and manipulate it.", "storedTestContent 2", scopedTestProxy.storedData);
 	}
-	//*/
 	
 	
 	// A host
@@ -163,7 +162,6 @@ public class ScopedProxyTests {
 	public function scopedProxy_hostAndInjectHostedToCommand_injectOk():void {
 		scopedTestProxy = new ScopedTestProxy();
 		scopedProxyModuleA.hostTestProxy(scopedTestProxy);
-		
 		scopedProxyModuleB.storeStuffToCommand("storedTestContent");
 		
 		Assert.assertEquals(" Command should be able to inject hosted proxy, and manipulate it.", "storedTestContent", scopedTestProxy.storedData);

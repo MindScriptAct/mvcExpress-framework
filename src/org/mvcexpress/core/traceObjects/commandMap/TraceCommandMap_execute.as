@@ -25,11 +25,11 @@ public class TraceCommandMap_execute extends TraceObj {
 	public var messageFromProxy:Proxy;
 	public var messageFromCommand:Command;
 	
-	public function TraceCommandMap_execute(moduleName:String, commandObject:Command, commandClass:Class, params:Object) {
+	public function TraceCommandMap_execute(moduleName:String, $commandObject:Command, $commandClass:Class, $params:Object) {
 		super(MvcTraceActions.COMMANDMAP_EXECUTE, moduleName);
-		this.commandObject = commandObject;
-		this.commandClass = commandClass;
-		this.params = params;
+		commandObject = $commandObject;
+		commandClass = $commandClass;
+		params = $params;
 	}
 	
 	override public function toString():String {

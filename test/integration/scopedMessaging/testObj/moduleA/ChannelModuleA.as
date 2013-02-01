@@ -51,7 +51,8 @@ public class ChannelModuleA extends ModuleCore {
 	}
 	
 	override protected function onInit():void {
-	
+		registerScope("default", true, true, true);
+		registerScope("testChannel", true, true, true);
 	}
 	
 	override protected function onDispose():void {

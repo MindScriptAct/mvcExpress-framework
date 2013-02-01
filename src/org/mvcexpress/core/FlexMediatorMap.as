@@ -18,9 +18,9 @@ public class FlexMediatorMap extends MediatorMap {
 	
 	/* CONSTRUCTOR */
 	// TODO : check if UIComponent must be used as lowest Flex visual object... maybe it should be FlexSprite???
-	public function FlexMediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, uiComponentClass:Class) {
+	public function FlexMediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, $uiComponentClass:Class) {
 		super(moduleName, messenger, proxyMap);
-		this.uiComponentClass = uiComponentClass;
+		uiComponentClass = $uiComponentClass;
 	}
 	
 	/**

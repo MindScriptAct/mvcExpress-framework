@@ -26,6 +26,10 @@ import org.mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
  */
 public class Mediator {
 	
+	// name of module this mediator is working in.
+	/** @private */
+	pureLegsCore var moduleName:String
+	
 	/**
 	 * Interface to work with proxies.
 	 */
@@ -54,11 +58,11 @@ public class Mediator {
 	pureLegsCore var messenger:Messenger;
 	
 	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean = false;
+	private var _isReady:Boolean; // = false;
 	
 	// amount of pending injections.
 	/** @private */
-	pureLegsCore var pendingInjections:int = 0;
+	pureLegsCore var pendingInjections:int; // = 0;
 	
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
@@ -72,7 +76,7 @@ public class Mediator {
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean = false;
+	static pureLegsCore var canConstruct:Boolean; // = false;
 	
 	/** CONSTRUCTOR */
 	public function Mediator() {
@@ -122,7 +126,6 @@ public class Mediator {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceMediator_sendMessage(moduleName, this, type, params, true));
 		}
 		//
@@ -142,13 +145,13 @@ public class Mediator {
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+		
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
-		ModuleManager.sendScopeMessage(scopeName, type, params);
+		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
@@ -174,12 +177,12 @@ public class Mediator {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
-			MvcExpress.debug(new TraceMediator_addHandler(messenger.moduleName, this, type, handler));
+			MvcExpress.debug(new TraceMediator_addHandler(moduleName, this, type, handler));
 			
-			handlerVoRegistry.push(messenger.addHandler(type, handler, getQualifiedClassName(this)));
+			handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler, getQualifiedClassName(this));
 			return;
 		}
-		handlerVoRegistry.push(messenger.addHandler(type, handler));
+		handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler);
 	}
 	
 	/**
@@ -201,7 +204,8 @@ public class Mediator {
 	protected function removeAllHandlers():void {
 		use namespace pureLegsCore;
 		while (handlerVoRegistry.length) {
-			handlerVoRegistry.pop().handler = null;
+			var handler:HandlerVO = handlerVoRegistry.pop();
+			handler.handler = null;
 		}
 	}
 	
@@ -217,7 +221,7 @@ public class Mediator {
 	 */
 	protected function addScopeHandler(scopeName:String, type:String, handler:Function):void {
 		use namespace pureLegsCore;
-		handlerVoRegistry.push(ModuleManager.addScopeHandler(scopeName, type, handler));
+		handlerVoRegistry[handlerVoRegistry.length] = ModuleManager.addScopeHandler(moduleName, scopeName, type, handler);
 	}
 	
 	/**

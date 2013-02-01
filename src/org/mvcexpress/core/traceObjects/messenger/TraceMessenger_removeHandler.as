@@ -12,10 +12,10 @@ public class TraceMessenger_removeHandler extends TraceObj {
 	public var type:String;
 	public var handler:Function;
 	
-	public function TraceMessenger_removeHandler(moduleName:String, type:String, handler:Function) {
+	public function TraceMessenger_removeHandler(moduleName:String, $type:String, $handler:Function) {
 		super(MvcTraceActions.MESSENGER_REMOVEHANDLER, moduleName);
-		this.type = type;
-		this.handler = handler;
+		type = $type;
+		handler = $handler;
 	}
 	
 	override public function toString():String {
