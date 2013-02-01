@@ -9,8 +9,8 @@ import org.mvcexpress.live.Task;
  */
 public class ResetColorTask extends Task {
 	
-	[Inject(name="testdata")]
-	public var testData:TestColorVO;
+	[Inject(name="testdata_ALL")]
+	public var outData:TestColorVO;	
 	
 	[Inject(name="testViewReset")]
 	public var testView:Shape;

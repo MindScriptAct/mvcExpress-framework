@@ -3,7 +3,7 @@ import com.bit101.components.Panel;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class LiveGuiTestMediator extends Mediator {

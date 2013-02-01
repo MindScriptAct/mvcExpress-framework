@@ -3,7 +3,7 @@ import com.mindScriptAct.mvcExpressLiveVisualizer.messages.VizualizerMessage;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class ColorControlMediator extends Mediator {

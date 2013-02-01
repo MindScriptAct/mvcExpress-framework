@@ -80,6 +80,7 @@ public class MvcTraceActions {
 	static public const PROCESSMAP_PROVIDE:String = "ProcessMap.provide";
 	static public const PROCESSMAP_UNPROVIDE:String = "ProcessMap.unprovide";
 	
+	
 	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE:String = "Process.runProcess.instantSendMessage";
 	static pureLegsCore const PROCESS_INSTANT_SENDMESSAGE_CLEAN:String = "Process.runProcess.instantSendMessage.CLEAN";
 	
@@ -88,6 +89,8 @@ public class MvcTraceActions {
 	
 	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE:String = "Process.runProcess.finalSendMessage";
 	static pureLegsCore const PROCESS_FINAL_SENDMESSAGE_CLEAN:String = "Process.runProcess.finalSendMessage.CLEAN";
+	
+	static public const PROCESS_ADDHANDLER:String = "Process.addHandler";
 
 	// mvcExpressLive
 	/////////////////

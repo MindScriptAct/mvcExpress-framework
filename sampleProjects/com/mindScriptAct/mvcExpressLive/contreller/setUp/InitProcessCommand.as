@@ -5,7 +5,7 @@ import com.mindScriptAct.mvcExpressLive.processes.timerProc.LiveTimerProcess;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class InitProcessCommand extends Command {

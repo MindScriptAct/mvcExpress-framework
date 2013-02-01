@@ -3,7 +3,7 @@ import com.mindScriptAct.mvcExpressLiveVisualizer.model.ColorDataProxy;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class AddTestProxyCommand extends Command {
@@ -11,8 +11,8 @@ public class AddTestProxyCommand extends Command {
 	//[Inject]
 	//public var myProxy:MyProxy;
 	
-	public function execute(blank:Object):void {
-		proxyMap.map(new ColorDataProxy());
+	public function execute(colorId:String):void {
+		proxyMap.map(new ColorDataProxy(colorId), null, colorId);
 	}
 
 }

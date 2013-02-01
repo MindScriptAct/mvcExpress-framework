@@ -2,7 +2,7 @@ package com.mindScriptAct.mvcExpressLiveVisualizer.model{
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author Deril
  */
 public class ProcessInjectProxy extends Proxy {

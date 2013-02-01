@@ -15,7 +15,7 @@ import flash.utils.Dictionary;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class LiveVisualizerMediator extends Mediator {
@@ -100,7 +100,7 @@ public class LiveVisualizerMediator extends Mediator {
 			sendMessage(VizualizerMessage.REMOVE_PROXY);
 		} else {
 			addTestProxy.label = REMOVE_PROXY;
-			sendMessage(VizualizerMessage.ADD_PROXY);
+			sendMessage(VizualizerMessage.ADD_PROXY,ColorIds.ALL);
 		}
 	}
 	

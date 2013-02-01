@@ -3,7 +3,7 @@ import com.mindScriptAct.mvcExpressLiveVisualizer.engine.VisualizerProcess;
 import org.mvcexpress.mvc.Command;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class InitVizualizerProcessCommand extends Command {

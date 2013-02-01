@@ -10,6 +10,7 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.taskTest.TaskTestVO;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addFirstTask;
+import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addHandler;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTask;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_addTaskAfter;
 import org.mvcexpress.core.traceObjects.live.process.TraceProcess_disableTask;
@@ -163,8 +164,7 @@ public class Process {
 				throw Error("Message type:[" + type + "] can not be empty or 'null'.(You are trying to add message handler in: " + this + ")");
 			}
 			use namespace pureLegsCore;
-			// TODO ...
-			//MvcExpress.debug(new TraceMediator_addHandler(MvcTraceActions.MEDIATOR_ADDHANDLER, messenger.moduleName, this, type, handler));
+			MvcExpress.debug(new TraceProcess_addHandler(moduleName, this, type, handler));
 			
 			handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler, getQualifiedClassName(this));
 			return;

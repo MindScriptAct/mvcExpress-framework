@@ -3,20 +3,21 @@ import com.mindScriptAct.mvcExpressLiveVisualizer.constants.ProvideIds;
 import org.mvcexpress.mvc.Proxy;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class ColorDataProxy extends Proxy {
 	
 	private var testColor:TestColorVO = new TestColorVO();
+	private var colorId:String;
 	
-	public function ColorDataProxy() {
-	
+	public function ColorDataProxy(colorId:String) {
+		this.colorId = colorId;
 	}
 	
 	override protected function onRegister():void {
-		provide(testColor, ProvideIds.TESTDATA);
-		
+		provide(testColor, ProvideIds.TESTDATA + "_" + this.colorId);
+	
 		//var uintData:uint = uint.MAX_VALUE - 100;
 		//provide(uintData, "uint");
 		//

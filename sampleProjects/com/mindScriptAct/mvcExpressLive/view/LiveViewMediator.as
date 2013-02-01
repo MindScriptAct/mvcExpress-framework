@@ -5,7 +5,7 @@ import flash.utils.setTimeout;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class LiveViewMediator extends Mediator {

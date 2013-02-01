@@ -4,7 +4,7 @@ import flash.display.Shape;
 import org.mvcexpress.mvc.Mediator;
 
 /**
- * TODO:CLASS COMMENT
+ * CLASS COMMENT
  * @author rBanevicius
  */
 public class TestColorRectangleMediator extends Mediator{
