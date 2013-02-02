@@ -92,9 +92,9 @@ public class Proxy {
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+		var moduleName:String = messenger.moduleName;
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProxy_sendMessage(moduleName, this, type, params, true));
 		}
 		//
@@ -119,9 +119,9 @@ public class Proxy {
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+		var moduleName:String = messenger.moduleName;
 		// log the action
 		CONFIG::debug {
-			var moduleName:String = messenger.moduleName;
 			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, true));
 		}
 		//
