@@ -41,7 +41,11 @@ public class CommandMap {
 	
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
-	private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
+	static private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
+	
+	/** Dictionary with validated command classes.  */
+	CONFIG::debug
+	static private var validatedCommands:Dictionary = new Dictionary(); /* of Boolean by Class */
 	
 	private var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 	
@@ -130,12 +134,18 @@ public class CommandMap {
 		
 		var command:Command;
 		
+		// debug this action
+		CONFIG::debug {
+			MvcExpress.debug(new TraceCommandMap_execute(moduleName, command, commandClass, params));
+		}
+		
 		//////////////////////////////////////////////
 		////// INLINE FUNCTION runCommand() START
 		
 		// check if command is pooled.
-		if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
-			command = commandPools[commandClass].shift();
+		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+		if (pooledCommands && pooledCommands.length > 0) {
+			command = pooledCommands.shift();
 		} else {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
@@ -160,15 +170,11 @@ public class CommandMap {
 			proxyMap.injectStuff(command, commandClass);
 		}
 		
-		// debug this action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceCommandMap_execute(moduleName, command, commandClass, params));
-		}
-		
 		if (command is PooledCommand) {
 			// init pool if needed.
-			if (!commandPools[commandClass]) {
-				commandPools[commandClass] = new Vector.<Object>();
+			if (!pooledCommands) {
+				pooledCommands = new Vector.<PooledCommand>();
+				commandPools[commandClass] = pooledCommands;
 			}
 			command.isExecuting = true;
 			command.execute(params);
@@ -176,7 +182,6 @@ public class CommandMap {
 			
 			// if not locked - pool it.
 			if (!(command as PooledCommand).isLocked) {
-				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
 				if (pooledCommands) {
 					pooledCommands[pooledCommands.length] = command as PooledCommand;
 				}
@@ -360,12 +365,18 @@ public class CommandMap {
 			for (var i:int; i < commandCount; i++) {
 				var commandClass:Class = messageClasses[i];
 				
+				// debug this action
+				CONFIG::debug {
+					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
+				}
+				
 				//////////////////////////////////////////////
 				////// INLINE FUNCTION runCommand() START
 				
 				// check if command is pooled.
-				if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
-					command = commandPools[commandClass].shift();
+				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+				if (pooledCommands && pooledCommands.length > 0) {
+					command = pooledCommands.shift();
 				} else {
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
@@ -390,15 +401,11 @@ public class CommandMap {
 					proxyMap.injectStuff(command, commandClass);
 				}
 				
-				// debug this action
-				CONFIG::debug {
-					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
-				}
-				
 				if (command is PooledCommand) {
 					// init pool if needed.
-					if (!commandPools[commandClass]) {
-						commandPools[commandClass] = new Vector.<PooledCommand>();
+					if (!pooledCommands) {
+						pooledCommands = new Vector.<PooledCommand>();
+						commandPools[commandClass] = pooledCommands;
 					}
 					command.isExecuting = true;
 					command.execute(params);
@@ -406,7 +413,6 @@ public class CommandMap {
 					
 					// if not locked - pool it.
 					if (!(command as PooledCommand).isLocked) {
-						var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
 						if (pooledCommands) {
 							pooledCommands[pooledCommands.length] = command as PooledCommand;
 						}
@@ -416,8 +422,9 @@ public class CommandMap {
 					command.execute(params);
 					command.isExecuting = false;
 				}
+				
 					////// INLINE FUNCTION runCommand() END
-					//////////////////////////////////////////////	
+					//////////////////////////////////////////////
 				
 			}
 		}
@@ -430,38 +437,44 @@ public class CommandMap {
 	CONFIG::debug
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
 		
-		if (!checkClassSuperclass(commandClass, "org.mvcexpress.mvc::Command")) {
-			throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Command' class.");
-		}
-		
-		if (!commandClassParamTypes[commandClass]) {
+		// skip alread validated classes.
+		if (validatedCommands[commandClass] != true) {
 			
-			var classDescription:XML = describeType(commandClass);
-			var hasExecute:Boolean; // = false;
-			var parameterCount:int; // = 0;
+			if (!checkClassSuperclass(commandClass, "org.mvcexpress.mvc::Command")) {
+				throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'org.mvcexpress.mvc::Command' class.");
+			}
 			
-			// find execute method.
-			var methodList:XMLList = classDescription.factory.method;
-			var methodCount:int = methodList.length();
-			for (var i:int; i < methodCount; i++) {
-				if (methodList[i].@name == "execute") {
-					hasExecute = true;
-					// check parameter ammount.
-					var paramList:XMLList = methodList[i].parameter;
-					parameterCount = paramList.length();
-					if (parameterCount == 1) {
-						commandClassParamTypes[commandClass] = paramList[0].@type;
+			if (!commandClassParamTypes[commandClass]) {
+				
+				var classDescription:XML = describeType(commandClass);
+				var hasExecute:Boolean; // = false;
+				var parameterCount:int; // = 0;
+				
+				// find execute method.
+				var methodList:XMLList = classDescription.factory.method;
+				var methodCount:int = methodList.length();
+				for (var i:int; i < methodCount; i++) {
+					if (methodList[i].@name == "execute") {
+						hasExecute = true;
+						// check parameter ammount.
+						var paramList:XMLList = methodList[i].parameter;
+						parameterCount = paramList.length();
+						if (parameterCount == 1) {
+							commandClassParamTypes[commandClass] = paramList[0].@type;
+						}
 					}
 				}
+				
+				if (hasExecute) {
+					if (parameterCount != 1) {
+						throw Error("Command:" + commandClass + " function execute() must have single parameter, but it has " + parameterCount);
+					}
+				} else {
+					throw Error("Command:" + commandClass + " must have public execute() function with single parameter.");
+				}
 			}
 			
-			if (hasExecute) {
-				if (parameterCount != 1) {
-					throw Error("Command:" + commandClass + " function execute() must have single parameter, but it has " + parameterCount);
-				}
-			} else {
-				throw Error("Command:" + commandClass + " must have public execute() function with single parameter.");
-			}
+			validatedCommands[commandClass] = true;
 		}
 	}
 	
