@@ -7,6 +7,7 @@ import org.mvcexpress.mvc.Mediator;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceMediatorMap_unmediate extends TraceObj {
 	public var viewObject:Object;

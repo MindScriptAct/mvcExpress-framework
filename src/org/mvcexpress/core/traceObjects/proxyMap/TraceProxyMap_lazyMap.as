@@ -8,6 +8,7 @@ import org.mvcexpress.mvc.Proxy;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceProxyMap_lazyMap extends TraceObj {
 	

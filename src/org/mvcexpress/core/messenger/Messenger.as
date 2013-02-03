@@ -1,14 +1,13 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core.messenger {
 import flash.utils.Dictionary;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.CommandMap;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_addHandler;
 import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_removeHandler;
 import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
 import org.mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
+import org.mvcexpress.MvcExpress;
 
 /**
  * FOR INTERNAL USE ONLY.
@@ -21,7 +20,7 @@ public class Messenger {
 	pureLegsCore var moduleName:String;
 	
 	// defines if messenger can be instantiated.
-	static pureLegsCore var allowInstantiation:Boolean;// = false;
+	static pureLegsCore var allowInstantiation:Boolean; // = false;
 	
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
 	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
@@ -116,7 +115,7 @@ public class Messenger {
 		}
 		var messageList:Vector.<HandlerVO> = messageRegistry[type];
 		var handlerVo:HandlerVO;
-		var delCount:int;// = 0;
+		var delCount:int; // = 0;
 		if (messageList) {
 			var mesageCount:int = messageList.length;
 			for (var i:int; i < mesageCount; i++) {

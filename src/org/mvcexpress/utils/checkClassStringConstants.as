@@ -1,6 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.utils {
-import flash.utils.describeType;
+	import flash.utils.describeType;
 
 /**
  * utility function to check class string constant values for accidental duplications.  																		</br>

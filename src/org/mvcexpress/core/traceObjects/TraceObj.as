@@ -4,6 +4,7 @@ package org.mvcexpress.core.traceObjects {
 /**
  * Base of all trace objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 dynamic public class TraceObj {
 	
