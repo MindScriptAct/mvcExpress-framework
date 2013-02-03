@@ -12,8 +12,6 @@ public class testInject {
 	[Inject]
 	public var metadataTest:Boolean;
 	
-	
-	
 	public function testInjectMetaTag():Boolean {
 		var retVal:Boolean = false;
 		

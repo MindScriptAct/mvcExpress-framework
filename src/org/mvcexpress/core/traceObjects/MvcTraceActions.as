@@ -5,6 +5,7 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 /**
  * Trace action id's.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class MvcTraceActions {
 	

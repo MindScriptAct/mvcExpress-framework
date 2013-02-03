@@ -8,6 +8,7 @@ import org.mvcexpress.mvc.Mediator;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceMediator_sendMessage extends TraceObj_SendMessage {
 	

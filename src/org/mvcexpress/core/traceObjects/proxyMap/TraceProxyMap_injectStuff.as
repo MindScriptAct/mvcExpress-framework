@@ -8,6 +8,7 @@ import org.mvcexpress.core.traceObjects.TraceObj;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceProxyMap_injectStuff extends TraceObj {
 	

@@ -29,10 +29,10 @@ public class Task {
 	pureLegsCore var _isEnabled:Boolean = true;
 	
 	// stores how much injections this task is missing.
-	pureLegsCore var _missingDependencyCount:int;// = 0;
+	pureLegsCore var _missingDependencyCount:int; // = 0;
 	
 	// to covers _isEnabled and _missingDependencyCount
-	pureLegsCore var _isRunning:Boolean = true; 
+	pureLegsCore var _isRunning:Boolean = true;
 	
 	/**
 	 * Simple object for assert testing.
@@ -73,7 +73,6 @@ public class Task {
 		use namespace pureLegsCore;
 		return _isEnabled as Boolean;
 	}
-	
 	
 	/**
 	 * Returns if tast is running. (not disabled and has all proxies injected.).

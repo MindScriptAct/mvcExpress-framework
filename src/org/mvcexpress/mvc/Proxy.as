@@ -1,15 +1,14 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.mvc {
 import flash.utils.Dictionary;
-import org.mvcexpress.MvcExpress;
-import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
+import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.ProcessMap;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
 import org.mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
+import org.mvcexpress.MvcExpress;
 
 /**
  * Proxy holds and manages application data, provide API to work with it. 				</br>
@@ -24,7 +23,7 @@ public class Proxy {
 	protected var proxyMap:IProxyMap;
 	
 	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean;// = false;
+	private var _isReady:Boolean; // = false;
 	
 	// used internally for communication
 	/** @private */
@@ -50,7 +49,7 @@ public class Proxy {
 	
 	// amount of pending injections.
 	/** @private */
-	pureLegsCore var pendingInjections:int;// = 0;
+	pureLegsCore var pendingInjections:int; // = 0;
 	
 	/** CONSTRUCTOR */
 	public function Proxy() {
@@ -234,7 +233,7 @@ public class Proxy {
 	 * @private
 	 */
 	pureLegsCore function addScope(scopeName:String):void {
-		var messengerFound:Boolean;// = false;
+		var messengerFound:Boolean; // = false;
 		var scopeCount:int = proxyScopes.length;
 		for (var i:int; i < scopeCount; i++) {
 			if (proxyScopes[i] == scopeName) {

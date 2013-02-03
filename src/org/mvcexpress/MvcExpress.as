@@ -23,9 +23,7 @@ public class MvcExpress {
 	public static const REVISION:uint = 0;
 	
 	/** Current framework version */
-	public static function get VERSION():String {
-		return "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
-	}
+	public static const VERSION:String = "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
 	
 	/**
 	 * Checks for CONFIG::debug variable value.

@@ -1,28 +1,27 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package org.mvcexpress.core {
-import flash.utils.Dictionary;
 import flash.utils.describeType;
+import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import org.mvcexpress.core.inject.PendingInject;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.inject.InjectRuleVO;
+import org.mvcexpress.core.inject.PendingInject;
 import org.mvcexpress.core.interfaces.IProxyMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectPending;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectStuff;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_lazyMap;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_map;
+import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopedInjectPending;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeMap;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeUnmap;
-import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopedInjectPending;
 import org.mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_unmap;
 import org.mvcexpress.mvc.Command;
 import org.mvcexpress.mvc.Mediator;
 import org.mvcexpress.mvc.PooledCommand;
 import org.mvcexpress.mvc.Proxy;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**
@@ -101,11 +100,11 @@ public class ProxyMap implements IProxyMap {
 		}
 		var injectId:String = className + name;
 		
-		if (lazyProxyRegistry[injectId] != null) {
+		if (injectId in lazyProxyRegistry) {
 			throw Error("Proxy object is already lazy mapped. [injectClass:" + injectClass + " name:" + name + "]");
 		}
 		
-		if (injectObjectRegistry[injectId] != null) {
+		if (injectId in injectObjectRegistry) {
 			throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
 		}
 		
@@ -198,10 +197,10 @@ public class ProxyMap implements IProxyMap {
 		}
 		var injectId:String = className + name;
 		
-		if (lazyProxyRegistry[injectId] != null) {
+		if (injectId in lazyProxyRegistry) {
 			throw Error("Proxy class is already lazy mapped. [injectClass:" + className + " name:" + name + "]");
 		}
-		if (injectObjectRegistry[injectId] != null) {
+		if (injectId in injectObjectRegistry) {
 			throw Error("Proxy object is already mapped. [injectClass:" + className + " name:" + name + "]");
 		}
 		
@@ -246,8 +245,9 @@ public class ProxyMap implements IProxyMap {
 			className = getQualifiedClassName(injectClass);
 			qualifiedClassNameRegistry[injectClass] = className;
 		}
-		if (injectObjectRegistry[className + name]) {
-			return injectObjectRegistry[className + name];
+		var classAndName:String = className + name;
+		if (classAndName in injectObjectRegistry) {
+			return injectObjectRegistry[classAndName];
 		} else {
 			throw Error("Proxy object is not mapped. [injectClass:" + className + " name:" + name + "]");
 		}
@@ -456,80 +456,70 @@ public class ProxyMap implements IProxyMap {
 		// injects all dependencies using rules.
 		var ruleCount:int = rules.length;
 		for (var i:int; i < ruleCount; i++) {
-			if (rules[i].scopeName) {
-				if (!ModuleManager.injectScopedProxy(object, rules[i])) {
+			var rule:InjectRuleVO = rules[i];
+			var scopename:String = rule.scopeName;
+			var injectClassAndName:String = rule.injectClassAndName;
+			if (scopename) {
+				if (!ModuleManager.injectScopedProxy(object, rule)) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
 						isAllInjected = false;
 						//add injection to pending injections.
 						// debug this action						
 						CONFIG::debug {
-							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(rules[i].scopeName, moduleName, object, injectObject, rules[i]));
+							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(scopename, moduleName, object, injectObject, rule));
 						}
 						
-						ModuleManager.addPendingScopedInjection(rules[i].scopeName, rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+						ModuleManager.addPendingScopedInjection(scopename, injectClassAndName, new PendingInject(injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 						
 						object.pendingInjections++;
 						
 							//throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
 					} else {
-						throw Error("Inject object is not found in scope:" + rules[i].scopeName + " for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+						throw Error("Inject object is not found in scope:" + scopename + " for class with id:" + injectClassAndName + "(needed in " + object + ")");
 					}
 				}
 			} else {
-				var injectObject:Object = injectObjectRegistry[rules[i].injectClassAndName];
+				var injectObject:Object = injectObjectRegistry[injectClassAndName];
 				if (injectObject) {
-					object[rules[i].varName] = injectObject;
+					object[rule.varName] = injectObject;
 					// debug this action					
 					CONFIG::debug {
-						MvcExpress.debug(new TraceProxyMap_injectStuff(moduleName, object, injectObject, rules[i]));
+						MvcExpress.debug(new TraceProxyMap_injectStuff(moduleName, object, injectObject, rule));
 					}
 				} else {
 					// if local injection fails... test for lazy injections
-					
-					if (lazyProxyRegistry[rules[i].injectClassAndName] != null) {
-						var lazyProxyData:LazyProxyData = lazyProxyRegistry[rules[i].injectClassAndName];
-						delete lazyProxyRegistry[rules[i].injectClassAndName];
+					if (injectClassAndName in lazyProxyRegistry) {
+						var lazyProxyData:LazyProxyData = lazyProxyRegistry[injectClassAndName];
+						delete lazyProxyRegistry[injectClassAndName];
 						
 						var lazyProxy:Proxy;
 						
 						if (lazyProxyData.proxyParams) {
-							switch (lazyProxyData.proxyParams.length) {
-								case 1: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0]);
-									break;
-								case 2: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1]);
-									break;
-								case 3: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2]);
-									break;
-								case 4: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3]);
-									break;
-								case 5: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4]);
-									break;
-								case 6: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5]);
-									break;
-								case 7: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6]);
-									break;
-								case 8: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7]);
-									break;
-								case 9: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8]);
-									break;
-								case 10: 
-									lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8], lazyProxyData.proxyParams[9]);
-									break;
-								case 0: 
-									lazyProxy = new lazyProxyData.proxyClass();
-									break;
-								default: 
-									throw Error("Lazy proxing is not supported with that many parameters. Cut it douwn please. Thanks!  [injectClass:" + lazyProxyData.injectClass + " ,name: " + lazyProxyData.name + "]");
-									break;
+							var paramCount:int = lazyProxyData.proxyParams.length;
+							if (paramCount == 0) {
+								lazyProxy = new lazyProxyData.proxyClass();
+							} else if (paramCount == 1) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0]);
+							} else if (paramCount == 2) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1]);
+							} else if (paramCount == 3) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2]);
+							} else if (paramCount == 4) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3]);
+							} else if (paramCount == 5) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4]);
+							} else if (paramCount == 6) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5]);
+							} else if (paramCount == 7) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6]);
+							} else if (paramCount == 8) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7]);
+							} else if (paramCount == 9) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8]);
+							} else if (paramCount == 10) {
+								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8], lazyProxyData.proxyParams[9]);
+							} else {
+								throw Error("Lazy proxing is not supported with that many parameters. Cut it douwn please. Thanks!  [injectClass:" + lazyProxyData.injectClass + " ,name: " + lazyProxyData.name + "]");
 							}
 						} else {
 							lazyProxy = new lazyProxyData.proxyClass();
@@ -546,13 +536,13 @@ public class ProxyMap implements IProxyMap {
 							//add injection to pending injections.
 							// debug this action						
 							CONFIG::debug {
-								MvcExpress.debug(new TraceProxyMap_injectPending(moduleName, object, injectObject, rules[i]));
+								MvcExpress.debug(new TraceProxyMap_injectPending(moduleName, object, injectObject, rule));
 							}
 							//
-							addPendingInjection(rules[i].injectClassAndName, new PendingInject(rules[i].injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+							addPendingInjection(injectClassAndName, new PendingInject(injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 							object.pendingInjections++;
 						} else {
-							throw Error("Inject object is not found for class with id:" + rules[i].injectClassAndName + "(needed in " + object + ")");
+							throw Error("Inject object is not found for class with id:" + injectClassAndName + "(needed in " + object + ")");
 						}
 					}
 				}
@@ -687,7 +677,7 @@ public class ProxyMap implements IProxyMap {
 	[Inline]
 	
 	private function getInjectByContName(constName:String):String {
-		if (!classConstRegistry[constName]) {
+		if (!(constName in classConstRegistry)) {
 			var split:Array = constName.split(".");
 			var className:String = split[0];
 			var splitLength:int = split.length - 1;
@@ -697,7 +687,7 @@ public class ProxyMap implements IProxyMap {
 			try {
 				var constClass:Class = getDefinitionByName(className) as Class;
 				classConstRegistry[constName] = constClass[split[spliteIndex]];
-				if (classConstRegistry[constName] == null) {
+				if (!(constName in classConstRegistry)) {
 					throw Error("Failed to get constant out of class:" + constClass + " Check constant name: " + split[spliteIndex]);
 				}
 			} catch (error:Error) {

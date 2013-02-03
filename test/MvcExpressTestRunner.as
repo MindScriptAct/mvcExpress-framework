@@ -38,7 +38,6 @@ public class MvcExpressTestRunner extends Sprite {
 		listener = new VisualListener(this.stage.stageWidth, this.stage.stageHeight);
 		addChild(listener);
 		core.addListener(listener);
-		
 		core.run(AllTestSuites);
 	}
 

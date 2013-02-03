@@ -50,8 +50,8 @@ public class Process {
 	pureLegsCore var processType:int;
 	pureLegsCore var processId:String;
 	
-	pureLegsCore var totalFrameSkip:int;// = 0;
-	pureLegsCore var currentFrameSkip:int;// = 0;
+	pureLegsCore var totalFrameSkip:int; // = 0;
+	pureLegsCore var currentFrameSkip:int; // = 0;
 	
 	// all process tasks.
 	private var taskRegistry:Dictionary = new Dictionary();
@@ -62,10 +62,10 @@ public class Process {
 	private var tail:Task;
 	
 	// indicates if task cash should be used.
-	private var isCached:Boolean;// = false;
+	private var isCached:Boolean; // = false;
 	
 	// will reset cash with next run. (with every task add/remove or injection provide/unprovide or task enable/disable.)
-	pureLegsCore var needCashNext:Boolean;// = false;
+	pureLegsCore var needCashNext:Boolean; // = false;
 	
 	// cash of running tasks. 
 	private var processCache:Vector.<Task> = new Vector.<Task>();
@@ -82,12 +82,12 @@ public class Process {
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 	
 	// indicates if process is running.
-	pureLegsCore var _isRunning:Boolean;// = false;
+	pureLegsCore var _isRunning:Boolean; // = false;
 	
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
-	static pureLegsCore var canConstruct:Boolean;// = false;
+	static pureLegsCore var canConstruct:Boolean; // = false;
 	
 	public function Process() {
 		CONFIG::debug {
