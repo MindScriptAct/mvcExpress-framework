@@ -3,16 +3,15 @@ package org.mvcexpress.core {
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import org.mvcexpress.MvcExpress;
 import org.mvcexpress.core.interfaces.IMediatorMap;
 import org.mvcexpress.core.messenger.Messenger;
 import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_map;
 import org.mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_mediate;
 import org.mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_unmap;
 import org.mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_unmediate;
 import org.mvcexpress.mvc.Mediator;
+import org.mvcexpress.MvcExpress;
 import org.mvcexpress.utils.checkClassSuperclass;
 
 /**

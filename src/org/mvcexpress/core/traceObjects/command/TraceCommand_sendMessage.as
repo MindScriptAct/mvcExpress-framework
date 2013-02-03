@@ -8,6 +8,7 @@ import org.mvcexpress.mvc.Command;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @private
  */
 public class TraceCommand_sendMessage extends TraceObj_SendMessage {
 	
