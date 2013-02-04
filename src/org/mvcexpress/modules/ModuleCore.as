@@ -114,8 +114,8 @@ public class ModuleCore {
 	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
 	 * @param	proxieMap			Modules can map proxies to this scope.
 	 */
-	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
-		moduleBase.registerScope(scopeName, messageSending, messageReceiving, proxieMap);
+	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
+		moduleBase.registerScope(scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 	
 	/**

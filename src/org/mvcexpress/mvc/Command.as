@@ -108,11 +108,11 @@ dynamic public class Command {
 	 * @param	scopeName			Name of the scope.
 	 * @param	messageSending		Modules can send messages to this scope.
 	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
-	 * @param	proxieMap			Modules can map proxies to this scope.
+	 * @param	proxieMapping		Modules can map proxies to this scope.
 	 */
-	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
 		use namespace pureLegsCore;
-		ModuleManager.registerScope(messenger.moduleName, scopeName, messageSending, messageReceiving, proxieMap);
+		ModuleManager.registerScope(messenger.moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 	
 	/**
