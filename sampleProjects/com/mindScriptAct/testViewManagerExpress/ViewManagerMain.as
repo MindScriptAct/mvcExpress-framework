@@ -1,31 +1,27 @@
-package com.mindScriptAct.mvcExpressSpeedTest {
+package com.mindScriptAct.testViewManagerExpress {
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
-import flash.utils.getTimer;
-import flash.utils.setTimeout;
 
 /**
- * ...
- * @author Deril (http://www.mindscriptact.com/)
+ * COMMENT
+ * @author Deril
  */
-public class MvcExpressSpeedTest extends Sprite {
+public class ViewManagerMain extends Sprite {
+	private var module:ViewMenagerMainModule;
 	
-	public var initTime:int;
-	
-	private var module:AppModule;
-	
-	public function MvcExpressSpeedTest():void {
+	public function ViewManagerMain() {
 		if (stage)
 			init();
 		else
 			addEventListener(Event.ADDED_TO_STAGE, init);
+	
 	}
 	
 	private function init(event:Event = null):void {
 		removeEventListener(Event.ADDED_TO_STAGE, init);
-		//
+		
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
 		//
@@ -36,12 +32,10 @@ public class MvcExpressSpeedTest extends Sprite {
 	}
 	
 	private function start():void {
-		this.initTime = getTimer();
 		
-		module = new AppModule();
+		module = new ViewMenagerMainModule();
 		module.start(this);
 	}
 
 }
-
 }
