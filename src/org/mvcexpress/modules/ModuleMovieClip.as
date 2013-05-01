@@ -35,11 +35,11 @@ public class ModuleMovieClip extends MovieClip {
 		use namespace pureLegsCore;
 		moduleBase = ModuleManager.createModule(moduleName, autoInit);
 		//
-		proxyMap = moduleBase.proxyMap;
-		mediatorMap = moduleBase.mediatorMap;
-		commandMap = moduleBase.commandMap;
-		//
 		if (autoInit) {
+			proxyMap = moduleBase.proxyMap;
+			mediatorMap = moduleBase.mediatorMap;
+			commandMap = moduleBase.commandMap;
+			//
 			if (initOnStage) {
 				if (stage) {
 					onInit();
@@ -71,6 +71,11 @@ public class ModuleMovieClip extends MovieClip {
 	 */
 	protected function initModule():void {
 		moduleBase.initModule();
+		
+		proxyMap = moduleBase.proxyMap;
+		mediatorMap = moduleBase.mediatorMap;
+		commandMap = moduleBase.commandMap;
+		
 		onInit();
 	}
 	

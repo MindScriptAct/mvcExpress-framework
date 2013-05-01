@@ -126,13 +126,18 @@ public class ModuleBase {
 	public function disposeModule():void {
 		use namespace pureLegsCore;
 		//
-		commandMap.dispose();
-		mediatorMap.dispose();
-		proxyMap.dispose();
-		
-		commandMap = null;
-		mediatorMap = null;
-		proxyMap = null;
+		if (commandMap) {
+			commandMap.dispose();
+			commandMap = null;
+		}
+		if (mediatorMap) {
+			mediatorMap.dispose();
+			mediatorMap = null;
+		}
+		if (proxyMap) {
+			proxyMap.dispose();
+			proxyMap = null;
+		}
 		_messenger = null;
 		//
 		ModuleManager.disposeModule(_moduleName);

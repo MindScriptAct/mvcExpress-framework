@@ -33,11 +33,11 @@ public class ModuleCore {
 		use namespace pureLegsCore;
 		moduleBase = ModuleManager.createModule(moduleName, autoInit);
 		//
-		proxyMap = moduleBase.proxyMap;
-		mediatorMap = moduleBase.mediatorMap;
-		commandMap = moduleBase.commandMap;
-		
 		if (autoInit) {
+			proxyMap = moduleBase.proxyMap;
+			mediatorMap = moduleBase.mediatorMap;
+			commandMap = moduleBase.commandMap;
+			
 			onInit();
 		}
 	}
@@ -55,6 +55,11 @@ public class ModuleCore {
 	 */
 	protected function initModule():void {
 		moduleBase.initModule();
+		
+		proxyMap = moduleBase.proxyMap;
+		mediatorMap = moduleBase.mediatorMap;
+		commandMap = moduleBase.commandMap;
+		
 		onInit();
 	}
 	
