@@ -34,12 +34,15 @@ dynamic public class Command {
 	/** Handles application Mediators. */
 	public var mediatorMap:MediatorMap;
 	
-	// used internally for communication
-	/** @private */
+	/** used internally for communication
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 	
-	//flag to store if command is executed by commandMap.
-	/** @private */
+    /** @private */
+    pureLegsCore var messageType:String;
+	
+	/** flag to store if command is executed by commandMap.
+	 * @private */
 	pureLegsCore var isExecuting:Boolean; // = false;
 	
 	/** @private */
@@ -125,6 +128,18 @@ dynamic public class Command {
 		ModuleManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
+	//----------------------------------
+	//     Getters
+	//----------------------------------	
+	
+	/**
+	 * Type of message that executed this command. (If command is not executed by message it set to null.) 
+	 * @return		message type
+	 */
+	public function getMessageType():String {
+		return pureLegsCore::messageType;
+	}
+	
 	//----------------------------------
 	//     Misc
 	//----------------------------------

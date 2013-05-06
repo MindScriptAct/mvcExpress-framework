@@ -175,6 +175,9 @@ public class CommandMap {
 				pooledCommands = new Vector.<PooledCommand>();
 				commandPools[commandClass] = pooledCommands;
 			}
+			
+			command.messageType = null;
+			
 			command.isExecuting = true;
 			command.execute(params);
 			command.isExecuting = false;
@@ -412,6 +415,8 @@ public class CommandMap {
 					// inject dependencies
 					proxyMap.injectStuff(command, commandClass);
 				}
+				
+				command.messageType = messageType;
 				
 				if (command is PooledCommand) {
 					// init pool if needed.
