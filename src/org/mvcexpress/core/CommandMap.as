@@ -300,6 +300,19 @@ public class CommandMap {
 	}
 	
 	/**
+	 * Returns count of commands mapped to specified message type.
+	 * @param type		Message type for command class to react to.
+	 * @return			count of commands mapped to message.
+	 */
+	public function mappedCommandCount(type:String):int {
+		if (classRegistry[type] != null) {
+			return (classRegistry[type] as Vector.<Class>).length;
+		} else {
+			return 0;
+		}
+	}
+	
+	/**
 	 * Returns text of all command classes that are mapped to messages. (for debugging)
 	 * @return		Text with all mapped commands.
 	 */
