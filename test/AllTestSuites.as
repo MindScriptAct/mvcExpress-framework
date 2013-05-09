@@ -2,6 +2,7 @@ package {
 import integration.commandPooling.CommandPoolingTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
+import integration.moduleInitTests.ModuleInitTests;
 import integration.proxyMap.ProxyMapTests;
 import integration.scopeControl.ScopeControlTests;
 import integration.scopedMessaging.ChannelingTests;
@@ -32,6 +33,8 @@ public class AllTestSuites {
 	//*
 	
 	public var generalTests:GeneralTests;
+	
+	public var moduleInitTests:ModuleInitTests;
 	
 	public var messengerTests:MessengerTests;
 	

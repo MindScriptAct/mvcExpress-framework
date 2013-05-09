@@ -259,7 +259,7 @@ public class ModuleManager {
 		}
 		
 		// check if action is available
-		if (!scopePermission || !scopePermission.proxieMap) {
+		if (!scopePermission || !scopePermission.proxieMapping) {
 			throw Error("Module with name:" + moduleName + " has no permition to map proxies to scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 		
@@ -372,11 +372,11 @@ public class ModuleManager {
 	//     Scope managment
 	//----------------------------------
 	
-	static pureLegsCore function registerScope(moduleName:String, scopeName:String, messageSending:Boolean, messageReceiving:Boolean, proxieMap:Boolean):void {
+	static pureLegsCore function registerScope(moduleName:String, scopeName:String, messageSending:Boolean, messageReceiving:Boolean, proxieMapping:Boolean):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMap));
+			MvcExpress.debug(new TraceModuleManager_registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMapping));
 		}
 		
 		// create dictionary for scope permisions by moduleName
@@ -392,7 +392,7 @@ public class ModuleManager {
 		// set values
 		scopePermission.messageSending = messageSending;
 		scopePermission.messageReceiving = messageReceiving;
-		scopePermission.proxieMap = proxieMap;
+		scopePermission.proxieMapping = proxieMapping;
 	}
 	
 	static pureLegsCore function unregisterScope(moduleName:String, scopeName:String):void {
@@ -502,5 +502,5 @@ class ScopedProxyData {
 class ScopePermissionData {
 	public var messageSending:Boolean;
 	public var messageReceiving:Boolean;
-	public var proxieMap:Boolean;
+	public var proxieMapping:Boolean;
 }
