@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core.traceObjects.proxyMap {
 import flash.display.DisplayObject;
+
 import mvcexpress.core.traceObjects.MvcTraceActions;
 import mvcexpress.core.traceObjects.TraceObj;
 import mvcexpress.mvc.Proxy;

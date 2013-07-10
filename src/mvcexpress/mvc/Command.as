@@ -1,25 +1,25 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.mvc {
+import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
-import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.ModuleManager;
-import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.ProxyMap;
+import mvcexpress.core.messenger.Messenger;
+import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendMessage;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendScopeMessage;
-import mvcexpress.MvcExpress;
 
 /**
- * Command, handles business logic of your application. 																									</br>
- * You most likely need it then:																															</br>
- *    - if you need to change application state with one or more logical statement.																			</br>
- *    - if you need more then one unrelated proxies injected to make a decision.																			</br>
- * Commands can get proxies injected and can send messages																									</br>
+ * Command, handles business logic of your application.                                                                                                    </br>
+ * You most likely need it then:                                                                                                                            </br>
+ *    - if you need to change application state with one or more logical statement.                                                                            </br>
+ *    - if you need more then one unrelated proxies injected to make a decision.                                                                            </br>
+ * Commands can get proxies injected and can send messages                                                                                                    </br>
  * <b><p>
- * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.																</br>
- * It is best practice to use same type as you use in message, that triggers this command.																	</br>
- * If message does not send any parameter object - you still must have singe parameter, for example: execute(blank:Object). This parameter will be null.	</br>
+ * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                                </br>
+ * It is best practice to use same type as you use in message, that triggers this command.                                                                    </br>
+ * If message does not send any parameter object - you still must have singe parameter, for example: execute(blank:Object). This parameter will be null.    </br>
  * </p></b>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
@@ -38,8 +38,8 @@ dynamic public class Command {
 	 * @private */
 	pureLegsCore var messenger:Messenger;
 
-    /** @private */
-    pureLegsCore var messageType:String;
+	/** @private */
+	pureLegsCore var messageType:String;
 
 	/** flag to store if command is executed by commandMap.
 	 * @private */
@@ -53,6 +53,7 @@ dynamic public class Command {
 	public function Command() {
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			if (!canConstruct) {
 				throw Error("Command:" + this + " can be constructed only by framework. If you want to execute it - map it to message with commandMap.map() and send a message, or execute it directly with commandMap.execute()");
 			}
@@ -65,11 +66,12 @@ dynamic public class Command {
 
 	/**
 	 * Sends a message with optional params object inside of current module.
-	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
+	 * @param    type    type of the message for Commands or Mediator's handle function to react to.
+	 * @param    params    Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		// log the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceCommand_sendMessage(messenger.moduleName, this, type, params, true));
@@ -85,12 +87,13 @@ dynamic public class Command {
 
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
-	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
+	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
+	 * @param    params        Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		// log the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceCommand_sendScopeMessage(messenger.moduleName, this, type, params, true));
@@ -108,23 +111,25 @@ dynamic public class Command {
 	 * Registers scope name.
 	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
 	 * What features module can use with that scope is defined by parameters.
-	 * @param	scopeName			Name of the scope.
-	 * @param	messageSending		Modules can send messages to this scope.
-	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
-	 * @param	proxieMapping		Modules can map proxies to this scope.
+	 * @param    scopeName            Name of the scope.
+	 * @param    messageSending        Modules can send messages to this scope.
+	 * @param    messageReceiving    Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param    proxieMapping        Modules can map proxies to this scope.
 	 */
 	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
 		use namespace pureLegsCore;
+
 		ModuleManager.registerScope(messenger.moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 
 	/**
 	 * Unregisters scope name.
 	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
-	 * @param	scopeName			Name of the scope.
+	 * @param    scopeName            Name of the scope.
 	 */
 	protected function unregisterScope(scopeName:String):void {
 		use namespace pureLegsCore;
+
 		ModuleManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
@@ -134,7 +139,7 @@ dynamic public class Command {
 
 	/**
 	 * Type of message that executed this command. (If command is not executed by message it set to null.)
-	 * @return		message type
+	 * @return        message type
 	 */
 	public function getMessageType():String {
 		return pureLegsCore::messageType;

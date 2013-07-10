@@ -7,15 +7,15 @@ import mvcexpress.mvc.Proxy;
  */
 public class SimpleTestProxy extends Proxy implements ISimpleTestProxy {
 
-	public function SimpleTestProxy(){
+	public function SimpleTestProxy() {
 
 	}
 
-	override protected function onRegister():void{
+	override protected function onRegister():void {
 
 	}
 
-	override protected function onRemove():void{
+	override protected function onRemove():void {
 
 	}
 

@@ -1,4 +1,4 @@
-package integration.commandPooling.testObj{
+package integration.commandPooling.testObj {
 import mvcexpress.mvc.Proxy;
 
 /**

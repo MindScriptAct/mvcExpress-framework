@@ -2,7 +2,9 @@ package com.mindScriptAct.mvcExpressSpeedTest.module {
 import com.mindScriptAct.mvcExpressSpeedTest.AppModule;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
+
 import flash.display.Sprite;
+
 import mvcexpress.mvc.Mediator;
 
 /**

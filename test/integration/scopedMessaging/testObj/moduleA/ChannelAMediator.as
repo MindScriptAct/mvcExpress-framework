@@ -1,7 +1,6 @@
 package integration.scopedMessaging.testObj.moduleA {
-import flash.display.Sprite;
 import flash.events.Event;
-import flash.geom.Point;
+
 import mvcexpress.mvc.Mediator;
 
 /**
@@ -60,7 +59,7 @@ public class ChannelAMediator extends Mediator {
 	}
 
 	private function handleTest4Channelmessage(testParams:String):void {
-		trace( "ChannelAMediator.handleTest4Channelmessage > testParams : " + testParams );
+		trace("ChannelAMediator.handleTest4Channelmessage > testParams : " + testParams);
 		view.test4handled = true;
 		view.test4params = testParams;
 	}

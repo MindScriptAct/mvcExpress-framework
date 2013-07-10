@@ -1,7 +1,6 @@
 package integration.lazyProxy.testObj.moduleA {
 import flash.display.Sprite;
-import flash.events.Event;
-import integration.lazyProxy.LazyProxyTests;
+
 import mvcexpress.modules.ModuleCore;
 
 /**

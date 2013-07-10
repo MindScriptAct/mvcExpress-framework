@@ -1,5 +1,6 @@
 package com.mindScriptAct.codeSnippets.model {
 import com.mindScriptAct.codeSnippets.messages.Msg;
+
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -17,10 +18,10 @@ public class SampleProxy extends Proxy implements ISampleProxy {
 	[Inject]
 	public var sampleEmptyProxyInterfaced:ISampleEmptyProxy;
 
-	[Inject(name = 'namedSampleProxy')]
+	[Inject(name='namedSampleProxy')]
 	public var sampleEmptyProxyNamed:SampleEmptyProxy;
 
-	[Inject(name = 'namedSampleInterfacedProxy')]
+	[Inject(name='namedSampleInterfacedProxy')]
 	public var sampleEmptyProxyInterfacedAndNamed:ISampleEmptyProxy;
 
 	public var testData:String = "someTestData";
@@ -30,7 +31,7 @@ public class SampleProxy extends Proxy implements ISampleProxy {
 	}
 
 	override protected function onRegister():void {
-		trace( "SampleProxy.onRegister" );
+		trace("SampleProxy.onRegister");
 
 	}
 

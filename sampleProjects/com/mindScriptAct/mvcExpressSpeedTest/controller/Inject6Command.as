@@ -1,6 +1,7 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
-import mvcexpress.mvc.Command;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
+
+import mvcexpress.mvc.Command;
 
 /**
  * COMMENT

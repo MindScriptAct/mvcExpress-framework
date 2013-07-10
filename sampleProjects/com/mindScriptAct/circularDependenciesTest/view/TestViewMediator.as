@@ -2,6 +2,7 @@ package com.mindScriptAct.circularDependenciesTest.view {
 import com.mindScriptAct.circularDependenciesTest.model.AProxy;
 import com.mindScriptAct.circularDependenciesTest.model.BProxy;
 import com.mindScriptAct.circularDependenciesTest.model.CProxy;
+
 import mvcexpress.mvc.Mediator;
 
 /**
@@ -25,7 +26,7 @@ public class TestViewMediator extends Mediator {
 	override public function onRegister():void {
 		trace("TestViewMediator.onRegister");
 
-		trace("3 proxy data sum is: "+ int(aProxy.data + bProxy.data + cProxy.data));
+		trace("3 proxy data sum is: " + int(aProxy.data + bProxy.data + cProxy.data));
 
 	}
 

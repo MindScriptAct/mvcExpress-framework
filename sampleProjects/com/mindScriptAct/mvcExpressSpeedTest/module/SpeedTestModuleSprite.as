@@ -2,7 +2,6 @@ package com.mindScriptAct.mvcExpressSpeedTest.module {
 import com.mindScriptAct.mvcExpressSpeedTest.AppModule;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
-import mvcexpress.modules.ModuleSprite;
 
 /**
  * COMMENT : todo

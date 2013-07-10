@@ -1,7 +1,6 @@
 package suites.modules.objects {
 import mvcexpress.modules.ModuleCore;
 
-
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

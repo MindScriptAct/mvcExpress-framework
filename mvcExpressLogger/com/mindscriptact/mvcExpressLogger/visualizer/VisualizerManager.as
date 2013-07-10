@@ -1,8 +1,11 @@
 package com.mindscriptact.mvcExpressLogger.visualizer {
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
+
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
+
 import mvcexpress.core.namespace.pureLegsCore;
+
 //import mvcexpress.core.traceObjects.MvcTraceActions;
 //import mvcexpress.mvc.Command;
 //import mvcexpress.mvc.Mediator;
@@ -60,6 +63,7 @@ public class VisualizerManager {
 
 	public function logMvcExpress(logObj:Object):void {
 		use namespace pureLegsCore;
+
 		var topObject:Object;
 		var mediators:Vector.<Object>;
 		var proxies:Vector.<Object>;
@@ -348,8 +352,8 @@ public class VisualizerManager {
 				}
 				break;
 			default:
-				CONFIG::debug {
-					//throw Error("NOT HANDLED:" + logObj);
+			CONFIG::debug {
+				//throw Error("NOT HANDLED:" + logObj);
 			}
 				break;
 		}

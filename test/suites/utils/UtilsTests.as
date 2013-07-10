@@ -1,8 +1,11 @@
 package suites.utils {
 import flash.utils.getQualifiedClassName;
+
 import flexunit.framework.Assert;
+
 import mvcexpress.utils.checkClassStringConstants;
 import mvcexpress.utils.checkClassSuperclass;
+
 import suites.utils.objects.ClassA;
 import suites.utils.objects.ClassASubclass;
 import suites.utils.objects.ClassASubclassSubclass;
@@ -34,19 +37,19 @@ public class UtilsTests {
 	//     checkClassStringConstants
 	//----------------------------------
 
-	[Test(order=1,description="single class check")]
+	[Test(order=1, description="single class check")]
 
 	public function utils_one_class_check():void {
 		checkClassStringConstants(ConstantsA);
 	}
 
-	[Test(order=2,description="2 class check")]
+	[Test(order=2, description="2 class check")]
 
 	public function utils_two_class_check():void {
 		checkClassStringConstants(ConstantsA, ConstantsB);
 	}
 
-	[Test(order=3,expects="Error",description="2 class check with dublicate constants")]
+	[Test(order=3, expects="Error", description="2 class check with dublicate constants")]
 
 	public function utils_two_class_with_dublicated_constants_fails():void {
 		checkClassStringConstants(ConstantsA, ConstantsAB);

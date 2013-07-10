@@ -18,6 +18,7 @@ public class TraceMediator_addHandler extends TraceObj {
 
 	public function TraceMediator_addHandler(moduleName:String, $mediatorObject:Mediator, $type:String, $handler:Function) {
 		use namespace pureLegsCore;
+
 		super(MvcTraceActions.MEDIATOR_ADDHANDLER, moduleName);
 		mediatorObject = $mediatorObject;
 		type = $type;

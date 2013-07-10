@@ -1,9 +1,11 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core {
-import flash.utils.describeType;
 import flash.utils.Dictionary;
+import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+
+import mvcexpress.MvcExpress;
 import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
@@ -13,7 +15,6 @@ import mvcexpress.core.traceObjects.commandMap.TraceCommandMap_map;
 import mvcexpress.core.traceObjects.commandMap.TraceCommandMap_unmap;
 import mvcexpress.mvc.Command;
 import mvcexpress.mvc.PooledCommand;
-import mvcexpress.MvcExpress;
 import mvcexpress.utils.checkClassSuperclass;
 
 /**
@@ -33,18 +34,22 @@ public class CommandMap {
 	private var mediatorMap:MediatorMap;
 
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
-	private var classRegistry:Dictionary = new Dictionary(); /* of Vector.<Class> by String */
+	private var classRegistry:Dictionary = new Dictionary();
+	/* of Vector.<Class> by String */
 
 	// holds pooled command objects, stared by command class.
-	private var commandPools:Dictionary = new Dictionary(); /* of Vector.<PooledCommand> by Class */
+	private var commandPools:Dictionary = new Dictionary();
+	/* of Vector.<PooledCommand> by Class */
 
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
-	static private var commandClassParamTypes:Dictionary = new Dictionary(); /* of String by Class */
+	static private var commandClassParamTypes:Dictionary = new Dictionary();
+	/* of String by Class */
 
 	/** Dictionary with validated command classes.  */
 	CONFIG::debug
-	static private var validatedCommands:Dictionary = new Dictionary(); /* of Boolean by Class */
+	static private var validatedCommands:Dictionary = new Dictionary();
+	/* of Boolean by Class */
 
 	private var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
@@ -62,12 +67,13 @@ public class CommandMap {
 
 	/**
 	 * Map a class to be executed then message with provided type is sent.
-	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will be executed.
+	 * @param    type                Message type for command class to react to.
+	 * @param    commandClass        Command class that will be executed.
 	 */
 	public function map(type:String, commandClass:Class):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
+
 		// debug this action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceCommandMap_map(moduleName, type, commandClass));
@@ -98,13 +104,14 @@ public class CommandMap {
 
 	/**
 	 * Unmaps a class to be executed then message with provided type is sent.
-	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that would be executed.
+	 * @param    type            Message type for command class to react to.
+	 * @param    commandClass    Command class that would be executed.
 	 */
 	public function unmap(type:String, commandClass:Class):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
 		var messageClasses:Vector.<Class> = classRegistry[type];
@@ -125,8 +132,8 @@ public class CommandMap {
 
 	/**
 	 * Instantiates and executes provided command class, and sends params to it.
-	 * @param	commandClass	Command class to be instantiated and executed.
-	 * @param	params			Object to be sent to execute() function.
+	 * @param    commandClass    Command class to be instantiated and executed.
+	 * @param    params            Object to be sent to execute() function.
 	 */
 	public function execute(commandClass:Class, params:Object = null):void {
 		use namespace pureLegsCore;
@@ -205,12 +212,13 @@ public class CommandMap {
 
 	/**
 	 * Maps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module communication.
-	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that will be executed.
+	 * @param    scopeName            both sending and receiving modules must use same scope to make module to module communication.
+	 * @param    type                Message type for command class to react to.
+	 * @param    commandClass        Command class that will be executed.
 	 */
 	public function scopeMap(scopeName:String, type:String, commandClass:Class):void {
 		use namespace pureLegsCore;
+
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 
@@ -237,9 +245,9 @@ public class CommandMap {
 
 	/**
 	 * Unmaps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.
-	 * @param	scopeName			both sending and receiving modules must use same scope to make module to module communication.
-	 * @param	type				Message type for command class to react to.
-	 * @param	commandClass		Command class that would be executed.
+	 * @param    scopeName            both sending and receiving modules must use same scope to make module to module communication.
+	 * @param    type                Message type for command class to react to.
+	 * @param    commandClass        Command class that would be executed.
 	 */
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
@@ -262,8 +270,8 @@ public class CommandMap {
 
 	/**
 	 * Checks if PooledCommand is already pooled.
-	 * @param	commandClass
-	 * @return	true if command pool is created.
+	 * @param    commandClass
+	 * @return    true if command pool is created.
 	 */
 	public function checkIsClassPooled(commandClass:Class):Boolean {
 		return (commandPools[commandClass] != null);
@@ -272,7 +280,7 @@ public class CommandMap {
 	/**
 	 * Clears pool created for specified command.
 	 * (if commands are not pooled - function fails silently.)
-	 * @param	commPoolingSimpleCommand
+	 * @param    commPoolingSimpleCommand
 	 */
 	public function clearCommandPool(commandClass:Class):void {
 		delete commandPools[commandClass];
@@ -284,9 +292,9 @@ public class CommandMap {
 
 	/**
 	 * Checks if Command class is already added to message type
-	 * @param	type			Message type for command class to react to.
-	 * @param	commandClass	Command class that will be instantiated and executed.
-	 * @return					true if Command class is already mapped to message
+	 * @param    type            Message type for command class to react to.
+	 * @param    commandClass    Command class that will be instantiated and executed.
+	 * @return                    true if Command class is already mapped to message
 	 */
 	public function isMapped(type:String, commandClass:Class):Boolean {
 		var retVal:Boolean; // = false;
@@ -304,8 +312,8 @@ public class CommandMap {
 
 	/**
 	 * Returns count of commands mapped to specified message type.
-	 * @param type		Message type for command class to react to.
-	 * @return			count of commands mapped to message.
+	 * @param type        Message type for command class to react to.
+	 * @return            count of commands mapped to message.
 	 */
 	public function mappedCommandCount(type:String):int {
 		if (classRegistry[type] != null) {
@@ -317,7 +325,7 @@ public class CommandMap {
 
 	/**
 	 * Returns text of all command classes that are mapped to messages. (for debugging)
-	 * @return		Text with all mapped commands.
+	 * @return        Text with all mapped commands.
 	 */
 	public function listMappings():String {
 		var retVal:String = "";
@@ -335,7 +343,7 @@ public class CommandMap {
 
 	/**
 	 * Pool command from outside of CommandMap.
-	 * @param	command	Command object to be pooled.
+	 * @param    command    Command object to be pooled.
 	 * @private
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
@@ -352,6 +360,7 @@ public class CommandMap {
 	 */
 	pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
+
 		for (var type:String in classRegistry) {
 			messenger.removeHandler(type, handleCommandExecute);
 		}
@@ -440,8 +449,8 @@ public class CommandMap {
 					command.isExecuting = false;
 				}
 
-					////// INLINE FUNCTION runCommand() END
-					//////////////////////////////////////////////
+				////// INLINE FUNCTION runCommand() END
+				//////////////////////////////////////////////
 
 			}
 		}
@@ -498,6 +507,7 @@ public class CommandMap {
 	CONFIG::debug
 	private function validateCommandParams(commandClass:Class, params:Object):void {
 		use namespace pureLegsCore;
+
 		validateCommandClass(commandClass);
 		if (params) {
 			var paramClass:Class = getDefinitionByName(commandClassParamTypes[commandClass]) as Class;

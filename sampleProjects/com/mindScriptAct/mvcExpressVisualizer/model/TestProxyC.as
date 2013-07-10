@@ -5,17 +5,17 @@ import mvcexpress.mvc.Proxy;
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class TestProxyC extends Proxy{
+public class TestProxyC extends Proxy {
 
-	public function TestProxyC(){
-
-	}
-
-	override protected function onRegister():void{
+	public function TestProxyC() {
 
 	}
 
-	override protected function onRemove():void{
+	override protected function onRegister():void {
+
+	}
+
+	override protected function onRemove():void {
 
 	}
 

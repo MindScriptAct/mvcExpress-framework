@@ -1,10 +1,10 @@
 package suites.proxyMap.proxyTestObj {
-	
+
 /**
  * COMMENT
- * @author 
+ * @author
  */
 public interface ITestProxy {
-	
+
 }
 }

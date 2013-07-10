@@ -1,5 +1,6 @@
 package com.mindScriptAct.modules.console.model {
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
+
 import mvcexpress.mvc.Proxy;
 
 /**

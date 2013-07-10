@@ -1,9 +1,8 @@
 package suites.testObjects.moduleMain {
-import mvcexpress.modules.ModuleSprite;
 import mvcexpress.mvc.Proxy;
+
 import suites.SuiteModuleNames;
 import suites.testObjects.controller.GetProxyTestCommand;
-import suites.testObjects.module.SimpleTestProxy;
 
 /**
  * COMMENT
@@ -113,7 +112,7 @@ public class MainModuleFull extends ModuleSprite {
 	}
 
 	public function getProxyInCommand(proxyClass:Class, name:String = ""):Proxy {
-		commandMap.execute(GetProxyTestCommand, {moduleClass: proxyClass, moduleName: name});
+		commandMap.execute(GetProxyTestCommand, {moduleClass:proxyClass, moduleName:name});
 		return dataProxy.testProxy;
 	}
 

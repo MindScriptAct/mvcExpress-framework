@@ -2,7 +2,9 @@ package com.mindScriptAct.mvcExpressVisualizer.view.testA {
 import com.bit101.components.PushButton;
 import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
+
 import flash.events.Event;
+
 import mvcexpress.mvc.Mediator;
 
 /**

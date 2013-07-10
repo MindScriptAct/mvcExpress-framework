@@ -5,17 +5,17 @@ import mvcexpress.mvc.Proxy;
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class DeadProxy extends Proxy{
+public class DeadProxy extends Proxy {
 
-	public function DeadProxy(){
-
-	}
-
-	override protected function onRegister():void{
+	public function DeadProxy() {
 
 	}
 
-	override protected function onRemove():void{
+	override protected function onRegister():void {
+
+	}
+
+	override protected function onRemove():void {
 
 	}
 

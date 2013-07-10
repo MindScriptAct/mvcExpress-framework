@@ -1,6 +1,5 @@
 package suites.commandMap.commands {
-	import mvcexpress.mvc.Command;
-
+import mvcexpress.mvc.Command;
 
 /**
  * COMMENT

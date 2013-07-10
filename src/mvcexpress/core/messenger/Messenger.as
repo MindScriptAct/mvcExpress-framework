@@ -1,13 +1,14 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core.messenger {
 import flash.utils.Dictionary;
+
+import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_addHandler;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_removeHandler;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
-import mvcexpress.MvcExpress;
 
 /**
  * FOR INTERNAL USE ONLY.
@@ -23,16 +24,19 @@ public class Messenger {
 	static pureLegsCore var allowInstantiation:Boolean; // = false;
 
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
-	private var messageRegistry:Dictionary = new Dictionary(); /* of Vector.<HandlerVO> by String */
+	private var messageRegistry:Dictionary = new Dictionary();
+	/* of Vector.<HandlerVO> by String */
 
 	// keeps ALL HandlerVO's in Dictionaries by message type, mapped by handlers for fast disabling and duplicated handler checks.
-	private var handlerRegistry:Dictionary = new Dictionary(); /* of Dictionary by String */
+	private var handlerRegistry:Dictionary = new Dictionary();
+	/* of Dictionary by String */
 
 	/**
 	 * CONSTRUCTOR - internal class. Not available for use.
 	 */
 	public function Messenger($moduleName:String) {
 		use namespace pureLegsCore;
+
 		if (!allowInstantiation) {
 			throw Error("Messenger is a framework class, you can't instantiate it.");
 		}
@@ -41,15 +45,16 @@ public class Messenger {
 
 	/**
 	 * Adds handler function that will be called then message of specified type is sent.
-	 * @param	type	message type to react to.
-	 * @param	handler	function called on sent message, this function must have one and only one parameter.
-	 * @param	handlerClassName	handler function owner class name. For debugging only.
-	 * @return		returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
+	 * @param    type    message type to react to.
+	 * @param    handler    function called on sent message, this function must have one and only one parameter.
+	 * @param    handlerClassName    handler function owner class name. For debugging only.
+	 * @return        returns message data object. This object can be disabled instead of removing the handle with function. (disabling is much faster)
 	 */
 	public function addHandler(type:String, handler:Function, handlerClassName:String = null):HandlerVO {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceMessenger_addHandler(moduleName, type, handler, handlerClassName));
 		}
 
@@ -85,13 +90,14 @@ public class Messenger {
 	/**
 	 * Removes handler function that will be called then message of specified type is sent.
 	 * - if handler is not found it fails silently.
-	 * @param	type				message type that handler had to react
-	 * @param	handler				function called on sent message.
+	 * @param    type                message type that handler had to react
+	 * @param    handler                function called on sent message.
 	 */
 	public function removeHandler(type:String, handler:Function):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceMessenger_removeHandler(moduleName, type, handler));
 		}
 		if (handlerRegistry[type]) {
@@ -104,11 +110,12 @@ public class Messenger {
 
 	/**
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
-	 * @param	type				message type to find needed handlers
-	 * @param	params				parameter object that will be sent to all handler functions as single parameter.
+	 * @param    type                message type to find needed handlers
+	 * @param    params                parameter object that will be sent to all handler functions as single parameter.
 	 */
 	public function send(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		// debug this action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceMessenger_send(moduleName, type, params));
@@ -174,6 +181,7 @@ public class Messenger {
 	 */
 	public function listMappings(commandMap:CommandMap):String {
 		use namespace pureLegsCore;
+
 		var retVal:String = "";
 		retVal = "====================== Message Mappings: ======================\n";
 		var warningText:String = "WARNING: If you want to see Classes that handles messages - you must run with CONFIG::debug compile variable set to 'true'.\n";

@@ -27,7 +27,7 @@ public class CProxy extends Proxy {
 
 	}
 
-		public function getdata():int {
+	public function getdata():int {
 		return aProxy.data * bProxy.data;
 	}
 

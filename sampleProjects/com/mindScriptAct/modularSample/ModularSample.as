@@ -6,9 +6,10 @@ import com.mindScriptAct.modularSample.msg.ViewMsg;
 import com.mindScriptAct.modularSample.view.ModularSampleMediator;
 import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
-import mvcexpress.modules.ModuleSprite;
+
 import mvcexpress.utils.checkClassStringConstants;
 
 /**

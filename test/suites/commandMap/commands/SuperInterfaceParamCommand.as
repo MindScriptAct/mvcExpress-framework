@@ -1,6 +1,6 @@
 package suites.commandMap.commands {
 import mvcexpress.mvc.Command;
-import suites.testObjects.IExtendedTestObject;
+
 import suites.testObjects.ITestObject;
 
 /**

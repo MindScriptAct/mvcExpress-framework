@@ -17,19 +17,19 @@ public class Note {
 	static public const TEST_COMMAND_8:String = "testCommand8";
 	static public const TEST_COMMAND_9:String = "testCommand9";
 	static public const TEST_COMMAND_10:String = "testCommand10";
-	
+
 	static public const APPEND_LINE:String = "appendLine";
-	
+
 	static public const CREATE_TEST_VIEW:String = "createTestView";
 	static public const REMOVE_TEST_VIEW:String = "removeTestView";
 	static public const ACTIVATE_MEDIATOR:String = "activateMediator";
-	
+
 	static public const CALL_COMMANDS_EMPTY:String = "callCommandsEmpty";
 	static public const CALL_COMMANDS_GET_PARAMS:String = "callCommandsGetParams";
 	static public const CALL_COMMANDS_WITH_MODEL:String = "callCommandsWithProxy";
 	static public const CALL_COMMANDS_WITH_MODEL_COMM_VIEWS:String = "callCommandsWithProxyCommViews";
 	static public const COMMUNICATION_TEST:String = "communicationTest";
-	
+
 	static public const CALL_COMMANDS_POOLED_EMPTY:String = "callCommandsPooledEmpty";
 	static public const CALL_COMMANDS_POOLED_GET_PARAMS:String = "callCommandsPooledGetParams";
 	static public const CALL_COMMANDS_POOLED_WITH_MODEL:String = "callCommandsPooledWithModel";

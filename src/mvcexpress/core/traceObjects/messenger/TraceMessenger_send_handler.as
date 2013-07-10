@@ -27,6 +27,7 @@ public class TraceMessenger_send_handler extends TraceObj {
 
 	public function TraceMessenger_send_handler(moduleName:String, $type:String, $params:Object, $handler:Function, $handlerClassName:String) {
 		use namespace pureLegsCore;
+
 		super(MvcTraceActions.MESSENGER_SEND_HANDLER, moduleName);
 		type = $type;
 		params = $params;

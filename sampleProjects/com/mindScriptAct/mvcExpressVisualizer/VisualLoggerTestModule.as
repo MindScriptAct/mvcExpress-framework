@@ -1,9 +1,8 @@
 package com.mindScriptAct.mvcExpressVisualizer {
 import com.bit101.components.Label;
 import com.bit101.components.PushButton;
-import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.ModuleNames;
-import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandA;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandB;
 import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandBlank;
@@ -15,19 +14,18 @@ import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyC;
 import com.mindScriptAct.mvcExpressVisualizer.msg.DataMsg;
 import com.mindScriptAct.mvcExpressVisualizer.msg.Msg;
 import com.mindScriptAct.mvcExpressVisualizer.msg.ViewMsg;
+import com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.testA.TestViewA;
 import com.mindScriptAct.mvcExpressVisualizer.view.testA.TestViewAMediator;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewB;
 import com.mindScriptAct.mvcExpressVisualizer.view.testB.TestViewBMediator;
-import com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator;
+import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+
 import flash.display.Shape;
-import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 import flash.geom.Point;
-import mvcexpress.core.traceObjects.MvcTraceActions;
-import mvcexpress.core.traceObjects.TraceObj;
-import mvcexpress.modules.ModuleSprite;
+
 import mvcexpress.MvcExpress;
 import mvcexpress.utils.checkClassStringConstants;
 
@@ -63,11 +61,11 @@ public class VisualLoggerTestModule extends ModuleSprite {
 	}
 
 	//private function myDebugFunction(traceObj:TraceObj):void {
-		//if (traceObj.action == MvcTraceActions.MEDIATORMAP_MEDIATE) {
-			//if (traceObj.mediatorClass == TestViewAMediator) {
-				//trace( "TestViewAMediator mediates :" +  traceObj.viewObject);
-			//}
-		//}
+	//if (traceObj.action == MvcTraceActions.MEDIATORMAP_MEDIATE) {
+	//if (traceObj.mediatorClass == TestViewAMediator) {
+	//trace( "TestViewAMediator mediates :" +  traceObj.viewObject);
+	//}
+	//}
 	//}
 
 	override protected function onInit():void {
@@ -130,7 +128,7 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		roundRectangle.graphics.endFill();
 		this.addChild(roundRectangle);
 
-		moduleLabel = new Label(this, 600+10, 430+5, "MODULE:Console0");
+		moduleLabel = new Label(this, 600 + 10, 430 + 5, "MODULE:Console0");
 		moduleLabel.textField.textColor = 0x000000;
 
 		var console:Console = new Console();
@@ -138,7 +136,6 @@ public class VisualLoggerTestModule extends ModuleSprite {
 		console.x = 600;
 		console.y = 450;
 	}
-
 
 
 	private function handleAddProxyC(event:Event):void {

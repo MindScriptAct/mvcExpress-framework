@@ -1,18 +1,18 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.utils {
-	import flash.utils.describeType;
+import flash.utils.describeType;
 
 /**
- * utility function to check class string constant values for accidental duplications.  																		</br>
- * Usage:																																						</br>
- *		add this code in every module class in onInit() function with all your classes holding string constants used for messaging.							    </br>
- * 		CONFIG::debug {																																			</br>
+ * utility function to check class string constant values for accidental duplications.                                                                        </br>
+ * Usage:                                                                                                                                                        </br>
+ *        add this code in every module class in onInit() function with all your classes holding string constants used for messaging.                                </br>
+ *        CONFIG::debug {																																			</br>
  *			checkClassStringConstants(ClassName1,ClassName2...ClassNameX);																												</br>
- *		}																																						</br>
- * @param	... args	array of Class objects, to be checked for constants.
+ *		}                                                                                                                                                        </br>
+ * @param    ... args    array of Class objects, to be checked for constants.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public function checkClassStringConstants(... args:Array):void {
+public function checkClassStringConstants(...args:Array):void {
 	var argCount:int = args.length;
 	for (var i:int; i < argCount; i++) {
 		var constantClass:Class = args[i] as Class;
@@ -44,6 +44,8 @@ public function checkClassStringConstants(... args:Array):void {
 import flash.utils.Dictionary;
 
 class StringConstantRegistry {
-	static public var registeredClasses:Dictionary = new Dictionary(); /* of Boolean by Class */
-	static public var stringRegistry:Dictionary = new Dictionary(); /* of Class by String */
+	static public var registeredClasses:Dictionary = new Dictionary();
+	/* of Boolean by Class */
+	static public var stringRegistry:Dictionary = new Dictionary();
+	/* of Class by String */
 }

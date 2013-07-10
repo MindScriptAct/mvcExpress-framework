@@ -1,6 +1,6 @@
 package suites.testObjects.moduleExternal {
-import flash.events.Event;
 import mvcexpress.mvc.Mediator;
+
 import suites.SuiteModuleNames;
 import suites.TestViewEvent;
 

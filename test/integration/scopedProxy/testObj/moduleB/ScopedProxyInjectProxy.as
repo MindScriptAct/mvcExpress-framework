@@ -1,5 +1,6 @@
 package integration.scopedProxy.testObj.moduleB {
 import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
+
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -20,7 +21,7 @@ public class ScopedProxyInjectProxy extends Proxy {
 	}
 
 	override protected function onRegister():void {
-		trace( "ScopedProxyInjectProxy.onRegister" );
+		trace("ScopedProxyInjectProxy.onRegister");
 
 	}
 

@@ -1,16 +1,15 @@
 package integration.commandPooling {
 import flexunit.framework.Assert;
-import integration.commandPooling.testObj.CommandPoolingModule;
+
 import integration.commandPooling.testObj.CommPoolingDependencyProxy;
+import integration.commandPooling.testObj.CommandPoolingModule;
 import integration.commandPooling.testObj.controller.CommPoolingDependantCommand;
 import integration.commandPooling.testObj.controller.CommPoolingDependencyRemove;
 import integration.commandPooling.testObj.controller.CommPoolingLockedCommand;
 import integration.commandPooling.testObj.controller.CommPoolingLockedFailCommand;
 import integration.commandPooling.testObj.controller.CommPoolingSimpleCommand;
 import integration.commandPooling.testObj.controller.CommPoolingUnlockedCommand;
-import integration.mediating.testObj.*;
-import integration.mediating.testObj.view.*;
-import integration.mediating.testObj.view.viewObj.*;
+
 import mvcexpress.core.*;
 
 public class CommandPoolingTests {

@@ -1,5 +1,4 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
-import flash.display.Sprite;
 import mvcexpress.mvc.Command;
 
 /**
@@ -9,7 +8,7 @@ import mvcexpress.mvc.Command;
 public class TraceCommand extends Command {
 
 	public function execute(params:String):void {
-		trace( "TraceCommand.execute > params : " + params );
+		trace("TraceCommand.execute > params : " + params);
 	}
 
 }

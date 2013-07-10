@@ -2,6 +2,7 @@ package com.mindScriptAct.circularDependenciesTest.controller {
 import com.mindScriptAct.circularDependenciesTest.model.AProxy;
 import com.mindScriptAct.circularDependenciesTest.model.BProxy;
 import com.mindScriptAct.circularDependenciesTest.model.CProxy;
+
 import mvcexpress.mvc.Command;
 
 /**

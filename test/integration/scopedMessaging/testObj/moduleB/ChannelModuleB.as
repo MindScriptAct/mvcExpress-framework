@@ -1,6 +1,7 @@
 package integration.scopedMessaging.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
+
 import mvcexpress.modules.ModuleCore;
 
 /**

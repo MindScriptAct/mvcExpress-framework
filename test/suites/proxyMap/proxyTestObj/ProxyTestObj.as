@@ -5,12 +5,12 @@ package suites.proxyMap.proxyTestObj {
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ProxyTestObj {
-	
+
 	[Inject]
 	public var testProxy:TestProxy;
-	
-	public function ProxyTestObj(){
-	
+
+	public function ProxyTestObj() {
+
 	}
 
 }

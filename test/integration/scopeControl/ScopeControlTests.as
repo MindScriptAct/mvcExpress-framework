@@ -1,20 +1,15 @@
 package integration.scopeControl {
+import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.constants.GenericScopeIds;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.constants.GenericTestStrings;
 import integration.aGenericTestObjects.controller.GenericCommand;
-import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.aGenericTestObjects.view.GenericViewObject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingScopeMessage;
-import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject_handlingScopeMessage;
-import integration.scopedProxy.testObj.moduleA.ScopedProxyModuleA;
-import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
-import integration.scopedProxy.testObj.moduleB.ScopedProxyModuleB;
+
 import org.flexunit.Assert;
-import mvcexpress.MvcExpress;
-import utils.AsyncUtil;
 
 /**
  * COMMENT
@@ -176,7 +171,6 @@ public class ScopeControlTests {
 		Assert.assertEquals("remote proxy should react to message and set data.", testProxy.testData, GenericTestStrings.data1);
 
 	}
-
 
 
 }

@@ -1,5 +1,6 @@
 package integration.aGenericTestObjects.controller {
 import integration.aGenericTestObjects.model.GenericTestProxy;
+
 import mvcexpress.mvc.Command;
 
 public class GenericCommand_withScopedInject extends Command {

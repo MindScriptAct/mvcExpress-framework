@@ -33,9 +33,9 @@ import flash.events.MouseEvent;
 
 public class Mvce_TextArea extends Mvce_Text {
 	protected var _scrollbar:Mvce_VScrollBar;
-	
+
 	public var autoScroll:Boolean;
-	
+
 	/**
 	 * Constructor
 	 * @param parent The parent DisplayObjectContainer on which to add this Label.
@@ -46,7 +46,7 @@ public class Mvce_TextArea extends Mvce_Text {
 	public function Mvce_TextArea(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0, text:String = "") {
 		super(parent, xpos, ypos, text);
 	}
-	
+
 	/**
 	 * Initilizes the component.
 	 */
@@ -54,7 +54,7 @@ public class Mvce_TextArea extends Mvce_Text {
 		super.init();
 		addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 	}
-	
+
 	/**
 	 * Creates and adds the child display objects of this component.
 	 */
@@ -63,7 +63,7 @@ public class Mvce_TextArea extends Mvce_Text {
 		_scrollbar = new Mvce_VScrollBar(this, 0, 0, onScrollbarScroll);
 		_tf.addEventListener(Event.SCROLL, onTextScroll);
 	}
-	
+
 	/**
 	 * Changes the thumb percent of the scrollbar based on how much text is shown in the text area.
 	 */
@@ -74,28 +74,28 @@ public class Mvce_TextArea extends Mvce_Text {
 		_scrollbar.setThumbPercent(percent);
 		_scrollbar.pageSize = visibleLines;
 	}
-	
+
 	///////////////////////////////////
 	// public methods
 	///////////////////////////////////
-	
+
 	/**
 	 * Draws the visual ui of the component.
 	 */
 	override public function draw():void {
 		super.draw();
-		
+
 		_tf.width = _width - _scrollbar.width - 4;
 		_scrollbar.x = _width - _scrollbar.width;
 		_scrollbar.height = _height;
 		_scrollbar.draw();
 		addEventListener(Event.ENTER_FRAME, onTextScrollDelay);
 	}
-	
+
 	///////////////////////////////////
 	// event handlers
 	///////////////////////////////////
-	
+
 	/**
 	 * Waits one more frame before updating scroll bar.
 	 * It seems that numLines and maxScrollV are not valid immediately after changing a TextField's size.
@@ -107,7 +107,7 @@ public class Mvce_TextArea extends Mvce_Text {
 		}
 		updateScrollbar();
 	}
-	
+
 	/**
 	 * Called when the text in the text field is manually changed.
 	 */
@@ -115,14 +115,14 @@ public class Mvce_TextArea extends Mvce_Text {
 		super.onChange(event);
 		updateScrollbar();
 	}
-	
+
 	/**
 	 * Called when the scroll bar is moved. Scrolls text accordingly.
 	 */
 	protected function onScrollbarScroll(event:Event):void {
 		_tf.scrollV = Math.round(_scrollbar.value);
 	}
-	
+
 	/**
 	 * Called when the text is scrolled manually. Updates the position of the scroll bar.
 	 */
@@ -130,7 +130,7 @@ public class Mvce_TextArea extends Mvce_Text {
 		_scrollbar.value = _tf.scrollV;
 		updateScrollbar();
 	}
-	
+
 	/**
 	 * Called when the mouse wheel is scrolled over the component.
 	 */
@@ -138,7 +138,7 @@ public class Mvce_TextArea extends Mvce_Text {
 		_scrollbar.value -= event.delta;
 		_tf.scrollV = Math.round(_scrollbar.value);
 	}
-	
+
 	/**
 	 * Sets/gets whether this component is enabled or not.
 	 */
@@ -146,14 +146,14 @@ public class Mvce_TextArea extends Mvce_Text {
 		super.enabled = value;
 		_tf.tabEnabled = value;
 	}
-	
+
 	/**
 	 * Sets / gets whether the scrollbar will auto hide when there is nothing to scroll.
 	 */
 	public function set autoHideScrollBar(value:Boolean):void {
 		_scrollbar.autoHide = value;
 	}
-	
+
 	public function get autoHideScrollBar():Boolean {
 		return _scrollbar.autoHide;
 	}

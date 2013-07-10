@@ -1,10 +1,10 @@
 package suites.messenger {
-import org.flexunit.Assert;
-import org.flexunit.internals.builders.NullBuilder;
 import mvcexpress.core.messenger.HandlerVO;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+
+import org.flexunit.Assert;
+
 import utils.AsyncUtil;
 
 /**
@@ -18,6 +18,7 @@ public class MessengerTests {
 
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
+
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
@@ -27,6 +28,7 @@ public class MessengerTests {
 
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+
 		messenger = null;
 	}
 
@@ -34,7 +36,7 @@ public class MessengerTests {
 	//
 	//----------------------------------
 
-	[Test(async,description="Async Callback ")]
+	[Test(async, description="Async Callback ")]
 
 	public function add_and_handle_callback():void {
 		messenger.addHandler("test", AsyncUtil.asyncHandler(this));
@@ -45,7 +47,7 @@ public class MessengerTests {
 	//
 	//----------------------------------
 
-	[Test(async,description="Async fail Callback")]
+	[Test(async, description="Async fail Callback")]
 
 	public function add_callback_and_sendNot_then_message_fails_silently():void {
 		messenger.addHandler("test", AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess));
@@ -56,7 +58,7 @@ public class MessengerTests {
 	//
 	//----------------------------------
 
-	[Test(async,description="Async Callback disable")]
+	[Test(async, description="Async Callback disable")]
 
 	public function add_callback_and_disable_then_message_fails_silently():void {
 		var callBack:Function = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
@@ -69,7 +71,7 @@ public class MessengerTests {
 	//
 	//----------------------------------
 
-	[Test(async,description="Async Callback remove")]
+	[Test(async, description="Async Callback remove")]
 
 	public function add_and_remove_callback_then_message_fails_silently():void {
 		var callBack:Function = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);

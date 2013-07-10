@@ -1,14 +1,16 @@
 package suites.commandMap {
 import flash.display.Sprite;
-import org.flexunit.Assert;
+
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import suites.commandMap.commands.ExtendedeSuperInterfaceParamsCommand;
+
+import org.flexunit.Assert;
+
 import suites.commandMap.commands.ExtendedSuperParamCommand;
+import suites.commandMap.commands.ExtendedeSuperInterfaceParamsCommand;
 import suites.commandMap.commands.NoExecuteCommand;
 import suites.commandMap.commands.NoParamsCommand;
 import suites.commandMap.commands.SuperInterfaceParamCommand;
@@ -16,6 +18,7 @@ import suites.commandMap.commands.SuperParamCommand;
 import suites.commandMap.commands.TestCommand1;
 import suites.commandMap.commands.TestCommand2;
 import suites.testObjects.ExtendedTestObject;
+
 import utils.AsyncUtil;
 
 /**
@@ -36,12 +39,13 @@ public class CommandMapTests {
 
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
+
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test",messenger);
-		mediatorMap = new MediatorMap("test",messenger, proxyMap);
-		commandMap = new CommandMap("test",messenger, proxyMap, mediatorMap);
+		proxyMap = new ProxyMap("test", messenger);
+		mediatorMap = new MediatorMap("test", messenger, proxyMap);
+		commandMap = new CommandMap("test", messenger, proxyMap, mediatorMap);
 		callCaunter = 0;
 		callsExpected = 0;
 		testParamObject = new ExtendedTestObject();
@@ -51,6 +55,7 @@ public class CommandMapTests {
 
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+
 		messenger = null;
 		proxyMap = null;
 		commandMap = null;
@@ -59,7 +64,7 @@ public class CommandMapTests {
 		testParamObject = null;
 	}
 
-	[Test(async,description="Test command execution")]
+	[Test(async, description="Test command execution")]
 
 	public function test_command_execute():void {
 
@@ -68,7 +73,7 @@ public class CommandMapTests {
 		messenger.send("test");
 	}
 
-	[Test(async,description="Test two command execution")]
+	[Test(async, description="Test two command execution")]
 
 	public function test_two_command_execute():void {
 		callsExpected = 2;
@@ -79,7 +84,7 @@ public class CommandMapTests {
 		messenger.send("test");
 	}
 
-	[Test(async,description="Test two command add + 1 remove")]
+	[Test(async, description="Test two command add + 1 remove")]
 
 	public function test_two_add_one_remove_command_execute():void {
 		callsExpected = 1;
@@ -91,7 +96,7 @@ public class CommandMapTests {
 		messenger.send("test");
 	}
 
-	[Test(async,description="commandMap.execute() test")]
+	[Test(async, description="commandMap.execute() test")]
 
 	public function test_cammandMap_command_execute():void {
 		callsExpected = 1;

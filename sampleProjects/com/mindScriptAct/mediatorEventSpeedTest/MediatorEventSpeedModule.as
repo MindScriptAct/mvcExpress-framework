@@ -1,6 +1,5 @@
 package com.mindScriptAct.mediatorEventSpeedTest {
 import com.mindScriptAct.mediatorEventSpeedTest.view.MediatorEventSpeedModuleMediator;
-import mvcexpress.modules.ModuleSprite;
 
 /**
  * COMMENT
@@ -13,7 +12,7 @@ public class MediatorEventSpeedModule extends ModuleSprite {
 	}
 
 	override protected function onInit():void {
-		trace( "MediatorEventSpeedModule.onInit" );
+		trace("MediatorEventSpeedModule.onInit");
 
 		mediatorMap.map(MediatorEventSpeedModule, MediatorEventSpeedModuleMediator);
 

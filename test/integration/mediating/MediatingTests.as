@@ -1,5 +1,6 @@
 package integration.mediating {
 import flexunit.framework.Assert;
+
 import integration.mediating.testObj.*;
 import integration.mediating.testObj.view.*;
 import integration.mediating.testObj.view.viewObj.*;
@@ -25,7 +26,6 @@ public class MediatingTests {
 		mediatingModule = null;
 		MediatingBaseView.timesRegistered = 0;
 	}
-
 
 
 	[Test(expects="Error")]
@@ -84,7 +84,6 @@ public class MediatingTests {
 		mediatorMap.mediateWith(view, MediatingInterfaceMediator, IMediatingIntefrace);
 		Assert.assertEquals("Mediator should be mediated and registered once.", 1, MediatingBaseView.timesRegistered);
 	}
-
 
 
 	[Test(expects="Error")]

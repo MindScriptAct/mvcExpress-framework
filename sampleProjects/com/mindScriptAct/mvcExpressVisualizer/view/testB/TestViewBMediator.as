@@ -2,8 +2,10 @@ package com.mindScriptAct.mvcExpressVisualizer.view.testB {
 import com.bit101.components.PushButton;
 import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
+
 import flash.events.Event;
 import flash.geom.Point;
+
 import mvcexpress.mvc.Mediator;
 
 /**

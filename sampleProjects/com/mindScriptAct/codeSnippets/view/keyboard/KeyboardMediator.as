@@ -1,5 +1,6 @@
 package com.mindScriptAct.codeSnippets.view.keyboard {
 import flash.display.Stage;
+
 import mvcexpress.mvc.Mediator;
 
 /**

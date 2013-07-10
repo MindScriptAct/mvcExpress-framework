@@ -4,9 +4,9 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ModuleManager;
+import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.core.ProxyMap;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 
@@ -37,11 +37,12 @@ public class ModuleCore {
 
 	/**
 	 * CONSTRUCTOR
-	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
-	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
+	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
+	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
 	public function ModuleCore(moduleName:String = null) {
 		use namespace pureLegsCore;
+
 		//
 		_moduleName = ModuleManager.registerModule(moduleName, this);
 		//
@@ -60,6 +61,15 @@ public class ModuleCore {
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 
+		onInit();
+	}
+
+	/**
+	 * Function called after framework is initialized.
+	 * Meant to be overridden.
+	 */
+	protected function onInit():void {
+		// for override
 	}
 
 	/**
@@ -78,7 +88,9 @@ public class ModuleCore {
 	 */
 	public function disposeModule():void {
 		onDispose();
+
 		use namespace pureLegsCore;
+
 		//
 		if (commandMap) {
 			commandMap.dispose();
@@ -107,13 +119,14 @@ public class ModuleCore {
 
 	/**
 	 * Message sender.
-	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
-	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
+	 * @param    type    type of the message. (Commands and handle functions must bu map to it to react.)
+	 * @param    params    Object that will be send to Command execute() or to handle function as parameter.
 	 */
 	public function sendMessage(type:String, params:Object = null):void {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, true));
 		}
 		//
@@ -127,12 +140,13 @@ public class ModuleCore {
 
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
-	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params		Object that will be passed to Command execute() function or to handle functions.
+	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
+	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
+	 * @param    params        Object that will be passed to Command execute() function or to handle functions.
 	 */
 	public function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		// log the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
@@ -150,30 +164,32 @@ public class ModuleCore {
 	 * Registers scope name.
 	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
 	 * What features module can use with that scope is defined by parameters.
-	 * @param	scopeName			Name of the scope.
-	 * @param	messageSending		Modules can send messages to this scope.
-	 * @param	messageReceiving	Modules can receive and handle messages from this scope.(or map commands to scoped messages);
-	 * @param	proxieMap			Modules can map proxies to this scope.
+	 * @param    scopeName            Name of the scope.
+	 * @param    messageSending        Modules can send messages to this scope.
+	 * @param    messageReceiving    Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param    proxieMap            Modules can map proxies to this scope.
 	 */
 	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
 		use namespace pureLegsCore;
+
 		ModuleManager.registerScope(_moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 
 	/**
 	 * Unregisters scope name.
 	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
-	 * @param	scopeName			Name of the scope.
+	 * @param    scopeName            Name of the scope.
 	 */
 	protected function unregisterScope(scopeName:String):void {
 		use namespace pureLegsCore;
+
 		ModuleManager.unregisterScope(_moduleName, scopeName);
 	}
 
 	/**
 	 * Instantiates and executes provided command class, and sends params to it.
-	 * @param	commandClass	Command class to be instantiated and executed.
-	 * @param	params			Object to be sent to execute() function.
+	 * @param    commandClass    Command class to be instantiated and executed.
+	 * @param    params            Object to be sent to execute() function.
 	 */
 	public function executeCommand(commandClass:Class, params:Object = null):void {
 		commandMap.execute(commandClass, params);
@@ -186,6 +202,7 @@ public class ModuleCore {
 
 	public function listMessageCommands(messageType:String):String {
 		use namespace pureLegsCore;
+
 		return "SENDING MESSAGE:'" + messageType + "'\t> WILL EXECUTE  > " + String(commandMap.listMessageCommands(messageType)) + "\n";
 	}
 

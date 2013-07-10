@@ -1,5 +1,4 @@
 package com.mindScriptAct.circularDependenciesTest {
-import com.mindScriptAct.circularDependenciesTest.controller.TestCommand;
 import com.mindScriptAct.circularDependenciesTest.model.AProxy;
 import com.mindScriptAct.circularDependenciesTest.model.BProxy;
 import com.mindScriptAct.circularDependenciesTest.model.CProxy;
@@ -7,7 +6,7 @@ import com.mindScriptAct.circularDependenciesTest.model.DProxy;
 import com.mindScriptAct.circularDependenciesTest.view.TestView;
 import com.mindScriptAct.circularDependenciesTest.view.TestViewMediator;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
-import mvcexpress.modules.ModuleSprite;
+
 import mvcexpress.MvcExpress;
 
 /**

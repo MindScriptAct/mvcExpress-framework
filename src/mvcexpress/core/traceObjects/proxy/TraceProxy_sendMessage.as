@@ -17,6 +17,7 @@ public class TraceProxy_sendMessage extends TraceObj_SendMessage {
 
 	public function TraceProxy_sendMessage(moduleName:String, $proxyObject:Proxy, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
+
 		super(((preSend) ? MvcTraceActions.PROXY_SENDMESSAGE : MvcTraceActions.PROXY_SENDMESSAGE_CLEAN), moduleName);
 		proxyObject = $proxyObject;
 		type = $type;

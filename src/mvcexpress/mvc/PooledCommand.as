@@ -38,7 +38,9 @@ public class PooledCommand extends Command {
 	public function unlock():void {
 		if (_isLocked) {
 			_isLocked = false;
+
 			use namespace pureLegsCore;
+
 			if (isExecuting) {
 				commandMap.poolCommand(this);
 			}
