@@ -5,7 +5,7 @@ package com.mindScriptAct.modules.interfaces.testProxy {
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public interface IReadOnlyTestProxy {
-	
+
 	function getCount():int;
 }
 }

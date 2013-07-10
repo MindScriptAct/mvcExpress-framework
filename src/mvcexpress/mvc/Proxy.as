@@ -1,17 +1,18 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.mvc {
 import flash.utils.Dictionary;
+
+import mvcexpress.MvcExpress;
+import mvcexpress.core.ModuleManager;
 import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.Messenger;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
-import mvcexpress.MvcExpress;
 
 /**
- * Proxy holds and manages application data, provide API to work with it. 				</br>
- * Can send messages. (Usually sends one with each data update)							</br>
+ * Proxy holds and manages application data, provide API to work with it.                </br>
+ * Can send messages. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Proxy {
@@ -73,11 +74,12 @@ public class Proxy {
 
 	/**
 	 * Sends a message with optional params object inside of current module.
-	 * @param	type	type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params	Object that will be passed to Command execute() function or to handle functions.
+	 * @param    type    type of the message for Commands or Mediator's handle function to react to.
+	 * @param    params    Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		var moduleName:String = messenger.moduleName;
 		// log the action
 		CONFIG::debug {
@@ -99,12 +101,13 @@ public class Proxy {
 
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param	scopeName	both sending and receiving modules must use same scope to make module to module communication.
-	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
-	 * @param	params		Object that will be passed to Command execute() function and to handle functions.
+	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
+	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
+	 * @param    params        Object that will be passed to Command execute() function and to handle functions.
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
+
 		var moduleName:String = messenger.moduleName;
 		// log the action
 		CONFIG::debug {
@@ -125,7 +128,7 @@ public class Proxy {
 
 	/**
 	 * sets proxyMap interface.
-	 * @param	iProxyMap
+	 * @param    iProxyMap
 	 * @private
 	 */
 	pureLegsCore function setProxyMap(iProxyMap:IProxyMap):void {
@@ -161,7 +164,7 @@ public class Proxy {
 
 	/**
 	 * Add scope for proxy to send all proxy messages to.
-	 * @param	scopeName
+	 * @param    scopeName
 	 * @private
 	 */
 	pureLegsCore function addScope(scopeName:String):void {
@@ -180,7 +183,7 @@ public class Proxy {
 
 	/**
 	 * Remove scope for proxy to send all proxy messages to.
-	 * @param	scopeName
+	 * @param    scopeName
 	 * @private
 	 */
 	pureLegsCore function removeScope(scopeName:String):void {

@@ -1,6 +1,7 @@
 package integration.aGenericTestObjects.view {
 import integration.aGenericTestObjects.constants.GenericScopeIds;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
+
 import mvcexpress.mvc.Mediator;
 
 /**

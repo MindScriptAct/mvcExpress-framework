@@ -1,5 +1,6 @@
-package integration.mediating.testObj.view{
+package integration.mediating.testObj.view {
 import integration.mediating.testObj.view.viewObj.MediatingBaseView;
+
 import mvcexpress.mvc.Mediator;
 
 public class MediatingSuperClassMediator extends Mediator {

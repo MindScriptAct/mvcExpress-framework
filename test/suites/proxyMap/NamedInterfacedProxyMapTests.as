@@ -1,12 +1,13 @@
 package suites.proxyMap {
 import flexunit.framework.Assert;
-import mvcexpress.core.ModuleManager;
+
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+
+import suites.proxyMap.namedProxyTestObj.NamedProxyTestingProxy;
 import suites.proxyMap.proxyTestObj.ITestProxy;
 import suites.proxyMap.proxyTestObj.TestProxy;
-import suites.proxyMap.namedProxyTestObj.NamedProxyTestingProxy;
 
 /**
  * COMMENT
@@ -21,6 +22,7 @@ public class NamedInterfacedProxyMapTests {
 
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
+
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
@@ -32,6 +34,7 @@ public class NamedInterfacedProxyMapTests {
 
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+
 		messenger = null;
 		proxyMap = null;
 	}

@@ -17,6 +17,7 @@ public class TraceMediator_sendScopeMessage extends TraceObj_SendMessage {
 
 	public function TraceMediator_sendScopeMessage(moduleName:String, $mediatorObject:Mediator, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
+
 		super(((preSend) ? MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE : MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN), moduleName);
 		mediatorObject = $mediatorObject;
 		type = $type;

@@ -1,5 +1,6 @@
 package suites.proxyMap.namedProxyTestObj {
 import mvcexpress.mvc.Proxy;
+
 import suites.proxyMap.proxyTestObj.ITestProxy;
 import suites.proxyMap.proxyTestObj.TestProxy;
 

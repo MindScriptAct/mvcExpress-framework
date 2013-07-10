@@ -7,7 +7,7 @@ import mvcexpress.mvc.Command;
  */
 public class TestCommand2 extends Command {
 
-	static public var TEST_FUNCTION:Function = function(msg:*):void {
+	static public var TEST_FUNCTION:Function = function (msg:*):void {
 		//trace("TestCommand2 executed...")
 	};
 

@@ -9,6 +9,7 @@ import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Window;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressLogScreen;
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import com.mindscriptact.mvcExpressLogger.visualizer.VisualizerManager;
+
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.display.Stage;
@@ -17,6 +18,7 @@ import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 import flash.utils.getDefinitionByName;
 import flash.utils.setTimeout;
+
 import mvcexpress.core.namespace.pureLegsCore;
 
 /**
@@ -116,6 +118,7 @@ public class MvcExpressLogger {
 				}
 
 				use namespace pureLegsCore;
+
 				//use namespace pureLegsCoreNameSpace;
 				mvcExpressClass["loggerFunction"] = instance.debugMvcExpress;
 

@@ -1,5 +1,6 @@
 package com.mindScriptAct.mvcExpressSpeedTest.model {
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
+
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -10,7 +11,7 @@ public class BlankProxy extends Proxy {
 
 	public var testData:String = "someTestData";
 
-	public function BlankProxy(){
+	public function BlankProxy() {
 	}
 
 	public function sendTestMessage():void {

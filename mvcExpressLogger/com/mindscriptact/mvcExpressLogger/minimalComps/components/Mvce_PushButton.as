@@ -40,7 +40,7 @@ public class Mvce_PushButton extends Mvce_Component {
 	protected var _down:Boolean = false;
 	protected var _selected:Boolean = false;
 	protected var _toggle:Boolean = false;
-	
+
 	/**
 	 * Constructor
 	 * @param parent The parent DisplayObjectContainer on which to add this PushButton.
@@ -56,7 +56,7 @@ public class Mvce_PushButton extends Mvce_Component {
 		}
 		this.label = label;
 	}
-	
+
 	/**
 	 * Initializes the component.
 	 */
@@ -66,7 +66,7 @@ public class Mvce_PushButton extends Mvce_Component {
 		useHandCursor = true;
 		setSize(100, 20);
 	}
-	
+
 	/**
 	 * Creates and adds the child display objects of this component.
 	 */
@@ -75,21 +75,21 @@ public class Mvce_PushButton extends Mvce_Component {
 		_back.filters = [getShadow(2, true)];
 		_back.mouseEnabled = false;
 		addChild(_back);
-		
+
 		_face = new Sprite();
 		_face.mouseEnabled = false;
 		_face.filters = [getShadow(1)];
 		_face.x = 1;
 		_face.y = 1;
 		addChild(_face);
-		
+
 		_label = new Mvce_Label();
 		addChild(_label);
-		
+
 		addEventListener(MouseEvent.MOUSE_DOWN, onMouseGoDown);
 		addEventListener(MouseEvent.ROLL_OVER, onMouseOver);
 	}
-	
+
 	/**
 	 * Draws the face of the button, color based on state.
 	 */
@@ -103,11 +103,11 @@ public class Mvce_PushButton extends Mvce_Component {
 		_face.graphics.drawRect(0, 0, _width - 2, _height - 2);
 		_face.graphics.endFill();
 	}
-	
+
 	///////////////////////////////////
 	// public methods
 	///////////////////////////////////
-	
+
 	/**
 	 * Draws the visual ui of the component.
 	 */
@@ -117,9 +117,9 @@ public class Mvce_PushButton extends Mvce_Component {
 		_back.graphics.beginFill(Mvce_Style.BACKGROUND);
 		_back.graphics.drawRect(0, 0, _width, _height);
 		_back.graphics.endFill();
-		
+
 		drawFace();
-		
+
 		_label.text = _labelText;
 		_label.autoSize = true;
 		_label.draw();
@@ -131,13 +131,13 @@ public class Mvce_PushButton extends Mvce_Component {
 		}
 		_label.draw();
 		_label.move(_width / 2 - _label.width / 2, _height / 2 - _label.height / 2);
-	
+
 	}
-	
+
 	///////////////////////////////////
 	// event handlers
 	///////////////////////////////////
-	
+
 	/**
 	 * Internal mouseOver handler.
 	 * @param event The MouseEvent passed by the system.
@@ -146,7 +146,7 @@ public class Mvce_PushButton extends Mvce_Component {
 		_over = true;
 		addEventListener(MouseEvent.ROLL_OUT, onMouseOut);
 	}
-	
+
 	/**
 	 * Internal mouseOut handler.
 	 * @param event The MouseEvent passed by the system.
@@ -158,7 +158,7 @@ public class Mvce_PushButton extends Mvce_Component {
 		}
 		removeEventListener(MouseEvent.ROLL_OUT, onMouseOut);
 	}
-	
+
 	/**
 	 * Internal mouseOut handler.
 	 * @param event The MouseEvent passed by the system.
@@ -169,7 +169,7 @@ public class Mvce_PushButton extends Mvce_Component {
 		_face.filters = [getShadow(1, true)];
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
-	
+
 	/**
 	 * Internal mouseUp handler.
 	 * @param event The MouseEvent passed by the system.
@@ -183,11 +183,11 @@ public class Mvce_PushButton extends Mvce_Component {
 		_face.filters = [getShadow(1, _selected)];
 		stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
-	
+
 	///////////////////////////////////
 	// getter/setters
 	///////////////////////////////////
-	
+
 	/**
 	 * Sets / gets the label text shown on this Pushbutton.
 	 */
@@ -195,30 +195,30 @@ public class Mvce_PushButton extends Mvce_Component {
 		_labelText = str;
 		draw();
 	}
-	
+
 	public function get label():String {
 		return _labelText;
 	}
-	
+
 	public function set selected(value:Boolean):void {
 		if (!_toggle) {
 			value = false;
 		}
-		
+
 		_selected = value;
 		_down = _selected;
 		_face.filters = [getShadow(1, _selected)];
 		drawFace();
 	}
-	
+
 	public function get selected():Boolean {
 		return _selected;
 	}
-	
+
 	public function set toggle(value:Boolean):void {
 		_toggle = value;
 	}
-	
+
 	public function get toggle():Boolean {
 		return _toggle;
 	}

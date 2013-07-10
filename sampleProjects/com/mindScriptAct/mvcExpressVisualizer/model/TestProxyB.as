@@ -1,5 +1,6 @@
 package com.mindScriptAct.mvcExpressVisualizer.model {
 import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
+
 import mvcexpress.mvc.Proxy;
 
 /**

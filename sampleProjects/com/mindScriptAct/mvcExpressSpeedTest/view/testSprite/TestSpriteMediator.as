@@ -1,7 +1,8 @@
 package com.mindScriptAct.mvcExpressSpeedTest.view.testSprite {
-import mvcexpress.mvc.Mediator;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
+
+import mvcexpress.mvc.Mediator;
 
 /**
  * ...
@@ -15,7 +16,7 @@ public class TestSpriteMediator extends Mediator {
 	[Inject]
 	public var testProxy:BlankProxy;
 
-	public function TestSpriteMediator(){
+	public function TestSpriteMediator() {
 		super();
 	}
 
@@ -32,7 +33,7 @@ public class TestSpriteMediator extends Mediator {
 	}
 
 	private function handleOjectSearch(objectId:int):void {
-		if (view.uniqueId == objectId){
+		if (view.uniqueId == objectId) {
 			//trace("object found: " + view.uniqueId + " " + view);
 		}
 	}

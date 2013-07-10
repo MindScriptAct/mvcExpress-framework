@@ -1,5 +1,5 @@
 package com.mindScriptAct.mvcExpressVisualizer.model {
-	
+
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

@@ -1,5 +1,6 @@
 package integration.aGenericTestObjects.view {
 import integration.aGenericTestObjects.model.GenericTestProxy;
+
 import mvcexpress.mvc.Mediator;
 
 /**
@@ -15,7 +16,7 @@ public class GenericViewObjectMediator_withScopedInject extends Mediator {
 	public var genericTestProxy:GenericTestProxy;
 
 	override public function onRegister():void {
-		trace( "GenericViewObjectMediator_withScopedInject.onRegister" );
+		trace("GenericViewObjectMediator_withScopedInject.onRegister");
 
 	}
 

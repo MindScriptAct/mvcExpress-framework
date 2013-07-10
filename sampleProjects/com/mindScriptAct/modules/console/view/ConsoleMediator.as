@@ -1,11 +1,10 @@
 package com.mindScriptAct.modules.console.view {
-import com.mindScriptAct.modularSample.constants.ScopeNames;
 import com.mindScriptAct.modules.console.Console;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
-import com.mindScriptAct.modules.globalMessages.GlobalMessage;
-import com.mindScriptAct.modules.ModuleNames;
+
 import flash.events.MouseEvent;
+
 import mvcexpress.mvc.Mediator;
 
 /**

@@ -2,6 +2,7 @@ package com.mindScriptAct.modules.console {
 import com.bit101.components.PushButton;
 import com.bit101.components.TextArea;
 import com.mindScriptAct.modularSample.constants.ScopeNames;
+import com.mindScriptAct.modules.ModuleNames;
 import com.mindScriptAct.modules.console.controller.HandleInputCommand;
 import com.mindScriptAct.modules.console.model.ConsoleLogProxy;
 import com.mindScriptAct.modules.console.msg.ConsoleDataMsg;
@@ -9,12 +10,12 @@ import com.mindScriptAct.modules.console.msg.ConsoleMsg;
 import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modules.console.view.ConsoleMediator;
 import com.mindScriptAct.modules.globalMessages.GlobalMessage;
-import com.mindScriptAct.modules.ModuleNames;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldType;
-import mvcexpress.modules.ModuleSprite;
+
 import mvcexpress.utils.checkClassStringConstants;
 
 /**

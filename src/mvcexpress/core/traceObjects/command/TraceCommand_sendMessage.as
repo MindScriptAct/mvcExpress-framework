@@ -17,6 +17,7 @@ public class TraceCommand_sendMessage extends TraceObj_SendMessage {
 
 	public function TraceCommand_sendMessage(moduleName:String, $commandObject:Command, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
+
 		super(((preSend) ? MvcTraceActions.COMMAND_SENDMESSAGE : MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN), moduleName);
 		commandObject = $commandObject;
 		type = $type;

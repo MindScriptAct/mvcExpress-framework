@@ -1,7 +1,6 @@
 package suites.testObjects.moduleMain {
-import flash.events.Event;
 import mvcexpress.mvc.Mediator;
-import suites.SuiteModuleNames;
+
 import suites.TestViewEvent;
 
 /**
@@ -38,7 +37,7 @@ public class MainViewMediator extends Mediator {
 	}
 
 	//private function handleAddRemoteHandler(event:TestViewEvent):void {
-		//addRemoteHandler(event.messageType, trigerRemoteHandler, SuiteModuleNames.EXTERNAL_MODULE)
+	//addRemoteHandler(event.messageType, trigerRemoteHandler, SuiteModuleNames.EXTERNAL_MODULE)
 	//}
 
 	private function handleRemoveLocalHandler(event:TestViewEvent):void {
@@ -46,11 +45,11 @@ public class MainViewMediator extends Mediator {
 	}
 
 	//private function handleRemoveRemoteHandler(event:TestViewEvent):void {
-		//removeRemoteHandler(event.messageType, trigerRemoteHandler, SuiteModuleNames.EXTERNAL_MODULE);
+	//removeRemoteHandler(event.messageType, trigerRemoteHandler, SuiteModuleNames.EXTERNAL_MODULE);
 	//}
 
 	private function handleTestProxyGetHandler(event:TestViewEvent):void {
-																// event.messageType used as module name !!
+		// event.messageType used as module name !!
 		dataProxy.testProxy = proxyMap.getProxy(event.testClass, event.messageType);
 	}
 

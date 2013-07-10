@@ -1,9 +1,11 @@
 package suites.mediators {
 import flexunit.framework.Assert;
+
 import mvcexpress.core.MediatorMap;
+import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.core.ProxyMap;
+
 import suites.testObjects.view.MediatorSprite;
 import suites.testObjects.view.MediatorSpriteMediator;
 
@@ -22,6 +24,7 @@ public class MediatorTests {
 
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
+
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
@@ -39,6 +42,7 @@ public class MediatorTests {
 
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+
 		mediatorMap.unmediate(testView);
 		messenger = null;
 		proxyMap = null;
@@ -75,22 +79,20 @@ public class MediatorTests {
 	//[Test]
 	//[Ignore]
 	//public function mediator_add_listener():void {
-		//
+	//
 	//}
 	//
 	//[Test]
 	//[Ignore]
 	//public function mediator_remove_listener():void {
-		//
+	//
 	//}
 	//
 	//[Test]
 	//[Ignore]
 	//public function mediator_remove_all_listeners():void {
-		//
+	//
 	//}
-
-
 
 
 	[Test]
@@ -132,14 +134,14 @@ public class MediatorTests {
 	//[Test]
 	//[Ignore]
 	//public function mediator_remove_handler():void {
-		//
+	//
 	//}
 	//
 	//
 	//[Test]
 	//[Ignore]
 	//public function mediator_remove_all_handler():void {
-		//
+	//
 	//}
 
 

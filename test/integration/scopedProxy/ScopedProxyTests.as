@@ -2,8 +2,11 @@ package integration.scopedProxy {
 import integration.scopedProxy.testObj.moduleA.ScopedProxyModuleA;
 import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
 import integration.scopedProxy.testObj.moduleB.ScopedProxyModuleB;
-import org.flexunit.Assert;
+
 import mvcexpress.MvcExpress;
+
+import org.flexunit.Assert;
+
 import utils.AsyncUtil;
 
 /**
@@ -112,6 +115,7 @@ public class ScopedProxyTests {
 
 		Assert.assertEquals(" Proxy should be able to inject hosted proxy, and manipulate it.", randomData, scopedTestProxy.storedData);
 	}
+
 	//*
 	// A host
 	// B inject to proxy

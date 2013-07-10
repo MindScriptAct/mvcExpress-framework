@@ -1,6 +1,5 @@
 package integration.scopedMessaging.testObj.moduleA {
 import flash.display.Sprite;
-import flash.geom.Point;
 
 /**
  * COMMENT

@@ -27,24 +27,29 @@ public class ModuleManager {
 	static private var _moduleId:int;
 
 	/* modules stored by moduleName */
-	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleCore by String */
+	static private var moduleRegistry:Dictionary = new Dictionary();
+	/* of ModuleCore by String */
 
 	/* all modules stared by module name */
 	static private var allModules:Vector.<ModuleCore> = new Vector.<ModuleCore>();
 
 	/* all messengers by scope name */
-	static private var scopedMessengers:Dictionary = new Dictionary(); /* of Messenger by String{moduleName} */
+	static private var scopedMessengers:Dictionary = new Dictionary();
+	/* of Messenger by String{moduleName} */
 
 	/* all proxies by scope name */
-	static private var scopedProxyMaps:Dictionary = new Dictionary(); /* of ProxyMap by String{moduleName} */
+	static private var scopedProxyMaps:Dictionary = new Dictionary();
+	/* of ProxyMap by String{moduleName} */
 
 	/* all proxies maped to scope */
-	static private var scopedProxiesByScope:Dictionary = new Dictionary(); /* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
+	static private var scopedProxiesByScope:Dictionary = new Dictionary();
+	/* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 
 	static private var needMetadataTest:Boolean = true;
 
 	/* all module permision datas by modleName and scopeName */
-	static private var scopePermissionsRegistry:Dictionary = new Dictionary(); /* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
+	static private var scopePermissionsRegistry:Dictionary = new Dictionary();
+	/* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
 
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -53,8 +58,8 @@ public class ModuleManager {
 
 	/**
 	 * Creates new module for given name.
-	 * @param	moduleName
-	 * @param	autoInit
+	 * @param    moduleName
+	 * @param    autoInit
 	 * @return
 	 * @private
 	 */
@@ -72,6 +77,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceModuleManager_createModule(moduleName));
 		}
 		if (moduleRegistry[moduleName] == null) {
@@ -83,7 +89,7 @@ public class ModuleManager {
 			//
 			moduleRegistry[moduleName] = moduleCore;
 			allModules[allModules.length] = moduleCore;
-				//
+			//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
 		}
@@ -92,22 +98,24 @@ public class ModuleManager {
 
 	/**
 	 * get messenger for module name.
-	 * @param	moduleName		name of the module this messenger will belong to.
-	 * @return	returns Messenger object.
+	 * @param    moduleName        name of the module this messenger will belong to.
+	 * @return    returns Messenger object.
 	 * @private
 	 */
 	static pureLegsCore function getMessenger(moduleName:String):Messenger {
 		use namespace pureLegsCore;
+
 		return moduleRegistry[moduleName].messenger;
 	}
 
 	/**
 	 * disposes of messenger for module name.
-	 * @param	moduleName	name of the module this messenger was belong to.
+	 * @param    moduleName    name of the module this messenger was belong to.
 	 * @private
 	 */
 	static pureLegsCore function disposeModule(moduleName:String):void {
 		use namespace pureLegsCore;
+
 		// debug this action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleManager_disposeModule(moduleName));
@@ -185,6 +193,7 @@ public class ModuleManager {
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
+
 			Messenger.allowInstantiation = true;
 			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
@@ -208,10 +217,10 @@ public class ModuleManager {
 
 	/**
 	 * Map command to scoped message.
-	 * @param	handleCommandExecute
-	 * @param	scopeName
-	 * @param	type
-	 * @param	commandClass
+	 * @param    handleCommandExecute
+	 * @param    scopeName
+	 * @param    type
+	 * @param    commandClass
 	 * @return
 	 * @private
 	 */
@@ -230,6 +239,7 @@ public class ModuleManager {
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopeMesanger) {
 			use namespace pureLegsCore;
+
 			Messenger.allowInstantiation = true;
 			scopeMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
@@ -244,11 +254,11 @@ public class ModuleManager {
 
 	/**
 	 * Map proxy to scope
-	 * @param	moduleName
-	 * @param	scopeName
-	 * @param	proxyObject
-	 * @param	injectClass
-	 * @param	name
+	 * @param    moduleName
+	 * @param    scopeName
+	 * @param    proxyObject
+	 * @param    injectClass
+	 * @param    name
 	 * @private
 	 */
 	static pureLegsCore function scopeMap(moduleName:String, scopeName:String, proxyObject:Proxy, injectClass:Class, name:String):void {
@@ -264,6 +274,7 @@ public class ModuleManager {
 		}
 
 		use namespace pureLegsCore;
+
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
@@ -294,10 +305,10 @@ public class ModuleManager {
 
 	/**
 	 * Unmap proxy from scope
-	 * @param	moduleName
-	 * @param	scopeName
-	 * @param	injectClass
-	 * @param	name
+	 * @param    moduleName
+	 * @param    scopeName
+	 * @param    injectClass
+	 * @param    name
 	 * @private
 	 */
 	static pureLegsCore function scopeUnmap(moduleName:String, scopeName:String, injectClass:Class, name:String):void {
@@ -306,6 +317,7 @@ public class ModuleManager {
 			var injectId:String = scopedProxyMap.unmap(injectClass, name);
 			// remove scope from proxy, so it would stop sending scoped messages.
 			use namespace pureLegsCore;
+
 			if (scopedProxiesByScope[moduleName]) {
 				if (scopedProxiesByScope[moduleName][injectId]) {
 					scopedProxiesByScope[moduleName][injectId].scopedProxy.removeScope(scopeName);
@@ -317,8 +329,8 @@ public class ModuleManager {
 
 	/**
 	 * Inject Scoped proxy.
-	 * @param	object
-	 * @param	injectRule
+	 * @param    object
+	 * @param    injectRule
 	 * @return
 	 * @private
 	 */
@@ -326,6 +338,7 @@ public class ModuleManager {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;
+
 			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
 			if (ijectProxy) {
 				recipientObject[injectRule.varName] = ijectProxy;
@@ -337,13 +350,14 @@ public class ModuleManager {
 
 	/**
 	 * Adds pending scoped injection.
-	 * @param	scopeName
-	 * @param	injectClassAndName
-	 * @param	pendingInject
+	 * @param    scopeName
+	 * @param    injectClassAndName
+	 * @param    pendingInject
 	 * @private
 	 */
 	static pureLegsCore function addPendingScopedInjection(scopeName:String, injectClassAndName:String, pendingInject:PendingInject):void {
 		use namespace pureLegsCore;
+
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (!scopedProxyMap) {
 			initScopedProxyMap(scopeName);
@@ -354,12 +368,13 @@ public class ModuleManager {
 
 	/**
 	 * Initiates scoped proxy map.
-	 * @param	scopeName
+	 * @param    scopeName
 	 */
 	static private function initScopedProxyMap(scopeName:String):void {
 		var scopedMesanger:Messenger = scopedMessengers[scopeName];
 		if (!scopedMesanger) {
 			use namespace pureLegsCore;
+
 			Messenger.allowInstantiation = true;
 			scopedMesanger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
@@ -376,6 +391,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceModuleManager_registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMapping));
 		}
 
@@ -399,6 +415,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			MvcExpress.debug(new TraceModuleManager_unregisterScope(moduleName, scopeName));
 		}
 
@@ -464,6 +481,7 @@ public class ModuleManager {
 
 	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
 		use namespace pureLegsCore;
+
 		if (moduleRegistry[moduleName]) {
 			return ((moduleRegistry[moduleName] as ModuleCore).listMessageCommands(key) as String);
 		} else {

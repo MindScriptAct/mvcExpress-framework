@@ -1,12 +1,13 @@
 package com.mindScriptAct.codeSnippets.view.mediateWithTest {
 import flash.display.Sprite;
+
 import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ChildSpriteTestMediator extends Mediator{
+public class ChildSpriteTestMediator extends Mediator {
 
 	[Inject]
 	public var view:ChildSpriteTest;
@@ -14,7 +15,7 @@ public class ChildSpriteTestMediator extends Mediator{
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void{
+	override public function onRegister():void {
 		var circle:Sprite = new Sprite();
 		view.addChild(circle);
 		mediatorMap.mediateWith(circle, CircleTestMediator);
@@ -27,7 +28,7 @@ public class ChildSpriteTestMediator extends Mediator{
 
 	}
 
-	override public function onRemove():void{
+	override public function onRemove():void {
 
 	}
 

@@ -1,7 +1,6 @@
 package integration.scopedProxy.testObj.moduleA {
-import flash.display.Sprite;
-import flash.events.Event;
 import integration.scopedProxy.ScopedProxyTests;
+
 import mvcexpress.modules.ModuleCore;
 
 /**

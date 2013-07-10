@@ -1,5 +1,6 @@
-package integration.proxyMap.testObj{
+package integration.proxyMap.testObj {
 import integration.aGenericTestObjects.model.GenericTestProxy;
+
 import mvcexpress.mvc.Command;
 
 /**
@@ -8,8 +9,9 @@ import mvcexpress.mvc.Command;
  */
 public class CestConstCommand extends Command {
 
-	[Inject (constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
-	public var genericTestProxy:GenericTestProxy;;
+	[Inject(constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
+	public var genericTestProxy:GenericTestProxy;
+	;
 
 	public function execute(blank:Object):void {
 

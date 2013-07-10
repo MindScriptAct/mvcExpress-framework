@@ -18,6 +18,7 @@ public class TraceProxyMap_injectStuff extends TraceObj {
 
 	public function TraceProxyMap_injectStuff(moduleName:String, $hostObject:Object, $injectObject:Object, $rule:InjectRuleVO) {
 		use namespace pureLegsCore;
+
 		super(MvcTraceActions.PROXYMAP_INJECTSTUFF, moduleName);
 		hostObject = $hostObject;
 		injectObject = $injectObject;

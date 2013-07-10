@@ -1,12 +1,13 @@
 package com.mindScriptAct.codeSnippets.view.mediateWithTest {
 import flash.display.Sprite;
+
 import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class SquareTestMediator extends Mediator{
+public class SquareTestMediator extends Mediator {
 
 	[Inject]
 	public var view:Sprite;
@@ -15,11 +16,11 @@ public class SquareTestMediator extends Mediator{
 	//public var myProxy:MyProxy;
 
 	override public function onRegister():void {
-		trace( "SquareTestMediator.onRegister" );
+		trace("SquareTestMediator.onRegister");
 
 	}
 
-	override public function onRemove():void{
+	override public function onRemove():void {
 
 	}
 

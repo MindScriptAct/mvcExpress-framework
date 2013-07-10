@@ -1,9 +1,10 @@
 package suites.testObjects.view {
-import flash.display.Sprite;
 import flash.events.Event;
+
 import mvcexpress.mvc.Mediator;
-import suites.testObjects.TestObject;
+
 import suites.TestViewEvent;
+import suites.testObjects.TestObject;
 
 /**
  * COMMENT

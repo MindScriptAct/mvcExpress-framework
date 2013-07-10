@@ -1,6 +1,7 @@
 package suites.general {
-import org.flexunit.Assert;
 import mvcexpress.MvcExpress;
+
+import org.flexunit.Assert;
 
 /**
  * COMMENT

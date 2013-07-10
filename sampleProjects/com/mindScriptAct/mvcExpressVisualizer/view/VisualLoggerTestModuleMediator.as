@@ -1,10 +1,7 @@
 package com.mindScriptAct.mvcExpressVisualizer.view {
 import com.bit101.components.PushButton;
-import com.mindScriptAct.mvcExpressVisualizer.controller.TestCommandA;
-import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.VisualLoggerTestModule;
-import flash.events.Event;
-import flash.geom.Point;
+
 import mvcexpress.mvc.Mediator;
 
 /**

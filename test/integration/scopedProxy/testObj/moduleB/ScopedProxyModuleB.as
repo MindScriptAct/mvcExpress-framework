@@ -1,7 +1,8 @@
 package integration.scopedProxy.testObj.moduleB {
 import flash.display.Sprite;
-import flash.events.Event;
+
 import integration.scopedProxy.ScopedProxyTests;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
@@ -15,7 +16,7 @@ public class ScopedProxyModuleB extends ModuleCore {
 
 	static public const NAME:String = "ScopedProxyModuleB";
 
-	static public var TEST_FUNCTION:Function = function(msg:*):void {
+	static public var TEST_FUNCTION:Function = function (msg:*):void {
 		//trace( "TEST_FUNCTION : " + TEST_FUNCTION );
 	};
 

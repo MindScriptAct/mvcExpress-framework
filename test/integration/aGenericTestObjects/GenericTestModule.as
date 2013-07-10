@@ -1,10 +1,4 @@
 package integration.aGenericTestObjects {
-import integration.proxyMap.testObj.CestConstCommand;
-import integration.proxyMap.testObj.TestContsViewMediator;
-import flash.display.Sprite;
-import flash.events.Event;
-import integration.lazyProxy.LazyProxyTests;
-import integration.proxyMap.testObj.TestContsView;
 import mvcexpress.modules.ModuleCore;
 import mvcexpress.mvc.Proxy;
 

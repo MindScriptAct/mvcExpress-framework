@@ -1,11 +1,8 @@
 package com.mindScriptAct.codeSnippets.view {
+import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
 import com.mindScriptAct.codeSnippets.messages.Msg;
 import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
-import com.mindScriptAct.codeSnippets.MvcExpressSnippets;
-import com.mindScriptAct.codeSnippets.SnippetAppModule;
-import flash.display.Sprite;
-import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
+
 import mvcexpress.mvc.Mediator;
 
 /**

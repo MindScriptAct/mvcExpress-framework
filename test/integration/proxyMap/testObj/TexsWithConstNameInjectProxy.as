@@ -1,5 +1,6 @@
 package integration.proxyMap.testObj {
 import integration.aGenericTestObjects.model.GenericTestProxy;
+
 import mvcexpress.mvc.Proxy;
 
 /**

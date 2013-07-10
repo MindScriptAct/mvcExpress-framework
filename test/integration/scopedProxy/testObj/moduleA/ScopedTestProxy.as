@@ -1,5 +1,6 @@
 package integration.scopedProxy.testObj.moduleA {
 import integration.scopedProxy.ScopedProxyTests;
+
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -12,7 +13,6 @@ public class ScopedTestProxy extends Proxy {
 	public function ScopedTestProxy() {
 
 	}
-
 
 
 	override protected function onRegister():void {

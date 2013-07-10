@@ -2,10 +2,11 @@ package com.mindScriptAct.mvcExpressSpeedTest.view.application {
 import com.mindScriptAct.mvcExpressSpeedTest.MvcExpressSpeedTest;
 import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
-import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSpriteMediator;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+
 import mvcexpress.mvc.Mediator;
 
 /**

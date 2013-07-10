@@ -1,5 +1,6 @@
 package suites.testObjects.controller {
 import mvcexpress.mvc.Command;
+
 import suites.testObjects.moduleMain.MainDataProxy;
 
 /**

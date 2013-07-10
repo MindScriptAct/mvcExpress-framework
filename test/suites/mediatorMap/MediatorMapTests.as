@@ -1,18 +1,19 @@
 package suites.mediatorMap {
 import flash.display.Bitmap;
 import flash.display.Sprite;
-import org.flexunit.Assert;
+
 import mvcexpress.core.MediatorMap;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
-import mvcexpress.mvc.Mediator;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.MvcExpress;
+
+import org.flexunit.Assert;
+
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
 import suites.testObjects.view.MediatorSprite;
 import suites.testObjects.view.MediatorSpriteMediator;
+
 import utils.AsyncUtil;
 
 /**
@@ -31,6 +32,7 @@ public class MediatorMapTests {
 
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
+
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
@@ -44,6 +46,7 @@ public class MediatorMapTests {
 
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
+
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
@@ -52,7 +55,7 @@ public class MediatorMapTests {
 
 	}
 
-	[Test(async,description="Mediator onRegister test")]
+	[Test(async, description="Mediator onRegister test")]
 
 	public function mediatorMap_onRegister_and_no_onRemove():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
@@ -62,7 +65,7 @@ public class MediatorMapTests {
 		mediatorMap.mediate(view);
 	}
 
-	[Test(async,description="Mediator onRemove test")]
+	[Test(async, description="Mediator onRemove test")]
 
 	public function mediatorMap_onRegister_and_onRemove():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
@@ -73,7 +76,7 @@ public class MediatorMapTests {
 		mediatorMap.unmediate(view);
 	}
 
-	[Test(async,description="Mediator onRemove test")]
+	[Test(async, description="Mediator onRemove test")]
 
 	public function mediatorMap_messag_callBack_test():void {
 		MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);

@@ -5,6 +5,6 @@ package com.mindScriptAct.modules.globalMessages {
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class GlobalDataMessage {
-	
+
 }
 }

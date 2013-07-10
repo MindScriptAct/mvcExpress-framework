@@ -1,13 +1,13 @@
 package com.mindScriptAct.modularSample.view {
 import com.bit101.components.PushButton;
-import com.mindScriptAct.modularSample.constants.ScopeNames;
 import com.mindScriptAct.modularSample.ModularSample;
+import com.mindScriptAct.modularSample.constants.ScopeNames;
 import com.mindScriptAct.modules.console.Console;
-import com.mindScriptAct.modules.console.msg.ConsoleMsg;
-import com.mindScriptAct.modules.console.msg.ConsoleViewMsg;
 import com.mindScriptAct.modules.globalMessages.GlobalMessage;
+
 import flash.events.Event;
 import flash.events.MouseEvent;
+
 import mvcexpress.mvc.Mediator;
 
 /**
@@ -118,11 +118,11 @@ public class ModularSampleMediator extends Mediator {
 	}
 
 	//public function handleMessageToAllNoStore(event:MouseEvent):void {
-		//sendMessageToAll(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, "Global message to all modules without using proxy!!!");
+	//sendMessageToAll(GlobalMessage.SEND_INPUT_MESSAGE_TO_ALL_DONT_STORE, "Global message to all modules without using proxy!!!");
 	//}
 	//
 	//public function handleMessageToAllDublicate(event:MouseEvent):void {
-		//sendMessageToAll(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules without using proxy!!!");
+	//sendMessageToAll(ConsoleViewMsg.INPUT_MESSAGE, "Global message to all modules without using proxy!!!");
 	//}
 }
 }

@@ -34,7 +34,7 @@ import flash.events.MouseEvent;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 
-[Event(name="change",type="flash.events.Event")]
+[Event(name="change", type="flash.events.Event")]
 
 public class Mvce_NumericStepper extends Mvce_Component {
 	private var _isCircular:Boolean;
@@ -42,7 +42,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 	protected const UP:String = "up";
 	protected const DOWN:String = "down";
 	protected var _minusBtn:Mvce_PushButton;
-	
+
 	protected var _repeatTime:int = 100;
 	protected var _plusBtn:Mvce_PushButton;
 	protected var _valueText:Mvce_InputText;
@@ -54,7 +54,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 	protected var _delayTimer:Timer;
 	protected var _repeatTimer:Timer;
 	protected var _direction:String;
-	
+
 	/**
 	 * Constructor
 	 * @param parent The parent DisplayObjectContainer on which to add this Slider.
@@ -68,7 +68,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			addEventListener(Event.CHANGE, defaultHandler);
 		}
 	}
-	
+
 	/**
 	 * Initializes the component.
 	 */
@@ -80,7 +80,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_repeatTimer = new Timer(_repeatTime);
 		_repeatTimer.addEventListener(TimerEvent.TIMER, onRepeat);
 	}
-	
+
 	/**
 	 * Creates and adds the child display objects of this component.
 	 */
@@ -94,7 +94,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_plusBtn.addEventListener(MouseEvent.MOUSE_DOWN, onPlus);
 		_plusBtn.setSize(16, 16);
 	}
-	
+
 	protected function increment():void {
 		if (_value + _step <= _maximum) {
 			_value += _step;
@@ -108,7 +108,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			}
 		}
 	}
-	
+
 	protected function decrement():void {
 		if (_value - _step >= _minimum) {
 			_value -= _step;
@@ -122,11 +122,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			}
 		}
 	}
-	
+
 	///////////////////////////////////
 	// public methods
 	///////////////////////////////////
-	
+
 	/**
 	 * Draws the visual ui of the component.
 	 */
@@ -137,11 +137,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_valueText.width = _width - 32;
 		_valueText.draw();
 	}
-	
+
 	///////////////////////////////////
 	// event handlers
 	///////////////////////////////////
-	
+
 	/**
 	 * Called when the minus button is pressed. Decrements the value by the step amount.
 	 */
@@ -151,7 +151,7 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_delayTimer.start();
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
-	
+
 	/**
 	 * Called when the plus button is pressed. Increments the value by the step amount.
 	 */
@@ -161,12 +161,12 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_delayTimer.start();
 		stage.addEventListener(MouseEvent.MOUSE_UP, onMouseGoUp);
 	}
-	
+
 	protected function onMouseGoUp(event:MouseEvent):void {
 		_delayTimer.stop();
 		_repeatTimer.stop();
 	}
-	
+
 	/**
 	 * Called when the value is changed manually.
 	 */
@@ -179,11 +179,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 	}
-	
+
 	protected function onDelayComplete(event:TimerEvent):void {
 		_repeatTimer.start();
 	}
-	
+
 	protected function onRepeat(event:TimerEvent):void {
 		if (_direction == UP) {
 			increment();
@@ -191,11 +191,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			decrement();
 		}
 	}
-	
+
 	///////////////////////////////////
 	// getter/setters
 	///////////////////////////////////
-	
+
 	/**
 	 * Sets / gets the current value of this component.
 	 */
@@ -205,11 +205,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			invalidate();
 		}
 	}
-	
+
 	public function get value():Number {
 		return _value;
 	}
-	
+
 	/**
 	 * Sets / gets the amount the value will change when the up or down button is pressed. Must be zero or positive.
 	 */
@@ -219,11 +219,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		}
 		_step = value;
 	}
-	
+
 	public function get step():Number {
 		return _step;
 	}
-	
+
 	/**
 	 * Sets / gets how many decimal points of precision will be shown.
 	 */
@@ -231,11 +231,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 		_labelPrecision = value;
 		invalidate();
 	}
-	
+
 	public function get labelPrecision():int {
 		return _labelPrecision;
 	}
-	
+
 	/**
 	 * Sets / gets the maximum value for this component.
 	 */
@@ -246,11 +246,11 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			invalidate();
 		}
 	}
-	
+
 	public function get maximum():Number {
 		return _maximum;
 	}
-	
+
 	/**
 	 * Sets / gets the maximum value for this component.
 	 */
@@ -261,28 +261,28 @@ public class Mvce_NumericStepper extends Mvce_Component {
 			invalidate();
 		}
 	}
-	
+
 	public function get minimum():Number {
 		return _minimum;
 	}
-	
+
 	/**
 	 * Gets/sets the update rate that the stepper will change its value if a button is held down.
 	 */
 	public function get repeatTime():int {
 		return _repeatTime;
 	}
-	
+
 	public function set repeatTime(value:int):void {
 		// shouldn't be any need to set it faster than 10 ms. guard against negative.
 		_repeatTime = Math.max(value, 10);
 		_repeatTimer.delay = _repeatTime;
 	}
-	
+
 	public function get isCircular():Boolean {
 		return _isCircular;
 	}
-	
+
 	public function set isCircular(value:Boolean):void {
 		_isCircular = value;
 	}

@@ -1,5 +1,6 @@
 package com.mindscriptact.mvcExpressLogger.screens {
 import com.mindscriptact.mvcExpressLogger.minimalComps.components.Mvce_Label;
+
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.utils.setTimeout;
@@ -12,7 +13,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	private var screenWidth:int;
 	private var screenHeight:int;
 	private var mediators:Vector.<Object> = new Vector.<Object>();
-	private var proxies:Vector.<Object>  = new Vector.<Object>();
+	private var proxies:Vector.<Object> = new Vector.<Object>();
 	private var commands:Vector.<Object> = new Vector.<Object>();
 	private var currentModuleName:String;
 	private var moduleLabel:Mvce_Label;
@@ -438,12 +439,12 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						commandLabel.graphics.lineStyle(2, 0xFFFFD9, 0.3);
 						commandLabel.graphics.moveTo(0, 10);
 						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2 - 30, //
-							//-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
-							5);
+								//-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
+								5);
 
 						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2, //
-							-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
-							);
+								-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
+						);
 
 						commandLabel.graphics.moveTo(0, 10);
 						commandLabel.graphics.lineTo(0 - 10, 10 - 2);

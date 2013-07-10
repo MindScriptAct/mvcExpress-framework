@@ -2,8 +2,9 @@ package com.mindScriptAct.mvcExpressVisualizer.controller {
 import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.model.ITestProxyB;
 import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyA;
-import com.mindScriptAct.mvcExpressVisualizer.model.TestProxyB;
+
 import flash.geom.Point;
+
 import mvcexpress.mvc.Command;
 
 /**

@@ -1,6 +1,4 @@
 package com.mindScriptAct.moduleAutoinitTest {
-import mvcexpress.modules.ModuleSprite;
-
 /**
  * COMMENT : todo
  * @author mindscriptact
@@ -10,7 +8,7 @@ public class AutoInitFalseModule extends ModuleSprite {
 	static public const NAME:String = "AutoInitFalseModule";
 
 	public function AutoInitFalseModule() {
-		trace( "AutoInitFalseModule.AutoInitFalseModule" );
+		trace("AutoInitFalseModule.AutoInitFalseModule");
 		super(AutoInitFalseModule.NAME, false);
 	}
 
@@ -21,12 +19,12 @@ public class AutoInitFalseModule extends ModuleSprite {
 	}
 
 	override protected function onInit():void {
-		trace( "AutoInitFalseModule.onInit" );
+		trace("AutoInitFalseModule.onInit");
 
 	}
 
 	override protected function onDispose():void {
-		trace( "AutoInitFalseModule.onDispose" );
+		trace("AutoInitFalseModule.onDispose");
 
 	}
 

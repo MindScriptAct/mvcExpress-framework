@@ -1,5 +1,4 @@
 package suites.testObjects.moduleExternal {
-import mvcexpress.modules.ModuleSprite;
 import suites.SuiteModuleNames;
 
 /**

@@ -12,11 +12,11 @@ import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject5Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.Inject6Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.TestNamedProxysCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.TraceCommand;
-import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViews5Command;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViews5PooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViewsCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommViewsPooledCommand;
+import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.controller.WithProxyPooledCommand;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 import com.mindScriptAct.mvcExpressSpeedTest.model.INamedProxy;
@@ -26,9 +26,11 @@ import com.mindScriptAct.mvcExpressSpeedTest.notes.Note;
 import com.mindScriptAct.mvcExpressSpeedTest.view.application.MvcExpressTestMediator;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSprite;
 import com.mindScriptAct.mvcExpressSpeedTest.view.testSprite.TestSpriteMediator;
+
 import flash.events.Event;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
+
 import mvcexpress.modules.ModuleCore;
 import mvcexpress.utils.checkClassStringConstants;
 

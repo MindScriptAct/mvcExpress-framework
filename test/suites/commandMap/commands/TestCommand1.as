@@ -1,5 +1,4 @@
 package suites.commandMap.commands {
-import flash.display.Sprite;
 import mvcexpress.mvc.Command;
 
 /**
@@ -8,7 +7,7 @@ import mvcexpress.mvc.Command;
  */
 public class TestCommand1 extends Command {
 
-	static public var TEST_FUNCTION:Function = function(msg:*):void {
+	static public var TEST_FUNCTION:Function = function (msg:*):void {
 		//trace("TestCommand1 executed...")
 	};
 

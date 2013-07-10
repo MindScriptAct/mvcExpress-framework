@@ -1,6 +1,7 @@
 package com.mindScriptAct.codeSnippets.controller {
 import com.mindScriptAct.codeSnippets.messages.Msg;
 import com.mindScriptAct.codeSnippets.model.SampleProxy;
+
 import mvcexpress.mvc.Command;
 
 /**
