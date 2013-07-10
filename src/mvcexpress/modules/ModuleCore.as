@@ -1,11 +1,14 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.modules {
+import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
-import mvcexpress.core.ModuleBase;
 import mvcexpress.core.ModuleManager;
+import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.ProxyMap;
+import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
+import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 
 /**
  * Core Module class. Used if you don't want your module be display object.
@@ -18,9 +21,19 @@ import mvcexpress.core.ProxyMap;
  */
 public class ModuleCore {
 
+	private var _moduleName:String;
+
+	/** for communication. */
+	private var _messenger:Messenger;
+
+
+	/** Handles application Proxies. */
 	protected var proxyMap:ProxyMap;
+	/** Handles application Mediators. */
 	protected var mediatorMap:MediatorMap;
+	/** Handles application Commands. */
 	protected var commandMap:CommandMap;
+
 
 	/**
 	 * CONSTRUCTOR
@@ -29,22 +42,32 @@ public class ModuleCore {
 	 */
 	public function ModuleCore(moduleName:String = null) {
 		use namespace pureLegsCore;
-		moduleBase = ModuleManager.createModule(moduleName, this);
+		//
+		_moduleName = ModuleManager.registerModule(moduleName, this);
 		//
 
-		proxyMap = moduleBase.proxyMap;
-		mediatorMap = moduleBase.mediatorMap;
-		commandMap = moduleBase.commandMap;
+		Messenger.allowInstantiation = true;
+		_messenger = new Messenger(_moduleName);
+		Messenger.allowInstantiation = false;
+
+		// proxyMap
+		proxyMap = new ProxyMap(_moduleName, _messenger);
+
+		// mediatorMap
+		mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
+
+		// commandMap
+		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
+		proxyMap.setCommandMap(commandMap);
 
 		onInit();
-
 	}
 
 	/**
 	 * Name of the module
 	 */
 	public function get moduleName():String {
-		return moduleBase.moduleName;
+		return _moduleName;
 	}
 
 	/**
@@ -64,7 +87,23 @@ public class ModuleCore {
 	 */
 	public function disposeModule():void {
 		onDispose();
-		moduleBase.disposeModule();
+		use namespace pureLegsCore;
+		//
+		if (commandMap) {
+			commandMap.dispose();
+			commandMap = null;
+		}
+		if (mediatorMap) {
+			mediatorMap.dispose();
+			mediatorMap = null;
+		}
+		if (proxyMap) {
+			proxyMap.dispose();
+			proxyMap = null;
+		}
+		_messenger = null;
+		//
+		ModuleManager.disposeModule(_moduleName);
 	}
 
 	/**
@@ -81,7 +120,18 @@ public class ModuleCore {
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
 	 */
 	protected function sendMessage(type:String, params:Object = null):void {
-		moduleBase.sendMessage(type, params);
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, true));
+		}
+		//
+		_messenger.send(type, params);
+		//
+		// clean up logging the action
+		CONFIG::debug {
+			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, false));
+		}
 	}
 
 	/**
@@ -91,7 +141,18 @@ public class ModuleCore {
 	 * @param	params		Object that will be passed to Command execute() function or to handle functions.
 	 */
 	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
-		moduleBase.sendScopeMessage(scopeName, type, params);
+		use namespace pureLegsCore;
+		// log the action
+		CONFIG::debug {
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
+		}
+		//
+		ModuleManager.sendScopeMessage(_moduleName, scopeName, type, params);
+		//
+		// clean up logging the action
+		CONFIG::debug {
+			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
+		}
 	}
 
 	/**
@@ -104,7 +165,8 @@ public class ModuleCore {
 	 * @param	proxieMap			Modules can map proxies to this scope.
 	 */
 	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
-		moduleBase.registerScope(scopeName, messageSending, messageReceiving, proxieMapping);
+		use namespace pureLegsCore;
+		ModuleManager.registerScope(_moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 
 	/**
@@ -113,40 +175,70 @@ public class ModuleCore {
 	 * @param	scopeName			Name of the scope.
 	 */
 	protected function unregisterScope(scopeName:String):void {
-		moduleBase.unregisterScope(scopeName);
+		use namespace pureLegsCore;
+		ModuleManager.unregisterScope(_moduleName, scopeName);
 	}
+
+	/**
+	 * Instantiates and executes provided command class, and sends params to it.
+	 * @param	commandClass	Command class to be instantiated and executed.
+	 * @param	params			Object to be sent to execute() function.
+	 */
+	public function executeCommand(commandClass:Class, params:Object = null):void {
+		commandMap.execute(commandClass, params);
+	}
+
 
 	//----------------------------------
 	//     Debug
 	//----------------------------------
 
+	public function listMessageCommands(messageType:String):String {
+		use namespace pureLegsCore;
+		return "SENDING MESSAGE:'" + messageType + "'\t> WILL EXECUTE  > " + String(commandMap.listMessageCommands(messageType)) + "\n";
+	}
+
 	/**
 	 * List all message mappings.
 	 */
 	public function listMappedMessages():String {
-		return moduleBase.listMappedMessages();
+		return _messenger.listMappings(commandMap);
 	}
 
 	/**
 	 * List all view mappings.
 	 */
 	public function listMappedMediators():String {
-		return moduleBase.listMappedMediators();
+		return mediatorMap.listMappings();
 	}
 
 	/**
 	 * List all model mappings.
 	 */
 	public function listMappedProxies():String {
-		return moduleBase.listMappedProxies();
+		return proxyMap.listMappings();
 	}
 
 	/**
 	 * List all controller mappings.
 	 */
 	public function listMappedCommands():String {
-		return moduleBase.listMappedCommands();
+		return commandMap.listMappings();
 	}
+
+
+	//----------------------------------
+	//     Internal
+	//----------------------------------
+
+	/**
+	 * framework access to module messenger
+	 * @private
+	 */
+	pureLegsCore function get messenger():Messenger {
+		return _messenger;
+	}
+
 
 }
 }

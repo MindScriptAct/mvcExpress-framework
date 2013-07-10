@@ -1,6 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core.traceObjects {
-import mvcexpress.core.ModuleBase;
+import mvcexpress.modules.ModuleCore;
 import mvcexpress.mvc.Command;
 import mvcexpress.mvc.Mediator;
 import mvcexpress.mvc.Proxy;
@@ -12,7 +12,7 @@ import mvcexpress.mvc.Proxy;
  */
 public class TraceObj_SendMessage extends TraceObj {
 
-	public var moduleObject:ModuleBase;
+	public var moduleObject:ModuleCore;
 	public var commandObject:Command;
 	public var proxyObject:Proxy;
 	public var mediatorObject:Mediator;

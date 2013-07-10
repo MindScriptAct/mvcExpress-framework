@@ -27,10 +27,10 @@ public class ModuleManager {
 	static private var _moduleId:int;
 
 	/* modules stored by moduleName */
-	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleBase by String */
+	static private var moduleRegistry:Dictionary = new Dictionary(); /* of ModuleCore by String */
 
 	/* all modules stared by module name */
-	static private var allModules:Vector.<ModuleBase> = new Vector.<ModuleBase>();
+	static private var allModules:Vector.<ModuleCore> = new Vector.<ModuleCore>();
 
 	/* all messengers by scope name */
 	static private var scopedMessengers:Dictionary = new Dictionary(); /* of Messenger by String{moduleName} */
@@ -58,7 +58,7 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function createModule(moduleName:String, moduleCore:ModuleCore):String {
+	static pureLegsCore function registerModule(moduleName:String, moduleCore:ModuleCore):String {
 
 		// tests if framework can read 'Inject' metadata tag.
 		if (needMetadataTest) {
@@ -69,7 +69,6 @@ public class ModuleManager {
 			}
 		}
 
-		var retVal:ModuleBase;
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -82,14 +81,13 @@ public class ModuleManager {
 				moduleName = "module" + _moduleId;
 			}
 			//
-			retVal = ModuleBase.getModuleInstance(moduleName);
-			moduleRegistry[moduleName] = retVal;
-			allModules[allModules.length] = retVal;
+			moduleRegistry[moduleName] = moduleCore;
+			allModules[allModules.length] = moduleCore;
 				//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
 		}
-		return retVal;
+		return moduleName;
 	}
 
 	/**
@@ -434,7 +432,7 @@ public class ModuleManager {
 
 	static public function listMappedMessages(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return (moduleRegistry[moduleName] as ModuleBase).listMappedMessages();
+			return (moduleRegistry[moduleName] as ModuleCore).listMappedMessages();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -442,7 +440,7 @@ public class ModuleManager {
 
 	static public function listMappedMediators(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return (moduleRegistry[moduleName] as ModuleBase).listMappedMediators();
+			return (moduleRegistry[moduleName] as ModuleCore).listMappedMediators();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -450,7 +448,7 @@ public class ModuleManager {
 
 	static public function listMappedProxies(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return (moduleRegistry[moduleName] as ModuleBase).listMappedProxies();
+			return (moduleRegistry[moduleName] as ModuleCore).listMappedProxies();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -458,7 +456,7 @@ public class ModuleManager {
 
 	static public function listMappedCommands(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
-			return (moduleRegistry[moduleName] as ModuleBase).listMappedCommands();
+			return (moduleRegistry[moduleName] as ModuleCore).listMappedCommands();
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
@@ -467,7 +465,7 @@ public class ModuleManager {
 	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
 		use namespace pureLegsCore;
 		if (moduleRegistry[moduleName]) {
-			return ((moduleRegistry[moduleName] as ModuleBase).commandMap.listMessageCommands(key) as String);
+			return ((moduleRegistry[moduleName] as ModuleCore).listMessageCommands(key) as String);
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}

@@ -1,9 +1,9 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core.traceObjects.commandMap {
 import flash.display.DisplayObject;
-import mvcexpress.core.ModuleBase;
 import mvcexpress.core.traceObjects.MvcTraceActions;
 import mvcexpress.core.traceObjects.TraceObj;
+import mvcexpress.modules.ModuleCore;
 import mvcexpress.mvc.Command;
 import mvcexpress.mvc.Mediator;
 import mvcexpress.mvc.Proxy;
@@ -22,7 +22,7 @@ public class TraceCommandMap_handleCommandExecute extends TraceObj {
 
 	public var view:DisplayObject;
 
-	public var messageFromModule:ModuleBase;
+	public var messageFromModule:ModuleCore;
 	public var messageFromMediator:Mediator;
 	public var messageFromProxy:Proxy;
 	public var messageFromCommand:Command;
