@@ -4,38 +4,38 @@ import flash.display.Shape;
 import flash.events.MouseEvent;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
-import org.mvcexpress.mvc.Mediator;
+import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MediatorEventSpeedModuleMediator extends Mediator {
-	
+
 	[Inject]
 	public var view:MediatorEventSpeedModule;
-	
+
 	//[Inject]
 	//public var myProxy:MyProxy;
-	
+
 	private var testNr:int;
 	private var diferentEventCount:int = 100000;
-	
+
 	override public function onRegister():void {
 		trace("MediatorEventSpeedModuleMediator.onRegister");
 
 		testNr = 0;
 		setTimeout(doTest, 2000);
-		
-		
+
+
 
 		/*
 		view.graphics.lineStyle(0.1, 0xFF0000);
 		view.graphics.beginFill(0x0000FF);
 		view.graphics.drawRect(10, 10, 300, 200);
 		view.graphics.endFill();
-		
-		
+
+
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
 		view.stage.addEventListener(MouseEvent.CLICK, blankHandler);
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
@@ -50,23 +50,23 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
 		view.stage.removeEventListener(MouseEvent.CLICK, blankHandler);
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
-		
+
 		view.stage.addEventListener(MouseEvent.CLICK, blankHandler);
 		view.stage.addEventListener(MouseEvent.CLICK, blankHandler2);
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
 		view.stage.removeEventListener(MouseEvent.CLICK, blankHandler);
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
 		view.stage.removeEventListener(MouseEvent.CLICK, blankHandler);
-		trace(view.stage.hasEventListener(MouseEvent.CLICK));		
+		trace(view.stage.hasEventListener(MouseEvent.CLICK));
 		view.stage.removeEventListener(MouseEvent.CLICK, blankHandler2);
 		trace(view.stage.hasEventListener(MouseEvent.CLICK));
-		
+
 		//*/
-		
+
 	}
-	
+
 	private function doTest():void {
-		
+
 		switch (testNr) {
 			case 0:
 				/*---------->*/var testTime_standartAdd:int = getTimer();
@@ -94,7 +94,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*->*/}
 				/*->*/var testResult_mediatorAdd:int = getTimer() - testTime_mediatorAdd;
 				/*---------->*/trace("mediatorAdd:   ", "\tTotal time:", testResult_mediatorAdd, "\tavr time:", testResult_mediatorAdd / testCount_mediatorAdd,"\t[*"+testCount_mediatorAdd+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorAdd / testCount_mediatorAdd));
-				break;				
+				break;
 			case 3:
 				/*---------->*/var testTime_mediatorRemove:int = getTimer();
 				/*->*/var testCount_mediatorRemove:int = 100000;
@@ -104,8 +104,8 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*->*/var testResult_mediatorRemove:int = getTimer() - testTime_mediatorRemove;
 				/*---------->*/trace("mediatorRemove:", "\tTotal time:", testResult_mediatorRemove, "\tavr time:", testResult_mediatorRemove / testCount_mediatorRemove,"\t[*"+testCount_mediatorRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorRemove / testCount_mediatorRemove));
 				break;
-				
-				
+
+
 			case 4:
 				/*---------->*/var testTime_standartUniqueAdd:int = getTimer();
 				/*->*/var testCount_standartUniqueAdd:int = 100000;
@@ -132,7 +132,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*->*/}
 				/*->*/var testResult_mediatorUniqueAdd:int = getTimer() - testTime_mediatorUniqueAdd;
 				/*---------->*/trace("mediatorUniqueAdd:   ", "\tTotal time:", testResult_mediatorUniqueAdd, "\tavr time:", testResult_mediatorUniqueAdd / testCount_mediatorUniqueAdd,"\t[*"+testCount_mediatorUniqueAdd+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorUniqueAdd / testCount_mediatorUniqueAdd));
-				break;				
+				break;
 			case 7:
 				/*---------->*/var testTime_mediatorUniqueRemove:int = getTimer();
 				/*->*/var testCount_mediatorUniqueRemove:int = 100000;
@@ -141,46 +141,46 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 				/*->*/}
 				/*->*/var testResult_mediatorUniqueRemove:int = getTimer() - testTime_mediatorUniqueRemove;
 				/*---------->*/trace("mediatorUniqueRemove:", "\tTotal time:", testResult_mediatorUniqueRemove, "\tavr time:", testResult_mediatorUniqueRemove / testCount_mediatorUniqueRemove,"\t[*"+testCount_mediatorUniqueRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorUniqueRemove / testCount_mediatorUniqueRemove));
-				break;				
-				
-				
+				break;
+
+
 			case 8:
 				/*->*/var testCount_mediatorAddAgain:int = 100000;
 				/*->*/for (var m:int = 0; m < testCount_mediatorAddAgain; m++) {
 				addListener(view.stage, "event_"+(m % diferentEventCount), blankHandler);
 				/*->*/}
-				break;				
+				break;
 			case 9:
 				/*---------->*/var testTime_mediatorRemoveAll:int = getTimer();
 				removeListener(view.stage, MouseEvent.CLICK, blankHandler);
 				removeAllListeners();
 				/*->*/var testResult_mediatorRemoveAll:int = getTimer() - testTime_mediatorRemoveAll;
 				/*---------->*/trace("mediatorRemoveALL:", "\tTotal time:", testResult_mediatorRemoveAll, "\tavr time:", testResult_mediatorRemoveAll / testCount_mediatorRemove,"\t[*"+testCount_mediatorRemove+"]", "\tRuns per 1ms:", 1 / (testResult_mediatorRemoveAll / testCount_mediatorRemove));
-				break;				
-				
-				
+				break;
+
+
 			default:
 				break;
 			}
 			testNr++;
 			setTimeout(doTest, 1000);
-				
-				
-				
-				
-				
-				
-		
+
+
+
+
+
+
+
 	}
-	
+
 	private function blankHandler(event:MouseEvent):void {
 		trace( "MediatorEventSpeedModuleMediator.blankHndle > event : " + event );
 	}
 	private function blankHandler2(event:MouseEvent):void {
 		trace( "MediatorEventSpeedModuleMediator.blankHndle2 > event : " + event );
-	}	
+	}
 	override public function onRemove():void {
-	
+
 	}
 
 }

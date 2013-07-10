@@ -1,12 +1,12 @@
 package suites.commandMap.commands {
-	import org.mvcexpress.mvc.Command;
-	
-	
+	import mvcexpress.mvc.Command;
+
+
 /**
  * COMMENT
- * @author 
+ * @author
  */
 public class NoExecuteCommand extends Command {
-	
+
 }
 }

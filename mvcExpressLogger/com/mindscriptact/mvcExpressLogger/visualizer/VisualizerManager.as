@@ -2,62 +2,62 @@ package com.mindscriptact.mvcExpressLogger.visualizer {
 import com.mindscriptact.mvcExpressLogger.screens.MvcExpressVisualizerScreen;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
-import org.mvcexpress.core.namespace.pureLegsCore;
-//import org.mvcexpress.core.traceObjects.MvcTraceActions;
-//import org.mvcexpress.mvc.Command;
-//import org.mvcexpress.mvc.Mediator;
-//import org.mvcexpress.mvc.Proxy;
+import mvcexpress.core.namespace.pureLegsCore;
+//import mvcexpress.core.traceObjects.MvcTraceActions;
+//import mvcexpress.mvc.Command;
+//import mvcexpress.mvc.Mediator;
+//import mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class VisualizerManager {
-	
+
 	private var mvcExpressVisualizerScreen:MvcExpressVisualizerScreen;
-	
+
 	private var moduleMediators:Dictionary = new Dictionary();
 	private var moduleProxies:Dictionary = new Dictionary();
 	private var currentModuleName:String;
 	private var sendMessageStack:Vector.<Object> = new Vector.<Object>();
-	
+
 	static private var commandClass:Class;
 	static private var mediatorClass:Class;
 	static private var proxyClass:Class;
 	static private var processClass:Class;
-	
+
 	public function VisualizerManager() {
 		if (!VisualizerManager.commandClass) {
 			try {
-				VisualizerManager.commandClass = getDefinitionByName("org.mvcexpress.mvc::Command") as Class;
+				VisualizerManager.commandClass = getDefinitionByName("mvcexpress.mvc::Command") as Class;
 			} catch (error:Error) {
 				VisualizerManager.commandClass = null;
 			}
 		}
 		if (!VisualizerManager.mediatorClass) {
 			try {
-				VisualizerManager.mediatorClass = getDefinitionByName("org.mvcexpress.mvc::Mediator") as Class;
+				VisualizerManager.mediatorClass = getDefinitionByName("mvcexpress.mvc::Mediator") as Class;
 			} catch (error:Error) {
 				VisualizerManager.mediatorClass = null;
 			}
 		}
 		if (!VisualizerManager.proxyClass) {
 			try {
-				VisualizerManager.proxyClass = getDefinitionByName("org.mvcexpress.mvc::Proxy") as Class;
+				VisualizerManager.proxyClass = getDefinitionByName("mvcexpress.mvc::Proxy") as Class;
 			} catch (error:Error) {
 				VisualizerManager.proxyClass = null;
 			}
 		}
 		if (!VisualizerManager.processClass) {
 			try {
-				VisualizerManager.processClass = getDefinitionByName("org.mvcexpress.live::Process") as Class;
+				VisualizerManager.processClass = getDefinitionByName("mvcexpress.live::Process") as Class;
 			} catch (error:Error) {
 				VisualizerManager.processClass = null;
 			}
 		}
-	
+
 	}
-	
+
 	public function logMvcExpress(logObj:Object):void {
 		use namespace pureLegsCore;
 		var topObject:Object;
@@ -66,7 +66,7 @@ public class VisualizerManager {
 		var i:int;
 		//trace("VisualizerManager.logMvcExpress > logObj : " + logObj);
 		switch (logObj.action) {
-			case "MediatorMap.mediate"://MvcTraceActions.MEDIATORMAP_MEDIATE: 
+			case "MediatorMap.mediate"://MvcTraceActions.MEDIATORMAP_MEDIATE:
 				mediators = getModuleMediators(logObj.moduleName);
 				mediators.push(logObj);
 				//mediatorClass = com.mindScriptAct.mvcExpressVisualizer.view.VisualLoggerTestModuleMediator$)
@@ -78,7 +78,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "MediatorMap.unmediate"://MvcTraceActions.MEDIATORMAP_UNMEDIATE: 
+			case "MediatorMap.unmediate"://MvcTraceActions.MEDIATORMAP_UNMEDIATE:
 				mediators = getModuleMediators(logObj.moduleName);
 				for (i = 0; i < mediators.length; i++) {
 					if (mediators[i].viewObject == logObj.viewObject) {
@@ -92,7 +92,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.map"://MvcTraceActions.PROXYMAP_MAP: 
+			case "ProxyMap.map"://MvcTraceActions.PROXYMAP_MAP:
 				proxies = getModuleProxies(logObj.moduleName);
 				proxies.push(logObj);
 				if (this.mvcExpressVisualizerScreen) {
@@ -101,7 +101,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.unmap"://MvcTraceActions.PROXYMAP_UNMAP: 
+			case "ProxyMap.unmap"://MvcTraceActions.PROXYMAP_UNMAP:
 				proxies = getModuleProxies(logObj.moduleName);
 				for (i = 0; i < proxies.length; i++) {
 					if (proxies[i].injectClass == logObj.injectClass && proxies[i].name == logObj.name) {
@@ -115,7 +115,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ProxyMap.injectStuff"://MvcTraceActions.PROXYMAP_INJECTSTUFF: 
+			case "ProxyMap.injectStuff"://MvcTraceActions.PROXYMAP_INJECTSTUFF:
 				var hostObject:Object = logObj.hostObject;
 				var injectedObject:Object = logObj.injectObject;
 				var a:Object = injectedObject as VisualizerManager.proxyClass;
@@ -177,8 +177,8 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "CommandMap.execute"://MvcTraceActions.COMMANDMAP_EXECUTE: 
-			case "CommandMap.handleCommandExecute"://MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE: 
+			case "CommandMap.execute"://MvcTraceActions.COMMANDMAP_EXECUTE:
+			case "CommandMap.handleCommandExecute"://MvcTraceActions.COMMANDMAP_HANDLECOMMANDEXECUTE:
 				if (this.mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						if (sendMessageStack.length) {
@@ -203,7 +203,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Mediator.addHandler"://MvcTraceActions.MEDIATOR_ADDHANDLER: 
+			case "Mediator.addHandler"://MvcTraceActions.MEDIATOR_ADDHANDLER:
 				// add handler to mediator
 				mediators = getModuleMediators(logObj.moduleName);
 				for (var k:int = 0; k < mediators.length; k++) {
@@ -215,30 +215,30 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "ModuleBase.sendMessage": //MvcTraceActions.MODULEBASE_SENDMESSAGE: 
-			case "ModuleBase.sendScopeMessage": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE: 
-			case "Mediator.sendMessage": //MvcTraceActions.MEDIATOR_SENDMESSAGE: 
-			case "Mediator.sendScopeMessage": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE: 
-			case "Proxy.sendMessage": //MvcTraceActions.PROXY_SENDMESSAGE: 
-			case "Proxy.sendScopeMessage": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE: 
-			case "Command.sendMessage": //MvcTraceActions.COMMAND_SENDMESSAGE: 
-			case "Command.sendScopeMessage": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE: 
-			case "Process.runProcess.instantSendMessage": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE: 
-			case "Process.runProcess.postSendMessage": //MvcTraceActions.PROCESS_POST_SENDMESSAGE: 
-			case "Process.runProcess.finalSendMessage": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE: 
+			case "ModuleBase.sendMessage": //MvcTraceActions.MODULEBASE_SENDMESSAGE:
+			case "ModuleBase.sendScopeMessage": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE:
+			case "Mediator.sendMessage": //MvcTraceActions.MEDIATOR_SENDMESSAGE:
+			case "Mediator.sendScopeMessage": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE:
+			case "Proxy.sendMessage": //MvcTraceActions.PROXY_SENDMESSAGE:
+			case "Proxy.sendScopeMessage": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE:
+			case "Command.sendMessage": //MvcTraceActions.COMMAND_SENDMESSAGE:
+			case "Command.sendScopeMessage": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE:
+			case "Process.runProcess.instantSendMessage": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE:
+			case "Process.runProcess.postSendMessage": //MvcTraceActions.PROCESS_POST_SENDMESSAGE:
+			case "Process.runProcess.finalSendMessage": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE:
 				sendMessageStack.push(logObj);
 				break;
-			case "ModuleBase.sendMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN: 
-			case "ModuleBase.sendScopeMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN: 
-			case "Mediator.sendMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN: 
-			case "Mediator.sendScopeMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN: 
-			case "Proxy.sendMessage.CLEAN": //MvcTraceActions.PROXY_SENDMESSAGE_CLEAN: 
-			case "Proxy.sendScopeMessage.CLEAN": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN: 
-			case "Command.sendMessage.CLEAN": //MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN: 
-			case "Command.sendScopeMessage.CLEAN": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN: 
-			case "Process.runProcess.instantSendMessage.CLEAN": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN: 
-			case "Process.runProcess.postSendMessage.CLEAN": //MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN: 
-			case "Process.runProcess.finalSendMessage.CLEAN": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN: 
+			case "ModuleBase.sendMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDMESSAGE_CLEAN:
+			case "ModuleBase.sendScopeMessage.CLEAN": //MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN:
+			case "Mediator.sendMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDMESSAGE_CLEAN:
+			case "Mediator.sendScopeMessage.CLEAN": //MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN:
+			case "Proxy.sendMessage.CLEAN": //MvcTraceActions.PROXY_SENDMESSAGE_CLEAN:
+			case "Proxy.sendScopeMessage.CLEAN": //MvcTraceActions.PROXY_SENDSCOPEMESSAGE_CLEAN:
+			case "Command.sendMessage.CLEAN": //MvcTraceActions.COMMAND_SENDMESSAGE_CLEAN:
+			case "Command.sendScopeMessage.CLEAN": //MvcTraceActions.COMMAND_SENDSCOPEMESSAGE_CLEAN:
+			case "Process.runProcess.instantSendMessage.CLEAN": //MvcTraceActions.PROCESS_INSTANT_SENDMESSAGE_CLEAN:
+			case "Process.runProcess.postSendMessage.CLEAN": //MvcTraceActions.PROCESS_POST_SENDMESSAGE_CLEAN:
+			case "Process.runProcess.finalSendMessage.CLEAN": //MvcTraceActions.PROCESS_FINAL_SENDMESSAGE_CLEAN:
 				topObject = sendMessageStack.pop();
 				if (logObj.type != topObject.type) {
 					CONFIG::debug {
@@ -252,7 +252,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Messenger.send": //MvcTraceActions.MESSENGER_SEND: 
+			case "Messenger.send": //MvcTraceActions.MESSENGER_SEND:
 				topObject = sendMessageStack[sendMessageStack.length - 1];
 				if (topObject) {
 					if (logObj.type == topObject.type) {
@@ -284,7 +284,7 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			case "Messenger.send.HANDLER": //MvcTraceActions.MESSENGER_SEND_HANDLER: 
+			case "Messenger.send.HANDLER": //MvcTraceActions.MESSENGER_SEND_HANDLER:
 				if (mvcExpressVisualizerScreen) {
 					if (currentModuleName == logObj.moduleName) {
 						//
@@ -347,14 +347,14 @@ public class VisualizerManager {
 					}
 				}
 				break;
-			default: 
+			default:
 				CONFIG::debug {
 					//throw Error("NOT HANDLED:" + logObj);
 			}
 				break;
 		}
 	}
-	
+
 	public function manageThisScreen(currentModuleName:String, mvcExpressVisualizerScreen:MvcExpressVisualizerScreen):void {
 		this.currentModuleName = currentModuleName;
 		if (mvcExpressVisualizerScreen) {
@@ -368,18 +368,18 @@ public class VisualizerManager {
 			}
 		}
 	}
-	
+
 	public function manageNothing():void {
 		this.mvcExpressVisualizerScreen = null;
 	}
-	
+
 	private function getModuleMediators(moduleName:String):Vector.<Object> {
 		if (!moduleMediators[moduleName]) {
 			moduleMediators[moduleName] = new Vector.<Object>();
 		}
 		return moduleMediators[moduleName];
 	}
-	
+
 	private function getModuleProxies(moduleName:String):Vector.<Object> {
 		if (!moduleProxies[moduleName]) {
 			moduleProxies[moduleName] = new Vector.<Object>();

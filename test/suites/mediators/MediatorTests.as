@@ -1,9 +1,9 @@
 package suites.mediators {
 import flexunit.framework.Assert;
-import org.mvcexpress.core.MediatorMap;
-import org.mvcexpress.core.messenger.Messenger;
-import org.mvcexpress.core.namespace.pureLegsCore;
-import org.mvcexpress.core.ProxyMap;
+import mvcexpress.core.MediatorMap;
+import mvcexpress.core.messenger.Messenger;
+import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.core.ProxyMap;
 import suites.testObjects.view.MediatorSprite;
 import suites.testObjects.view.MediatorSpriteMediator;
 
@@ -12,14 +12,14 @@ import suites.testObjects.view.MediatorSpriteMediator;
  * @author
  */
 public class MediatorTests {
-	
+
 	private var messenger:Messenger;
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	private var testView:MediatorSprite;
-	
+
 	[Before]
-	
+
 	public function runBeforeEveryTest():void {
 		use namespace pureLegsCore;
 		Messenger.allowInstantiation = true;
@@ -27,16 +27,16 @@ public class MediatorTests {
 		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
-		
+
 		mediatorMap.map(MediatorSprite, MediatorSpriteMediator);
-		
+
 		testView = new MediatorSprite()
-		
+
 		mediatorMap.mediate(testView);
 	}
-	
+
 	[After]
-	
+
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 		mediatorMap.unmediate(testView);
@@ -45,24 +45,24 @@ public class MediatorTests {
 		mediatorMap = null;
 		testView = null;
 	}
-	
+
 	[Test(expects="Error")]
-	
+
 	public function mediator_constructor_fails():void {
 		CONFIG::debug {
 			new MediatorSpriteMediator();
 			return;
-		} 
+		}
 		throw Error("Fake error.");
 	}
-	
+
 	[Test]
 	public function mediator_isReady():void {
 		Assert.assertTrue("After view mediating mediator isReady must be true.", MediatorSpriteMediator.instance.getIsReady());
-	}	
-	
+	}
+
 	[Test(expects="Error")]
-	
+
 	public function mediator_empty_handler():void {
 		if (CONFIG::debug == true) {
 			messenger.send("test_add_empty_handler");
@@ -71,7 +71,7 @@ public class MediatorTests {
 		}
 	}
 
-	
+
 	//[Test]
 	//[Ignore]
 	//public function mediator_add_listener():void {
@@ -89,36 +89,36 @@ public class MediatorTests {
 	//public function mediator_remove_all_listeners():void {
 		//
 	//}
-	
 
-	
-	
+
+
+
 	[Test]
-	
+
 	public function mediator_handler_object_params():void {
 		messenger.send("test_handler_object_params");
 	}
-	
+
 	[Test]
-	
+
 	public function mediator_handler_bad_params():void {
 		messenger.send("test_handler_bad_params");
 	}
-	
+
 	[Test(expects="Error")]
-	
+
 	public function mediator_handler_two_params():void {
 		messenger.send("test_handler_two_params");
 	}
-	
+
 	[Test]
-	
+
 	public function mediator_handler_two_params_one_optional():void {
 		messenger.send("test_handler_two_params_one_optional");
 	}
-	
+
 	[Test]
-	
+
 	public function mediator_same_handler_added_twice_fails():void {
 		if (CONFIG::debug == true) {
 			try {
@@ -128,12 +128,12 @@ public class MediatorTests {
 			}
 		}
 	}
-	
+
 	//[Test]
 	//[Ignore]
 	//public function mediator_remove_handler():void {
 		//
-	//}	
+	//}
 	//
 	//
 	//[Test]
@@ -141,7 +141,7 @@ public class MediatorTests {
 	//public function mediator_remove_all_handler():void {
 		//
 	//}
-	
+
 
 }
 }

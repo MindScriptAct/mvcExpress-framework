@@ -1,25 +1,25 @@
 package integration.commandPooling.testObj.controller {
 import integration.commandPooling.CommandPoolingTests;
 import integration.commandPooling.testObj.CommPoolingDependencyProxy;
-import org.mvcexpress.mvc.PooledCommand;
+import mvcexpress.mvc.PooledCommand;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class CommPoolingLockedFailCommand extends PooledCommand {
-	
+
 	static public var test:String = "aoeuaoeu";
-	
+
 	static public var executedProxyNames:String = "";
-	
+
 	[Inject]
 	public var dependency:CommPoolingDependencyProxy;
-	
+
 	public function CommPoolingLockedFailCommand() {
 		super();
 	}
-	
+
 	public function execute(blank:Object):void {
 		lock();
 		CommPoolingLockedFailCommand.executedProxyNames += dependency.proxyName;

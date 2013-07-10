@@ -1,5 +1,5 @@
 package com.mindScriptAct.mvcExpressSpeedTest.controller {
-import org.mvcexpress.mvc.Command;
+import mvcexpress.mvc.Command;
 import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
 
 /**
@@ -7,7 +7,7 @@ import com.mindScriptAct.mvcExpressSpeedTest.model.BlankProxy;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class Inject6Command extends Command {
-	
+
 	[Inject]
 	public var blankProxy1:BlankProxy;
 	[Inject]
@@ -20,10 +20,10 @@ public class Inject6Command extends Command {
 	public var blankProxy5:BlankProxy;
 	[Inject]
 	public var blankProxy6:BlankProxy;
-	
+
 	public function execute(params:Object):void {
 		//trace("Inject1Command.execute > notice : " + notice);
-	
+
 	}
 
 }

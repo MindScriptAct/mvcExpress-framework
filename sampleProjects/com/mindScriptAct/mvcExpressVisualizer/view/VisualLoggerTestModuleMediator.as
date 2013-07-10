@@ -5,7 +5,7 @@ import com.mindScriptAct.mvcExpressVisualizer.messages.Message;
 import com.mindScriptAct.mvcExpressVisualizer.VisualLoggerTestModule;
 import flash.events.Event;
 import flash.geom.Point;
-import org.mvcexpress.mvc.Mediator;
+import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
@@ -14,16 +14,16 @@ import org.mvcexpress.mvc.Mediator;
 public class VisualLoggerTestModuleMediator extends Mediator {
 	private var testViewB1Button:PushButton;
 	private var testViewB2Button:PushButton;
-	
+
 	[Inject]
 	public var view:VisualLoggerTestModule;
-	
+
 	//[Inject]
 	//public var myProxy:MyProxy;
-	
+
 	override public function onRegister():void {
 	}
-	
+
 	override public function onRemove():void {
 	}
 
