@@ -10,15 +10,12 @@ import mvcexpress.core.traceObjects.TraceObj;
  */
 public class TraceModuleManager_createModule extends TraceObj {
 
-	public var autoInit:Boolean;
-
-	public function TraceModuleManager_createModule(moduleName:String, $autoInit:Boolean) {
+	public function TraceModuleManager_createModule(moduleName:String) {
 		super(MvcTraceActions.MODULEMANAGER_CREATEMODULE, moduleName);
-		autoInit = $autoInit;
 	}
 
 	override public function toString():String {
-		return "#####+ " + MvcTraceActions.MODULEMANAGER_CREATEMODULE + " > moduleName : " + moduleName + ", autoInit : " + autoInit;
+		return "#####+ " + MvcTraceActions.MODULEMANAGER_CREATEMODULE + " > moduleName : " + moduleName;
 	}
 
 }

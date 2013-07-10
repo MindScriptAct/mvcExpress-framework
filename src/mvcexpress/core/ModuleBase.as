@@ -36,16 +36,38 @@ public class ModuleBase {
 	/**
 	 * Internal framework class. Not meant to be constructed.
 	 */
-	public function ModuleBase(moduleName:String, autoInit:Boolean) {
+	public function ModuleBase(moduleName:String) {
 		use namespace pureLegsCore;
 		if (!allowInstantiation) {
 			throw Error("ModuleBase is framework internal class and is not meant to be instantiated. Use ModuleCore, ModuleSprite or other module classes instead.");
 		}
 		//
 		_moduleName = moduleName;
-		if (autoInit) {
-			initModule();
+
+		if (_messenger) {
+			throw Error("Module can be initiated only once.");
 		}
+		Messenger.allowInstantiation = true;
+		_messenger = new Messenger(_moduleName);
+		Messenger.allowInstantiation = false;
+
+		// proxyMap
+		proxyMap = new ProxyMap(_moduleName, _messenger);
+
+		// mediatorMap
+		// check if flex is used.
+		var uiComponentClass:Class = getFlexClass();
+		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
+		if (uiComponentClass) {
+			mediatorMap = new FlexMediatorMap(_moduleName, _messenger, proxyMap, uiComponentClass);
+		} else {
+			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
+		}
+
+		// commandMap
+		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
+		proxyMap.setCommandMap(commandMap);
+
 	}
 
 	/**
@@ -74,46 +96,16 @@ public class ModuleBase {
 	// @param	moduleName	module name that is used for referencing a module.
 	// @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	// 						(or you start getting null reference errors.)
-	static public function getModuleInstance(moduleName:String, autoInit:Boolean):ModuleBase {
+	static public function getModuleInstance(moduleName:String):ModuleBase {
 		use namespace pureLegsCore;
 		var retVal:ModuleBase;
 		allowInstantiation = true;
-		retVal = new ModuleBase(moduleName, autoInit);
+		retVal = new ModuleBase(moduleName);
 		allowInstantiation = false;
 		return retVal;
 	}
 
-	/**
-	 * Internal framework function. Not meant to be used from outside.
-	 */
-	// Initializes module. If this function is not called module will not work.
-	// By default it is called in constructor.
-	public function initModule():void {
-		use namespace pureLegsCore;
-		if (_messenger) {
-			throw Error("Module can be initiated only once.");
-		}
-		Messenger.allowInstantiation = true;
-		_messenger = new Messenger(_moduleName);
-		Messenger.allowInstantiation = false;
 
-		// proxyMap
-		proxyMap = new ProxyMap(_moduleName, _messenger);
-
-		// mediatorMap
-		// check if flex is used.
-		var uiComponentClass:Class = getFlexClass();
-		// if flex is used - special FlexMediatorMap Class is instantiated that wraps mediate() and unmediate() functions to handle flex 'creationComplete' issues.
-		if (uiComponentClass) {
-			mediatorMap = new FlexMediatorMap(_moduleName, _messenger, proxyMap, uiComponentClass);
-		} else {
-			mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
-		}
-
-		// commandMap
-		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
-		proxyMap.setCommandMap(commandMap);
-	}
 
 	/**
 	 * Internal framework function. Not meant to be used from outside.

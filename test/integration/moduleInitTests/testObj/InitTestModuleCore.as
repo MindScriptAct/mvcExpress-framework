@@ -12,16 +12,12 @@ public class InitTestModuleCore extends ModuleCore {
 
 	static public const NAME:String = "InitTestModuleCore";
 
-	public function InitTestModuleCore(autoInit:Boolean) {
-		super(InitTestModuleCore.NAME, autoInit);
+	public function InitTestModuleCore() {
+		super(InitTestModuleCore.NAME);
 	}
 
 	override protected function onInit():void {
 
-	}
-
-	public function start():void {
-		initModule();
 	}
 
 	override protected function onDispose():void {

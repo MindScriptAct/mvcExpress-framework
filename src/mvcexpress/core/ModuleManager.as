@@ -1,6 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core {
 import flash.utils.Dictionary;
+
+import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
 import mvcexpress.core.inject.testInject;
@@ -11,8 +13,8 @@ import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModul
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_registerScope;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_unregisterScope;
+import mvcexpress.modules.ModuleCore;
 import mvcexpress.mvc.Proxy;
-import mvcexpress.MvcExpress;
 
 /**
  * INTERNAL FRAMEWORK CLASS.
@@ -56,7 +58,7 @@ public class ModuleManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function createModule(moduleName:String, autoInit:Boolean):ModuleBase {
+	static pureLegsCore function createModule(moduleName:String, moduleCore:ModuleCore):String {
 
 		// tests if framework can read 'Inject' metadata tag.
 		if (needMetadataTest) {
@@ -71,7 +73,7 @@ public class ModuleManager {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
-			MvcExpress.debug(new TraceModuleManager_createModule(moduleName, autoInit));
+			MvcExpress.debug(new TraceModuleManager_createModule(moduleName));
 		}
 		if (moduleRegistry[moduleName] == null) {
 			_moduleId++;
@@ -80,7 +82,7 @@ public class ModuleManager {
 				moduleName = "module" + _moduleId;
 			}
 			//
-			retVal = ModuleBase.getModuleInstance(moduleName, autoInit);
+			retVal = ModuleBase.getModuleInstance(moduleName);
 			moduleRegistry[moduleName] = retVal;
 			allModules[allModules.length] = retVal;
 				//

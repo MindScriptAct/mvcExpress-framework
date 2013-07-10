@@ -1,6 +1,7 @@
 package suites.testObjects.moduleMain {
-import mvcexpress.modules.ModuleSprite;
+import mvcexpress.modules.ModuleCore;
 import mvcexpress.mvc.Proxy;
+
 import suites.SuiteModuleNames;
 import suites.testObjects.controller.GetProxyTestCommand;
 
@@ -8,7 +9,7 @@ import suites.testObjects.controller.GetProxyTestCommand;
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class MainModule extends ModuleSprite {
+public class MainModule extends ModuleCore {
 
 	private var dataProxy:MainDataProxy;
 	private var testView:MainView;
@@ -16,7 +17,7 @@ public class MainModule extends ModuleSprite {
 	static public const NAME:String = SuiteModuleNames.MAIN_MODULE;
 
 	public function MainModule() {
-		super(MainModule.NAME, true, false);
+		super(MainModule.NAME);
 	}
 
 	override protected function onInit():void {
@@ -112,7 +113,7 @@ public class MainModule extends ModuleSprite {
 	}
 
 	public function getProxyInCommand(proxyClass:Class, name:String = ""):Proxy {
-		commandMap.execute(GetProxyTestCommand, {moduleClass: proxyClass, moduleName: name});
+		commandMap.execute(GetProxyTestCommand, {moduleClass:proxyClass, moduleName:name});
 		return dataProxy.testProxy;
 	}
 

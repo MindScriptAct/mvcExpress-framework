@@ -18,8 +18,6 @@ import mvcexpress.core.ProxyMap;
  */
 public class ModuleCore {
 
-	private var moduleBase:ModuleBase;
-
 	protected var proxyMap:ProxyMap;
 	protected var mediatorMap:MediatorMap;
 	protected var commandMap:CommandMap;
@@ -29,17 +27,17 @@ public class ModuleCore {
 	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param	autoInit	if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
-	public function ModuleCore(moduleName:String = null, autoInit:Boolean = true) {
+	public function ModuleCore(moduleName:String = null) {
 		use namespace pureLegsCore;
-		moduleBase = ModuleManager.createModule(moduleName, autoInit);
+		moduleBase = ModuleManager.createModule(moduleName, this);
 		//
-		if (autoInit) {
-			proxyMap = moduleBase.proxyMap;
-			mediatorMap = moduleBase.mediatorMap;
-			commandMap = moduleBase.commandMap;
 
-			onInit();
-		}
+		proxyMap = moduleBase.proxyMap;
+		mediatorMap = moduleBase.mediatorMap;
+		commandMap = moduleBase.commandMap;
+
+		onInit();
+
 	}
 
 	/**
@@ -47,20 +45,6 @@ public class ModuleCore {
 	 */
 	public function get moduleName():String {
 		return moduleBase.moduleName;
-	}
-
-	/**
-	 * Initializes module. If this function is not called module will not work properly.
-	 * By default it is called in constructor, but you can do it manually if you set constructor parameter 'autoInit' to false.
-	 */
-	protected function initModule():void {
-		moduleBase.initModule();
-
-		proxyMap = moduleBase.proxyMap;
-		mediatorMap = moduleBase.mediatorMap;
-		commandMap = moduleBase.commandMap;
-
-		onInit();
 	}
 
 	/**
