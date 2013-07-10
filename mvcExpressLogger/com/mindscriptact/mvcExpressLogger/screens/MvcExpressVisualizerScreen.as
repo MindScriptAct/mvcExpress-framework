@@ -19,11 +19,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 	static private const PROXY_START_X:Number = 600;
 	static private const MEDIATOR_END_X:Number = 300;
 	static private const COMMAND_MIDDLE_X:Number = (PROXY_START_X + MEDIATOR_END_X) / 2;
-	
+
 	public function MvcExpressVisualizerScreen(screenWidth:int, screenHeight:int) {
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
-		
+
 		this.graphics.lineStyle(0.1, 0x393939);
 		this.graphics.moveTo(0, 0);
 		this.graphics.lineTo(1500, 0);
@@ -31,15 +31,15 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		this.graphics.moveTo(0, 1);
 		this.graphics.lineTo(1500, 1);
 	}
-	
+
 	public function updateProxies(listMappedProxies:String):void {
 		trace("MvcExpressVisualizerScreen.updateProxies > listMappedProxies : " + listMappedProxies);
 	}
-	
+
 	//----------------------------------
 	//     module
 	//----------------------------------
-	
+
 	public function showModule(currentModuleName:String):void {
 		this.currentModuleName = currentModuleName;
 		// remove old
@@ -55,13 +55,13 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		rectangle.graphics.lineStyle(3, 0xFFFFFF);
 		rectangle.graphics.drawRect(-3, -3, moduleLabel.width + 6, moduleLabel.height + 6);
 		moduleLabel.addChild(rectangle);
-	
+
 	}
-	
+
 	//----------------------------------
 	//     mediators
 	//----------------------------------
-	
+
 	public function addMediators(mediators:Vector.<Object>):void {
 		// remove old mediators
 		if (this.mediators) {
@@ -86,7 +86,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function addMediator(mediatorLogObj:Object):void {
 		var mediatorLabel:Mvce_Label;
 		if (mediatorLogObj.view == null) {
@@ -100,7 +100,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		mediatorLabel.y = (mediators.length - 1) * 20 + 50;
 		this.addChild(mediatorLabel);
 	}
-	
+
 	public function removeMediatorFromPossition(possition:int):void {
 		if (mediators[possition] && this.contains(mediators[possition].view)) {
 			this.removeChild(mediators[possition].view);
@@ -110,7 +110,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			redrawMediatorDependencies(mediators[i]);
 		}
 	}
-	
+
 	private function redrawMediatorDependencies(mediatorObject:Object):void {
 		var dependencies:Vector.<Object> = mediatorObject.dependencies
 		if (dependencies) {
@@ -120,7 +120,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function drawMediatorDependency(mediatorObject:Object, injectedObject:Object):void {
 		for (var i:int = 0; i < proxies.length; i++) {
 			if (proxies[i].proxyObject == injectedObject) {
@@ -135,7 +135,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function drawMessageToMediator(messageLogObj:Object, possition:int):void {
 		var messageFromObject:Object;
 		var messageShape:Shape;
@@ -151,16 +151,16 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						messageShape.graphics.lineTo(40, (moduleLabel.y - mediatorLabel.y) * 0.2);
 						messageShape.graphics.lineTo(60, (moduleLabel.y - mediatorLabel.y) * 0.8);
 						messageShape.graphics.lineTo(moduleLabel.x - mediatorLabel.x - mediatorLabel.width, moduleLabel.y - mediatorLabel.y);
-						
+
 						messageShape.graphics.moveTo(0, 0);
 						messageShape.graphics.lineTo(10, -2);
 						messageShape.graphics.lineTo(10, 2);
 						messageShape.graphics.lineTo(0, 0);
-						
+
 						messageShape.x = mediatorLabel.width;
 						messageShape.y = 10;
 						mediatorLabel.addChild(messageShape);
-						
+
 						setTimeout(hideShape, 1500, messageShape);
 					}
 				}
@@ -171,21 +171,21 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						if (mediators[j].mediatorObject == messageFromObject) {
 							var sourceMediatorLabel:Mvce_Label = mediators[j].view;
 							if (sourceMediatorLabel) {
-								
+
 								messageShape = new Shape();
 								messageShape.graphics.lineStyle(2, 0xD9FFD9, 0.3);
 								messageShape.graphics.lineTo(50, (sourceMediatorLabel.y - mediatorLabel.y) * 0.2);
 								messageShape.graphics.lineTo(0, sourceMediatorLabel.y - mediatorLabel.y);
-								
+
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
 								messageShape.graphics.lineTo(10, 2);
 								messageShape.graphics.lineTo(0, 0);
-								
+
 								messageShape.x = mediatorLabel.width;
 								messageShape.y = 10;
 								mediatorLabel.addChild(messageShape);
-								
+
 								setTimeout(hideShape, 1500, messageShape);
 							}
 							break;
@@ -199,21 +199,21 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						if (proxies[k].proxyObject == messageFromObject) {
 							var sourceProxyLabel:Mvce_Label = proxies[k].view;
 							if (sourceProxyLabel) {
-								
+
 								messageShape = new Shape();
 								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
 								//messageShape.graphics.lineTo(50, (sourceProxyLabel.y - mediatorLabel.y) * 0.2);
 								messageShape.graphics.lineTo(PROXY_START_X - MEDIATOR_END_X, sourceProxyLabel.y - mediatorLabel.y);
-								
+
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
 								messageShape.graphics.lineTo(10, 2);
 								messageShape.graphics.lineTo(0, 0);
-								
+
 								messageShape.x = mediatorLabel.width;
 								messageShape.y = 10;
 								mediatorLabel.addChild(messageShape);
-								
+
 								setTimeout(hideShape, 1500, messageShape);
 							}
 							break;
@@ -227,32 +227,32 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						if (commands[m].commandObject == messageFromObject) {
 							var sourceCommandLabel:Mvce_Label = commands[m].view;
 							if (sourceCommandLabel) {
-								
+
 								messageShape = new Shape();
 								messageShape.graphics.lineStyle(2, 0xD2D2FF, 0.3);
 								messageShape.graphics.lineTo(50, (sourceCommandLabel.y - mediatorLabel.y) * 0.2);
 								messageShape.graphics.lineTo(COMMAND_MIDDLE_X - MEDIATOR_END_X - sourceCommandLabel.width / 2, sourceCommandLabel.y - mediatorLabel.y);
-								
+
 								messageShape.graphics.moveTo(0, 0);
 								messageShape.graphics.lineTo(10, -2);
 								messageShape.graphics.lineTo(10, 2);
 								messageShape.graphics.lineTo(0, 0);
-								
+
 								messageShape.x = mediatorLabel.width;
 								messageShape.y = 10;
 								mediatorLabel.addChild(messageShape);
-								
+
 								setTimeout(hideShape, 1500, messageShape);
 							}
 							break;
 						}
 					}
 				}
-				
+
 			}
 		}
 	}
-	
+
 	private function hideShape(shape:Shape):void {
 		if (shape.parent) {
 			if (shape.parent.contains(shape)) {
@@ -260,11 +260,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	//----------------------------------
 	//     proxies
 	//----------------------------------
-	
+
 	public function addProxies(proxies:Vector.<Object>):void {
 		// remove old proxies
 		if (this.proxies) {
@@ -277,7 +277,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		//
 		if (proxies) {
 			this.proxies = proxies;
-			
+
 			for (var i:int = 0; i < proxies.length; i++) {
 				addProxy(proxies[i]);
 			}
@@ -287,7 +287,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function addProxy(proxyLogObj:Object):void {
 		var proxyLabel:Mvce_Label;
 		if (proxyLogObj.view == null) {
@@ -301,7 +301,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		proxyLabel.y = (proxies.length - 1) * 20 + 50;
 		this.addChild(proxyLabel);
 	}
-	
+
 	public function removeProxyFromPossition(possition:int):void {
 		if (proxies[possition] && this.contains(proxies[possition].view)) {
 			this.removeChild(proxies[possition].view);
@@ -311,7 +311,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			redrawProxyDependencies(proxies[i]);
 		}
 	}
-	
+
 	private function redrawProxyDependencies(proxyObject:Object):void {
 		var dependencies:Vector.<Object> = proxyObject.dependencies
 		if (dependencies) {
@@ -321,7 +321,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function drawProxyDependency(proxyObject:Object, injectedObject:Object):void {
 		for (var i:int = 0; i < proxies.length; i++) {
 			if (proxies[i].proxyObject == injectedObject) {
@@ -336,11 +336,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	//----------------------------------
 	//     commands
 	//----------------------------------
-	
+
 	public function addCommand(commandLogObj:Object):void {
 		var messageFromObject:Object;
 		var commandPosition:int = -1;
@@ -356,7 +356,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			commandPosition = commands.length;
 			commands.push(commandLogObj);
 		}
-		
+
 		//
 		var commandLabel:Mvce_Label;
 		if (commandLogObj.view == null) {
@@ -369,7 +369,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 		commandLabel.x = COMMAND_MIDDLE_X - (commandLabel.width >> 1);
 		commandLabel.y = commandPosition * 20 + 60;
 		this.addChild(commandLabel);
-		
+
 		// handle message from module
 		messageFromObject = commandLogObj.messageFromModule;
 		if (messageFromObject) {
@@ -379,14 +379,14 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				commandLabel.graphics.lineTo(-30, moduleLabel.y - commandLabel.y * 0.2);
 				commandLabel.graphics.lineTo(-20, moduleLabel.y - commandLabel.y * 0.8);
 				commandLabel.graphics.lineTo(-commandLabel.x + moduleLabel.x, -commandLabel.y + moduleLabel.y + moduleLabel.height - 10);
-				
+
 				commandLabel.graphics.moveTo(0, 10);
 				commandLabel.graphics.lineTo(-10, 10 - 2);
 				commandLabel.graphics.lineTo(-10, 10 + 2);
 				commandLabel.graphics.lineTo(0, 10);
 			}
 		}
-		
+
 		// handle message from mediator
 		messageFromObject = commandLogObj.messageFromMediator;
 		if (messageFromObject) {
@@ -406,7 +406,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				}
 			}
 		}
-		
+
 		// handle message from proxy
 		messageFromObject = commandLogObj.messageFromProxy;
 		if (messageFromObject) {
@@ -427,7 +427,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				}
 			}
 		}
-		
+
 		// handle message from command
 		messageFromObject = commandLogObj.messageFromCommand;
 		if (messageFromObject) {
@@ -440,11 +440,11 @@ public class MvcExpressVisualizerScreen extends Sprite {
 						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2 - 30, //
 							//-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
 							5);
-						
+
 						commandLabel.graphics.lineTo(-anotherCommandLabel.width / 2 + commandLabel.width / 2, //
 							-commandLabel.y + anotherCommandLabel.y + anotherCommandLabel.height - 10 //
 							);
-						
+
 						commandLabel.graphics.moveTo(0, 10);
 						commandLabel.graphics.lineTo(0 - 10, 10 - 2);
 						commandLabel.graphics.lineTo(0 - 10, 10 + 2);
@@ -454,12 +454,12 @@ public class MvcExpressVisualizerScreen extends Sprite {
 				}
 			}
 		}
-		
+
 		setTimeout(removeObject, 1500, commandPosition, commandLogObj);
 	}
-	
+
 	private function removeObject(commandPosition:int, commandLogObj:Object):void {
-		
+
 		if (commands.length > commandPosition) {
 			if (commands[commandPosition] == commandLogObj) {
 				if (this.contains(commandLogObj.view)) {
@@ -469,7 +469,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function clearCommands():void {
 		while (commands.length) {
 			var command:Object = commands.pop();
@@ -482,7 +482,7 @@ public class MvcExpressVisualizerScreen extends Sprite {
 			}
 		}
 	}
-	
+
 	public function drawCommandDependency(commandObject:Object, injectedObject:Object):void {
 		for (var i:int = 0; i < commands.length; i++) {
 			if (commands[i]) {

@@ -1,8 +1,7 @@
 package com.mindScriptAct.codeSnippets {
 import com.gskinner.performance.PerformanceTest;
-import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
 import com.mindScriptAct.codeSnippets.controller.SampleCommand;
-import com.mindScriptAct.codeSnippets.controller.SampleEmptyCommand;
+import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
 import com.mindScriptAct.codeSnippets.messages.DataMsg;
 import com.mindScriptAct.codeSnippets.messages.Msg;
 import com.mindScriptAct.codeSnippets.messages.ViewMsg;
@@ -10,13 +9,9 @@ import com.mindScriptAct.codeSnippets.model.ISampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.ISampleProxy;
 import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
 import com.mindScriptAct.codeSnippets.model.SampleProxy;
-import com.mindScriptAct.codeSnippets.view.keyboard.KeyboardMediator;
 import com.mindScriptAct.codeSnippets.view.SampleAppMediator;
-import com.mindScriptAct.modularSample.view.ModularSampleMediator;
-import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
-import flash.display.Sprite;
+
 import mvcexpress.modules.ModuleCore;
-import mvcexpress.MvcExpress;
 import mvcexpress.utils.checkClassStringConstants;
 
 /**
@@ -34,14 +29,9 @@ public class SnippetAppModule extends ModuleCore {
 	// You could just delete it and let superClass handle construction.
 	////////////////////////////
 	public function SnippetAppModule() {
-		super();
-	}
+		super("SnippetAppModule");
 
-	////////////////////////////
-	// Function called then framework is started and ready for work.
-	////////////////////////////
-	override protected function onInit():void {
-		trace("SampleAppModule.onStartup");
+		trace("SnippetAppModule.START!");
 
 		CONFIG::debug {
 

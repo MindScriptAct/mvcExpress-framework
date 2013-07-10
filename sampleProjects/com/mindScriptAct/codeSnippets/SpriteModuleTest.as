@@ -1,31 +1,36 @@
 package com.mindScriptAct.codeSnippets {
 import com.mindScriptAct.codeSnippets.controller.ManyInjectsCommand;
-import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
 import com.mindScriptAct.codeSnippets.controller.SampleCommand;
+import com.mindScriptAct.codeSnippets.controller.StartModuleTestCommand;
+import com.mindScriptAct.codeSnippets.controller.params.ComplexParams;
+import com.mindScriptAct.codeSnippets.controller.setup.SetupControllerCommand;
+import com.mindScriptAct.codeSnippets.controller.setup.SetupModelCommand;
+import com.mindScriptAct.codeSnippets.controller.setup.SetupViewCommand;
 import com.mindScriptAct.codeSnippets.messages.DataMsg;
 import com.mindScriptAct.codeSnippets.messages.Msg;
 import com.mindScriptAct.codeSnippets.messages.ViewMsg;
-import com.mindScriptAct.codeSnippets.model.ISampleEmptyProxy;
-import com.mindScriptAct.codeSnippets.model.ISampleProxy;
-import com.mindScriptAct.codeSnippets.model.SampleEmptyProxy;
-import com.mindScriptAct.codeSnippets.model.SampleProxy;
-import com.mindScriptAct.codeSnippets.view.MainAppMediator;
-import com.mindScriptAct.codeSnippets.view.mediateWithTest.ChildSpriteTest;
-import com.mindScriptAct.codeSnippets.view.mediateWithTest.ChildSpriteTestMediator;
 import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+
+import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
-import mvcexpress.modules.ModuleSprite;
+
 import mvcexpress.MvcExpress;
+import mvcexpress.modules.ModuleCore;
 import mvcexpress.utils.checkClassStringConstants;
 
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class SpriteModuleTest extends ModuleSprite {
+public class SpriteModuleTest extends Sprite {
+
+	private var moduleCore:ModuleCore;
 
 	public function SpriteModuleTest() {
+
+		moduleCore = new ModuleCore("SpriteModuleTest");
+
 
 		MvcExpressLogger.init(this.stage, 0, 0, 900, 500, 0.9, true, MvcExpressLogger.VISUALIZER_TAB);
 
@@ -38,9 +43,6 @@ public class SpriteModuleTest extends ModuleSprite {
 		stage.align = StageAlign.TOP_LEFT;
 		//
 
-	}
-
-	override protected function onInit():void {
 
 		CONFIG::debug {
 
@@ -49,75 +51,36 @@ public class SpriteModuleTest extends ModuleSprite {
 			checkClassStringConstants(Msg, DataMsg, ViewMsg);
 		}
 
-		////////////////////////////
-		// Proxy
-		// - can be maped as already constucted object or class. Class will be automaticaly instantiated.
-		// - proxies are mapet to injectClass+name. if dublication occure error is thrown.
-		// - order is important if one proxy uses enother proxy.
-		////////////////////////////
 
-		proxyMap.map(new SampleEmptyProxy("Simple proxy"));
-		proxyMap.map(new SampleEmptyProxy("Interfaced proxy"), ISampleEmptyProxy);
-		proxyMap.map(new SampleEmptyProxy("Named proxy"), SampleEmptyProxy, "namedSampleProxy");
-		proxyMap.map(new SampleEmptyProxy("Named and interfaced proxy"), ISampleEmptyProxy, "namedSampleInterfacedProxy");
+		// setup model
+		moduleCore.executeCommand(SetupModelCommand);
 
-		var sameSampleProxy:SampleProxy = new SampleProxy()
-
-		//proxyMap.unmap(SampleEmptyProxy);
-
-		proxyMap.map(sameSampleProxy);
-		proxyMap.map(sameSampleProxy, ISampleProxy);
-		proxyMap.map(sameSampleProxy, SampleProxy, "testType");
-		proxyMap.map(sameSampleProxy, ISampleProxy, "interfaceProxy");
-
-		////////////////////////////
-		// View
-		// - view classes are maped to mediator classes 1 to 1.
-		////////////////////////////
-
-		mediatorMap.map(SpriteModuleTest, MainAppMediator);
-		mediatorMap.map(ChildSpriteTest, ChildSpriteTestMediator);
-
-		// bad maping... (throws error.)
-		//mediatorMap.map(Sprite, Sprite);
-
-		// bad execute test...
-		//var badCommand:SampleEmptyCommand = new SampleEmptyCommand();
-		//badCommand.execute(null);
-
-		////////////////////////////
-		// controller
-		////////////////////////////
-		commandMap.map(Msg.TEST, SampleCommand);
-		//commandMap.unmap(Msg.TEST, SampleCommand);
-
-		commandMap.execute(SampleCommand);
-		commandMap.execute(SampleCommand, "single execute parameter");
-		commandMap.execute(SampleCommand, new ComplexParams("complex execute parameters"));
+		// setup view
+		moduleCore.executeCommand(SetupViewCommand);
 
 
+		// setup controller
+		moduleCore.executeCommand(SetupControllerCommand);
+
+		moduleCore.executeCommand(SampleCommand);
+		moduleCore.executeCommand(SampleCommand, "single execute parameter");
+		moduleCore.executeCommand(SampleCommand, new ComplexParams("complex execute parameters"));
 
 		// command with many injects
-		commandMap.execute(ManyInjectsCommand);
+		moduleCore.executeCommand(ManyInjectsCommand);
+
 
 		////////////////////////////
 		// comunication
 		////////////////////////////
-		sendMessage(Msg.TEST);
-		sendMessage(Msg.TEST, "single message parameter");
-		sendMessage(Msg.TEST, new ComplexParams("complex message parameters"));
+		moduleCore.sendMessage(Msg.TEST);
+		moduleCore.sendMessage(Msg.TEST, "single message parameter");
+		moduleCore.sendMessage(Msg.TEST, new ComplexParams("complex message parameters"));
 
-		////////////////////////////
-		// start application...
-		// - mediate mainView object
-		// AND
-		// - execute commands OR send messages if needed.
-		////////////////////////////
+		// start app
+		moduleCore.executeCommand(StartModuleTestCommand, this);
 
-		mediatorMap.mediate(this);
-		//mediatorMap.unmediate(mvcExpressSnippets);
 
-		//mediatorMap.mediateWith(this.stage, KeyboardMediator);
 	}
 
 }

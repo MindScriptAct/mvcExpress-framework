@@ -60,7 +60,6 @@ public class ModuleCore {
 		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 
-		onInit();
 	}
 
 	/**
@@ -68,14 +67,6 @@ public class ModuleCore {
 	 */
 	public function get moduleName():String {
 		return _moduleName;
-	}
-
-	/**
-	 * Function called after framework is initialized.
-	 * Meant to be overridden.
-	 */
-	protected function onInit():void {
-		// for override
 	}
 
 	/**
@@ -119,7 +110,7 @@ public class ModuleCore {
 	 * @param	type	type of the message. (Commands and handle functions must bu map to it to react.)
 	 * @param	params	Object that will be send to Command execute() or to handle function as parameter.
 	 */
-	protected function sendMessage(type:String, params:Object = null):void {
+	public function sendMessage(type:String, params:Object = null):void {
 		// log the action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -140,7 +131,7 @@ public class ModuleCore {
 	 * @param	type		type of the message for Commands or Mediator's handle function to react to.
 	 * @param	params		Object that will be passed to Command execute() function or to handle functions.
 	 */
-	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
+	public function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 		// log the action
 		CONFIG::debug {
