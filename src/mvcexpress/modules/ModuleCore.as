@@ -40,25 +40,46 @@ public class ModuleCore {
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
-	public function ModuleCore(moduleName:String = null) {
+	public function ModuleCore(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 		use namespace pureLegsCore;
+
+		if (!mediatorMapClass) {
+			mediatorMapClass = MediatorMap;
+		} else {
+			// TODO : in DEBUG chceck if subclasses right class
+		}
+		if (!proxyMapClass) {
+			proxyMapClass = ProxyMap;
+		} else {
+			// TODO : in DEBUG chceck if subclasses right class
+		}
+		if (!commandMapClass) {
+			commandMapClass = CommandMap;
+		} else {
+			// TODO : in DEBUG chceck if subclasses right class
+		}
+		if (!messengerClass) {
+			messengerClass = Messenger;
+		} else {
+			// TODO : in DEBUG chceck if subclasses right class
+		}
 
 		//
 		_moduleName = ModuleManager.registerModule(moduleName, this);
 		//
 
 		Messenger.allowInstantiation = true;
-		_messenger = new Messenger(_moduleName);
+		_messenger = new messengerClass(_moduleName);
 		Messenger.allowInstantiation = false;
 
 		// proxyMap
-		proxyMap = new ProxyMap(_moduleName, _messenger);
+		proxyMap = new proxyMapClass(_moduleName, _messenger);
 
 		// mediatorMap
-		mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
+		mediatorMap = new mediatorMapClass(_moduleName, _messenger, proxyMap);
 
 		// commandMap
-		commandMap = new CommandMap(_moduleName, _messenger, proxyMap, mediatorMap);
+		commandMap = new commandMapClass(_moduleName, _messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 
 		onInit();
