@@ -508,6 +508,35 @@ public class Process {
 	//----------------------------------
 	
 	/**
+	 * Checks if task is added.
+	 * @param	taskClass	Task class to indentify your task
+	 * @param	name		optional name for the task if you need more then one instance of same task class.
+	 * @return	true if task is added.
+	 */
+	public function hasTask(taskClass:Class, name:String = ""): Boolean {
+		use namespace pureLegsCore;
+		
+		// mark process as not cached.
+		needCashNext = true;
+		
+		var className:String = qualifiedClassNameRegistry[taskClass];
+		if (!className) {
+			className = getQualifiedClassName(taskClass);
+			qualifiedClassNameRegistry[taskClass] = className
+		}
+		var taskId:String = className + name;
+		
+		// log the action
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			MvcExpress.debug(new TraceProcess_disableTask(MvcTraceActions.PROCESS_DISABLETASK, moduleName, taskClass, name));
+		}
+		
+		return taskRegistry[taskId] != null;
+	}
+	
+	
+	/**
 	 * Returs string with all curent tasks for debugging.
 	 * @return	String of all tasks.
 	 */

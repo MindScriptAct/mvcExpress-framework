@@ -56,11 +56,15 @@ public class VisualizerProcess extends Process {
 	}
 	
 	private function handleEnableTask(task:ColorControls):void {
-		enableTask(task.taskClass);
+		if (hasTask(task.taskClass)) {
+			enableTask(task.taskClass);
+		}
 	}
 	
 	private function handleDisableTask(task:ColorControls):void {
-		disableTask(task.taskClass);
+		if (hasTask(task.taskClass)) {
+			disableTask(task.taskClass);
+		}
 	}
 	
 	override protected function onRemove():void {
