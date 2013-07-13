@@ -23,6 +23,7 @@ import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
  *  Can handle messages. (handles data change or other framework messages)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class Mediator {
 
 	// name of module this mediator is working in.

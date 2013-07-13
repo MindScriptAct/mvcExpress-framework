@@ -4,6 +4,7 @@ import flash.events.Event;
 import flash.events.IEventDispatcher;
 
 import mvcexpress.core.messenger.Messenger;
+import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.mvc.Mediator;
 
 /**
@@ -13,6 +14,7 @@ import mvcexpress.mvc.Mediator;
  *  It is common for flex objects to be completed not in the order they were created. Keep this in mind then mediating flex objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class FlexMediatorMap extends MediatorMap {
 
 	private var uiComponentClass:Class;

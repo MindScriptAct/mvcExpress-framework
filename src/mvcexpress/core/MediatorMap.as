@@ -19,10 +19,11 @@ import mvcexpress.utils.checkClassSuperclass;
  * Handles application mediators.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class MediatorMap implements IMediatorMap {
 
 	// name of the module MediatorMap is working for.
-	private var moduleName:String;
+	protected var moduleName:String;
 
 	// for internal use.
 	protected var proxyMap:ProxyMap;
@@ -149,21 +150,27 @@ public class MediatorMap implements IMediatorMap {
 				// Block Mediator construction.
 				Mediator.canConstruct = false;
 			}
-
-			mediator.moduleName = moduleName;
-			mediator.messenger = messenger;
-			mediator.proxyMap = proxyMap;
-			mediator.mediatorMap = this;
-
-			var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
-			mediatorRegistry[viewObject] = mediator;
-
-			if (isAllInjected) {
+			if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
 				mediator.register();
 			}
 		} else {
 			throw Error("View object" + viewObject + " class is not mapped with any mediator class. use mediatorMap.map()");
 		}
+	}
+
+	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {
+		use namespace pureLegsCore;
+		var retVal:Boolean;
+
+		mediator.moduleName = moduleName;
+		mediator.messenger = messenger;
+		mediator.proxyMap = proxyMap;
+		mediator.mediatorMap = this;
+
+		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
+		mediatorRegistry[viewObject] = mediator;
+
+		return retVal;
 	}
 
 	/**
@@ -216,15 +223,7 @@ public class MediatorMap implements IMediatorMap {
 			Mediator.canConstruct = false;
 		}
 
-		mediator.moduleName = moduleName;
-		mediator.messenger = messenger;
-		mediator.proxyMap = proxyMap;
-		mediator.mediatorMap = this;
-
-		var isAllInjected:Boolean = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
-		mediatorRegistry[viewObject] = mediator;
-
-		if (isAllInjected) {
+		if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
 			mediator.register();
 		}
 

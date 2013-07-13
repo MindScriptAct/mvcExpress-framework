@@ -15,6 +15,7 @@ import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
  * Can send messages. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class Proxy {
 
 	/**

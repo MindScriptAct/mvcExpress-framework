@@ -21,37 +21,38 @@ import mvcexpress.utils.checkClassSuperclass;
  * Handles command mappings, and executes them on messages
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class CommandMap {
 
 	// name of the module CommandMap is working for.
-	private var moduleName:String;
+	protected var moduleName:String;
 
 	// for internal use.
-	private var messenger:Messenger;
+	protected var messenger:Messenger;
 	// for internal use.
-	private var proxyMap:ProxyMap;
+	protected var proxyMap:ProxyMap;
 	// for internal use.
-	private var mediatorMap:MediatorMap;
+	protected var mediatorMap:MediatorMap;
 
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
-	private var classRegistry:Dictionary = new Dictionary();
+	protected var classRegistry:Dictionary = new Dictionary();
 	/* of Vector.<Class> by String */
 
 	// holds pooled command objects, stared by command class.
-	private var commandPools:Dictionary = new Dictionary();
+	protected var commandPools:Dictionary = new Dictionary();
 	/* of Vector.<PooledCommand> by Class */
 
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
-	static private var commandClassParamTypes:Dictionary = new Dictionary();
+	static protected var commandClassParamTypes:Dictionary = new Dictionary();
 	/* of String by Class */
 
 	/** Dictionary with validated command classes.  */
 	CONFIG::debug
-	static private var validatedCommands:Dictionary = new Dictionary();
+	static protected var validatedCommands:Dictionary = new Dictionary();
 	/* of Boolean by Class */
 
-	private var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
+	protected var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
 	/** CONSTRUCTOR */
 	public function CommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
@@ -167,13 +168,8 @@ public class CommandMap {
 				Command.canConstruct = false;
 			}
 
-			command.messenger = messenger;
-			command.mediatorMap = mediatorMap;
-			command.proxyMap = proxyMap;
-			command.commandMap = this;
+			prepareCommand(command, commandClass);
 
-			// inject dependencies
-			proxyMap.injectStuff(command, commandClass);
 		}
 
 		if (command is PooledCommand) {
@@ -204,6 +200,17 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() END
 		//////////////////////////////////////////////
 
+	}
+
+	protected function prepareCommand(command:Command, commandClass:Class):void {
+		use namespace pureLegsCore;
+		command.messenger = messenger;
+		command.mediatorMap = mediatorMap;
+		command.proxyMap = proxyMap;
+		command.commandMap = this;
+
+		// inject dependencies
+		proxyMap.injectStuff(command, commandClass);
 	}
 
 	//----------------------------------
@@ -416,13 +423,7 @@ public class CommandMap {
 						Command.canConstruct = false;
 					}
 
-					command.messenger = messenger;
-					command.mediatorMap = mediatorMap;
-					command.proxyMap = proxyMap;
-					command.commandMap = this;
-
-					// inject dependencies
-					proxyMap.injectStuff(command, commandClass);
+					prepareCommand(command, commandClass);
 				}
 
 				command.messageType = messageType;
@@ -505,7 +506,7 @@ public class CommandMap {
 	}
 
 	CONFIG::debug
-	private function validateCommandParams(commandClass:Class, params:Object):void {
+	protected function validateCommandParams(commandClass:Class, params:Object):void {
 		use namespace pureLegsCore;
 
 		validateCommandClass(commandClass);

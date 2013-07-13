@@ -21,6 +21,7 @@ import mvcexpress.mvc.Proxy;
  * Creates and manages modules.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class ModuleManager {
 
 	/* messenger counter, increased with every new created module */

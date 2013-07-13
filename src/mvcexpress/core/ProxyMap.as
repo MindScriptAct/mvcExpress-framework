@@ -29,37 +29,38 @@ import mvcexpress.utils.checkClassSuperclass;
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+use namespace pureLegsCore;
 public class ProxyMap implements IProxyMap {
 
 	// name of the module CommandMap is working for.
-	private var moduleName:String;
+	protected var moduleName:String;
 
-	private var messenger:Messenger;
+	protected var messenger:Messenger;
 
-	private var commandMap:CommandMap;
+	protected var commandMap:CommandMap;
 
 	/** stares class QualifiedClassName by class */
-	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary();
+	static protected var qualifiedClassNameRegistry:Dictionary = new Dictionary();
 	/* of String by Class*/
 
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
-	static private var classInjectRules:Dictionary = new Dictionary();
+	static protected var classInjectRules:Dictionary = new Dictionary();
 	/* of Vector.<InjectRuleVO> by Class */
 
 	/** all objects ready for injection stored by key. (className + inject name) */
-	private var injectObjectRegistry:Dictionary = new Dictionary();
+	protected var injectObjectRegistry:Dictionary = new Dictionary();
 	/* of Proxy by String */
 
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
-	private var pendingInjectionsRegistry:Dictionary = new Dictionary();
+	protected var pendingInjectionsRegistry:Dictionary = new Dictionary();
 	/* of Vector.<PendingInject> by String */
 
 	/** dictionary of lazy Proxies, those proxies will be instantiated and mapped on first use. */
-	private var lazyProxyRegistry:Dictionary = new Dictionary();
+	protected var lazyProxyRegistry:Dictionary = new Dictionary();
 	/* of Vector.<PendingInject> by String */
 
 	/** Dictionary with constonts of inject names, used with constName, and constScope. */
-	private var classConstRegistry:Dictionary = new Dictionary();
+	protected var classConstRegistry:Dictionary = new Dictionary();
 
 	/** CONSTRUCTOR */
 	public function ProxyMap($moduleName:String, $messenger:Messenger) {

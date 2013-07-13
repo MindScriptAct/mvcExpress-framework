@@ -21,10 +21,10 @@ import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
  */
 public class ModuleCore {
 
-	private var _moduleName:String;
+	protected var _moduleName:String;
 
 	/** for communication. */
-	private var _messenger:Messenger;
+	protected var _messenger:Messenger;
 
 
 	/** Handles application Proxies. */

@@ -21,7 +21,7 @@
           <sdk name="flex_sdk_4.9.1" />
         </dependencies>
         <compiler-options>
-          <option name="additionalOptions" value="-define=CONFIG::debug,true" />
+          <option name="additionalOptions" value="-define=CONFIG::debug,true  -keep-as3-metadata+=Inject   -default-size 1200 900" />
         </compiler-options>
         <packaging-air-desktop />
         <packaging-android />
