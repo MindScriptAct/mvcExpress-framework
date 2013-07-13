@@ -12,7 +12,7 @@ public class ColorControlMediator extends Mediator {
 	[Inject]
 	public var view:ColorControls;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("ColorControlMediator.onRegister", view.colorId);
 
 		view.addEventListener(ColorControlEvent.ADD, handleAdd);
@@ -73,7 +73,7 @@ public class ColorControlMediator extends Mediator {
 		sendMessage(VizualizerMessage.REMOVE_PROXY, view.colorId);
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 	}
 
 }

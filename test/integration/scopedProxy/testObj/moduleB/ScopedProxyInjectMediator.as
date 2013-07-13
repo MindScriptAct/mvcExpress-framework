@@ -16,7 +16,7 @@ public class ScopedProxyInjectMediator extends Mediator {
 	[Inject(scope="proxyScope")]
 	public var myProxy:ScopedTestProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("ScopedProxyInjectMediator.onRegister");
 		view.pushMediatorIn(this);
 		ScopedProxyModuleB.TEST_FUNCTION(null);
@@ -30,7 +30,7 @@ public class ScopedProxyInjectMediator extends Mediator {
 		view.testData = testdata;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

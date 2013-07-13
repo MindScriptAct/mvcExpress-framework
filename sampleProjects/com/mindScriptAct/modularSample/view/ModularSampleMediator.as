@@ -28,7 +28,7 @@ public class ModularSampleMediator extends Mediator {
 	private var cosnole3Button:PushButton;
 	private var cosnole4Button:PushButton;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("ModularSampleMediator.onRegister");
 
 		new PushButton(view, 500, 370, "Test global message", handleMessageToAll);
@@ -45,7 +45,7 @@ public class ModularSampleMediator extends Mediator {
 		//new PushButton(view, 500, 525, "testing....", handleMessageToAllDublicate).width = 150;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		trace("ModularSampleMediator.onRemove");
 	}
 

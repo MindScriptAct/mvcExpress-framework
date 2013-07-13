@@ -12,7 +12,7 @@ public class KeyboardMediator extends Mediator {
 	[Inject]
 	public var stage:Stage;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("KeyboardMediator.onRegister", stage);
 	}
 

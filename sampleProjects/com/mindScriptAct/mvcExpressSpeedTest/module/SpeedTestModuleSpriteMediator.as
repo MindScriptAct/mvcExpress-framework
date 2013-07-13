@@ -20,7 +20,7 @@ public class SpeedTestModuleSpriteMediator extends Mediator {
 
 	private var childHolder:Sprite = new Sprite();
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 
 		view.addChild(childHolder);
 
@@ -44,7 +44,7 @@ public class SpeedTestModuleSpriteMediator extends Mediator {
 		}
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

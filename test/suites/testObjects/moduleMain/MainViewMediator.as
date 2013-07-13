@@ -15,7 +15,7 @@ public class MainViewMediator extends Mediator {
 	[Inject]
 	public var dataProxy:MainDataProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		view.addEventListener(TestViewEvent.ADD_LOCAL_HANDLER, handleAddLocalHandler);
 		//view.addEventListener(TestViewEvent.ADD_REMOTE_HANDLER, handleAddRemoteHandler);
 		view.addEventListener(TestViewEvent.REMOVE_LOCAL_HANDLER, handleRemoveLocalHandler);
@@ -24,7 +24,7 @@ public class MainViewMediator extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		view.removeEventListener(TestViewEvent.ADD_LOCAL_HANDLER, handleAddLocalHandler);
 		//view.removeEventListener(TestViewEvent.ADD_REMOTE_HANDLER, handleAddRemoteHandler);
 		view.removeEventListener(TestViewEvent.REMOVE_LOCAL_HANDLER, handleRemoveLocalHandler);

@@ -23,14 +23,14 @@ public class TestViewMediator extends Mediator {
 	[Inject]
 	public var cProxy:CProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("TestViewMediator.onRegister");
 
 		trace("3 proxy data sum is: " + int(aProxy.data + bProxy.data + cProxy.data));
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

@@ -15,11 +15,11 @@ public class GenericViewObjectMediator_withInject extends Mediator {
 	[Inject]
 	public var genericTestProxy:GenericTestProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

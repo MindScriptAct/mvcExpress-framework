@@ -38,7 +38,7 @@ public class LiveVisualizerMediator extends MediatorLive {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 
 		var resetTestShape:Shape = new Shape();
 		resetTestShape.graphics.lineStyle(3, 0x000000);
@@ -126,7 +126,7 @@ public class LiveVisualizerMediator extends MediatorLive {
 		sendMessage(VizualizerMessage.REMOVE_ALL);
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

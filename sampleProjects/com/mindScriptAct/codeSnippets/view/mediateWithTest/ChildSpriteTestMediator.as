@@ -15,7 +15,7 @@ public class ChildSpriteTestMediator extends Mediator {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		var circle:Sprite = new Sprite();
 		view.addChild(circle);
 		mediatorMap.mediateWith(circle, CircleTestMediator);
@@ -28,7 +28,7 @@ public class ChildSpriteTestMediator extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

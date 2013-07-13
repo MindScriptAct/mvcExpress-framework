@@ -85,14 +85,14 @@ public class Mediator {
 	/**
 	 * Then viewObject is mediated by this mediator - it is inited first and then this function is called.
 	 */
-	public function onRegister():void {
+	protected function onRegister():void {
 		// for override
 	}
 
 	/**
 	 * Then viewObject is unmediated by this mediator - this function is called first and then mediator is removed.
 	 */
-	public function onRemove():void {
+	protected function onRemove():void {
 		// for override
 	}
 

@@ -22,7 +22,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 	private var testNr:int;
 	private var diferentEventCount:int = 100000;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("MediatorEventSpeedModuleMediator.onRegister");
 
 		testNr = 0;
@@ -230,7 +230,7 @@ public class MediatorEventSpeedModuleMediator extends Mediator {
 		trace("MediatorEventSpeedModuleMediator.blankHndle2 > event : " + event);
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

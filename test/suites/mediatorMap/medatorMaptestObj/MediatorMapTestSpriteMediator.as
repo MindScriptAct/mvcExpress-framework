@@ -16,13 +16,13 @@ public class MediatorMapTestSpriteMediator extends Mediator {
 	static public var CALLBACK_TEST_FUNCTION:Function = function (msg:* = null):void {
 	};
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION();
 
 		addHandler(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE, handleTestCallBack);
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION();
 	}
 

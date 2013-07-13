@@ -15,12 +15,12 @@ public class GenericViewObjectMediator_withScopedInject extends Mediator {
 	[Inject(scope="GenericScopeIds_testScope")]
 	public var genericTestProxy:GenericTestProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("GenericViewObjectMediator_withScopedInject.onRegister");
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

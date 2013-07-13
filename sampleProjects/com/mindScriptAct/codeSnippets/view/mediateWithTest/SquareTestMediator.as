@@ -15,12 +15,12 @@ public class SquareTestMediator extends Mediator {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("SquareTestMediator.onRegister");
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

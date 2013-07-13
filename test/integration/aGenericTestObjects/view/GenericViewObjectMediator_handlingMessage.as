@@ -12,7 +12,7 @@ public class GenericViewObjectMediator_handlingMessage extends Mediator {
 	[Inject]
 	public var view:GenericViewObject;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		addHandler(GenericTestMessage.TEST_MESSAGE, handleTestMessage);
 	}
 
@@ -20,7 +20,7 @@ public class GenericViewObjectMediator_handlingMessage extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

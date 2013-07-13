@@ -18,7 +18,7 @@ public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage ext
 	[Inject(scope="GenericScopeIds_testScope")]
 	public var genericTestProxy:GenericTestProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("GenericViewObjectMediator_withScopedInject.onRegister");
 
 		addScopeHandler(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, handleTestMessage);
@@ -30,7 +30,7 @@ public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage ext
 		genericTestProxy.testData = GenericTestStrings.data1;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

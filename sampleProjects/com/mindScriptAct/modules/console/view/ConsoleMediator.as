@@ -16,7 +16,7 @@ public class ConsoleMediator extends Mediator {
 	[Inject]
 	public var view:Console;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("ConsoleMediator.onRegister");
 		view.inputBtn.addEventListener(MouseEvent.CLICK, handleInputText);
 
@@ -31,7 +31,7 @@ public class ConsoleMediator extends Mediator {
 		//trace( "ConsoleMediator.handleTargeterMessage > text : " + text );
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		trace("ConsoleMediator.onRemove");
 	}
 

@@ -30,7 +30,7 @@ public class ModuleTestSpriteMediator extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		removeScopeHandler(AppModule.SPEED_TEST_SCOPE, Note.COMMUNICATION_TEST, handleOjectSearch);
 	}
 

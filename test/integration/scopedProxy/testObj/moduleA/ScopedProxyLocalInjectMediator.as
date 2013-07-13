@@ -15,7 +15,7 @@ public class ScopedProxyLocalInjectMediator extends Mediator {
 	[Inject]
 	public var myProxy:ScopedTestProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("ScopedProxyInjectMediator.onRegister");
 		view.pushMediatorIn(this);
 		//ScopedProxyModuleB.TEST_FUNCTION(null);
@@ -28,7 +28,7 @@ public class ScopedProxyLocalInjectMediator extends Mediator {
 		myProxy.storedData = testdata;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

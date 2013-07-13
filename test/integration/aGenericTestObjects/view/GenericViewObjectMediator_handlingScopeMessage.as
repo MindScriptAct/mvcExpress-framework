@@ -13,7 +13,7 @@ public class GenericViewObjectMediator_handlingScopeMessage extends Mediator {
 	[Inject]
 	public var view:GenericViewObject;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		addScopeHandler(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, handleTestMessage);
 	}
 
@@ -21,7 +21,7 @@ public class GenericViewObjectMediator_handlingScopeMessage extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

@@ -15,7 +15,7 @@ public class ChannelAMediator extends Mediator {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		view.addEventListener("addChannelHandler_test1", addChannelHandler1);
 		view.addEventListener("addChannelHandler_test2", addChannelHandler2);
 		view.addEventListener("addChannelHandler_testChannel_test3", addChannelHandler3);
@@ -64,7 +64,7 @@ public class ChannelAMediator extends Mediator {
 		view.test4params = testParams;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

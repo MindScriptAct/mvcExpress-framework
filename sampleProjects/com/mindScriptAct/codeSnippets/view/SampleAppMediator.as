@@ -23,7 +23,7 @@ public class SampleAppMediator extends Mediator {
 	[Inject]
 	public var sampleEmptyProxy:SampleEmptyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		trace("SampleAppMediator.onRegister");
 
 		////////////////////////////
@@ -42,7 +42,7 @@ public class SampleAppMediator extends Mediator {
 		trace("SampleAppMediator.handleTestDataMessage > messageText : " + messageText);
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		trace("SampleAppMediator.onRemove");
 	}
 

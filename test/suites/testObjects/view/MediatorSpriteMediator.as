@@ -17,7 +17,7 @@ public class MediatorSpriteMediator extends Mediator {
 	[Inject]
 	public var view:MediatorSprite;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 
 		addHandler("test_add_empty_handler", handleTestEmptyHandler);
 		addHandler("test_handler_object_params", handleTestWithObjectParams);
@@ -30,7 +30,7 @@ public class MediatorSpriteMediator extends Mediator {
 		MediatorSpriteMediator.instance = this;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		MediatorSpriteMediator.instance = null;
 	}
 

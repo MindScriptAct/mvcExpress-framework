@@ -11,11 +11,11 @@ public class MediatingSuperClassMediator extends Mediator {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		MediatingBaseView.timesRegistered++;
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

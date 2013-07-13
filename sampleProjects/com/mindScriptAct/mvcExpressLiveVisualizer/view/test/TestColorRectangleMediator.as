@@ -15,13 +15,13 @@ public class TestColorRectangleMediator extends MediatorLive {
 	//[Inject]
 	//public var myProxy:MyProxy;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 
 		provide(view.testRectangle, ProvideIds.TESTVIEW + view.colorId);
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 

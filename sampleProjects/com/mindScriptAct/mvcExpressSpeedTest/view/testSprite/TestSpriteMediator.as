@@ -28,7 +28,7 @@ public class TestSpriteMediator extends Mediator {
 
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 		removeHandler(Note.COMMUNICATION_TEST, handleOjectSearch);
 	}
 

@@ -19,7 +19,7 @@ public class TestViewAMediator extends Mediator {
 	[Inject]
 	public var testProxyA:TestProxyA;
 
-	override public function onRegister():void {
+	override protected function onRegister():void {
 		var pushButton:PushButton;
 		pushButton = new PushButton(view, 15, 50, "Send command message", handleSendCommandMessage);
 		pushButton.width = 150;
@@ -48,7 +48,7 @@ public class TestViewAMediator extends Mediator {
 		testProxyA.changeSomething();
 	}
 
-	override public function onRemove():void {
+	override protected function onRemove():void {
 
 	}
 
