@@ -1,8 +1,11 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package mvcexpress.core {
+package mvcexpress.dlc.flex.core {
 import flash.events.Event;
 import flash.events.IEventDispatcher;
+import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 
+import mvcexpress.core.*;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.mvc.Mediator;
@@ -14,15 +17,23 @@ import mvcexpress.mvc.Mediator;
  *  It is common for flex objects to be completed not in the order they were created. Keep this in mind then mediating flex objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class FlexMediatorMap extends MediatorMap {
 
 	private var uiComponentClass:Class;
 
 	/* CONSTRUCTOR */
-	public function FlexMediatorMap(moduleName:String, messenger:Messenger, proxyMap:ProxyMap, $uiComponentClass:Class) {
-		super(moduleName, messenger, proxyMap);
-		uiComponentClass = $uiComponentClass;
+	public function FlexMediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+		uiComponentClass = getFlexClass();
+		super($moduleName, $messenger, $proxyMap);
+
+		CONFIG::debug {
+			if (!uiComponentClass) {
+				throw  Error("FlexMediatorMap failed to get 'mx.core::UIComponent' class. Are you sure you have flex project?");
+			}
+		}
 	}
 
 	/**
@@ -33,7 +44,21 @@ public class FlexMediatorMap extends MediatorMap {
 	 */
 	override public function mediate(viewObject:Object):void {
 		if ((viewObject is uiComponentClass) && !viewObject['initialized']) {
-			IEventDispatcher(viewObject).addEventListener('creationComplete', handleOnCreationComplete, false, 0, true);
+
+			var viewClass:Class = viewObject.constructor as Class;
+			// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
+			if (!viewClass) {
+				viewClass = getDefinitionByName(getQualifiedClassName(viewObject)) as Class;
+			}
+
+			// get mapped mediator class.
+			var mediatorClass:Class = mediatorClassRegistry[viewClass];
+			if (mediatorClass) {
+				IEventDispatcher(viewObject).addEventListener('creationComplete', handleOnCreationComplete, false, 0, true);
+			} else {
+				throw Error("View object" + viewObject + " class is not mapped with any mediator class. use mediatorMap.map()");
+			}
+
 		} else {
 			super.mediate(viewObject);
 		}
@@ -61,6 +86,21 @@ public class FlexMediatorMap extends MediatorMap {
 				IEventDispatcher(viewObject).removeEventListener('creationComplete', handleOnCreationComplete);
 			}
 		}
+	}
+
+	//----------------------------------
+	//     utils
+	//----------------------------------
+
+	/** get flex lowest class by definition. ( way to check for flex project.) */
+	private static function getFlexClass():Class {
+		var uiComponentClass:Class;
+		try {
+			uiComponentClass = getDefinitionByName('mx.core::UIComponent') as Class;
+		} catch (error:Error) {
+			// do nothing
+		}
+		return uiComponentClass;
 	}
 
 }
