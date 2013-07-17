@@ -296,14 +296,14 @@ public class Mediator {
 	 */
 	protected function removeAllListeners():void {
 		for (var listener:Object in eventListenerCaptureRegistry) {
-			var eventTypes:Dictionary = eventListenerCaptureRegistry[viewObject];
+			var eventTypes:Dictionary = eventListenerCaptureRegistry[listener];
 			for (var type:String in eventTypes) {
 				var viewObject:IEventDispatcher = eventTypes[type];
 				viewObject.removeEventListener(type, listener as Function, true);
 			}
 		}
 		for (listener in eventListenerRegistry) {
-			eventTypes = eventListenerRegistry[viewObject];
+			eventTypes = eventListenerRegistry[listener];
 			for (type in eventTypes) {
 				viewObject = eventTypes[type];
 				viewObject.removeEventListener(type, listener as Function, false);
