@@ -56,7 +56,7 @@ public class VisualizerProcess extends Process {
 	}
 	
 	private function handleEnableTask(task:ColorControls):void {
-		if (hasTask(task.taskClass)) {
+		if (hasTask(task.taskClass)	) {
 			enableTask(task.taskClass);
 		}
 	}

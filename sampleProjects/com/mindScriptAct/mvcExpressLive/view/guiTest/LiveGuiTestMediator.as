@@ -20,7 +20,7 @@ public class LiveGuiTestMediator extends Mediator {
 		trace("LiveGuiTestMediator.onRegister");
 		
 		view.addChild(panel);
-		processMap.provide(panel, "guiPanelTest");
+		provide(panel, "guiPanelTest");
 	}
 	
 	override public function onRemove():void {

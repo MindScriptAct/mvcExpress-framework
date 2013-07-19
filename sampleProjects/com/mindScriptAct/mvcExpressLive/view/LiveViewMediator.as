@@ -26,7 +26,7 @@ public class LiveViewMediator extends Mediator {
 		liveVectorObjects.push(obj1);
 		liveVectorObjects.push(obj2);
 		
-		processMap.provide(liveVectorObjects, "liveViewObjects");
+		provide(liveVectorObjects, "liveViewObjects");
 		
 		//setTimeout(addOneMore, 2000);
 		
@@ -34,7 +34,7 @@ public class LiveViewMediator extends Mediator {
 	}
 	
 	private function handleUnprovideTest(event:Event):void {
-		processMap.unprovide(liveVectorObjects, "liveViewObjects");
+		unprovide("liveViewObjects");
 	}
 	
 	public function addOneMore():void {
