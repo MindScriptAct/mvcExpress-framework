@@ -1,5 +1,8 @@
 package integration.mediating {
 import flexunit.framework.Assert;
+import integration.aGenericTestObjects.view.GenericViewObject;
+import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingListener;
+import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingMessage;
 import integration.mediating.testObj.*;
 import integration.mediating.testObj.view.*;
 import integration.mediating.testObj.view.viewObj.*;
@@ -100,6 +103,23 @@ public class MediatingTests {
 	public function mediating_mediatingWithAsWrongClass_fails():void {
 		var view:MediatingWrongView = new MediatingWrongView();
 		mediatorMap.mediateWith(view, MediatingInterfaceMediator, IMediatingIntefrace);
+	}
+	
+	[Test]
+	
+	public function mediating_mediatingTwiceAfterListener_ok():void {
+		var view:GenericViewObject = new GenericViewObject();
+		mediatorMap.map(GenericViewObject, GenericViewObjectMediator_handlingListener);
+		
+		mediatorMap.mediate(view);
+		view.dispatchTestTrigerMessagEvent();
+		
+		mediatorMap.unmediate(view);
+		
+		mediatorMap.mediate(view);
+		view.dispatchTestTrigerMessagEvent();
+		
+		
 	}
 
 }
