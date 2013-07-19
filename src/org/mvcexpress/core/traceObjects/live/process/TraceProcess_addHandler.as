@@ -4,7 +4,6 @@ import org.mvcexpress.core.namespace.pureLegsCore;
 import org.mvcexpress.core.traceObjects.MvcTraceActions;
 import org.mvcexpress.core.traceObjects.TraceObj;
 import org.mvcexpress.live.Process;
-import org.mvcexpress.mvc.Mediator;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
