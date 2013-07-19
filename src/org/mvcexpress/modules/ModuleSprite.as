@@ -7,6 +7,7 @@ import org.mvcexpress.core.MediatorMap;
 import org.mvcexpress.core.ModuleBase;
 import org.mvcexpress.core.ModuleManager;
 import org.mvcexpress.core.namespace.pureLegsCore;
+import org.mvcexpress.core.ProcessMap;
 import org.mvcexpress.core.ProxyMap;
 
 /**
@@ -25,6 +26,11 @@ public class ModuleSprite extends Sprite {
 	protected var mediatorMap:MediatorMap;
 	protected var commandMap:CommandMap;
 	
+	/////////////////
+	// mvcExpressLive
+	protected var processMap:ProcessMap;
+	/////////////////
+	
 	/**
 	 * CONSTRUCTOR
 	 * @param	moduleName	module name that is used for referencing a module. (if not provided - unique name will be generated.)
@@ -40,6 +46,11 @@ public class ModuleSprite extends Sprite {
 			mediatorMap = moduleBase.mediatorMap;
 			commandMap = moduleBase.commandMap;
 			//
+			/////////////////
+			// mvcExpressLive
+			processMap = moduleBase.processMap;
+			/////////////////
+
 			if (initOnStage) {
 				if (stage) {
 					onInit();
