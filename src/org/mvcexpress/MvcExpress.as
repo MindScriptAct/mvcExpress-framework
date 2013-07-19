@@ -20,7 +20,7 @@ public class MvcExpress {
 	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 4;
 	/** Current framework revision version */
-	public static const REVISION:uint = 0;
+	public static const REVISION:uint = 2;
 	
 	/** Current framework version */
 	public static const VERSION:String = "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
