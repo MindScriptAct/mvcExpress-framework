@@ -8,23 +8,26 @@ import org.mvcexpress.core.traceObjects.TraceObj;
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class MvcExpress {
-	
+
 	/** Home website of mvcExpress. */
 	public static const WEBSITE_URL:String = "http://mvcexpress.org";
-	
+
 	/** Framework name */
 	public static const NAME:String = "mvcExpress";
-	
+
 	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 1;
 	/** Current framework minor version */
 	public static const MINOR_VERSION:uint = 4;
 	/** Current framework revision version */
 	public static const REVISION:uint = 2;
-	
+
 	/** Current framework version */
-	public static const VERSION:String = "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
-	
+	//public static const VERSION:String = "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
+	public static function get VERSION():String {
+		return "v" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION;
+	}
+
 	/**
 	 * Checks for CONFIG::debug variable value.
 	 * If it is true framework functions has overhead code, this overhead is used for debugging and error checking.
@@ -36,7 +39,7 @@ public class MvcExpress {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Time in ms for framework to wait for missing dependencies.
 	 * By default pending dependency feature is disabled, as it is set to 0. If missing injection is encountered - error will be instantly thrown.
@@ -45,7 +48,7 @@ public class MvcExpress {
 	 * If in this time dependencies will not be resolved - error will be thrown.
 	 */
 	public static var pendingInjectsTimeOut:int = 0;
-	
+
 	/**
 	 * Sets a debug function that will get framework activity messages as String's.
 	 * CONFIG:debug  MUST be set to true for debugFunction to get any trace data frame framework.
@@ -53,17 +56,17 @@ public class MvcExpress {
 	 * it is good idea to set it before initializing first module.
 	 */
 	static public var debugFunction:Function = null;
-	
+
 	//----------------------------------
 	//     Internal
 	//----------------------------------
-	
+
 	/**
 	 * Function to get more detailed framework activity.
 	 * @private
 	 */
 	static pureLegsCore var loggerFunction:Function = null;
-	
+
 	/**
 	 * Framework function for debugging.
 	 * @param	traceObj
