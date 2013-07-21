@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
- xmlns:adobe="http://www.adobe.com/2009/flexUnitUIRunner" 
-creationComplete="onCreationComplete()" 
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+ xmlns:adobe="http://www.adobe.com/2009/flexUnitUIRunner"
+creationComplete="onCreationComplete()"
 backgroundColor="#000000">
 	<mx:Script>
 		<![CDATA[
-			import org.flexunit.internals.TraceListener;
-			import org.flexunit.listeners.CIListener;
-			import org.flexunit.listeners.UIListener;
 			import org.flexunit.runner.FlexUnitCore;
-			
+
 			/*embedded just for fun*/
 			[Bindable]
 			//[Embed(source="../build/assets/rl_justlegs.png")]
 			private var Logo:Class;
-			
+
 			private var core:FlexUnitCore;
-			
+
 			private function onCreationComplete():void {
 				core = new FlexUnitCore();
-				//core.addListener(new CIListener());
-				//core.addListener(new TraceListener());
 				core.addListener(uiListener);
 				core.run(AllTestSuites);
 			}
