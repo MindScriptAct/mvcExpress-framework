@@ -48,7 +48,7 @@ public class MvcExpress {
 
 	/**
 	 * Sets a debug function that will get framework activity messages as String's.
-	 * CONFIG:debug  MUST be set to true for debugFunction to get any trace data frame framework.
+	 * CONFIG:debug  MUST be set to true for debugFunction to get any trace data from framework.
 	 * For example you can use : MvcExpress.debugFunction = trace; to trace all debug data.
 	 * it is good idea to set it before initializing first module.
 	 */
@@ -59,7 +59,7 @@ public class MvcExpress {
 	//----------------------------------
 
 	/**
-	 * Function to get more detailed framework activity.
+	 * Function to get more detailed framework activity information in TraceObj objects.
 	 * @private
 	 */
 	static pureLegsCore var loggerFunction:Function = null;
@@ -75,7 +75,7 @@ public class MvcExpress {
 
 		if (debugFunction != null) {
 			if (traceObj.canPrint) {
-				debugFunction(traceObj);
+				debugFunction(traceObj.toString());
 			}
 		}
 		if (loggerFunction != null) {
