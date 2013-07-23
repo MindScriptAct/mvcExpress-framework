@@ -20,12 +20,12 @@ import mvcexpress.mvc.Mediator;
 
 use namespace pureLegsCore;
 
-public class FlexMediatorMap extends MediatorMap {
+public class MediatorMapFlex extends MediatorMap {
 
 	private var uiComponentClass:Class;
 
 	/* CONSTRUCTOR */
-	public function FlexMediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+	public function MediatorMapFlex($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
 		uiComponentClass = getFlexClass();
 		super($moduleName, $messenger, $proxyMap);
 

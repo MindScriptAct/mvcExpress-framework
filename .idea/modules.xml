@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../mvcExpress-experimental/mvcExpress-experimental.iml" filepath="$PROJECT_DIR$/../mvcExpress-experimental/mvcExpress-experimental.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvcExpress-framework.iml" filepath="$PROJECT_DIR$/mvcExpress-framework.iml" />
     </modules>
   </component>
