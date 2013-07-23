@@ -4,7 +4,7 @@ import flash.utils.Dictionary;
 
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.dlc.live.taskTests.TaskTestVO;
-import mvcexpress.utils.ExpressAssert;
+import mvcexpress.utils.AssertExpress;
 
 /**
  * COMMENT
@@ -35,11 +35,6 @@ public class Task {
 
 	// to covers _isEnabled and _missingDependencyCount
 	pureLegsCore var _isRunning:Boolean = true;
-
-	/**
-	 * Simple object for assert testing.
-	 */
-	protected var assert:ExpressAssert = ExpressAssert.getInstance();
 
 	/**
 	 * Vector of all tests for this task.
@@ -163,7 +158,6 @@ public class Task {
 		process = null;
 		prev = null;
 		next = null;
-		assert = null;
 		injectPointRegistry = null;
 		CONFIG::debug {
 			var taskCount:int = tests.length;

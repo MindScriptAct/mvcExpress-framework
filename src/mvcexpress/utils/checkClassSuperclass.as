@@ -18,7 +18,7 @@ import flash.utils.getQualifiedSuperclassName;
  * @param allowSameClassType    allows classObject to be of provided superClassName type. (if false, only superclasses will be checked)
  * @return    true if clossObject is extended from provided super class, or is of that class if allowSameClassType set to true.
  */
-public function checkClassHierarchy(classObject:Class, superClassName:String, allowSameClassType:Boolean = false):Boolean {
+public function checkClassSuperclass(classObject:Class, superClassName:String, allowSameClassType:Boolean = false):Boolean {
 	var retVal:Boolean; // = false;
 	if (allowSameClassType) {
 		var classObjectClassName:String = getQualifiedClassName(classObject);

@@ -15,7 +15,7 @@ import mvcexpress.core.traceObjects.commandMap.TraceCommandMap_map;
 import mvcexpress.core.traceObjects.commandMap.TraceCommandMap_unmap;
 import mvcexpress.mvc.Command;
 import mvcexpress.mvc.PooledCommand;
-import mvcexpress.utils.checkClassHierarchy;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles command mappings, and executes them on messages
@@ -467,7 +467,7 @@ public class CommandMap {
 		// skip alread validated classes.
 		if (validatedCommands[commandClass] != true) {
 
-			if (!checkClassHierarchy(commandClass, "mvcexpress.mvc::Command")) {
+			if (!checkClassSuperclass(commandClass, "mvcexpress.mvc::Command")) {
 				throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'mvcexpress.mvc::Command' class.");
 			}
 

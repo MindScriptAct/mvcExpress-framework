@@ -13,7 +13,7 @@ import mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_mediate;
 import mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_unmap;
 import mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_unmediate;
 import mvcexpress.mvc.Mediator;
-import mvcexpress.utils.checkClassHierarchy;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Handles application mediators.
@@ -67,7 +67,7 @@ public class MediatorMap implements IMediatorMap {
 
 			MvcExpress.debug(new TraceMediatorMap_map(moduleName, viewClass, mediatorClass));
 			// check if mediatorClass is subclass of Mediator class
-			if (!checkClassHierarchy(mediatorClass, "mvcexpress.mvc::Mediator")) {
+			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'mvcexpress.mvc::Mediator' class.");
 			}
 		}
@@ -189,7 +189,7 @@ public class MediatorMap implements IMediatorMap {
 
 		CONFIG::debug {
 			// check if mediatorClass is subclass of Mediator class
-			if (!checkClassHierarchy(mediatorClass, "mvcexpress.mvc::Mediator")) {
+			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'mvcexpress.mvc::Mediator' class.");
 			}
 		}

@@ -23,7 +23,7 @@ import mvcexpress.mvc.Command;
 import mvcexpress.mvc.Mediator;
 import mvcexpress.mvc.PooledCommand;
 import mvcexpress.mvc.Proxy;
-import mvcexpress.utils.checkClassHierarchy;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.
@@ -204,7 +204,7 @@ public class ProxyMap implements IProxyMap {
 
 		//debug this action
 		CONFIG::debug {
-			if (!checkClassHierarchy(proxyClass, "mvcexpress.mvc::Proxy")) {
+			if (!checkClassSuperclass(proxyClass, "mvcexpress.mvc::Proxy")) {
 				throw Error("proxyClass:" + proxyClass + " you are trying to lazy map is not extended from 'mvcexpress.mvc::Proxy' class.");
 			}
 			if (proxyParams && proxyParams.length > 10) {
