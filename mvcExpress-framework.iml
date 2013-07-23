@@ -5,20 +5,17 @@
       <configuration name="mvcExpress-framework" main-class="MvcExpressTestRunner" output-file="mvcExpress-framework.swf" output-folder="$MODULE_DIR$/bin">
         <dependencies target-player="11.4">
           <entries>
-            <entry library-id="828dd2df-fa99-4b1f-99c7-7f5053620a7d">
+            <entry library-id="b6b43410-fd47-4f44-ad7d-ac2ef394c830">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-id="113b8664-c6ca-42f0-8073-7059bdfd4644">
+            <entry library-id="7e31f015-3aa8-481e-ae86-c1d5ae1473d0">
               <dependency linkage="Merged" />
             </entry>
-            <entry library-id="2e8558c3-7e08-4c7e-8fce-543e332573cf">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-id="2670678b-6e67-4058-a38e-1e833c3e9ada">
+            <entry library-id="f16db61f-27c7-44e3-8477-6d87d254546a">
               <dependency linkage="Merged" />
             </entry>
           </entries>
-          <sdk name="flex_sdk_4.9.1" />
+          <sdk name="flex_sdx_4.9.1" />
         </dependencies>
         <compiler-options>
           <option name="additionalOptions" value="-define=CONFIG::debug,true  -keep-as3-metadata+=Inject   -default-size 1200 900" />
@@ -32,19 +29,16 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../mvcExpress-experimental">
-      <sourceFolder url="file://$MODULE_DIR$/../mvcExpress-experimental/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../mvcExpress-experimental/mvcExpressLogger" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/srcDlc" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_4.9.1" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="flex_sdx_4.9.1" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library type="flex">
-        <properties id="828dd2df-fa99-4b1f-99c7-7f5053620a7d" />
+        <properties id="b6b43410-fd47-4f44-ad7d-ac2ef394c830" />
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/flexunit-4.1.0_RC2-4-as3_4.1.0.16076.swc!/" />
         </CLASSES>
@@ -54,7 +48,7 @@
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library type="flex">
-        <properties id="113b8664-c6ca-42f0-8073-7059bdfd4644" />
+        <properties id="7e31f015-3aa8-481e-ae86-c1d5ae1473d0" />
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/flexunit-cilistener-4.1.0_RC2-4-4.1.0.16076.swc!/" />
         </CLASSES>
@@ -64,19 +58,9 @@
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library type="flex">
-        <properties id="2e8558c3-7e08-4c7e-8fce-543e332573cf" />
+        <properties id="f16db61f-27c7-44e3-8477-6d87d254546a" />
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/flexunit-uilistener-4.1.0_RC2-4-4.1.0.16076.swc!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library type="flex">
-        <properties id="2670678b-6e67-4058-a38e-1e833c3e9ada" />
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../mvcExpress-experimental/libs/MinimalComps_0_9_10.swc!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -13,12 +13,12 @@ public class MvcExpress {
 	public static const WEBSITE_URL:String = "http://mvcexpress.org";
 
 	/** Framework name */
-	public static const NAME:String = "mvcExpress";
+	public static const NAME:String = "mvcExpress 2";
 
 	/** Current framework major version */
-	public static const MAJOR_VERSION:uint = 1;
+	public static const MAJOR_VERSION:uint = 2;
 	/** Current framework minor version */
-	public static const MINOR_VERSION:uint = 4;
+	public static const MINOR_VERSION:uint = 0;
 	/** Current framework revision version */
 	public static const REVISION:uint = 0;
 

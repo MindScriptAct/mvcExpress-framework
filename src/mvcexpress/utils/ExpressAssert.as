@@ -1,8 +1,8 @@
 package mvcexpress.utils {
 
 /**
- * COMMENT
- * @author rBanevicius
+ * Class to assert statements. (Similar to FlexUnit)
+ * Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class ExpressAssert {
 
