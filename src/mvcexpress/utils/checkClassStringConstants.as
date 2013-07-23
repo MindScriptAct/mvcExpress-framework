@@ -4,6 +4,7 @@ import flash.utils.describeType;
 
 /**
  * utility function to check class string constant values for accidental duplications.                                                                        </br>
+ * Error will be thrown if 2 classes has constants with same string value.                                                                         </br>
  * Usage:                                                                                                                                                        </br>
  *        add this code in every module class in onInit() function with all your classes holding string constants used for messaging.                                </br>
  *        CONFIG::debug {																																			</br>
@@ -36,13 +37,14 @@ public function checkClassStringConstants(...args:Array):void {
 				StringConstantRegistry.registeredClasses[constantClass] = true;
 			}
 		} else {
-			throw Error("Please send Class names to checkClassStringConstants() only(not object or strings).");
+			throw Error("Please send Class'es to checkClassStringConstants() only(not object or basic data types).");
 		}
 	}
 }
 }
-import flash.utils.Dictionary;
 
+// internal class to hold class constant data.
+import flash.utils.Dictionary;
 class StringConstantRegistry {
 	static public var registeredClasses:Dictionary = new Dictionary();
 	/* of Boolean by Class */
