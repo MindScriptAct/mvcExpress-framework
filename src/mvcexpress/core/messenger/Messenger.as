@@ -24,12 +24,10 @@ public class Messenger {
 	static pureLegsCore var allowInstantiation:Boolean; // = false;
 
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
-	private var messageRegistry:Dictionary = new Dictionary();
-	/* of Vector.<HandlerVO> by String */
+	private var messageRegistry:Dictionary = new Dictionary(); //* of Vector.<HandlerVO> by String */
 
 	// keeps ALL HandlerVO's in Dictionaries by message type, mapped by handlers for fast disabling and duplicated handler checks.
-	private var handlerRegistry:Dictionary = new Dictionary();
-	/* of Dictionary by String */
+	private var handlerRegistry:Dictionary = new Dictionary(); //* of Dictionary by String */
 
 	/**
 	 * CONSTRUCTOR - internal class. Not available for use.
@@ -170,6 +168,7 @@ public class Messenger {
 		executeMvgVo.isExecutable = true;
 		return executeMvgVo;
 	}
+
 
 	//----------------------------------
 	//     Debug

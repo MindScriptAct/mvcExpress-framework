@@ -43,8 +43,7 @@ public class ProcessMapLive {
 	private var stage:Stage;
 
 	/** Stores class QualifiedClassName by class */
-	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary();
-	/* of String by Class*/
+	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); //* of String by Class*/
 
 	/** Stores all inject points by class. */
 	static private var classInjectRules:Dictionary = new Dictionary();
@@ -53,23 +52,19 @@ public class ProcessMapLive {
 	static private var classConstRegistry:Dictionary = new Dictionary();
 
 	/* Timers for timer besad processes, by name. */
-	private var timerRegistry:Dictionary = new Dictionary();
-	/* of Timer by String */
+	private var timerRegistry:Dictionary = new Dictionary(); //* of Timer by String */
 
 	/* all processes storeb by id.(class definition + name) */
-	private var processRegistry:Dictionary = new Dictionary();
-	/* of Process by String */
+	private var processRegistry:Dictionary = new Dictionary(); //* of Process by String */
 
 	/* all provided object by name*/
-	private var provideRegistry:Dictionary = new Dictionary();
-	/* of Object by String */
+	private var provideRegistry:Dictionary = new Dictionary(); //* of Object by String */
 
 	/* all running enterFrame processes */
 	private var runningFrameProcesses:Vector.<Process> = new Vector.<Process>();
 
 	/** All tasks stored by inject object name  */
-	private var injectObjectRegistry:Dictionary = new Dictionary();
-	/* of Vector.<Task> by String */
+	private var injectObjectRegistry:Dictionary = new Dictionary(); //* of Vector.<Task> by String */
 
 	/* CONSTUCTOR */
 	public function ProcessMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMapLive) {

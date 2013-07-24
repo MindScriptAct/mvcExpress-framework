@@ -24,8 +24,7 @@ public class Task {
 	pureLegsCore var next:Task;
 
 	// stores inject point variable names by inject object names.
-	private var injectPointRegistry:Dictionary = new Dictionary();
-	/* of Strnig by String */
+	private var injectPointRegistry:Dictionary = new Dictionary(); //* of Strnig by String */
 
 	// stores info if task is disabled by user.
 	pureLegsCore var _isEnabled:Boolean = true;

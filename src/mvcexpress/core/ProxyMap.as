@@ -29,7 +29,9 @@ import mvcexpress.utils.checkClassSuperclass;
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class ProxyMap implements IProxyMap {
 
 	// name of the module CommandMap is working for.
@@ -40,24 +42,19 @@ public class ProxyMap implements IProxyMap {
 	protected var commandMap:CommandMap;
 
 	/** stares class QualifiedClassName by class */
-	static protected var qualifiedClassNameRegistry:Dictionary = new Dictionary();
-	/* of String by Class*/
+	static protected var qualifiedClassNameRegistry:Dictionary = new Dictionary(); //* of String by Class*/
 
 	/** dictionary of (Vector of InjectRuleVO), stored by class names. */
-	static protected var classInjectRules:Dictionary = new Dictionary();
-	/* of Vector.<InjectRuleVO> by Class */
+	static protected var classInjectRules:Dictionary = new Dictionary(); //* of Vector.<InjectRuleVO> by Class */
 
 	/** all objects ready for injection stored by key. (className + inject name) */
-	protected var injectObjectRegistry:Dictionary = new Dictionary();
-	/* of Proxy by String */
+	protected var injectObjectRegistry:Dictionary = new Dictionary(); //* of Proxy by String */
 
 	/** dictionary of (Vector of PendingInject), it holds array of pending data with proxies and mediators that has pending injections,  stored by needed injection key(className + inject name).  */
-	protected var pendingInjectionsRegistry:Dictionary = new Dictionary();
-	/* of Vector.<PendingInject> by String */
+	protected var pendingInjectionsRegistry:Dictionary = new Dictionary(); //* of Vector.<PendingInject> by String */
 
 	/** dictionary of lazy Proxies, those proxies will be instantiated and mapped on first use. */
-	protected var lazyProxyRegistry:Dictionary = new Dictionary();
-	/* of Vector.<PendingInject> by String */
+	protected var lazyProxyRegistry:Dictionary = new Dictionary(); //* of Vector.<PendingInject> by String */
 
 	/** Dictionary with constonts of inject names, used with constName, and constScope. */
 	protected var classConstRegistry:Dictionary = new Dictionary();
@@ -67,6 +64,7 @@ public class ProxyMap implements IProxyMap {
 		moduleName = $moduleName;
 		messenger = $messenger;
 	}
+
 
 	//----------------------------------
 	//     set up proxies
@@ -169,6 +167,7 @@ public class ProxyMap implements IProxyMap {
 		return injectId;
 	}
 
+
 	//----------------------------------
 	//     Lazy map
 	//----------------------------------
@@ -227,6 +226,7 @@ public class ProxyMap implements IProxyMap {
 		return injectId;
 	}
 
+
 	//----------------------------------
 	//     get proxy
 	//----------------------------------
@@ -253,8 +253,9 @@ public class ProxyMap implements IProxyMap {
 		}
 	}
 
+
 	//----------------------------------
-	//     maping to scope
+	//     mapping to scope
 	//----------------------------------
 
 	/**
@@ -312,6 +313,7 @@ public class ProxyMap implements IProxyMap {
 		ModuleManager.scopeUnmap(moduleName, scopeName, injectClass, name);
 	}
 
+
 	//----------------------------------
 	//     Debug
 	//----------------------------------
@@ -353,6 +355,7 @@ public class ProxyMap implements IProxyMap {
 		retVal += "================================================================\n";
 		return retVal;
 	}
+
 
 	//----------------------------------
 	//     internal stuff

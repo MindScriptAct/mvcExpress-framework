@@ -9,10 +9,10 @@ import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
- * Core Module class. Used if you don't want your module be display object.
- * Usually it is good idea to create your main(shell) module from ModuleCore.
+ * Core Module class, represents single application unit in mvcExpress framework.
  * <p>
  * It starts framework and lets you set up your application. (or execute Commands for set up.)
  * You can create modular application by having more then one module.
@@ -21,11 +21,11 @@ import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
  */
 public class ModuleCore {
 
+	// name of the module
 	protected var _moduleName:String;
 
 	/** for communication. */
 	protected var _messenger:Messenger;
-
 
 	/** Handles application Proxies. */
 	protected var proxyMap:ProxyMap;
@@ -37,8 +37,11 @@ public class ModuleCore {
 
 	/**
 	 * CONSTRUCTOR
-	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
-	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
+	 * @param moduleName        module name that is used for referencing a module. (if not provided - unique name will be generated automatically.)
+	 * @param mediatorMapClass  OPTIONAL class to change default MediatorMap class. (For advanced users only.)
+	 * @param proxyMapClass     OPTIONAL class to change default ProxyMap class. (For advanced users only.)
+	 * @param commandMapClass   OPTIONAL class to change default CommandMap class. (For advanced users only.)
+	 * @param messengerClass    OPTIONAL class to change default Messenger class. (For advanced users only.)
 	 */
 	public function ModuleCore(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 		use namespace pureLegsCore;
@@ -46,39 +49,55 @@ public class ModuleCore {
 		if (!mediatorMapClass) {
 			mediatorMapClass = MediatorMap;
 		} else {
-			// TODO : in DEBUG chceck if subclasses right class
+			CONFIG::debug {
+				if (!checkClassSuperclass(mediatorMapClass, "mvcexpress.core::MediatorMap", true)) {
+					throw Error("ModuleCore can use only mediatorMapClass that extends MediatorMap. (" + mediatorMapClass + " will not work)");
+				}
+			}
 		}
 		if (!proxyMapClass) {
 			proxyMapClass = ProxyMap;
 		} else {
-			// TODO : in DEBUG chceck if subclasses right class
+			CONFIG::debug {
+				if (!checkClassSuperclass(proxyMapClass, "mvcexpress.core::ProxyMap", true)) {
+					throw Error("ModuleCore can use only proxyMapClass that extends ProxyMap. (" + proxyMapClass + " will not work)");
+				}
+			}
 		}
 		if (!commandMapClass) {
 			commandMapClass = CommandMap;
 		} else {
-			// TODO : in DEBUG chceck if subclasses right class
+			CONFIG::debug {
+				if (!checkClassSuperclass(commandMapClass, "mvcexpress.core::CommandMap", true)) {
+					throw Error("ModuleCore can use only commandMapClass that extends CommandMap. (" + commandMapClass + " will not work)");
+				}
+			}
 		}
 		if (!messengerClass) {
 			messengerClass = Messenger;
 		} else {
-			// TODO : in DEBUG chceck if subclasses right class
+			CONFIG::debug {
+				if (!checkClassSuperclass(messengerClass, "mvcexpress.core.messenger::Messenger", true)) {
+					throw Error("ModuleCore can use only messengerClass that extends Messenger. (" + messengerClass + " will not work)");
+				}
+			}
 		}
 
-		//
+		// register module with ModuleManager. (And get module name if it is not provided.)
 		_moduleName = ModuleManager.registerModule(moduleName, this);
-		//
 
+		// create module messenger.
 		Messenger.allowInstantiation = true;
 		_messenger = new messengerClass(_moduleName);
 		Messenger.allowInstantiation = false;
 
-		// proxyMap
+		// create module proxyMap
 		proxyMap = new proxyMapClass(_moduleName, _messenger);
 
-		// mediatorMap
+		// create module mediatorMap
 		mediatorMap = new mediatorMapClass(_moduleName, _messenger, proxyMap);
 
-		// commandMap
+		// create module commandMap
 		commandMap = new commandMapClass(_moduleName, _messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 
@@ -113,18 +132,16 @@ public class ModuleCore {
 		use namespace pureLegsCore;
 
 		//
-		if (commandMap) {
-			commandMap.dispose();
-			commandMap = null;
-		}
-		if (mediatorMap) {
-			mediatorMap.dispose();
-			mediatorMap = null;
-		}
-		if (proxyMap) {
-			proxyMap.dispose();
-			proxyMap = null;
-		}
+		commandMap.dispose();
+		commandMap = null;
+
+		mediatorMap.dispose();
+		mediatorMap = null;
+
+		proxyMap.dispose();
+		proxyMap = null;
+
+		_messenger.dispose();
 		_messenger = null;
 		//
 		ModuleManager.disposeModule(_moduleName);
@@ -137,6 +154,11 @@ public class ModuleCore {
 	protected function onDispose():void {
 		// for override
 	}
+
+
+	//----------------------------------
+	//     MESSAGING
+	//----------------------------------
 
 	/**
 	 * Message sender.
@@ -206,6 +228,11 @@ public class ModuleCore {
 
 		ModuleManager.unregisterScope(_moduleName, scopeName);
 	}
+
+
+	//----------------------------------
+	//     Execute module command.
+	//----------------------------------
 
 	/**
 	 * Instantiates and executes provided command class, and sends params to it.

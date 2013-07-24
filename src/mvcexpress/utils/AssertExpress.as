@@ -13,6 +13,7 @@ public class AssertExpress {
 	 */
 	public static var errorHandler:Function = throwError;
 
+
 	//----------------------------------
 	//     asserts
 	//----------------------------------
@@ -20,9 +21,9 @@ public class AssertExpress {
 	/**
 	 *  Asserts that two provided values are equal.
 	 *
-	 * @param	actual			value under test.
-	 * @param	expected		expected value.
-	 * @param	errorMessage	optional error message.
+	 * @param    actual          value under test.
+	 * @param    expected        expected value.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function equals(actual:Object, expected:Object, errorMessage:String = ""):void {
 		if (actual != expected) {
@@ -33,9 +34,9 @@ public class AssertExpress {
 	/**
 	 * Asserts that the provided values are strictly equal.
 	 *
-	 * @param	actual			value under test.
-	 * @param	expected		expected value.
-	 * @param	errorMessage	optional error message.
+	 * @param    actual            value under test.
+	 * @param    expected        expected value.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function strictlyEquals(actual:Object, expected:Object, errorMessage:String = ""):void {
 		if (actual !== expected) {
@@ -46,8 +47,8 @@ public class AssertExpress {
 	/**
 	 * Asserts that a condition is true.
 	 *
-	 * @param	condition		value under test.
-	 * @param	errorMessage	optional error message.
+	 * @param    condition        value under test.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function isTrue(condition:Boolean, errorMessage:String = ""):void {
 		if (!condition) {
@@ -58,8 +59,8 @@ public class AssertExpress {
 	/**
 	 * Asserts that a condition is false.
 	 *
-	 * @param	condition		value under test.
-	 * @param	errorMessage	optional error message.
+	 * @param    condition        value under test.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function isFalse(condition:Boolean, errorMessage:String = ""):void {
 		if (condition) {
@@ -70,8 +71,8 @@ public class AssertExpress {
 	/**
 	 * Asserts that object is null.
 	 *
-	 * @param	actual			value under test.
-	 * @param	errorMessage	optional error message.
+	 * @param    actual            value under test.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function isNull(actual:Object, errorMessage:String = ""):void {
 		if (actual != null) {
@@ -82,8 +83,8 @@ public class AssertExpress {
 	/**
 	 * Asserts that object is not null.
 	 *
-	 * @param	actual			value under test.
-	 * @param	errorMessage	optional error message.
+	 * @param    actual            value under test.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function isNotNull(actual:Object, errorMessage:String = ""):void {
 		if (actual == null) {
@@ -94,11 +95,12 @@ public class AssertExpress {
 	/**
 	 * Fails a test with the argument message.
 	 *
-	 * @param	errorMessage	optional error message.
+	 * @param    errorMessage    optional error message.
 	 */
 	public static function fail(errorMessage:String = ""):void {
 		errorHandler(errorMessage, "failed!");
 	}
+
 
 	//----------------------------------
 	//     internals

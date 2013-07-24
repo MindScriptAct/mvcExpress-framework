@@ -23,8 +23,7 @@ public class MediatorLive extends Mediator {
 	pureLegsCore var processMap:ProcessMapLive;
 
 	/**    all objects provided by this mediator storeb by name */
-	private var provideRegistry:Dictionary = new Dictionary();
-	/* of Object by String*/
+	private var provideRegistry:Dictionary = new Dictionary(); //* of Object by String*/
 
 
 	//----------------------------------

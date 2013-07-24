@@ -45,9 +45,8 @@ public function checkClassStringConstants(...args:Array):void {
 
 // internal class to hold class constant data.
 import flash.utils.Dictionary;
+
 class StringConstantRegistry {
-	static public var registeredClasses:Dictionary = new Dictionary();
-	/* of Boolean by Class */
-	static public var stringRegistry:Dictionary = new Dictionary();
-	/* of Class by String */
+	static public var registeredClasses:Dictionary = new Dictionary(); //* of Boolean by Class */
+	static public var stringRegistry:Dictionary = new Dictionary(); //* of Class by String */
 }

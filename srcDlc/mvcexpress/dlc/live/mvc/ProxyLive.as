@@ -20,8 +20,7 @@ public class ProxyLive extends Proxy {
 	private var processMap:ProcessMapLive;
 
 	/**    all objects provided by this proxy stored by name */
-	private var provideRegistry:Dictionary = new Dictionary();
-	/* of Object by String*/
+	private var provideRegistry:Dictionary = new Dictionary(); //* of Object by String*/
 
 
 	//----------------------------------

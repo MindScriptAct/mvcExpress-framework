@@ -54,6 +54,7 @@ public class MvcExpress {
 	 */
 	static public var debugFunction:Function = null;
 
+
 	//----------------------------------
 	//     Internal
 	//----------------------------------

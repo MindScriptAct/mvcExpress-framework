@@ -13,8 +13,8 @@ import flash.utils.getQualifiedSuperclassName;
  * Checks if class is extended from or is of class provided by name.
  * Used for debugging.
  *
- * @param classObject        	Class to check
- * @param superClassName    	superclass type name
+ * @param classObject            Class to check
+ * @param superClassName        superclass type name
  * @param allowSameClassType    allows classObject to be of provided superClassName type. (if false, only superclasses will be checked)
  * @return    true if clossObject is extended from provided super class, or is of that class if allowSameClassType set to true.
  */

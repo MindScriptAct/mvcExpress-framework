@@ -11,11 +11,13 @@ import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
 
 /**
- * Proxy holds and manages application data, provide API to work with it.                </br>
+ * Proxy holds and manages application data, implements API to work with it.                  </br>
  * Can send messages. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class Proxy {
 
 	/**
@@ -44,6 +46,7 @@ public class Proxy {
 	public function Proxy() {
 	}
 
+
 	//----------------------------------
 	//     Life cycle functions
 	//----------------------------------
@@ -68,6 +71,7 @@ public class Proxy {
 	protected function get isReady():Boolean {
 		return _isReady;
 	}
+
 
 	//----------------------------------
 	//     MESSAGING
@@ -123,6 +127,7 @@ public class Proxy {
 		}
 	}
 
+
 	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
@@ -158,6 +163,7 @@ public class Proxy {
 		dependantCommands = null;
 		onRemove();
 	}
+
 
 	//----------------------------------
 	//     Scoping
@@ -196,6 +202,7 @@ public class Proxy {
 			}
 		}
 	}
+
 
 	//----------------------------------
 	//     Pooled commands

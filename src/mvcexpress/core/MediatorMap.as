@@ -19,7 +19,9 @@ import mvcexpress.utils.checkClassSuperclass;
  * Handles application mediators.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class MediatorMap implements IMediatorMap {
 
 	// name of the module MediatorMap is working for.
@@ -32,16 +34,13 @@ public class MediatorMap implements IMediatorMap {
 	protected var messenger:Messenger;
 
 	// stores all mediator classes using view class(mediator must mediate) as a key.
-	protected var mediatorClassRegistry:Dictionary = new Dictionary();
-	/* of Class by Class */
+	protected var mediatorClassRegistry:Dictionary = new Dictionary(); //* of Class by Class */
 
 	// stores all view inject classes using view class(mediator must mediate) as a key.
-	protected var mediatorInjectRegistry:Dictionary = new Dictionary();
-	/* of Class by Class */
+	protected var mediatorInjectRegistry:Dictionary = new Dictionary(); //* of Class by Class */
 
 	// stores all mediators using use view object(mediator is mediating) as a key.
-	protected var mediatorRegistry:Dictionary = new Dictionary();
-	/* of Mediator by Object */
+	protected var mediatorRegistry:Dictionary = new Dictionary(); //* of Mediator by Object */
 
 	/** CONSTRUCTOR */
 	public function MediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
@@ -158,8 +157,18 @@ public class MediatorMap implements IMediatorMap {
 		}
 	}
 
+	/**
+	 * Prepares mediator for work.
+	 * @param mediator        mediator object.
+	 * @param mediatorClass    mediator class.
+	 * @param viewObject    view object.
+	 * @param injectClass    view inject class.
+	 * @return    returns true if all dependencies are injected.
+	 * @private
+	 */
 	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {
 		use namespace pureLegsCore;
+
 		var retVal:Boolean;
 
 		mediator.moduleName = moduleName;
@@ -316,6 +325,7 @@ public class MediatorMap implements IMediatorMap {
 		retVal += "================================================================\n";
 		return retVal;
 	}
+
 
 	//----------------------------------
 	//     INTERNAL

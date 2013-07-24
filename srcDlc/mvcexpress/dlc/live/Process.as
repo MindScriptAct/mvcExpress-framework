@@ -46,8 +46,7 @@ public class Process {
 	pureLegsCore var messenger:Messenger;
 
 	/** Stores class QualifiedClassName by class */
-	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary();
-	/* of String by Class*/
+	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); //* of String by Class*/
 
 	pureLegsCore var processType:int;
 	pureLegsCore var processId:String;

@@ -23,7 +23,9 @@ import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
  *  Can handle messages. (handles data change or other framework messages)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class Mediator {
 
 	// name of module this mediator is working in.
@@ -78,6 +80,7 @@ public class Mediator {
 		}
 	}
 
+
 	//----------------------------------
 	//     Life cycle functions
 	//----------------------------------
@@ -102,6 +105,7 @@ public class Mediator {
 	protected function get isReady():Boolean {
 		return _isReady;
 	}
+
 
 	//----------------------------------
 	//     MESSAGING
@@ -149,6 +153,7 @@ public class Mediator {
 			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, false));
 		}
 	}
+
 
 	//----------------------------------
 	//     message handlers
@@ -203,6 +208,7 @@ public class Mediator {
 		}
 	}
 
+
 	//----------------------------------
 	//     scope handling
 	//----------------------------------
@@ -230,6 +236,7 @@ public class Mediator {
 
 		ModuleManager.removeScopeHandler(scopeName, type, handler);
 	}
+
 
 	//----------------------------------
 	//     event handling
@@ -321,6 +328,7 @@ public class Mediator {
 			}
 		}
 	}
+
 
 	//----------------------------------
 	//     INTERNAL

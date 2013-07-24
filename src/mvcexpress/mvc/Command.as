@@ -60,6 +60,7 @@ dynamic public class Command {
 		}
 	}
 
+
 	//----------------------------------
 	//     MESSAGING
 	//----------------------------------
@@ -133,6 +134,7 @@ dynamic public class Command {
 		ModuleManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
+
 	//----------------------------------
 	//     Getters
 	//----------------------------------
@@ -144,6 +146,7 @@ dynamic public class Command {
 	public function getMessageType():String {
 		return pureLegsCore::messageType;
 	}
+
 
 	//----------------------------------
 	//     Misc

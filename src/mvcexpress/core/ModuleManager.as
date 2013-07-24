@@ -18,39 +18,36 @@ import mvcexpress.mvc.Proxy;
 
 /**
  * INTERNAL FRAMEWORK CLASS.
- * Creates and manages modules.
+ * Manages mvcExpress modules.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class ModuleManager {
 
 	/* messenger counter, increased with every new created module */
 	static private var _moduleId:int;
 
 	/* modules stored by moduleName */
-	static private var moduleRegistry:Dictionary = new Dictionary();
-	/* of ModuleCore by String */
+	static private var moduleRegistry:Dictionary = new Dictionary(); //* of ModuleCore by String */
 
 	/* all modules stared by module name */
 	static private var allModules:Vector.<ModuleCore> = new Vector.<ModuleCore>();
 
 	/* all messengers by scope name */
-	static private var scopedMessengers:Dictionary = new Dictionary();
-	/* of Messenger by String{moduleName} */
+	static private var scopedMessengers:Dictionary = new Dictionary(); //* of Messenger by String{moduleName} */
 
 	/* all proxies by scope name */
-	static private var scopedProxyMaps:Dictionary = new Dictionary();
-	/* of ProxyMap by String{moduleName} */
+	static private var scopedProxyMaps:Dictionary = new Dictionary(); //* of ProxyMap by String{moduleName} */
 
-	/* all proxies maped to scope */
-	static private var scopedProxiesByScope:Dictionary = new Dictionary();
-	/* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
+	/* all proxies mapped to scope */
+	static private var scopedProxiesByScope:Dictionary = new Dictionary(); //* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 
 	static private var needMetadataTest:Boolean = true;
 
-	/* all module permision datas by modleName and scopeName */
-	static private var scopePermissionsRegistry:Dictionary = new Dictionary();
-	/* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
+	/* all module permission data's by modelName and scopeName */
+	static private var scopePermissionsRegistry:Dictionary = new Dictionary(); 	//* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
 
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -58,11 +55,10 @@ public class ModuleManager {
 	}
 
 	/**
-	 * Creates new module for given name.
-	 * @param    moduleName
-	 * @param    autoInit
-	 * @return
-	 * @private
+	 * Registers module for given name. (or generates new name if it is not given.)
+	 * @param moduleName    name for module
+	 * @param moduleCore    module object for given name
+	 * @return    returns name (same as provided or generated new one) of the module.
 	 */
 	static pureLegsCore function registerModule(moduleName:String, moduleCore:ModuleCore):String {
 
@@ -148,6 +144,7 @@ public class ModuleManager {
 		}
 	}
 
+
 	//----------------------------------
 	//     message scoping
 	//----------------------------------
@@ -212,6 +209,7 @@ public class ModuleManager {
 		}
 	}
 
+
 	//----------------------------------
 	//     Command scoping
 	//----------------------------------
@@ -248,6 +246,7 @@ public class ModuleManager {
 		}
 		return scopeMesanger.addCommandHandler(scopeName + "_^~_" + type, handleCommandExecute, commandClass);
 	}
+
 
 	//----------------------------------
 	//     proxy scoping
@@ -384,6 +383,7 @@ public class ModuleManager {
 		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger);
 	}
 
+
 	//----------------------------------
 	//     Scope managment
 	//----------------------------------
@@ -428,6 +428,7 @@ public class ModuleManager {
 		}
 
 	}
+
 
 	//----------------------------------
 	//     DEBUG

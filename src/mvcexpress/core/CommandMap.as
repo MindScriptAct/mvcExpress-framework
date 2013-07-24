@@ -21,7 +21,9 @@ import mvcexpress.utils.checkClassSuperclass;
  * Handles command mappings, and executes them on messages
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class CommandMap {
 
 	// name of the module CommandMap is working for.
@@ -35,22 +37,18 @@ public class CommandMap {
 	protected var mediatorMap:MediatorMap;
 
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
-	protected var classRegistry:Dictionary = new Dictionary();
-	/* of Vector.<Class> by String */
+	protected var classRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by String */
 
 	// holds pooled command objects, stared by command class.
-	protected var commandPools:Dictionary = new Dictionary();
-	/* of Vector.<PooledCommand> by Class */
+	protected var commandPools:Dictionary = new Dictionary(); //* of Vector.<PooledCommand> by Class */
 
 	/** types of command execute function, needed for debug mode only validation of execute() parameter.  */
 	CONFIG::debug
-	static protected var commandClassParamTypes:Dictionary = new Dictionary();
-	/* of String by Class */
+	static protected var commandClassParamTypes:Dictionary = new Dictionary(); //* of String by Class */
 
 	/** Dictionary with validated command classes.  */
 	CONFIG::debug
-	static protected var validatedCommands:Dictionary = new Dictionary();
-	/* of Boolean by Class */
+	static protected var validatedCommands:Dictionary = new Dictionary(); //* of Boolean by Class */
 
 	protected var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
@@ -61,6 +59,7 @@ public class CommandMap {
 		proxyMap = $proxyMap;
 		mediatorMap = $mediatorMap;
 	}
+
 
 	//----------------------------------
 	//     set up commands to execute current module messages
@@ -126,6 +125,7 @@ public class CommandMap {
 			}
 		}
 	}
+
 
 	//----------------------------------
 	//     Command execute
@@ -202,8 +202,15 @@ public class CommandMap {
 
 	}
 
+	/**
+	 * Prepares command object for work.
+	 * @param command
+	 * @param commandClass
+	 * @private
+	 */
 	protected function prepareCommand(command:Command, commandClass:Class):void {
 		use namespace pureLegsCore;
+
 		command.messenger = messenger;
 		command.mediatorMap = mediatorMap;
 		command.proxyMap = proxyMap;
@@ -212,6 +219,7 @@ public class CommandMap {
 		// inject dependencies
 		proxyMap.injectStuff(command, commandClass);
 	}
+
 
 	//----------------------------------
 	//     set up commands to execute scoped messages
@@ -271,6 +279,7 @@ public class CommandMap {
 		}
 	}
 
+
 	//----------------------------------
 	//     command pooling
 	//----------------------------------
@@ -292,6 +301,7 @@ public class CommandMap {
 	public function clearCommandPool(commandClass:Class):void {
 		delete commandPools[commandClass];
 	}
+
 
 	//----------------------------------
 	//     Debug
@@ -343,6 +353,7 @@ public class CommandMap {
 		retVal += "================================================================\n";
 		return retVal;
 	}
+
 
 	//----------------------------------
 	//     INTERNAL
