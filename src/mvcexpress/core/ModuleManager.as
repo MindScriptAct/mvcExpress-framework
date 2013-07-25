@@ -491,6 +491,32 @@ public class ModuleManager {
 		}
 	}
 
+	/**
+	 * Invokes custom module function.
+	 * @param moduleName	Name of module.
+	 * @param functionName	name of the function
+	 * @param params		optional function params
+	 * @return		returns object.
+	 */
+	static public function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
+		if (moduleRegistry[moduleName]) {
+			try {
+				var callFunct:Function = moduleRegistry[moduleName][functionName]
+				if (params) {
+					return callFunct();
+				} else {
+					return callFunct.apply(null, params);
+				}
+			} catch (error:Error) {
+				return "Failed to invoke " + moduleName + " module function, named: " + functionName + ", with params:" + params + " " + error;
+			}
+			if (moduleRegistry[moduleName]["listMappedProcesses"] != null) {
+				return moduleRegistry[moduleName]["listMappedProcesses"]();
+			}
+		}
+		return "Module with name :" + moduleName + " is not found.";
+	}
+
 }
 }
 

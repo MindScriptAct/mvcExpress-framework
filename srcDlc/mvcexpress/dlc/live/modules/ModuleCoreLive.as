@@ -63,5 +63,13 @@ public class ModuleCoreLive extends ModuleCore {
 		}
 	}
 
+	/**
+	 * Internal framework function. Not meant to be used from outside.
+	 */
+		// Lists all processes and tasks.
+	public function listMappedProcesses():String {
+		return processMap.listProcesses();
+	}
+
 }
 }
