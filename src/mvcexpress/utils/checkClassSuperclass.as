@@ -1,8 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.utils {
-import avmplus.getQualifiedClassName;
-
 import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 import flash.utils.getQualifiedSuperclassName;
 
 /**
