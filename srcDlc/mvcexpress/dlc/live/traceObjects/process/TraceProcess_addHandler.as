@@ -3,7 +3,7 @@ package mvcexpress.dlc.live.traceObjects.process {
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
 import mvcexpress.core.traceObjects.TraceObj;
-import mvcexpress.dlc.live.Process;
+import mvcexpress.dlc.live.engine.Process;
 import mvcexpress.dlc.live.mvc.MediatorLive;
 
 /**

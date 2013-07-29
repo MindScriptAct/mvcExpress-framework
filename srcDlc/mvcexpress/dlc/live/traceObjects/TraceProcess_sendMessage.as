@@ -1,7 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.dlc.live.traceObjects {
 import mvcexpress.core.traceObjects.*;
-import mvcexpress.dlc.live.Process;
+import mvcexpress.dlc.live.engine.Process;
 import mvcexpress.dlc.live.mvc.MediatorLive;
 
 /**

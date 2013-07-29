@@ -14,8 +14,8 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.dlc.live.Process;
-import mvcexpress.dlc.live.Task;
+import mvcexpress.dlc.live.engine.Process;
+import mvcexpress.dlc.live.engine.Task;
 import mvcexpress.dlc.live.taskTests.TaskTestVO;
 import mvcexpress.dlc.live.taskTests.TestRuleVO;
 import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
@@ -104,8 +104,8 @@ public class ProcessMapLive {
 
 		// check if process class is valid
 		CONFIG::debug {
-			if (!checkClassSuperclass(processClass, "mvcexpress.dlc.live::Process")) {
-				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'mvcexpress.dlc.live::Process' class.");
+			if (!checkClassSuperclass(processClass, "mvcexpress.dlc.live.engine::Process")) {
+				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'mvcexpress.dlc.live.engine::Process' class.");
 			}
 		}
 
@@ -157,8 +157,8 @@ public class ProcessMapLive {
 
 		// check if process class is valid
 		CONFIG::debug {
-			if (!checkClassSuperclass(processClass, "mvcexpress.dlc.live::Process")) {
-				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'mvcexpress.dlc.live::Process' class.");
+			if (!checkClassSuperclass(processClass, "mvcexpress.dlc.live.engine::Process")) {
+				throw Error("processClass:" + processClass + " you are trying to init is not extended from 'mvcexpress.dlc.live.engine::Process' class.");
 			}
 		}
 

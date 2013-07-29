@@ -1,5 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package mvcexpress.dlc.live {
+package mvcexpress.dlc.live.engine {
+import mvcexpress.dlc.live.*;
+
 import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
@@ -750,8 +752,8 @@ public class Process {
 
 		CONFIG::debug {
 			//check for class type. (taskClass must be or subclass Task class.)
-			if (!checkClassSuperclass(taskClass, "mvcexpress.dlc.live::Task")) {
-				throw Error("taskClass:" + taskClass + " you are trying to mapTask is not extended from 'mvcexpress.dlc.live::Task' class.");
+			if (!checkClassSuperclass(taskClass, "mvcexpress.dlc.live.engine::Task")) {
+				throw Error("taskClass:" + taskClass + " you are trying to mapTask is not extended from 'mvcexpress.dlc.live.engine::Task' class.");
 			}
 		}
 		// create task.
