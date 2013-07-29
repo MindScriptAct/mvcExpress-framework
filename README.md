@@ -3,6 +3,18 @@ mvcExpress is simplest and fastest MVC based ActionScript 3 framework!
 DOWNLOADS
 -----
 
+V 2.0.beta1
+* [mvcExpress-code-v2_0_beta1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-code-v2_0_beta1.zip)
+* [mvcExpress-debug_v2_0_beta1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_beta1.swc)
+* [mvcExpress-release_v2_0_beta1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_beta1.swc)
+
+* [mvcExpress-examples_v2_0_beta1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_beta1.zip)
+
+
+
+
+#V1.4.2
+
 * [mvcExpress-code_v1_4_2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-code_v1_4_2.zip)
 * [mvcExpress-debug_v1_4_2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-debug_v1_4_2.swc)
 * [mvcExpress-release_v1_4_2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-release_v1_4_2.swc)
