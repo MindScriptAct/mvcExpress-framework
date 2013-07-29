@@ -78,7 +78,7 @@ public class ModuleCore {
 		} else {
 			CONFIG::debug {
 				if (!checkClassSuperclass(messengerClass, "mvcexpress.core.messenger::Messenger", true)) {
-					throw Error("ModuleCore can use only messengerClass that extends Messenger. (" + messengerClass + " will not work)");
+				throw Error("ModuleCore can use only messengerClass that extends Messenger. (" + messengerClass + " will not work)");
 				}
 			}
 		}
