@@ -288,7 +288,7 @@ public class ProcessMapLive {
 	//----------------------------------
 
 	/**
-	 * Returns text of all command classes that are mapped to messages. (for debugging)
+	 * Returns text of all command classes that are mapped to constants. (for debugging)
 	 * @return        Text with all mapped commands.
 	 */
 	public function listProcesses():String {

@@ -10,7 +10,7 @@ use namespace pureLegsCore;
 
 /**
  * Proxy holds and manages application data, provide API to work with it.                </br>
- * Can send messages. (Usually sends one with each data update)                            </br>
+ * Can send constants. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 use namespace pureLegsCore;

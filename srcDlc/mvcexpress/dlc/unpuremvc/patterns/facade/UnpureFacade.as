@@ -11,6 +11,7 @@ import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.dlc.unpuremvc.core.*;
+import mvcexpress.dlc.unpuremvc.core.messenger.UnpureMessenger;
 import mvcexpress.dlc.unpuremvc.patterns.mediator.UnpureMediator;
 import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
 import mvcexpress.dlc.unpuremvc.patterns.proxy.UnpureProxy;
@@ -141,8 +142,8 @@ public class UnpureFacade extends ModuleCore {
 	//	mvcExpress stuff
 	//----------------------------------
 
-	public static const notificationNameStack:Vector.<String> = new <String>[];
-	public static const notificationTypeStack:Vector.<String> = new <String>[];
+	//public static const notificationNameStack:Vector.<String> = new <String>[];
+	//public static const notificationTypeStack:Vector.<String> = new <String>[];
 
 
 	/**
@@ -229,7 +230,7 @@ public class UnpureFacade extends ModuleCore {
 			moduleName = SINGLE_CORE_NAME;
 		}
 
-		super(moduleName, null, null, UnpureCommandMap);
+		super(moduleName, null, null, UnpureCommandMap, UnpureMessenger);
 
 		if (instanceRegistry[moduleName] != null) {
 			if (moduleName == "") {
@@ -562,12 +563,10 @@ public class UnpureFacade extends ModuleCore {
 	 * @param type the type of the notification (optional)
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
-//		notifyObservers(new UnpureNotification(notificationName, body, type));
-		UnpureFacade.notificationNameStack.push(notificationName);
-		UnpureFacade.notificationTypeStack.push(type);
+		if (type) {
+			throw Error("Sending type is not supported. Add it to body object.(refactore body and type into new object if needed.)");
+		}
 		sendMessage(notificationName, body);
-		UnpureFacade.notificationNameStack.pop();
-		UnpureFacade.notificationTypeStack.pop();
 	}
 
 	/**

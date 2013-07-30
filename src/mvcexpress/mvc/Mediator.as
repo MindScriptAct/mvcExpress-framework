@@ -17,10 +17,10 @@ import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 
 /**
  * Mediates single view object.                                                                                                                            </br>
- *  Main responsibility of mediator is to send message from framework  to view, and receive messages from view and send to framework.                        </br>
+ *  Main responsibility of mediator is to send message from framework  to view, and receive constants from view and send to framework.                        </br>
  *  Can get proxies injected.                                                                                                                                </br>
- *  Can send messages. (sends messages then user interacts with the view)                                                                                    </br>
- *  Can handle messages. (handles data change or other framework messages)
+ *  Can send constants. (sends constants then user interacts with the view)                                                                                    </br>
+ *  Can handle constants. (handles data change or other framework constants)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 

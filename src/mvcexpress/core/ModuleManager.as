@@ -163,11 +163,11 @@ public class ModuleManager {
 
 			// check if action is available
 			if (!scopePermission || !scopePermission.messageSending) {
-				throw Error("Module with name:" + moduleName + " has no permition to send messages to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+				throw Error("Module with name:" + moduleName + " has no permition to send constants to scope:" + scopeName + ". Please use: registerScopeTest() function.");
 			}
 		}
 
-		// send messages
+		// send constants
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
 		if (scopeMesanger) {
 			scopeMesanger.send(scopeName + "_^~_" + type, params);
@@ -185,7 +185,7 @@ public class ModuleManager {
 
 		// check if action is available
 		if (!scopePermission || !scopePermission.messageReceiving) {
-			throw Error("Module with name:" + moduleName + " has no permition to receive messages from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to receive constants from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
@@ -232,7 +232,7 @@ public class ModuleManager {
 
 		// check if action is available
 		if (!scopePermission || !scopePermission.messageReceiving) {
-			throw Error("Module with name:" + moduleName + " has no permition to receive messages and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to receive constants and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
@@ -282,7 +282,7 @@ public class ModuleManager {
 		}
 		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
 
-		// add scope to proxy so it could send scoped messages.
+		// add scope to proxy so it could send scoped constants.
 		proxyObject.addScope(scopeName);
 
 		var scopedProxyData:ScopedProxyData = new ScopedProxyData();
@@ -315,7 +315,7 @@ public class ModuleManager {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[scopeName];
 		if (scopedProxyMap) {
 			var injectId:String = scopedProxyMap.unmap(injectClass, name);
-			// remove scope from proxy, so it would stop sending scoped messages.
+			// remove scope from proxy, so it would stop sending scoped constants.
 			use namespace pureLegsCore;
 
 			if (scopedProxiesByScope[moduleName]) {

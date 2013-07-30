@@ -6,6 +6,7 @@ package mvcexpress.dlc.unpuremvc.patterns.proxy {
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.mvc.Proxy;
 import mvcexpress.dlc.unpuremvc.patterns.facade.UnpureFacade;
+import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
 
 /**
  * A base <code>IProxy</code> implementation.
@@ -109,11 +110,11 @@ public class UnpureProxy extends Proxy {
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
 		//facade.sendNotification(notificationName, body, type);
-		UnpureFacade.notificationNameStack.push(notificationName);
-		UnpureFacade.notificationTypeStack.push(type);
+//		UnpureFacade.notificationNameStack.push(notificationName);
+//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-		UnpureFacade.notificationNameStack.pop();
-		UnpureFacade.notificationTypeStack.pop();
+//		UnpureFacade.notificationNameStack.pop();
+//		UnpureFacade.notificationTypeStack.pop();
 	}
 
 }

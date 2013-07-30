@@ -68,11 +68,11 @@ public class UnpureSimpleCommand extends Command implements UnpureICommand {
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
 //		facade.sendNotification(notificationName, body, type);
-		UnpureFacade.notificationNameStack.push(notificationName);
-		UnpureFacade.notificationTypeStack.push(type);
+//		UnpureFacade.notificationNameStack.push(notificationName);
+//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-		UnpureFacade.notificationNameStack.pop();
-		UnpureFacade.notificationTypeStack.pop();
+//		UnpureFacade.notificationNameStack.pop();
+//		UnpureFacade.notificationTypeStack.pop();
 
 	}
 }

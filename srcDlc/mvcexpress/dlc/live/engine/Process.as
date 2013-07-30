@@ -76,11 +76,11 @@ public class Process {
 	/** all added message handlers. */
 	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
-	// messages sent after curent task is done running.
+	// constants sent after curent task is done running.
 	private var postMessageTypes:Vector.<String> = new Vector.<String>();
 	private var postMessageParams:Vector.<Object> = new Vector.<Object>();
 
-	// messages sent after all tasks are done running.
+	// constants sent after all tasks are done running.
 	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 
@@ -677,7 +677,7 @@ public class Process {
 				}
 			}
 
-			// send post messages
+			// send post constants
 			while (postMessageTypes.length) {
 				type = postMessageTypes.shift() as String;
 				params = postMessageParams.shift();
@@ -719,7 +719,7 @@ public class Process {
 		// set process as cached
 		isCached = true;
 
-		// send final messages
+		// send final constants
 		while (finalMessageTypes.length) {
 			type = finalMessageTypes.shift() as String;
 			params = finalMessageParams.shift();
@@ -800,7 +800,7 @@ public class Process {
 	//     internal - message sending
 	//----------------------------------
 
-	// send instant messages
+	// send instant constants
 	pureLegsCore function sendInstantMessage(type:String, params:Object):void {
 		use namespace pureLegsCore;
 

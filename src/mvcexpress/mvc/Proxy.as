@@ -12,7 +12,7 @@ import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
 
 /**
  * Proxy holds and manages application data, implements API to work with it.                  </br>
- * Can send messages. (Usually sends one with each data update)                            </br>
+ * Can send constants. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 
@@ -32,7 +32,7 @@ public class Proxy {
 	/** @private */
 	pureLegsCore var messenger:Messenger;
 
-	// for sending scoped messages then injected by scope.
+	// for sending scoped constants then injected by scope.
 	private var proxyScopes:Vector.<String> = new Vector.<String>();
 
 	// for pooled command classes that are dependant on this proxy.
@@ -170,7 +170,7 @@ public class Proxy {
 	//----------------------------------
 
 	/**
-	 * Add scope for proxy to send all proxy messages to.
+	 * Add scope for proxy to send all proxy constants to.
 	 * @param    scopeName
 	 * @private
 	 */
@@ -189,7 +189,7 @@ public class Proxy {
 	}
 
 	/**
-	 * Remove scope for proxy to send all proxy messages to.
+	 * Remove scope for proxy to send all proxy constants to.
 	 * @param    scopeName
 	 * @private
 	 */

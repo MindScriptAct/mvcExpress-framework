@@ -72,7 +72,7 @@ public class MediatorMapFlex extends MediatorMap {
 	}
 
 	/**
-	 * If any mediator is mediating viewObject: it calls onRemove, automatically removes all handler functions listening for messages from that mediator and deletes it.
+	 * If any mediator is mediating viewObject: it calls onRemove, automatically removes all handler functions listening for constants from that mediator and deletes it.
 	 * If flex object is unmediated before 'creationComplete' is dispatched - nothing is done. (because mediation is not done in the first place.)
 	 * @param    viewObject    view object witch mediator will be destroyed.
 	 */

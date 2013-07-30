@@ -18,7 +18,7 @@ import mvcexpress.mvc.PooledCommand;
 import mvcexpress.utils.checkClassSuperclass;
 
 /**
- * Handles command mappings, and executes them on messages
+ * Handles command mappings, and executes them on constants
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 
@@ -62,7 +62,7 @@ public class CommandMap {
 
 
 	//----------------------------------
-	//     set up commands to execute current module messages
+	//     set up commands to execute current module constants
 	//----------------------------------
 
 	/**
@@ -222,7 +222,7 @@ public class CommandMap {
 
 
 	//----------------------------------
-	//     set up commands to execute scoped messages
+	//     set up commands to execute scoped constants
 	//----------------------------------
 
 	/**
@@ -341,7 +341,7 @@ public class CommandMap {
 	}
 
 	/**
-	 * Returns text of all command classes that are mapped to messages. (for debugging)
+	 * Returns text of all command classes that are mapped to constants. (for debugging)
 	 * @return        Text with all mapped commands.
 	 */
 	public function listMappings():String {

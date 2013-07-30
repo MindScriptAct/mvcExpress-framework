@@ -69,7 +69,7 @@ public class UnpureMediator extends Mediator {
 
 	// bridge function.
 	private function handleRawNotification(body:Object):void {
-		handleNotification(new UnpureNotification(UnpureFacade.notificationNameStack[UnpureFacade.notificationNameStack.length - 1], body, UnpureFacade.notificationTypeStack[UnpureFacade.notificationTypeStack.length - 1]));
+		//handleNotification(new UnpureNotification(UnpureFacade.notificationNameStack[UnpureFacade.notificationNameStack.length - 1], body, UnpureFacade.notificationTypeStack[UnpureFacade.notificationTypeStack.length - 1]));
 	}
 
 	/**
@@ -173,11 +173,11 @@ public class UnpureMediator extends Mediator {
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
 		//facade.sendNotification(notificationName, body, type);
-		UnpureFacade.notificationNameStack.push(notificationName);
-		UnpureFacade.notificationTypeStack.push(type);
+//		UnpureFacade.notificationNameStack.push(notificationName);
+//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-		UnpureFacade.notificationNameStack.pop();
-		UnpureFacade.notificationTypeStack.pop();
+//		UnpureFacade.notificationNameStack.pop();
+//		UnpureFacade.notificationTypeStack.pop();
 	}
 
 }

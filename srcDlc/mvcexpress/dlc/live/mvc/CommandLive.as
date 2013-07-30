@@ -8,7 +8,7 @@ import mvcexpress.mvc.Command;
  * You most likely need it then:                                                                                                                            </br>
  *    - if you need to change application state with one or more logical statement.                                                                            </br>
  *    - if you need more then one unrelated proxies injected to make a decision.                                                                            </br>
- * Commands can get proxies injected and can send messages                                                                                                    </br>
+ * Commands can get proxies injected and can send constants                                                                                                    </br>
  * <b><p>
  * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                                </br>
  * It is best practice to use same type as you use in message, that triggers this command.                                                                    </br>

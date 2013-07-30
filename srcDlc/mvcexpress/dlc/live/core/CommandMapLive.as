@@ -8,7 +8,7 @@ import mvcexpress.mvc.Command;
 
 
 /**
- * Handles command mappings, and executes them on messages
+ * Handles command mappings, and executes them on constants
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 use namespace pureLegsCore;

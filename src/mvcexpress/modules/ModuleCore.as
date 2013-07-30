@@ -208,8 +208,8 @@ public class ModuleCore {
 	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
 	 * What features module can use with that scope is defined by parameters.
 	 * @param    scopeName            Name of the scope.
-	 * @param    messageSending        Modules can send messages to this scope.
-	 * @param    messageReceiving    Modules can receive and handle messages from this scope.(or map commands to scoped messages);
+	 * @param    messageSending        Modules can send constants to this scope.
+	 * @param    messageReceiving    Modules can receive and handle constants from this scope.(or map commands to scoped constants);
 	 * @param    proxieMap            Modules can map proxies to this scope.
 	 */
 	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
