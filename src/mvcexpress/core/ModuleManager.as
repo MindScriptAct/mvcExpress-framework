@@ -380,7 +380,7 @@ public class ModuleManager {
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopedMesanger;
 		}
-		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger);
+		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger, null);
 	}
 
 

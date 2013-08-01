@@ -43,9 +43,13 @@ public class CommandMapTests {
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test", messenger);
+
+		commandMap = new CommandMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
-		commandMap = new CommandMap("test", messenger, proxyMap, mediatorMap);
+		proxyMap = new ProxyMap("test", messenger, commandMap);
+		commandMap.setMediatorMap(mediatorMap);
+		commandMap.setProxyMap(proxyMap);
+
 		callCaunter = 0;
 		callsExpected = 0;
 		testParamObject = new ExtendedTestObject();

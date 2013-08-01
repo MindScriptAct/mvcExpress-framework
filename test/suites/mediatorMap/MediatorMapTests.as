@@ -36,7 +36,7 @@ public class MediatorMapTests {
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test", messenger);
+		proxyMap = new ProxyMap("test", messenger, null);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		callCaunter = 0;
 		callsExpected = 0;

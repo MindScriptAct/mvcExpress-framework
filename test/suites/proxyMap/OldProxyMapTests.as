@@ -27,7 +27,7 @@ public class OldProxyMapTests {
 		Messenger.allowInstantiation = true;
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test", messenger);
+		proxyMap = new ProxyMap("test", messenger, null);
 		callCaunter = 0;
 		callsExpected = 0;
 	}
