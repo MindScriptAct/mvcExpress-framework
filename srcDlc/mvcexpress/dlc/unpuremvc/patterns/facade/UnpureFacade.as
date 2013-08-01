@@ -10,12 +10,12 @@ import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.dlc.unpuremvc.unpureCore.*;
 import mvcexpress.dlc.unpuremvc.core.UnpureCommandMap;
 import mvcexpress.dlc.unpuremvc.core.messenger.UnpureMessenger;
 import mvcexpress.dlc.unpuremvc.patterns.mediator.UnpureMediator;
 import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
 import mvcexpress.dlc.unpuremvc.patterns.proxy.UnpureProxy;
+import mvcexpress.dlc.unpuremvc.unpureCore.*;
 import mvcexpress.modules.ModuleCore;
 
 /**
@@ -37,7 +37,6 @@ import mvcexpress.modules.ModuleCore;
  * <P>
  * Example usage:
  * <listing>
- *    import mvcexpress.dlc.unpureTests.patterns.facade.&lowast;;
  *
  *    import com.me.myapp.model.~~;
  *    import com.me.myapp.view.~~;
@@ -376,7 +375,7 @@ public class UnpureFacade extends ModuleCore {
 	 */
 	public function registerCommand(notificationName:String, commandClassRef:Class):void {
 		if ($commandRegistry[moduleName][notificationName]) {
-			trace("Unpure error! : unpureTests cant manage 2 commands on same notification:" + notificationName + " Old command:" + $commandRegistry[moduleName][notificationName] + " will be unmapped, and changed with:" + commandClassRef);
+			trace("Unpure error! : pureMvcTests_singlecore cant manage 2 commands on same notification:" + notificationName + " Old command:" + $commandRegistry[moduleName][notificationName] + " will be unmapped, and changed with:" + commandClassRef);
 			commandMap.unmap(notificationName, $commandRegistry[moduleName][notificationName]);
 			$commandRegistry[moduleName][notificationName] = null;
 		}

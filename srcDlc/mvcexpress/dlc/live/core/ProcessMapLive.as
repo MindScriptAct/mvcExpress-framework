@@ -27,7 +27,9 @@ import mvcexpress.utils.checkClassSuperclass;
  * Handles application processes.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class ProcessMapLive {
 
 	// name of the module MediatorMap is working for.

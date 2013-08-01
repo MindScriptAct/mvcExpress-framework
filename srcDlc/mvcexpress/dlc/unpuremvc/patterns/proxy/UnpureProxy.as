@@ -4,9 +4,8 @@
  */
 package mvcexpress.dlc.unpuremvc.patterns.proxy {
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.mvc.Proxy;
 import mvcexpress.dlc.unpuremvc.patterns.facade.UnpureFacade;
-import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
+import mvcexpress.mvc.Proxy;
 
 /**
  * A base <code>IProxy</code> implementation.

@@ -1,10 +1,9 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.dlc.live.traceObjects.process {
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
 import mvcexpress.core.traceObjects.TraceObj;
 import mvcexpress.dlc.live.engine.Process;
-import mvcexpress.dlc.live.mvc.MediatorLive;
+import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
@@ -18,6 +17,7 @@ public class TraceProcess_addHandler extends TraceObj {
 
 	public function TraceProcess_addHandler(moduleName:String, $processObject:Process, $type:String, $handler:Function) {
 		use namespace pureLegsCore;
+
 		super(MvcTraceActionsLive.PROCESS_ADDHANDLER, moduleName);
 		processObject = $processObject;
 		type = $type;

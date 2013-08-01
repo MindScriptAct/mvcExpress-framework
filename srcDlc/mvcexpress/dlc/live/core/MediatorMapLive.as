@@ -11,7 +11,9 @@ import mvcexpress.mvc.Mediator;
  * Handles application mediators.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class MediatorMapLive extends MediatorMap {
 
 	// for internal use.

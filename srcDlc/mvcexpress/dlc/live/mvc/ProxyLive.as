@@ -13,7 +13,9 @@ use namespace pureLegsCore;
  * Can send constants. (Usually sends one with each data update)                            </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class ProxyLive extends Proxy {
 
 	/** Used to provide stuff for processes. */

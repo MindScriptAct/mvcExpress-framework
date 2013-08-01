@@ -1,7 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.dlc.live.engine {
-import mvcexpress.dlc.live.*;
-
 import flash.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;

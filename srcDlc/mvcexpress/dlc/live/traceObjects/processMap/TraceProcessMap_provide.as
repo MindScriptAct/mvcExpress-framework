@@ -1,7 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.dlc.live.traceObjects.processMap {
-import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
 import mvcexpress.core.traceObjects.TraceObj;
+import mvcexpress.dlc.live.traceObjects.MvcTraceActionsLive;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)

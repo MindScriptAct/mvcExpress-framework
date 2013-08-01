@@ -16,7 +16,9 @@ use namespace pureLegsCore;
  *  Can handle constants. (handles data change or other framework constants)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
+
 use namespace pureLegsCore;
+
 public class MediatorLive extends Mediator {
 
 	/** Used to provide stuff for processes. */
