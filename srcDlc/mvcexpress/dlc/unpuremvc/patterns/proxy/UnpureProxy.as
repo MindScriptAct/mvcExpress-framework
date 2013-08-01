@@ -27,7 +27,7 @@ import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
  * <code>Proxy</code> and listening for a <code>Notification</code> to be sent
  * when the <code>Proxy</code> has retrieved the data from the service. </P>
  *
- * @see mvcexpress.dlc.unpuremvc.core.model.Model Model
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.model.Model Model
  */
 public class UnpureProxy extends Proxy {
 
@@ -68,18 +68,6 @@ public class UnpureProxy extends Proxy {
 		return data;
 	}
 
-	/**
-	 * Called by the Model when the Proxy is registered
-	 */
-//	public function onRegister():void {
-//	}
-
-	/**
-	 * Called by the Model when the Proxy is removed
-	 */
-//	public function onRemove():void {
-//	}
-
 	//----------------------------------
 	//	class Notifier
 	//----------------------------------
@@ -94,7 +82,6 @@ public class UnpureProxy extends Proxy {
 
 			_facade = UnpureFacade.getInstance(messenger.moduleName);
 		}
-		//if (multitonKey == null) throw Error(MULTITON_MSG);
 		return _facade;
 	}
 
@@ -109,12 +96,7 @@ public class UnpureProxy extends Proxy {
 	 * @param type the type of the notification (optional)
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
-		//facade.sendNotification(notificationName, body, type);
-//		UnpureFacade.notificationNameStack.push(notificationName);
-//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-//		UnpureFacade.notificationNameStack.pop();
-//		UnpureFacade.notificationTypeStack.pop();
 	}
 
 }

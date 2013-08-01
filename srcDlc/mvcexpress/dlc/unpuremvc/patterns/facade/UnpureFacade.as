@@ -10,12 +10,12 @@ import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.dlc.unpuremvc.core.*;
+import mvcexpress.dlc.unpuremvc.unpureCore.*;
+import mvcexpress.dlc.unpuremvc.core.UnpureCommandMap;
 import mvcexpress.dlc.unpuremvc.core.messenger.UnpureMessenger;
 import mvcexpress.dlc.unpuremvc.patterns.mediator.UnpureMediator;
 import mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification;
 import mvcexpress.dlc.unpuremvc.patterns.proxy.UnpureProxy;
-import mvcexpress.dlc.unpuremvc.unpureCommandMap.UnpureCommandMap;
 import mvcexpress.modules.ModuleCore;
 
 /**
@@ -37,7 +37,7 @@ import mvcexpress.modules.ModuleCore;
  * <P>
  * Example usage:
  * <listing>
- *    import mvcexpress.dlc.unpuremvc.patterns.facade.&lowast;;
+ *    import mvcexpress.dlc.unpureTests.patterns.facade.&lowast;;
  *
  *    import com.me.myapp.model.~~;
  *    import com.me.myapp.view.~~;
@@ -127,9 +127,9 @@ import mvcexpress.modules.ModuleCore;
 	 *	}
  * </listing>
  *
- * @see mvcexpress.dlc.unpuremvc.core.model.Model Model
- * @see mvcexpress.dlc.unpuremvc.core.view.View View
- * @see mvcexpress.dlc.unpuremvc.core.controller.Controller Controller
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.model.Model Model
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.view.View View
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.controller.Controller Controller
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.dlc.unpuremvc.patterns.mediator.UnpureMediator Mediator
  * @see mvcexpress.dlc.unpuremvc.patterns.proxy.UnpureProxy Proxy
@@ -220,12 +220,6 @@ public class UnpureFacade extends ModuleCore {
 	 *
 	 */
 	public function UnpureFacade(moduleName:String = null) {
-
-
-
-//		if (instance != null) throw Error(SINGLETON_MSG);
-//		instance = this;
-//		initializeFacade();
 		if (moduleName == null) {
 			moduleName = SINGLE_CORE_NAME;
 		}
@@ -381,10 +375,8 @@ public class UnpureFacade extends ModuleCore {
 	 * @param commandClassRef a reference to the Class of the <code>ICommand</code>
 	 */
 	public function registerCommand(notificationName:String, commandClassRef:Class):void {
-//		controller.registerCommand(notificationName, commandClassRef);
-
 		if ($commandRegistry[moduleName][notificationName]) {
-			trace("Unpure error! : unpuremvc cant manage 2 commands on same notification:" + notificationName + " Old command:" + $commandRegistry[moduleName][notificationName] + " will be unmapped, and changed with:" + commandClassRef);
+			trace("Unpure error! : unpureTests cant manage 2 commands on same notification:" + notificationName + " Old command:" + $commandRegistry[moduleName][notificationName] + " will be unmapped, and changed with:" + commandClassRef);
 			commandMap.unmap(notificationName, $commandRegistry[moduleName][notificationName]);
 			$commandRegistry[moduleName][notificationName] = null;
 		}
@@ -398,8 +390,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @param notificationName the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
 	 */
 	public function removeCommand(notificationName:String):void {
-//		controller.removeCommand(notificationName);
-
 		if ($commandRegistry[moduleName][notificationName]) {
 			commandMap.unmap(notificationName, $commandRegistry[moduleName][notificationName]);
 		}
@@ -412,8 +402,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return whether a Command is currently registered for the given <code>notificationName</code>.
 	 */
 	public function hasCommand(notificationName:String):Boolean {
-		//return controller.hasCommand(notificationName);
-
 		return commandMap.mappedCommandCount(notificationName) > 0;
 	}
 
@@ -424,8 +412,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @param proxy the <code>IProxy</code> instance to be registered with the <code>Model</code>.
 	 */
 	public function registerProxy(proxy:UnpureProxy):void {
-//		model.registerProxy(proxy);
-
 		var proxyName:String = proxy.getProxyName();
 		var oldProxy:Object = $proxyRegistry[moduleName][proxyName];
 		if (oldProxy) {
@@ -444,8 +430,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return the <code>IProxy</code> instance previously registered with the given <code>proxyName</code>.
 	 */
 	public function retrieveProxy(proxyName:String):UnpureProxy {
-		//return model.retrieveProxy(proxyName);
-
 		return $proxyRegistry[moduleName][proxyName];
 	}
 
@@ -456,10 +440,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return the <code>IProxy</code> that was removed from the <code>Model</code>
 	 */
 	public function removeProxy(proxyName:String):UnpureProxy {
-//		var proxy:UnpureProxy;
-//		if (model != null) proxy = model.removeProxy(proxyName);
-//		return proxy
-
 		var proxy:UnpureProxy = $proxyRegistry[moduleName][proxyName];
 		//if (model != null) proxy = model.removeProxy(proxyName);
 		if (proxy) {
@@ -477,8 +457,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return whether a Proxy is currently registered with the given <code>proxyName</code>.
 	 */
 	public function hasProxy(proxyName:String):Boolean {
-//		return model.hasProxy(proxyName);
-
 		return ($proxyRegistry[moduleName][proxyName] != null);
 	}
 
@@ -489,8 +467,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @param mediator a reference to the <code>IMediator</code>
 	 */
 	public function registerMediator(mediator:UnpureMediator):void {
-//		if (view != null) view.registerMediator(mediator);
-
 		use namespace pureLegsCore;
 
 		var mediatorName:String = mediator.getMediatorName();
@@ -514,8 +490,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return the <code>IMediator</code> previously registered with the given <code>mediatorName</code>.
 	 */
 	public function retrieveMediator(mediatorName:String):UnpureMediator {
-//		return view.retrieveMediator(mediatorName) as UnpureMediator;
-
 		return $mediatorRegistry[moduleName][mediatorName];
 	}
 
@@ -526,10 +500,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return the <code>IMediator</code> that was removed from the <code>View</code>
 	 */
 	public function removeMediator(mediatorName:String):UnpureMediator {
-//		var mediator:UnpureMediator;
-//		if (view != null) mediator = view.removeMediator(mediatorName);
-//		return mediator;
-
 		use namespace pureLegsCore;
 
 		var mediator:UnpureMediator = $mediatorRegistry[moduleName][mediatorName]
@@ -547,8 +517,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @return whether a Mediator is registered with the given <code>mediatorName</code>.
 	 */
 	public function hasMediator(mediatorName:String):Boolean {
-//		return view.hasMediator(mediatorName);
-
 		return ($mediatorRegistry[moduleName][mediatorName] != null);
 	}
 
@@ -583,8 +551,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @param notification the <code>INotification</code> to have the <code>View</code> notify <code>Observers</code> of.
 	 */
 	public function notifyObservers(notification:UnpureNotification):void {
-//		if (view != null) view.notifyObservers(notification);
-
 		sendMessage(notification.getType(), notification);
 	}
 
@@ -597,7 +563,6 @@ public class UnpureFacade extends ModuleCore {
 	 * implement INotifier.</P>
 	 */
 	public function initializeNotifier(key:String):void {
-		//multitonKey = key;
 		trace("Error?! Unpure extention does not handle this function. use UnpureFacade.getInstance(key) to set key(moduleName) instead.")
 	}
 

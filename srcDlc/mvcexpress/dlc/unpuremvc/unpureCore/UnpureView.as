@@ -2,7 +2,7 @@
  PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
  Your reuse is governed by the Creative Commons Attribution 3.0 United States License
  */
-package mvcexpress.dlc.unpuremvc.core {
+package mvcexpress.dlc.unpuremvc.unpureCore {
 
 import flash.utils.Dictionary;
 
@@ -33,11 +33,6 @@ import mvcexpress.dlc.unpuremvc.patterns.observer.observerCommand.UnpureObserver
  */
 public class UnpureView {
 
-	// Mapping of Mediator names to Mediator instances
-//	protected var mediatorMap:Array;
-
-	// Mapping of Notification names to Observer lists
-//	protected var observerMap:Array;
 
 	// Singleton instance
 	protected static var instanceRegistry:Dictionary = new Dictionary();
@@ -74,8 +69,6 @@ public class UnpureView {
 		this.moduleName = moduleName;
 		instanceRegistry[moduleName] = this;
 		facade = UnpureFacade.getInstance(moduleName);
-//		mediatorMap = new Array();
-//		observerMap = new Array();
 		initializeView();
 	}
 
@@ -113,13 +106,6 @@ public class UnpureView {
 	 * @param observer the <code>IObserver</code> to register
 	 */
 	public function registerObserver(notificationName:String, observer:UnpureObserver):void {
-//		var observers:Array = observerMap[notificationName];
-//		if (observers) {
-//			observers.push(observer);
-//		} else {
-//			observerMap[notificationName] = [observer];
-//		}
-
 		facade.registerCommand(notificationName, UnpureObserverCommand);
 		UnpureObserverCommand.addObserver(notificationName, observer);
 	}
@@ -135,27 +121,6 @@ public class UnpureView {
 	 * @param notification the <code>INotification</code> to notify <code>IObservers</code> of.
 	 */
 	public function notifyObservers(notification:UnpureNotification):void {
-//		if (observerMap[notification.getName()] != null) {
-//
-//			// Get a reference to the observers list for this notification name
-//			var observers_ref:Array = observerMap[notification.getName()] as Array;
-//
-//			// Copy observers from reference array to working array,
-//			// since the reference array may change during the notification loop
-//			var observers:Array = new Array();
-//			var observer:UnpureObserver;
-//			for (var i:Number = 0; i < observers_ref.length; i++) {
-//				observer = observers_ref[i] as UnpureObserver;
-//				observers.push(observer);
-//			}
-//
-//			// Notify Observers from the working array
-//			for (i = 0; i < observers.length; i++) {
-//				observer = observers[i] as UnpureObserver;
-//				observer.notifyObserver(notification);
-//			}
-//		}
-
 		facade.sendNotification(notification.getName(), notification.getBody(), notification.getType());
 	}
 
@@ -166,25 +131,6 @@ public class UnpureView {
 	 * @param notifyContext remove the observer with this object as its notifyContext
 	 */
 	public function removeObserver(notificationName:String, notifyContext:Object):void {
-//		// the observer list for the notification under inspection
-//		var observers:Array = observerMap[notificationName] as Array;
-//
-//		// find the observer for the notifyContext
-//		for (var i:int = 0; i < observers.length; i++) {
-//			if (UnpureObserver(observers[i]).compareNotifyContext(notifyContext) == true) {
-//				// there can only be one Observer for a given notifyContext
-//				// in any given Observer list, so remove it and break
-//				observers.splice(i, 1);
-//				break;
-//			}
-//		}
-//
-//		// Also, when a Notification's Observer list length falls to
-//		// zero, delete the notification key from the observer map
-//		if (observers.length == 0) {
-//			delete observerMap[notificationName];
-//		}
-
 		UnpureObserverCommand.removeObserver(notificationName, notifyContext);
 	}
 
@@ -206,29 +152,6 @@ public class UnpureView {
 	 * @param mediator a reference to the <code>IMediator</code> instance
 	 */
 	public function registerMediator(mediator:UnpureMediator):void {
-//		// do not allow re-registration (you must to removeMediator fist)
-//		if (mediatorMap[mediator.getMediatorName()] != null) return;
-//
-//		// Register the Mediator for retrieval by name
-//		mediatorMap[mediator.getMediatorName()] = mediator;
-//
-//		// Get Notification interests, if any.
-//		var interests:Array = mediator.listNotificationInterests();
-//
-//		// Register Mediator as an observer for each of its notification interests
-//		if (interests.length > 0) {
-//			// Create Observer referencing this mediator's handlNotification method
-//			var observer:UnpureObserver = new UnpureObserver(mediator.handleNotification, mediator);
-//
-//			// Register Mediator as Observer for its list of Notification interests
-//			for (var i:Number = 0; i < interests.length; i++) {
-//				registerObserver(interests[i], observer);
-//			}
-//		}
-//
-//		// alert the mediator that it has been registered
-//		mediator.onRegister();
-
 		facade.registerMediator(mediator);
 
 	}
@@ -240,8 +163,6 @@ public class UnpureView {
 	 * @return the <code>IMediator</code> instance previously registered with the given <code>mediatorName</code>.
 	 */
 	public function retrieveMediator(mediatorName:String):UnpureMediator {
-//		return mediatorMap[mediatorName];
-
 		return facade.retrieveMediator(mediatorName);
 	}
 
@@ -252,26 +173,6 @@ public class UnpureView {
 	 * @return the <code>IMediator</code> that was removed from the <code>View</code>
 	 */
 	public function removeMediator(mediatorName:String):UnpureMediator {
-		// Retrieve the named mediator
-//		var mediator:UnpureMediator = mediatorMap[mediatorName] as UnpureMediator;
-//
-//		if (mediator) {
-//			// for every notification this mediator is interested in...
-//			var interests:Array = mediator.listNotificationInterests();
-//			for (var i:Number = 0; i < interests.length; i++) {
-//				// remove the observer linking the mediator
-//				// to the notification interest
-//				removeObserver(interests[i], mediator);
-//			}
-//
-//			// remove the mediator from the map
-//			delete mediatorMap[mediatorName];
-//
-//			// alert the mediator that it has been removed
-//			mediator.onRemove();
-//		}
-//		return mediator;
-
 		var mediator:UnpureMediator = facade.retrieveMediator(mediatorName);
 		facade.removeMediator(mediatorName);
 		return mediator;
@@ -285,8 +186,6 @@ public class UnpureView {
 	 * @return whether a Mediator is registered with the given <code>mediatorName</code>.
 	 */
 	public function hasMediator(mediatorName:String):Boolean {
-//		return mediatorMap[mediatorName] != null;
-
 		return facade.hasMediator(mediatorName);
 	}
 

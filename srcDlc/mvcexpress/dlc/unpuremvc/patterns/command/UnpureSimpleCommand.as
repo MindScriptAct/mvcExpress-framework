@@ -16,7 +16,7 @@ import mvcexpress.mvc.Command;
  * Your subclass should override the <code>execute</code>
  * method where your business logic will handle the <code>INotification</code>. </P>
  *
- * @see mvcexpress.dlc.unpuremvc.core.controller.Controller Controller
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.controller.Controller Controller
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.dlc.unpuremvc.patterns.command.UnpureMacroCommand MacroCommand
  */
@@ -51,7 +51,6 @@ public class UnpureSimpleCommand extends Command implements UnpureICommand {
 
 			_facade = UnpureFacade.getInstance(messenger.moduleName);
 		}
-		//if (multitonKey == null) throw Error(MULTITON_MSG);
 		return _facade;
 	}
 
@@ -67,13 +66,7 @@ public class UnpureSimpleCommand extends Command implements UnpureICommand {
 	 * @param type the type of the notification (optional)
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
-//		facade.sendNotification(notificationName, body, type);
-//		UnpureFacade.notificationNameStack.push(notificationName);
-//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-//		UnpureFacade.notificationNameStack.pop();
-//		UnpureFacade.notificationTypeStack.pop();
-
 	}
 }
 }

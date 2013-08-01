@@ -2,7 +2,7 @@
  PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
  Your reuse is governed by the Creative Commons Attribution 3.0 United States License
  */
-package mvcexpress.dlc.unpuremvc.core {
+package mvcexpress.dlc.unpuremvc.unpureCore {
 import flash.utils.Dictionary;
 
 import mvcexpress.dlc.unpuremvc.patterns.facade.UnpureFacade;
@@ -73,8 +73,6 @@ public class UnpureModel {
 		this.moduleName = moduleName;
 		instanceRegistry[moduleName] = this;
 		facade = UnpureFacade.getInstance(moduleName);
-//		instance = this;
-//		proxyMap = new Array();
 		initializeModel();
 	}
 
@@ -110,9 +108,6 @@ public class UnpureModel {
 	 * @param proxy an <code>IProxy</code> to be held by the <code>Model</code>.
 	 */
 	public function registerProxy(proxy:UnpureProxy):void {
-//		proxyMap[ proxy.getProxyName() ] = proxy;
-//		proxy.onRegister();
-
 		facade.registerProxy(proxy);
 	}
 
@@ -123,8 +118,6 @@ public class UnpureModel {
 	 * @return the <code>IProxy</code> instance previously registered with the given <code>proxyName</code>.
 	 */
 	public function retrieveProxy(proxyName:String):UnpureProxy {
-//		return proxyMap[ proxyName ];
-
 		return facade.retrieveProxy(proxyName);
 	}
 
@@ -135,8 +128,6 @@ public class UnpureModel {
 	 * @return whether a Proxy is currently registered with the given <code>proxyName</code>.
 	 */
 	public function hasProxy(proxyName:String):Boolean {
-//		return proxyMap[proxyName] != null;
-
 		return facade.hasProxy(proxyName);
 	}
 
@@ -147,13 +138,6 @@ public class UnpureModel {
 	 * @return the <code>IProxy</code> that was removed from the <code>Model</code>
 	 */
 	public function removeProxy(proxyName:String):UnpureProxy {
-//		var proxy:UnpureProxy = proxyMap [ proxyName ] as UnpureProxy;
-//		if (proxy) {
-//			proxyMap[ proxyName ] = null;
-//			proxy.onRemove();
-//		}
-//		return proxy;
-
 		var proxy:UnpureProxy = facade.retrieveProxy(proxyName);
 		facade.removeProxy(proxyName);
 		return proxy;

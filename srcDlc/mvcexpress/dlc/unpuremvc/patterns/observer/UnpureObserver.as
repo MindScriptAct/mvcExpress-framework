@@ -20,7 +20,7 @@ package mvcexpress.dlc.unpuremvc.patterns.observer {
  * <LI>Provide a method for notifying the interested object.</LI>
  * </UL>
  *
- * @see mvcexpress.dlc.unpuremvc.core.view.View View
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.view.View View
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification Notification
  */
 public class UnpureObserver {

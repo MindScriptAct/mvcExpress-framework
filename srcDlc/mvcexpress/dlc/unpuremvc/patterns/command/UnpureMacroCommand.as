@@ -32,7 +32,7 @@ import mvcexpress.mvc.Command;
  *
  * <P>
  *
- * @see mvcexpress.dlc.unpuremvc.core.controller.Controller Controller
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.controller.Controller Controller
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.dlc.unpuremvc.patterns.command.UnpureSimpleCommand SimpleCommand
  */
@@ -106,12 +106,6 @@ public class UnpureMacroCommand extends Command implements UnpureICommand {
 	 * @param notification the <code>INotification</code> object to be passsed to each <i>SubCommand</i>.
 	 */
 	public final function execute(notification:UnpureNotification):void {
-//		while (subCommands.length > 0) {
-//			var commandClassRef:Class = subCommands.shift();
-//			var commandInstance:UnpureICommand = new commandClassRef();
-//			commandInstance.execute(notification);
-//		}
-
 		for (var i:int = 0; i < subCommands.length; i++) {
 			commandMap.execute(subCommands[i], notification);
 		}
@@ -131,7 +125,6 @@ public class UnpureMacroCommand extends Command implements UnpureICommand {
 
 			_facade = UnpureFacade.getInstance(messenger.moduleName);
 		}
-		//if (multitonKey == null) throw Error(MULTITON_MSG);
 		return _facade;
 	}
 
@@ -146,13 +139,7 @@ public class UnpureMacroCommand extends Command implements UnpureICommand {
 	 * @param type the type of the notification (optional)
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
-//		facade.sendNotification(notificationName, body, type);
-		UnpureFacade.notificationNameStack.push(notificationName);
-		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-		UnpureFacade.notificationNameStack.pop();
-		UnpureFacade.notificationTypeStack.pop();
-
 	}
 
 }

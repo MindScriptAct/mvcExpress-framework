@@ -12,7 +12,7 @@ import mvcexpress.mvc.Mediator;
 /**
  * A base <code>IMediator</code> implementation.
  *
- * @see mvcexpress.dlc.unpuremvc.core.view.View View
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.view.View View
  */
 public class UnpureMediator extends Mediator {
 
@@ -70,6 +70,7 @@ public class UnpureMediator extends Mediator {
 	// bridge function.
 	private function handleRawNotification(body:Object):void {
 		use namespace pureLegsCore;
+
 		var messageType:String = (messenger as UnpureMessenger).getLastMessageType();
 		handleNotification(new UnpureNotification(messageType, body));
 	}
@@ -133,18 +134,6 @@ public class UnpureMediator extends Mediator {
 	public function handleNotification(notification:UnpureNotification):void {
 	}
 
-	/**
-	 * Called by the View when the Mediator is registered
-	 */
-//	public function onRegister():void {
-//	}
-
-	/**
-	 * Called by the View when the Mediator is removed
-	 */
-//	public function onRemove():void {
-//	}
-
 	//----------------------------------
 	//	class Notifier
 	//----------------------------------
@@ -159,7 +148,6 @@ public class UnpureMediator extends Mediator {
 
 			_facade = UnpureFacade.getInstance(this.moduleName);
 		}
-		//if (multitonKey == null) throw Error(MULTITON_MSG);
 		return _facade;
 	}
 
@@ -174,12 +162,7 @@ public class UnpureMediator extends Mediator {
 	 * @param type the type of the notification (optional)
 	 */
 	public function sendNotification(notificationName:String, body:Object = null, type:String = null):void {
-		//facade.sendNotification(notificationName, body, type);
-//		UnpureFacade.notificationNameStack.push(notificationName);
-//		UnpureFacade.notificationTypeStack.push(type);
 		sendMessage(notificationName, body);
-//		UnpureFacade.notificationNameStack.pop();
-//		UnpureFacade.notificationTypeStack.pop();
 	}
 
 }

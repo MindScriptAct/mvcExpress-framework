@@ -2,7 +2,7 @@
  PureMVC - Copyright(c) 2006-08 Futurescale, Inc., Some rights reserved.
  Your reuse is governed by the Creative Commons Attribution 3.0 United States License
  */
-package mvcexpress.dlc.unpuremvc.core {
+package mvcexpress.dlc.unpuremvc.unpureCore {
 import flash.utils.Dictionary;
 
 import mvcexpress.dlc.unpuremvc.patterns.facade.UnpureFacade;
@@ -35,7 +35,7 @@ import mvcexpress.dlc.unpuremvc.patterns.observer.*;
  * and use its <code>initializeController</code> method to add your
  * registrations.
  *
- * @see mvcexpress.dlc.unpuremvc.core.view.View View
+ * @see mvcexpress.dlc.unpuremvc.unpureCore.view.View View
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureObserver Observer
  * @see mvcexpress.dlc.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.dlc.unpuremvc.patterns.command.UnpureSimpleCommand SimpleCommand
@@ -45,9 +45,6 @@ public class UnpureController {
 
 	// Local reference to View
 	protected var view:UnpureView;
-
-	// Mapping of Notification names to Command Class references
-//	protected var commandMap:Array;
 
 	// Singleton instance
 	protected static var instanceRegistry:Dictionary = new Dictionary();
@@ -84,7 +81,6 @@ public class UnpureController {
 		instanceRegistry[moduleName] = this;
 		this.moduleName = moduleName;
 		facade = UnpureFacade.getInstance(moduleName);
-//		commandMap = new Array();
 		initializeController();
 	}
 
@@ -131,12 +127,6 @@ public class UnpureController {
 	 * @param note an <code>INotification</code>
 	 */
 	public function executeCommand(note:UnpureNotification):void {
-//		var commandClassRef:Class = commandMap[ note.getName() ];
-//		if (commandClassRef == null) return;
-//
-//		var commandInstance:UnpureICommand = new commandClassRef();
-//		commandInstance.execute(note);
-
 		facade.sendNotification(note.getName(), note.getBody(), note.getType());
 	}
 
@@ -156,11 +146,6 @@ public class UnpureController {
 	 * @param commandClassRef the <code>Class</code> of the <code>ICommand</code>
 	 */
 	public function registerCommand(notificationName:String, commandClassRef:Class):void {
-//		if (commandMap[ notificationName ] == null) {
-//			view.registerObserver(notificationName, new UnpureObserver(executeCommand, this));
-//		}
-//		commandMap[ notificationName ] = commandClassRef;
-
 		facade.registerCommand(notificationName, commandClassRef);
 	}
 
@@ -171,8 +156,6 @@ public class UnpureController {
 	 * @return whether a Command is currently registered for the given <code>notificationName</code>.
 	 */
 	public function hasCommand(notificationName:String):Boolean {
-//		return commandMap[ notificationName ] != null;
-
 		return facade.hasCommand(notificationName);
 	}
 
@@ -182,15 +165,6 @@ public class UnpureController {
 	 * @param notificationName the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
 	 */
 	public function removeCommand(notificationName:String):void {
-//		// if the Command is registered...
-//		if (hasCommand(notificationName)) {
-//			// remove the observer
-//			view.removeObserver(notificationName, this);
-//
-//			// remove the command
-//			commandMap[ notificationName ] = null;
-//		}
-
 		facade.removeCommand(notificationName);
 	}
 
