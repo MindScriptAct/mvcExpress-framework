@@ -8,6 +8,7 @@ import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 
 public class UnpureMessenger extends Messenger {
 
+	private var lastMessageType:String;
 
 	public function UnpureMessenger($moduleName:String) {
 		super($moduleName);
@@ -55,6 +56,7 @@ public class UnpureMessenger extends Messenger {
 							//
 							MvcExpress.debug(new TraceMessenger_send_handler(moduleName, type, params, handlerVo.handler, handlerVo.handlerClassName));
 						}
+						lastMessageType = type;
 						handlerVo.handler(params);
 					}
 				}
@@ -67,5 +69,10 @@ public class UnpureMessenger extends Messenger {
 
 	}
 
+	pureLegsCore function getLastMessageType():String {
+		var retVal:String = lastMessageType;
+		lastMessageType = null;
+		return retVal;
+	}
 }
 }

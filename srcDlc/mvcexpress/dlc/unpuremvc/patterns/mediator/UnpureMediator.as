@@ -4,10 +4,10 @@
  */
 package mvcexpress.dlc.unpuremvc.patterns.mediator {
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.mvc.Mediator;
-
+import mvcexpress.dlc.unpuremvc.core.messenger.UnpureMessenger;
 import mvcexpress.dlc.unpuremvc.patterns.facade.UnpureFacade;
 import mvcexpress.dlc.unpuremvc.patterns.observer.*;
+import mvcexpress.mvc.Mediator;
 
 /**
  * A base <code>IMediator</code> implementation.
@@ -69,7 +69,9 @@ public class UnpureMediator extends Mediator {
 
 	// bridge function.
 	private function handleRawNotification(body:Object):void {
-		//handleNotification(new UnpureNotification(UnpureFacade.notificationNameStack[UnpureFacade.notificationNameStack.length - 1], body, UnpureFacade.notificationTypeStack[UnpureFacade.notificationTypeStack.length - 1]));
+		use namespace pureLegsCore;
+		var messageType:String = (messenger as UnpureMessenger).getLastMessageType();
+		handleNotification(new UnpureNotification(messageType, body));
 	}
 
 	/**
