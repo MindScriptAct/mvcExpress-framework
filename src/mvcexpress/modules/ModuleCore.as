@@ -21,10 +21,10 @@ import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 public class ModuleCore {
 
 	// name of the module
-	protected var _moduleName:String;
+	private var _moduleName:String;
 
 	/** for communication. */
-	protected var _messenger:Messenger;
+	pureLegsCore var messenger:Messenger;
 
 	/** Handles application Proxies. */
 	protected var proxyMap:ProxyMap;
@@ -51,21 +51,21 @@ public class ModuleCore {
 		initializeMessenger();
 		Messenger.allowInstantiation = false;
 
-		_messenger.initialize(_moduleName);
+		messenger.initialize(_moduleName);
 
 		// create commandMap
 		initializeController();
 
 		// create and initialize proxyMap
 		initializeModel();
-		proxyMap.initialize(_moduleName, _messenger, commandMap);
+		proxyMap.initialize(_moduleName, messenger, commandMap);
 
 		// create and initialize mediatorMap
 		initializeView();
-		mediatorMap.initialize(_moduleName, _messenger, proxyMap);
+		mediatorMap.initialize(_moduleName, messenger, proxyMap);
 
 		// initialize commandMap
-		commandMap.initialize(_moduleName, _messenger, proxyMap, mediatorMap);
+		commandMap.initialize(_moduleName, messenger, proxyMap, mediatorMap);
 
 		onInit();
 	}
@@ -80,7 +80,8 @@ public class ModuleCore {
 	 * </P>
 	 */
 	protected function initializeMessenger():void {
-		_messenger = new Messenger();
+		use namespace pureLegsCore;
+		messenger = new Messenger();
 	}
 
 	/**
@@ -161,8 +162,8 @@ public class ModuleCore {
 		proxyMap.dispose();
 		proxyMap = null;
 
-		_messenger.dispose();
-		_messenger = null;
+		messenger.dispose();
+		messenger = null;
 		//
 		ModuleManager.disposeModule(_moduleName);
 	}
@@ -193,7 +194,7 @@ public class ModuleCore {
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, true));
 		}
 		//
-		_messenger.send(type, params);
+		messenger.send(type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
@@ -278,7 +279,8 @@ public class ModuleCore {
 	 * List all message mappings.
 	 */
 	public function listMappedMessages():String {
-		return _messenger.listMappings(commandMap);
+		use namespace pureLegsCore;
+		return messenger.listMappings(commandMap);
 	}
 
 	/**
@@ -300,19 +302,6 @@ public class ModuleCore {
 	 */
 	public function listMappedCommands():String {
 		return commandMap.listMappings();
-	}
-
-
-	//----------------------------------
-	//     Internal
-	//----------------------------------
-
-	/**
-	 * framework access to module messenger
-	 * @private
-	 */
-	pureLegsCore function get messenger():Messenger {
-		return _messenger;
 	}
 
 

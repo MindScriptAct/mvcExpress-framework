@@ -31,7 +31,7 @@ public class ModuleCoreLive extends ModuleCore {
 
 		use namespace pureLegsCore
 
-		processMap = new ProcessMapLive(_moduleName, _messenger, proxyMap as ProxyMapLive);
+		processMap = new ProcessMapLive(_moduleName, messenger, proxyMap as ProxyMapLive);
 		(proxyMap as ProxyMapLive).setProcessMap(processMap);
 		(mediatorMap as MediatorMapLive).setProcessMap(processMap);
 		(commandMap as CommandMapLive).setProcessMap(processMap);

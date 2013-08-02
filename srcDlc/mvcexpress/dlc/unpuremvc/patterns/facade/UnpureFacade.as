@@ -176,7 +176,7 @@ public class UnpureFacade extends ModuleCore {
 	}
 
 	pureLegsCore function getMessender():Messenger {
-		return _messenger;
+		return messenger;
 	}
 
 	pureLegsCore function getProxyMap():ProxyMap {
@@ -291,7 +291,7 @@ public class UnpureFacade extends ModuleCore {
 
 
 	override protected function initializeMessenger():void {
-		_messenger = new UnpureMessenger();
+		messenger = new UnpureMessenger();
 	}
 
 	/**

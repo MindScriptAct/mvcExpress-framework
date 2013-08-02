@@ -6,6 +6,13 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.aGenericTestObjects.view.GenericViewObject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator;
 
+import mvcexpress.core.CommandMap;
+import mvcexpress.core.MediatorMap;
+import mvcexpress.core.ProxyMap;
+
+import mvcexpress.core.messenger.Messenger;
+import mvcexpress.core.namespace.pureLegsCore;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
@@ -32,21 +39,22 @@ public class InitializationTestModule extends ModuleCore {
 
 
 	override protected function initializeMessenger():void {
-		super.initializeMessenger();
+		use namespace pureLegsCore;
+		messenger = new Messenger();
 		if (testType == PERMISION_TEST) {
 		 	registerScope(GenericScopeIds.TEST_SCOPE);
 		}
 	}
 
 	override protected function initializeController():void {
-		super.initializeController();
+		commandMap = new CommandMap();
 		if (testType == CONTROLLER_TEST) {
 			commandMap.map(GenericTestMessage.TEST_MESSAGE, GenericCommand);
 		}
 	}
 
 	override protected function initializeModel():void {
-		super.initializeModel();
+		proxyMap = new ProxyMap();
 		if (testType == PROXY_TEST) {
 			proxyMap.map(new GenericTestProxy());
 		}
@@ -54,7 +62,7 @@ public class InitializationTestModule extends ModuleCore {
 	}
 
 	override protected function initializeView():void {
-		super.initializeView();
+		mediatorMap = new MediatorMap();
 		if (testType == MEDIATOR_TEST) {
 			mediatorMap.map(GenericViewObject, GenericViewObjectMediator);
 		}
