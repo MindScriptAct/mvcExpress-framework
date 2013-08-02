@@ -223,7 +223,13 @@ public class UnpureFacade extends ModuleCore {
 			moduleName = SINGLE_CORE_NAME;
 		}
 
-		super(moduleName, null, null, UnpureCommandMap, UnpureMessenger);
+		$commandRegistry[moduleName] = new Dictionary();
+		$proxyRegistry[moduleName] = new Dictionary();
+		$mediatorRegistry[moduleName] = new Dictionary()
+
+		instanceRegistry[moduleName] = this;
+
+		super(moduleName);
 
 		if (instanceRegistry[moduleName] != null) {
 			if (moduleName == "") {
@@ -232,13 +238,13 @@ public class UnpureFacade extends ModuleCore {
 				throw Error(MULTITON_MSG);
 			}
 		}
-		instanceRegistry[moduleName] = this;
+
 
 		// init module
 		use namespace pureLegsCore;
 
 		// init facade
-		initializeFacade();
+		//initializeFacade();
 
 		// triger onInit
 		onInit();
@@ -252,16 +258,12 @@ public class UnpureFacade extends ModuleCore {
 	 * subclass to do any subclass specific initializations. Be
 	 * sure to call <code>super.initializeFacade()</code>, though.</P>
 	 */
-	protected function initializeFacade():void {
-
-		$commandRegistry[moduleName] = new Dictionary();
-		$proxyRegistry[moduleName] = new Dictionary();
-		$mediatorRegistry[moduleName] = new Dictionary()
-
-		initializeModel();
-		initializeController();
-		initializeView();
-	}
+	//protected function initializeFacade():void {
+	//
+	//	initializeModel();
+	//	initializeController();
+	//	initializeView();
+	//}
 
 	/**
 	 * UnpureFacade Singleton Factory method
@@ -274,9 +276,6 @@ public class UnpureFacade extends ModuleCore {
 		}
 		if (instanceRegistry[moduleName] == null) {
 			new UnpureFacade(moduleName);
-			$commandRegistry[moduleName] = new Dictionary();
-			$proxyRegistry[moduleName] = new Dictionary();
-			$mediatorRegistry[moduleName] = new Dictionary();
 		}
 		return instanceRegistry[moduleName];
 	}
@@ -288,6 +287,11 @@ public class UnpureFacade extends ModuleCore {
 	static protected function set instance(value:UnpureFacade):void {
 		_instance = value;
 
+	}
+
+
+	override protected function initializeMessenger():void {
+		_messenger = new UnpureMessenger();
 	}
 
 	/**
@@ -306,7 +310,8 @@ public class UnpureFacade extends ModuleCore {
 	 * method, then register <code>Command</code>s.
 	 * </P>
 	 */
-	protected function initializeController():void {
+	override protected function initializeController():void {
+		commandMap = new UnpureCommandMap();
 		if (controller != null) return;
 		controller = UnpureController.getInstance(moduleName);
 	}
@@ -334,7 +339,8 @@ public class UnpureFacade extends ModuleCore {
 	 * the <code>Facade</code> during their construction.
 	 * </P>
 	 */
-	protected function initializeModel():void {
+	override protected function initializeModel():void {
+		super.initializeModel();
 		if (model != null) return;
 		model = UnpureModel.getInstance(moduleName);
 	}
@@ -362,7 +368,8 @@ public class UnpureFacade extends ModuleCore {
 	 * to the <code>Facade</code> during their construction.
 	 * </P>
 	 */
-	protected function initializeView():void {
+	override protected function initializeView():void {
+		super.initializeView();
 		if (view != null) return;
 		view = UnpureView.getInstance(moduleName);
 	}

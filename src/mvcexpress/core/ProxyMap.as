@@ -324,25 +324,28 @@ public class ProxyMap implements IProxyMap {
 	//----------------------------------
 
 	/**
-	 * Checks if proxy object is already mapped.
-	 * @param    proxyObject    Proxy instance to use for injection.
+	 * Checks if proxy is mapped.
 	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
+	 * @param    proxyObject  Optional - Proxy instance to use for injection.
 	 * @return                true if object is already mapped.
 	 */
-	public function isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
+	public function isMapped(injectClass:Class, name:String = "", proxyObject:Proxy = null):Boolean {
 		var retVal:Boolean; // = false;
-		var proxyClass:Class = Object(proxyObject).constructor as Class;
-		if (!injectClass) {
-			injectClass = proxyClass;
-		}
+
 		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
 			qualifiedClassNameRegistry[injectClass] = className;
 		}
-		if (injectObjectRegistry[className + name]) {
-			retVal = true;
+		if (proxyObject) {
+			if (injectObjectRegistry[className + name] == proxyObject) {
+				retVal = true;
+			}
+		} else {
+			if (injectObjectRegistry[className + name] != null) {
+				retVal = true;
+			}
 		}
 		return retVal;
 	}

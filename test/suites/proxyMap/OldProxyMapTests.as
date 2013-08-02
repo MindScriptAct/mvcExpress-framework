@@ -185,7 +185,7 @@ public class OldProxyMapTests {
 
 		var testProxy:TestProxy = new TestProxy();
 		//proxyMap.map(testProxy);
-		Assert.assertFalse("isMapped() should retturn false with NOT mapped proxy.", proxyMap.isMapped(testProxy));
+		Assert.assertFalse("isMapped() should retturn false with NOT mapped proxy.", proxyMap.isMapped(TestProxy));
 	}
 
 	[Test]
@@ -195,7 +195,7 @@ public class OldProxyMapTests {
 
 		var testProxy:TestProxy = new TestProxy();
 		proxyMap.map(testProxy);
-		Assert.assertTrue("isMapped() should retturn true with mapped proxy.", proxyMap.isMapped(testProxy));
+		Assert.assertTrue("isMapped() should retturn true with mapped proxy.", proxyMap.isMapped(TestProxy));
 	}
 
 	//----------------------------------

@@ -75,7 +75,8 @@ public class ModuleCore {
 	 *
 	 * <P>
 	 * Called automatically by the constructor.
-	 * Override this method if you wish to initialize Messenger subclass.
+	 * Override this method if you wish to initialize Messenger subclass.									<br>
+	 * or if you want to register scope permisions in this function, (don't forget to call <code>super.initializeMessenger()</code>
 	 * </P>
 	 */
 	protected function initializeMessenger():void {
@@ -88,7 +89,8 @@ public class ModuleCore {
 	 * <P>
 	 * Called automatically by the constructor.
 	 * Override this method if you wish to initialize CommandMap subclass.                                    <br>
-	 * Or if you want to map your Commands in this function, (don't forget to call <code>super.initializeController()</code>
+	 * or if you want to map your Commands in this function, (don't forget to call <code>super.initializeController()</code>
+	 * WARNING : commands are not instantly mapped from this function, they are mappend after all initialization functions finish.
 	 * </P>
 	 */
 	protected function initializeController():void {
@@ -101,7 +103,7 @@ public class ModuleCore {
 	 * <P>
 	 * Called automatically by the constructor.
 	 * Override this method if you wish to initialize ProxyMap subclass.                                    <br>
-	 * Or if you want to map your Proxies in this function, (don't forget to call <code>super.initializeModel()</code>
+	 * or if you want to map your Proxies in this function, (don't forget to call <code>super.initializeModel()</code>
 	 * </P>
 	 */
 	protected function initializeModel():void {
@@ -115,7 +117,7 @@ public class ModuleCore {
 	 * <P>
 	 * Called automatically by the constructor.
 	 * Override this method if you wish to initialize MediatorMap subclass.                                    <br>
-	 * Or if you want to map your wiew classes to Mediator classes in this function, (don't forget to call <code>super.initializeView()</code>
+	 * or if you want to map your wiew classes to Mediator classes in this function, (don't forget to call <code>super.initializeView()</code>
 	 * </P>
 	 */
 	protected function initializeView():void {

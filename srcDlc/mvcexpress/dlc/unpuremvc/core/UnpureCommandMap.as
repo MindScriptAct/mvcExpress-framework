@@ -17,11 +17,6 @@ use namespace pureLegsCore;
 
 public class UnpureCommandMap extends CommandMap {
 
-	public function UnpureCommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
-		super($moduleName, $messenger, $proxyMap, $mediatorMap);
-	}
-
-
 	/** function to be called by messenger on needed message type sent */
 	override pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
 		use namespace pureLegsCore;

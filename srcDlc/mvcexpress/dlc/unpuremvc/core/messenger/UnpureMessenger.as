@@ -10,10 +10,6 @@ public class UnpureMessenger extends Messenger {
 
 	private var lastMessageType:String;
 
-	public function UnpureMessenger($moduleName:String) {
-		super($moduleName);
-	}
-
 	/**
 	 * Runs all handler functions associated with message type, and send params object as single parameter.
 	 * @param    type                message type to find needed handlers

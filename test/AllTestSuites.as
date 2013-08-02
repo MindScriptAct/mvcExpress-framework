@@ -1,5 +1,6 @@
 package {
 import integration.commandPooling.CommandPoolingTests;
+import integration.initialization.ModuleInitializationTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.moduleInitTests.ModuleInitTests;
@@ -66,6 +67,8 @@ public class AllTestSuites {
 	public var proxyMapTests:ProxyMapTests;
 
 	public var scopeControllTest:ScopeControlTests;
+
+	public var initializationTest:ModuleInitializationTests;
 
 	//*/
 

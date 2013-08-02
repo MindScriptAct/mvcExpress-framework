@@ -12,6 +12,7 @@ public class GenericTestModule extends ModuleCore {
 		super(moduleName);
 	}
 
+
 	//----------------------------------
 	//     communication
 	//----------------------------------
@@ -48,8 +49,8 @@ public class GenericTestModule extends ModuleCore {
 		return proxyMap.getProxy(injectClass, name);
 	}
 
-	public function proxymap_isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		return proxyMap.isMapped(proxyObject, injectClass, name);
+	public function proxymap_isMapped(injectClass:Class, name:String = "", proxyObject:Proxy = null):Boolean {
+		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
 	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {

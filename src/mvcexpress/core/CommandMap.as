@@ -52,6 +52,8 @@ public class CommandMap {
 
 	protected var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
+	protected var commandMappings:Vector.<CommandMapping>;
+
 	/** CONSTRUCTOR */
 	public function CommandMap() {
 	}
@@ -62,6 +64,13 @@ public class CommandMap {
 		messenger = $messenger;
 		proxyMap = $proxyMap;
 		mediatorMap = $mediatorMap;
+		if (commandMappings) {
+			while (commandMappings.length) {
+				var commandMapping:CommandMapping = commandMappings.shift();
+				messenger.addCommandHandler(commandMapping.type, commandMapping.handleCommandExecute, commandMapping.commandClass);
+			}
+			commandMappings = null;
+		}
 	}
 
 
@@ -90,7 +99,14 @@ public class CommandMap {
 		if (!messageClasses) {
 			messageClasses = new Vector.<Class>();
 			classRegistry[type] = messageClasses;
-			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
+			if (messenger) {
+				messenger.addCommandHandler(type, handleCommandExecute, commandClass);
+			} else {
+				if (!commandMappings) {
+					commandMappings = new Vector.<CommandMapping>();
+				}
+				commandMappings.push(new CommandMapping(type, handleCommandExecute, commandClass));
+			}
 		}
 
 		// check if command is already added.
@@ -312,19 +328,25 @@ public class CommandMap {
 	//----------------------------------
 
 	/**
-	 * Checks if Command class is already added to message type
+	 * Checks if Command class is already added to message type, any or specified one.
 	 * @param    type            Message type for command class to react to.
-	 * @param    commandClass    Command class that will be instantiated and executed.
-	 * @return                    true if Command class is already mapped to message
+	 * @param    commandClass    OPTIONAL, Command class that will be instantiated and executed.
+	 * @return                    true if Command class is already mapped to message, or any Command class if commandClass is not specified.
 	 */
-	public function isMapped(type:String, commandClass:Class):Boolean {
+	public function isMapped(type:String, commandClass:Class = null):Boolean {
 		var retVal:Boolean; // = false;
 		if (classRegistry[type]) {
 			var mappedClasses:Vector.<Class> = classRegistry[type];
-			var classCaunt:int = mappedClasses.length;
-			for (var i:int; i < classCaunt; i++) {
-				if (commandClass == mappedClasses[i]) {
-					retVal = true;
+			if (mappedClasses) {
+				if (commandClass) {
+					var classCaunt:int = mappedClasses.length;
+					for (var i:int; i < classCaunt; i++) {
+						if (commandClass == mappedClasses[i]) {
+							retVal = true;
+						}
+					}
+				} else {
+					retVal = mappedClasses.length > 0
 				}
 			}
 		}
@@ -396,6 +418,7 @@ public class CommandMap {
 		mediatorMap = null;
 		classRegistry = null;
 		commandPools = null;
+		commandMappings = null;
 	}
 
 	/** function to be called by messenger on needed message type sent */
@@ -540,4 +563,17 @@ public class CommandMap {
 	}
 
 }
+}
+
+class CommandMapping {
+
+	public var type:String;
+	public var handleCommandExecute:Function;
+	public var commandClass:Class;
+
+	public function CommandMapping(type:String, handleCommandExecute:Function, commandClass:Class) {
+		this.type = type;
+		this.handleCommandExecute = handleCommandExecute;
+		this.commandClass = commandClass;
+	}
 }
