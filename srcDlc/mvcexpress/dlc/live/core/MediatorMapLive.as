@@ -19,8 +19,7 @@ public class MediatorMapLive extends MediatorMap {
 	// for internal use.
 	private var processMap:ProcessMapLive;
 
-	public function MediatorMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
-		super($moduleName, $messenger, $proxyMap);
+	public function MediatorMapLive() {
 	}
 
 	override protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {

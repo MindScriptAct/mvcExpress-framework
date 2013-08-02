@@ -25,10 +25,8 @@ public class MediatorMapFlex extends MediatorMap {
 	private var uiComponentClass:Class;
 
 	/* CONSTRUCTOR */
-	public function MediatorMapFlex($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+	public function MediatorMapFlex() {
 		uiComponentClass = getFlexClass();
-		super($moduleName, $messenger, $proxyMap);
-
 		CONFIG::debug {
 			if (!uiComponentClass) {
 				throw  Error("FlexMediatorMap failed to get 'mx.unpureCore::UIComponent' class. Are you sure you have flex project?");

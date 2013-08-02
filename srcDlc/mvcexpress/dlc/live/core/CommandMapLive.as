@@ -18,8 +18,7 @@ public class CommandMapLive extends CommandMap {
 	// for internal use.
 	private var processMap:ProcessMapLive;
 
-	public function CommandMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
-		super($moduleName, $messenger, $proxyMap, $mediatorMap);
+	public function CommandMapLive() {
 	}
 
 	//----------------------------------

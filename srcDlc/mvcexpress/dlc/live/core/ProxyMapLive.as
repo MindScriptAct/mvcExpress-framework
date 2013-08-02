@@ -20,8 +20,7 @@ public class ProxyMapLive extends ProxyMap {
 	// pushed into proxies so they could provide data objects
 	private var processMap:ProcessMapLive;
 
-	public function ProxyMapLive($moduleName:String, $messenger:Messenger) {
-		super($moduleName, $messenger);
+	public function ProxyMapLive() {
 	}
 
 	//----------------------------------

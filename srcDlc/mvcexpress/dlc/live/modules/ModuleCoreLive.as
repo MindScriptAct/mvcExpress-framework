@@ -26,23 +26,8 @@ public class ModuleCoreLive extends ModuleCore {
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
-	public function ModuleCoreLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
-		if (!mediatorMapClass) {
-			mediatorMapClass = MediatorMapLive;
-		} else {
-			// TODO : in DEBUG chceck if subclasses right class
-		}
-		if (!proxyMapClass) {
-			proxyMapClass = ProxyMapLive;
-		} else {
-			// TODO : in DEBUG chceck if subclasses right class
-		}
-		if (!commandMapClass) {
-			commandMapClass = CommandMapLive;
-		} else {
-			// TODO : in DEBUG chceck if subclasses right class
-		}
-		super(moduleName, mediatorMapClass, proxyMapClass, commandMapClass, messengerClass);
+	public function ModuleCoreLive(moduleName:String = null) {
+		super(moduleName);
 
 		use namespace pureLegsCore
 
@@ -50,6 +35,19 @@ public class ModuleCoreLive extends ModuleCore {
 		(proxyMap as ProxyMapLive).setProcessMap(processMap);
 		(mediatorMap as MediatorMapLive).setProcessMap(processMap);
 		(commandMap as CommandMapLive).setProcessMap(processMap);
+	}
+
+
+	override protected function initializeController():void {
+		commandMap = new CommandMapLive();
+	}
+
+	override protected function initializeModel():void {
+		proxyMap = new ProxyMapLive();
+	}
+
+	override protected function initializeView():void {
+		mediatorMap = new MediatorMapLive();
 	}
 
 	/** @inheritDoc */
