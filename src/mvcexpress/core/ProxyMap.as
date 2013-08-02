@@ -60,7 +60,11 @@ public class ProxyMap implements IProxyMap {
 	protected var classConstRegistry:Dictionary = new Dictionary();
 
 	/** CONSTRUCTOR */
-	public function ProxyMap($moduleName:String, $messenger:Messenger, $commandMap:CommandMap) {
+	public function ProxyMap() {
+	}
+
+	//* INTERNAL: init ProxyMap */
+	pureLegsCore function initialize($moduleName:String, $messenger:Messenger, $commandMap:CommandMap):void {
 		moduleName = $moduleName;
 		messenger = $messenger;
 		commandMap = $commandMap;

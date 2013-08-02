@@ -25,9 +25,11 @@ public class OldProxyMapTests {
 		use namespace pureLegsCore;
 
 		Messenger.allowInstantiation = true;
-		messenger = new Messenger("test");
+		messenger = new Messenger();
+		messenger.initialize("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test", messenger, null);
+		proxyMap = new ProxyMap();
+		proxyMap.initialize("test", messenger, null);
 		callCaunter = 0;
 		callsExpected = 0;
 	}

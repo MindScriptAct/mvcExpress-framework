@@ -20,7 +20,8 @@ public class MessengerTests {
 		use namespace pureLegsCore;
 
 		Messenger.allowInstantiation = true;
-		messenger = new Messenger("test");
+		messenger = new Messenger();
+		messenger.initialize("test")
 		Messenger.allowInstantiation = false;
 	}
 

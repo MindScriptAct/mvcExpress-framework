@@ -43,7 +43,11 @@ public class MediatorMap implements IMediatorMap {
 	protected var mediatorRegistry:Dictionary = new Dictionary(); //* of Mediator by Object */
 
 	/** CONSTRUCTOR */
-	public function MediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
+	public function MediatorMap() {
+	}
+
+	//* INTERNAL: init MediatorMap */
+	pureLegsCore function initialize($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap):void {
 		moduleName = $moduleName;
 		messenger = $messenger;
 		proxyMap = $proxyMap;

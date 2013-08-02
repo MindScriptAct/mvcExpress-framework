@@ -193,7 +193,8 @@ public class ModuleManager {
 			use namespace pureLegsCore;
 
 			Messenger.allowInstantiation = true;
-			scopeMesanger = new Messenger("$scope_" + scopeName);
+			scopeMesanger = new Messenger();
+			scopeMesanger.initialize("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopeMesanger;
 		}
@@ -240,7 +241,8 @@ public class ModuleManager {
 			use namespace pureLegsCore;
 
 			Messenger.allowInstantiation = true;
-			scopeMesanger = new Messenger("$scope_" + scopeName);
+			scopeMesanger = new Messenger();
+			scopeMesanger.initialize("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopeMesanger;
 		}
@@ -376,11 +378,14 @@ public class ModuleManager {
 			use namespace pureLegsCore;
 
 			Messenger.allowInstantiation = true;
-			scopedMesanger = new Messenger("$scope_" + scopeName);
+			scopedMesanger = new Messenger();
+			scopedMesanger.initialize("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopedMesanger;
 		}
-		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger, null);
+		var scopeProxyMap:ProxyMap = new ProxyMap();
+		scopeProxyMap.initialize("$scope_" + scopeName, scopedMesanger, null)
+		scopedProxyMaps[scopeName] = scopeProxyMap;
 	}
 
 
@@ -493,10 +498,10 @@ public class ModuleManager {
 
 	/**
 	 * Invokes custom module function.
-	 * @param moduleName	Name of module.
-	 * @param functionName	name of the function
-	 * @param params		optional function params
-	 * @return		returns object.
+	 * @param moduleName    Name of module.
+	 * @param functionName    name of the function
+	 * @param params        optional function params
+	 * @return        returns object.
 	 */
 	static public function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
 		if (moduleRegistry[moduleName]) {

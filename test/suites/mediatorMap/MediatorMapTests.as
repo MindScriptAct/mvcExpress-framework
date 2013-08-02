@@ -34,10 +34,13 @@ public class MediatorMapTests {
 		use namespace pureLegsCore;
 
 		Messenger.allowInstantiation = true;
-		messenger = new Messenger("test");
+		messenger = new Messenger();
+		messenger.initialize("test");
 		Messenger.allowInstantiation = false;
-		proxyMap = new ProxyMap("test", messenger, null);
-		mediatorMap = new MediatorMap("test", messenger, proxyMap);
+		proxyMap = new ProxyMap();
+		proxyMap.initialize("test", messenger, null);
+		mediatorMap = new MediatorMap();
+		mediatorMap.initialize("test", messenger, proxyMap);
 		callCaunter = 0;
 		callsExpected = 0;
 	}

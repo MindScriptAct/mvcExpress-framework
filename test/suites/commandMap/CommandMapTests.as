@@ -41,14 +41,16 @@ public class CommandMapTests {
 		use namespace pureLegsCore;
 
 		Messenger.allowInstantiation = true;
-		messenger = new Messenger("test");
+		messenger = new Messenger();
+		messenger.initialize("test");
 		Messenger.allowInstantiation = false;
 
-		commandMap = new CommandMap("test", messenger);
-		mediatorMap = new MediatorMap("test", messenger, proxyMap);
-		proxyMap = new ProxyMap("test", messenger, commandMap);
-		commandMap.setMediatorMap(mediatorMap);
-		commandMap.setProxyMap(proxyMap);
+		commandMap = new CommandMap();
+		mediatorMap = new MediatorMap();
+		mediatorMap.initialize("test", messenger, proxyMap)
+		proxyMap = new ProxyMap();
+		proxyMap.initialize("test", messenger, commandMap);
+		commandMap.initialize("test", messenger, proxyMap, mediatorMap);
 
 		callCaunter = 0;
 		callsExpected = 0;

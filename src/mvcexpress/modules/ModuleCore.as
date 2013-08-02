@@ -44,55 +44,82 @@ public class ModuleCore {
 		// register module with ModuleManager. (And get module name if it is not provided.)
 		_moduleName = ModuleManager.registerModule(moduleName, this);
 
-		// create module messenger.
-		initializeMessenger();
+		// create and initialize module messenger.
+		use namespace pureLegsCore;
 
-		// create module commandMap
+		Messenger.allowInstantiation = true;
+		initializeMessenger();
+		Messenger.allowInstantiation = false;
+
+		_messenger.initialize(_moduleName);
+
+		// create commandMap
 		initializeController();
 
-		// create module proxyMap
+		// create and initialize proxyMap
 		initializeModel();
+		proxyMap.initialize(_moduleName, _messenger, commandMap);
 
-		// create module mediatorMap
+		// create and initialize mediatorMap
 		initializeView();
+		mediatorMap.initialize(_moduleName, _messenger, proxyMap);
 
+		// initialize commandMap
+		commandMap.initialize(_moduleName, _messenger, proxyMap, mediatorMap);
 
 		onInit();
 	}
 
 	/**
-	 * FIXME : COMMENT
+	 * Initialize Messenger.
+	 *
+	 * <P>
+	 * Called automatically by the constructor.
+	 * Override this method if you wish to initialize Messenger subclass.
+	 * </P>
 	 */
 	protected function initializeMessenger():void {
-		use namespace pureLegsCore;
-		Messenger.allowInstantiation = true;
-		_messenger = new Messenger(_moduleName);
-		Messenger.allowInstantiation = false;
+		_messenger = new Messenger();
 	}
 
 	/**
-	 * FIXME : COMMENT
+	 * Initialize CommandMap.
+	 *
+	 * <P>
+	 * Called automatically by the constructor.
+	 * Override this method if you wish to initialize CommandMap subclass.                                    <br>
+	 * Or if you want to map your Commands in this function, (don't forget to call <code>super.initializeController()</code>
+	 * </P>
 	 */
 	protected function initializeController():void {
-		commandMap = new CommandMap(_moduleName, _messenger);
+		commandMap = new CommandMap();
 	}
 
 	/**
-	 * FIXME : COMMENT
+	 * Initialize ProxyMap.
+	 *
+	 * <P>
+	 * Called automatically by the constructor.
+	 * Override this method if you wish to initialize ProxyMap subclass.                                    <br>
+	 * Or if you want to map your Proxies in this function, (don't forget to call <code>super.initializeModel()</code>
+	 * </P>
 	 */
 	protected function initializeModel():void {
-		use namespace pureLegsCore;
-		proxyMap = new ProxyMap(_moduleName, _messenger, commandMap);
-		commandMap.setProxyMap(proxyMap);
+		proxyMap = new ProxyMap();
 	}
 
+
 	/**
-	 * FIXME : COMMENT
+	 * Initialize MediatorMap.
+	 *
+	 * <P>
+	 * Called automatically by the constructor.
+	 * Override this method if you wish to initialize MediatorMap subclass.                                    <br>
+	 * Or if you want to map your wiew classes to Mediator classes in this function, (don't forget to call <code>super.initializeView()</code>
+	 * </P>
 	 */
 	protected function initializeView():void {
-		use namespace pureLegsCore;
-		mediatorMap = new MediatorMap(_moduleName, _messenger, proxyMap);
-		commandMap.setMediatorMap(mediatorMap);
+		mediatorMap = new MediatorMap();
 	}
 
 	/**

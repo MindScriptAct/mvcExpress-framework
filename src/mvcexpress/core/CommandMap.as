@@ -53,9 +53,15 @@ public class CommandMap {
 	protected var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
 	/** CONSTRUCTOR */
-	public function CommandMap($moduleName:String, $messenger:Messenger) {
+	public function CommandMap() {
+	}
+
+	//* INTERNAL: init CommandMap  */
+	pureLegsCore function initialize($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap):void {
 		moduleName = $moduleName;
 		messenger = $messenger;
+		proxyMap = $proxyMap;
+		mediatorMap = $mediatorMap;
 	}
 
 
@@ -356,15 +362,6 @@ public class CommandMap {
 	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
-
-
-	pureLegsCore function setProxyMap($proxyMap:ProxyMap):void {
-		proxyMap = $proxyMap;
-	}
-
-	pureLegsCore function setMediatorMap($mediatorMap:MediatorMap):void {
-		mediatorMap = $mediatorMap;
-	}
 
 	/**
 	 * Pool command from outside of CommandMap.

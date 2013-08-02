@@ -30,14 +30,19 @@ public class Messenger {
 	protected var handlerRegistry:Dictionary = new Dictionary(); //* of Dictionary by String */
 
 	/**
-	 * CONSTRUCTOR - internal class. Not available for use.
+	 * CONSTRUCTOR
 	 */
-	public function Messenger($moduleName:String) {
+	public function Messenger() {
 		use namespace pureLegsCore;
 
 		if (!allowInstantiation) {
-			throw Error("Messenger is a framework class, you can't instantiate it.");
+			throw Error("Messenger is a framework class, you should instantiate it only in initializeMessenger() function.");
 		}
+	}
+
+	//* INTERNAL: init Messenger  */
+	pureLegsCore function initialize($moduleName:String):void {
+		use namespace pureLegsCore;
 		moduleName = $moduleName;
 	}
 
