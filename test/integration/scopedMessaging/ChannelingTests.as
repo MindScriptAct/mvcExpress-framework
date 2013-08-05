@@ -166,5 +166,21 @@ public class ChannelingTests {
 
 	}
 
+	[Test]
+	public function channeling_messegeToCommandChanneling_addAndRemoveAndAddChannelCommand_commandsHandlesNothing():void {
+		//
+		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
+		//
+		channelModulA.mapCommand_ComTest1();
+		channelModulA.unmapCommand_ComTest1();
+		channelModulA.mapCommand_ComTest1();
+
+		//
+		channelModulB.sendChannelMessage_comTest1();
+		//
+		Assert.assertTrue("Command test1 must be true after commandMap.channelMap() and  sendChannelMessage()", channelModulB.command1executed);
+
+	}
+
 }
 }

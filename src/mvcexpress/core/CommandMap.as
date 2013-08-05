@@ -37,7 +37,7 @@ public class CommandMap {
 	protected var mediatorMap:MediatorMap;
 
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
-	protected var classRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by String */
+	protected var classRegistry:Dictionary = new Dictionary(); //* of Class by String */
 
 	// holds pooled command objects, stared by command class.
 	protected var commandPools:Dictionary = new Dictionary(); //* of Vector.<PooledCommand> by Class */
@@ -82,24 +82,15 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
-		if (!messageClasses) {
-			messageClasses = new Vector.<Class>();
-			classRegistry[type] = messageClasses;
-			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
+
+		if (classRegistry[type]) {
+			throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + ", but it is already mapped to " + classRegistry[type]);
 		}
 
-		// check if command is already added.
-		CONFIG::debug {
-			var commandCount:int = messageClasses.length;
-			for (var i:int = 0; i < commandCount; i++) {
-				if (messageClasses[i] == commandClass) {
-					throw Error("Command:" + commandClass + " is already mapped to message type:" + type);
-				}
-			}
-		}
+		// add command handler.
+		messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 
-		messageClasses[messageClasses.length] = commandClass;
+		classRegistry[type] = commandClass;
 	}
 
 	/**
@@ -114,15 +105,10 @@ public class CommandMap {
 
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
-		if (messageClasses) {
-			var commandCount:int = messageClasses.length;
-			for (var i:int; i < commandCount; i++) {
-				if (commandClass == messageClasses[i]) {
-					messageClasses.splice(i, 1);
-					break;
-				}
-			}
+		var messageClasse:Class = classRegistry[type];
+		if (messageClasse) {
+			messenger.removeHandler(type, handleCommandExecute);
+			delete classRegistry[type];
 		}
 	}
 
@@ -237,25 +223,14 @@ public class CommandMap {
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
-		if (!messageClasses) {
-			messageClasses = new Vector.<Class>();
-			classRegistry[scopedType] = messageClasses;
-			// add scoped command handler.
-			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
+		if (classRegistry[scopedType]) {
+			throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + " with scope " + scopeName + ", but it is already mapped to " + classRegistry[type]);
 		}
 
-		// check if command is already added.
-		CONFIG::debug {
-			var commandCount:int = messageClasses.length;
-			for (var i:int = 0; i < commandCount; i++) {
-				if (messageClasses[i] == commandClass) {
-					throw Error("Command:" + commandClass + " is already mapped to scopeName:" + scopeName + " with message type:" + type);
-				}
-			}
-		}
+		scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 
-		messageClasses[messageClasses.length] = commandClass;
+
+		classRegistry[scopedType] = commandClass;
 	}
 
 	/**
@@ -267,22 +242,16 @@ public class CommandMap {
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
-		if (messageClasses) {
-			var commandCount:int = messageClasses.length;
-			for (var i:int; i < commandCount; i++) {
-				if (commandClass == messageClasses[i]) {
-					messageClasses.splice(i, 1);
-					break;
-				}
-			}
+		var messageClasse:Class = classRegistry[scopedType];
+		if (messageClasse) {
+			delete classRegistry[scopedType];
 		}
 	}
 
 
-	//----------------------------------
-	//     command pooling
-	//----------------------------------
+//----------------------------------
+//     command pooling
+//----------------------------------
 
 	/**
 	 * Checks if PooledCommand is already pooled.
@@ -303,41 +272,26 @@ public class CommandMap {
 	}
 
 
-	//----------------------------------
-	//     Debug
-	//----------------------------------
+//----------------------------------
+//     Debug
+//----------------------------------
 
 	/**
-	 * Checks if Command class is already added to message type
+	 * Checks if Command class is already added to message type, or any class.
 	 * @param    type            Message type for command class to react to.
-	 * @param    commandClass    Command class that will be instantiated and executed.
+	 * @param    commandClass    Optional: Command class that will be instantiated and executed.
 	 * @return                    true if Command class is already mapped to message
 	 */
-	public function isMapped(type:String, commandClass:Class):Boolean {
+	public function isMapped(type:String, commandClass:Class = null):Boolean {
 		var retVal:Boolean; // = false;
 		if (classRegistry[type]) {
-			var mappedClasses:Vector.<Class> = classRegistry[type];
-			var classCaunt:int = mappedClasses.length;
-			for (var i:int; i < classCaunt; i++) {
-				if (commandClass == mappedClasses[i]) {
-					retVal = true;
-				}
+			if (commandClass) {
+				retVal = (classRegistry[type] == commandClass);
+			} else {
+				retVal = true;
 			}
 		}
 		return retVal;
-	}
-
-	/**
-	 * Returns count of commands mapped to specified message type.
-	 * @param type        Message type for command class to react to.
-	 * @return            count of commands mapped to message.
-	 */
-	public function mappedCommandCount(type:String):int {
-		if (classRegistry[type] != null) {
-			return (classRegistry[type] as Vector.<Class>).length;
-		} else {
-			return 0;
-		}
 	}
 
 	/**
@@ -355,9 +309,9 @@ public class CommandMap {
 	}
 
 
-	//----------------------------------
-	//     INTERNAL
-	//----------------------------------
+//----------------------------------
+//     INTERNAL
+//----------------------------------
 
 	/**
 	 * Pool command from outside of CommandMap.
@@ -399,72 +353,68 @@ public class CommandMap {
 		use namespace pureLegsCore;
 
 		var command:Command;
-		var messageClasses:Vector.<Class>;
+		var commandClass:Class;
 
-		messageClasses = classRegistry[messageType];
-		if (messageClasses) {
-			var commandCount:int = messageClasses.length;
-			for (var i:int; i < commandCount; i++) {
-				var commandClass:Class = messageClasses[i];
+		commandClass = classRegistry[messageType];
+		if (commandClass) {
 
-				// debug this action
-				CONFIG::debug {
-					MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
-				}
-
-				//////////////////////////////////////////////
-				////// INLINE FUNCTION runCommand() START
-
-				// check if command is pooled.
-				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-				if (pooledCommands && pooledCommands.length > 0) {
-					command = pooledCommands.shift();
-				} else {
-					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
-					CONFIG::debug {
-						validateCommandParams(commandClass, params);
-					}
-
-					// construct command
-					CONFIG::debug {
-						Command.canConstruct = true;
-					}
-					command = new commandClass();
-					CONFIG::debug {
-						Command.canConstruct = false;
-					}
-
-					prepareCommand(command, commandClass);
-				}
-
-				command.messageType = messageType;
-
-				if (command is PooledCommand) {
-					// init pool if needed.
-					if (!pooledCommands) {
-						pooledCommands = new Vector.<PooledCommand>();
-						commandPools[commandClass] = pooledCommands;
-					}
-					command.isExecuting = true;
-					command.execute(params);
-					command.isExecuting = false;
-
-					// if not locked - pool it.
-					if (!(command as PooledCommand).isLocked) {
-						if (pooledCommands) {
-							pooledCommands[pooledCommands.length] = command as PooledCommand;
-						}
-					}
-				} else {
-					command.isExecuting = true;
-					command.execute(params);
-					command.isExecuting = false;
-				}
-
-				////// INLINE FUNCTION runCommand() END
-				//////////////////////////////////////////////
-
+			// debug this action
+			CONFIG::debug {
+				MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
 			}
+
+			//////////////////////////////////////////////
+			////// INLINE FUNCTION runCommand() START
+
+			// check if command is pooled.
+			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+			if (pooledCommands && pooledCommands.length > 0) {
+				command = pooledCommands.shift();
+			} else {
+				// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
+				CONFIG::debug {
+					validateCommandParams(commandClass, params);
+				}
+
+				// construct command
+				CONFIG::debug {
+					Command.canConstruct = true;
+				}
+				command = new commandClass();
+				CONFIG::debug {
+					Command.canConstruct = false;
+				}
+
+				prepareCommand(command, commandClass);
+			}
+
+			command.messageType = messageType;
+
+			if (command is PooledCommand) {
+				// init pool if needed.
+				if (!pooledCommands) {
+					pooledCommands = new Vector.<PooledCommand>();
+					commandPools[commandClass] = pooledCommands;
+				}
+				command.isExecuting = true;
+				command.execute(params);
+				command.isExecuting = false;
+
+				// if not locked - pool it.
+				if (!(command as PooledCommand).isLocked) {
+					if (pooledCommands) {
+						pooledCommands[pooledCommands.length] = command as PooledCommand;
+					}
+				}
+			} else {
+				command.isExecuting = true;
+				command.execute(params);
+				command.isExecuting = false;
+			}
+
+			////// INLINE FUNCTION runCommand() END
+			//////////////////////////////////////////////
+
 		}
 	}
 
@@ -530,8 +480,8 @@ public class CommandMap {
 		}
 	}
 
-	// used for debugging
-	pureLegsCore function listMessageCommands(messageType:String):Vector.<Class> {
+// used for debugging
+	pureLegsCore function listMessageCommands(messageType:String):Class {
 		return classRegistry[messageType];
 	}
 
