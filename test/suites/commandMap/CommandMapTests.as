@@ -73,9 +73,9 @@ public class CommandMapTests {
 		messenger.send("test");
 	}
 
-	[Test(async, description="Test two command execution")]
+	[Test(async, description="Test two command execution", expects="Error")]
 
-	public function test_two_command_execute():void {
+	public function test_two_command_fails():void {
 		callsExpected = 2;
 		TestCommand1.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
 		TestCommand2.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
@@ -86,13 +86,13 @@ public class CommandMapTests {
 
 	[Test(async, description="Test two command add + 1 remove")]
 
-	public function test_two_add_one_remove_command_execute():void {
+	public function test_two_add_remove_add_command_execute():void {
 		callsExpected = 1;
 		TestCommand1.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
 		TestCommand2.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
 		commandMap.map("test", TestCommand1);
-		commandMap.map("test", TestCommand2);
-		commandMap.unmap("test", TestCommand2);
+		commandMap.unmap("test", TestCommand1);
+		commandMap.map("test", TestCommand1);
 		messenger.send("test");
 	}
 
