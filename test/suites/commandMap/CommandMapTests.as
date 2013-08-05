@@ -91,7 +91,7 @@ public class CommandMapTests {
 		TestCommand1.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
 		TestCommand2.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
 		commandMap.map("test", TestCommand1);
-		commandMap.unmap("test", TestCommand1);
+		commandMap.unmap("test");
 		commandMap.map("test", TestCommand1);
 		messenger.send("test");
 	}

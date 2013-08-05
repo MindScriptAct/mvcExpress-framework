@@ -47,7 +47,7 @@ public class ChannelModuleA extends ModuleCore {
 	}
 
 	public function unmapCommand_ComTest1():void {
-		commandMap.scopeUnmap("default", "CommTest1", ComTest1Command);
+		commandMap.scopeUnmap("default", "CommTest1");
 	}
 
 	override protected function onInit():void {
@@ -56,7 +56,6 @@ public class ChannelModuleA extends ModuleCore {
 	}
 
 	override protected function onDispose():void {
-
 	}
 }
 }

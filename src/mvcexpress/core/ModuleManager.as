@@ -32,9 +32,6 @@ public class ModuleManager {
 	/* modules stored by moduleName */
 	static private var moduleRegistry:Dictionary = new Dictionary(); //* of ModuleCore by String */
 
-	/* all modules stared by module name */
-	static private var allModules:Vector.<ModuleCore> = new Vector.<ModuleCore>();
-
 	/* all messengers by scope name */
 	static private var scopedMessengers:Dictionary = new Dictionary(); //* of Messenger by String{moduleName} */
 
@@ -44,10 +41,10 @@ public class ModuleManager {
 	/* all proxies mapped to scope */
 	static private var scopedProxiesByScope:Dictionary = new Dictionary(); //* of Dictionary(of ProxyMap by Proxy) by String{moduleName} */
 
-	static private var needMetadataTest:Boolean = true;
-
 	/* all module permission data's by modelName and scopeName */
 	static private var scopePermissionsRegistry:Dictionary = new Dictionary(); 	//* of Dictionary (of ScopePermissionData by scopeName String) by moduleName String */
+
+	static private var needMetadataTest:Boolean = true;
 
 	/** CONSTRUCTOR */
 	public function ModuleManager() {
@@ -85,7 +82,6 @@ public class ModuleManager {
 			}
 			//
 			moduleRegistry[moduleName] = moduleCore;
-			allModules[allModules.length] = moduleCore;
 			//
 		} else {
 			throw Error("You can't have 2 modules with same name. call disposeModule() on old module before creating new one with same name. [moduleName:" + moduleName + "]");
@@ -130,13 +126,6 @@ public class ModuleManager {
 			}
 			//
 			delete moduleRegistry[moduleName];
-			var moduleCount:int = allModules.length;
-			for (var j:int; j < moduleCount; j++) {
-				if (allModules[j].moduleName == moduleName) {
-					allModules.splice(j, 1);
-					break;
-				}
-			}
 			//
 			delete scopePermissionsRegistry[moduleName];
 		} else {
@@ -235,16 +224,24 @@ public class ModuleManager {
 			throw Error("Module with name:" + moduleName + " has no permition to receive constants and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
 		}
 
-		var scopeMesanger:Messenger = scopedMessengers[scopeName];
-		if (!scopeMesanger) {
+		var scopeMessenger:Messenger = scopedMessengers[scopeName];
+		if (!scopeMessenger) {
 			use namespace pureLegsCore;
 
 			Messenger.allowInstantiation = true;
-			scopeMesanger = new Messenger("$scope_" + scopeName);
+			scopeMessenger = new Messenger("$scope_" + scopeName);
 			Messenger.allowInstantiation = false;
-			scopedMessengers[scopeName] = scopeMesanger;
+			scopedMessengers[scopeName] = scopeMessenger;
 		}
-		return scopeMesanger.addCommandHandler(scopeName + "_^~_" + type, handleCommandExecute, commandClass);
+		return scopeMessenger.addCommandHandler(scopeName + "_^~_" + type, handleCommandExecute, commandClass);
+	}
+
+
+	static pureLegsCore function scopedCommandUnmap(handleCommandExecute:Function, scopeName:String, type:String):void {
+		var scopeMessenger:Messenger = scopedMessengers[scopeName];
+		if (scopeMessenger) {
+			scopeMessenger.removeHandler(scopeName + "_^~_" + type, handleCommandExecute);
+		}
 	}
 
 
@@ -429,6 +426,28 @@ public class ModuleManager {
 
 	}
 
+	// REFACTOR : temp fuction to reset state - needs refactor after scope stuff is removed from here.
+	static public function disposeAll():void {
+		for each(var module:ModuleCore in moduleRegistry) {
+			module.disposeModule();
+		}
+		moduleRegistry = new Dictionary();
+
+		for each(var messenger:Messenger in scopedMessengers) {
+			messenger.dispose();
+		}
+		scopedMessengers = new Dictionary();
+
+		for each(var proxyMap:ProxyMap in scopedProxyMaps) {
+			proxyMap.dispose();
+		}
+		scopedProxyMaps = new Dictionary();
+
+		scopedProxiesByScope = new Dictionary();
+		scopePermissionsRegistry = new Dictionary();
+
+	}
+
 
 	//----------------------------------
 	//     DEBUG
@@ -440,11 +459,11 @@ public class ModuleManager {
 	 */
 	static public function listModules():String {
 		var retVal:String = "";
-		for (var i:int; i < allModules.length; i++) {
+		for each(var module:ModuleCore in moduleRegistry) {
 			if (retVal != "") {
 				retVal += ",";
 			}
-			retVal += allModules[i].moduleName;
+			retVal += module.moduleName;
 		}
 		return "Module list:" + retVal;
 	}
@@ -493,10 +512,10 @@ public class ModuleManager {
 
 	/**
 	 * Invokes custom module function.
-	 * @param moduleName	Name of module.
-	 * @param functionName	name of the function
-	 * @param params		optional function params
-	 * @return		returns object.
+	 * @param moduleName    Name of module.
+	 * @param functionName    name of the function
+	 * @param params        optional function params
+	 * @return        returns object.
 	 */
 	static public function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
 		if (moduleRegistry[moduleName]) {

@@ -101,7 +101,7 @@ public class GenericTestModule extends ModuleCore {
 	}
 
 	public function commandMap_unmap(type:String, commandClass:Class):void {
-		commandMap.unmap(type, commandClass);
+		commandMap.unmap(type);
 	}
 
 	public function commandMap_scopeMap(scopeName:String, type:String, commandClass:Class):void {
@@ -109,7 +109,7 @@ public class GenericTestModule extends ModuleCore {
 	}
 
 	public function commandMap_scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
-		commandMap.scopeUnmap(scopeName, type, commandClass);
+		commandMap.scopeUnmap(scopeName, type);
 	}
 
 	public function commandMap_isMapped(type:String, commandClass:Class):Boolean {

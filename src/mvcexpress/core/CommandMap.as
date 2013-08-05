@@ -96,14 +96,13 @@ public class CommandMap {
 	/**
 	 * Unmaps a class to be executed then message with provided type is sent.
 	 * @param    type            Message type for command class to react to.
-	 * @param    commandClass    Command class that would be executed.
 	 */
-	public function unmap(type:String, commandClass:Class):void {
+	public function unmap(type:String):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
 
-			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
+			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, null));
 		}
 		var messageClasse:Class = classRegistry[type];
 		if (messageClasse) {
@@ -229,7 +228,6 @@ public class CommandMap {
 
 		scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 
-
 		classRegistry[scopedType] = commandClass;
 	}
 
@@ -239,11 +237,12 @@ public class CommandMap {
 	 * @param    type                Message type for command class to react to.
 	 * @param    commandClass        Command class that would be executed.
 	 */
-	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
+	public function scopeUnmap(scopeName:String, type:String):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 
-		var messageClasse:Class = classRegistry[scopedType];
-		if (messageClasse) {
+		var messageClass:Class = classRegistry[scopedType];
+		if (messageClass) {
+			ModuleManager.scopedCommandUnmap(handleCommandExecute, scopeName, type);
 			delete classRegistry[scopedType];
 		}
 	}
@@ -334,17 +333,25 @@ public class CommandMap {
 		use namespace pureLegsCore;
 
 		for (var type:String in classRegistry) {
-			messenger.removeHandler(type, handleCommandExecute);
+			var scopeTypeSplite:Array = type.split("_^~_");
+			if (scopeTypeSplite.length > 1) {
+				ModuleManager.scopedCommandUnmap(handleCommandExecute, scopeTypeSplite[0], scopeTypeSplite[1]);
+			} else {
+				messenger.removeHandler(type, handleCommandExecute);
+			}
 		}
+		classRegistry = null;
+
 		//
 		var scopeHandlerCount:int = scopeHandlers.length;
 		for (var i:int; i < scopeHandlerCount; i++) {
 			scopeHandlers[i].handler = null;
 		}
+		scopeHandlers = null;
+
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
-		classRegistry = null;
 		commandPools = null;
 	}
 

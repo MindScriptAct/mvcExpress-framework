@@ -2,6 +2,10 @@ package integration.scopedMessaging {
 import integration.scopedMessaging.testObj.moduleA.ChannelModuleA;
 import integration.scopedMessaging.testObj.moduleB.ChannelModuleB;
 
+import mvcexpress.core.ModuleManager;
+
+import mvcexpress.core.namespace.pureLegsCore;
+
 import org.flexunit.Assert;
 
 /**
@@ -25,6 +29,9 @@ public class ChannelingTests {
 	public function runAfterEveryTest():void {
 		channelModulA.disposeModule();
 		channelModulB.disposeModule();
+
+		use namespace pureLegsCore;
+		ModuleManager.disposeAll();
 	}
 
 	[Test]

@@ -64,7 +64,7 @@ public class MainModule extends ModuleCore {
 	}
 
 	public function removeLocalCommand(message:String):void {
-		commandMap.unmap(message, MainLocalCommand)
+		commandMap.unmap(message)
 	}
 
 	public function removeLocalHandler(message:String):void {

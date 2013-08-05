@@ -50,7 +50,6 @@ public class ChannelModuleB extends ModuleCore {
 	}
 
 	override protected function onDispose():void {
-
 	}
 }
 }
