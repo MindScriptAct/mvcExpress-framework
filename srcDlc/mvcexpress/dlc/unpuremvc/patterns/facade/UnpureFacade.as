@@ -163,7 +163,6 @@ public class UnpureFacade extends ModuleCore {
 	//
 	//----------------------------------
 
-	static private var $commandRegistry:Dictionary = new Dictionary();
 	static private var $proxyRegistry:Dictionary = new Dictionary();
 	static private var $mediatorRegistry:Dictionary = new Dictionary();
 
@@ -176,6 +175,7 @@ public class UnpureFacade extends ModuleCore {
 	}
 
 	pureLegsCore function getMessender():Messenger {
+		use namespace pureLegsCore;
 		return messenger;
 	}
 
@@ -254,7 +254,6 @@ public class UnpureFacade extends ModuleCore {
 	 */
 	protected function initializeFacade():void {
 
-		$commandRegistry[moduleName] = new Dictionary();
 		$proxyRegistry[moduleName] = new Dictionary();
 		$mediatorRegistry[moduleName] = new Dictionary()
 
@@ -274,7 +273,6 @@ public class UnpureFacade extends ModuleCore {
 		}
 		if (instanceRegistry[moduleName] == null) {
 			new UnpureFacade(moduleName);
-			$commandRegistry[moduleName] = new Dictionary();
 			$proxyRegistry[moduleName] = new Dictionary();
 			$mediatorRegistry[moduleName] = new Dictionary();
 		}
@@ -374,12 +372,6 @@ public class UnpureFacade extends ModuleCore {
 	 * @param commandClassRef a reference to the Class of the <code>ICommand</code>
 	 */
 	public function registerCommand(notificationName:String, commandClassRef:Class):void {
-		if ($commandRegistry[moduleName][notificationName]) {
-			trace("Unpure error! : pureMvcTests_singlecore cant manage 2 commands on same notification:" + notificationName + " Old command:" + $commandRegistry[moduleName][notificationName] + " will be unmapped, and changed with:" + commandClassRef);
-			commandMap.unmap(notificationName, $commandRegistry[moduleName][notificationName]);
-			$commandRegistry[moduleName][notificationName] = null;
-		}
-		$commandRegistry[moduleName][notificationName] = commandClassRef;
 		commandMap.map(notificationName, commandClassRef);
 	}
 
@@ -389,9 +381,7 @@ public class UnpureFacade extends ModuleCore {
 	 * @param notificationName the name of the <code>INotification</code> to remove the <code>ICommand</code> mapping for
 	 */
 	public function removeCommand(notificationName:String):void {
-		if ($commandRegistry[moduleName][notificationName]) {
-			commandMap.unmap(notificationName, $commandRegistry[moduleName][notificationName]);
-		}
+		commandMap.unmap(notificationName);
 	}
 
 	/**
@@ -401,7 +391,7 @@ public class UnpureFacade extends ModuleCore {
 	 * @return whether a Command is currently registered for the given <code>notificationName</code>.
 	 */
 	public function hasCommand(notificationName:String):Boolean {
-		return commandMap.mappedCommandCount(notificationName) > 0;
+		return commandMap.isMapped(notificationName);
 	}
 
 	/**
