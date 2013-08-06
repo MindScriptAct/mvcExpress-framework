@@ -12,7 +12,7 @@ public class TestCommand1 extends Command {
 	};
 
 	public function execute(params:Object):void {
-		//trace("TestCommand1.execute > msg : " + msg);
+		//trace("TestCommand1.execute > params : " + params);
 		TestCommand1.TEST_FUNCTION(params);
 	}
 

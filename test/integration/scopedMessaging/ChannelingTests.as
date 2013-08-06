@@ -3,7 +3,6 @@ import integration.scopedMessaging.testObj.moduleA.ChannelModuleA;
 import integration.scopedMessaging.testObj.moduleB.ChannelModuleB;
 
 import mvcexpress.core.ModuleManager;
-
 import mvcexpress.core.namespace.pureLegsCore;
 
 import org.flexunit.Assert;
@@ -31,6 +30,7 @@ public class ChannelingTests {
 		channelModulB.disposeModule();
 
 		use namespace pureLegsCore;
+
 		ModuleManager.disposeAll();
 	}
 
@@ -170,6 +170,34 @@ public class ChannelingTests {
 		channelModulB.sendChannelMessage_comTest1();
 		//
 		Assert.assertFalse("Command test1 must be false after commandMap.channelMap() then commandMap.channelUnmap() and  sendChannelMessage()", channelModulB.command1executed);
+
+	}
+
+	[Test(expects="Error")]
+	public function channeling_messegeToCommandChanneling_addTwiceChannelCommand_fails():void {
+		//
+		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
+		//
+		channelModulA.mapCommand_ComTest1();
+		channelModulA.mapCommand_ComTest1();
+		//
+		channelModulB.sendChannelMessage_comTest1();
+		//
+		Assert.assertFalse("Command test1 must be false after commandMap.channelMap() then commandMap.channelUnmap() and  sendChannelMessage()", channelModulB.command1executed);
+
+	}
+
+	[Test]
+	public function channeling_messegeToCommandChanneling_addTwiceWithCanMapOverChannelCommand_ok():void {
+		//
+		Assert.assertFalse("Cammand test1 executed flag mast be false", channelModulB.command1executed);
+		//
+		channelModulA.mapCommand_ComTest1();
+		channelModulA.mapCommand_ComTest1(true);
+		//
+		channelModulB.sendChannelMessage_comTest1();
+		//
+		Assert.assertTrue("Command test1 must be true after commandMap.channelMap() and  sendChannelMessage()", channelModulB.command1executed);
 
 	}
 

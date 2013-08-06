@@ -66,11 +66,13 @@ public class CommandMap {
 	//----------------------------------
 
 	/**
-	 * Map a class to be executed then message with provided type is sent.
+	 * Map a class to be executed then message with provided type is sent.								<br>
+	 * Only one command can be mapped to single messageType. Unless canMapOver set to true - error will be thrown if you attempt to map second command class to same message type.
 	 * @param    type                Message type for command class to react to.
 	 * @param    commandClass        Command class that will be executed.
+	 * @param    canMapOver          Allows mapping command class over already existing command.
 	 */
-	public function map(type:String, commandClass:Class):void {
+	public function map(type:String, commandClass:Class, canMapOver:Boolean = false):void {
 		// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 		use namespace pureLegsCore;
 
@@ -84,11 +86,13 @@ public class CommandMap {
 		}
 
 		if (classRegistry[type]) {
-			throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + ", but it is already mapped to " + classRegistry[type]);
+			if (!canMapOver) {
+				throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + ", but it is already mapped to " + classRegistry[type]);
+			}
+		} else {
+			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 		}
 
-		// add command handler.
-		messenger.addCommandHandler(type, handleCommandExecute, commandClass);
 
 		classRegistry[type] = commandClass;
 	}
@@ -211,22 +215,26 @@ public class CommandMap {
 	//----------------------------------
 
 	/**
-	 * Maps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.
+	 * Maps a class for module to module communication, to be executed then message with provided type and scopeName is sent to scope.   			<br>
+     * Only one command can be mapped to single messageType, for single scope. Unless canMapOver set to true - error will be thrown if you attempt to map second command class to same message type.
 	 * @param    scopeName            both sending and receiving modules must use same scope to make module to module communication.
 	 * @param    type                Message type for command class to react to.
 	 * @param    commandClass        Command class that will be executed.
+	 * @param    canMapOver          Allows mapping command class over already existing command.
 	 */
-	public function scopeMap(scopeName:String, type:String, commandClass:Class):void {
+	public function scopeMap(scopeName:String, type:String, commandClass:Class, canMapOver:Boolean = false):void {
 		use namespace pureLegsCore;
 
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 
 		if (classRegistry[scopedType]) {
-			throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + " with scope " + scopeName + ", but it is already mapped to " + classRegistry[type]);
+			if (!canMapOver) {
+				throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + " with scope " + scopeName + ", but it is already mapped to " + classRegistry[type]);
+			}
+		} else {
+			scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 		}
-
-		scopeHandlers[scopeHandlers.length] = ModuleManager.scopedCommandMap(moduleName, handleCommandExecute, scopeName, type, commandClass)
 
 		classRegistry[scopedType] = commandClass;
 	}
@@ -248,12 +256,12 @@ public class CommandMap {
 	}
 
 
-//----------------------------------
-//     command pooling
-//----------------------------------
+	//----------------------------------
+	//     command pooling
+	//----------------------------------
 
 	/**
-	 * Checks if PooledCommand is already pooled.
+	 * Checks if specific PooledCommand is already pooled.
 	 * @param    commandClass
 	 * @return    true if command pool is created.
 	 */
@@ -271,9 +279,9 @@ public class CommandMap {
 	}
 
 
-//----------------------------------
-//     Debug
-//----------------------------------
+	//----------------------------------
+	//     Debug
+	//----------------------------------
 
 	/**
 	 * Checks if Command class is already added to message type, or any class.
@@ -308,9 +316,9 @@ public class CommandMap {
 	}
 
 
-//----------------------------------
-//     INTERNAL
-//----------------------------------
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
 
 	/**
 	 * Pool command from outside of CommandMap.
@@ -487,7 +495,7 @@ public class CommandMap {
 		}
 	}
 
-// used for debugging
+	// used for debugging
 	pureLegsCore function listMessageCommands(messageType:String):Class {
 		return classRegistry[messageType];
 	}

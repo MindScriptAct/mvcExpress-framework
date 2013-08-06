@@ -84,6 +84,17 @@ public class CommandMapTests {
 		messenger.send("test");
 	}
 
+	[Test(async, description="Test two command execution")]
+
+	public function test_two_command_canMapOver_ok():void {
+		callsExpected = 1;
+		TestCommand1.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
+		TestCommand2.TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackIncrease, null, 300, callBackCheck)
+		commandMap.map("test", TestCommand2);
+		commandMap.map("test", TestCommand1, true);
+		messenger.send("test");
+	}
+
 	[Test(async, description="Test two command add + 1 remove")]
 
 	public function test_two_add_remove_add_command_execute():void {

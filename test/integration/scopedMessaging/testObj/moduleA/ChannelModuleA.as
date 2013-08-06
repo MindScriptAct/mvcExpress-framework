@@ -42,8 +42,8 @@ public class ChannelModuleA extends ModuleCore {
 		view.dispatchEvent(new Event("addChannelHandler_testChannel_test4_withParams"));
 	}
 
-	public function mapCommand_ComTest1():void {
-		commandMap.scopeMap("default", "CommTest1", ComTest1Command);
+	public function mapCommand_ComTest1(canMapOver:Boolean = false):void {
+		commandMap.scopeMap("default", "CommTest1", ComTest1Command, canMapOver);
 	}
 
 	public function unmapCommand_ComTest1():void {

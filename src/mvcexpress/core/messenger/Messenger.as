@@ -174,6 +174,22 @@ public class Messenger {
 	//     Debug
 	//----------------------------------
 
+
+	/**
+	 * Checks if handler is added to specific message type.
+	 * @param    type                message type that handler had to react
+	 * @param    handler                function called on sent message.
+	 */
+	public function isHandlerAdded(type:String, handler:Function):Boolean {
+		var retVal:Boolean = false;
+		if (handlerRegistry[type]) {
+			if (handlerRegistry[type][handler]) {
+				retVal = true;
+			}
+		}
+		return retVal;
+	}
+
 	/**
 	 * List all message mappings.
 	 * Intended to be used by ModuleCore.as
