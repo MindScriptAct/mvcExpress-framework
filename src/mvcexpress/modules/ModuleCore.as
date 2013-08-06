@@ -78,7 +78,7 @@ public class ModuleCore {
 		} else {
 			CONFIG::debug {
 				if (!checkClassSuperclass(messengerClass, "mvcexpress.core.messenger::Messenger", true)) {
-				throw Error("ModuleCore can use only messengerClass that extends Messenger. (" + messengerClass + " will not work)");
+					throw Error("ModuleCore can use only messengerClass that extends Messenger. (" + messengerClass + " will not work)");
 				}
 			}
 		}
@@ -166,10 +166,10 @@ public class ModuleCore {
 	 * @param    params    Object that will be send to Command execute() or to handle function as parameter.
 	 */
 	public function sendMessage(type:String, params:Object = null):void {
+		use namespace pureLegsCore;
+
 		// log the action
 		CONFIG::debug {
-			use namespace pureLegsCore;
-
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, true));
 		}
 		//
@@ -259,6 +259,7 @@ public class ModuleCore {
 	 */
 	public function listMappedMessages():String {
 		use namespace pureLegsCore;
+
 		return messenger.listMappings(commandMap);
 	}
 
