@@ -338,7 +338,7 @@ public class ProxyMap implements IProxyMap {
 				retVal = (injectObjectRegistry[className + name] == proxyObject);
 			} else {
 				retVal = true;
-			}                       `
+			}
 		}
 		return retVal;
 	}

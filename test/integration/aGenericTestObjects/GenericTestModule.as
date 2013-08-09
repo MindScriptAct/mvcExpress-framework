@@ -49,7 +49,7 @@ public class GenericTestModule extends ModuleCore {
 	}
 
 	public function proxymap_isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
-		return proxyMap.isMapped(proxyObject, injectClass, name);
+		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
 	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
