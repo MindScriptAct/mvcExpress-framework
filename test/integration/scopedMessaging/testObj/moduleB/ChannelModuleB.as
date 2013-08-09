@@ -2,13 +2,15 @@ package integration.scopedMessaging.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
 
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ChannelModuleB extends ModuleCore {
+public class ChannelModuleB extends ModuleScoped {
 	private var view:Sprite;
 
 	static public const NAME:String = "ChannelModuleB";

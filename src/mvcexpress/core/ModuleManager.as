@@ -3,18 +3,12 @@ package mvcexpress.core {
 import flash.utils.Dictionary;
 
 import mvcexpress.MvcExpress;
-import mvcexpress.core.inject.InjectRuleVO;
-import mvcexpress.core.inject.PendingInject;
 import mvcexpress.core.inject.testInject;
-import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModule;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
-import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_registerScope;
-import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_unregisterScope;
 import mvcexpress.modules.ModuleCore;
-import mvcexpress.mvc.Proxy;
 
 /**
  * INTERNAL FRAMEWORK CLASS.
@@ -89,6 +83,10 @@ public class ModuleManager {
 		return moduleRegistry[moduleName].messenger;
 	}
 
+	static pureLegsCore function getModule(moduleName:String):ModuleCore {
+		return moduleRegistry[moduleName];
+	}
+
 	/**
 	 * disposes of messenger for module name.
 	 * @param    moduleName    name of the module this messenger was belong to.
@@ -104,28 +102,26 @@ public class ModuleManager {
 		if (moduleRegistry[moduleName]) {
 			// remove scoped proxies from this module
 			/*
-					var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
-					if (scopiedProxies) {
-						// remove scoped proxies.
-						for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
-							var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
-							scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
-							delete scopiedProxies[scopedProxyData.injectId];
-						}
-					}
-			*/
+			 var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
+			 if (scopiedProxies) {
+			 // remove scoped proxies.
+			 for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
+			 var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
+			 scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
+			 delete scopiedProxies[scopedProxyData.injectId];
+			 }
+			 }
+			 */
 			//
 			delete moduleRegistry[moduleName];
 			//
 			/*
-					delete scopePermissionsRegistry[moduleName];
-			*/
+			 delete scopePermissionsRegistry[moduleName];
+			 */
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
 	}
-
-
 
 
 	// REFACTOR : temp fuction to reset state - needs refactor after scope stuff is removed from here.

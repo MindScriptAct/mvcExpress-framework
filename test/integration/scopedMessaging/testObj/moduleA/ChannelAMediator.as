@@ -1,13 +1,15 @@
 package integration.scopedMessaging.testObj.moduleA {
 import flash.events.Event;
 
+import mvcexpress.extensions.scoped.mvc.MediatorScoped;
+
 import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ChannelAMediator extends Mediator {
+public class ChannelAMediator extends MediatorScoped {
 
 	[Inject]
 	public var view:ChannelViewA;

@@ -2,13 +2,15 @@ package integration.scopedMessaging.testObj.moduleB {
 import flash.display.Sprite;
 import flash.events.Event;
 
+import mvcexpress.extensions.scoped.mvc.MediatorScoped;
+
 import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ChannelBMediator extends Mediator {
+public class ChannelBMediator extends MediatorScoped {
 
 	[Inject]
 	public var view:Sprite;

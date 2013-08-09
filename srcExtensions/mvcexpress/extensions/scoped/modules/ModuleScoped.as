@@ -18,11 +18,26 @@ import mvcexpress.modules.ModuleCore;
  */
 public class ModuleScoped extends ModuleCore {
 
+	/** Handles application Proxies. */
+	protected var proxyMapScoped:ProxyMapScoped;
+
+	/** Handles application Commands. */
+	protected var commandMapScoped:CommandMapScoped;
+
 	public function ModuleScoped(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
-		super(moduleName, null, ProxyMapScoped, CommandMapScoped)
+		super(moduleName, null, ProxyMapScoped, CommandMapScoped);
+
+		proxyMapScoped = proxyMap as ProxyMapScoped;
+		commandMapScoped = commandMap as CommandMapScoped;
 	}
 
-	//----------------------------------
+
+	override public function disposeModule():void {
+		ScopeManager.disposeModule(moduleName);
+		super.disposeModule();
+	}
+
+//----------------------------------
 	//     SCOPED MESSAGING
 	//----------------------------------
 

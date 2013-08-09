@@ -1,11 +1,12 @@
 package integration.aGenericTestObjects.model {
+import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
 
 /**
  * CLASS COMMENT
  * @author rBanevicius
  */
-public class GenericTestProxy extends Proxy {
+public class GenericTestProxy extends ProxyScoped {
 
 	public var testData:String;
 

@@ -2,6 +2,7 @@ package mvcexpress.extensions.scoped.core {
 import flash.utils.Dictionary;
 
 import mvcexpress.MvcExpress;
+import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
@@ -10,6 +11,7 @@ import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_registerScope;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_unregisterScope;
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
 
@@ -317,6 +319,49 @@ public class ScopeManager {
 				delete scopePermissionsRegistry[moduleName][scopeName];
 			}
 		}
+
+	}
+
+	public static function disposeModule(moduleName:String):void {
+		use namespace pureLegsCore;
+
+		var moduleScoped:ModuleScoped = ModuleManager.getModule(moduleName) as ModuleScoped;
+		if (moduleScoped) {
+			// remove scoped proxies from this module
+			var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
+			if (scopiedProxies) {
+				// remove scoped proxies.
+				for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
+					var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
+					scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
+					delete scopiedProxies[scopedProxyData.injectId];
+				}
+			}
+			//
+			delete scopePermissionsRegistry[moduleName];
+		} else {
+			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
+		}
+	}
+
+	// REFACTOR : temp fuction to reset state - needs refactor after scope stuff is removed from here.
+	static public function disposeAll():void {
+		use namespace pureLegsCore;
+
+		// FIX ME - decide how to implement this..
+
+		for each(var messenger:Messenger in scopedMessengers) {
+			messenger.dispose();
+		}
+		scopedMessengers = new Dictionary();
+
+		for each(var proxyMap:ProxyMap in scopedProxyMaps) {
+			proxyMap.dispose();
+		}
+		scopedProxyMaps = new Dictionary();
+
+		scopedProxiesByScope = new Dictionary();
+		scopePermissionsRegistry = new Dictionary();
 
 	}
 

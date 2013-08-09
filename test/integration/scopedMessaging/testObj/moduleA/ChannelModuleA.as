@@ -1,13 +1,15 @@
 package integration.scopedMessaging.testObj.moduleA {
 import flash.events.Event;
 
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ChannelModuleA extends ModuleCore {
+public class ChannelModuleA extends ModuleScoped {
 	public var view:ChannelViewA;
 
 	static public const NAME:String = "ChannelModuleA";
@@ -43,11 +45,11 @@ public class ChannelModuleA extends ModuleCore {
 	}
 
 	public function mapCommand_ComTest1(canMapOver:Boolean = false):void {
-		commandMap.scopeMap("default", "CommTest1", ComTest1Command, canMapOver);
+		commandMapScoped.scopeMap("default", "CommTest1", ComTest1Command, canMapOver);
 	}
 
 	public function unmapCommand_ComTest1():void {
-		commandMap.scopeUnmap("default", "CommTest1");
+		commandMapScoped.scopeUnmap("default", "CommTest1");
 	}
 
 	override protected function onInit():void {

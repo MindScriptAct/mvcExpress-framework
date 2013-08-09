@@ -66,11 +66,11 @@ public class AllTestSuites {
 
 	//*/
 
-	//public var scopeControllTest:ScopeControlTests;
+	public var scopeControllTest:ScopeControlTests;
 
-	//public var channelingTests:ChannelingTests;
+	public var channelingTests:ChannelingTests;
 
-	//public var scopedProxyTests:ScopedProxyTests;
+	public var scopedProxyTests:ScopedProxyTests;
 
 }
 

@@ -3,13 +3,15 @@ import flash.display.Sprite;
 
 import integration.scopedProxy.ScopedProxyTests;
 
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ScopedProxyModuleB extends ModuleCore {
+public class ScopedProxyModuleB extends ModuleScoped {
 	private var view:Sprite;
 	private var testViewObject:ScopedProxyInjectView;
 	private var testProxy:ScopedProxyInjectProxy;

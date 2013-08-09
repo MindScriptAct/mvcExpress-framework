@@ -1,13 +1,15 @@
 package integration.scopedProxy.testObj.moduleA {
 import integration.scopedProxy.ScopedProxyTests;
 
+import mvcexpress.extensions.scoped.mvc.ProxyScoped;
+
 import mvcexpress.mvc.Proxy;
 
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ScopedTestProxy extends Proxy {
+public class ScopedTestProxy extends ProxyScoped {
 	public var storedData:String;
 
 	public function ScopedTestProxy() {

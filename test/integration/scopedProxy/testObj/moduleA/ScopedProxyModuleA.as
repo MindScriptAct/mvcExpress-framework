@@ -1,13 +1,15 @@
 package integration.scopedProxy.testObj.moduleA {
 import integration.scopedProxy.ScopedProxyTests;
 
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
+
 import mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ScopedProxyModuleA extends ModuleCore {
+public class ScopedProxyModuleA extends ModuleScoped {
 	private var testViewObject:ScopedProxyLocalInjectView;
 
 	static public const NAME:String = "ScopedProxyModuleA";
@@ -19,11 +21,11 @@ public class ScopedProxyModuleA extends ModuleCore {
 	public function hostTestProxy(scopedTestProxy:ScopedTestProxy):void {
 		//trace( "ScopedProxyModuleA.hostTestProxy > scopedTestProxy : " + scopedTestProxy );
 		registerScope(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, true, true, true);
-		proxyMap.scopeMap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, scopedTestProxy);
+		proxyMapScoped.scopeMap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, scopedTestProxy);
 	}
 
 	public function unhostTestProxy(injectClass:Class):void {
-		proxyMap.scopeUnmap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, injectClass);
+		proxyMapScoped.scopeUnmap(ScopedProxyTests.SCOPED_PROXY_SCOPE_NAME, injectClass);
 	}
 
 	public function trigerMediatorMessage(testData:String):void {

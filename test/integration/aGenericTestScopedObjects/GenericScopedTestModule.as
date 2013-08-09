@@ -1,5 +1,6 @@
-package integration.aGenericTestObjects {
+package integration.aGenericTestScopedObjects {
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
+import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -36,12 +37,12 @@ public class GenericScopedTestModule extends ModuleScoped {
 		return proxyMap.unmap(injectClass, name);
 	}
 
-	public function proxymap_scopeMap(scopeName:String, proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
-		proxyMap.scopeMap(scopeName, proxyObject, injectClass, name);
+	public function proxymap_scopeMap(scopeName:String, proxyObject:ProxyScoped, injectClass:Class = null, name:String = ""):void {
+		proxyMapScoped.scopeMap(scopeName, proxyObject, injectClass, name);
 	}
 
 	public function proxymap_scopeUnmap(scopeName:String, injectClass:Class, name:String = ""):void {
-		proxyMap.scopeUnmap(scopeName, injectClass, name);
+		proxyMapScoped.scopeUnmap(scopeName, injectClass, name);
 	}
 
 	public function proxymap_getProxy(injectClass:Class, name:String = ""):Proxy {
@@ -105,11 +106,11 @@ public class GenericScopedTestModule extends ModuleScoped {
 	}
 
 	public function commandMap_scopeMap(scopeName:String, type:String, commandClass:Class):void {
-		commandMap.scopeMap(scopeName, type, commandClass);
+		commandMapScoped.scopeMap(scopeName, type, commandClass);
 	}
 
 	public function commandMap_scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
-		commandMap.scopeUnmap(scopeName, type);
+		commandMapScoped.scopeUnmap(scopeName, type);
 	}
 
 	public function commandMap_isMapped(type:String, commandClass:Class):Boolean {

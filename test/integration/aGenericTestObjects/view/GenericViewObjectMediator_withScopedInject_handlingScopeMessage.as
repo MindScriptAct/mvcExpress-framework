@@ -4,13 +4,15 @@ import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.constants.GenericTestStrings;
 import integration.aGenericTestObjects.model.GenericTestProxy;
 
+import mvcexpress.extensions.scoped.mvc.MediatorScoped;
+
 import mvcexpress.mvc.Mediator;
 
 /**
  * CLASS COMMENT
  * @author rBanevicius
  */
-public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage extends Mediator {
+public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage extends MediatorScoped {
 
 	[Inject]
 	public var view:GenericViewObject;

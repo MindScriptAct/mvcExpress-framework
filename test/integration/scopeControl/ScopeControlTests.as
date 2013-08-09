@@ -1,5 +1,4 @@
 package integration.scopeControl {
-import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.constants.GenericScopeIds;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.constants.GenericTestStrings;
@@ -8,6 +7,7 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.aGenericTestObjects.view.GenericViewObject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingScopeMessage;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject_handlingScopeMessage;
+import integration.aGenericTestScopedObjects.GenericScopedTestModule;
 
 import org.flexunit.Assert;
 
@@ -17,14 +17,14 @@ import org.flexunit.Assert;
  */
 public class ScopeControlTests {
 
-	private var moduleOut:GenericTestModule;
-	private var moduleIn:GenericTestModule;
+	private var moduleOut:GenericScopedTestModule;
+	private var moduleIn:GenericScopedTestModule;
 
 	[Before]
 
 	public function runBeforeEveryTest():void {
-		moduleOut = new GenericTestModule("moduleOut");
-		moduleIn = new GenericTestModule("moduleIn");
+		moduleOut = new GenericScopedTestModule("moduleOut");
+		moduleIn = new GenericScopedTestModule("moduleIn");
 	}
 
 	[After]
@@ -103,7 +103,7 @@ public class ScopeControlTests {
 	public function scopeControl_messageOutWithScopeRegisterWithModuleRecreate_fails():void {
 		moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, true, false, false);
 		moduleOut.disposeModule();
-		moduleOut = new GenericTestModule("moduleOut");
+		moduleOut = new GenericScopedTestModule("moduleOut");
 		moduleOut.sendScopeMessageTest(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE);
 	}
 
@@ -112,7 +112,7 @@ public class ScopeControlTests {
 	public function scopeControl_messageInHandleWithScopeRegisterWithModuleRecreate_fails():void {
 		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
 		moduleIn.disposeModule();
-		moduleIn = new GenericTestModule("moduleIn");
+		moduleIn = new GenericScopedTestModule("moduleIn");
 		moduleIn.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_handlingScopeMessage);
 	}
 
@@ -121,7 +121,7 @@ public class ScopeControlTests {
 	public function scopeControl_messageInCommandMapWithScopeRegisterWithModuleRecreate_fails():void {
 		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, true, false);
 		moduleIn.disposeModule();
-		moduleIn = new GenericTestModule("moduleIn");
+		moduleIn = new GenericScopedTestModule("moduleIn");
 		moduleIn.commandMap_scopeMap(GenericScopeIds.TEST_SCOPE, GenericTestMessage.TEST_MESSAGE, GenericCommand);
 	}
 
@@ -130,7 +130,7 @@ public class ScopeControlTests {
 	public function scopeControl_scopedInjectWithScopeRegisterWithModuleRecreate_fails():void {
 		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
 		moduleIn.disposeModule();
-		moduleIn = new GenericTestModule("moduleIn");
+		moduleIn = new GenericScopedTestModule("moduleIn");
 		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
 	}
 
