@@ -3,8 +3,6 @@ import integration.scopedProxy.ScopedProxyTests;
 
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 
-import mvcexpress.mvc.Proxy;
-
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

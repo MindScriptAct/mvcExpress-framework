@@ -52,7 +52,6 @@ public class AllTestSuites {
 	public var mediatorTests:MediatorTests;
 
 
-
 	public var lazyProxyTests:LazyProxyTests;
 
 	public var mediatingTests:MediatingTests;

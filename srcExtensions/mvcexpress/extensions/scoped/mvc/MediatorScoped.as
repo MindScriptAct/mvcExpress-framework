@@ -1,7 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.scoped.mvc {
 import mvcexpress.MvcExpress;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;

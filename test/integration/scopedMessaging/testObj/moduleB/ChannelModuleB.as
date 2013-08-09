@@ -4,8 +4,6 @@ import flash.events.Event;
 
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 
-import mvcexpress.modules.ModuleCore;
-
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

@@ -8,7 +8,6 @@ import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
-import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 import mvcexpress.utils.checkClassSuperclass;
 
 /**

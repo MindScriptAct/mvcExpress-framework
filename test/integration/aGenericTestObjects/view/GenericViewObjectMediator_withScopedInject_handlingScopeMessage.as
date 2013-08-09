@@ -6,8 +6,6 @@ import integration.aGenericTestObjects.model.GenericTestProxy;
 
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
-import mvcexpress.mvc.Mediator;
-
 /**
  * CLASS COMMENT
  * @author rBanevicius

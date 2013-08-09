@@ -176,6 +176,7 @@ public class UnpureFacade extends ModuleCore {
 
 	pureLegsCore function getMessender():Messenger {
 		use namespace pureLegsCore;
+
 		return messenger;
 	}
 

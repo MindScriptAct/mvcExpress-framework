@@ -4,8 +4,6 @@ import integration.scopedProxy.testObj.moduleA.ScopedTestProxy;
 
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
-import mvcexpress.mvc.Mediator;
-
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

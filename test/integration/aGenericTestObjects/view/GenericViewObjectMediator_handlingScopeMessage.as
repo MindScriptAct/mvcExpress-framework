@@ -4,8 +4,6 @@ import integration.aGenericTestObjects.constants.GenericTestMessage;
 
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
-import mvcexpress.mvc.Mediator;
-
 /**
  * CLASS COMMENT
  * @author rBanevicius

@@ -3,7 +3,6 @@ package mvcexpress.mvc {
 import flash.utils.Dictionary;
 
 import mvcexpress.MvcExpress;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;

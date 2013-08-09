@@ -3,8 +3,6 @@ import flash.events.Event;
 
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
-import mvcexpress.mvc.Mediator;
-
 /**
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

@@ -3,12 +3,10 @@ package mvcexpress.mvc {
 import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendMessage;
-import mvcexpress.core.traceObjects.command.TraceCommand_sendScopeMessage;
 
 /**
  * Command, handles business logic of your application.                                                                                                    </br>
