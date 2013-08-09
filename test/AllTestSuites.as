@@ -51,9 +51,7 @@ public class AllTestSuites {
 
 	public var mediatorTests:MediatorTests;
 
-	public var channelingTests:ChannelingTests;
 
-	public var scopedProxyTests:ScopedProxyTests;
 
 	public var lazyProxyTests:LazyProxyTests;
 
@@ -65,9 +63,14 @@ public class AllTestSuites {
 
 	public var proxyMapTests:ProxyMapTests;
 
-	public var scopeControllTest:ScopeControlTests;
 
 	//*/
+
+	//public var scopeControllTest:ScopeControlTests;
+
+	//public var channelingTests:ChannelingTests;
+
+	//public var scopedProxyTests:ScopedProxyTests;
 
 }
 

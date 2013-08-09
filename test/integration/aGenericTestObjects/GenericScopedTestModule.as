@@ -1,14 +1,14 @@
 package integration.aGenericTestObjects {
-import mvcexpress.modules.ModuleCore;
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class GenericTestModule extends ModuleCore {
+public class GenericScopedTestModule extends ModuleScoped {
 
-	public function GenericTestModule(moduleName:String) {
+	public function GenericScopedTestModule(moduleName:String) {
 		super(moduleName);
 	}
 
@@ -18,6 +18,10 @@ public class GenericTestModule extends ModuleCore {
 
 	public function sendMessageTest(type:String, params:Object = null):void {
 		super.sendMessage(type, params);
+	}
+
+	public function sendScopeMessageTest(scopeName:String, type:String, params:Object = null):void {
+		super.sendScopeMessage(scopeName, type, params);
 	}
 
 	//----------------------------------
@@ -118,6 +122,18 @@ public class GenericTestModule extends ModuleCore {
 
 	public function commandMap_checkIsClassPooled(commandClass:Class):Boolean {
 		return commandMap.checkIsClassPooled(commandClass);
+	}
+
+	//----------------------------------
+	//     Scope
+	//----------------------------------
+
+	public function registerScopeTest(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMap:Boolean = false):void {
+		super.registerScope(scopeName, messageSending, messageReceiving, proxieMap);
+	}
+
+	public function unregisterScopeTest(scopeName:String):void {
+		super.unregisterScope(scopeName);
 	}
 
 }

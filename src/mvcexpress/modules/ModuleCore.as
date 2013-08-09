@@ -181,55 +181,6 @@ public class ModuleCore {
 		}
 	}
 
-	/**
-	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
-	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
-	 * @param    params        Object that will be passed to Command execute() function or to handle functions.
-	 */
-	public function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
-		use namespace pureLegsCore;
-
-		// log the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, true));
-		}
-		//
-		ModuleManager.sendScopeMessage(_moduleName, scopeName, type, params);
-		//
-		// clean up logging the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(_moduleName, this, type, params, false));
-		}
-	}
-
-	/**
-	 * Registers scope name.
-	 * If scope name is not registered - module to module communication via scope and mapping proxies to scope is not possible.
-	 * What features module can use with that scope is defined by parameters.
-	 * @param    scopeName            Name of the scope.
-	 * @param    messageSending        Modules can send constants to this scope.
-	 * @param    messageReceiving    Modules can receive and handle constants from this scope.(or map commands to scoped constants);
-	 * @param    proxieMap            Modules can map proxies to this scope.
-	 */
-	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
-		use namespace pureLegsCore;
-
-		ModuleManager.registerScope(_moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
-	}
-
-	/**
-	 * Unregisters scope name.
-	 * Then scope is not registered module to module communication via scope and mapping proxies to scope becomes not possible.
-	 * @param    scopeName            Name of the scope.
-	 */
-	protected function unregisterScope(scopeName:String):void {
-		use namespace pureLegsCore;
-
-		ModuleManager.unregisterScope(_moduleName, scopeName);
-	}
-
-
 	//----------------------------------
 	//     Execute module command.
 	//----------------------------------
