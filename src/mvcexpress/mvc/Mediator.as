@@ -5,7 +5,6 @@ import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
 import mvcexpress.MvcExpress;
-import mvcexpress.core.ModuleManager;
 import mvcexpress.core.interfaces.IMediatorMap;
 import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.HandlerVO;
@@ -13,7 +12,6 @@ import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_addHandler;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_sendMessage;
-import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 
 /**
  * Mediates single view object.                                                                                                                            </br>
@@ -54,14 +52,14 @@ public class Mediator {
 	pureLegsCore var pendingInjections:int; // = 0;
 
 	/** all added message handlers. */
-	private var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
+	pureLegsCore var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
 	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
-	private var eventListenerRegistry:Dictionary = new Dictionary();
+	pureLegsCore var eventListenerRegistry:Dictionary = new Dictionary();
 	/* or Dictionary by Function */
 
 	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
-	private var eventListenerCaptureRegistry:Dictionary = new Dictionary();
+	pureLegsCore var eventListenerCaptureRegistry:Dictionary = new Dictionary();
 	/* or Dictionary by Function */
 
 	// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -132,29 +130,6 @@ public class Mediator {
 		}
 	}
 
-	/**
-	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
-	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
-	 * @param    params        Object that will be passed to Command execute() function and to handle functions.
-	 */
-	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
-		use namespace pureLegsCore;
-
-		// log the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, true));
-		}
-		//
-		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
-		//
-		// clean up logging the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceMediator_sendScopeMessage(moduleName, this, type, params, false));
-		}
-	}
-
-
 	//----------------------------------
 	//     message handlers
 	//----------------------------------
@@ -206,35 +181,6 @@ public class Mediator {
 			var handler:HandlerVO = handlerVoRegistry.pop();
 			handler.handler = null;
 		}
-	}
-
-
-	//----------------------------------
-	//     scope handling
-	//----------------------------------
-
-	/**
-	 * Adds module to module communication handle function to be called then message of provided type is sent to provided scopeName.
-	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
-	 * @param    type        type    message type for handle function to react to.
-	 * @param    handler        function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
-	 */
-	protected function addScopeHandler(scopeName:String, type:String, handler:Function):void {
-		use namespace pureLegsCore;
-
-		handlerVoRegistry[handlerVoRegistry.length] = ModuleManager.addScopeHandler(moduleName, scopeName, type, handler);
-	}
-
-	/**
-	 * Removes module to module communication handle function from message of provided type, sent to provided scopeName.
-	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
-	 * @param    type        type    message type for handle function to react to.
-	 * @param    handler        function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
-	 */
-	protected function removeScopeHandler(scopeName:String, type:String, handler:Function):void {
-		use namespace pureLegsCore;
-
-		ModuleManager.removeScopeHandler(scopeName, type, handler);
 	}
 
 

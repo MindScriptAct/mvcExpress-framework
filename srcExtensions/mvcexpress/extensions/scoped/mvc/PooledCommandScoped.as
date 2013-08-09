@@ -1,50 +1,43 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package mvcexpress.extensions.scoped.modules {
+package mvcexpress.extensions.scoped.mvc {
 import mvcexpress.MvcExpress;
+import mvcexpress.core.ModuleManager;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
-import mvcexpress.extensions.scoped.core.CommandMapScoped;
-import mvcexpress.extensions.scoped.core.ProxyMapScoped;
+import mvcexpress.core.traceObjects.command.TraceCommand_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;
-import mvcexpress.modules.ModuleCore;
+import mvcexpress.mvc.*;
 
 /**
- * Core Module class, represents single application unit in mvcExpress framework.
- * <p>
- * It starts framework and lets you set up your application. (or execute Commands for set up.)
- * You can create modular application by having more then one module.
- * </p>
+ * Command that is automatically pooled.
+ * All PooledCommand's are automatically pooled after execution for later reuse(except then they are locked)
+ * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() it.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ModuleScoped extends ModuleCore {
-
-	public function ModuleScoped(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
-		super(moduleName, null, ProxyMapScoped, CommandMapScoped)
-	}
+public class PooledCommandScoped extends PooledCommand {
 
 	//----------------------------------
-	//     SCOPED MESSAGING
+	//     MESSAGING
 	//----------------------------------
 
 	/**
 	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
 	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
 	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
-	 * @param    params        Object that will be passed to Command execute() function or to handle functions.
+	 * @param    params        Object that will be passed to Command execute() function and to handle functions.
 	 */
-	public function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
+	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 
 		// log the action
 		CONFIG::debug {
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(moduleName, this, type, params, true));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(messenger.moduleName, this, type, params, true));
 		}
 		//
-		ScopeManager.sendScopeMessage(moduleName, scopeName, type, params);
+		ScopeManager.sendScopeMessage(messenger.moduleName, scopeName, type, params);
 		//
 		// clean up logging the action
 		CONFIG::debug {
-			MvcExpress.debug(new TraceModuleBase_sendScopeMessage(moduleName, this, type, params, false));
+			MvcExpress.debug(new TraceCommand_sendScopeMessage(messenger.moduleName, this, type, params, false));
 		}
 	}
 
@@ -55,12 +48,12 @@ public class ModuleScoped extends ModuleCore {
 	 * @param    scopeName            Name of the scope.
 	 * @param    messageSending        Modules can send constants to this scope.
 	 * @param    messageReceiving    Modules can receive and handle constants from this scope.(or map commands to scoped constants);
-	 * @param    proxieMap            Modules can map proxies to this scope.
+	 * @param    proxieMapping        Modules can map proxies to this scope.
 	 */
 	protected function registerScope(scopeName:String, messageSending:Boolean = true, messageReceiving:Boolean = true, proxieMapping:Boolean = false):void {
 		use namespace pureLegsCore;
 
-		ScopeManager.registerScope(moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
+		ScopeManager.registerScope(messenger.moduleName, scopeName, messageSending, messageReceiving, proxieMapping);
 	}
 
 	/**
@@ -71,7 +64,7 @@ public class ModuleScoped extends ModuleCore {
 	protected function unregisterScope(scopeName:String):void {
 		use namespace pureLegsCore;
 
-		ScopeManager.unregisterScope(moduleName, scopeName);
+		ScopeManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
 

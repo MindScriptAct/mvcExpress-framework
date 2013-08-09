@@ -32,14 +32,6 @@ public class GenericTestModule extends ModuleCore {
 		return proxyMap.unmap(injectClass, name);
 	}
 
-	public function proxymap_scopeMap(scopeName:String, proxyObject:Proxy, injectClass:Class = null, name:String = ""):void {
-		proxyMap.scopeMap(scopeName, proxyObject, injectClass, name);
-	}
-
-	public function proxymap_scopeUnmap(scopeName:String, injectClass:Class, name:String = ""):void {
-		proxyMap.scopeUnmap(scopeName, injectClass, name);
-	}
-
 	public function proxymap_getProxy(injectClass:Class, name:String = ""):Proxy {
 		return proxyMap.getProxy(injectClass, name);
 	}
@@ -98,14 +90,6 @@ public class GenericTestModule extends ModuleCore {
 
 	public function commandMap_unmap(type:String, commandClass:Class):void {
 		commandMap.unmap(type);
-	}
-
-	public function commandMap_scopeMap(scopeName:String, type:String, commandClass:Class):void {
-		commandMap.scopeMap(scopeName, type, commandClass);
-	}
-
-	public function commandMap_scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
-		commandMap.scopeUnmap(scopeName, type);
 	}
 
 	public function commandMap_isMapped(type:String, commandClass:Class):Boolean {

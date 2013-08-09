@@ -8,7 +8,6 @@ import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
-import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
 
 /**
  * Proxy holds and manages application data, implements API to work with it.                  </br>
@@ -31,9 +30,6 @@ public class Proxy {
 	// used internally for communication
 	/** @private */
 	pureLegsCore var messenger:Messenger;
-
-	// for sending scoped constants then injected by scope.
-	private var proxyScopes:Vector.<String> = new Vector.<String>();
 
 	// for pooled command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
@@ -93,37 +89,11 @@ public class Proxy {
 		//
 		messenger.send(type, params);
 		//
-		var scopeCount:int = proxyScopes.length;
-		for (var i:int; i < scopeCount; i++) {
-			ModuleManager.sendScopeMessage(moduleName, proxyScopes[i], type, params, false);
-		}
+
 		//
 		// clean up logging the action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceProxy_sendMessage(moduleName, this, type, params, false));
-		}
-	}
-
-	/**
-	 * Sends scoped module to module message, all modules that are listening to specified scopeName and message type will get it.
-	 * @param    scopeName    both sending and receiving modules must use same scope to make module to module communication.
-	 * @param    type        type of the message for Commands or Mediator's handle function to react to.
-	 * @param    params        Object that will be passed to Command execute() function and to handle functions.
-	 */
-	protected function sendScopeMessage(scopeName:String, type:String, params:Object = null):void {
-		use namespace pureLegsCore;
-
-		var moduleName:String = messenger.moduleName;
-		// log the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, true));
-		}
-		//
-		ModuleManager.sendScopeMessage(moduleName, scopeName, type, params);
-		//
-		// clean up logging the action
-		CONFIG::debug {
-			MvcExpress.debug(new TraceProxy_sendScopeMessage(moduleName, this, type, params, false));
 		}
 	}
 
@@ -163,46 +133,6 @@ public class Proxy {
 		dependantCommands = null;
 		onRemove();
 	}
-
-
-	//----------------------------------
-	//     Scoping
-	//----------------------------------
-
-	/**
-	 * Add scope for proxy to send all proxy constants to.
-	 * @param    scopeName
-	 * @private
-	 */
-	pureLegsCore function addScope(scopeName:String):void {
-		var messengerFound:Boolean; // = false;
-		var scopeCount:int = proxyScopes.length;
-		for (var i:int; i < scopeCount; i++) {
-			if (proxyScopes[i] == scopeName) {
-				messengerFound = true;
-				break;
-			}
-		}
-		if (!messengerFound) {
-			proxyScopes[proxyScopes.length] = scopeName;
-		}
-	}
-
-	/**
-	 * Remove scope for proxy to send all proxy constants to.
-	 * @param    scopeName
-	 * @private
-	 */
-	pureLegsCore function removeScope(scopeName:String):void {
-		var scopeCount:int = scopeName.length;
-		for (var i:int; i < scopeCount; i++) {
-			if (proxyScopes[i] == scopeName) {
-				proxyScopes.splice(i, 1);
-				break;
-			}
-		}
-	}
-
 
 	//----------------------------------
 	//     Pooled commands
