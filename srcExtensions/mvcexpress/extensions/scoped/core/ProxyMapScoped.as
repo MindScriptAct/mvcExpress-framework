@@ -6,6 +6,7 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.*;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
+import mvcexpress.core.lazy.LazyProxyVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectPending;
@@ -13,6 +14,7 @@ import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectStuff;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeMap;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopeUnmap;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_scopedInjectPending;
+import mvcexpress.extensions.scoped.core.inject.InjectRuleScopedVO;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Command;
 import mvcexpress.mvc.PooledCommand;
@@ -136,7 +138,7 @@ public class ProxyMapScoped extends ProxyMap {
 		// injects all dependencies using rules.
 		var ruleCount:int = rules.length;
 		for (var i:int; i < ruleCount; i++) {
-			var rule:InjectRuleVO = rules[i];
+			var rule:InjectRuleScopedVO = rules[i] as InjectRuleScopedVO;
 			var scopename:String = rule.scopeName;
 			var injectClassAndName:String = rule.injectClassAndName;
 			if (scopename) {
@@ -169,7 +171,7 @@ public class ProxyMapScoped extends ProxyMap {
 				} else {
 					// if local injection fails... test for lazy injections
 					if (injectClassAndName in lazyProxyRegistry) {
-						var lazyProxyData:LazyProxyData = lazyProxyRegistry[injectClassAndName];
+						var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
 						delete lazyProxyRegistry[injectClassAndName];
 
 						var lazyProxy:Proxy;
@@ -250,18 +252,28 @@ public class ProxyMapScoped extends ProxyMap {
 		return isAllInjected;
 	}
 
+	override protected function getInjectRule(args:XMLList, varName:String, injectClass:String):InjectRuleVO {
+		var injectName:String = "";
+		var scopeName:String = "";
+		var argCount:int = args.length();
+		for (var k:int = 0; k < argCount; k++) {
+			var argKey:String = args[k].@key;
+			if (argKey == "name") {
+				injectName = args[k].@value;
+			} else if (argKey == "scope") {
+				scopeName = args[k].@value;
+			} else if (argKey == "constName") {
+				injectName = getInjectByContName(args[k].@value);
+			} else if (argKey == "constScope") {
+				scopeName = getInjectByContName(args[k].@value);
+			}
+		}
+		var mapRule:InjectRuleScopedVO = new InjectRuleScopedVO();
+		mapRule.varName = varName;
+		mapRule.injectClassAndName = injectClass + injectName;
+		mapRule.scopeName = scopeName;
+		return mapRule;
+	}
+
 }
-}
-
-class LazyProxyData {
-
-	/**
-	 * private class to store lazy proxy data.
-	 * @private
-	 */
-
-	public var proxyClass:Class;
-	public var injectClass:Class;
-	public var name:String;
-	public var proxyParams:Array;
 }

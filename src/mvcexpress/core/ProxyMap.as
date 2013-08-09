@@ -9,6 +9,7 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
 import mvcexpress.core.interfaces.IProxyMap;
+import mvcexpress.core.lazy.LazyProxyVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectPending;
@@ -129,8 +130,8 @@ public class ProxyMap implements IProxyMap {
 	 * Removes proxy mapped for injection by injectClass and name.
 	 *  If mapping does not exists - it will fail silently.
 	 * @param    injectClass    class previously mapped for injection
-	 * @param    name        name added to class, that was previously mapped for injection
-	 * @return    returns inject id. (for debuging reasons only.)
+	 * @param    name           name added to class, that was previously mapped for injection
+	 * @return   returns inject id. (for debuging reasons only.)
 	 */
 	public function unmap(injectClass:Class, name:String = ""):String {
 		use namespace pureLegsCore;
@@ -212,7 +213,7 @@ public class ProxyMap implements IProxyMap {
 			MvcExpress.debug(new TraceProxyMap_lazyMap(moduleName, proxyClass, injectClass, name, proxyParams));
 		}
 
-		var lazyInject:LazyProxyData = new LazyProxyData();
+		var lazyInject:LazyProxyVO = new LazyProxyVO();
 		lazyInject.proxyClass = proxyClass;
 		lazyInject.injectClass = injectClass;
 		lazyInject.name = name;
@@ -230,7 +231,7 @@ public class ProxyMap implements IProxyMap {
 
 	/**
 	 * Get mapped proxy. This is needed to get proxy manually instead of inject it automatically.                            <br>
-	 *        You might wont to get proxy manually then your proxy has dynamic name.                                        <br>
+	 *        You might wont to get proxy manually then your proxy has dynamic name.                                         <br>
 	 *        Also you might want to get proxy manually if your proxy is needed only in rare cases or only for short time.
 	 *            (for instance - you need it only in onRegister() function.)
 	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
@@ -400,7 +401,7 @@ public class ProxyMap implements IProxyMap {
 			} else {
 				// if local injection fails... test for lazy injections
 				if (injectClassAndName in lazyProxyRegistry) {
-					var lazyProxyData:LazyProxyData = lazyProxyRegistry[injectClassAndName];
+					var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
 					delete lazyProxyRegistry[injectClassAndName];
 
 					var lazyProxy:Proxy;
@@ -556,32 +557,30 @@ public class ProxyMap implements IProxyMap {
 				for (var j:int = 0; j < metadataCount; j++) {
 					nodeName = metadataList[j].@name;
 					if (nodeName == "Inject") {
-						var injectName:String = "";
-						var scopeName:String = "";
-						var args:XMLList = metadataList[j].arg;
-						var argCount:int = args.length();
-						for (var k:int = 0; k < argCount; k++) {
-							var argKey:String = args[k].@key;
-							if (argKey == "name") {
-								injectName = args[k].@value;
-							} else if (argKey == "scope") {
-								scopeName = args[k].@value;
-							} else if (argKey == "constName") {
-								injectName = getInjectByContName(args[k].@value);
-							} else if (argKey == "constScope") {
-								scopeName = getInjectByContName(args[k].@value);
-							}
-						}
-						var mapRule:InjectRuleVO = new InjectRuleVO();
-						mapRule.varName = node.@name.toString();
-						mapRule.injectClassAndName = node.@type.toString() + injectName;
-						mapRule.scopeName = scopeName;
-						retVal[retVal.length] = mapRule;
+						retVal[retVal.length] = getInjectRule(metadataList[j].arg, node.@name.toString(), node.@type.toString())
 					}
 				}
 			}
 		}
 		return retVal;
+	}
+
+
+	protected function getInjectRule(args:XMLList, varName:String, injectClass:String):InjectRuleVO {
+		var injectName:String = "";
+		var argCount:int = args.length();
+		for (var k:int = 0; k < argCount; k++) {
+			var argKey:String = args[k].@key;
+			if (argKey == "name") {
+				injectName = args[k].@value;
+			} else if (argKey == "constName") {
+				injectName = getInjectByContName(args[k].@value);
+			}
+		}
+		var mapRule:InjectRuleVO = new InjectRuleVO();
+		mapRule.varName = varName;
+		mapRule.injectClassAndName = injectClass + injectName;
+		return mapRule;
 	}
 
 	[Inline]
@@ -613,17 +612,4 @@ public class ProxyMap implements IProxyMap {
 	}
 
 }
-}
-
-class LazyProxyData {
-
-	/**
-	 * private class to store lazy proxy data.
-	 * @private
-	 */
-
-	public var proxyClass:Class;
-	public var injectClass:Class;
-	public var name:String;
-	public var proxyParams:Array;
 }

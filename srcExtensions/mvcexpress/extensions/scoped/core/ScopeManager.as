@@ -4,13 +4,13 @@ import flash.utils.Dictionary;
 import mvcexpress.MvcExpress;
 import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
-import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
 import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_registerScope;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_unregisterScope;
+import mvcexpress.extensions.scoped.core.inject.InjectRuleScopedVO;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
@@ -227,7 +227,7 @@ public class ScopeManager {
 	 * @return
 	 * @private
 	 */
-	static pureLegsCore function injectScopedProxy(recipientObject:Object, injectRule:InjectRuleVO):Boolean {
+	static pureLegsCore function injectScopedProxy(recipientObject:Object, injectRule:InjectRuleScopedVO):Boolean {
 		var scopedProxyMap:ProxyMap = scopedProxyMaps[injectRule.scopeName];
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;

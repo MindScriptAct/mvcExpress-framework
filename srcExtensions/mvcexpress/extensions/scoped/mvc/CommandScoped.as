@@ -3,6 +3,7 @@ package mvcexpress.extensions.scoped.mvc {
 import mvcexpress.MvcExpress;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendScopeMessage;
+import mvcexpress.extensions.scoped.core.CommandMapScoped;
 import mvcexpress.extensions.scoped.core.ScopeManager;
 import mvcexpress.mvc.Command;
 
@@ -21,6 +22,8 @@ import mvcexpress.mvc.Command;
  */
 dynamic public class CommandScoped extends Command {
 
+
+	public var commandMapScoped:CommandMapScoped;
 
 	//----------------------------------
 	//     MESSAGING
@@ -74,6 +77,13 @@ dynamic public class CommandScoped extends Command {
 		ScopeManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
+	//----------------------------------
+	//     MESSAGING
+	//----------------------------------
+
+	private function commandMap_scopeMap():void {
+
+	}
 
 }
 }

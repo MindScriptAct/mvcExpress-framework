@@ -14,12 +14,9 @@ public class InjectRuleVO {
 	/** FOR INTERNAL USE ONLY. Injection identifier, formed by class name and your custom inject name. */
 	public var injectClassAndName:String;
 
-	/** FOR INTERNAL USE ONLY. Injection identifier, formed by class name and your custom inject name. */
-	public var scopeName:String;
-
 	CONFIG::debug
 	public function toString():String {
-		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectClassAndName + " scopeName=" + scopeName + "]";
+		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectClassAndName + "]";
 	}
 }
 }

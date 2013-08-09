@@ -4,6 +4,8 @@ import mvcexpress.core.*;
 import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.extensions.scoped.mvc.CommandScoped;
+import mvcexpress.mvc.Command;
 
 /**
  * Handles command mappings, and executes them on constants
@@ -95,5 +97,11 @@ public class CommandMapScoped extends CommandMap {
 	}
 
 
+	override protected function prepareCommand(command:Command, commandClass:Class):void {
+		if (command is CommandScoped) {
+			(command as CommandScoped).commandMapScoped = this;
+		}
+		super.prepareCommand(command, commandClass);
+	}
 }
 }

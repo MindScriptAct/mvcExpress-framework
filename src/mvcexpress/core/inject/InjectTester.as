@@ -7,7 +7,12 @@ import flash.utils.describeType;
  * (It might be not compiled in, in release mode if '-keep-as3-metadata+=Inject' compile argument is not used.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class testInject {
+public class InjectTester {
+
+	/**
+	 * Private class to test if inject metadata tag information is preserved after compile.
+	 * @private
+	 */
 
 	[Inject]
 	public var metadataTest:Boolean;
@@ -15,7 +20,7 @@ public class testInject {
 	public function testInjectMetaTag():Boolean {
 		var retVal:Boolean = false;
 
-		var classDescription:XML = describeType(testInject);
+		var classDescription:XML = describeType(InjectTester);
 		var factoryNodes:XMLList = classDescription.factory.*;
 		var nodeCount:int = factoryNodes.length();
 		for (var i:int; i < nodeCount; i++) {

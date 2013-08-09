@@ -82,7 +82,6 @@ public class Messenger {
 			handlerRegistry[type][handler] = msgData;
 		}
 		return msgData;
-		//}
 	}
 
 	/**
