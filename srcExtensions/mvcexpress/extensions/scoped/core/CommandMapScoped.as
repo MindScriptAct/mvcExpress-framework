@@ -100,6 +100,7 @@ public class CommandMapScoped extends CommandMap {
 	override protected function prepareCommand(command:Command, commandClass:Class):void {
 		if (command is CommandScoped) {
 			(command as CommandScoped).commandMapScoped = this;
+			(command as CommandScoped).proxyMapScoped = proxyMap as ProxyMapScoped;
 		}
 		super.prepareCommand(command, commandClass);
 	}
