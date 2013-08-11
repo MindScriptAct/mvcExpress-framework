@@ -188,24 +188,6 @@ public class CommandMap {
 
 	}
 
-	/**
-	 * Prepares command object for work.
-	 * @param command
-	 * @param commandClass
-	 * @private
-	 */
-	protected function prepareCommand(command:Command, commandClass:Class):void {
-		use namespace pureLegsCore;
-
-		command.messenger = messenger;
-		command.mediatorMap = mediatorMap;
-		command.proxyMap = proxyMap;
-		command.commandMap = this;
-
-		// inject dependencies
-		proxyMap.injectStuff(command, commandClass);
-	}
-
 
 	//----------------------------------
 	//     command pooling
@@ -213,17 +195,17 @@ public class CommandMap {
 
 	/**
 	 * Checks if specific PooledCommand is already pooled.
-	 * @param    commandClass
+	 * @param    commandClass	PooledCommand sublcass to check Command pool for.
 	 * @return    true if command pool is created.
 	 */
-	public function checkIsClassPooled(commandClass:Class):Boolean {
+	public function isCommandPooled(commandClass:Class):Boolean {
 		return (commandPools[commandClass] != null);
 	}
 
 	/**
 	 * Clears pool created for specified command.
 	 * (if commands are not pooled - function fails silently.)
-	 * @param    commPoolingSimpleCommand
+	 * @param    commandClass Command class to clear
 	 */
 	public function clearCommandPool(commandClass:Class):void {
 		delete commandPools[commandClass];
@@ -270,6 +252,24 @@ public class CommandMap {
 	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
+
+	/**
+	 * Prepares command object for work.
+	 * @param command
+	 * @param commandClass
+	 * @private
+	 */
+	protected function prepareCommand(command:Command, commandClass:Class):void {
+		use namespace pureLegsCore;
+
+		command.messenger = messenger;
+		command.mediatorMap = mediatorMap;
+		command.proxyMap = proxyMap;
+		command.commandMap = this;
+
+		// inject dependencies
+		proxyMap.injectStuff(command, commandClass);
+	}
 
 	/**
 	 * Pool command from outside of CommandMap.

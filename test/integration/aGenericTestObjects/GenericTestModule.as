@@ -101,7 +101,7 @@ public class GenericTestModule extends ModuleCore {
 	}
 
 	public function commandMap_checkIsClassPooled(commandClass:Class):Boolean {
-		return commandMap.checkIsClassPooled(commandClass);
+		return commandMap.isCommandPooled(commandClass);
 	}
 
 }

@@ -16,7 +16,7 @@ import mvcexpress.modules.ModuleCore;
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class ModuleCoreLive extends ModuleCore {
+public class ModuleLive extends ModuleCore {
 
 	// process map
 	protected var processMap:ProcessMapLive;
@@ -26,7 +26,7 @@ public class ModuleCoreLive extends ModuleCore {
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
-	public function ModuleCoreLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
+	public function ModuleLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 		if (!mediatorMapClass) {
 			mediatorMapClass = MediatorMapLive;
 		} else {

@@ -40,10 +40,10 @@ public interface IMediatorMap {
 	function isMapped(viewClass:Class, mediatorClass:Class = null):Boolean;
 
 	/**
-	 * Check if class of view object is mapped to any mediator.
-	 * @param    viewObject    view object to test if it's class is mapped to mediator class.
-	 * @return                true if viewObject class is mapped to mediator class
+	 * Checks if view object is mediated.
+	 * @param    viewObject        View object to check if it is mediated.
+	 * @return     true if view object is mediated.
 	 */
-	function isViewMapped(viewObject:Object):Boolean;
+	function isMediated(viewObject:Object):Boolean;
 }
 }

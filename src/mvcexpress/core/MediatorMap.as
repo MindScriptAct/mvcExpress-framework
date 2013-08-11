@@ -285,28 +285,9 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Check if class of view object is mapped to any mediator.
-	 * @param    viewObject    view object to test if it's class is mapped to mediator class.
-	 * @return                true if viewObject class is mapped to mediator class
-	 */
-	public function isViewMapped(viewObject:Object):Boolean {
-		var retVal:Boolean; // = false;
-		var viewClass:Class = viewObject.constructor as Class;
-		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
-		if (!viewClass) {
-			viewClass = getDefinitionByName(getQualifiedClassName(viewObject)) as Class;
-		}
-
-		if (mediatorClassRegistry[viewClass]) {
-			retVal = true;
-		}
-
-		return retVal;
-	}
-
-	/**
 	 * Checks if view object is mediated.
 	 * @param    viewObject        View object to check if it is mediated.
+	 * @return     true if view object is mediated.
 	 */
 	public function isMediated(viewObject:Object):Boolean {
 		return (mediatorRegistry[viewObject] != null);

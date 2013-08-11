@@ -11,9 +11,9 @@ import flash.utils.getQualifiedClassName;
 import flash.utils.getTimer;
 
 import mvcexpress.MvcExpress;
-import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.extensions.live.core.inject.InjectRuleTaskVO;
 import mvcexpress.extensions.live.engine.Process;
 import mvcexpress.extensions.live.engine.Task;
 import mvcexpress.extensions.live.taskTests.TaskTestVO;
@@ -290,6 +290,22 @@ public class ProcessMapLive {
 	//----------------------------------
 
 	/**
+	 * Checks if processi is already mapped.
+	 * @param    processClass    Class of process
+	 * @param    name            Optional name for process.
+	 */
+	public function isProcessMapped(processClass:Class, name:String = ""):Boolean {
+		var retVal:Boolean;
+
+		// get process id
+		var className:String = qualifiedClassNameRegistry[processClass];
+		if (className) {
+			retVal = (processRegistry[className + name] != null);
+		}
+		return retVal;
+	}
+
+	/**
 	 * Returns text of all command classes that are mapped to constants. (for debugging)
 	 * @return        Text with all mapped commands.
 	 */
@@ -485,7 +501,7 @@ public class ProcessMapLive {
 		use namespace pureLegsCore;
 
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleTaskVO> = classInjectRules[signatureClass];
 		if (!rules) {
 			rules = getInjectRules(signatureClass);
 			classInjectRules[signatureClass] = rules;
@@ -532,7 +548,7 @@ public class ProcessMapLive {
 	// DOIT : vector search used... think if it's posible to optimize it. (use linked list?)
 	pureLegsCore function removeTask(task:Task, signatureClass:Class):void {
 		// get class injection rules. (cache is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleTaskVO> = classInjectRules[signatureClass];
 
 		// find task by inject object name and remove it.
 		var ruleCount:int = rules.length;
@@ -559,8 +575,8 @@ public class ProcessMapLive {
 	 * Finds and cashes class injection point rules.
 	 * Same function is in ProxyMap.
 	 */
-	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleVO> {
-		var retVal:Vector.<InjectRuleVO> = new Vector.<InjectRuleVO>();
+	private function getInjectRules(signatureClass:Class):Vector.<InjectRuleTaskVO> {
+		var retVal:Vector.<InjectRuleTaskVO> = new Vector.<InjectRuleTaskVO>();
 		var classDescription:XML = describeType(signatureClass);
 		var factoryNodes:XMLList = classDescription.factory.*;
 
@@ -591,7 +607,7 @@ public class ProcessMapLive {
 							}
 
 						}
-						var mapRule:InjectRuleVO = new InjectRuleVO();
+						var mapRule:InjectRuleTaskVO = new InjectRuleTaskVO();
 						mapRule.varName = node.@name.toString();
 						mapRule.injectClassAndName = injectName;
 						mapRule.scopeName = scopeName;

@@ -1,12 +1,12 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.live.taskTests {
-import mvcexpress.core.inject.*;
+import mvcexpress.extensions.live.core.inject.InjectRuleTaskVO;
 
 /**
  * FOR INTERNAL USE ONLY.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class TestRuleVO extends InjectRuleVO {
+public class TestRuleVO extends InjectRuleTaskVO {
 
 	public var functionName:String;
 

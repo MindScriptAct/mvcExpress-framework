@@ -122,7 +122,7 @@ public class GenericScopedTestModule extends ModuleScoped {
 	}
 
 	public function commandMap_checkIsClassPooled(commandClass:Class):Boolean {
-		return commandMap.checkIsClassPooled(commandClass);
+		return commandMap.isCommandPooled(commandClass);
 	}
 
 	//----------------------------------

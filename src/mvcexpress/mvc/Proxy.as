@@ -62,6 +62,7 @@ public class Proxy {
 
 	/**
 	 * Indicates if proxy is ready for usage. (all dependencies are injected.)
+	 * Proxy will not be ready if it has pending, not resolved dependencies. (Pending injection feature must be turned on for that.)
 	 */
 	protected function get isReady():Boolean {
 		return _isReady;

@@ -98,7 +98,8 @@ public class Mediator {
 	}
 
 	/**
-	 * Indicates if mediator is ready for usage. (all dependencies are injected.)
+	 * Indicates if mediator is ready for usage. (all dependencies are injected.)  <br>
+	 * Mediator will not be ready if it has pending, not resolved dependencies. (Pending injection feature must be turned on for that.)
 	 */
 	protected function get isReady():Boolean {
 		return _isReady;

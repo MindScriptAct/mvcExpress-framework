@@ -465,7 +465,7 @@ public class ProxyMap implements IProxyMap {
 		if (object is PooledCommand) {
 			var command:PooledCommand = object as PooledCommand;
 			//check if it is not pooled already.
-			if (!commandMap.checkIsClassPooled(signatureClass)) {
+			if (!commandMap.isCommandPooled(signatureClass)) {
 				// dependencies remembers who is dependant on them.
 				ruleCount = rules.length;
 				for (var r:int; r < ruleCount; r++) {
