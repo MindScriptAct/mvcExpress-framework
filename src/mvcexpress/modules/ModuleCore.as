@@ -13,7 +13,7 @@ import mvcexpress.utils.checkClassSuperclass;
 /**
  * Core Module class, represents single application unit in mvcExpress framework.
  * <p>
- * It starts framework and lets you set up your application. (or execute Commands for set up.)
+ * It starts framework and lets you set up your application. (or execute Commands to do it)
  * You can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)

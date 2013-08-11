@@ -17,7 +17,7 @@ import mvcexpress.mvc.PooledCommand;
 import mvcexpress.utils.checkClassSuperclass;
 
 /**
- * Handles command mappings, and executes them on constants
+ * Handles command mappings, and executes them then mapped message string is sent.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 

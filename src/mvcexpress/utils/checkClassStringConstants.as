@@ -3,13 +3,13 @@ package mvcexpress.utils {
 import flash.utils.describeType;
 
 /**
- * utility function to check class string constant values for accidental duplications.                                                                        </br>
- * Error will be thrown if 2 classes has constants with same string value.                                                                         </br>
- * Usage:                                                                                                                                                        </br>
- *        add this code in every module class in onInit() function with all your classes holding string constants used for messaging.                                </br>
- *        CONFIG::debug {																																			</br>
- *			checkClassStringConstants(ClassName1,ClassName2...ClassNameX);																												</br>
- *		}                                                                                                                                                        </br>
+ * utility function to check class string constant values for accidental duplications.                                                                     </br>
+ * Error will be thrown if 2 classes has constants with same string value.                                                                                 </br>
+ * Usage:                                                                                                                                                  </br>
+ *        add this code in every module class in onInit() function with all your classes holding string constants used for messaging.                      </br>
+ *        CONFIG::debug {																																   </br>
+ *			checkClassStringConstants(ClassName1,ClassName2...ClassNameX);																				   </br>
+ *		}                                                                                                                                                  </br>
  * @param    ... args    array of Class objects, to be checked for constants.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */

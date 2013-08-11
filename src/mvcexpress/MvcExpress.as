@@ -13,7 +13,7 @@ public class MvcExpress {
 	public static const WEBSITE_URL:String = "http://mvcexpress.org";
 
 	/** Framework name */
-	public static const NAME:String = "mvcExpress 2";
+	public static const NAME:String = "mvcExpress 2 beta 2";
 
 	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 2;
@@ -60,7 +60,7 @@ public class MvcExpress {
 	//----------------------------------
 
 	/**
-	 * Function to get more detailed framework activity information in TraceObj objects.
+	 * Function to get more detailed framework activity information as TraceObj objects.
 	 * @private
 	 */
 	static pureLegsCore var loggerFunction:Function = null;

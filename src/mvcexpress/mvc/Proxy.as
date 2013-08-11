@@ -9,8 +9,8 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
 
 /**
- * Proxy holds and manages application data, implements API to work with it.                  </br>
- * Can send constants. (Usually sends one with each data update)                            </br>
+ * Proxy holds and manages application data, implements API to work with it.                                                                               </br>
+ * Can send messages strings. (to tell about data updates)                                                                                                   </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 

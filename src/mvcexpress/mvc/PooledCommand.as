@@ -3,9 +3,9 @@ package mvcexpress.mvc {
 import mvcexpress.core.namespace.pureLegsCore;
 
 /**
- * Command that is automatically pooled.
- * All PooledCommand's are automatically pooled after execution for later reuse(except then they are locked)
- * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() it.
+ * Command that is automatically pooled.                                                                                                                   </br>
+ * Pooled commands improves performance as they need to be constructed only once. Use them with commands that are executed very often.                     </br>
+ * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() them.                                 </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class PooledCommand extends Command {
