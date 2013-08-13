@@ -28,8 +28,9 @@ public interface IMediatorMap {
 	 * Unmediated view object
 	 * If any mediator is mediating viewObject - it calls onRemove on that mediator, automatically removes all message handlers, all event listeners and disposes it.
 	 * @param    viewObject    view object witch mediator will be destroyed.
+ 	 * @param    mediatorClass    optional parameter to unmediate specific class. If this not set - all mediators will be removed.
 	 */
-	function unmediate(viewObject:Object):void;
+	function unmediate(viewObject:Object, mediatorClass:Class = null):void;
 
 	/**
 	 * Checks if mediator class is mapped to view class.
@@ -42,8 +43,9 @@ public interface IMediatorMap {
 	/**
 	 * Checks if view object is mediated.
 	 * @param    viewObject        View object to check if it is mediated.
+	 * @param    mediatorClass        Optional parameter to check if view object is mediated with specific mediator.
 	 * @return     true if view object is mediated.
 	 */
-	function isMediated(viewObject:Object):Boolean;
+	function isMediated(viewObject:Object, mediatorClass:Class = null):Boolean;
 }
 }

@@ -11,14 +11,21 @@ import mvcexpress.core.traceObjects.TraceObj;
 public class TraceMediatorMap_unmap extends TraceObj {
 
 	public var viewClass:Class;
+	public var mediatorClass:Class;
 
-	public function TraceMediatorMap_unmap(moduleName:String, $viewClass:Class) {
+	public function TraceMediatorMap_unmap(moduleName:String, $viewClass:Class, $mediatorClass:Class) {
 		super(MvcTraceActions.MEDIATORMAP_UNMAP, moduleName);
 		viewClass = $viewClass;
+		mediatorClass = $mediatorClass;
 	}
 
 	override public function toString():String {
-		return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + "     {" + moduleName + "}";
+		if (mediatorClass) {
+			return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + " from "+mediatorClass+"      {" + moduleName + "}";
+		} else {
+			return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + " from ALL mediators.          {" + moduleName + "}";
+
+		}
 	}
 
 }

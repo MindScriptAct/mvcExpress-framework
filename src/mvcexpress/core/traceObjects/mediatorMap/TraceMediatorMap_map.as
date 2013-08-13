@@ -12,15 +12,21 @@ public class TraceMediatorMap_map extends TraceObj {
 
 	public var viewClass:Class;
 	public var mediatorClass:Class;
+	public var injectClass:Class;
 
-	public function TraceMediatorMap_map(moduleName:String, $viewClass:Class, $mediatorClass:Class) {
+	public function TraceMediatorMap_map(moduleName:String, $viewClass:Class, $mediatorClass:Class, $injectClass:Class) {
 		super(MvcTraceActions.MEDIATORMAP_MAP, moduleName);
 		viewClass = $viewClass;
 		mediatorClass = $mediatorClass;
+		injectClass = $injectClass;
 	}
 
 	override public function toString():String {
-		return "§§§+ " + MvcTraceActions.MEDIATORMAP_MAP + " > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
+		if (injectClass) {
+			return "§§§+ " + MvcTraceActions.MEDIATORMAP_MAP + " > viewClass : " + viewClass + "(as " + injectClass + "), mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
+		} else {
+			return "§§§+ " + MvcTraceActions.MEDIATORMAP_MAP + " > viewClass : " + viewClass + ", mediatorClass : " + mediatorClass + "     {" + moduleName + "}";
+		}
 	}
 
 }
