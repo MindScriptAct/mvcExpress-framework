@@ -58,8 +58,9 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewClass        view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param    mediatorClass    mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param    injectClass        inject mediator as this class.
+	 * @param    restClassPairs        rest or mediatorClass and injectClass pairs. if you want your view mediated by more then one mediator.
 	 */
-	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null):void {
+	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -90,8 +91,9 @@ public class MediatorMap implements IMediatorMap {
 	 * Unmaps any mediator class to given view class.
 	 * If view is not mediated - it will fail silently.
 	 * @param    viewClass    view class to remove mapped mediator class from.
+	 * @param    mediatorClass    optional parameter if you want to unmap specific mediator. If this is not set - all mediators will be unmapped.
 	 */
-	public function unmap(viewClass:Class):void {
+	public function unmap(viewClass:Class, mediatorClass:Class = null):void {
 		// debug this action
 		CONFIG::debug {
 			use namespace pureLegsCore;

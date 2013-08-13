@@ -11,6 +11,7 @@ import org.flexunit.Assert;
 
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSprite;
 import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator;
+import suites.mediatorMap.medatorMaptestObj.MediatorMapTestSpriteMediator2;
 import suites.testObjects.view.MediatorSprite;
 import suites.testObjects.view.MediatorSpriteMediator;
 
@@ -55,6 +56,10 @@ public class MediatorMapTests {
 
 	}
 
+	//----------------------------------
+	//     one mediate.
+	//----------------------------------
+
 	[Test(async, description="Mediator onRegister test")]
 
 	public function mediatorMap_onRegister_and_no_onRemove():void {
@@ -78,7 +83,7 @@ public class MediatorMapTests {
 
 	[Test(async, description="Mediator onRemove test")]
 
-	public function mediatorMap_messag_callBack_test():void {
+	public function mediatorMap_message_callBack_test():void {
 		MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
 		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
@@ -86,6 +91,69 @@ public class MediatorMapTests {
 
 		messenger.send(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE);
 	}
+
+	//----------------------------------
+	//     multi mediate.
+	//----------------------------------
+
+	[Test(async, description="Mediator onRemove test")]
+
+	public function mediatorMap_twoMediatorsOneLine_onRegister_and_onRemove():void {
+		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.REGISTER_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.REMOVE_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediate(view);
+		mediatorMap.unmediate(view);
+	}
+
+
+	[Test(async, description="Mediator onRemove test")]
+
+	public function mediatorMap_twoMediatorsTwoLines_onRegister_and_onRemove():void {
+		MediatorMapTestSpriteMediator.REGISTER_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.REGISTER_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator.REMOVE_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.REMOVE_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediate(view);
+		mediatorMap.unmediate(view);
+	}
+
+	[Test(async, description="Mediator onRemove test")]
+
+	public function mediatorMap_twoMediatorsOneLine_message_callBack_test():void {
+		MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.CALLBACK_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediate(view);
+
+		messenger.send(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE);
+	}
+
+	[Test(async, description="Mediator onRemove test")]
+
+	public function mediatorMap_twoMediatorsTwoLines_message_callBack_test():void {
+		MediatorMapTestSpriteMediator.CALLBACK_TEST_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		MediatorMapTestSpriteMediator2.CALLBACK_TEST_FUNCTION2 = AsyncUtil.asyncHandler(this, callBackSuccess, null, 300, callBackFail);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
+		var view:MediatorMapTestSprite = new MediatorMapTestSprite();
+		mediatorMap.mediate(view);
+
+		messenger.send(MediatorMapTestSpriteMediator.TEST_MESSAGE_TYPE);
+	}
+
+
+	//----------------------------------
+	//     errors
+	//----------------------------------
+
 
 	[Test(expects="Error")]
 
@@ -95,6 +163,10 @@ public class MediatorMapTests {
 		mediatorMap.mediate(view);
 		mediatorMap.mediate(view);
 	}
+
+	//----------------------------------
+	//     mediate with
+	//----------------------------------
 
 	[Test]
 
@@ -110,6 +182,63 @@ public class MediatorMapTests {
 		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
 		mediatorMap.mediateWith(view, MediatorMapTestSpriteMediator);
 
+	}
+
+	//----------------------------------
+	//     multi map.
+	//----------------------------------
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+	}
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewTwoLinerMap_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+	}
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_unmapOne_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
+		mediatorMap.unmap(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+	}
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewTwoLinerMap_unmapOne_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
+		mediatorMap.unmap(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+	}
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_unmapAll_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
+		mediatorMap.unmap(MediatorMapTestSprite);
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
+		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+	}
+
+	[Test]
+
+	public function mediatorMap_twoMediatorsForOneViewTwoLinerMap_unmapAll_ok():void {
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
+		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
+		mediatorMap.unmap(MediatorMapTestSprite);
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
+		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	//----------------------------------

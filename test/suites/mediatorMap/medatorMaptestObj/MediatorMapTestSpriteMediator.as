@@ -7,6 +7,9 @@ import mvcexpress.mvc.Mediator;
  */
 public class MediatorMapTestSpriteMediator extends Mediator {
 
+	[Inject]
+	public var view:MediatorMapTestSprite;
+
 	static public var TEST_MESSAGE_TYPE:String = "mediatorMapTestType";
 
 	static public var REGISTER_TEST_FUNCTION:Function = function (msg:* = null):void {
