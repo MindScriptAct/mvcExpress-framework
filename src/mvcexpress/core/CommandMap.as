@@ -16,13 +16,12 @@ import mvcexpress.mvc.Command;
 import mvcexpress.mvc.PooledCommand;
 import mvcexpress.utils.checkClassSuperclass;
 
+use namespace pureLegsCore;
+
 /**
  * Handles command mappings, and executes them then mapped message string is sent.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-
-use namespace pureLegsCore;
-
 public class CommandMap {
 
 	// name of the module CommandMap is working for.

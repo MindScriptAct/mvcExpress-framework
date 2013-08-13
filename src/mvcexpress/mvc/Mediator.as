@@ -13,6 +13,8 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_addHandler;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_sendMessage;
 
+use namespace pureLegsCore;
+
 /**
  * Mediates single view object.                                                                                                                            </br>
  *  Main responsibility of mediator is to send messages from framework to view, and receive events from view and send them to framework as messages.       </br>
@@ -22,9 +24,6 @@ import mvcexpress.core.traceObjects.mediator.TraceMediator_sendMessage;
  *  Can handle view events.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-
-use namespace pureLegsCore;
-
 public class Mediator {
 
 	// name of module this mediator is working in.

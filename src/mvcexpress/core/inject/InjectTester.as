@@ -5,6 +5,7 @@ import flash.utils.describeType;
 /**
  * Small class to test if framework can use Inject metadata tag.
  * (It might be not compiled in, in release mode if '-keep-as3-metadata+=Inject' compile argument is not used.
+ * @private
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class InjectTester {

@@ -8,14 +8,13 @@ import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
 
+use namespace pureLegsCore;
+
 /**
  * Proxy holds and manages application data, implements API to work with it.                                                                               </br>
  * Can send messages strings. (to tell about data updates)                                                                                                   </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-
-use namespace pureLegsCore;
-
 public class Proxy {
 
 	/**

@@ -5,6 +5,7 @@ import flash.utils.setTimeout;
 
 /**
  * FOR INTERNAL USE ONLY.
+ * @private
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class PendingInject {

@@ -10,14 +10,13 @@ import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModul
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
 import mvcexpress.modules.ModuleCore;
 
+use namespace pureLegsCore;
+
 /**
  * INTERNAL FRAMEWORK CLASS.
  * Manages mvcExpress modules.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-
-use namespace pureLegsCore;
-
 public class ModuleManager {
 
 	/* messenger counter, increased with every new created module */

@@ -4,6 +4,7 @@ package mvcexpress.core.inject {
 /**
  * FOR INTERNAL USE ONLY.
  * Value Object to keep injection rules - what have to be injected there.
+ * @private
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
 public class InjectRuleVO {

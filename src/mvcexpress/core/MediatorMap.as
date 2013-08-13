@@ -16,13 +16,12 @@ import mvcexpress.core.traceObjects.mediatorMap.TraceMediatorMap_unmediate;
 import mvcexpress.mvc.Mediator;
 import mvcexpress.utils.checkClassSuperclass;
 
+use namespace pureLegsCore;
+
 /**
  * Handles application mediators.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-
-use namespace pureLegsCore;
-
 public class MediatorMap implements IMediatorMap {
 
 	// name of the module MediatorMap is working for.
