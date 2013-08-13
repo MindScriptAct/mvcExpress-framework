@@ -41,7 +41,7 @@ public class MediatorMap implements IMediatorMap {
 	protected var mediatorMapOrderRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by Class */
 
 	// stores all mediators using use view object(mediator is mediating) as a key.
-	protected var mediatorRegistry:Dictionary = new Dictionary(); //* of Mediator by Object */
+	protected var mediatorRegistry:Dictionary = new Dictionary(); //* of Vector.<Mediator> by Object */
 
 	/** CONSTRUCTOR */
 	public function MediatorMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
@@ -55,11 +55,11 @@ public class MediatorMap implements IMediatorMap {
 	//----------------------------------
 
 	/**
-	 * Maps mediator class to view class. Only one mediator class can mediate single instance of view class.
+	 * Maps mediator classes to view class.
 	 * @param    viewClass        view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param    mediatorClass    mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param    injectClass        inject mediator as this class.
-	 * @param    restClassPairs        rest or mediatorClass and injectClass pairs. if you want your view mediated by more then one mediator.
+	 * @param    restClassPairs        rest or mediatorClass and injectClass pairs if you want your view mediated by more then one mediator.
 	 */
 	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void {
 		// debug this action
@@ -116,8 +116,8 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Unmaps any mediator class to given view class.
-	 * If view is not mediated - it will fail silently.
+	 * Unmaps all or specific mediator class from given view class.
+	 * If view is not mapped - it will fail silently.
 	 * @param    viewClass    view class to remove mapped mediator class from.
 	 * @param    mediatorClass    optional parameter if you want to unmap specific mediator. If this is not set - all mediators will be unmapped.
 	 */
@@ -153,9 +153,9 @@ public class MediatorMap implements IMediatorMap {
 	//----------------------------------
 
 	/**
-	 * Mediates provided viewObject with mapped mediator.
-	 * Automatically instantiates mediator class(if mapped), handles all injections(including viewObject), and calls onRegister function.
-	 * Throws error if mediator class is not mapped to viewObject class.
+	 * Mediates provided viewObject with all mapped mediator.
+	 * Automatically instantiates mediator class(es)(if mapped), handles all injections(including view object injection), and calls onRegister function.
+	 * Throws error if no mediator classes are mapped to viewObject class.
 	 * @param    viewObject    view object to mediate.
 	 */
 	public function mediate(viewObject:Object):void {
@@ -239,8 +239,9 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Mediates viewObject with specified mediator class.
-	 * It is usually better practice to use 2 step mediation(map(), mediate()) instead of this function. But sometimes it is not possible.
+	 * Mediates viewObject with specified mediator class.                     																				<br>
+	 * This function will mediate your view without mapping view class to mediator class.																	<br>
+	 * It is usually better practice to use 2 step mediation(map() then mediate()) instead of this function. But sometimes it is not possible/useful.
 	 * @param    viewObject        view object to mediate.
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
 	 * @param    injectClass        inject mediator as this class.
@@ -300,10 +301,10 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Unmediated view object
-	 * If any mediator is mediating viewObject - it calls onRemove on that mediator, automatically removes all message handlers, all event listeners and disposes it.
+	 * Remove mediation of view object by all or specific mediators.																						<br>
+	 * If any mediator is mediating this viewObject - it calls onRemove mediator function, automatically removes all message handlers, all event listeners and dispose it.
 	 * @param    viewObject    view object witch mediator will be destroyed.
-	 * @param    mediatorClass    optional parameter to unmediate specific class. If this not set - all mediators will be removed.
+	 * @param    mediatorClass    optional parameter to unmediate specific mediator class. If this not set - all mediators will be removed.
 	 */
 	public function unmediate(viewObject:Object, mediatorClass:Class = null):void {
 		use namespace pureLegsCore;

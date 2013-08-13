@@ -52,13 +52,12 @@ public class MediatorMapFlex extends MediatorMap {
 			}
 
 			// get mapped mediator class.
-			var mediatorClass:Class = mediatorClassRegistry[viewClass];
+			var mediatorClass:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
 			if (mediatorClass) {
 				IEventDispatcher(viewObject).addEventListener('creationComplete', handleOnCreationComplete, false, 0, true);
 			} else {
 				throw Error("View object" + viewObject + " class is not mapped with any mediator class. use mediatorMap.map()");
 			}
-
 		} else {
 			super.mediate(viewObject);
 		}
@@ -76,10 +75,10 @@ public class MediatorMapFlex extends MediatorMap {
 	 * If flex object is unmediated before 'creationComplete' is dispatched - nothing is done. (because mediation is not done in the first place.)
 	 * @param    viewObject    view object witch mediator will be destroyed.
 	 */
-	override public function unmediate(viewObject:Object):void {
-		var mediator:Mediator = mediatorRegistry[viewObject];
-		if (mediator) {
-			super.unmediate(viewObject);
+	override public function unmediate(viewObject:Object, mediatorClass:Class = null):void {
+		var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
+		if (mediators) {
+			super.unmediate(viewObject, mediatorClass);
 		} else {
 			// remove creationComplete handlers if any.
 			if (IEventDispatcher(viewObject).hasEventListener('creationComplete')) {
