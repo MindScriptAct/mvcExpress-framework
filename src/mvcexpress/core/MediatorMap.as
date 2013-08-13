@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core {
+import flash.display.Sprite;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
@@ -34,7 +35,10 @@ public class MediatorMap implements IMediatorMap {
 	protected var messenger:Messenger;
 
 	// stores all mediator classes using view class(mediator must mediate) as a key.
-	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of MediatorMappingVO by Class */
+	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of Dictionary of Class) by Class */
+
+	// stores all mediator is sequence they were mapped.
+	protected var mediatorMapOrderRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by Class */
 
 	// stores all mediators using use view object(mediator is mediating) as a key.
 	protected var mediatorRegistry:Dictionary = new Dictionary(); //* of Mediator by Object */
@@ -83,12 +87,17 @@ public class MediatorMap implements IMediatorMap {
 				mediatorMappingRegistry[viewClass] = new Dictionary();
 			}
 
+			if (mediatorMapOrderRegistry[viewClass] == null) {
+				mediatorMapOrderRegistry[viewClass] = new Vector.<Class>();
+			}
+
 
 			// map injectClass to viewClass and mediatarClass.
 			if (!injectClass) {
 				injectClass = viewClass;
 			}
 			mediatorMappingRegistry[viewClass][mediatorClass] = injectClass;
+			mediatorMapOrderRegistry[viewClass].push(mediatorClass);
 
 			// set multi Mediators.
 			if (restClassPairs) {
@@ -122,11 +131,18 @@ public class MediatorMap implements IMediatorMap {
 		// clear mapping
 		if (mediatorMappingRegistry[viewClass] != null) {
 			if (mediatorClass) {
-				if (mediatorMappingRegistry[viewClass][mediatorClass] != null) {
-					delete mediatorMappingRegistry[viewClass][mediatorClass];
+				delete mediatorMappingRegistry[viewClass][mediatorClass];
+				//
+				var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
+				for (var i:int = 0; i < mediators.length; i++) {
+					if (mediators[i] == mediatorClass) {
+						mediators.splice(i, 1);
+						break;
+					}
 				}
 			} else {
 				delete mediatorMappingRegistry[viewClass];
+				delete mediatorMapOrderRegistry[viewClass];
 			}
 
 		}
@@ -155,16 +171,17 @@ public class MediatorMap implements IMediatorMap {
 			viewClass = getDefinitionByName(getQualifiedClassName(viewObject)) as Class;
 		}
 
-		var mappedMediators:Dictionary = mediatorMappingRegistry[viewClass];
+		var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
+		if (mediators) {
 
-		for (var mediatorClassObj:Object in mediatorMappingRegistry) {
-			var mediatorClass:Class = mediatorClassObj as Class;
-			var injectClass:Class = mediatorMappingRegistry[mediatorClassObj];
+			var mappedMediators:Dictionary = mediatorMappingRegistry[viewClass];
+			for (var i:int = 0; i < mediators.length; i++) {
+
+				var mediatorClass:Class = mediators[i];
+				var injectClass:Class = mappedMediators[mediatorClass];
 
 
-			// get mapped mediator class.
-
-			if (mediatorClass) {
+				// get mapped mediator class.
 
 				CONFIG::debug {
 					// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -186,9 +203,9 @@ public class MediatorMap implements IMediatorMap {
 				if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
 					mediator.register();
 				}
-			} else {
-				throw Error("View object" + viewObject + " class is not mapped with any mediator class. use mediatorMap.map()");
 			}
+		} else {
+			throw Error("View object" + viewObject + " class is not mapped with any mediator class. use mediatorMap.map()");
 		}
 	}
 
@@ -375,15 +392,7 @@ public class MediatorMap implements IMediatorMap {
 		var retVal:String = "";
 		retVal = "==================== MediatorMap Mappings: =====================\n";
 		for (var viewClass:Object in mediatorMappingRegistry) {
-			var mediatorClasses:Dictionary = mediatorMappingRegistry[viewClass];
-			var mediatorList:String = "";
-			for (var mediatocClass:Object in mediatorClasses) {
-				if (mediatorList) {
-					mediatorList += ", ";
-				}
-				mediatorList += mediatocClass;
-			}
-			retVal += "VIEW:'" + viewClass + "'\t> MEDIATED BY > " + mediatorList + "\n";
+			retVal += "VIEW:'" + viewClass + "'\t> MEDIATED BY > " + mediatorMapOrderRegistry[viewClass] + "\n";
 		}
 		retVal += "================================================================\n";
 		return retVal;
@@ -403,10 +412,12 @@ public class MediatorMap implements IMediatorMap {
 		for (var viewObject:Object in mediatorRegistry) {
 			unmediate(viewObject);
 		}
+		mediatorRegistry = null;
+		//
 		proxyMap = null;
 		messenger = null;
 		mediatorMappingRegistry = null;
-		mediatorRegistry = null;
+		mediatorMapOrderRegistry = null;
 	}
 
 }

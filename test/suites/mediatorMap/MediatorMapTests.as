@@ -192,7 +192,7 @@ public class MediatorMapTests {
 
 	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_ok():void {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
-		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	[Test]
@@ -200,7 +200,7 @@ public class MediatorMapTests {
 	public function mediatorMap_twoMediatorsForOneViewTwoLinerMap_ok():void {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
-		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	[Test]
@@ -208,8 +208,8 @@ public class MediatorMapTests {
 	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_unmapOne_ok():void {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
 		mediatorMap.unmap(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
-		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	[Test]
@@ -218,8 +218,8 @@ public class MediatorMapTests {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
 		mediatorMap.unmap(MediatorMapTestSprite, MediatorMapTestSpriteMediator);
-		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
-		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+		Assert.assertTrue("isMapped() should return true with mapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	[Test]
@@ -227,8 +227,8 @@ public class MediatorMapTests {
 	public function mediatorMap_twoMediatorsForOneViewOneLinerMap_unmapAll_ok():void {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null, MediatorMapTestSpriteMediator2, Sprite);
 		mediatorMap.unmap(MediatorMapTestSprite);
-		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
-		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	[Test]
@@ -237,8 +237,8 @@ public class MediatorMapTests {
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator, null);
 		mediatorMap.map(MediatorMapTestSprite, MediatorMapTestSpriteMediator2, Sprite);
 		mediatorMap.unmap(MediatorMapTestSprite);
-		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator));
-		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorSprite, MediatorMapTestSpriteMediator2));
+		Assert.assertFalse("isMapped() should return false with unmaped class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator));
+		Assert.assertFalse("isMapped() should return false with unmapped second class.", mediatorMap.isMapped(MediatorMapTestSprite, MediatorMapTestSpriteMediator2));
 	}
 
 	//----------------------------------
