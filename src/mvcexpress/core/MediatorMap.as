@@ -251,7 +251,7 @@ public class MediatorMap implements IMediatorMap {
 		if (mediatorRegistry[viewObject]) {
 			var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
 			for (var i:int = 0; i < mediators.length; i++) {
-				if (mediators[i] is mediatorClass) {
+				if ((mediators[i] as Object).constructor == mediatorClass) {
 					throw Error("This view object is already mediated by " + mediators[i]);
 				}
 			}
@@ -318,7 +318,7 @@ public class MediatorMap implements IMediatorMap {
 			if (mediatorClass) {
 				for (var i:int = 0; i < mediators.length; i++) {
 					var mediator:Mediator = mediators[i];
-					if (mediator is mediatorClass) {
+					if ((mediator as Object).constructor == mediatorClass) {
 						mediator.remove();
 						mediators.splice(i, 1);
 						break;
@@ -371,7 +371,7 @@ public class MediatorMap implements IMediatorMap {
 		if (mediators && mediators.length) {
 			if (mediatorClass) {
 				for (var i:int = 0; i < mediators.length; i++) {
-					if (mediators[i] is mediatorClass) {
+					if ((mediators[i] as Object).constructor == mediatorClass) {
 						retVal = true;
 						break;
 					}
