@@ -233,5 +233,17 @@ public class Messenger {
 		handlerRegistry = null;
 	}
 
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	protected var SUPPORTED_EXTENSIONS:Dictionary;
+
+	CONFIG::debug
+	public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+		SUPPORTED_EXTENSIONS = supportedExtensions;
+	}
+
 }
 }

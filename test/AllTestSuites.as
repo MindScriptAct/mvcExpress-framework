@@ -1,5 +1,6 @@
 package {
 import integration.commandPooling.CommandPoolingTests;
+import integration.extensionChecking.ExtensionCheckingTests;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.moduleInitTests.ModuleInitTests;
@@ -29,7 +30,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 
-	//*
+	/*
 
 	public var generalTests:GeneralTests;
 
@@ -65,11 +66,17 @@ public class AllTestSuites {
 
 	//*/
 
+	/*
+
 	public var scopeControllTest:ScopeControlTests;
 
 	public var channelingTests:ChannelingTests;
 
 	public var scopedProxyTests:ScopedProxyTests;
+
+	//*/
+
+	public var extensionCheckingTests:ExtensionCheckingTests;
 
 }
 

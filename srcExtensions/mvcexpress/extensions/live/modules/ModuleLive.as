@@ -1,5 +1,9 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.live.modules {
+import flash.utils.Dictionary;
+
+import mvcexpress.core.ModuleManager;
+
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.live.core.CommandMapLive;
 import mvcexpress.extensions.live.core.MediatorMapLive;
@@ -27,6 +31,12 @@ public class ModuleLive extends ModuleCore {
 	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
 	public function ModuleLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
+		use namespace pureLegsCore
+
+		CONFIG::debug {
+			enableExtension(EXTENSION_LIVE_ID);
+		}
+
 		if (!mediatorMapClass) {
 			mediatorMapClass = MediatorMapLive;
 		} else {
@@ -43,8 +53,6 @@ public class ModuleLive extends ModuleCore {
 			// TODO : in DEBUG chceck if subclasses right class
 		}
 		super(moduleName, mediatorMapClass, proxyMapClass, commandMapClass, messengerClass);
-
-		use namespace pureLegsCore
 
 		processMap = new ProcessMapLive(moduleName, messenger, proxyMap as ProxyMapLive);
 		(proxyMap as ProxyMapLive).setProcessMap(processMap);
@@ -70,6 +78,16 @@ public class ModuleLive extends ModuleCore {
 	public function listMappedProcesses():String {
 		return processMap.listProcesses();
 	}
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public const EXTENSION_LIVE_ID:int = ModuleManager.getExtensionId(EXTENSION_LIVE_NAME);
+
+	CONFIG::debug
+	static public const EXTENSION_LIVE_NAME:String = "live";
 
 }
 }

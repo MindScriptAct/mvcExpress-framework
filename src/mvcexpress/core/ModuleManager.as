@@ -235,6 +235,26 @@ public class ModuleManager {
 		return "Module with name :" + moduleName + " is not found.";
 	}
 
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	private static const EXTENSION_NAMES:Dictionary = new Dictionary();
+
+	CONFIG::debug
+	private static var extensionCount:int; // = 0;
+
+
+	CONFIG::debug
+	public static function getExtensionId(extensionName:String):int {
+		if (EXTENSION_NAMES[extensionName] == null) {
+			EXTENSION_NAMES[extensionName] = ++extensionCount;
+		}
+		return EXTENSION_NAMES[extensionName];
+
+	}
 }
 }
 
