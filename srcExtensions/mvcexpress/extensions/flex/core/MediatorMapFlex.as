@@ -16,6 +16,8 @@ import mvcexpress.mvc.Mediator;
  *  This is needed because Flex view objects acts differently then simple AS3 display objects - Flex object can be created in next frames.                </br>
  *  It is common for flex objects to be completed not in the order they were created. Keep this in mind then mediating flex objects.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version flex.1.0.beta2
  */
 
 use namespace pureLegsCore;

@@ -19,6 +19,8 @@ import mvcexpress.mvc.Command;
  * @see mvcexpress.extensions.unpuremvc.unpureCore.controller.Controller Controller
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.extensions.unpuremvc.patterns.command.UnpureMacroCommand MacroCommand
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureSimpleCommand extends Command implements UnpureICommand {
 

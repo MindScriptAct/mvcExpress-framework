@@ -7,6 +7,8 @@ import mvcexpress.core.namespace.pureLegsCore;
  * Pooled commands improves performance as they need to be constructed only once. Use them with commands that are executed very often.                     </br>
  * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() them.                                 </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class PooledCommand extends Command {
 

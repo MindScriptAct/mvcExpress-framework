@@ -20,6 +20,8 @@ import mvcexpress.mvc.Command;
  * If message does not send any parameter object - you still must have singe parameter, for example: execute(blank:Object). This parameter will be null.    </br>
  * </p></b>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version scoped.1.0.beta2
  */
 dynamic public class CommandScoped extends Command {
 

@@ -11,6 +11,8 @@ import mvcexpress.mvc.*;
  * All PooledCommand's are automatically pooled after execution for later reuse(except then they are locked)
  * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() it.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version scoped.1.0.beta2
  */
 public class PooledCommandScoped extends PooledCommand {
 

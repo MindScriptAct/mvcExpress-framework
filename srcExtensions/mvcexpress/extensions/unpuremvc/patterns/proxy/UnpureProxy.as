@@ -27,6 +27,8 @@ import mvcexpress.mvc.Proxy;
  * when the <code>Proxy</code> has retrieved the data from the service. </P>
  *
  * @see mvcexpress.extensions.unpuremvc.unpureCore.model.Model Model
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureProxy extends Proxy {
 

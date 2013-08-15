@@ -14,6 +14,8 @@ use namespace pureLegsCore;
  * Proxy holds and manages application data, implements API to work with it.                                                                               </br>
  * Can send messages strings. (to tell about data updates)                                                                                                   </br>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class Proxy {
 

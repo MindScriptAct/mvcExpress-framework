@@ -3,6 +3,8 @@ package mvcexpress.extensions.live.taskTests {
 /**
  * INTERNAL.
  * @author rBanevicius
+ *
+ * @version live.1.0.beta2
  */
 public class TaskTestVO {
 

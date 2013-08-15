@@ -13,6 +13,8 @@ import mvcexpress.mvc.Mediator;
  * A base <code>IMediator</code> implementation.
  *
  * @see mvcexpress.extensions.unpuremvc.unpureCore.view.View View
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureMediator extends Mediator {
 

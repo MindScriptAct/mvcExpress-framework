@@ -6,6 +6,8 @@ import mvcexpress.extensions.live.traceObjects.MvcTraceActionsLive;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 public class TraceProcessMap_provide extends TraceObj {
 

@@ -17,6 +17,8 @@ import mvcexpress.core.traceObjects.command.TraceCommand_sendMessage;
  * If message does not send any parameter object - you still must have singe parameter that will get null value, for example: execute(blank:Object).       </br>
  * </p></b>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 dynamic public class Command {
 

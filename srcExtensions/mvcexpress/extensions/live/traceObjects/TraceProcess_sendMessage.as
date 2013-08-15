@@ -6,6 +6,8 @@ import mvcexpress.extensions.live.engine.Process;
 /**
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 public class TraceProcess_sendMessage extends TraceObj_SendMessage {
 

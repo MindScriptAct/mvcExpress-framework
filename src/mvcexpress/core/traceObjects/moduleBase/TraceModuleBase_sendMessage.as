@@ -9,6 +9,8 @@ import mvcexpress.modules.ModuleCore;
  * Class for mvcExpress tracing. (debug mode only)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  * @private
+ *
+ * @version 2.0.beta2
  */
 public class TraceModuleBase_sendMessage extends TraceObj_SendMessage {
 

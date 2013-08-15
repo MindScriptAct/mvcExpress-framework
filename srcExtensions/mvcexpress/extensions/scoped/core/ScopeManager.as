@@ -15,6 +15,10 @@ import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
 
+/**
+ * Static class for scope managment.
+ * @version scoped.1.0.beta2
+ */
 public class ScopeManager {
 
 	/* all messengers by scope name */

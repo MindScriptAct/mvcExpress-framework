@@ -28,6 +28,8 @@ use namespace pureLegsCore;
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class ProxyMap implements IProxyMap {
 

@@ -23,13 +23,14 @@ import mvcexpress.extensions.live.traceObjects.processMap.TraceProcessMap_provid
 import mvcexpress.extensions.live.traceObjects.processMap.TraceProcessMap_unprovide;
 import mvcexpress.utils.checkClassSuperclass;
 
+use namespace pureLegsCore;
+
 /**
  * Handles application processes.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class ProcessMapLive {
 
 	// name of the module MediatorMap is working for.

@@ -23,6 +23,8 @@ use namespace pureLegsCore;
  *  Can handle message strings. (handles data change or other framework constants)
  *  Can handle view events.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class Mediator {
 

@@ -5,6 +5,8 @@ import mvcexpress.mvc.Proxy;
 /**
  * Interface to get proxy objects manually with your code, instead of automatic injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public interface IProxyMap {
 

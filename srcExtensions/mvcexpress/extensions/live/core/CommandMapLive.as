@@ -9,13 +9,14 @@ import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.extensions.live.mvc.CommandLive;
 import mvcexpress.mvc.Command;
 
+use namespace pureLegsCore;
+
 /**
  * Handles command mappings, and executes them on constants
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class CommandMapLive extends CommandMap {
 
 	// for internal use.

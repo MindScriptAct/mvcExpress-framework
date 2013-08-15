@@ -33,6 +33,8 @@ import mvcexpress.extensions.unpuremvc.patterns.proxy.UnpureProxy;
  *
  * @see mvcexpress.extensions.unpuremvc.patterns.proxy.UnpureProxy Proxy
  * @see mvcexpress.extensions.unpuremvc.interfaces.IProxy IProxy
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureModel {
 

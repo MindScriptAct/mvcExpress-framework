@@ -9,6 +9,8 @@ import mvcexpress.extensions.unpuremvc.patterns.observer.UnpureNotification;
  * The interface definition for a PureMVC Command.
  *
  * @see mvcexpress.extensions.unpuremvc.interfaces INotification
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public interface UnpureICommand {
 	/**

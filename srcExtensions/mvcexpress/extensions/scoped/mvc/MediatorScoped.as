@@ -6,6 +6,8 @@ import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;
 import mvcexpress.mvc.Mediator;
 
+use namespace pureLegsCore;
+
 /**
  * Mediates single view object.                                                                                                                            </br>
  *  Main responsibility of mediator is to send message from framework  to view, and receive constants from view and send to framework.                        </br>
@@ -13,10 +15,9 @@ import mvcexpress.mvc.Mediator;
  *  Can send constants. (sends constants then user interacts with the view)                                                                                    </br>
  *  Can handle constants. (handles data change or other framework constants)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version scoped.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class MediatorScoped extends Mediator {
 
 

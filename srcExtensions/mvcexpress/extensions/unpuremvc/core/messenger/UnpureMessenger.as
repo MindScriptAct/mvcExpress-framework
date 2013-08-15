@@ -6,6 +6,9 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 
+/**
+ * @version unpuremvc.1.0.beta2
+ */
 public class UnpureMessenger extends Messenger {
 
 	private var lastMessageType:String;

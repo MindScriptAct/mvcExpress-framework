@@ -7,13 +7,14 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.scoped.mvc.CommandScoped;
 import mvcexpress.mvc.Command;
 
+use namespace pureLegsCore;
+
 /**
  * Handles command mappings, and executes them on constants
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version scoped.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class CommandMapScoped extends CommandMap {
 
 	protected var scopeHandlers:Vector.<HandlerVO> = new Vector.<HandlerVO>();

@@ -30,6 +30,8 @@ import mvcexpress.extensions.unpuremvc.patterns.observer.observerCommand.UnpureO
  * @see mvcexpress.extensions.unpuremvc.patterns.mediator.UnpureMediator Mediator
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureObserver Observer
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureNotification Notification
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureView {
 

@@ -19,6 +19,8 @@ import mvcexpress.modules.ModuleCore;
  * You can create modular application by having more then one module.
  * </p>
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 public class ModuleLive extends ModuleCore {
 

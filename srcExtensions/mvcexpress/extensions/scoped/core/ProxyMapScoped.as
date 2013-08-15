@@ -20,13 +20,14 @@ import mvcexpress.mvc.Command;
 import mvcexpress.mvc.PooledCommand;
 import mvcexpress.mvc.Proxy;
 
+use namespace pureLegsCore;
+
 /**
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version scoped.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class ProxyMapScoped extends ProxyMap {
 
 

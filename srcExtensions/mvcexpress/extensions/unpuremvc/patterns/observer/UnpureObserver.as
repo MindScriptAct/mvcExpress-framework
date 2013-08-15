@@ -22,6 +22,8 @@ package mvcexpress.extensions.unpuremvc.patterns.observer {
  *
  * @see mvcexpress.extensions.unpuremvc.unpureCore.view.View View
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureNotification Notification
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureObserver {
 	private var notify:Function;

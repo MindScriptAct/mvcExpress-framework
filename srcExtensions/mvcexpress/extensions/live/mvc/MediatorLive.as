@@ -15,6 +15,8 @@ use namespace pureLegsCore;
  *  Can send constants. (sends constants then user interacts with the view)                                                                                    </br>
  *  Can handle constants. (handles data change or other framework constants)
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 
 use namespace pureLegsCore;

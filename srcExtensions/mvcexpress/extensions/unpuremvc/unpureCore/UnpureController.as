@@ -40,6 +40,8 @@ import mvcexpress.extensions.unpuremvc.patterns.observer.*;
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureNotification Notification
  * @see mvcexpress.extensions.unpuremvc.patterns.command.UnpureSimpleCommand SimpleCommand
  * @see mvcexpress.extensions.unpuremvc.patterns.command.UnpureMacroCommand MacroCommand
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureController {
 

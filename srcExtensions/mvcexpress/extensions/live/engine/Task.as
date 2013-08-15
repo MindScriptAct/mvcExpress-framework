@@ -8,6 +8,8 @@ import mvcexpress.extensions.live.taskTests.TaskTestVO;
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 public class Task {
 

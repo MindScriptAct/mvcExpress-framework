@@ -6,6 +6,8 @@ package mvcexpress.core.messenger {
  * HandlerVO is not removed instantly then handler is not needed, only marked for removal(by seting handler to null.).
  * @private
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class HandlerVO {
 

@@ -134,6 +134,8 @@ import mvcexpress.modules.ModuleCore;
  * @see mvcexpress.extensions.unpuremvc.patterns.proxy.UnpureProxy Proxy
  * @see mvcexpress.extensions.unpuremvc.patterns.command.UnpureSimpleCommand SimpleCommand
  * @see mvcexpress.extensions.unpuremvc.patterns.command.UnpureMacroCommand MacroCommand
+ *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureFacade extends ModuleCore {
 

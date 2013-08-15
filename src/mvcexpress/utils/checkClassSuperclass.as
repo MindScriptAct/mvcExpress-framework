@@ -6,6 +6,8 @@ import flash.utils.getQualifiedSuperclassName;
 
 /**
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 
 /**

@@ -7,6 +7,8 @@ import flash.utils.describeType;
  * (It might be not compiled in, in release mode if '-keep-as3-metadata+=Inject' compile argument is not used.
  * @private
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class InjectTester {
 

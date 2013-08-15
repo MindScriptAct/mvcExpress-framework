@@ -6,8 +6,7 @@ import mvcexpress.extensions.unpuremvc.patterns.observer.UnpureObserver;
 import mvcexpress.mvc.PooledCommand;
 
 /**
- * TODO:CLASS COMMENT
- * @author Deril
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureObserverCommand extends PooledCommand {
 

@@ -15,6 +15,9 @@ import mvcexpress.utils.checkClassSuperclass;
 
 use namespace pureLegsCore;
 
+/**
+ * @version unpuremvc.1.0.beta2
+ */
 public class UnpureCommandMap extends CommandMap {
 
 	public function UnpureCommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {

@@ -37,6 +37,7 @@ package mvcexpress.extensions.unpuremvc.patterns.observer {
  *
  * @see mvcexpress.extensions.unpuremvc.patterns.observer.UnpureObserver Observer
  *
+ * @version unpuremvc.1.0.beta2
  */
 public class UnpureNotification {
 

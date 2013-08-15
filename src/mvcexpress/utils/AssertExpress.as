@@ -3,7 +3,9 @@ package mvcexpress.utils {
 
 /**
  * Class to assert statements for testing. (Similar to FlexUnit)
- * Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version 2.0.beta2
  */
 public class AssertExpress {
 

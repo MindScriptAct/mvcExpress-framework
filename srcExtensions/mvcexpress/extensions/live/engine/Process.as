@@ -26,6 +26,8 @@ import mvcexpress.utils.checkClassSuperclass;
 /**
  * COMMENT
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *
+ * @version live.1.0.beta2
  */
 public class Process {
 
