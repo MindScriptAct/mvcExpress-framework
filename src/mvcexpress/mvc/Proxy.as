@@ -7,6 +7,7 @@ import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxy.TraceProxy_sendMessage;
+import mvcexpress.modules.ModuleCore;
 
 use namespace pureLegsCore;
 
@@ -150,5 +151,16 @@ public class Proxy {
 	pureLegsCore function getDependantCommands():Dictionary {
 		return dependantCommands;
 	}
+
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
+
+	CONFIG::debug
+	static public var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
 }
 }

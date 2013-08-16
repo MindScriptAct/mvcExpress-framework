@@ -81,6 +81,12 @@ public class CommandMap {
 			if (!Boolean(type) || type == "null" || type == "undefined") {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
+
+			// var check if extension is supported by this module.
+			var moduleExtensionId:int = commandClass["extension_id"];
+			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + commandClass["extension_name"] + " extension enabled to use " + commandClass + " command.");
+			}
 		}
 
 		if (classRegistry[type]) {
@@ -144,6 +150,13 @@ public class CommandMap {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
 				validateCommandParams(commandClass, params);
+
+				// var check if extension is supported by this module.
+				var moduleExtensionId:int = commandClass["extension_id"];
+				if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+					throw Error("This extension is not supported by current module. You need " + commandClass["extension_name"] + " extension enabled to use " + commandClass + " command.");
+				}
+
 			}
 
 			// construct command
@@ -196,7 +209,7 @@ public class CommandMap {
 
 	/**
 	 * Checks if specific PooledCommand is already pooled.
-	 * @param    commandClass	PooledCommand sublcass to check Command pool for.
+	 * @param    commandClass    PooledCommand sublcass to check Command pool for.
 	 * @return    true if command pool is created.
 	 */
 	public function isCommandPooled(commandClass:Class):Boolean {

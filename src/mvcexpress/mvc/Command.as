@@ -7,6 +7,7 @@ import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendMessage;
+import mvcexpress.modules.ModuleCore;
 
 /**
  * Command, handles business logic of your application.                                                                                                    </br>
@@ -105,6 +106,17 @@ dynamic public class Command {
 	// You have to manually create execute() function in your commands, this gives possibility to set any type to params object.
 	//public function execute(params:Object):void {
 	//}
+
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
+
+	CONFIG::debug
+	static public var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
 
 }
 }

@@ -106,6 +106,12 @@ public class ProxyMap implements IProxyMap {
 		// debug this action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceProxyMap_map(moduleName, proxyObject, injectClass, name));
+
+			// var check if extension is supported by this module.
+			var moduleExtensionId:int = proxyClass["extension_id"];
+			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + proxyClass["extension_name"] + " extension enabled to use " + proxyClass + " proxy.");
+			}
 		}
 
 		if (proxyObject.messenger == null) {
@@ -202,6 +208,8 @@ public class ProxyMap implements IProxyMap {
 
 		//debug this action
 		CONFIG::debug {
+			use namespace pureLegsCore;
+
 			if (!checkClassSuperclass(proxyClass, "mvcexpress.mvc::Proxy")) {
 				throw Error("proxyClass:" + proxyClass + " you are trying to lazy map is not extended from 'mvcexpress.mvc::Proxy' class.");
 			}
@@ -209,7 +217,11 @@ public class ProxyMap implements IProxyMap {
 				throw Error("Only up to 10 Proxy parameters are supported. Please refactor some into parameter container objects. [injectClass:" + className + " name:" + name + " proxyParams:" + proxyParams + "]");
 			}
 
-			use namespace pureLegsCore;
+			// var check if extension is supported by this module.
+			var moduleExtensionId:int = proxyClass["extension_id"];
+			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + proxyClass["extension_name"] + " extension enabled to use " + proxyClass + " proxy.");
+			}
 
 			MvcExpress.debug(new TraceProxyMap_lazyMap(moduleName, proxyClass, injectClass, name, proxyParams));
 		}

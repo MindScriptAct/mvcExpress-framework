@@ -1,6 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core {
-import flash.display.Sprite;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
@@ -73,6 +72,12 @@ public class MediatorMap implements IMediatorMap {
 				// check if mediatorClass is subclass of Mediator class
 				if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
 					throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'mvcexpress.mvc::Mediator' class.");
+				}
+
+				// var check if extension is supported by this module.
+				var moduleExtensionId:int = mediatorClass["extension_id"];
+				if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+					throw Error("This extension is not supported by current module. You need " + mediatorClass["extension_name"] + " extension enabled to use "+mediatorClass + " mediator");
 				}
 			}
 
@@ -240,8 +245,8 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Mediates viewObject with specified mediator class.                     																				<br>
-	 * This function will mediate your view without mapping view class to mediator class.																	<br>
+	 * Mediates viewObject with specified mediator class.                                                                                                    <br>
+	 * This function will mediate your view without mapping view class to mediator class.                                                                    <br>
 	 * It is usually better practice to use 2 step mediation(map() then mediate()) instead of this function. But sometimes it is not possible/useful.
 	 * @param    viewObject        view object to mediate.
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
@@ -263,6 +268,12 @@ public class MediatorMap implements IMediatorMap {
 			// check if mediatorClass is subclass of Mediator class
 			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'mvcexpress.mvc::Mediator' class.");
+			}
+
+			// var check if extension is supported by this module.
+			var moduleExtensionId:int = mediatorClass["extension_id"];
+			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + mediatorClass["extension_name"] + " extension enabled to use "+mediatorClass + " mediator.");
 			}
 		}
 
@@ -302,7 +313,7 @@ public class MediatorMap implements IMediatorMap {
 	}
 
 	/**
-	 * Remove mediation of view object by all or specific mediators.																						<br>
+	 * Remove mediation of view object by all or specific mediators.                                                                                        <br>
 	 * If any mediator is mediating this viewObject - it calls onRemove mediator function, automatically removes all message handlers, all event listeners and dispose it.
 	 * @param    viewObject    view object witch mediator will be destroyed.
 	 * @param    mediatorClass    optional parameter to unmediate specific mediator class. If this not set - all mediators will be removed.

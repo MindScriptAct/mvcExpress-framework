@@ -1,6 +1,8 @@
 package integration.extensionChecking {
 import flash.display.Sprite;
 
+import integration.aGenericExtension.GenericTestExtensionModule;
+
 import integration.aGenericExtension.core.CommandMapExtensionTest;
 import integration.aGenericExtension.core.MediatorMapExtensionTest;
 import integration.aGenericExtension.core.MessengerExtensionTest;
@@ -22,6 +24,7 @@ public class ExtensionCheckingTests {
 
 	private var moduleCore:ModuleCore;
 	private var genericModule:GenericTestModule;
+	private var genericExtensionModule:GenericTestExtensionModule;
 
 	[Before]
 	public function runBeforeEveryTest():void {
@@ -30,6 +33,9 @@ public class ExtensionCheckingTests {
 		}
 		if (genericModule) {
 			genericModule.disposeModule();
+		}
+		if (genericExtensionModule) {
+			genericExtensionModule.disposeModule();
 		}
 	}
 
@@ -40,6 +46,9 @@ public class ExtensionCheckingTests {
 		}
 		if (genericModule) {
 			genericModule.disposeModule();
+		}
+		if (genericExtensionModule) {
+			genericExtensionModule.disposeModule();
 		}
 		ModuleManager.disposeAll();
 	}
@@ -87,7 +96,7 @@ public class ExtensionCheckingTests {
 
 
 	//-------------------------------
-	//  mediator mapping
+	//  mediator mapping - fail
 	//-------------------------------
 
 	[Test(expects="Error")]
@@ -104,7 +113,7 @@ public class ExtensionCheckingTests {
 
 
 	//-------------------------------
-	//  proxy mapping
+	//  proxy mapping - fail
 	//-------------------------------
 
 	[Test(expects="Error")]
@@ -120,7 +129,7 @@ public class ExtensionCheckingTests {
 	}
 
 	//-------------------------------
-	//  command mapping
+	//  command mapping - fail
 	//-------------------------------
 
 	[Test(expects="Error")]
@@ -130,7 +139,7 @@ public class ExtensionCheckingTests {
 	}
 
 	//-------------------------------
-	//  command execution
+	//  command execution - fail
 	//-------------------------------
 
 	[Test(expects="Error")]
@@ -138,6 +147,65 @@ public class ExtensionCheckingTests {
 		genericModule = new GenericTestModule();
 		genericModule.commandMap_execute(CommnadExstensionTest);
 	}
+
+
+
+
+
+	//-------------------------------
+	//  mediator mapping - ok
+	//-------------------------------
+
+	[Test]
+	public function extensionChecking_badMediator_mapFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.mediatorMap_map(Sprite, MediatorExtensionTest);
+	}
+
+	[Test]
+	public function extensionChecking_badMediator_mediateWithFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.mediatorMap_mediateWith(new Sprite(), MediatorExtensionTest);
+	}
+
+
+	//-------------------------------
+	//  proxy mapping - ok
+	//-------------------------------
+
+	[Test]
+	public function extensionChecking_badProxy_mapFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.proxymap_map(new ProxyExtensionTest());
+	}
+
+	[Test]
+	public function extensionChecking_badProxy_lazyMapFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.proxymap_lazyMap(ProxyExtensionTest);
+	}
+
+	//-------------------------------
+	//  command mapping - ok
+	//-------------------------------
+
+	[Test]
+	public function extensionChecking_badCommand_mapFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.commandMap_map("test", CommnadExstensionTest);
+	}
+
+	//-------------------------------
+	//  command execution - ok
+	//-------------------------------
+
+	[Test]
+	public function extensionChecking_badCommand_executeFunct_ok():void {
+		genericExtensionModule = new GenericTestExtensionModule();
+		genericExtensionModule.commandMap_execute(CommnadExstensionTest);
+	}
+
+
 
 }
 }
