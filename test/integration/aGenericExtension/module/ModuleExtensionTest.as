@@ -2,9 +2,9 @@ package integration.aGenericExtension.module {
 import mvcexpress.core.ModuleManager;
 import mvcexpress.modules.ModuleCore;
 
-public class ModuleTest extends ModuleCore {
+public class ModuleExtensionTest extends ModuleCore {
 
-	public function ModuleTest(moduleName:String = null, extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
+	public function ModuleExtensionTest(moduleName:String = null, extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
 
 		CONFIG::debug {
 			enableExtension(EXTENSION_TEST_ID);

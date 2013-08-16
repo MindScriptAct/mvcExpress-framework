@@ -8,7 +8,7 @@ import mvcexpress.mvc.Proxy;
  */
 public class GenericTestModule extends ModuleCore {
 
-	public function GenericTestModule(moduleName:String) {
+	public function GenericTestModule(moduleName:String = "generalTestModule") {
 		super(moduleName);
 	}
 
