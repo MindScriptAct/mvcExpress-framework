@@ -83,9 +83,9 @@ public class CommandMap {
 			}
 
 			// var check if extension is supported by this module.
-			var moduleExtensionId:int = commandClass["extension_id"];
-			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-				throw Error("This extension is not supported by current module. You need " + commandClass["extension_name"] + " extension enabled to use " + commandClass + " command.");
+			var extensionId:int = ExtensionManager.getExtensionId(commandClass);
+			if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(commandClass) + " extension enabled to use " + commandClass + " command.");
 			}
 		}
 
@@ -152,11 +152,10 @@ public class CommandMap {
 				validateCommandParams(commandClass, params);
 
 				// var check if extension is supported by this module.
-				var moduleExtensionId:int = commandClass["extension_id"];
-				if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-					throw Error("This extension is not supported by current module. You need " + commandClass["extension_name"] + " extension enabled to use " + commandClass + " command.");
+				var extensionId:int = ExtensionManager.getExtensionId(commandClass);
+				if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+					throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(commandClass) + " extension enabled to use " + commandClass + " command.");
 				}
-
 			}
 
 			// construct command

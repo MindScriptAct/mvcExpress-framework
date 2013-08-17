@@ -1,4 +1,6 @@
 package suites.mediators {
+import constants.TestExtensionDict;
+
 import flexunit.framework.Assert;
 
 import mvcexpress.core.MediatorMap;
@@ -31,11 +33,17 @@ public class MediatorTests {
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 
+		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+
+
 		mediatorMap.map(MediatorSprite, MediatorSpriteMediator);
 
 		testView = new MediatorSprite()
 
 		mediatorMap.mediate(testView);
+
 	}
 
 	[After]

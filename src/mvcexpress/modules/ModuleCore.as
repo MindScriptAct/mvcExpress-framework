@@ -4,6 +4,7 @@ import flash.utils.Dictionary;
 
 import mvcexpress.MvcExpress;
 import mvcexpress.core.CommandMap;
+import mvcexpress.core.ExtensionManager;
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ModuleManager;
 import mvcexpress.core.ProxyMap;
@@ -108,14 +109,14 @@ public class ModuleCore {
 		commandMap = new extendedCommandMapClass(_moduleName, messenger, proxyMap, mediatorMap);
 		proxyMap.setCommandMap(commandMap);
 
-		onInit();
-
 		CONFIG::debug {
 			messenger.setSupportedExtensions(SUPPORTED_EXTENSIONS);
 			proxyMap.setSupportedExtensions(SUPPORTED_EXTENSIONS);
 			mediatorMap.setSupportedExtensions(SUPPORTED_EXTENSIONS);
 			commandMap.setSupportedExtensions(SUPPORTED_EXTENSIONS);
 		}
+
+		onInit();
 	}
 
 	/**
@@ -271,7 +272,7 @@ public class ModuleCore {
 
 
 	CONFIG::debug
-	static public const EXTENSION_CORE_ID:int = ModuleManager.getExtensionId(EXTENSION_CORE_NAME);
+	static public const EXTENSION_CORE_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_CORE_NAME);
 
 	CONFIG::debug
 	static public const EXTENSION_CORE_NAME:String = "CORE";

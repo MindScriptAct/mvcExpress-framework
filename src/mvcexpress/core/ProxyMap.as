@@ -108,9 +108,9 @@ public class ProxyMap implements IProxyMap {
 			MvcExpress.debug(new TraceProxyMap_map(moduleName, proxyObject, injectClass, name));
 
 			// var check if extension is supported by this module.
-			var moduleExtensionId:int = proxyClass["extension_id"];
-			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-				throw Error("This extension is not supported by current module. You need " + proxyClass["extension_name"] + " extension enabled to use " + proxyClass + " proxy.");
+			var extensionId:int = ExtensionManager.getExtensionId(proxyClass);
+			if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(proxyClass) + " extension enabled to use " + proxyClass + " proxy.");
 			}
 		}
 
@@ -218,9 +218,9 @@ public class ProxyMap implements IProxyMap {
 			}
 
 			// var check if extension is supported by this module.
-			var moduleExtensionId:int = proxyClass["extension_id"];
-			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-				throw Error("This extension is not supported by current module. You need " + proxyClass["extension_name"] + " extension enabled to use " + proxyClass + " proxy.");
+			var extensionId:int = ExtensionManager.getExtensionId(proxyClass);
+			if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(proxyClass) + " extension enabled to use " + proxyClass + " proxy.");
 			}
 
 			MvcExpress.debug(new TraceProxyMap_lazyMap(moduleName, proxyClass, injectClass, name, proxyParams));

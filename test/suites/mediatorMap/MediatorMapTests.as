@@ -1,4 +1,6 @@
 package suites.mediatorMap {
+import constants.TestExtensionDict;
+
 import flash.display.Bitmap;
 import flash.display.Sprite;
 
@@ -41,6 +43,11 @@ public class MediatorMapTests {
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 		callCaunter = 0;
 		callsExpected = 0;
+
+		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+
 	}
 
 	[After]

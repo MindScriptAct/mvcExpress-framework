@@ -5,9 +5,6 @@ import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.moduleInitTests.ModuleInitTests;
 import integration.proxyMap.ProxyMapTests;
-import integration.scopeControl.ScopeControlTests;
-import integration.scopedMessaging.ChannelingTests;
-import integration.scopedProxy.ScopedProxyTests;
 
 import suites.commandMap.CommandMapTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
@@ -30,7 +27,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 
-	/*
+	//*
 
 	public var generalTests:GeneralTests;
 
@@ -68,13 +65,13 @@ public class AllTestSuites {
 
 	/*
 
-	public var scopeControllTest:ScopeControlTests;
+	 public var scopeControllTest:ScopeControlTests;
 
-	public var channelingTests:ChannelingTests;
+	 public var channelingTests:ChannelingTests;
 
-	public var scopedProxyTests:ScopedProxyTests;
+	 public var scopedProxyTests:ScopedProxyTests;
 
-	//*/
+	 //*/
 
 	public var extensionCheckingTests:ExtensionCheckingTests;
 

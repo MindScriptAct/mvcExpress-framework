@@ -1,4 +1,6 @@
 package suites.proxyMap {
+import constants.TestExtensionDict;
+
 import flexunit.framework.Assert;
 
 import mvcexpress.core.ProxyMap;
@@ -27,6 +29,9 @@ public class NamedInterfacedProxyMapTests {
 		messenger = new Messenger("test");
 		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
+
+		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
 
 	}
 

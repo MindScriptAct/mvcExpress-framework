@@ -75,9 +75,9 @@ public class MediatorMap implements IMediatorMap {
 				}
 
 				// var check if extension is supported by this module.
-				var moduleExtensionId:int = mediatorClass["extension_id"];
-				if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-					throw Error("This extension is not supported by current module. You need " + mediatorClass["extension_name"] + " extension enabled to use "+mediatorClass + " mediator");
+				var extensionId:int = ExtensionManager.getExtensionId(mediatorClass);
+				if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+					throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " command.");
 				}
 			}
 
@@ -271,9 +271,9 @@ public class MediatorMap implements IMediatorMap {
 			}
 
 			// var check if extension is supported by this module.
-			var moduleExtensionId:int = mediatorClass["extension_id"];
-			if (SUPPORTED_EXTENSIONS[moduleExtensionId] == null) {
-				throw Error("This extension is not supported by current module. You need " + mediatorClass["extension_name"] + " extension enabled to use "+mediatorClass + " mediator.");
+			var extensionId:int = ExtensionManager.getExtensionId(mediatorClass);
+			if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " command.");
 			}
 		}
 

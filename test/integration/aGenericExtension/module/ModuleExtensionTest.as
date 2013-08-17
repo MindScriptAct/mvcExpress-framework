@@ -1,5 +1,5 @@
 package integration.aGenericExtension.module {
-import mvcexpress.core.ModuleManager;
+import mvcexpress.core.ExtensionManager;
 import mvcexpress.modules.ModuleCore;
 
 public class ModuleExtensionTest extends ModuleCore {
@@ -20,7 +20,7 @@ public class ModuleExtensionTest extends ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	static public const EXTENSION_TEST_ID:int = ModuleManager.getExtensionId(EXTENSION_TEST_NAME);
+	static public const EXTENSION_TEST_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_TEST_NAME);
 
 	CONFIG::debug
 	static public const EXTENSION_TEST_NAME:String = "test_module";

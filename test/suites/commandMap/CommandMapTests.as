@@ -1,4 +1,6 @@
 package suites.commandMap {
+import constants.TestExtensionDict;
+
 import flash.display.Sprite;
 
 import mvcexpress.core.CommandMap;
@@ -49,6 +51,11 @@ public class CommandMapTests {
 		callCaunter = 0;
 		callsExpected = 0;
 		testParamObject = new ExtendedTestObject();
+
+		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		commandMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+
 	}
 
 	[After]

@@ -1,9 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.live.modules {
-import flash.utils.Dictionary;
-
-import mvcexpress.core.ModuleManager;
-
+import mvcexpress.core.ExtensionManager;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.live.core.CommandMapLive;
 import mvcexpress.extensions.live.core.MediatorMapLive;
@@ -86,7 +83,7 @@ public class ModuleLive extends ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	static public const EXTENSION_LIVE_ID:int = ModuleManager.getExtensionId(EXTENSION_LIVE_NAME);
+	static public const EXTENSION_LIVE_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_LIVE_NAME);
 
 	CONFIG::debug
 	static public const EXTENSION_LIVE_NAME:String = "live";
