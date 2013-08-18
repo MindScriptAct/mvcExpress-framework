@@ -1,30 +1,33 @@
 package integration.extensionChecking {
 import flash.display.Sprite;
 
-import integration.aGenericExtension.GenericTestExtensionModule;
-
-import integration.aGenericExtension.core.CommandMapExtensionTest;
-import integration.aGenericExtension.core.MediatorMapExtensionTest;
-import integration.aGenericExtension.core.MessengerExtensionTest;
-import integration.aGenericExtension.core.ProxyMapExtensionTest;
 import integration.aGenericExtension.module.ModuleExtensionTest;
-import integration.aGenericExtension.mvc.CommnadExstensionTest;
-import integration.aGenericExtension.mvc.MediatorExtensionTest;
-import integration.aGenericExtension.mvc.ProxyExtensionTest;
 import integration.aGenericTestObjects.GenericTestModule;
 
 import mvcexpress.core.ModuleManager;
+
 import mvcexpress.modules.ModuleCore;
 
-/**
- * COMMENT
- * @author
- */
-public class ExtensionCheckingTests {
+public class ExtensionCheckingTestsBase {
+
+
+	protected var extensionModuleClass:Class;
+
+	protected var extensionCommandMapClass:Class;
+	protected var extensionProxyMapClass:Class;
+	protected var extensionMediatorMapClass:Class;
+
+	protected var extensionMessendegClass:Class;
+
+	protected var extensionCommandClass:Class;
+	protected var extensionProxyClass:Class;
+	protected var extensionMediatorClass:Class;
+
 
 	private var moduleCore:ModuleCore;
 	private var genericModule:GenericTestModule;
-	private var genericExtensionModule:GenericTestExtensionModule;
+
+	private var genericExtensionModule:ModuleCore;
 
 	[Before]
 	public function runBeforeEveryTest():void {
@@ -55,43 +58,43 @@ public class ExtensionCheckingTests {
 
 	[Test]
 	public function extensionChecking_goodMediatorMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", MediatorMapExtensionTest);
+		moduleCore = new ModuleExtensionTest("test", extensionMediatorMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodProxyMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, ProxyMapExtensionTest);
+		moduleCore = new ModuleExtensionTest("test", null, extensionProxyMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodCommandMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, null, CommandMapExtensionTest);
+		moduleCore = new ModuleExtensionTest("test", null, null, extensionCommandMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodMessanger_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, null, null, MessengerExtensionTest);
+		moduleCore = new ModuleExtensionTest("test", null, null, null, extensionMessendegClass);
 	}
 
 
 	[Test(expects="Error")]
 	public function extensionChecking_badMediatorMap_fails():void {
-		moduleCore = new ModuleCore("test", MediatorMapExtensionTest);
+		moduleCore = new ModuleCore("test", extensionMediatorMapClass);
 	}
 
 	[Test(expects="Error")]
 	public function extensionChecking_badProxyMap_fails():void {
-		moduleCore = new ModuleCore("test", null, ProxyMapExtensionTest);
+		moduleCore = new ModuleCore("test", null, extensionProxyMapClass);
 	}
 
 	[Test(expects="Error")]
 	public function extensionChecking_badCommandMap_fails():void {
-		moduleCore = new ModuleCore("test", null, null, CommandMapExtensionTest);
+		moduleCore = new ModuleCore("test", null, null, extensionCommandMapClass);
 	}
 
 	[Test(expects="Error")]
 	public function extensionChecking_badMessanger_fails():void {
-		moduleCore = new ModuleCore("test", null, null, null, MessengerExtensionTest);
+		moduleCore = new ModuleCore("test", null, null, null, extensionMessendegClass);
 	}
 
 
@@ -102,13 +105,13 @@ public class ExtensionCheckingTests {
 	[Test(expects="Error")]
 	public function extensionChecking_badMediator_mapFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.mediatorMap_map(Sprite, MediatorExtensionTest);
+		genericModule.mediatorMap_map(Sprite, extensionMediatorClass);
 	}
 
 	[Test(expects="Error")]
 	public function extensionChecking_badMediator_mediateWithFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.mediatorMap_mediateWith(new Sprite(), MediatorExtensionTest);
+		genericModule.mediatorMap_mediateWith(new Sprite(), extensionMediatorClass);
 	}
 
 
@@ -119,13 +122,13 @@ public class ExtensionCheckingTests {
 	[Test(expects="Error")]
 	public function extensionChecking_badProxy_mapFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.proxymap_map(new ProxyExtensionTest());
+		genericModule.proxymap_map(new extensionProxyClass());
 	}
 
 	[Test(expects="Error")]
 	public function extensionChecking_badProxy_lazyMapFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.proxymap_lazyMap(ProxyExtensionTest);
+		genericModule.proxymap_lazyMap(extensionProxyClass);
 	}
 
 	//-------------------------------
@@ -135,7 +138,7 @@ public class ExtensionCheckingTests {
 	[Test(expects="Error")]
 	public function extensionChecking_badCommand_mapFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.commandMap_map("test", CommnadExstensionTest);
+		genericModule.commandMap_map("test", extensionCommandClass);
 	}
 
 	//-------------------------------
@@ -145,11 +148,8 @@ public class ExtensionCheckingTests {
 	[Test(expects="Error")]
 	public function extensionChecking_badCommand_executeFunct_fails():void {
 		genericModule = new GenericTestModule();
-		genericModule.commandMap_execute(CommnadExstensionTest);
+		genericModule.commandMap_execute(extensionCommandClass);
 	}
-
-
-
 
 
 	//-------------------------------
@@ -158,14 +158,14 @@ public class ExtensionCheckingTests {
 
 	[Test]
 	public function extensionChecking_badMediator_mapFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.mediatorMap_map(Sprite, MediatorExtensionTest);
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['mediatorMap_map'](Sprite, extensionMediatorClass);
 	}
 
 	[Test]
 	public function extensionChecking_badMediator_mediateWithFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.mediatorMap_mediateWith(new Sprite(), MediatorExtensionTest);
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['mediatorMap_mediateWith'](new Sprite(), extensionMediatorClass);
 	}
 
 
@@ -175,14 +175,14 @@ public class ExtensionCheckingTests {
 
 	[Test]
 	public function extensionChecking_badProxy_mapFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.proxymap_map(new ProxyExtensionTest());
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['proxymap_map'](new extensionProxyClass());
 	}
 
 	[Test]
 	public function extensionChecking_badProxy_lazyMapFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.proxymap_lazyMap(ProxyExtensionTest);
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['proxymap_lazyMap'](extensionProxyClass);
 	}
 
 	//-------------------------------
@@ -191,8 +191,8 @@ public class ExtensionCheckingTests {
 
 	[Test]
 	public function extensionChecking_badCommand_mapFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.commandMap_map("test", CommnadExstensionTest);
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['commandMap_map']("test", extensionCommandClass);
 	}
 
 	//-------------------------------
@@ -201,10 +201,9 @@ public class ExtensionCheckingTests {
 
 	[Test]
 	public function extensionChecking_badCommand_executeFunct_ok():void {
-		genericExtensionModule = new GenericTestExtensionModule();
-		genericExtensionModule.commandMap_execute(CommnadExstensionTest);
+		genericExtensionModule = new extensionModuleClass();
+		genericExtensionModule['commandMap_execute'](extensionCommandClass);
 	}
-
 
 
 }
