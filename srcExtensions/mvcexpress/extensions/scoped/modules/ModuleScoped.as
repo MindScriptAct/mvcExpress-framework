@@ -1,6 +1,7 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.scoped.modules {
 import mvcexpress.MvcExpress;
+import mvcexpress.core.ExtensionManager;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.CommandMapScoped;
@@ -27,6 +28,11 @@ public class ModuleScoped extends ModuleCore {
 	protected var commandMapScoped:CommandMapScoped;
 
 	public function ModuleScoped(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
+
+		CONFIG::debug {
+			enableExtension(EXTENSION_SCOPED_ID);
+		}
+
 		super(moduleName, null, ProxyMapScoped, CommandMapScoped);
 
 		proxyMapScoped = proxyMap as ProxyMapScoped;
@@ -39,7 +45,7 @@ public class ModuleScoped extends ModuleCore {
 		super.disposeModule();
 	}
 
-//----------------------------------
+	//----------------------------------
 	//     SCOPED MESSAGING
 	//----------------------------------
 
@@ -91,6 +97,16 @@ public class ModuleScoped extends ModuleCore {
 		ScopeManager.unregisterScope(moduleName, scopeName);
 	}
 
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public const EXTENSION_SCOPED_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_SCOPED_NAME);
+
+	CONFIG::debug
+	static public const EXTENSION_SCOPED_NAME:String = "scoped";
 
 }
 }

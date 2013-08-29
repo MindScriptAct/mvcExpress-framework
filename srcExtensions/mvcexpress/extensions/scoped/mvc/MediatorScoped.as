@@ -4,6 +4,7 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.mediator.TraceMediator_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.mvc.Mediator;
 
 use namespace pureLegsCore;
@@ -76,5 +77,15 @@ public class MediatorScoped extends Mediator {
 		ScopeManager.removeScopeHandler(scopeName, type, handler);
 	}
 
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public var extension_id:int = ModuleScoped.EXTENSION_SCOPED_ID;
+
+	CONFIG::debug
+	static public var extension_name:String = ModuleScoped.EXTENSION_SCOPED_NAME;
 }
 }

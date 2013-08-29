@@ -6,6 +6,7 @@ import mvcexpress.core.traceObjects.command.TraceCommand_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.CommandMapScoped;
 import mvcexpress.extensions.scoped.core.ProxyMapScoped;
 import mvcexpress.extensions.scoped.core.ScopeManager;
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.mvc.Command;
 
 /**
@@ -81,6 +82,16 @@ dynamic public class CommandScoped extends Command {
 		ScopeManager.unregisterScope(messenger.moduleName, scopeName);
 	}
 
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static public var extension_id:int = ModuleScoped.EXTENSION_SCOPED_ID;
+
+	CONFIG::debug
+	static public var extension_name:String = ModuleScoped.EXTENSION_SCOPED_NAME;
 
 }
 }

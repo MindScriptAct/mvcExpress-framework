@@ -1,9 +1,12 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.scoped.core {
+import flash.utils.Dictionary;
+
 import mvcexpress.core.*;
 import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.extensions.scoped.mvc.CommandScoped;
 import mvcexpress.mvc.Command;
 
@@ -104,6 +107,19 @@ public class CommandMapScoped extends CommandMap {
 			(command as CommandScoped).proxyMapScoped = proxyMap as ProxyMapScoped;
 		}
 		super.prepareCommand(command, commandClass);
+	}
+
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	override public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+		super.setSupportedExtensions(supportedExtensions);
+		if (!SUPPORTED_EXTENSIONS[ModuleScoped.EXTENSION_SCOPED_ID]) {
+			throw Error("This extension is not supported by current module. You need " + ModuleScoped.EXTENSION_SCOPED_NAME + " extension enabled.");
+		}
 	}
 }
 }

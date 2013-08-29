@@ -5,7 +5,7 @@ import integration.proxyMap.testObj.CestConstCommand;
 import integration.proxyMap.testObj.TestConstObject;
 import integration.proxyMap.testObj.TestContsView;
 import integration.proxyMap.testObj.TestContsViewMediator;
-import integration.proxyMap.testObj.TexsWithConstNameInjectProxy;
+import integration.proxyMap.testObj.TestWithConstNameInjectProxy;
 
 /**
  * COMMENT
@@ -36,7 +36,7 @@ public class ProxyMapTests {
 		var testProxy:GenericTestProxy = new GenericTestProxy()
 		module.proxymap_map(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
-		module.proxymap_map(new TexsWithConstNameInjectProxy());
+		module.proxymap_map(new TestWithConstNameInjectProxy());
 	}
 
 	[Test]
