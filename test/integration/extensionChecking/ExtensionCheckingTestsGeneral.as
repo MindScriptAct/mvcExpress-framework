@@ -1,12 +1,12 @@
 package integration.extensionChecking {
-import integration.aGenericExtension.GenericTestExtensionModule;
-import integration.aGenericExtension.core.CommandMapExtensionTest;
-import integration.aGenericExtension.core.MediatorMapExtensionTest;
-import integration.aGenericExtension.core.MessengerExtensionTest;
-import integration.aGenericExtension.core.ProxyMapExtensionTest;
-import integration.aGenericExtension.mvc.CommnadExstensionTest;
-import integration.aGenericExtension.mvc.MediatorExtensionTest;
-import integration.aGenericExtension.mvc.ProxyExtensionTest;
+import integration.aGenericExtension.fake.GenericFakeExtensionModule;
+import integration.aGenericExtension.fake.core.FakeExtensionCommandMap;
+import integration.aGenericExtension.fake.core.FakeExtensionMediatorMap;
+import integration.aGenericExtension.fake.core.FakeExtensionMessenger;
+import integration.aGenericExtension.fake.core.FakeExtensionProxyMap;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestCommand;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestMediator;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestProxy;
 
 /**
  * COMMENT
@@ -18,17 +18,17 @@ public class ExtensionCheckingTestsGeneral extends ExtensionCheckingTestsBase {
 	public function ExtensionCheckingTestsGeneral() {
 
 
-		extensionModuleClass = GenericTestExtensionModule;
+		extensionModuleClass = GenericFakeExtensionModule;
 
-		extensionCommandMapClass = CommandMapExtensionTest;
-		extensionProxyMapClass = ProxyMapExtensionTest;
-		extensionMediatorMapClass = MediatorMapExtensionTest;
+		extensionCommandMapClass = FakeExtensionCommandMap;
+		extensionProxyMapClass = FakeExtensionProxyMap;
+		extensionMediatorMapClass = FakeExtensionMediatorMap;
 
-		extensionMessendegClass = MessengerExtensionTest;
+		extensionMessendegClass = FakeExtensionMessenger;
 
-		extensionCommandClass = CommnadExstensionTest;
-		extensionProxyClass = ProxyExtensionTest;
-		extensionMediatorClass = MediatorExtensionTest;
+		extensionCommandClass = FakeExtensionTestCommand;
+		extensionProxyClass = FakeExtensionTestProxy;
+		extensionMediatorClass = FakeExtensionTestMediator;
 
 
 	}

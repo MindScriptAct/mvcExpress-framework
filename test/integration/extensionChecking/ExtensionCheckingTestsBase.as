@@ -1,7 +1,7 @@
 package integration.extensionChecking {
 import flash.display.Sprite;
 
-import integration.aGenericExtension.module.ModuleExtensionTest;
+import integration.aGenericExtension.fake.module.FakeExtensionModule;
 import integration.aGenericTestObjects.GenericTestModule;
 
 import mvcexpress.core.ModuleManager;
@@ -58,22 +58,22 @@ public class ExtensionCheckingTestsBase {
 
 	[Test]
 	public function extensionChecking_goodMediatorMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", extensionMediatorMapClass);
+		moduleCore = new extensionModuleClass("test", extensionMediatorMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodProxyMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, extensionProxyMapClass);
+		moduleCore = new extensionModuleClass("test", null, extensionProxyMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodCommandMap_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, null, extensionCommandMapClass);
+		moduleCore = new extensionModuleClass("test", null, null, extensionCommandMapClass);
 	}
 
 	[Test]
 	public function extensionChecking_goodMessanger_ok():void {
-		moduleCore = new ModuleExtensionTest("test", null, null, null, extensionMessendegClass);
+		moduleCore = new FakeExtensionModule("test", null, null, null, extensionMessendegClass);
 	}
 
 

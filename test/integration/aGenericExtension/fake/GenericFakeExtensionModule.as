@@ -1,14 +1,15 @@
-package integration.aGenericTestObjects {
-import mvcexpress.modules.ModuleCore;
+package integration.aGenericExtension.fake {
+import integration.aGenericExtension.fake.module.FakeExtensionModule;
+
 import mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class GenericTestModule extends ModuleCore {
+public class GenericFakeExtensionModule extends FakeExtensionModule {
 
-	public function GenericTestModule(moduleName:String = "generalTestModule", extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
+	public function GenericFakeExtensionModule(moduleName:String = "generalFakeTestModule", extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
 		super(moduleName, extendedMediatorMapClass, extendedProxyMapClass, extendedCommandMapClass, extendedMessengerClass);
 	}
 

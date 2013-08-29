@@ -1,12 +1,24 @@
 package integration.extensionChecking {
-import integration.aGenericExtension.GenericTestExtensionModule;
-import integration.aGenericExtension.core.CommandMapExtensionTest;
-import integration.aGenericExtension.core.MediatorMapExtensionTest;
-import integration.aGenericExtension.core.MessengerExtensionTest;
-import integration.aGenericExtension.core.ProxyMapExtensionTest;
-import integration.aGenericExtension.mvc.CommnadExstensionTest;
-import integration.aGenericExtension.mvc.MediatorExtensionTest;
-import integration.aGenericExtension.mvc.ProxyExtensionTest;
+import integration.aGenericExtension.live.GenericLiveExtensionModule;
+import integration.aGenericExtension.fake.GenericFakeExtensionModule;
+import integration.aGenericExtension.fake.core.FakeExtensionCommandMap;
+import integration.aGenericExtension.fake.core.FakeExtensionMediatorMap;
+import integration.aGenericExtension.fake.core.FakeExtensionMessenger;
+import integration.aGenericExtension.fake.core.FakeExtensionProxyMap;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestCommand;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestMediator;
+import integration.aGenericExtension.fake.mvc.FakeExtensionTestProxy;
+import integration.aGenericExtension.live.mvc.LiveExtensionTestCommand;
+import integration.aGenericExtension.live.mvc.LiveExtensionTestMediator;
+import integration.aGenericExtension.live.mvc.LiveExtensionTestProxy;
+
+import mvcexpress.extensions.live.core.CommandMapLive;
+import mvcexpress.extensions.live.core.MediatorMapLive;
+import mvcexpress.extensions.live.core.ProxyMapLive;
+
+import mvcexpress.extensions.live.mvc.CommandLive;
+import mvcexpress.extensions.live.mvc.MediatorLive;
+import mvcexpress.extensions.live.mvc.ProxyLive;
 
 /**
  * COMMENT
@@ -18,17 +30,17 @@ public class ExtensionCheckingTestsLive extends ExtensionCheckingTestsBase {
 	public function ExtensionCheckingTestsLive() {
 
 
-		extensionModuleClass = GenericTestExtensionModule;
+		extensionModuleClass = GenericLiveExtensionModule;
 
-		extensionCommandMapClass = CommandMapExtensionTest;
-		extensionProxyMapClass = ProxyMapExtensionTest;
-		extensionMediatorMapClass = MediatorMapExtensionTest;
+		extensionCommandMapClass = CommandMapLive;
+		extensionProxyMapClass = ProxyMapLive;
+		extensionMediatorMapClass = MediatorMapLive;
 
-		extensionMessendegClass = MessengerExtensionTest;
+		extensionMessendegClass = FakeExtensionMessenger;
 
-		extensionCommandClass = CommnadExstensionTest;
-		extensionProxyClass = ProxyExtensionTest;
-		extensionMediatorClass = MediatorExtensionTest;
+		extensionCommandClass = LiveExtensionTestCommand;
+		extensionProxyClass = LiveExtensionTestProxy;
+		extensionMediatorClass = LiveExtensionTestMediator;
 
 
 	}

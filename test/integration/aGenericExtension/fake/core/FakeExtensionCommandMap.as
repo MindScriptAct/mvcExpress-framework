@@ -1,15 +1,15 @@
-package integration.aGenericExtension.core {
+package integration.aGenericExtension.fake.core {
 import flash.utils.Dictionary;
 
-import integration.aGenericExtension.module.ModuleExtensionTest;
+import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
 import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 
-public class CommandMapExtensionTest extends CommandMap {
-	public function CommandMapExtensionTest($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
+public class FakeExtensionCommandMap extends CommandMap {
+	public function FakeExtensionCommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
 		super($moduleName, $messenger, $proxyMap, $mediatorMap);
 	}
 
@@ -20,8 +20,8 @@ public class CommandMapExtensionTest extends CommandMap {
 	CONFIG::debug
 	override public function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);
-		if (!SUPPORTED_EXTENSIONS[ModuleExtensionTest.EXTENSION_TEST_ID]) {
-			throw Error("This extension is not supported by current module. You need " + ModuleExtensionTest.EXTENSION_TEST_NAME + " extension enabled.");
+		if (!SUPPORTED_EXTENSIONS[FakeExtensionModule.EXTENSION_TEST_ID]) {
+			throw Error("This extension is not supported by current module. You need " + FakeExtensionModule.EXTENSION_TEST_NAME + " extension enabled.");
 		}
 	}
 }

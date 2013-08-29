@@ -1,9 +1,9 @@
-package integration.aGenericExtension.mvc {
+package integration.aGenericExtension.fake.mvc {
 import flash.display.Sprite;
 
-import integration.aGenericExtension.module.ModuleExtensionTest;
+import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
-import integration.aGenericExtension.module.ModuleExtensionTest;
+import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
 import mvcexpress.mvc.Mediator;
 
@@ -11,7 +11,7 @@ import mvcexpress.mvc.Mediator;
  * TODO:CLASS COMMENT
  * @author rbanevicius
  */
-public class MediatorExtensionTest extends Mediator {
+public class FakeExtensionTestMediator extends Mediator {
 
 	[Inject]
 	public var view:Sprite;
@@ -30,10 +30,10 @@ public class MediatorExtensionTest extends Mediator {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleExtensionTest.EXTENSION_TEST_ID;
+	static public var extension_id:int = FakeExtensionModule.EXTENSION_TEST_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleExtensionTest.EXTENSION_TEST_NAME
+	static public var extension_name:String = FakeExtensionModule.EXTENSION_TEST_NAME
 
 }
 }

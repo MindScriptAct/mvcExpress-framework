@@ -1,16 +1,15 @@
-package integration.aGenericExtension {
-import integration.aGenericExtension.module.ModuleExtensionTest;
-
+package integration.aGenericExtension.live {
+import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT : todo
  * @author Raimundas Banevicius (http://www.mindscriptact.com/)
  */
-public class GenericTestExtensionModule extends ModuleExtensionTest {
+public class GenericLiveExtensionModule extends ModuleLive {
 
-	public function GenericTestExtensionModule(moduleName:String = "generalTestModule") {
-		super(moduleName);
+	public function GenericLiveExtensionModule(moduleName:String = "generalLiveTestModule", extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
+		super(moduleName, extendedMediatorMapClass, extendedProxyMapClass, extendedCommandMapClass, extendedMessengerClass);
 	}
 
 	//----------------------------------

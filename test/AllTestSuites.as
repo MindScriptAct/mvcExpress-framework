@@ -1,6 +1,7 @@
 package {
 import integration.commandPooling.CommandPoolingTests;
 import integration.extensionChecking.ExtensionCheckingTestsGeneral;
+import integration.extensionChecking.ExtensionCheckingTestsLive;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.moduleInitTests.ModuleInitTests;
@@ -73,10 +74,12 @@ public class AllTestSuites {
 
 	 //*/
 
-	public var extensionCheckingTests:ExtensionCheckingTestsGeneral;
+	public var extensionCheckingGenericTests:ExtensionCheckingTestsGeneral;
 
-	public var extensionCheckingTests:ExtensionCheckingTestsLive;
-	public var extensionCheckingTests:ExtensionCheckingTestsScoped;
+	public var extensionCheckingLiveTests:ExtensionCheckingTestsLive;
+
+
+//	public var extensionCheckingTests:ExtensionCheckingTestsScoped;
 
 }
 
