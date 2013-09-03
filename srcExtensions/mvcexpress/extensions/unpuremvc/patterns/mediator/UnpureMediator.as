@@ -43,9 +43,13 @@ public class UnpureMediator extends Mediator {
 
 		use namespace pureLegsCore;
 
-		Mediator.canConstruct = true;
+		CONFIG::debug {
+			Mediator.canConstruct = true;
+		}
 		super();
-		Mediator.canConstruct = false;
+		CONFIG::debug {
+			Mediator.canConstruct = false;
+		}
 
 
 		this.mediatorName = (mediatorName != null) ? mediatorName : NAME;
