@@ -270,6 +270,18 @@ public class ModuleCore {
 		SUPPORTED_EXTENSIONS[extensionId] = true;
 	}
 
+	CONFIG::debug
+	pureLegsCore function listExtensions():String {
+		var retVal:String = "";
+		for (var key:Object in SUPPORTED_EXTENSIONS) {
+			if (retVal) {
+				retVal += ",";
+			}
+			retVal += ExtensionManager.getExtensionNameById(key as int);
+		}
+		return retVal;
+	}
+
 
 	CONFIG::debug
 	static public const EXTENSION_CORE_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_CORE_NAME);

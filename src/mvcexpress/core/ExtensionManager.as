@@ -33,7 +33,18 @@ public class ExtensionManager {
 			ExtensionManager.EXTENSION_NAMES[extensionName] = ++ExtensionManager.extensionCount;
 		}
 		return ExtensionManager.EXTENSION_NAMES[extensionName];
+	}
 
+	CONFIG::debug
+	public static function getExtensionNameById(extensionId:int):String {
+		var retVal:String = "undefined";
+		for (var extensionName:Object in EXTENSION_NAMES) {
+			if (EXTENSION_NAMES[extensionName] == extensionId) {
+				retVal = extensionName as String;
+				break;
+			}
+		}
+		return retVal;
 	}
 
 	/**
