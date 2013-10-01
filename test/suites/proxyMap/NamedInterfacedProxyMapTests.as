@@ -30,8 +30,10 @@ public class NamedInterfacedProxyMapTests {
 		Messenger.allowInstantiation = false;
 		proxyMap = new ProxyMap("test", messenger);
 
-		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
-		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		CONFIG::debug {
+			messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		}
 
 	}
 

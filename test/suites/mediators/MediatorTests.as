@@ -33,9 +33,11 @@ public class MediatorTests {
 		proxyMap = new ProxyMap("test", messenger);
 		mediatorMap = new MediatorMap("test", messenger, proxyMap);
 
-		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
-		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
-		mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		CONFIG::debug {
+			messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		}
 
 
 		mediatorMap.map(MediatorSprite, MediatorSpriteMediator);

@@ -11,7 +11,9 @@ public class TestExtensionDict {
 	static public function getDefaultExtensionDict():Dictionary {
 		if (!defaultExtensionDict) {
 			defaultExtensionDict = new Dictionary();
-			defaultExtensionDict[ModuleCore.EXTENSION_CORE_ID] = true;
+			CONFIG::debug {
+				defaultExtensionDict[ModuleCore.EXTENSION_CORE_ID] = true;
+			}
 		}
 		return defaultExtensionDict;
 	}

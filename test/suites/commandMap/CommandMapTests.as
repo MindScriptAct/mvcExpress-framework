@@ -52,9 +52,11 @@ public class CommandMapTests {
 		callsExpected = 0;
 		testParamObject = new ExtendedTestObject();
 
-		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
-		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
-		commandMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+		CONFIG::debug {
+			messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			commandMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		}
 
 	}
 

@@ -33,8 +33,10 @@ public class OldProxyMapTests {
 		callCaunter = 0;
 		callsExpected = 0;
 
-		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
-		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		CONFIG::debug {
+			messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		}
 	}
 
 	[After]

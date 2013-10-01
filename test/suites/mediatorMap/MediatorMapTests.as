@@ -44,9 +44,11 @@ public class MediatorMapTests {
 		callCaunter = 0;
 		callsExpected = 0;
 
-		messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
-		proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
-		mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict())
+		CONFIG::debug {
+			messenger.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			proxyMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+			mediatorMap.setSupportedExtensions(TestExtensionDict.getDefaultExtensionDict());
+		}
 
 	}
 
