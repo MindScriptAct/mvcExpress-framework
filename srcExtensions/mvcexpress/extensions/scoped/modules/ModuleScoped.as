@@ -8,6 +8,7 @@ import mvcexpress.extensions.scoped.core.CommandMapScoped;
 import mvcexpress.extensions.scoped.core.ProxyMapScoped;
 import mvcexpress.extensions.scoped.core.ScopeManager;
 import mvcexpress.modules.ModuleCore;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Core Module class, represents single application unit in mvcExpress framework.
@@ -33,8 +34,22 @@ public class ModuleScoped extends ModuleCore {
 			enableExtension(EXTENSION_SCOPED_ID);
 		}
 
-		super(moduleName, null, ProxyMapScoped, CommandMapScoped);
+		if (!proxyMapClass) {
+			proxyMapClass = ProxyMapScoped;
+		}
+		if (!commandMapClass) {
+			commandMapClass = CommandMapScoped;
+		}
+		super(moduleName, mediatorMapClass, proxyMapClass, commandMapClass, messengerClass);
 
+		CONFIG::debug {
+			if (!checkClassSuperclass(proxyMapClass, "mvcexpress.core::ProxyMap")) {
+				throw Error("proxyMapClass:" + proxyMapClass + " you are trying to use is not extended from 'mvcexpress.core::ProxyMap' class.");
+			}
+			if (!checkClassSuperclass(commandMapClass, "mvcexpress.core::CommandMap")) {
+				throw Error("commandMapClass:" + commandMapClass + " you are trying to use is not extended from 'mvcexpress.core::CommandMap' class.");
+			}
+		}
 		proxyMapScoped = proxyMap as ProxyMapScoped;
 		commandMapScoped = commandMap as CommandMapScoped;
 	}

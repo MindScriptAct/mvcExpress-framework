@@ -11,6 +11,7 @@ import flash.utils.getQualifiedClassName;
 import flash.utils.getTimer;
 
 import mvcexpress.MvcExpress;
+import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.live.core.inject.InjectRuleTaskVO;
@@ -40,7 +41,7 @@ public class ProcessMapLive {
 	private var messenger:Messenger;
 
 	// for internal use.
-	private var proxyMap:ProxyMapLive;
+	private var proxyMap:ProxyMap;
 
 	// stage for enterFrame based processes.
 	private var stage:Stage;
@@ -70,7 +71,7 @@ public class ProcessMapLive {
 	private var injectObjectRegistry:Dictionary = new Dictionary(); //* of Vector.<Task> by String */
 
 	/* CONSTUCTOR */
-	public function ProcessMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMapLive) {
+	public function ProcessMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {
 		moduleName = $moduleName;
 		messenger = $messenger;
 		proxyMap = $proxyMap;

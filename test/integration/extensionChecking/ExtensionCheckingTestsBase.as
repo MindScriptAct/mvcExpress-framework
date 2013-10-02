@@ -73,7 +73,7 @@ public class ExtensionCheckingTestsBase {
 
 	[Test]
 	public function extensionChecking_goodMessanger_ok():void {
-		moduleCore = new FakeExtensionModule("test", null, null, null, extensionMessendegClass);
+		moduleCore = new extensionModuleClass("test", null, null, null, extensionMessendegClass);
 	}
 
 

@@ -12,7 +12,6 @@ import flash.utils.getQualifiedSuperclassName;
  *
  * @version 2.0.beta2
  */
-CONFIG::debug
 public class ExtensionManager {
 
 	CONFIG::debug

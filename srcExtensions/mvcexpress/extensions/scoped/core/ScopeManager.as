@@ -277,7 +277,20 @@ public class ScopeManager {
 			Messenger.allowInstantiation = false;
 			scopedMessengers[scopeName] = scopedMesanger;
 		}
-		scopedProxyMaps[scopeName] = new ProxyMap("$scope_" + scopeName, scopedMesanger);
+		var scopedProxyMap:ProxyMap = new ProxyMap("$scope_" + scopeName, scopedMesanger);
+		CONFIG::debug {
+			// TODO : rethink.
+			// enable first 32 extensions for scoped proxy map, as this does not apply to scoped proxies.
+			if (!SUPPORTED_EXTENSIONS) {
+				SUPPORTED_EXTENSIONS = new Dictionary();
+				for (var i:int = 0; i < 32; i++) {
+					SUPPORTED_EXTENSIONS[i] = true;
+				}
+			}
+			scopedProxyMap.setSupportedExtensions(SUPPORTED_EXTENSIONS);
+		}
+		scopedProxyMaps[scopeName] = scopedProxyMap;
+
 	}
 
 
@@ -369,6 +382,13 @@ public class ScopeManager {
 
 	}
 
+
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
+
+	CONFIG::debug
+	static private var SUPPORTED_EXTENSIONS:Dictionary;
 }
 }
 

@@ -87,6 +87,12 @@ public class Process {
 	// indicates if process is running.
 	pureLegsCore var _isRunning:Boolean; // = false;
 
+	//
+	private var processTimer:ProcessTimerVO = new ProcessTimerVO();
+
+	CONFIG::debug
+	private var debugProcessTimer:ProcessTimerVO = new ProcessTimerVO();
+
 	// Allows Process to be constructed. (removed from release build to save some performance.)
 	/** @private */
 	CONFIG::debug
@@ -140,6 +146,7 @@ public class Process {
 	public function startProcess():void {
 		use namespace pureLegsCore;
 
+		processTimer.timerLast = getTimer();
 		processMap.startProcessObject(this);
 	}
 
@@ -617,6 +624,21 @@ public class Process {
 		var params:Object;
 		var type:String;
 
+		// handle time
+		processTimer.timerLast = processTimer.timerCurrent;
+		processTimer.timerCurrent = getTimer();
+		processTimer.ms = processTimer.timerCurrent - processTimer.timerLast;
+		processTimer.sec = processTimer.ms / 1000;
+
+		// set debug object, to make sure they are not changed.
+		CONFIG::debug {
+			debugProcessTimer.timerLast = processTimer.timerLast;
+			debugProcessTimer.timerCurrent = processTimer.timerCurrent;
+			debugProcessTimer.ms = processTimer.ms;
+			debugProcessTimer.sec = processTimer.sec;
+		}
+
+
 		use namespace pureLegsCore;
 
 		CONFIG::debug {
@@ -657,8 +679,22 @@ public class Process {
 			// run task!
 			task.run();
 
-			// do testing
+			// check if run() did not changed timer object.
 			CONFIG::debug {
+				if (debugProcessTimer.timerLast != processTimer.timerLast) {
+					throw Error("Task " + task + " run() function should not be changing processTime.timerLast, it is public for speed only.");
+				}
+				if (debugProcessTimer.timerCurrent != processTimer.timerCurrent) {
+					throw Error("Task " + task + " run() function should not be changing processTime.timerCurrent, it is public for speed only.");
+				}
+				if (debugProcessTimer.ms != processTimer.ms) {
+					throw Error("Task " + task + " run() function should not be changing processTime.ms, it is public for speed only.");
+				}
+				if (debugProcessTimer.sec != processTimer.sec) {
+					throw Error("Task " + task + " run() function should not be changing processTime.sec, it is public for speed only.");
+				}
+
+				// do testing
 				var nowTimer:uint = getTimer();
 				var testCount:int = task.tests.length;
 				for (var i:int = 0; i < testCount; i++) {
@@ -758,6 +794,7 @@ public class Process {
 		}
 		// create task.
 		var task:Task = new taskClass();
+		task.timer = processTimer;
 		processMap.initTask(task, taskClass);
 		task.process = this;
 		taskRegistry[taskId] = task;
@@ -794,6 +831,9 @@ public class Process {
 
 		finalMessageTypes = null;
 		finalMessageParams = null;
+
+		processTimer = null;
+		debugProcessTimer = null;
 	}
 
 	//----------------------------------
