@@ -11,8 +11,6 @@ import mvcexpress.core.namespace.pureLegsCore;
  */
 public class MvcTraceActions {
 
-	static public const ERROR_MESSAGE:String = "ERROR!";
-
 	static public const MODULEMANAGER_CREATEMODULE:String = "ModuleManager.createModule";
 	static public const MODULEMANAGER_DISPOSEMODULE:String = "ModuleManager.disposeModule";
 	static public const MODULEMANAGER_REGISTERSCOPE:String = "ModuleManager.registerScope";
