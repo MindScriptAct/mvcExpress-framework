@@ -6,6 +6,7 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectTester;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.core.traceObjects.errors.TraceError;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_createModule;
 import mvcexpress.core.traceObjects.moduleManager.TraceModuleManager_disposeModule;
 import mvcexpress.modules.ModuleCore;
@@ -47,6 +48,14 @@ public class ModuleManager {
 			needMetadataTest = false;
 			var injectTest:InjectTester = new InjectTester();
 			if (!injectTest.testInjectMetaTag()) {
+				use namespace pureLegsCore;
+
+				if (MvcExpress.loggerFunction != null) {
+					MvcExpress.loggerFunction(new TraceError(moduleName, "mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments."));
+				}
+				if (MvcExpress.debugFunction != null) {
+					MvcExpress.debugFunction("mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments.");
+				}
 				throw Error("mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments.");
 			}
 		}
