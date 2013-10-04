@@ -21,6 +21,7 @@
     <class path="mvcExpressLogger" />
     <class path="sampleProjects" />
     <class path="test" />
+    <class path="srcExtensions" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -79,7 +80,7 @@
   </library>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
-    <compile path="sampleProjects\com\mindScriptAct\mvcExpressLive\LiveSample.as" />
+    <compile path="test\MvcExpressTestRunner.as" />
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>

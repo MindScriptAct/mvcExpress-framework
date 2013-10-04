@@ -34,8 +34,10 @@ public class ExtensionCheckingTestsLive extends ExtensionCheckingTestsBase {
 	public function ExtensionCheckingTestsLive() {
 
 
-		use namespace pureLegsCore;
-		FakeExtensionModule.EXTENSION_TEST_ID = ModuleLive.EXTENSION_LIVE_ID;
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			FakeExtensionModule.EXTENSION_TEST_ID = ModuleLive.EXTENSION_LIVE_ID;
+		}
 
 		extensionModuleClass = GenericLiveExtensionModule;
 

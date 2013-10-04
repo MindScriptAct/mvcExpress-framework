@@ -833,7 +833,9 @@ public class Process {
 		finalMessageParams = null;
 
 		processTimer = null;
-		debugProcessTimer = null;
+		CONFIG::debug {
+			debugProcessTimer = null;
+		}
 	}
 
 	//----------------------------------

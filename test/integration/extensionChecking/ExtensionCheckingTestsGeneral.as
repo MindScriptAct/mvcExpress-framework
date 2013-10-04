@@ -24,7 +24,10 @@ public class ExtensionCheckingTestsGeneral extends ExtensionCheckingTestsBase {
 
 
 		use namespace pureLegsCore;
-		FakeExtensionModule.EXTENSION_TEST_ID = ExtensionManager.getExtensionIdByName(FakeExtensionModule.EXTENSION_TEST_NAME);
+		CONFIG::debug {
+			FakeExtensionModule.EXTENSION_TEST_ID = ExtensionManager.getExtensionIdByName(FakeExtensionModule.EXTENSION_TEST_NAME);
+		}		
+		
 
 		extensionModuleClass = GenericFakeExtensionModule; 		// FAKE
 

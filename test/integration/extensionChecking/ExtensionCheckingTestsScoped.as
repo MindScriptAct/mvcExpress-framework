@@ -22,8 +22,10 @@ public class ExtensionCheckingTestsScoped extends ExtensionCheckingTestsBase {
 
 	public function ExtensionCheckingTestsScoped() {
 
-		use namespace pureLegsCore;
-		FakeExtensionModule.EXTENSION_TEST_ID = ModuleScoped.EXTENSION_SCOPED_ID;
+		CONFIG::debug {
+			use namespace pureLegsCore;
+			FakeExtensionModule.EXTENSION_TEST_ID = ModuleScoped.EXTENSION_SCOPED_ID;
+		}
 
 		extensionModuleClass = GenericScopedExtensionModule;
 
