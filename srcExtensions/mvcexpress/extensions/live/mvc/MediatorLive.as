@@ -94,9 +94,9 @@ public class MediatorLive extends Mediator {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
+	static pureLegsCore var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
+	static pureLegsCore var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
 }
 }

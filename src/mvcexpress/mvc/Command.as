@@ -21,6 +21,9 @@ import mvcexpress.modules.ModuleCore;
  *
  * @version 2.0.beta2
  */
+
+use namespace pureLegsCore;
+
 dynamic public class Command {
 
 	/** Handles application Commands. */
@@ -113,10 +116,10 @@ dynamic public class Command {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
+	static pureLegsCore var extension_id:int = ModuleCore.pureLegsCore::EXTENSION_CORE_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
+	static pureLegsCore var extension_name:String = ModuleCore.pureLegsCore::EXTENSION_CORE_NAME;
 
 }
 }

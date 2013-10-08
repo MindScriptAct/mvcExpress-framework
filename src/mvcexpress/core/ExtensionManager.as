@@ -4,6 +4,8 @@ import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedSuperclassName;
 
+import mvcexpress.core.namespace.pureLegsCore;
+
 /**
  * INTERNAL FRAMEWORK CLASS.
  * Manages mvcExpress extensions.
@@ -53,6 +55,7 @@ public class ExtensionManager {
 	 */
 	CONFIG::debug
 	public static function getExtensionId(frameworkClass:Class):int {
+		use namespace pureLegsCore;
 		var retVal:int = 0;
 		if (!extensionIdRegistry[frameworkClass]) {
 			var currentClass:Class = frameworkClass;

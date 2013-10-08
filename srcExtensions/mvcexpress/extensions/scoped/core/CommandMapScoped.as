@@ -115,7 +115,7 @@ public class CommandMapScoped extends CommandMap {
 	//----------------------------------
 
 	CONFIG::debug
-	override public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);
 		if (!SUPPORTED_EXTENSIONS[ModuleScoped.EXTENSION_SCOPED_ID]) {
 			throw Error("This extension is not supported by current module. You need " + ModuleScoped.EXTENSION_SCOPED_NAME + " extension enabled.");

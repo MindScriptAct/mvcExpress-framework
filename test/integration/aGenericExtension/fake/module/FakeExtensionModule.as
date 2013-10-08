@@ -1,6 +1,9 @@
 package integration.aGenericExtension.fake.module {
 import mvcexpress.core.ExtensionManager;
+import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.modules.ModuleCore;
+
+use namespace pureLegsCore;
 
 public class FakeExtensionModule extends ModuleCore {
 
@@ -20,9 +23,9 @@ public class FakeExtensionModule extends ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var EXTENSION_TEST_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_TEST_NAME);
+	static pureLegsCore var EXTENSION_TEST_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_TEST_NAME);
 
 	CONFIG::debug
-	static public const EXTENSION_TEST_NAME:String = "test_module";
+	static pureLegsCore const EXTENSION_TEST_NAME:String = "test_module";
 }
 }

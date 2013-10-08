@@ -31,6 +31,7 @@ public class ModuleScoped extends ModuleCore {
 	public function ModuleScoped(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 
 		CONFIG::debug {
+			use namespace pureLegsCore;
 			enableExtension(EXTENSION_SCOPED_ID);
 		}
 
@@ -118,10 +119,10 @@ public class ModuleScoped extends ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	static public const EXTENSION_SCOPED_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_SCOPED_NAME);
+	static pureLegsCore const EXTENSION_SCOPED_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_SCOPED_NAME);
 
 	CONFIG::debug
-	static public const EXTENSION_SCOPED_NAME:String = "scoped";
+	static pureLegsCore const EXTENSION_SCOPED_NAME:String = "scoped";
 
 }
 }

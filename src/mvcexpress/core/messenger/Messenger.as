@@ -17,6 +17,9 @@ import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
  *
  * @version 2.0.beta2
  */
+
+use namespace pureLegsCore;
+
 public class Messenger {
 
 	// name of the module messenger is working for.
@@ -240,11 +243,11 @@ public class Messenger {
 	//----------------------------------
 
 	CONFIG::debug
-	protected var SUPPORTED_EXTENSIONS:Dictionary;
+	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
 	CONFIG::debug
-	public function setSupportedExtensions(supportedExtensions:Dictionary):void {
-		SUPPORTED_EXTENSIONS = supportedExtensions;
+	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
+		pureLegsCore::SUPPORTED_EXTENSIONS = supportedExtensions;
 	}
 
 }

@@ -320,10 +320,10 @@ public class Mediator {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
+	static pureLegsCore var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
+	static pureLegsCore var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
 
 
 

@@ -88,10 +88,10 @@ dynamic public class CommandScoped extends Command {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleScoped.EXTENSION_SCOPED_ID;
+	static pureLegsCore var extension_id:int = ModuleScoped.pureLegsCore::EXTENSION_SCOPED_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleScoped.EXTENSION_SCOPED_NAME;
+	static pureLegsCore var extension_name:String = ModuleScoped.pureLegsCore::EXTENSION_SCOPED_NAME;
 
 }
 }

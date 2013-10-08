@@ -388,7 +388,7 @@ public class ScopeManager {
 	//----------------------------------
 
 	CONFIG::debug
-	static private var SUPPORTED_EXTENSIONS:Dictionary;
+	static pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 }
 }
 

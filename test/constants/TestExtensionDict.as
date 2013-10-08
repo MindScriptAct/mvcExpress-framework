@@ -1,7 +1,11 @@
 package constants {
 import flash.utils.Dictionary;
 
+import mvcexpress.core.namespace.pureLegsCore;
+
 import mvcexpress.modules.ModuleCore;
+
+use namespace pureLegsCore;
 
 public class TestExtensionDict {
 
@@ -12,7 +16,7 @@ public class TestExtensionDict {
 		if (!defaultExtensionDict) {
 			defaultExtensionDict = new Dictionary();
 			CONFIG::debug {
-				defaultExtensionDict[ModuleCore.EXTENSION_CORE_ID] = true;
+				defaultExtensionDict[ModuleCore.pureLegsCore::EXTENSION_CORE_ID] = true;
 			}
 		}
 		return defaultExtensionDict;

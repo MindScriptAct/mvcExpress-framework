@@ -83,10 +83,10 @@ public class ModuleLive extends ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	static public const EXTENSION_LIVE_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_LIVE_NAME);
+	static pureLegsCore const EXTENSION_LIVE_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_LIVE_NAME);
 
 	CONFIG::debug
-	static public const EXTENSION_LIVE_NAME:String = "live";
+	static pureLegsCore const EXTENSION_LIVE_NAME:String = "live";
 
 }
 }

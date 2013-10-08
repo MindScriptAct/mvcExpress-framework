@@ -439,10 +439,10 @@ public class MediatorMap implements IMediatorMap {
 	//----------------------------------
 
 	CONFIG::debug
-	protected var SUPPORTED_EXTENSIONS:Dictionary;
+	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
 	CONFIG::debug
-	public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		SUPPORTED_EXTENSIONS = supportedExtensions;
 	}
 

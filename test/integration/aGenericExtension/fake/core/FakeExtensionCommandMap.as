@@ -7,6 +7,9 @@ import mvcexpress.core.CommandMap;
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
+import mvcexpress.core.namespace.pureLegsCore;
+
+use namespace pureLegsCore;
 
 public class FakeExtensionCommandMap extends CommandMap {
 	public function FakeExtensionCommandMap($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {
@@ -18,7 +21,7 @@ public class FakeExtensionCommandMap extends CommandMap {
 	//----------------------------------
 
 	CONFIG::debug
-	override public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);
 		if (!SUPPORTED_EXTENSIONS[FakeExtensionModule.EXTENSION_TEST_ID]) {
 			throw Error("This extension is not supported by current module. You need " + FakeExtensionModule.EXTENSION_TEST_NAME + " extension enabled.");

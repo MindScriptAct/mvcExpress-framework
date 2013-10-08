@@ -260,10 +260,11 @@ public class ModuleCore {
 	//----------------------------------
 
 	CONFIG::debug
-	protected var SUPPORTED_EXTENSIONS:Dictionary;
+	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
 	CONFIG::debug
-	protected function enableExtension(extensionId:int):void {
+	pureLegsCore function enableExtension(extensionId:int):void {
+		use namespace pureLegsCore;
 		if (SUPPORTED_EXTENSIONS == null) {
 			SUPPORTED_EXTENSIONS = new Dictionary();
 		}
@@ -272,6 +273,7 @@ public class ModuleCore {
 
 	CONFIG::debug
 	pureLegsCore function listExtensions():String {
+		use namespace pureLegsCore;
 		var retVal:String = "";
 		for (var key:Object in SUPPORTED_EXTENSIONS) {
 			if (retVal) {
@@ -283,11 +285,15 @@ public class ModuleCore {
 	}
 
 
-	CONFIG::debug
-	static public const EXTENSION_CORE_ID:int = ExtensionManager.getExtensionIdByName(EXTENSION_CORE_NAME);
+	//----------------------------------
+	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//----------------------------------
 
 	CONFIG::debug
-	static public const EXTENSION_CORE_NAME:String = "CORE";
+	static pureLegsCore const EXTENSION_CORE_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_CORE_NAME);
+
+	CONFIG::debug
+	static pureLegsCore const EXTENSION_CORE_NAME:String = "CORE";
 
 
 }

@@ -47,7 +47,7 @@ public class MediatorMapLive extends MediatorMap {
 	//----------------------------------
 
 	CONFIG::debug
-	override public function setSupportedExtensions(supportedExtensions:Dictionary):void {
+	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);
 		if (!SUPPORTED_EXTENSIONS[ModuleLive.EXTENSION_LIVE_ID]) {
 			throw Error("This extension is not supported by current module. You need " + ModuleLive.EXTENSION_LIVE_NAME + " extension enabled.");

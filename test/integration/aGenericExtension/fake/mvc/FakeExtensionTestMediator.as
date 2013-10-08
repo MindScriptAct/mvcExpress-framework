@@ -5,7 +5,11 @@ import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
 import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
+import mvcexpress.core.namespace.pureLegsCore;
+
 import mvcexpress.mvc.Mediator;
+
+use namespace pureLegsCore;
 
 /**
  * TODO:CLASS COMMENT
@@ -30,10 +34,10 @@ public class FakeExtensionTestMediator extends Mediator {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = FakeExtensionModule.EXTENSION_TEST_ID;
+	static pureLegsCore var extension_id:int = FakeExtensionModule.pureLegsCore::EXTENSION_TEST_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = FakeExtensionModule.EXTENSION_TEST_NAME
+	static pureLegsCore var extension_name:String = FakeExtensionModule.pureLegsCore::EXTENSION_TEST_NAME
 
 }
 }

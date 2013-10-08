@@ -94,9 +94,9 @@ public class ProxyLive extends Proxy {
 	//----------------------------------
 
 	CONFIG::debug
-	static public var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
+	static pureLegsCore var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
 
 	CONFIG::debug
-	static public var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
+	static pureLegsCore var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
 }
 }
