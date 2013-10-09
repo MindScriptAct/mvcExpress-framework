@@ -12,7 +12,7 @@ import mvcexpress.core.traceObjects.TraceObj;
 public class MvcExpress {
 
 	/** Home website of mvcExpress. */
-	public static const WEBSITE_URL:String = "http://mvcexpress.org";
+	public static const WEBSITE_URL:String = "http://mvcExpress.org";
 
 	/** Framework name */
 	public static const NAME:String = "mvcExpress 2 beta 2";

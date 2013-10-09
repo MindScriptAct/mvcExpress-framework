@@ -9,13 +9,17 @@ import mvcexpress.mvc.Proxy;
 public class GenericTestProxy extends Proxy {
 
 	public var testData:String;
+	private var onRegisterMessage:String;
 
-	public function GenericTestProxy() {
+	public function GenericTestProxy(onRegisterMessage:String = null) {
+		this.onRegisterMessage = onRegisterMessage;
 
 	}
 
 	override protected function onRegister():void {
-
+		if (onRegisterMessage) {
+		    sendMessage(onRegisterMessage);
+		}
 	}
 
 	override protected function onRemove():void {

@@ -7,11 +7,10 @@ import mvcexpress.mvc.Command;
  * CLASS COMMENT
  * @author Raimundas Banevicius (http://mvcexpress.org)
  */
-public class CestConstCommand extends Command {
+public class TestProxyInjectFromProxyCommand extends Command {
 
-	[Inject(constName="integration.proxyMap.testObj::TestConstObject.TEST_CONST_FOR_PROXY_INJECT")]
+	[Inject]
 	public var genericTestProxy:GenericTestProxy;
-	;
 
 	public function execute(blank:Object):void {
 

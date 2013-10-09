@@ -1,10 +1,12 @@
 package integration.proxyMap {
 import integration.aGenericTestObjects.GenericTestModule;
+import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.model.GenericTestProxy;
-import integration.proxyMap.testObj.CestConstCommand;
+import integration.proxyMap.testObj.TestConstCommand;
 import integration.proxyMap.testObj.TestConstObject;
 import integration.proxyMap.testObj.TestContsView;
 import integration.proxyMap.testObj.TestContsViewMediator;
+import integration.proxyMap.testObj.TestProxyInjectFromProxyCommand;
 import integration.proxyMap.testObj.TestWithConstNameInjectProxy;
 
 /**
@@ -55,7 +57,20 @@ public class ProxyMapTests {
 		module.proxymap_map(testProxy, null, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
 		//module.mapProxy(new TexsWithConstNameInjectProxy());
-		module.commandMap_execute(CestConstCommand)
+		module.commandMap_execute(TestConstCommand)
+	}
+
+
+	[Test]
+
+	public function proxyMap_injectIntoProxyRegisterTriggeredCommandSameProxy_injectedOk():void {
+
+		module.commandMap_map(GenericTestMessage.TEST_MESSAGE, TestProxyInjectFromProxyCommand);
+
+		var testProxy:GenericTestProxy = new GenericTestProxy(GenericTestMessage.TEST_MESSAGE);
+
+		module.proxymap_map(testProxy);
+
 	}
 
 
