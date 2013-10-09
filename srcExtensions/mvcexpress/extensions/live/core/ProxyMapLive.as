@@ -42,13 +42,13 @@ public class ProxyMapLive extends ProxyMap {
 	 * @param    proxyObject
 	 * @private
 	 */
-	override pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):void {
+	override pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):Boolean {
 		use namespace pureLegsCore;
 
 		if (proxyObject is ProxyLive) {
 			(proxyObject as ProxyLive).setProcessMap(processMap);
 		}
-		super.initProxy(proxyObject, proxyClass, injectId);
+		return super.initProxy(proxyObject, proxyClass, injectId);
 	}
 
 	/**

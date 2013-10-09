@@ -115,7 +115,7 @@ public class ProxyMap implements IProxyMap {
 		}
 
 		if (proxyObject.messenger == null) {
-			initProxy(proxyObject, proxyClass, injectId);
+			var isAllInjected:Boolean = initProxy(proxyObject, proxyClass, injectId);
 		}
 
 		// check if there is no pending injection with this key.
@@ -128,6 +128,11 @@ public class ProxyMap implements IProxyMap {
 			injectObjectRegistry[injectId] = proxyObject;
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
+		}
+
+		// register proxy is all injections are done.
+		if (isAllInjected) {
+			proxyObject.register();
 		}
 
 		return injectId;
@@ -322,18 +327,13 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyObject
 	 * @private
 	 */
-	pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):void {
+	pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):Boolean {
 		use namespace pureLegsCore;
 
 		proxyObject.messenger = messenger;
 		proxyObject.setProxyMap(this);
 		// inject dependencies
-		var isAllInjected:Boolean = injectStuff(proxyObject, proxyClass);
-
-		// register proxy is all injections are done.
-		if (isAllInjected) {
-			proxyObject.register();
-		}
+		return injectStuff(proxyObject, proxyClass);
 	}
 
 	/**
