@@ -137,8 +137,7 @@ public class MediatorMap implements IMediatorMap {
 		// clear mapping
 		if (mediatorMappingRegistry[viewClass] != null) {
 			if (mediatorClass) {
-				delete mediatorMappingRegistry[viewClass][mediatorClass];
-				//
+
 				var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
 				for (var i:int = 0; i < mediators.length; i++) {
 					if (mediators[i] == mediatorClass) {
@@ -146,11 +145,18 @@ public class MediatorMap implements IMediatorMap {
 						break;
 					}
 				}
+
+				//
+				if (mediators.length > 0) {
+					delete mediatorMappingRegistry[viewClass][mediatorClass];
+				} else {
+					delete mediatorMappingRegistry[viewClass];
+					delete mediatorMapOrderRegistry[viewClass];
+				}
 			} else {
 				delete mediatorMappingRegistry[viewClass];
 				delete mediatorMapOrderRegistry[viewClass];
 			}
-
 		}
 	}
 
