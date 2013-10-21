@@ -1,5 +1,4 @@
 package integration.aGenericTestObjects.model {
-import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Proxy;
 
 /**
@@ -18,7 +17,7 @@ public class GenericTestProxy extends Proxy {
 
 	override protected function onRegister():void {
 		if (onRegisterMessage) {
-		    sendMessage(onRegisterMessage);
+			sendMessage(onRegisterMessage);
 		}
 	}
 

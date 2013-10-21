@@ -2,7 +2,7 @@ package suites {
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class SuiteModuleNames {
 	static public const MAIN_MODULE:String = "mainModule";

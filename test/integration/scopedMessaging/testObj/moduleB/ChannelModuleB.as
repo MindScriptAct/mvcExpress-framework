@@ -6,7 +6,7 @@ import mvcexpress.extensions.scoped.modules.ModuleScoped;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ChannelModuleB extends ModuleScoped {
 	private var view:Sprite;

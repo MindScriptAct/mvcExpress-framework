@@ -5,9 +5,9 @@ package mvcexpress.core.messenger {
  * Framework internal value data for message handlers.
  * HandlerVO is not removed instantly then handler is not needed, only marked for removal(by seting handler to null.).
  * @private
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class HandlerVO {
 

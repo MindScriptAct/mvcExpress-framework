@@ -3,7 +3,7 @@ import suites.SuiteModuleNames;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ExternalModule extends ModuleSprite {
 

@@ -5,7 +5,7 @@ import mvcexpress.extensions.scoped.modules.ModuleScoped;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ScopedProxyModuleA extends ModuleScoped {
 	private var testViewObject:ScopedProxyLocalInjectView;

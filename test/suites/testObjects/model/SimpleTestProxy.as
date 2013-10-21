@@ -3,7 +3,7 @@ import mvcexpress.mvc.Proxy;
 
 /**
  * CLASS COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class SimpleTestProxy extends Proxy implements ISimpleTestProxy {
 

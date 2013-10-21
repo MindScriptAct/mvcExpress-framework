@@ -12,7 +12,7 @@ import suites.proxyMap.proxyTestObj.TestProxy;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class OldProxyMapTests {
 

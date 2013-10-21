@@ -20,20 +20,20 @@ use namespace pureLegsCore;
 
 /**
  * Handles command mappings, and executes them then mapped message string is sent.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class CommandMap {
 
 	// name of the module CommandMap is working for.
 	protected var moduleName:String;
 
-	// for internal use.
+	// used internally for communications
 	protected var messenger:Messenger;
-	// for internal use.
+	// used internally to work with proxies.
 	protected var proxyMap:ProxyMap;
-	// for internal use.
+	// used internally to handles application mediators.
 	protected var mediatorMap:MediatorMap;
 
 	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
@@ -64,8 +64,8 @@ public class CommandMap {
 	//----------------------------------
 
 	/**
-	 * Map a class to be executed then message with provided type is sent.                                <br>
-	 * Only one command can be mapped to single messageType. Unless canMapOver set to true - error will be thrown if you attempt to map second command class to same message type.
+	 * Map a class to be executed then message with provided type is sent.                                                                                                            <p>
+	 * Only one command can be mapped to single messageType. Error will be thrown if you attempt to map second command class to same message type, unless canMapOver set to true.    </p>
 	 * @param    type                Message type for command class to react to.
 	 * @param    commandClass        Command class that will be executed.
 	 * @param    canMapOver          Allows mapping command class over already existing command.
@@ -103,7 +103,7 @@ public class CommandMap {
 
 	/**
 	 * Unmaps a class to be executed then message with provided type is sent.
-	 * @param    type            Message type for command class to react to.
+	 * @param    type        Message type for command class to react to.
 	 */
 	public function unmap(type:String):void {
 		// debug this action
@@ -208,7 +208,7 @@ public class CommandMap {
 
 	/**
 	 * Checks if specific PooledCommand is already pooled.
-	 * @param    commandClass    PooledCommand sublcass to check Command pool for.
+	 * @param    commandClass    PooledCommand subclass to check Command pool for.
 	 * @return    true if command pool is created.
 	 */
 	public function isCommandPooled(commandClass:Class):Boolean {
@@ -394,7 +394,7 @@ public class CommandMap {
 	CONFIG::debug
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
 
-		// skip alread validated classes.
+		// skip already validated classes.
 		if (validatedCommands[commandClass] != true) {
 
 			if (!checkClassSuperclass(commandClass, "mvcexpress.mvc::Command")) {
@@ -460,7 +460,7 @@ public class CommandMap {
 	//----------------------------------
 
 	CONFIG::debug
-	protected var SUPPORTED_EXTENSIONS:Dictionary;
+	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
 	CONFIG::debug
 	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {

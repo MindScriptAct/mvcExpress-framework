@@ -6,7 +6,6 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.live.core.ProcessMapLive;
 import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
-import mvcexpress.mvc.Mediator;
 
 use namespace pureLegsCore;
 
@@ -16,7 +15,7 @@ use namespace pureLegsCore;
  *  Can get proxies injected.                                                                                                                                </br>
  *  Can send constants. (sends constants then user interacts with the view)                                                                                    </br>
  *  Can handle constants. (handles data change or other framework constants)
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

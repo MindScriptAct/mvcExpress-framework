@@ -14,7 +14,7 @@ use namespace pureLegsCore;
 
 /**
  * Handles command mappings, and executes them on constants
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version scoped.1.0.beta2
  */

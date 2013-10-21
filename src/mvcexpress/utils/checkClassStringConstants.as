@@ -3,9 +3,9 @@ package mvcexpress.utils {
 import flash.utils.describeType;
 
 /**
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 
 /**
@@ -17,7 +17,7 @@ import flash.utils.describeType;
  *			checkClassStringConstants(ClassName1,ClassName2...ClassNameX);																				   </br>
  *		}                                                                                                                                                  </br>
  * @param    ... args    array of Class objects, to be checked for constants.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  */
 public function checkClassStringConstants(...args:Array):void {

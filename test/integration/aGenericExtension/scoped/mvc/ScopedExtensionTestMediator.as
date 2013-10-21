@@ -1,7 +1,6 @@
 package integration.aGenericExtension.scoped.mvc {
 import flash.display.Sprite;
 
-import mvcexpress.extensions.live.mvc.MediatorLive;
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
 /**

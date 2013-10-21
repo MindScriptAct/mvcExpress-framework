@@ -5,7 +5,7 @@ import mvcexpress.extensions.live.traceObjects.MvcTraceActionsLive;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

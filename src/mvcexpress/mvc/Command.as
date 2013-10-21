@@ -9,21 +9,20 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.command.TraceCommand_sendMessage;
 import mvcexpress.modules.ModuleCore;
 
-/**
- * Command, handles business logic of your application.                                                                                                    </br>
- * Commands can get proxies injected and can send messages                                                                                                 </br>
- * <b><p>
- * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                             </br>
- * It is best practice to use same type as you use in message, that triggers this command.                                                                 </br>
- * If message does not send any parameter object - you still must have singe parameter that will get null value, for example: execute(blank:Object).       </br>
- * </p></b>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
- *
- * @version 2.0.beta2
- */
-
 use namespace pureLegsCore;
 
+/**
+ * Command, handles business logic of your application.                                                                                                    <br/>
+ * Commands can get proxies injected and can send messages
+ * <b><p>
+ * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                             <br/>
+ * It is best practice to use same type as you use in message, that triggers this command.                                                                 <br/>
+ * If message does not send any parameter object - you still must have singe parameter that will get null value, for example: execute(blank:Object).
+ * </p></b>
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
+ *
+ * @version 2.0.rc1
+ */
 dynamic public class Command {
 
 	/** Handles application Commands. */
@@ -67,7 +66,7 @@ dynamic public class Command {
 	//----------------------------------
 
 	/**
-	 * Sends a message with optional params object inside of current module.
+	 * Sends a message with optional params object
 	 * @param    type    type of the message for Commands or Mediator's handle function to react to.
 	 * @param    params    Object that will be passed to Command execute() function or to handle functions.
 	 */

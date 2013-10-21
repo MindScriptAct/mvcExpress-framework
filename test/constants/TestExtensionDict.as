@@ -2,7 +2,6 @@ package constants {
 import flash.utils.Dictionary;
 
 import mvcexpress.core.namespace.pureLegsCore;
-
 import mvcexpress.modules.ModuleCore;
 
 use namespace pureLegsCore;

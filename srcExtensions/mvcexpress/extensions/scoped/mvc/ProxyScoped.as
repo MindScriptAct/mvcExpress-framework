@@ -12,7 +12,7 @@ use namespace pureLegsCore;
 /**
  * Proxy holds and manages application data, implements API to work with it.                  </br>
  * Can send constants. (Usually sends one with each data update)                            </br>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version scoped.1.0.beta2
  */

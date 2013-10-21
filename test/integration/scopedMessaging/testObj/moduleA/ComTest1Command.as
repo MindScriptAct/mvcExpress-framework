@@ -5,7 +5,7 @@ import mvcexpress.mvc.Command;
 
 /**
  * CLASS COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ComTest1Command extends Command {
 

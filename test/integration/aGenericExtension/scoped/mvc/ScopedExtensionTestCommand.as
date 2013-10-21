@@ -1,5 +1,4 @@
 package integration.aGenericExtension.scoped.mvc {
-import mvcexpress.extensions.live.mvc.CommandLive;
 import mvcexpress.extensions.scoped.mvc.CommandScoped;
 
 /**

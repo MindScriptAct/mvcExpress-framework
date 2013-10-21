@@ -4,22 +4,22 @@ import flash.utils.describeType;
 
 /**
  * Small class to test if framework can use Inject metadata tag.
- * (It might be not compiled in, in release mode if '-keep-as3-metadata+=Inject' compile argument is not used.
+ * (Inject metadata might be not compiled in, then in release mode '-keep-as3-metadata+=Inject' compile argument is not used.)
  * @private
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class InjectTester {
-
-	/**
-	 * Private class to test if inject metadata tag information is preserved after compile.
-	 * @private
-	 */
 
 	[Inject]
 	public var metadataTest:Boolean;
 
+	/**
+	 * Function to test if inject metadata tag information is preserved after compile.
+	 * @private
+	 * @return
+	 */
 	public function testInjectMetaTag():Boolean {
 		var retVal:Boolean = false;
 

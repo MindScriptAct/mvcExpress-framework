@@ -6,7 +6,6 @@ import mvcexpress.extensions.combo.scopedLive.core.CommandMapScopedLive;
 import mvcexpress.extensions.combo.scopedLive.core.ProxyMapScopedLive;
 import mvcexpress.extensions.live.core.MediatorMapLive;
 import mvcexpress.extensions.live.core.ProcessMapLive;
-import mvcexpress.extensions.live.core.ProxyMapLive;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 
 /**
@@ -16,7 +15,7 @@ import mvcexpress.extensions.scoped.modules.ModuleScoped;
  * It starts framework and lets you set up your application. (or execute Commands for set up.)
  * You can create modular application by having more then one module.
  * </p>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

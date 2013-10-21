@@ -5,7 +5,7 @@ import mvcexpress.modules.ModuleCore;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class LazyProxyModuleA extends ModuleCore {
 	static public const NAME:String = "LazyProxyModuleA";

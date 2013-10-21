@@ -11,7 +11,7 @@ import org.flexunit.runner.FlexUnitCore;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class MvcExpressTestRunner extends Sprite {
 	private var listener:VisualListener;

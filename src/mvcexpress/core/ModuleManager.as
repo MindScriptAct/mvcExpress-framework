@@ -16,9 +16,9 @@ use namespace pureLegsCore;
 /**
  * INTERNAL FRAMEWORK CLASS.
  * Manages mvcExpress modules.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class ModuleManager {
 
@@ -49,6 +49,7 @@ public class ModuleManager {
 			var injectTest:InjectTester = new InjectTester();
 			if (!injectTest.testInjectMetaTag()) {
 				use namespace pureLegsCore;
+
 				if (MvcExpress.loggerFunction != null) {
 					MvcExpress.loggerFunction(new TraceError(moduleName, "mvcExpress framework failed to use 'Inject' metadata. Please add '-keep-as3-metadata+=Inject' to compile arguments."));
 				}
@@ -109,52 +110,19 @@ public class ModuleManager {
 			MvcExpress.debug(new TraceModuleManager_disposeModule(moduleName));
 		}
 		if (moduleRegistry[moduleName]) {
-			// remove scoped proxies from this module
-			/*
-			 var scopiedProxies:Dictionary = scopedProxiesByScope[moduleName];
-			 if (scopiedProxies) {
-			 // remove scoped proxies.
-			 for each (var scopedProxyData:ScopedProxyData in scopiedProxies) {
-			 var scopedProxyMap:ProxyMap = scopedProxyMaps[scopedProxyData.scopeName];
-			 scopedProxyMap.unmap(scopedProxyData.injectClass, scopedProxyData.name);
-			 delete scopiedProxies[scopedProxyData.injectId];
-			 }
-			 }
-			 */
-			//
 			delete moduleRegistry[moduleName];
-			//
-			/*
-			 delete scopePermissionsRegistry[moduleName];
-			 */
 		} else {
 			throw Error("Module with moduleName:" + moduleName + " doesn't exist.");
 		}
 	}
 
 
-	// REFACTOR : temp fuction to reset state - needs refactor after scope stuff is removed from here.
+	// REFACTOR : temp function to reset state - needs refactor after scope stuff is removed from here.
 	static public function disposeAll():void {
 		for each(var module:ModuleCore in moduleRegistry) {
 			module.disposeModule();
 		}
 		moduleRegistry = new Dictionary();
-
-		// FIX ME - decide how to implement this..
-
-//		for each(var messenger:Messenger in scopedMessengers) {
-//			messenger.dispose();
-//		}
-//		scopedMessengers = new Dictionary();
-//
-//		for each(var proxyMap:ProxyMap in scopedProxyMaps) {
-//			proxyMap.dispose();
-//		}
-//		scopedProxyMaps = new Dictionary();
-//
-//		scopedProxiesByScope = new Dictionary();
-//		scopePermissionsRegistry = new Dictionary();
-
 	}
 
 
@@ -164,7 +132,7 @@ public class ModuleManager {
 
 	/**
 	 * Returns string with all module names.
-	 * @return
+	 * @return    string of all module names
 	 */
 	static public function listModules():String {
 		var retVal:String = "";
@@ -177,6 +145,11 @@ public class ModuleManager {
 		return "Module list:" + retVal;
 	}
 
+	/**
+	 * Lists messages for module name.
+	 * @param moduleName    module name to debug
+	 * @return
+	 */
 	static public function listMappedMessages(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
 			return (moduleRegistry[moduleName] as ModuleCore).listMappedMessages();
@@ -185,6 +158,11 @@ public class ModuleManager {
 		}
 	}
 
+	/**
+	 * lists mapped mediator for module name
+	 * @param moduleName    module name to debug
+	 * @return
+	 */
 	static public function listMappedMediators(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
 			return (moduleRegistry[moduleName] as ModuleCore).listMappedMediators();
@@ -193,6 +171,11 @@ public class ModuleManager {
 		}
 	}
 
+	/**
+	 * lists mapped proxies
+	 * @param moduleName    module name to debug
+	 * @return
+	 */
 	static public function listMappedProxies(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
 			return (moduleRegistry[moduleName] as ModuleCore).listMappedProxies();
@@ -201,6 +184,11 @@ public class ModuleManager {
 		}
 	}
 
+	/**
+	 * lists mapped commands
+	 * @param moduleName    module name to debug
+	 * @return
+	 */
 	static public function listMappedCommands(moduleName:String):String {
 		if (moduleRegistry[moduleName]) {
 			return (moduleRegistry[moduleName] as ModuleCore).listMappedCommands();
@@ -209,24 +197,34 @@ public class ModuleManager {
 		}
 	}
 
-	static pureLegsCore function listModuleMessageCommands(moduleName:String, key:String):String {
+	/**
+	 * lists message commands.
+	 * @param moduleName    module name to debug
+	 * @param messageType    message type
+	 * @return
+	 */
+	static public function listModuleMessageCommands(moduleName:String, messageType:String):String {
 		use namespace pureLegsCore;
 
 		if (moduleRegistry[moduleName]) {
-			return ((moduleRegistry[moduleName] as ModuleCore).listMessageCommands(key) as String);
+			return ((moduleRegistry[moduleName] as ModuleCore).listMessageCommands(messageType) as String);
 		} else {
 			return "Module with name :" + moduleName + " is not found.";
 		}
 	}
 
 	/**
+	 * EXPERIMENTAL
 	 * Invokes custom module function.
+	 * Experimental function for mvcLogger and extension development.
+	 * @private
+	 *
 	 * @param moduleName    Name of module.
 	 * @param functionName    name of the function
 	 * @param params        optional function params
 	 * @return        returns object.
 	 */
-	static public function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
+	static pureLegsCore function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
 		if (moduleRegistry[moduleName]) {
 			try {
 				var callFunct:Function = moduleRegistry[moduleName][functionName]

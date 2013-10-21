@@ -3,7 +3,7 @@ package mvcexpress.core.lazy {
  * private class to store lazy proxy data.
  * @private
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class LazyProxyVO {
 

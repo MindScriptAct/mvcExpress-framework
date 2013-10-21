@@ -1,11 +1,10 @@
 package integration.aGenericExtension.scoped {
-import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.mvc.Proxy;
 
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class GenericScopedExtensionModule extends ModuleScoped {
 

@@ -19,16 +19,17 @@ import mvcexpress.utils.checkClassSuperclass;
  * It starts framework and lets you set up your application. (or execute Commands to do it)
  * You can create modular application by having more then one module.
  * </p>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class ModuleCore {
 
 	// name of the module
 	private var _moduleName:String;
 
-	/** for communication. */
+	/** used internally for communication
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 
 	/** Handles application Proxies. */
@@ -42,10 +43,10 @@ public class ModuleCore {
 	/**
 	 * CONSTRUCTOR
 	 * @param moduleName        module name that is used for referencing a module. (if not provided - unique name will be generated automatically.)
-	 * @param extendedMediatorMapClass  OPTIONAL class to change default MediatorMap class. (For advanced users only.)
-	 * @param extendedProxyMapClass     OPTIONAL class to change default ProxyMap class. (For advanced users only.)
-	 * @param extendedCommandMapClass   OPTIONAL class to change default CommandMap class. (For advanced users only.)
-	 * @param extendedMessengerClass    OPTIONAL class to change default Messenger class. (For advanced users only.)
+	 * @param extendedMediatorMapClass  OPTIONAL class to change default MediatorMap class. (For advanced use only, like custom extensions.)
+	 * @param extendedProxyMapClass     OPTIONAL class to change default ProxyMap class. (For advanced use only, like custom extensions.)
+	 * @param extendedCommandMapClass   OPTIONAL class to change default CommandMap class. (For advanced use only, like custom extensions.)
+	 * @param extendedMessengerClass    OPTIONAL class to change default Messenger class. (For advanced use only, like custom extensions.)
 	 */
 	public function ModuleCore(moduleName:String = null, extendedMediatorMapClass:Class = null, extendedProxyMapClass:Class = null, extendedCommandMapClass:Class = null, extendedMessengerClass:Class = null) {
 		use namespace pureLegsCore;
@@ -135,16 +136,16 @@ public class ModuleCore {
 	}
 
 	/**
-	 * Function to get rid of module.
+	 * Function to get rid of module.                                                                                            <p>
 	 * - All module commands are unmapped.
 	 * - All module mediators are unmediated
 	 * - All module proxies are unmapped
-	 * - All internals are nulled.
+	 * - All internals are set to null.                                                                                            </p>
 	 */
 	public function disposeModule():void {
-		onDispose();
-
 		use namespace pureLegsCore;
+
+		onDispose();
 
 		//
 		commandMap.dispose();
@@ -180,8 +181,8 @@ public class ModuleCore {
 	//----------------------------------
 
 	/**
-	 * Message sender.
-	 * @param    type    type of the message. (Commands and handle functions must bu map to it to react.)
+	 * Sends message for other framework actors to react to.
+	 * @param    type    type of the message. (Commands and handle functions must be mapped to type to be triggered.)
 	 * @param    params    Object that will be send to Command execute() or to handle function as parameter.
 	 */
 	public function sendMessage(type:String, params:Object = null):void {
@@ -205,11 +206,12 @@ public class ModuleCore {
 	//----------------------------------
 
 	/**
-	 * Instantiates and executes provided command class, and sends params to it.
+	 * Public function to execute provided command cass, meant to be used from outside of module class. In all other cases use commandMap.execute()                <p>
+	 * This function can be used to initialize, set up and start the framework without creating custom module class.                                        </p>
 	 * @param    commandClass    Command class to be instantiated and executed.
-	 * @param    params            Object to be sent to execute() function.
+	 * @param    params          Object to be sent to execute() function.
 	 */
-	public function executeCommand(commandClass:Class, params:Object = null):void {
+	public function externalExecuteCommand(commandClass:Class, params:Object = null):void {
 		commandMap.execute(commandClass, params);
 	}
 
@@ -265,6 +267,7 @@ public class ModuleCore {
 	CONFIG::debug
 	pureLegsCore function enableExtension(extensionId:int):void {
 		use namespace pureLegsCore;
+
 		if (SUPPORTED_EXTENSIONS == null) {
 			SUPPORTED_EXTENSIONS = new Dictionary();
 		}
@@ -274,6 +277,7 @@ public class ModuleCore {
 	CONFIG::debug
 	pureLegsCore function listExtensions():String {
 		use namespace pureLegsCore;
+
 		var retVal:String = "";
 		for (var key:Object in SUPPORTED_EXTENSIONS) {
 			if (retVal) {

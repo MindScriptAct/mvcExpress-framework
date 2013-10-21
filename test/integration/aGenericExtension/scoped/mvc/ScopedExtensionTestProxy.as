@@ -1,5 +1,4 @@
 package integration.aGenericExtension.scoped.mvc {
-import mvcexpress.extensions.live.mvc.ProxyLive;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 
 /**

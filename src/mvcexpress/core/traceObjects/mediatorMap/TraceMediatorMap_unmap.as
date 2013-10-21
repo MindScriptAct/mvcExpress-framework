@@ -5,10 +5,10 @@ import mvcexpress.core.traceObjects.TraceObj;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  * @private
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class TraceMediatorMap_unmap extends TraceObj {
 
@@ -23,7 +23,7 @@ public class TraceMediatorMap_unmap extends TraceObj {
 
 	override public function toString():String {
 		if (mediatorClass) {
-			return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + " from "+mediatorClass+"      {" + moduleName + "}";
+			return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + " from " + mediatorClass + "      {" + moduleName + "}";
 		} else {
 			return "§§§- " + MvcTraceActions.MEDIATORMAP_UNMAP + " > viewClass : " + viewClass + " from ALL mediators.          {" + moduleName + "}";
 

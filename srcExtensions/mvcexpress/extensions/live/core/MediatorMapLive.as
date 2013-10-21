@@ -12,15 +12,16 @@ import mvcexpress.mvc.Mediator;
 
 /**
  * Handles application mediators.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
+
 use namespace pureLegsCore;
 
 public class MediatorMapLive extends MediatorMap {
 
-	// for internal use.
+	// used internally to work with processes.
 	private var processMap:ProcessMapLive;
 
 	public function MediatorMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap) {

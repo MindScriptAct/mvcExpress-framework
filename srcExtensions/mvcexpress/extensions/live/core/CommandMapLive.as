@@ -13,13 +13,13 @@ use namespace pureLegsCore;
 
 /**
  * Handles command mappings, and executes them on constants
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
 public class CommandMapLive extends CommandMap {
 
-	// for internal use.
+	// used internally to work with processes.
 	private var processMap:ProcessMapLive;
 
 	public function CommandMapLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {

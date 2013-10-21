@@ -16,7 +16,7 @@ import mvcexpress.utils.checkClassSuperclass;
  * It starts framework and lets you set up your application. (or execute Commands for set up.)
  * You can create modular application by having more then one module.
  * </p>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version scoped.1.0.beta2
  */
@@ -32,6 +32,7 @@ public class ModuleScoped extends ModuleCore {
 
 		CONFIG::debug {
 			use namespace pureLegsCore;
+
 			enableExtension(EXTENSION_SCOPED_ID);
 		}
 

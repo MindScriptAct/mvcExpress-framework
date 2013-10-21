@@ -17,7 +17,6 @@ public class FakeExtensionModule extends ModuleCore {
 	}
 
 
-
 	//----------------------------------
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------

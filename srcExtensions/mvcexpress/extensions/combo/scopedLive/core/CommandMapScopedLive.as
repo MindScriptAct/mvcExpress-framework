@@ -1,12 +1,11 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.combo.scopedLive.core {
-import mvcexpress.extensions.live.core.*;
-
 import flash.utils.Dictionary;
 
 import mvcexpress.core.*;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+import mvcexpress.extensions.live.core.*;
 import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.extensions.live.mvc.CommandLive;
 import mvcexpress.extensions.scoped.core.CommandMapScoped;
@@ -16,13 +15,13 @@ use namespace pureLegsCore;
 
 /**
  * Handles command mappings, and executes them on constants
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
 public class CommandMapScopedLive extends CommandMapScoped {
 
-	// for internal use.
+	// used internally to work with processes.
 	private var processMap:ProcessMapLive;
 
 	public function CommandMapScopedLive($moduleName:String, $messenger:Messenger, $proxyMap:ProxyMap, $mediatorMap:MediatorMap) {

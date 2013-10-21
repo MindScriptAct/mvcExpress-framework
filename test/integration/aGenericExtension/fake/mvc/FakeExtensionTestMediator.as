@@ -3,10 +3,7 @@ import flash.display.Sprite;
 
 import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
-import integration.aGenericExtension.fake.module.FakeExtensionModule;
-
 import mvcexpress.core.namespace.pureLegsCore;
-
 import mvcexpress.mvc.Mediator;
 
 use namespace pureLegsCore;

@@ -3,14 +3,14 @@ package mvcexpress.utils {
 
 /**
  * Class to assert statements for testing. (Similar to FlexUnit)
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class AssertExpress {
 
 	/**
-	 * Function to handle assert errors. Handling function must expect will get 2 parameters as String, userMessage and errorMessage.
+	 * Function to handle assert errors. Handling function must expect will get 2 parameters as String, customMessage and errorMessage.
 	 * By default it set to function that throws Error's.
 	 */
 	public static var errorHandler:Function = throwError;
@@ -25,11 +25,11 @@ public class AssertExpress {
 	 *
 	 * @param    actual          value under test.
 	 * @param    expected        expected value.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function equals(actual:Object, expected:Object, errorMessage:String = ""):void {
+	public static function equals(actual:Object, expected:Object, customMessage:String = ""):void {
 		if (actual != expected) {
-			errorHandler(errorMessage, "expected:<" + expected + "> but was:<" + actual + ">");
+			errorHandler(customMessage, "expected:<" + expected + "> but was:<" + actual + ">");
 		}
 	}
 
@@ -38,11 +38,11 @@ public class AssertExpress {
 	 *
 	 * @param    actual            value under test.
 	 * @param    expected        expected value.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function strictlyEquals(actual:Object, expected:Object, errorMessage:String = ""):void {
+	public static function strictlyEquals(actual:Object, expected:Object, customMessage:String = ""):void {
 		if (actual !== expected) {
-			errorHandler(errorMessage, "expected:<" + expected + "> but was:<" + actual + ">");
+			errorHandler(customMessage, "expected:<" + expected + "> but was:<" + actual + ">");
 		}
 	}
 
@@ -50,11 +50,11 @@ public class AssertExpress {
 	 * Asserts that a condition is true.
 	 *
 	 * @param    condition        value under test.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function isTrue(condition:Boolean, errorMessage:String = ""):void {
+	public static function isTrue(condition:Boolean, customMessage:String = ""):void {
 		if (!condition) {
-			errorHandler(errorMessage, "expected:<true> but was:<" + condition + ">");
+			errorHandler(customMessage, "expected:<true> but was:<" + condition + ">");
 		}
 	}
 
@@ -62,11 +62,11 @@ public class AssertExpress {
 	 * Asserts that a condition is false.
 	 *
 	 * @param    condition        value under test.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function isFalse(condition:Boolean, errorMessage:String = ""):void {
+	public static function isFalse(condition:Boolean, customMessage:String = ""):void {
 		if (condition) {
-			errorHandler(errorMessage, "expected:<false> but was:<" + condition + ">");
+			errorHandler(customMessage, "expected:<false> but was:<" + condition + ">");
 		}
 	}
 
@@ -74,11 +74,11 @@ public class AssertExpress {
 	 * Asserts that object is null.
 	 *
 	 * @param    actual            value under test.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function isNull(actual:Object, errorMessage:String = ""):void {
+	public static function isNull(actual:Object, customMessage:String = ""):void {
 		if (actual != null) {
-			errorHandler(errorMessage, "expected:<null> but was:<" + actual + ">");
+			errorHandler(customMessage, "expected:<null> but was:<" + actual + ">");
 		}
 	}
 
@@ -86,21 +86,21 @@ public class AssertExpress {
 	 * Asserts that object is not null.
 	 *
 	 * @param    actual            value under test.
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function isNotNull(actual:Object, errorMessage:String = ""):void {
+	public static function isNotNull(actual:Object, customMessage:String = ""):void {
 		if (actual == null) {
-			errorHandler(errorMessage, "expected:<not null> but was:<" + actual + ">");
+			errorHandler(customMessage, "expected:<not null> but was:<" + actual + ">");
 		}
 	}
 
 	/**
 	 * Fails a test with the argument message.
 	 *
-	 * @param    errorMessage    optional error message.
+	 * @param    customMessage    optional error message.
 	 */
-	public static function fail(errorMessage:String = ""):void {
-		errorHandler(errorMessage, "failed!");
+	public static function fail(customMessage:String = ""):void {
+		errorHandler(customMessage, "failed!");
 	}
 
 
@@ -108,11 +108,11 @@ public class AssertExpress {
 	//     internals
 	//----------------------------------
 
-	private static function throwError(userMessage:String, errorMessage:String):void {
+	private static function throwError(userMessage:String, customMessage:String):void {
 		if (userMessage.length > 0) {
 			userMessage = userMessage + " - ";
 		}
-		throw Error(userMessage + errorMessage);
+		throw Error(userMessage + customMessage);
 	}
 
 }

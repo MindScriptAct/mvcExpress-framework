@@ -5,9 +5,9 @@ import mvcexpress.core.traceObjects.TraceObj;
 
 /**
  * Class to store framework global settings and some important variables.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class MvcExpress {
 
@@ -15,7 +15,7 @@ public class MvcExpress {
 	public static const WEBSITE_URL:String = "http://mvcExpress.org";
 
 	/** Framework name */
-	public static const NAME:String = "mvcExpress 2 beta 2";
+	public static const NAME:String = "mvcExpress 2 RC1";
 
 	/** Current framework major version */
 	public static const MAJOR_VERSION:uint = 2;

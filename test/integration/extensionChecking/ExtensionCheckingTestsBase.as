@@ -1,11 +1,9 @@
 package integration.extensionChecking {
 import flash.display.Sprite;
 
-import integration.aGenericExtension.fake.module.FakeExtensionModule;
 import integration.aGenericTestObjects.GenericTestModule;
 
 import mvcexpress.core.ModuleManager;
-
 import mvcexpress.modules.ModuleCore;
 
 public class ExtensionCheckingTestsBase {

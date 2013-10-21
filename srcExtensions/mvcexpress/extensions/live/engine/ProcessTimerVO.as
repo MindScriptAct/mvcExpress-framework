@@ -2,7 +2,7 @@ package mvcexpress.extensions.live.engine {
 
 /**
  * INTERNAL.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ProcessTimerVO {
 

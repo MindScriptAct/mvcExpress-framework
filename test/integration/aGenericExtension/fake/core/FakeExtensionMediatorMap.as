@@ -23,6 +23,7 @@ public class FakeExtensionMediatorMap extends MediatorMap {
 	CONFIG::debug
 	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		use namespace pureLegsCore;
+
 		super.setSupportedExtensions(supportedExtensions);
 		if (!SUPPORTED_EXTENSIONS[FakeExtensionModule.EXTENSION_TEST_ID]) {
 			throw Error("This extension is not supported by current module. You need " + FakeExtensionModule.EXTENSION_TEST_NAME + " extension enabled.");

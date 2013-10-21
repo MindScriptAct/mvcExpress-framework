@@ -5,10 +5,10 @@ import mvcexpress.core.traceObjects.TraceObj;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  * @private
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class TraceModuleManager_createModule extends TraceObj {
 

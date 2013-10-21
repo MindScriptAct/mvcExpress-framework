@@ -2,7 +2,7 @@ package integration.mediating.testObj.view.viewObj {
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public interface IMediatingIntefrace {
 

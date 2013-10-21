@@ -2,7 +2,7 @@ package integration.scopedProxy.testObj.moduleB {
 import flash.display.Sprite;
 
 /**
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ScopedProxyInjectView extends Sprite {
 

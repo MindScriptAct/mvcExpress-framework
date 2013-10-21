@@ -3,7 +3,7 @@ import flash.display.Sprite;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ChannelViewA extends Sprite {
 	public var test1handled:Boolean = false;

@@ -10,7 +10,7 @@ use namespace pureLegsCore;
 /**
  * Command that is automatically pooled.
  * All PooledCommand's are automatically pooled after execution - unless lock() is used.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

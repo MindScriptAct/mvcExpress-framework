@@ -7,7 +7,7 @@ import mvcexpress.extensions.live.taskTests.TaskTestVO;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

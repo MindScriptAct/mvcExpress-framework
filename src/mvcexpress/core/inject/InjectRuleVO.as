@@ -3,11 +3,11 @@ package mvcexpress.core.inject {
 
 /**
  * FOR INTERNAL USE ONLY.
- * Value Object to keep injection rules - what have to be injected there.
+ * Value Object to keep injection rules - what have to be injected where.
  * @private
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class InjectRuleVO {
 

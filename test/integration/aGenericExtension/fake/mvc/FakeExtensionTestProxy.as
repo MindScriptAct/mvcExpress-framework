@@ -2,7 +2,6 @@ package integration.aGenericExtension.fake.mvc {
 import integration.aGenericExtension.fake.module.FakeExtensionModule;
 
 import mvcexpress.core.namespace.pureLegsCore;
-
 import mvcexpress.mvc.Proxy;
 
 use namespace pureLegsCore;

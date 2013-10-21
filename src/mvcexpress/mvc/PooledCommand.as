@@ -3,22 +3,20 @@ package mvcexpress.mvc {
 import mvcexpress.core.namespace.pureLegsCore;
 
 /**
- * Command that is automatically pooled.                                                                                                                   </br>
- * Pooled commands improves performance as they need to be constructed only once. Use them with commands that are executed very often.                     </br>
- * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() them.                                 </br>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * Command that is automatically pooled.                                                                                                                   <p>
+ * Pooled commands improves performance as they need to be constructed only once. Use them with commands that are executed very often.                     <br/>
+ * You can lock() command to prevent it from being pooled after execute, locked commands are pooled after you unlock() them.                                 </p>
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class PooledCommand extends Command {
 
-	/**
-	 * Stores information if command is locked from automatic pooling by user.
+	/** Stores information if command is locked from automatic pooling by user.
 	 * @private */
 	private var _isLocked:Boolean;// = false;
 
-	/**
-	 * Shows if command is locked, and will not be automatically pooling after execution, or not.
+	/** Shows if command is locked, and will not be automatically pooling after execution, or not.
 	 * Asynchronous PooledCommand must be locked then used, and unlocked then they are done with there work.
 	 */
 	public function get isLocked():Boolean {

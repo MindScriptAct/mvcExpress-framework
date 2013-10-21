@@ -3,7 +3,7 @@ import mvcexpress.mvc.Command;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class TestCommand2 extends Command {
 

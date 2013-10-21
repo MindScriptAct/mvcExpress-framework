@@ -6,7 +6,7 @@ import mvcexpress.mvc.PooledCommand;
 
 /**
  * CLASS COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class CommPoolingLockedFailCommand extends PooledCommand {
 

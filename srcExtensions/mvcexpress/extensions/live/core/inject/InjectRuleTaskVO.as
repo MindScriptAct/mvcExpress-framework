@@ -5,7 +5,7 @@ import mvcexpress.core.inject.InjectRuleVO;
 /**
  * FOR INTERNAL USE ONLY.
  * Value Object to keep injection rules - what have to be injected there.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */

@@ -20,7 +20,7 @@ import mvcexpress.mvc.Command;
  * It is best practice to use same type as you use in message, that triggers this command.                                                                    </br>
  * If message does not send any parameter object - you still must have singe parameter, for example: execute(blank:Object). This parameter will be null.    </br>
  * </p></b>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version scoped.1.0.beta2
  */

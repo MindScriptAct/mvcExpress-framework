@@ -17,20 +17,20 @@ import mvcexpress.modules.ModuleCore;
 use namespace pureLegsCore;
 
 /**
- * Mediates single view object.                                                                                                                            </br>
- *  Main responsibility of mediator is to send messages from framework to view, and receive events from view and send them to framework as messages.       </br>
- *  Can get proxies injected.                                                                                                                              </br>
- *  Can send message strings. (then user interacts with the view, or )                                                                                     </br>
+ * Mediates single view object.
+ *  Main responsibility of mediator is to send messages from framework to view, and receive events from view and send them to framework as messages.       <p>
+ *  Can get proxies injected.
+ *  Can send message strings. (then user interacts with the view, or to inform about view state changes, like animation end)
  *  Can handle message strings. (handles data change or other framework constants)
- *  Can handle view events.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ *  Can handle view events.                                                                                                                               </p>
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class Mediator {
 
-	// name of module this mediator is working in.
-	/** @private */
+	/** name of module this mediator is working in.
+	 * @private */
 	pureLegsCore var moduleName:String
 
 	/**
@@ -43,30 +43,31 @@ public class Mediator {
 	 */
 	public var mediatorMap:IMediatorMap;
 
-	// used internally for communication
-	/** @private */
+	/** used internally for communications
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean; // = false;
 
-	// amount of pending injections.
-	/** @private */
+	/** amount of pending injections.
+	 * @private */
 	pureLegsCore var pendingInjections:int; // = 0;
 
-	/** all added message handlers. */
+	/** all added message handlers.
+	 * @private */
 	pureLegsCore var handlerVoRegistry:Vector.<HandlerVO> = new Vector.<HandlerVO>();
 
-	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false*/
-	pureLegsCore var eventListenerRegistry:Dictionary = new Dictionary();
-	/* or Dictionary by Function */
+	/** contains dictionary of added event listeners, stored by event listening function as a key. For event useCapture = false
+	 * @private */
+	pureLegsCore var eventListenerRegistry:Dictionary = new Dictionary(); //* or Dictionary by Function */
 
-	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true*/
-	pureLegsCore var eventListenerCaptureRegistry:Dictionary = new Dictionary();
-	/* or Dictionary by Function */
+	/** contains array of added event listeners, stored by event listening function as a key. For event useCapture = true
+	 * @private */
+	pureLegsCore var eventListenerCaptureRegistry:Dictionary = new Dictionary(); //* or Dictionary by Function */
 
-	// Allows Mediator to be constructed. (removed from release build to save some performance.)
-	/** @private */
+	/** Allows Mediator to be constructed. (removed from release build to save some performance.)
+	 * @private */
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean; // = false;
 
@@ -101,7 +102,7 @@ public class Mediator {
 	}
 
 	/**
-	 * Indicates if mediator is ready for usage. (all dependencies are injected.)  <br>
+	 * Indicates if mediator is ready for usage. (all dependencies are injected.)                                                                <br/>
 	 * Mediator will not be ready if it has pending, not resolved dependencies. (Pending injection feature must be turned on for that.)
 	 */
 	protected function get isReady():Boolean {
@@ -139,7 +140,7 @@ public class Mediator {
 	//----------------------------------
 
 	/**
-	 * adds handle function to be called then message of given type is sent.
+	 * Adds handle function to be called then message of given type is sent.
 	 * @param    type    message type for handle function to react to.
 	 * @param    handler    function that will be called then needed message is sent. this function must expect one parameter. (you can set your custom type for this param object, or leave it as Object)
 	 */
@@ -258,7 +259,7 @@ public class Mediator {
 
 	/**
 	 * Removes all listeners created by mediators addEventListener() function.
-	 * WARNING: It will NOT remove events that was added normally with object.addEventListener() function.
+	 * WARNING: It will NOT remove events that was added normally with viewObject.addEventListener() function.
 	 * Automatically called then mediator is removed(unmediated) by framework.
 	 * (You don't have to put it in mediators onRemove() function.)
 	 */
@@ -279,7 +280,6 @@ public class Mediator {
 		}
 	}
 
-
 	//----------------------------------
 	//     INTERNAL
 	//----------------------------------
@@ -294,12 +294,12 @@ public class Mediator {
 	}
 
 	/**
-	 * framework function to dispose this mediator.                                                                            <br>
-	 * Executed automatically AFTER mediator is removed(unmediated). (after mediatorMap.unmediate(...), or module dispose.)                    <br>
-	 * It:                                                                                                                        <br>
-	 * - remove all handle functions created by this mediator                                                                    <br>
-	 * - remove all event listeners created by internal addListener() function                                                    <br>
-	 * - sets internals to null                                                                                                    <br>
+	 * framework function to dispose this mediator.
+	 * Executed automatically AFTER mediator is removed(unmediated). (after mediatorMap.unmediate(...), or module dispose.)
+	 * It:
+	 * - remove all handle functions created by this mediator
+	 * - remove all event listeners created by internal addListener() function
+	 * - sets internals to null
 	 * @private
 	 */
 	pureLegsCore function remove():void {
@@ -324,7 +324,6 @@ public class Mediator {
 
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
-
 
 
 }

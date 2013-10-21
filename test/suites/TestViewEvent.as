@@ -3,7 +3,7 @@ import flash.events.Event;
 
 /**
  * COMMENT
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class TestViewEvent extends Event {
 

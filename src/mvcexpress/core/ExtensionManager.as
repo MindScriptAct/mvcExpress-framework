@@ -9,18 +9,18 @@ import mvcexpress.core.namespace.pureLegsCore;
 /**
  * INTERNAL FRAMEWORK CLASS.
  * Manages mvcExpress extensions.
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  * @private
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class ExtensionManager {
 
 	CONFIG::debug
-	private static var extensionIdRegistry:Dictionary = new Dictionary();   //* of int by Class */
+	private static var extensionIdRegistry:Dictionary = new Dictionary(); //* of int by Class */
 
 	CONFIG::debug
-	private static var extensionNameRegistry:Dictionary = new Dictionary();//* of String by Class */
+	private static var extensionNameRegistry:Dictionary = new Dictionary(); //* of String by Class */
 
 	CONFIG::debug
 	private static const EXTENSION_NAMES:Dictionary = new Dictionary();
@@ -28,6 +28,11 @@ public class ExtensionManager {
 	CONFIG::debug
 	private static var extensionCount:int;
 
+	/**
+	 * get extension id by extension name.
+	 * @param extensionName
+	 * @return
+	 */
 	CONFIG::debug
 	public static function getExtensionIdByName(extensionName:String):int {
 		if (ExtensionManager.EXTENSION_NAMES[extensionName] == null) {
@@ -36,6 +41,11 @@ public class ExtensionManager {
 		return ExtensionManager.EXTENSION_NAMES[extensionName];
 	}
 
+	/**
+	 * get extension name by extension id.
+	 * @param extensionId
+	 * @return
+	 */
 	CONFIG::debug
 	public static function getExtensionNameById(extensionId:int):String {
 		var retVal:String = "undefined";
@@ -49,13 +59,14 @@ public class ExtensionManager {
 	}
 
 	/**
-	 *
+	 * get extension id for framework class.
 	 * @param frameworkClass
 	 * @return
 	 */
 	CONFIG::debug
 	public static function getExtensionId(frameworkClass:Class):int {
 		use namespace pureLegsCore;
+
 		var retVal:int = 0;
 		if (!extensionIdRegistry[frameworkClass]) {
 			var currentClass:Class = frameworkClass;
@@ -76,7 +87,7 @@ public class ExtensionManager {
 	}
 
 	/**
-	 *
+	 * get extension name for framework class.
 	 * @param frameworkClass
 	 * @return
 	 */

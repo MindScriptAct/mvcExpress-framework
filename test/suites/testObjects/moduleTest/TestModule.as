@@ -1,7 +1,7 @@
 package suites.testObjects.moduleTest {
 /**
  * COMMENT : todo
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class TestModule extends ModuleSprite {
 

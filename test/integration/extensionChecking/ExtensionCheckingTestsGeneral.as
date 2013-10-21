@@ -10,7 +10,6 @@ import integration.aGenericExtension.fake.mvc.FakeExtensionTestMediator;
 import integration.aGenericExtension.fake.mvc.FakeExtensionTestProxy;
 
 import mvcexpress.core.ExtensionManager;
-
 import mvcexpress.core.namespace.pureLegsCore;
 
 /**
@@ -24,10 +23,11 @@ public class ExtensionCheckingTestsGeneral extends ExtensionCheckingTestsBase {
 
 
 		use namespace pureLegsCore;
+
 		CONFIG::debug {
 			FakeExtensionModule.EXTENSION_TEST_ID = ExtensionManager.getExtensionIdByName(FakeExtensionModule.EXTENSION_TEST_NAME);
-		}		
-		
+		}
+
 
 		extensionModuleClass = GenericFakeExtensionModule; 		// FAKE
 

@@ -12,11 +12,11 @@ import mvcexpress.modules.ModuleCore;
 use namespace pureLegsCore;
 
 /**
- * Proxy holds and manages application data, implements API to work with it.                                                                               </br>
- * Can send messages strings. (to tell about data updates)                                                                                                   </br>
- * @author Raimundas Banevicius (http://www.mindscriptact.com/)
+ * Proxy holds and manages application data, implements API to work with it.                                                                               <p>
+ * Can send messages strings. (to tell about data updates)                                                                                                 </p>
+ * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.beta2
+ * @version 2.0.rc1
  */
 public class Proxy {
 
@@ -28,8 +28,8 @@ public class Proxy {
 	// Shows if proxy is ready. Read only.
 	private var _isReady:Boolean; // = false;
 
-	// used internally for communication
-	/** @private */
+	/** used internally for communication
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 
 	// for pooled command classes that are dependant on this proxy.
@@ -49,7 +49,7 @@ public class Proxy {
 	//----------------------------------
 
 	/**
-	 * Then proxy is mapped with proxyMap this function is called.
+	 * Then proxy is created, mapped with proxyMap, and all dependencies injected making proxy ready - this function is called.
 	 */
 	protected function onRegister():void {
 		// for override
@@ -76,7 +76,7 @@ public class Proxy {
 	//----------------------------------
 
 	/**
-	 * Sends a message with optional params object inside of current module.
+	 * Sends a message with optional params object.
 	 * @param    type    type of the message for Commands or Mediator's handle function to react to.
 	 * @param    params    Object that will be passed to Command execute() function or to handle functions.
 	 */
@@ -140,14 +140,14 @@ public class Proxy {
 	//     Pooled commands
 	//----------------------------------
 
-	// Registers command that needs this proxy. (used for PooledCommand's only)
-	/** @private */
+	/** Registers command that needs this proxy. (used for PooledCommand's only)
+	 * @private */
 	pureLegsCore function registerDependantCommand(signatureClass:Class):void {
 		dependantCommands[signatureClass] = signatureClass;
 	}
 
-	// gets the list of dependant commands. (used to clear all PooledCommand's then proxy is removed)
-	/** @private */
+	/** gets the list of dependant commands. (used to clear all PooledCommand's then proxy is removed)
+	 * @private */
 	pureLegsCore function getDependantCommands():Dictionary {
 		return dependantCommands;
 	}
