@@ -3,14 +3,14 @@ mvcExpress is simplest and fastest MVC based ActionScript 3 framework!
 DOWNLOADS
 -----
 
-#V 2.0.beta1
-* [mvcExpress-code-v2_0_beta2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-code-v2_0_beta2.zip)
-* [mvcExpress-debug_v2_0_beta2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_beta2.swc)
-* [mvcExpress-release_v2_0_beta2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_beta2.swc)
+#V 2.0.rc1 (RELEASE CANDIDATE)
+* [mvcExpress-code-v2_0_rc1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-code-v2_0_rc1.zip)
+* [mvcExpress-debug_v2_0_rc1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_rc1.swc)
+* [mvcExpress-release_v2_0_rc1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_rc1.swc)
 
 -
 
-* [mvcExpress-examples_v2_0_beta2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_beta2.zip)
+* [mvcExpress-examples_v2_0_rc1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_rc1.zip)
 
 
 
