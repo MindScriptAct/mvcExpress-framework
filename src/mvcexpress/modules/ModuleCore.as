@@ -256,9 +256,40 @@ public class ModuleCore {
 		return commandMap.listMappings();
 	}
 
+	//----------------------------------
+	//   INTERNAL. Getting module core classes.
+	//----------------------------------
+
+	/** INTERNAL, for extension development.
+	 * gets messenger.
+	 * @private */
+	pureLegsCore function getMessenger():Messenger {
+		return pureLegsCore::messenger;
+	}
+
+	/** INTERNAL, for extension development.
+	 * gets proxyMap.
+	 * @private */
+	pureLegsCore function getProxyMap():ProxyMap {
+		return proxyMap;
+	}
+
+	/** INTERNAL, for extension development.
+	 * gets mediatorMap.
+	 * @private */
+	pureLegsCore function getMediatorMap():MediatorMap {
+		return mediatorMap;
+	}
+
+	/** INTERNAL, for extension development.
+	 * gets commandMap.
+	 * @private */
+	pureLegsCore function getCommandMap():CommandMap {
+		return commandMap;
+	}
 
 	//----------------------------------
-	//    Extension checking: INTERNAL, DEBUG ONLY.
+	//    INTERNAL, DEBUG ONLY. Extension handling.
 	//----------------------------------
 
 	CONFIG::debug
@@ -298,7 +329,6 @@ public class ModuleCore {
 
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_CORE_NAME:String = "CORE";
-
 
 }
 }

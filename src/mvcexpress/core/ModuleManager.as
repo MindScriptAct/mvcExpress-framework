@@ -83,16 +83,49 @@ public class ModuleManager {
 
 	/**
 	 * get messenger for module name.
-	 * @param    moduleName        name of the module this messenger will belong to.
-	 * @return    returns Messenger object.
 	 * @private
 	 */
-	static pureLegsCore function getMessenger(moduleName:String):Messenger {
+	static pureLegsCore function getModuleMessenger(moduleName:String):Messenger {
 		use namespace pureLegsCore;
 
 		return moduleRegistry[moduleName].messenger;
 	}
 
+	/**
+	 * get proxyMap for module name.
+	 * @private
+	 */
+	static pureLegsCore function getModuleProxyMap(moduleName:String):Messenger {
+		use namespace pureLegsCore;
+
+		return moduleRegistry[moduleName].getProxyMap();
+	}
+
+	/**
+	 * get mediatorMap for module name.
+	 * @private
+	 */
+	static pureLegsCore function getModuleMediatorMap(moduleName:String):MediatorMap {
+		use namespace pureLegsCore;
+
+		return moduleRegistry[moduleName].getMediatorMap();
+	}
+
+	/**
+	 * get commandMap for module name.
+	 * @private
+	 */
+	static pureLegsCore function getModuleCommandMap(moduleName:String):CommandMap {
+		use namespace pureLegsCore;
+
+		return moduleRegistry[moduleName].getCommandMap();
+	}
+
+
+	/**
+	 * get module object for module name.
+	 * @private
+	 */
 	static pureLegsCore function getModule(moduleName:String):ModuleCore {
 		return moduleRegistry[moduleName];
 	}
