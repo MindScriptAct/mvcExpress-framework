@@ -74,6 +74,7 @@ public class CommandMapScoped extends CommandMap {
 	}
 
 
+	/** @private */
 	override pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
 
@@ -114,6 +115,7 @@ public class CommandMapScoped extends CommandMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);

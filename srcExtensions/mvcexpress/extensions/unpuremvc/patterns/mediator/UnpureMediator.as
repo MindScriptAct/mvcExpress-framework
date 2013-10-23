@@ -56,6 +56,7 @@ public class UnpureMediator extends Mediator {
 		this.viewComponent = viewComponent;
 	}
 
+	/** @private */
 	pureLegsCore function initMediator(moduleName:String):void {
 		use namespace pureLegsCore;
 
@@ -66,6 +67,7 @@ public class UnpureMediator extends Mediator {
 		mediatorMap = facade.getMediatorMap();
 	}
 
+	/** @private */
 	pureLegsCore function initNotificationHandling():void {
 		var reactTo:Array = listNotificationInterests();
 		for (var i:int = 0; i < reactTo.length; i++) {

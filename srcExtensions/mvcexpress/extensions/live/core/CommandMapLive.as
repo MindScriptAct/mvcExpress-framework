@@ -49,6 +49,7 @@ public class CommandMapLive extends CommandMap {
 		super.dispose();
 	}
 
+	/** @private */
 	pureLegsCore function setProcessMap(value:ProcessMapLive):void {
 		processMap = value;
 	}
@@ -57,6 +58,7 @@ public class CommandMapLive extends CommandMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);

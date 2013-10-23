@@ -322,6 +322,7 @@ public class ProxyMap implements IProxyMap {
 	//     internal stuff
 	//----------------------------------
 
+	/** @private */
 	pureLegsCore function setCommandMap(value:CommandMap):void {
 		commandMap = value;
 	}
@@ -632,6 +633,7 @@ public class ProxyMap implements IProxyMap {
 	}
 
 	// gets proxy by id directly.
+	/** @private */
 	pureLegsCore function getProxyById(injectClassAndName:String):Proxy {
 		return injectObjectRegistry[injectClassAndName];
 	}
@@ -641,9 +643,11 @@ public class ProxyMap implements IProxyMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		SUPPORTED_EXTENSIONS = supportedExtensions;

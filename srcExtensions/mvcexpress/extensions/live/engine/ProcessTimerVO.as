@@ -2,6 +2,8 @@ package mvcexpress.extensions.live.engine {
 
 /**
  * INTERNAL.
+ * @private
+ *
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
 public class ProcessTimerVO {

@@ -317,7 +317,10 @@ public class CommandMap {
 		commandPools = null;
 	}
 
-	/** function to be called by messenger on needed message type sent */
+	/**
+	 * function to be called by messenger on needed message type sent
+	 * @private
+	 */
 	pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
 		use namespace pureLegsCore;
 
@@ -435,6 +438,7 @@ public class CommandMap {
 		}
 	}
 
+	/** @private */
 	CONFIG::debug
 	protected function validateCommandParams(commandClass:Class, params:Object):void {
 		use namespace pureLegsCore;
@@ -449,7 +453,10 @@ public class CommandMap {
 		}
 	}
 
-	// used for debugging
+	/**
+	 * used for debugging
+	 * @private
+	 */
 	pureLegsCore function listMessageCommands(messageType:String):Class {
 		return classRegistry[messageType];
 	}
@@ -459,9 +466,11 @@ public class CommandMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		SUPPORTED_EXTENSIONS = supportedExtensions;

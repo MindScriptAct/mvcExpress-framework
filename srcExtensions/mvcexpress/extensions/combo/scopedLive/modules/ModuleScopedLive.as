@@ -27,7 +27,6 @@ public class ModuleScopedLive extends ModuleScoped {
 	/**
 	 * CONSTRUCTOR
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
-	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
 	public function ModuleScopedLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 		use namespace pureLegsCore
@@ -82,9 +81,11 @@ public class ModuleScopedLive extends ModuleScoped {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_LIVE_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_LIVE_NAME);
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_LIVE_NAME:String = "live";
 

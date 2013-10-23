@@ -8,15 +8,12 @@ import mvcexpress.mvc.Command;
 use namespace pureLegsCore;
 
 /**
- * Command, handles business logic of your application.                                                                                                    </br>
- * You most likely need it then:                                                                                                                            </br>
- *    - if you need to change application state with one or more logical statement.                                                                            </br>
- *    - if you need more then one unrelated proxies injected to make a decision.                                                                            </br>
- * Commands can get proxies injected and can send constants                                                                                                    </br>
+ * Command, handles business logic of your application.                                                                                                    <br/>
+ * Commands can get proxies injected and can send messages
  * <b><p>
- * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                                </br>
- * It is best practice to use same type as you use in message, that triggers this command.                                                                    </br>
- * If message does not send any parameter object - you still must have singe parameter, for example: execute(blank:Object). This parameter will be null.    </br>
+ * It MUST contain custom execute(params:Object) function. Parameter can be typed as you wish.                                                             <br/>
+ * It is best practice to use same type as you use in message, that triggers this command.                                                                 <br/>
+ * If message does not send any parameter object - you still must have singe parameter that will get null value, for example: execute(blank:Object).
  * </p></b>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
@@ -31,9 +28,11 @@ dynamic public class CommandLive extends Command {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleLive.pureLegsCore::EXTENSION_LIVE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleLive.pureLegsCore::EXTENSION_LIVE_NAME
 

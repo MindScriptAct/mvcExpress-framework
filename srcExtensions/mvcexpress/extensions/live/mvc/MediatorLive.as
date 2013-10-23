@@ -10,21 +10,20 @@ import mvcexpress.mvc.Mediator;
 use namespace pureLegsCore;
 
 /**
- * Mediates single view object.                                                                                                                            </br>
- *  Main responsibility of mediator is to send message from framework  to view, and receive constants from view and send to framework.                        </br>
- *  Can get proxies injected.                                                                                                                                </br>
- *  Can send constants. (sends constants then user interacts with the view)                                                                                    </br>
- *  Can handle constants. (handles data change or other framework constants)
+ * Mediates single view object.
+ *  Main responsibility of mediator is to send messages from framework to view, and receive events from view and send them to framework as messages.       <p>
+ *  Can get proxies injected.
+ *  Can send message strings. (then user interacts with the view, or to inform about view state changes, like animation end)
+ *  Can handle message strings. (handles data change or other framework constants)
+ *  Can handle view events.                                                                                                                               </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class MediatorLive extends Mediator {
 
-	/** Used to provide stuff for processes. */
+	/** Handle application processes
+	 * @private */
 	pureLegsCore var processMap:ProcessMapLive;
 
 	/**    all objects provided by this mediator storeb by name */
@@ -93,9 +92,11 @@ public class MediatorLive extends Mediator {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
 }

@@ -32,6 +32,7 @@ public class ProxyMapLive extends ProxyMap {
 	//     internal stuff
 	//----------------------------------
 
+	/** @private */
 	pureLegsCore function setProcessMap(value:ProcessMapLive):void {
 		processMap = value;
 	}
@@ -67,6 +68,7 @@ public class ProxyMapLive extends ProxyMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);

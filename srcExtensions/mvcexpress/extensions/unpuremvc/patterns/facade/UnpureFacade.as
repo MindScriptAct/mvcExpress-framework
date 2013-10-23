@@ -172,16 +172,19 @@ public class UnpureFacade extends ModuleCore {
 		return moduleName;
 	}
 
+	/** @private */
 	pureLegsCore function getMediatorMap():MediatorMap {
 		return mediatorMap;
 	}
 
+	/** @private */
 	pureLegsCore function getMessender():Messenger {
 		use namespace pureLegsCore;
 
 		return messenger;
 	}
 
+	/** @private */
 	pureLegsCore function getProxyMap():ProxyMap {
 		return proxyMap;
 	}

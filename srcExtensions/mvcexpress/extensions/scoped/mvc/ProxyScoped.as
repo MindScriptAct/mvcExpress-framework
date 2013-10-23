@@ -103,9 +103,11 @@ public class ProxyScoped extends Proxy {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleScoped.EXTENSION_SCOPED_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleScoped.EXTENSION_SCOPED_NAME;
 }

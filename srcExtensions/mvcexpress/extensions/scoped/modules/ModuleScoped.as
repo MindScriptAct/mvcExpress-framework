@@ -119,9 +119,11 @@ public class ModuleScoped extends ModuleCore {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_SCOPED_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_SCOPED_NAME);
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_SCOPED_NAME:String = "scoped";
 

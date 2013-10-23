@@ -9,8 +9,7 @@ import mvcexpress.extensions.live.core.ProxyMapLive;
 import mvcexpress.modules.ModuleCore;
 
 /**
- * Core Module class. Used if you don't want your module be display object.
- * Usually it is good idea to create your main(shell) module from ModuleCore.
+ * Core Module class, will support use of Processes and Tasks for contingently and repeatedly executed logic, represents single application unit in mvcExpress framework.
  * <p>
  * It starts framework and lets you set up your application. (or execute Commands for set up.)
  * You can create modular application by having more then one module.
@@ -21,13 +20,12 @@ import mvcexpress.modules.ModuleCore;
  */
 public class ModuleLive extends ModuleCore {
 
-	// process map
+	/** Handle application processes */
 	protected var processMap:ProcessMapLive;
 
 	/**
 	 * CONSTRUCTOR
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
-	 * @param    autoInit    if set to false framework is not initialized for this module. If you want to use framework features you will have to manually init() it first.
 	 */
 	public function ModuleLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
 		use namespace pureLegsCore
@@ -70,10 +68,10 @@ public class ModuleLive extends ModuleCore {
 		}
 	}
 
+
 	/**
-	 * Internal framework function. Not meant to be used from outside.
+	 * Lists all processes and tasks.
 	 */
-		// Lists all processes and tasks.
 	public function listMappedProcesses():String {
 		return processMap.listProcesses();
 	}
@@ -82,9 +80,11 @@ public class ModuleLive extends ModuleCore {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_LIVE_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_LIVE_NAME);
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_LIVE_NAME:String = "live";
 

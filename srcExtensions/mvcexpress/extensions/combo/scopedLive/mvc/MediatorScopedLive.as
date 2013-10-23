@@ -27,7 +27,7 @@ public class MediatorScopedLive extends MediatorScoped {
 	/** Used to provide stuff for processes. */
 	pureLegsCore var processMap:ProcessMapLive;
 
-	/**    all objects provided by this mediator storeb by name */
+	/** all objects provided by this mediator storeb by name */
 	private var provideRegistry:Dictionary = new Dictionary(); //* of Object by String*/
 
 
@@ -93,9 +93,11 @@ public class MediatorScopedLive extends MediatorScoped {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
 }

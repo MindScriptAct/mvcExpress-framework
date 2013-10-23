@@ -35,8 +35,8 @@ public class Proxy {
 	// for pooled command classes that are dependant on this proxy.
 	private var dependantCommands:Dictionary = new Dictionary();
 
-	// amount of pending injections.
-	/** @private */
+	/** amount of pending injections.
+	 * @private */
 	pureLegsCore var pendingInjections:int; // = 0;
 
 	/** CONSTRUCTOR */
@@ -157,9 +157,11 @@ public class Proxy {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleCore.EXTENSION_CORE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleCore.EXTENSION_CORE_NAME;
 }

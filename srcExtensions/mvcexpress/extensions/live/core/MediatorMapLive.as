@@ -10,15 +10,14 @@ import mvcexpress.extensions.live.modules.ModuleLive;
 import mvcexpress.extensions.live.mvc.MediatorLive;
 import mvcexpress.mvc.Mediator;
 
+use namespace pureLegsCore;
+
 /**
  * Handles application mediators.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class MediatorMapLive extends MediatorMap {
 
 	// used internally to work with processes.
@@ -37,7 +36,7 @@ public class MediatorMapLive extends MediatorMap {
 		return super.prepareMediator(mediator, mediatorClass, viewObject, injectClass);
 	}
 
-
+	/** @private */
 	pureLegsCore function setProcessMap(value:ProcessMapLive):void {
 		processMap = value;
 	}
@@ -47,6 +46,7 @@ public class MediatorMapLive extends MediatorMap {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	override pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		super.setSupportedExtensions(supportedExtensions);

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head><title></title>
+
+	<style type="text/css">
+
+		.arrow-up {
+			width: 0;
+			height: 0;
+			border-left: 20px solid transparent;
+			border-right: 20px solid transparent;
+			border-bottom: 20px solid black;
+		}
+		
+		.arrow-line {
+			width: 5px;
+			height: 100%;
+			background: black;
+		}
+
+	</style>
+</head>
+
+<body>
+
+<h2>Live extension stacked on Scoped extension.</h2>
+
+<h3>Scoped extension</h3>
+
+Scoped extension helps building modular applications, it adds features to help module to module communication and data sharing. 
+	   It gives you control over how data can be send or shared by using permission system. 
+	   Sending messages and data sharing is implement to be very flexible, but easy to use. 
+ 
+<h5> Features:</h5>
+ 
+ <ul>
+ 	 <li>Register and unregistered scope names, and define permissions on what can be done with them.</li>
+	 <li>Send and receive messages beat-wean modules by using scopes.(if permissions allow it)</li>
+	 <li>Register proxy to scope, and get proxy beat-wean modules by using scope name.(if permissions allow it) </li>
+</ul>
+
+<h3>Live extension</h3>
+
+Live extension created with live action games in mind, but it can also be used for any continuously repeating logic you want to run outside of Commands.(calculate, animate...)
+	In a nutshell - live extension gives you game engine capabilities along MVC.  	   	   	   			 	   	   		   	   		   	  		   			<br>
+You have to be careful to use this extension, to enable possibility to have an engine that can handle view and data objects fast - MVC rules for view and data decoupling are broken.
+	To keep your application in control, live extension gives you tools to write tests to keep view and data dependencies intact. (it is similar to Unit testing tests, but simpler)
+
+<h5> Features:</h5>
+
+<ul>
+	<li>Start/stop time or enterFrame based Processes.(ticking engines)</li>
+	<li>Add/remove/enable/disable Tasks to processes, that represent single jobs executed in sequence with every process tick.</li>
+	<li>Provide tasks with proxy data, and mediator views. (this brakes view-model decoupling)</li>
+	<li>In debug mode, execute simple tests to check if data-view dependencies are not broken.</li>
+</ul>
+ 
+<br/>
+<br/>
+<br/>
+<table style="width:100%;  border-color: #FFFFFF" border="0" cellpadding="5" cellspacing="5">
+	<tbody>
+	<tr>
+		<td style="width: 2%;"></td>
+		<td style="width: 20%; height: 30px;"></td>
+		<td style="width: 13%; height: 30px;"></td>
+		<td style="width: 13%; height: 30px;"></td>
+		<td style="width: 13%; height: 30px;"></td>
+		<td style="width: 9%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px;"></td>
+	</tr>
+	<tr>
+		<td style="width: 2%;">l<br/>i<br/>v<br/>e</td>
+		<td style="width: 20%; height: 30px; background-color: #BDE384; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold; top: 0px;">ModuleScopedLive</div>
+			<br/>
+			processMap
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">MediatorMapScopedLive</div>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">ProxyMapScopedLive</div>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">CommandMapScopedLive</div>
+		</td>
+		<td style="width: 9%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">MediatorScopedLive</div>
+			<br/>
+			processMap
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">ProxyScopedLive</div>
+			<br/>
+			processMap
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">CommandScopedLive</div>
+			<div style="text-align: center; font-weight: bold;">PooledCommandScopedLive</div>
+			<br/>
+			processMap
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">ProcessMapLive</div>
+			<br/>
+			mapFrameProcess()<br/>
+			mapTimerProcess()<br/>
+			unmapProcess()<br/>
+			startProcess()<br/>
+			stopProcess()<br/>
+			isProcessMapped()
+		</td>
+	</tr>
+	<tr>
+		<td style="width: 2%;"></td>
+		<td style="width: 20%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 9%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+	</tr>
+	<tr>
+		<td style="width: 2%;">s<br/>c<br/>o<br/>p<br/>e<br/>d</td>
+		<td style="width: 20%; height: 30px; background-color: #BDE384; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold; top: 0px;">ModuleScoped</div>
+			<br/>
+			sendScopeMessage()<br/>
+			registerScope()<br/>
+			unregisterScope()
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-line" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">ProxyMapScoped</div>
+			<br/>
+			scopeMap()<br/>
+			scopeUnmap()
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">CommandMapScoped</div>
+			<br/>
+			scopeMap()<br/>
+			scopeUnmap()
+		</td>
+		<td style="width: 9%; height: 30px;"></td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">MediatorScoped</div>
+			<br/>
+			sendScopeMessage()<br/>
+			addScopeHandler()<br/>
+			removeScopeHandler()
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">ProxyScoped</div>
+			<br/>
+			sendScopeMessage()<br/>
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;">CommandScoped</div>
+			<div style="text-align: center; font-weight: bold;">PooledCommandScoped</div>
+			<br/>
+			sendScopeMessage()<br/>
+			registerScope()<br/>
+			unregisterScope()
+		</td>
+	</tr>
+	<tr>
+		<td style="width: 2%;"></td>
+		<td style="width: 20%; height: 30px; vertical-align: bottom;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px;">
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 13%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 9%; height: 30px;">
+		</td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+		<td style="width: 10%; height: 30px;">
+			<div class="arrow-up" style="margin: 0 auto"></div>
+		</td>
+	</tr>
+
+	<tr>
+		<td style="width: 2%;">C<br/>O<br/>R<br/>E</td>
+		<td style="width: 20%; height: 30px; background-color: #BDE384; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold; top: 0px;"><a href="../CORE/mvcexpress/modules/ModuleCore.html#moduleName">ModuleCore</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#moduleName">moduleName</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#commandMap">commandMap</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#proxyMap">proxyMap</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#mediatorMap">mediatorMap</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#onInit()">onInit()</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#onDispose()">onDispose()</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#sendMessage()">sendMessage()</a><br/>
+			<a href="../CORE/mvcexpress/modules/ModuleCore.html#disposeModule()">disposeModule()</a>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/core/MediatorMap.html">MediatorMap</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#map()">map()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#unmap()">unmap()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#mediate()">mediate()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#mediateWith()">mediateWith()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#unmediate()">unmediate()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#isMapped()">isMapped()</a><br/>
+			<a href="../CORE/mvcexpress/core/MediatorMap.html#isMediated()">isMediated()</a>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold; top: 1px;"><a href="../CORE/mvcexpress/core/ProxyMap.html">ProxyMap</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/core/ProxyMap.html#map()">map()</a><br/>
+			<a href="../CORE/mvcexpress/core/ProxyMap.html#unmap()">unmap()</a><br/>
+			<a href="../CORE/mvcexpress/core/ProxyMap.html#lazyMap()">lazyMap()</a><br/>
+			<a href="../CORE/mvcexpress/core/ProxyMap.html#getProxy()">getProxy()</a><br/>
+			<a href="../CORE/mvcexpress/core/ProxyMap.html#isMapped()">isMapped()</a><br/>
+		</td>
+		<td style="width: 13%; height: 30px; background-color: #B8C9D1; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/core/CommandMap.html">CommandMap</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#map()">map()</a><br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#unmap()">unmap()</a><br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#execute()">execute()</a><br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#isCommandPooled()">isCommandPooled()</a><br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#clearCommandPool()">clearCommandPool()</a><br/>
+			<a href="../CORE/mvcexpress/core/CommandMap.html#isMapped()">isMapped()</a>
+		</td>
+		<td style="width: 9%; height: 30px; background-color: #91AFBE; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/core/messenger/Messenger.html">Messenger</a></div>
+			<br/>
+			(internal)
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/mvc/Mediator.html">Mediator</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#proxyMap">proxyMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#mediatorMap">mediatorMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#onRegister()">onRegister()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#onRegister()">onRemove()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#sendMessage()">sendMessage()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#addHandler()">addHandler()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#removeHandler()">removeHandler()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#removeAllHandlers()">removeAllHandlers()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#addListener()">addListener()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#removeListener()">removeListener()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Mediator.html#removeAllListeners()">removeAllListeners()</a>
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/mvc/Proxy.html">Proxy</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/mvc/Proxy.html#proxyMap">proxyMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Proxy.html#onRegister()">onRegister()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Proxy.html#onRemove()">onRemove()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Proxy.html#sendMessage()">sendMessage()</a><br/>
+		</td>
+		<td style="width: 10%; height: 30px; background-color: #DDDB9D; vertical-align: top;">
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/mvc/Command.html">Command</a></div>
+			<br/>
+			<a href="../CORE/mvcexpress/mvc/Command.html#commandMap">commandMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Command.html#proxyMap">proxyMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Command.html#mediatorMap">mediatorMap</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Command.html#getMessageType()">getMessageType()</a><br/>
+			<a href="../CORE/mvcexpress/mvc/Command.html#sendMessage()">sendMessage()</a><br/>
+			<br/>
+
+			<div style="text-align: center; font-weight: bold;"><a href="../CORE/mvcexpress/mvc/PooledCommand.html">PooledCommand</a></div>
+			<br/>
+			+<a href="../CORE/mvcexpress/mvc/PooledCommand.html#lock()">lock()</a><br/>
+			+<a href="../CORE/mvcexpress/mvc/PooledCommand.html#unlock()">unlock()</a><br/>
+			+<a href="../CORE/mvcexpress/mvc/PooledCommand.html#isLocked">isLocked()</a>
+		</td>
+	</tr>
+	</tbody>
+</table>
+<br/>
+<br/>
+<br/>
+<br/>
+
+</body>
+</html>

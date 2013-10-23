@@ -292,9 +292,11 @@ public class ModuleCore {
 	//    INTERNAL, DEBUG ONLY. Extension handling.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore function enableExtension(extensionId:int):void {
 		use namespace pureLegsCore;
@@ -305,6 +307,7 @@ public class ModuleCore {
 		SUPPORTED_EXTENSIONS[extensionId] = true;
 	}
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore function listExtensions():String {
 		use namespace pureLegsCore;
@@ -324,9 +327,11 @@ public class ModuleCore {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_CORE_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_CORE_NAME);
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_CORE_NAME:String = "CORE";
 

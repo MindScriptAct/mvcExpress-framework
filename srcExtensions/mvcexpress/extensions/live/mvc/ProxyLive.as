@@ -10,18 +10,15 @@ import mvcexpress.mvc.Proxy;
 use namespace pureLegsCore;
 
 /**
- * Proxy holds and manages application data, provide API to work with it.                </br>
- * Can send constants. (Usually sends one with each data update)                            </br>
+ * Proxy holds and manages application data, implements API to work with it.                                                                               <p>
+ * Can send messages strings. (to tell about data updates)                                                                                                 </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
  */
-
-use namespace pureLegsCore;
-
 public class ProxyLive extends Proxy {
 
-	/** Used to provide stuff for processes. */
+	/** Handle application processes */
 	private var processMap:ProcessMapLive;
 
 	/**    all objects provided by this proxy stored by name */
@@ -93,9 +90,11 @@ public class ProxyLive extends Proxy {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleLive.EXTENSION_LIVE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleLive.EXTENSION_LIVE_NAME
 }

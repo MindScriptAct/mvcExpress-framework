@@ -21,10 +21,12 @@ use namespace pureLegsCore;
  */
 public class Messenger {
 
-	// name of the module messenger is working for.
+	/** name of the module messenger is working for.
+	 * @private */
 	pureLegsCore var moduleName:String;
 
-	// defines if messenger can be instantiated.
+	/** defines if messenger can be instantiated.
+	 * @private */
 	static pureLegsCore var allowInstantiation:Boolean; // = false;
 
 	// keeps ALL HandlerVO's in vectors by message type that they have to respond to.
@@ -240,9 +242,11 @@ public class Messenger {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore var SUPPORTED_EXTENSIONS:Dictionary;
 
+	/** @private */
 	CONFIG::debug
 	pureLegsCore function setSupportedExtensions(supportedExtensions:Dictionary):void {
 		pureLegsCore::SUPPORTED_EXTENSIONS = supportedExtensions;

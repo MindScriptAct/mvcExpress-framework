@@ -1,6 +1,0 @@
-Text for description in mvcexpress.core:MediatorMap/mediate is not valid.
-org.xml.sax.SAXParseException; lineNumber: 11; columnNumber: 5; The element type "BR" must be terminated by the matching end-tag "</BR>".
-
-Text for description in mvcexpress.core.interfaces:IMediatorMap/mvcexpress.core.interfaces:IMediatorMap:mediate is not valid.
-org.xml.sax.SAXParseException; lineNumber: 9; columnNumber: 5; The element type "BR" must be terminated by the matching end-tag "</BR>".
-

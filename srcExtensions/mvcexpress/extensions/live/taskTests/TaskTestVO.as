@@ -1,8 +1,9 @@
 package mvcexpress.extensions.live.taskTests {
 
 /**
- * INTERNAL.
+ * FOR INTERNAL USE ONLY.
  * @author rBanevicius
+ * @private
  *
  * @version live.1.0.beta2
  */

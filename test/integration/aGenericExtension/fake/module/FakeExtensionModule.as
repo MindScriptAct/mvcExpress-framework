@@ -21,9 +21,11 @@ public class FakeExtensionModule extends ModuleCore {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var EXTENSION_TEST_ID:int = ExtensionManager.getExtensionIdByName(pureLegsCore::EXTENSION_TEST_NAME);
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore const EXTENSION_TEST_NAME:String = "test_module";
 }

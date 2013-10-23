@@ -25,7 +25,8 @@ public class UnpureCommandMap extends CommandMap {
 	}
 
 
-	/** function to be called by messenger on needed message type sent */
+	/** function to be called by messenger on needed message type sent
+	 * @private */
 	override pureLegsCore function handleCommandExecute(messageType:String, params:Object):void {
 		use namespace pureLegsCore;
 

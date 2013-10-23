@@ -40,6 +40,8 @@ public class ModuleManager {
 	 * @param moduleName    name for module
 	 * @param moduleCore    module object for given name
 	 * @return    returns name (same as provided or generated new one) of the module.
+	 *
+	 * @private
 	 */
 	static pureLegsCore function registerModule(moduleName:String, moduleCore:ModuleCore):String {
 
@@ -250,12 +252,12 @@ public class ModuleManager {
 	 * EXPERIMENTAL
 	 * Invokes custom module function.
 	 * Experimental function for mvcLogger and extension development.
-	 * @private
 	 *
 	 * @param moduleName    Name of module.
 	 * @param functionName    name of the function
 	 * @param params        optional function params
 	 * @return        returns object.
+	 * @private
 	 */
 	static pureLegsCore function invokeModuleFunction(moduleName:String, functionName:String, params:Array = null):Object {
 		if (moduleRegistry[moduleName]) {

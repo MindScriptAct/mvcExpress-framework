@@ -72,6 +72,7 @@ public class UnpureMessenger extends Messenger {
 
 	}
 
+	/** @private */
 	pureLegsCore function getLastMessageType():String {
 		var retVal:String = lastMessageType;
 		lastMessageType = null;

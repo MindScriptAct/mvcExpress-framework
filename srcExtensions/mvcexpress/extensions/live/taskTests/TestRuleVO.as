@@ -5,6 +5,7 @@ import mvcexpress.extensions.live.core.inject.InjectRuleTaskVO;
 /**
  * FOR INTERNAL USE ONLY.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
+ * @private
  *
  * @version live.1.0.beta2
  */

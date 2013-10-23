@@ -6,7 +6,10 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.live.taskTests.TaskTestVO;
 
 /**
- * COMMENT
+ * Task represent one application logic block. It will be repeatedly and contingently executed by process.                <p>
+ * Can be disabled/enabled.
+ * Can send messages.
+ * Then CONFIG::debug mode enabled - functions marked with Test metadata tag will be executed by process.                </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
@@ -19,21 +22,27 @@ public class Task {
 	 */
 	pureLegsCore var process:Process;
 
-	// previous process in linked list
+	/** previous process in linked list
+	 * @private */
 	pureLegsCore var prev:Task;
-	// next process in linked list
+
+	/** next process in linked list
+	 * @private */
 	pureLegsCore var next:Task;
 
 	// stores inject point variable names by inject object names.
 	private var injectPointRegistry:Dictionary = new Dictionary(); //* of Strnig by String */
 
-	// stores info if task is disabled by user.
+	/** stores info if task is disabled by user.
+	 * @private */
 	pureLegsCore var _isEnabled:Boolean = true;
 
-	// stores how much injections this task is missing.
+	/** stores how much injections this task is missing.
+	 * @private */
 	pureLegsCore var _missingDependencyCount:int; // = 0;
 
-	// to covers _isEnabled and _missingDependencyCount
+	/** to covers _isEnabled and _missingDependencyCount
+	 * @private */
 	pureLegsCore var _isRunning:Boolean = true;
 
 	// stores time that passes in beatwean process runs.
@@ -42,7 +51,7 @@ public class Task {
 	/**
 	 * Vector of all tests for this task.
 	 * @private
-	 * */
+	 */
 	CONFIG::debug
 	pureLegsCore var tests:Vector.<TaskTestVO> = new Vector.<TaskTestVO>();
 
@@ -126,17 +135,20 @@ public class Task {
 	//     internal
 	//----------------------------------
 
-	// set all inject points. (variable name + inject name). done once then task is initiated.
+	/** set all inject points. (variable name + inject name). done once then task is initiated.
+	 * @private */
 	pureLegsCore function setInjectPoint(injectName:String, varName:String):void {
 		injectPointRegistry[injectName] = varName;
 	}
 
-	// used to get inject points then object are provided. (and check inject status)
+	/** used to get inject points then object are provided. (and check inject status)
+	 * @private */
 	pureLegsCore function getInjectPoint(injectName:String):String {
 		return injectPointRegistry[injectName];
 	}
 
-	// for debuging
+	/** for debuging
+	 * @private */
 	pureLegsCore function getMissingInjects():Vector.<String> {
 		var retVal:Vector.<String> = new Vector.<String>();
 		for (var name:String in injectPointRegistry) {
@@ -147,14 +159,16 @@ public class Task {
 		return retVal;
 	}
 
-	// function for this task to force process to clear task cache
+	/** function for this task to force process to clear task cache
+	 * @private */
 	pureLegsCore function setNotCached():void {
 		use namespace pureLegsCore;
 
 		process.needCashNext = true;
 	}
 
-	// dispose task
+	/** dispose task
+	 * @private */
 	pureLegsCore function dispose():void {
 		use namespace pureLegsCore;
 

@@ -114,9 +114,11 @@ dynamic public class Command {
 	//    Extension checking: INTERNAL, DEBUG ONLY.
 	//----------------------------------
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_id:int = ModuleCore.pureLegsCore::EXTENSION_CORE_ID;
 
+	/** @private */
 	CONFIG::debug
 	static pureLegsCore var extension_name:String = ModuleCore.pureLegsCore::EXTENSION_CORE_NAME;
 

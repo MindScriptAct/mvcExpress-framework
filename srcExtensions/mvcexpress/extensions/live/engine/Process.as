@@ -24,7 +24,8 @@ import mvcexpress.extensions.live.traceObjects.process.TraceProcess_removeTask;
 import mvcexpress.utils.checkClassSuperclass;
 
 /**
- * COMMENT
+ * Process is timer or enterFrame based engine. It executes sequence of tasks.
+ * Can handle framework messages.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
  * @version live.1.0.beta2
@@ -39,21 +40,24 @@ public class Process {
 	// name of the module this process is working for.
 	private var moduleName:String
 
-	// used internally for process management
-	/** @private */
+	/** used internally for process management
+	 * @private */
 	pureLegsCore var processMap:ProcessMapLive;
 
-	// used internally for communication
-	/** @private */
+	/** used internally for communication
+	 * @private */
 	pureLegsCore var messenger:Messenger;
 
 	/** Stores class QualifiedClassName by class */
 	static private var qualifiedClassNameRegistry:Dictionary = new Dictionary(); //* of String by Class*/
 
+	/** @private */
 	pureLegsCore var processType:int;
+	/** @private */
 	pureLegsCore var processId:String;
-
+	/** @private */
 	pureLegsCore var totalFrameSkip:int; // = 0;
+	/** @private */
 	pureLegsCore var currentFrameSkip:int; // = 0;
 
 	// all process tasks.
@@ -67,7 +71,8 @@ public class Process {
 	// indicates if task cash should be used.
 	private var isCached:Boolean; // = false;
 
-	// will reset cash with next run. (with every task add/remove or injection provide/unprovide or task enable/disable.)
+	/** will reset cash with next run. (with every task add/remove or injection provide/unprovide or task enable/disable.)
+	 * @private */
 	pureLegsCore var needCashNext:Boolean; // = false;
 
 	// cash of running tasks.
@@ -84,7 +89,8 @@ public class Process {
 	private var finalMessageTypes:Vector.<String> = new Vector.<String>();
 	private var finalMessageParams:Vector.<Object> = new Vector.<Object>();
 
-	// indicates if process is running.
+	/** indicates if process is running.
+	 * @private */
 	pureLegsCore var _isRunning:Boolean; // = false;
 
 	//
@@ -611,12 +617,14 @@ public class Process {
 	//     internal
 	//----------------------------------
 
-	// sets name of curent module.
+	/** sets name of curent module.
+	 * @private */
 	pureLegsCore function setModuleName($moduleName:String):void {
 		moduleName = $moduleName;
 	}
 
-	// runs all enabled tasks in process.
+	/** runs all enabled tasks in process.
+	 * @private */
 	pureLegsCore function runProcess(event:Event = null):void {
 		var task:Task;
 
@@ -802,12 +810,14 @@ public class Process {
 		return task;
 	}
 
-	// trigered then process is initiated.
+	/** trigered then process is initiated.
+	 * @private */
 	pureLegsCore function register():void {
 		onRegister();
 	}
 
-	// trigered then process is removed.
+	/** trigered then process is removed.
+	 * @private */
 	pureLegsCore function remove():void {
 		use namespace pureLegsCore;
 
@@ -842,7 +852,8 @@ public class Process {
 	//     internal - message sending
 	//----------------------------------
 
-	// send instant constants
+	/** send instant constants
+	 * @private */
 	pureLegsCore function sendInstantMessage(type:String, params:Object):void {
 		use namespace pureLegsCore;
 
@@ -858,13 +869,15 @@ public class Process {
 
 	}
 
-	// stacks message to be sent after current task is done.
+	/** stacks message to be sent after current task is done.
+	 * @private */
 	pureLegsCore function stackPostMessage(type:String, params:Object):void {
 		postMessageTypes[postMessageTypes.length] = type;
 		postMessageParams[postMessageParams.length] = params;
 	}
 
-	// stacks message to be sent after all tasks of current run are done.
+	/** stacks message to be sent after all tasks of current run are done.
+	 * @private */
 	pureLegsCore function stackFinalMessage(type:String, params:Object):void {
 		finalMessageTypes[finalMessageTypes.length] = type;
 		finalMessageParams[finalMessageParams.length] = params;
