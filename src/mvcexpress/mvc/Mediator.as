@@ -47,8 +47,9 @@ public class Mediator {
 	 * @private */
 	pureLegsCore var messenger:Messenger;
 
-	// Shows if proxy is ready. Read only.
-	private var _isReady:Boolean; // = false;
+	/** Shows if proxy is ready. Read only.
+	 * @private */
+	pureLegsCore var isReady:Boolean; // = false;
 
 	/** amount of pending injections.
 	 * @private */
@@ -71,7 +72,8 @@ public class Mediator {
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean; // = false;
 
-	/** CONSTRUCTOR */
+	/** CONSTRUCTOR
+	 * @private */
 	public function Mediator() {
 		CONFIG::debug {
 			use namespace pureLegsCore;
@@ -100,15 +102,6 @@ public class Mediator {
 	protected function onRemove():void {
 		// for override
 	}
-
-	/**
-	 * Indicates if mediator is ready for usage. (all dependencies are injected.)                                                                <br/>
-	 * Mediator will not be ready if it has pending, not resolved dependencies. (Pending injection feature must be turned on for that.)
-	 */
-	protected function get isReady():Boolean {
-		return _isReady;
-	}
-
 
 	//----------------------------------
 	//     MESSAGING
@@ -289,7 +282,7 @@ public class Mediator {
 	 * Executed automatically BEFORE mediator is created. (with proxyMap.mediate(...))
 	 * @private */
 	pureLegsCore function register():void {
-		_isReady = true;
+		isReady = true;
 		onRegister();
 	}
 

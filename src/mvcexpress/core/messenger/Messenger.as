@@ -217,7 +217,7 @@ public class Messenger {
 			for (var i:int = 0; i < msgCount; i++) {
 				var handlerVo:HandlerVO = msgList[i];
 				if (handlerVo.isExecutable) {
-					messageHandlers += "[EXECUTES:" + commandMap.listMessageCommands(key) + "], ";
+					messageHandlers += "[EXECUTES:" + commandMap.getMessageCommand(key) + "], ";
 					CONFIG::debug {
 						messageHandlers += "[" + handlerVo.handlerClassName + "], ";
 					}

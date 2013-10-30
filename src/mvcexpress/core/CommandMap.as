@@ -36,7 +36,7 @@ public class CommandMap {
 	// used internally to handles application mediators.
 	protected var mediatorMap:MediatorMap;
 
-	// collection of class arrays, stored by message type. Then message with this type is sent, all mapped classes are executed.
+	// commands class stored by message type. Then message with this type is sent, mapped class is executed.
 	protected var classRegistry:Dictionary = new Dictionary(); //* of Class by String */
 
 	// holds pooled command objects, stared by command class.
@@ -216,12 +216,16 @@ public class CommandMap {
 	}
 
 	/**
-	 * Clears pool created for specified command.
+	 * Clears all command pools, or specific one.
 	 * (if commands are not pooled - function fails silently.)
-	 * @param    commandClass Command class to clear
+	 * @param    commandClass Optional Command class to clear specific command pool
 	 */
-	public function clearCommandPool(commandClass:Class):void {
-		delete commandPools[commandClass];
+	public function clearCommandPool(commandClass:Class = null):void {
+		if (commandClass) {
+			delete commandPools[commandClass];
+		} else {
+			commandPools = new Dictionary();
+		}
 	}
 
 
@@ -457,7 +461,7 @@ public class CommandMap {
 	 * used for debugging
 	 * @private
 	 */
-	pureLegsCore function listMessageCommands(messageType:String):Class {
+	pureLegsCore function getMessageCommand(messageType:String):Class {
 		return classRegistry[messageType];
 	}
 

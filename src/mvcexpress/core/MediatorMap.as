@@ -70,7 +70,7 @@ public class MediatorMap implements IMediatorMap {
 
 				MvcExpress.debug(new TraceMediatorMap_map(moduleName, viewClass, mediatorClass, injectClass));
 				// check if mediatorClass is subclass of Mediator class
-				if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
+				if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator", true)) {
 					throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'mvcexpress.mvc::Mediator' class.");
 				}
 
@@ -268,7 +268,7 @@ public class MediatorMap implements IMediatorMap {
 
 		CONFIG::debug {
 			// check if mediatorClass is subclass of Mediator class
-			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator")) {
+			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator", true)) {
 				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'mvcexpress.mvc::Mediator' class.");
 			}
 

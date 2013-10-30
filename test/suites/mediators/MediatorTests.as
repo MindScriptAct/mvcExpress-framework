@@ -70,11 +70,6 @@ public class MediatorTests {
 		throw Error("Fake error.");
 	}
 
-	[Test]
-	public function mediator_isReady():void {
-		Assert.assertTrue("After view mediating mediator isReady must be true.", MediatorSpriteMediator.instance.getIsReady());
-	}
-
 	[Test(expects="Error")]
 
 	public function mediator_empty_handler():void {

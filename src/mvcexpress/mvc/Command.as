@@ -49,7 +49,8 @@ dynamic public class Command {
 	CONFIG::debug
 	static pureLegsCore var canConstruct:Boolean; // = false;
 
-	/** CONSTRUCTOR */
+	/** CONSTRUCTOR
+	 * @private */
 	public function Command() {
 		CONFIG::debug {
 			use namespace pureLegsCore;

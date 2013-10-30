@@ -233,22 +233,6 @@ public class ModuleManager {
 	}
 
 	/**
-	 * lists message commands.
-	 * @param moduleName    module name to debug
-	 * @param messageType    message type
-	 * @return
-	 */
-	static public function listModuleMessageCommands(moduleName:String, messageType:String):String {
-		use namespace pureLegsCore;
-
-		if (moduleRegistry[moduleName]) {
-			return ((moduleRegistry[moduleName] as ModuleCore).listMessageCommands(messageType) as String);
-		} else {
-			return "Module with name :" + moduleName + " is not found.";
-		}
-	}
-
-	/**
 	 * EXPERIMENTAL
 	 * Invokes custom module function.
 	 * Experimental function for mvcLogger and extension development.

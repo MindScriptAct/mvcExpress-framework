@@ -37,7 +37,7 @@ public class ModuleCore {
 	/** Handles application Mediators. */
 	protected var mediatorMap:MediatorMap;
 	/** Handles application Commands. */
-	protected var commandMap:CommandMap;
+	public var commandMap:CommandMap;
 
 
 	/**
@@ -195,36 +195,15 @@ public class ModuleCore {
 		//
 		messenger.send(type, params);
 		//
-		// clean up logging the action
+		// clean up logging the actioDebugConfign
 		CONFIG::debug {
 			MvcExpress.debug(new TraceModuleBase_sendMessage(_moduleName, this, type, params, false));
 		}
 	}
 
 	//----------------------------------
-	//     Execute module command.
-	//----------------------------------
-
-	/**
-	 * Public function to execute provided command cass, meant to be used from outside of module class. In all other cases use commandMap.execute()                <p>
-	 * This function can be used to initialize, set up and start the framework without creating custom module class.                                        </p>
-	 * @param    commandClass    Command class to be instantiated and executed.
-	 * @param    params          Object to be sent to execute() function.
-	 */
-	public function externalExecuteCommand(commandClass:Class, params:Object = null):void {
-		commandMap.execute(commandClass, params);
-	}
-
-
-	//----------------------------------
 	//     Debug
 	//----------------------------------
-
-	public function listMessageCommands(messageType:String):String {
-		use namespace pureLegsCore;
-
-		return "SENDING MESSAGE:'" + messageType + "'\t> WILL EXECUTE  > " + String(commandMap.listMessageCommands(messageType)) + "\n";
-	}
 
 	/**
 	 * List all message mappings.

@@ -62,9 +62,5 @@ public class MediatorSpriteMediator extends Mediator {
 
 	}
 
-	public function getIsReady():Boolean {
-		return this.isReady;
-	}
-
 }
 }
