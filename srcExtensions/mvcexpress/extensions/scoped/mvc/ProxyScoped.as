@@ -2,7 +2,7 @@
 package mvcexpress.extensions.scoped.mvc {
 import mvcexpress.MvcExpress;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.core.traceObjects.proxy.TraceProxy_sendScopeMessage;
+import mvcexpress.extensions.scoped.core.traceObjects.TraceProxy_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.mvc.Proxy;

@@ -1,5 +1,5 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package mvcexpress.core.traceObjects.moduleManager {
+package mvcexpress.extensions.scoped.core.traceObjects {
 import mvcexpress.core.traceObjects.MvcTraceActions;
 import mvcexpress.core.traceObjects.TraceObj;
 

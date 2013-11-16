@@ -1,9 +1,9 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
-package mvcexpress.core.traceObjects.mediator {
+package mvcexpress.extensions.scoped.core.traceObjects {
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.MvcTraceActions;
 import mvcexpress.core.traceObjects.TraceObj_SendMessage;
-import mvcexpress.mvc.Mediator;
+import mvcexpress.modules.ModuleCore;
 
 /**
  * Class for mvcExpress tracing. (debug mode only)
@@ -12,16 +12,16 @@ import mvcexpress.mvc.Mediator;
  *
  * @version 2.0.rc1
  */
-public class TraceMediator_sendScopeMessage extends TraceObj_SendMessage {
+public class TraceModuleBase_sendScopeMessage extends TraceObj_SendMessage {
 
 	public var type:String;
 	public var params:Object;
 
-	public function TraceMediator_sendScopeMessage(moduleName:String, $mediatorObject:Mediator, $type:String, $params:Object, preSend:Boolean) {
+	public function TraceModuleBase_sendScopeMessage(moduleName:String, $moduleObject:ModuleCore, $type:String, $params:Object, preSend:Boolean) {
 		use namespace pureLegsCore;
 
-		super(((preSend) ? MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE : MvcTraceActions.MEDIATOR_SENDSCOPEMESSAGE_CLEAN), moduleName);
-		mediatorObject = $mediatorObject;
+		super(((preSend) ? MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE : MvcTraceActions.MODULEBASE_SENDSCOPEMESSAGE_CLEAN), moduleName);
+		moduleObject = $moduleObject;
 		type = $type;
 		params = $params;
 		//

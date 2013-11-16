@@ -3,7 +3,7 @@ package mvcexpress.extensions.scoped.modules {
 import mvcexpress.MvcExpress;
 import mvcexpress.core.ExtensionManager;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendScopeMessage;
+import mvcexpress.extensions.scoped.core.traceObjects.TraceModuleBase_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.CommandMapScoped;
 import mvcexpress.extensions.scoped.core.ProxyMapScoped;
 import mvcexpress.extensions.scoped.core.ScopeManager;
