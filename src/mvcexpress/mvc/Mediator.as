@@ -161,11 +161,31 @@ public class Mediator {
 	 * @param    type    message type that was set for handle function to react to.
 	 * @param    handler    function that was set to react to message.
 	 */
+
+	/**
+	 * Checks if mediator has handler for message type.
+	 * @param type        message type for handle function to react to.
+	 * @param handler    handler function.
+	 * @return  true if mediator has a handler.
+	 */
+	protected function hasHandler(type:String, handler:Function):Boolean {
+		use namespace pureLegsCore;
+
+		return messenger.hasHandler(type, handler);
+	}
+
+	/**
+	 * Removes handle function from message of given type.
+	 * Then Mediator is removed(unmediated) all message handlers are automatically removed by framework.
+	 * @param    type    message type that was set for handle function to react to.
+	 * @param    handler    function that was set to react to message.
+	 */
 	protected function removeHandler(type:String, handler:Function):void {
 		use namespace pureLegsCore;
 
 		messenger.removeHandler(type, handler);
 	}
+
 
 	/**
 	 * Remove all handle functions created by this mediator, internal module handlers AND scoped handlers.

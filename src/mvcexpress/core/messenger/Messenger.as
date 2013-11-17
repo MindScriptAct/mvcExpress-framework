@@ -91,6 +91,18 @@ public class Messenger {
 	}
 
 	/**
+	 * Checks if messanger has handler for this message type.
+	 * @param    type                message type that handler had to react
+	 * @param    handler                function called on sent message.
+	 * @return    true if messenger has specific handler for message type.
+	 */
+	public function hasHandler(type:String, handler:Function):Boolean {
+		//return (handlerRegistry[type] && handlerRegistry[type][handler]);
+		return false;
+	}
+
+
+	/**
 	 * Removes handler function that will be called then message of specified type is sent.
 	 * - if handler is not found it fails silently.
 	 * @param    type                message type that handler had to react
