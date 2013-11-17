@@ -2,6 +2,7 @@ package mvcexpress.extensions.workers.core {
 import flash.events.Event;
 import flash.net.getClassByAlias;
 import flash.net.registerClassAlias;
+import flash.system.Capabilities;
 import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
@@ -116,6 +117,20 @@ public class WorkerManager {
 
 		if (WorkerClass && WorkerDomainClass && WorkerClass.isSupported) {
 			_isWorkersSupported = true;
+		}
+
+		// Disable worker support for flash player 11.5 - it crashes.
+		// Get the player’s version by using the flash.system.Capabilities class.
+		var versionNumber:String = Capabilities.version;
+		var versionArray:Array = versionNumber.split(",");
+		var platformAndVersion:Array = versionArray[0].split(" ");
+		var majorVersion:int = parseInt(platformAndVersion[1]);
+		var minorVersion:int = parseInt(versionArray[1]);
+		//var buildNumber:Number = parseInt(versionArray[2]);
+		if (majorVersion == 11) {
+			if (minorVersion == 5) {
+				_isWorkersSupported = false;
+			}
 		}
 
 		return _isWorkersSupported;
