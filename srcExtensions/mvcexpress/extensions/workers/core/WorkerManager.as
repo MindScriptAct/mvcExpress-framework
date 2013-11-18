@@ -28,7 +28,7 @@ public class WorkerManager {
 
 
 	// true if workers are supported.
-	private static var _isWorkersSupported:Boolean;
+	private static var _isSupported:Boolean;
 
 	// stores worker classes dynamically.
 	public static var WorkerClass:Class;
@@ -90,8 +90,8 @@ public class WorkerManager {
 	/**
 	 * True if workers are supported.
 	 */
-	public static function get isWorkersSupported():Boolean {
-		return _isWorkersSupported;
+	public static function get isSupported():Boolean {
+		return _isSupported;
 	}
 
 
@@ -99,8 +99,12 @@ public class WorkerManager {
 	 * Set root swf file Bytes. (used toe create workers from self, as alternative to leading it.)
 	 * @param rootSwfBytes
 	 */
-	public static function setRootSwfBytes(rootSwfBytes:ByteArray):void {
-		$primordialSwfBytes = rootSwfBytes;
+	pureLegsCore static function setRootSwfBytes(rootSwfBytes:ByteArray):void {
+		if ($primordialSwfBytes && $primordialSwfBytes != rootSwfBytes) {
+			throw Error("Root swf bytes can be set only once.");
+		} else {
+			$primordialSwfBytes = rootSwfBytes;
+		}
 	}
 
 
@@ -116,7 +120,7 @@ public class WorkerManager {
 		}
 
 		if (WorkerClass && WorkerDomainClass && WorkerClass.isSupported) {
-			_isWorkersSupported = true;
+			_isSupported = true;
 		}
 
 		// Disable worker support for flash player 11.5 - it crashes.
@@ -129,11 +133,11 @@ public class WorkerManager {
 		//var buildNumber:Number = parseInt(versionArray[2]);
 		if (majorVersion == 11) {
 			if (minorVersion == 5) {
-				_isWorkersSupported = false;
+				_isSupported = false;
 			}
 		}
 
-		return _isWorkersSupported;
+		return _isSupported;
 	}
 
 	/**
@@ -150,7 +154,7 @@ public class WorkerManager {
 
 		// TODO : check extended form workerModule class.
 
-		if (_isWorkersSupported) {
+		if (_isSupported) {
 			if (WorkerClass.current.isPrimordial) {
 
 				if ($workerRegistry[remoteModuleName]) {
@@ -279,7 +283,7 @@ public class WorkerManager {
 		// todo : decide what to do, if current module name is sent.
 		// todo : decide what to do if current worker is not primordial. (remote worker tries to terminate itself.)
 
-		if (_isWorkersSupported) {
+		if (_isSupported) {
 			var worker:Object = $workerRegistry[remoteWorkerName];
 			if (worker) {
 
@@ -438,7 +442,7 @@ public class WorkerManager {
 	static pureLegsCore function sendWorkerMessageToRemoteChannel(destinationModule:String, type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 
-		if (_isWorkersSupported) {
+		if (_isSupported) {
 			var msgChannel:Object = $sendMessageChannelsRegistry[destinationModule];
 			if (msgChannel) {
 				msgChannel.send(SEND_WORKER_MESSAGE_TYPE);

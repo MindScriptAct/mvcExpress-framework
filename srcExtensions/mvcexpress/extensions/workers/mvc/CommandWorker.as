@@ -65,7 +65,7 @@ dynamic public class CommandWorker extends Command {
 	 * Returns true if workers are supported.
 	 */
 	public static function get isWorkersSupported():Boolean {
-		return WorkerManager.isWorkersSupported;
+		return WorkerManager.isSupported;
 	}
 
 	/**

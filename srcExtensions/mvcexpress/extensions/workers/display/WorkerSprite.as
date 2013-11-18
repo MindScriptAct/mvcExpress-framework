@@ -6,21 +6,20 @@ import flash.utils.getDefinitionByName;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.workers.core.WorkerManager;
 
-use namespace pureLegsCore;
-
 public class WorkerSprite extends Sprite {
 
 	// worker support
 	private static var needWorkerSupportCheck:Boolean = true;
 
 	// true if workers are supported.
-	private static var _isWorkersSupported:Boolean;// = false;
+	private static var _isSupported:Boolean;// = false;
 
 	public function WorkerSprite() {
 
 		if (needWorkerSupportCheck) {
 			needWorkerSupportCheck = false;
-			_isWorkersSupported = WorkerManager.checkWorkerSupport();
+
+			_isSupported = WorkerManager.pureLegsCore::checkWorkerSupport();
 		}
 
 		if (stage) {
@@ -33,9 +32,9 @@ public class WorkerSprite extends Sprite {
 
 	private function doInit(event:Event = null):void {
 		removeEventListener(Event.ADDED_TO_STAGE, init);
-		if (_isWorkersSupported) {
+		if (_isSupported) {
 			if (WorkerManager.WorkerClass.current.isPrimordial) {
-				WorkerManager.setRootSwfBytes(this.loaderInfo.bytes);
+				WorkerManager.pureLegsCore::setRootSwfBytes(this.loaderInfo.bytes);
 				init();
 			} else {
 				// get module class.

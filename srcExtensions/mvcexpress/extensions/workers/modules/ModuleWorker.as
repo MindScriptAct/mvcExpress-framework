@@ -15,7 +15,7 @@ public class ModuleWorker extends ModuleCore {
 	private static var needWorkerSupportCheck:Boolean = true;
 
 	// true if workers are supported.
-	private static var _isWorkersSupported:Boolean;// = false;
+	private static var _isSupported:Boolean;// = false;
 
 	/** Instance of commandMap, typed as CommandMapWorker. (shortcut for 'commandMap as CommandMapWorker') */
 	protected var commandMapWorker:CommandMapWorker;
@@ -33,13 +33,13 @@ public class ModuleWorker extends ModuleCore {
 
 		if (needWorkerSupportCheck) {
 			needWorkerSupportCheck = false;
-			_isWorkersSupported = WorkerManager.checkWorkerSupport();
+			_isSupported = WorkerManager.checkWorkerSupport();
 		}
 
 		// stores if this module will be created. (then same swf file is used to create other modules - main module will not be created.)
 		var canCreateModule:Boolean = true;
 
-		if (_isWorkersSupported) {
+		if (_isSupported) {
 			canCreateModule = WorkerManager.initWorker(moduleName);
 		}
 
@@ -89,8 +89,8 @@ public class ModuleWorker extends ModuleCore {
 	/**
 	 * Returns true if workers are supported.
 	 */
-	public static function get isWorkersSupported():Boolean {
-		return _isWorkersSupported;
+	public static function get isSupported():Boolean {
+		return _isSupported;
 	}
 
 	/**
