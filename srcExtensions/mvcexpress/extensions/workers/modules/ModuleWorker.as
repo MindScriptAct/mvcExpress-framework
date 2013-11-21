@@ -53,6 +53,14 @@ public class ModuleWorker extends ModuleCore {
 		}
 	}
 
+	/**
+	 * Set root swf file Bytes. (used toe create workers from self. Alternative to loading worker swf file.)
+	 * @param rootSwfBytes
+	 */
+	public function setRootSwfBytes(rootSwfBytes:ByteArray):void {
+		WorkerManager.pureLegsCore::setRootSwfBytes(rootSwfBytes);
+	}
+
 	//-------------------------
 	// start/terminate worker
 	//-------------------------
@@ -65,10 +73,9 @@ public class ModuleWorker extends ModuleCore {
 	 * @param workerSwfBytes    bytes of loaded swf file.
 	 */
 	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null):void {
-
-		// todo : implement optional module parameters for extendability.
 		use namespace pureLegsCore;
 
+		// todo : implement optional module parameters for extendability.
 		WorkerManager.startWorker(moduleName, workerModuleClass, workerModuleName, workerSwfBytes);
 	}
 
