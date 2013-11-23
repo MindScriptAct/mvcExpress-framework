@@ -14,6 +14,7 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.workers.core.messenger.WorkerMessenger;
 import mvcexpress.extensions.workers.data.ClassAliasRegistry;
 import mvcexpress.modules.ModuleCore;
+import mvcexpress.utils.checkClassSuperclass;
 
 /**
  * Manages workers.
@@ -26,6 +27,9 @@ public class WorkerManager {
 	 */
 	static public var doAutoRegisterClasses:Boolean = true;
 
+
+	// flag to do worker support check.
+	pureLegsCore static var needWorkerSupportCheck:Boolean = true;
 
 	// true if workers are supported.
 	private static var _isSupported:Boolean;
@@ -91,7 +95,28 @@ public class WorkerManager {
 	 * True if workers are supported.
 	 */
 	public static function get isSupported():Boolean {
+		use namespace pureLegsCore;
+
+		if (needWorkerSupportCheck) {
+			checkWorkerSupport();
+		}
 		return _isSupported;
+	}
+
+	/**
+	 * True if current worker is primordial.
+	 */
+	public static function get isPrimordial():Boolean {
+		use namespace pureLegsCore;
+
+		if (needWorkerSupportCheck) {
+			checkWorkerSupport();
+		}
+
+		if (_isSupported) {
+			return WorkerClass.current.isPrimordial
+		}
+		return true;
 	}
 
 
@@ -152,7 +177,12 @@ public class WorkerManager {
 	static pureLegsCore function startWorker(mainModuleName:String, workerModuleClass:Class, remoteModuleName:String, workerSwfBytes:ByteArray = null):void {
 		use namespace pureLegsCore;
 
-		// TODO : check extended form workerModule class.
+		CONFIG::debug {
+			// check extended form workerModule class.
+			if (!checkClassSuperclass(workerModuleClass, "mvcexpress.extensions.workers.modules::ModuleWorker", true)) {
+				throw Error("workerModuleClass:" + workerModuleClass + " you are trying to start as worker is not extended from 'mvcexpress.extensions.workers.modules::ModuleWorker' class.");
+			}
+		}
 
 		if (_isSupported) {
 			if (WorkerClass.current.isPrimordial) {
@@ -167,7 +197,7 @@ public class WorkerManager {
 				} else if ($primordialSwfBytes) {
 					remoteWorker = WorkerDomainClass.current.createWorker($primordialSwfBytes);
 				} else {
-					throw Error("Worker needs swf bytes to be constructed. You can pass it as 'workerSwfBytes' or set it from Main class with: WorkerManager.setRootSwfBytes(this.loaderInfo.bytes);");
+					throw Error("Worker needs swf bytes to be constructed. You can pass it to startWorker() as 'workerSwfBytes' parameter or set it from ModuleWorker class with: setRootSwfBytes(loaderInfo.bytes);");
 				}
 				$workerRegistry[remoteModuleName] = remoteWorker;
 
@@ -280,14 +310,18 @@ public class WorkerManager {
 	static pureLegsCore function terminateWorker(mainModuleName:String, remoteWorkerName:String):void {
 		use namespace pureLegsCore;
 
-		// todo : decide what to do, if current module name is sent.
-		// todo : decide what to do if current worker is not primordial. (remote worker tries to terminate itself.)
+		CONFIG::debug {
+			// check if primordial worker is not being terminated.
+			if (isPrimordial) {
+				if (mainModuleName == remoteWorkerName) {
+					throw Error("You can't terminate primordial worker.");
+				}
+			}
+		}
 
 		if (_isSupported) {
 			var worker:Object = $workerRegistry[remoteWorkerName];
 			if (worker) {
-
-				// TODO : send message to other modules to remove channels with terminated worker.
 
 				// clare chanels stored in shared properties and tempStoragge.
 				var workerToRemote:Object = worker.getSharedProperty(WORKER_TO_REMOTE_CHANNEL + mainModuleName);
@@ -397,7 +431,6 @@ public class WorkerManager {
 		var thisWorker:Object = WorkerClass.current;
 		for (var i:int = 0; i < workers.length; i++) {
 			var worker:Object = workers[i];
-			// TODO : decide what to do with self send messages...
 			if (worker != WorkerClass.current) {
 				if (worker.isPrimordial) {
 
@@ -510,7 +543,6 @@ public class WorkerManager {
 				var params:Object = channel.receive(true);
 				var messageTypeSplit:Array = messageType.split("_^~_");
 
-				// TODO : rething if getting moduleName from worker valid here.(error scenarios?)
 				var moduleName:String = WorkerClass.current.getSharedProperty(WORKER_MODULE_NAME_KEY);
 				handleReceivedWorkerMessage(moduleName, messageTypeSplit[0], messageTypeSplit[1], params);
 
@@ -635,6 +667,7 @@ public class WorkerManager {
 			scopeMessenger.removeHandler(remoteModuleName + "_^~_" + type, handleCommandExecute);
 		}
 	}
+
 
 }
 }

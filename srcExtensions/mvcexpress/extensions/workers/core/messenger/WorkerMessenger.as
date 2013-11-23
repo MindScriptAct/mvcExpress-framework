@@ -75,8 +75,6 @@ public class WorkerMessenger extends Messenger {
 	private function handleClassAliases(paramClass:Class):void {
 		use namespace pureLegsCore;
 
-		// TODO : check if object class constructor has parameters, handle those too.
-
 		qualifiedName = getQualifiedClassName(paramClass).replace("::", ".");
 
 		//trace("start registration ... ", qualifiedName);

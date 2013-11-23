@@ -8,19 +8,12 @@ import mvcexpress.extensions.workers.core.WorkerManager;
 
 public class WorkerSprite extends Sprite {
 
-	// worker support
-	private static var needWorkerSupportCheck:Boolean = true;
-
 	// true if workers are supported.
 	private static var _isSupported:Boolean;// = false;
 
 	public function WorkerSprite() {
 
-		if (needWorkerSupportCheck) {
-			needWorkerSupportCheck = false;
-
-			_isSupported = WorkerManager.pureLegsCore::checkWorkerSupport();
-		}
+		_isSupported = WorkerManager.isSupported;
 
 		if (stage) {
 			doInit();

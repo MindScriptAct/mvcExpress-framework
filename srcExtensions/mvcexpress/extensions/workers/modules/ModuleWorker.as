@@ -12,7 +12,6 @@ import mvcexpress.modules.ModuleCore;
 public class ModuleWorker extends ModuleCore {
 
 	// worker support
-	private static var needWorkerSupportCheck:Boolean = true;
 
 	// true if workers are supported.
 	private static var _isSupported:Boolean;// = false;
@@ -31,10 +30,7 @@ public class ModuleWorker extends ModuleCore {
 			enableExtension(EXTENSION_WORKER_ID);
 		}
 
-		if (needWorkerSupportCheck) {
-			needWorkerSupportCheck = false;
-			_isSupported = WorkerManager.checkWorkerSupport();
-		}
+		_isSupported = WorkerManager.isSupported;
 
 		// stores if this module will be created. (then same swf file is used to create other modules - main module will not be created.)
 		var canCreateModule:Boolean = true;
@@ -74,8 +70,7 @@ public class ModuleWorker extends ModuleCore {
 	 */
 	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null):void {
 		use namespace pureLegsCore;
-
-		// todo : implement optional module parameters for extendability.
+		// DOIT : implement optional module parameters for extendability.
 		WorkerManager.startWorker(moduleName, workerModuleClass, workerModuleName, workerSwfBytes);
 	}
 
