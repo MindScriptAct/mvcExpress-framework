@@ -212,7 +212,7 @@ public class CommandMap {
 	 * @return    true if command pool is created.
 	 */
 	public function isCommandPooled(commandClass:Class):Boolean {
-		return (commandPools[commandClass] != null);
+		return (commandPools[commandClass] != null && commandPools[commandClass].length);
 	}
 
 	/**
