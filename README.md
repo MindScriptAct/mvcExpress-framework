@@ -8,9 +8,12 @@ DOWNLOADS
 * [mvcExpress-debug_v2_0_rc2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_rc2.swc)
 * [mvcExpress-release_v2_0_rc2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_rc2.swc)
 
--
+
+EXAMPLES
+--------
 
 * [mvcExpress-examples_v2_0_rc1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_rc1.zip)
+* [mvcExpress-worker-extension-example_v2_0_rc2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-worker-extension-example_v2_0_rc2.zip)
 
 
 #V 1.3.1
