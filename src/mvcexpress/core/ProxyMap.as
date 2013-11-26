@@ -4,6 +4,7 @@ import flash.utils.Dictionary;
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
+import flash.utils.getTimer;
 
 import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectRuleVO;
@@ -59,6 +60,12 @@ public class ProxyMap implements IProxyMap {
 
 	/** Dictionary with constants of inject names, used with constName, and constScope. */
 	protected var classConstRegistry:Dictionary = new Dictionary();
+
+
+	// TODO : move, document.
+	protected var mediatorInjectObjectRegistry:Dictionary = new Dictionary(); //* of Proxy by String */
+	protected var mediatorInjectIdRegistry:Dictionary = new Dictionary(); //* of String by String */
+
 
 	/** CONSTRUCTOR */
 	public function ProxyMap($moduleName:String, $messenger:Messenger) {
@@ -126,7 +133,7 @@ public class ProxyMap implements IProxyMap {
 		}
 
 		// check if there is no pending injection with this key.
-		if (pendingInjectionsRegistry[injectId]) {
+		if (pendingInjectionsRegistry[injectId] != null) {
 			injectPendingStuff(injectId, proxyObject);
 		}
 
@@ -135,6 +142,30 @@ public class ProxyMap implements IProxyMap {
 			injectObjectRegistry[injectId] = proxyObject;
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
+		}
+
+
+		getTimer()
+		if (injectToMediatorClass != null) {
+			className = qualifiedClassNameRegistry[injectToMediatorClass];
+			if (!className) {
+				className = getQualifiedClassName(injectToMediatorClass);
+				qualifiedClassNameRegistry[injectToMediatorClass] = className;
+			}
+
+			var mediatorInjectId:String = className + name;
+			if (mediatorInjectObjectRegistry[mediatorInjectId] == null) {
+				mediatorInjectObjectRegistry[mediatorInjectId] = proxyObject;
+				mediatorInjectIdRegistry[injectId] = mediatorInjectId;
+
+				// handle case of pending injection.
+				//if (pendingInjectionsRegistry[mediatorInjectId] != null) {
+				//	injectPendingStuff(mediatorInjectId, proxyObject);
+				//}
+			} else {
+				throw Error("Proxy object class is already mapped for inject to mediators.[injectClass:" + className + " name:" + name + "]");
+			}
+
 		}
 
 		// register proxy is all injections are done.
@@ -183,6 +214,13 @@ public class ProxyMap implements IProxyMap {
 			proxy.remove();
 
 			delete injectObjectRegistry[injectId];
+		}
+
+		// clear any injection mapping into mediators.
+		var mediatorInjectId:String = mediatorInjectIdRegistry[injectId];
+		if (mediatorInjectId != null) {
+			delete mediatorInjectObjectRegistry[mediatorInjectId];
+			delete mediatorInjectIdRegistry[injectId];
 		}
 
 		return injectId;
@@ -379,33 +417,36 @@ public class ProxyMap implements IProxyMap {
 		lazyProxyRegistry = null;
 		classConstRegistry = null;
 
+		mediatorInjectObjectRegistry = null;
+		mediatorInjectIdRegistry = null;
+
 		commandMap = null;
 		messenger = null;
 	}
 
 	/**
 	 * Finds inject points and injects dependencies.
-	 * tempValue and tempClass defines injection that will be done for current object only.
+	 * mediatorObject and mediatorInjectClass defines injection that will be done for current object only.
 	 * @private
 	 */
-	pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):Boolean {
+	pureLegsCore function injectStuff(object:Object, signatureClass:Class, mediatorObject:Object = null, mediatorInjectClass:Class = null):Boolean {
 		use namespace pureLegsCore;
 
 		var isAllInjected:Boolean = true;
 
 		// deal with temporal injection. (it is used only for this injection, for example - view object for mediator is used this way.)
-		var tempClassName:String;
-		if (tempValue) {
-			if (tempClass) {
-				tempClassName = qualifiedClassNameRegistry[tempClass];
-				if (!tempClassName) {
-					tempClassName = getQualifiedClassName(tempClass);
-					qualifiedClassNameRegistry[tempClass] = tempClassName;
+		var mediatorInjectClassName:String;
+		if (mediatorObject) {
+			if (mediatorInjectClass) {
+				mediatorInjectClassName = qualifiedClassNameRegistry[mediatorInjectClass];
+				if (!mediatorInjectClassName) {
+					mediatorInjectClassName = getQualifiedClassName(mediatorInjectClass);
+					qualifiedClassNameRegistry[mediatorInjectClass] = mediatorInjectClassName;
 				}
-				if (!injectObjectRegistry[tempClassName]) {
-					injectObjectRegistry[tempClassName] = tempValue;
+				if (!injectObjectRegistry[mediatorInjectClassName]) {
+					injectObjectRegistry[mediatorInjectClassName] = mediatorObject;
 				} else {
-					throw Error("Temp object should not be mapped already... it was meant to be used by framework for mediator view object only.");
+					throw Error("Mediator object should not be mapped for injection... it was meant to be used by framework only.");
 				}
 			}
 		}
@@ -425,10 +466,22 @@ public class ProxyMap implements IProxyMap {
 
 		// injects all dependencies using rules.
 		var ruleCount:int = rules.length;
+		var injectObject:Object;
 		for (var i:int; i < ruleCount; i++) {
 			var rule:InjectRuleVO = rules[i];
 			var injectClassAndName:String = rule.injectClassAndName;
-			var injectObject:Object = injectObjectRegistry[injectClassAndName];
+			if (mediatorObject) {
+				injectObject = mediatorInjectObjectRegistry[injectClassAndName];
+				if (!injectObject) {
+					if (mediatorInjectIdRegistry[injectClassAndName] == null) {
+						injectObject = injectObjectRegistry[injectClassAndName];
+					} else {
+						throw Error("You are trying to inject class:" + injectClassAndName + " into " + object + ", but you can inject only " + mediatorInjectIdRegistry[injectClassAndName] + " to this mediator.");
+					}
+				}
+			} else {
+				injectObject = injectObjectRegistry[injectClassAndName];
+			}
 			if (injectObject) {
 				object[rule.varName] = injectObject;
 				// debug this action
@@ -511,9 +564,9 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 
-		// dispose temporal injection if it was used.
-		if (tempClassName) {
-			delete injectObjectRegistry[tempClassName];
+		// dispose mediator injection if it was used.
+		if (mediatorInjectClassName) {
+			delete injectObjectRegistry[mediatorInjectClassName];
 		}
 		return isAllInjected;
 	}

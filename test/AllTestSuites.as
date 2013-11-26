@@ -11,7 +11,7 @@ import integration.proxyMapMediatorProtectionTests.ProxyMapMediatorProtectionTes
 
 import suites.commandMap.CommandMapTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
-import suites.general.GeneralTests;
+import suites.general.*;
 import suites.mediatorMap.MediatorMapTests;
 import suites.mediators.MediatorTests;
 import suites.messenger.MessengerTests;
@@ -64,13 +64,25 @@ public class AllTestSuites {
 	public var proxyMapTests:ProxyMapTests;
 
 
+	//*/
+
+
+	//* extension check
+
+	public var extensionCheckingGenericTests:ExtensionCheckingTestsGeneral;
+
+	public var extensionCheckingLiveTests:ExtensionCheckingTestsLive;
+
+	public var extensionCheckingScopedTests:ExtensionCheckingTestsScoped;
+
+	//*/
 
 	public var proxyMapMediatorProtectionTests:ProxyMapMediatorProtectionTests;
 
 
 	//*/
 
-	/*
+	/* outdated
 
 	 public var scopeControllTest:ScopeControlTests;
 
@@ -79,14 +91,6 @@ public class AllTestSuites {
 	 public var scopedProxyTests:ScopedProxyTests;
 
 	 //*/
-
-
-	public var extensionCheckingGenericTests:ExtensionCheckingTestsGeneral;
-
-	public var extensionCheckingLiveTests:ExtensionCheckingTestsLive;
-
-	public var extensionCheckingScopedTests:ExtensionCheckingTestsScoped;
-
 
 }
 
