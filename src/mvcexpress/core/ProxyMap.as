@@ -159,9 +159,9 @@ public class ProxyMap implements IProxyMap {
 				mediatorInjectIdRegistry[injectId] = mediatorInjectId;
 
 				// handle case of pending injection.
-				//if (pendingInjectionsRegistry[mediatorInjectId] != null) {
-				//	injectPendingStuff(mediatorInjectId, proxyObject);
-				//}
+				if (pendingInjectionsRegistry[mediatorInjectId] != null) {
+					injectPendingStuff(mediatorInjectId, proxyObject);
+				}
 			} else {
 				throw Error("Proxy object class is already mapped for inject to mediators.[injectClass:" + className + " name:" + name + "]");
 			}
