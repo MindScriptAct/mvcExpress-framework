@@ -209,7 +209,7 @@ public class ProxyMapScoped extends ProxyMap {
 						} else {
 							lazyProxy = new lazyProxyData.proxyClass();
 						}
-						map(lazyProxy, lazyProxyData.injectClass, lazyProxyData.name);
+						map(lazyProxy, lazyProxyData.name, lazyProxyData.injectClass);
 
 						i--;
 

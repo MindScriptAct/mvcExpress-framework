@@ -53,11 +53,11 @@ public class NamedInterfacedProxyMapTests {
 
 		proxyMap.map(new TestProxy());
 
-		proxyMap.map(new TestProxy(), ITestProxy);
-		proxyMap.map(new TestProxy(), ITestProxy, "namedProxyInterface");
+		proxyMap.map(new TestProxy(), null, ITestProxy);
+		proxyMap.map(new TestProxy(), "namedProxyInterface", ITestProxy);
 
-		proxyMap.map(new TestProxy(), null, "namedProxy");
-		proxyMap.map(new TestProxy(), TestProxy, "namedProxyNotNullClass");
+		proxyMap.map(new TestProxy(), "namedProxy", null);
+		proxyMap.map(new TestProxy(), "namedProxyNotNullClass", TestProxy);
 
 		namedTestingProxy = new NamedProxyTestingProxy();
 		proxyMap.injectStuff(namedTestingProxy, NamedProxyTestingProxy);

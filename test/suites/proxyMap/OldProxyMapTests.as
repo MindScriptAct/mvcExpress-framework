@@ -102,7 +102,7 @@ public class OldProxyMapTests {
 		use namespace pureLegsCore;
 
 		var testProxy:TestProxy = new TestProxy();
-		proxyMap.map(testProxy, TestProxy);
+		proxyMap.map(testProxy, null, TestProxy);
 		var obj1:ProxyTestObj = new ProxyTestObj();
 		proxyMap.injectStuff(obj1, ProxyTestObj);
 		Assert.assertEquals("Maped value object must be used for iject object.", obj1.testProxy, testProxy);
@@ -200,7 +200,7 @@ public class OldProxyMapTests {
 
 		var testProxy:TestProxy = new TestProxy();
 		proxyMap.map(testProxy);
-		Assert.assertTrue("isMapped() should retturn true with mapped proxy.", proxyMap.isMapped(TestProxy));
+		Assert.assertTrue("isMapped() should return true with mapped proxy.", proxyMap.isMapped(TestProxy));
 	}
 
 	//----------------------------------

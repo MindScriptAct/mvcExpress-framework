@@ -26,7 +26,7 @@ public class GenericFakeExtensionModule extends FakeExtensionModule {
 	//----------------------------------
 
 	public function proxymap_map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):String {
-		return proxyMap.map(proxyObject, injectClass, name);
+		return proxyMap.map(proxyObject, name, injectClass);
 	}
 
 	public function proxymap_unmap(injectClass:Class, name:String = ""):String {
@@ -42,7 +42,7 @@ public class GenericFakeExtensionModule extends FakeExtensionModule {
 	}
 
 	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
-		return proxyMap.lazyMap(proxyClass, injectClass, name, proxyParams);
+		return proxyMap.lazyMap(proxyClass, name, injectClass, proxyParams);
 	}
 
 	//----------------------------------

@@ -74,11 +74,12 @@ public class ProxyMap implements IProxyMap {
 	/**
 	 * Maps proxy object to injectClass and name.
 	 * @param    proxyObject    Proxy instance to use for injection.
-	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
+	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
+	 * @param    injectToMediatorClass    Optional class to use for injection in mediators, if null - injectClass class is used. If  injectClass is null - proxyObject class is used.
 	 * @return    returns inject id. (for debugging reasons only.)
 	 */
-	public function map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):String {
+	public function map(proxyObject:Proxy, name:String = null, injectClass:Class = null, injectToMediatorClass:Class = null):String {
 		use namespace pureLegsCore;
 
 		// get proxy class
@@ -87,6 +88,10 @@ public class ProxyMap implements IProxyMap {
 		// if injectClass is not provided - proxyClass will be used instead.
 		if (!injectClass) {
 			injectClass = proxyClass;
+		}
+
+		if (name == null) {
+			name = "";
 		}
 
 		// get inject id
@@ -147,12 +152,16 @@ public class ProxyMap implements IProxyMap {
 	 * @param    name           name added to class, that was previously mapped for injection
 	 * @return   returns inject id. (for debugging reasons only.)
 	 */
-	public function unmap(injectClass:Class, name:String = ""):String {
+	public function unmap(injectClass:Class, name:String = null):String {
 		use namespace pureLegsCore;
 
 		// debug this action
 		CONFIG::debug {
 			MvcExpress.debug(new TraceProxyMap_unmap(moduleName, injectClass, name));
+		}
+
+		if (name == null) {
+			name = "";
 		}
 		// get inject id
 		var className:String = qualifiedClassNameRegistry[injectClass];
@@ -187,15 +196,19 @@ public class ProxyMap implements IProxyMap {
 	/**
 	 * Stores lazy proxy data to be instantiated on first use. Proxy will be instantiated and mapped then requested for the first time.
 	 * @param    proxyClass        Class to construct proxy.
-	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param    name            Optional name if you need more then one proxy instance of same class.
+	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
 	 * @param    proxyParams    parameters to pass to proxy constructor. (up to 10 parameters)
 	 * @return    returns inject id. (for debugging reasons only.)
 	 */
-	public function lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
+	public function lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, proxyParams:Array = null):String {
 
 		if (!injectClass) {
 			injectClass = proxyClass;
+		}
+
+		if (name == null) {
+			name = "";
 		}
 
 		// get inject id
@@ -258,7 +271,10 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyClass    class of proxy, proxy object is mapped to.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
 	 */
-	public function getProxy(proxyClass:Class, name:String = ""):Proxy {
+	public function getProxy(proxyClass:Class, name:String = null):Proxy {
+		if (name == null) {
+			name = "";
+		}
 		var className:String = qualifiedClassNameRegistry[proxyClass];
 		if (!className) {
 			className = getQualifiedClassName(proxyClass);
@@ -286,8 +302,11 @@ public class ProxyMap implements IProxyMap {
 	 * @param proxyObject    Proxy instance, to check if it's mapped.
 	 * @return            true if proxy is mapped
 	 */
-	public function isMapped(injectClass:Class, name:String = "", proxyObject:Proxy = null):Boolean {
+	public function isMapped(injectClass:Class, name:String = null, proxyObject:Proxy = null):Boolean {
 		var retVal:Boolean; // = false;
+		if (name == null) {
+			name = "";
+		}
 		var className:String = qualifiedClassNameRegistry[injectClass];
 		if (!className) {
 			className = getQualifiedClassName(injectClass);
@@ -454,7 +473,7 @@ public class ProxyMap implements IProxyMap {
 					} else {
 						lazyProxy = new lazyProxyData.proxyClass();
 					}
-					map(lazyProxy, lazyProxyData.injectClass, lazyProxyData.name);
+					map(lazyProxy, lazyProxyData.name, lazyProxyData.injectClass);
 
 					i--;
 

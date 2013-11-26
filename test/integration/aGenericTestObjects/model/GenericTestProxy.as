@@ -5,7 +5,7 @@ import mvcexpress.mvc.Proxy;
  * CLASS COMMENT
  * @author rBanevicius
  */
-public class GenericTestProxy extends Proxy {
+public class GenericTestProxy extends Proxy implements IGenericTestProxy{
 
 	public var testData:String;
 	private var onRegisterMessage:String;

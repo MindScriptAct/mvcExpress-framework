@@ -183,7 +183,7 @@ public class ScopeManager {
 			initScopedProxyMap(scopeName);
 			scopedProxyMap = scopedProxyMaps[scopeName];
 		}
-		var injectId:String = scopedProxyMap.map(proxyObject, injectClass, name);
+		var injectId:String = scopedProxyMap.map(proxyObject, name, injectClass);
 
 		// add scope to proxy so it could send scoped constants.
 		proxyObject.addScope(scopeName);

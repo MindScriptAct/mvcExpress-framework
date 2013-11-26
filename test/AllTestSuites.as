@@ -7,6 +7,7 @@ import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
 import integration.moduleInitTests.ModuleInitTests;
 import integration.proxyMap.ProxyMapTests;
+import integration.proxyMapMediatorProtectionTests.ProxyMapMediatorProtectionTests;
 
 import suites.commandMap.CommandMapTests;
 import suites.fatureGetProxy.FeatureGetProxyTests;
@@ -61,6 +62,10 @@ public class AllTestSuites {
 	public var commandPoolingTests:CommandPoolingTests;
 
 	public var proxyMapTests:ProxyMapTests;
+
+
+
+	public var proxyMapMediatorProtectionTests:ProxyMapMediatorProtectionTests;
 
 
 	//*/

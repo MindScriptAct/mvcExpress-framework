@@ -92,7 +92,7 @@ public class MainModule extends ModuleCore {
 	//----------------------------------
 
 	public function mapTestProxy(testProxy:Proxy, injectClass:Class = null, name:String = ""):void {
-		proxyMap.map(testProxy, injectClass, name);
+		proxyMap.map(testProxy, name, injectClass);
 	}
 
 	public function getTestProxy(proxyClass:Class, name:String = ""):Proxy {
