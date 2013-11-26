@@ -8,6 +8,10 @@ import integration.aGenericTestObjects.view.GenericViewObjectMediator_withInterf
 
 import mvcexpress.MvcExpress;
 
+import org.flexunit.Assert;
+
+import utils.AsyncUtil;
+
 public class ProxyMapMediatorProtectionTests {
 	private var module:GenericTestModule;
 
@@ -79,9 +83,11 @@ public class ProxyMapMediatorProtectionTests {
 		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
 	}
 
-	[Test]
+	[Test(async)]
 	public function proxyMapMediatorProtection_pendingInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
-		MvcExpress.pendingInjectsTimeOut = 100;
+		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 200, callBackFail);
+
+		MvcExpress.pendingInjectsTimeOut = 500;
 		var testProxy:GenericTestProxy = new GenericTestProxy()
 		//
 		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
@@ -90,15 +96,31 @@ public class ProxyMapMediatorProtectionTests {
 
 	}
 
-	[Test]
+	[Test(async)]
 	public function proxyMapMediatorProtection_pendingInjectAsMediatorClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
-		MvcExpress.pendingInjectsTimeOut = 100;
+
+		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 200, callBackFail);
+
+		MvcExpress.pendingInjectsTimeOut = 500;
 		var testProxy:GenericTestProxy = new GenericTestProxy()
 		//
 		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
 
 		module.proxymap_map(testProxy, null, null, IGenericTestProxy);
 
+	}
+
+
+	//----------------------------------
+	//
+	//----------------------------------
+	private function callBackFail(obj:* = null):void {
+		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = null;
+		Assert.fail("CallBack should not be called...");
+	}
+
+	public function callBackSuccess(obj:* = null):void {
+		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = null;
 	}
 
 

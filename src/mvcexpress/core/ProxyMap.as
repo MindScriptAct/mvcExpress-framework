@@ -413,6 +413,13 @@ public class ProxyMap implements IProxyMap {
 		}
 		// set internals to null
 		injectObjectRegistry = null;
+
+		for (var pendingInjectObject:Object in pendingInjectionsRegistry) {
+			var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[pendingInjectObject];
+			for (var pi:int = 0; pi < pendingInjects.length; pi++) {
+				pendingInjects[pi].dispose();
+			}
+		}
 		pendingInjectionsRegistry = null;
 		lazyProxyRegistry = null;
 		classConstRegistry = null;
@@ -597,11 +604,11 @@ public class ProxyMap implements IProxyMap {
 		while (pendingInjects.length) {
 			//
 			var pendingInjection:PendingInject = pendingInjects.pop();
-			pendingInjection.stopTimer();
 
 			// get rules. (by now rules for this class must be created.)
 			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
+			pendingInjection.dispose();
 			var ruleCount:int = rules.length;
 			for (var j:int = 0; j < ruleCount; j++) {
 				if (rules[j].injectClassAndName == injectClassAndName) {

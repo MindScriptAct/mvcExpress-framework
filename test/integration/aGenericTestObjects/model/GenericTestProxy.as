@@ -5,10 +5,12 @@ import mvcexpress.mvc.Proxy;
  * CLASS COMMENT
  * @author rBanevicius
  */
-public class GenericTestProxy extends Proxy implements IGenericTestProxy{
+public class GenericTestProxy extends Proxy implements IGenericTestProxy {
 
 	public var testData:String;
 	private var onRegisterMessage:String;
+
+	public static var ASYNC_REGISTER_FUNCTION:Function;
 
 	public function GenericTestProxy(onRegisterMessage:String = null) {
 		this.onRegisterMessage = onRegisterMessage;
@@ -18,6 +20,9 @@ public class GenericTestProxy extends Proxy implements IGenericTestProxy{
 	override protected function onRegister():void {
 		if (onRegisterMessage) {
 			sendMessage(onRegisterMessage);
+		}
+		if (ASYNC_REGISTER_FUNCTION != null) {
+			ASYNC_REGISTER_FUNCTION();
 		}
 	}
 

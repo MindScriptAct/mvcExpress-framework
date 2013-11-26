@@ -29,7 +29,10 @@ public class PendingInject {
 		timerId = setTimeout(throwError, $pendingInjectTime);
 	}
 
-	public function stopTimer():void {
+	public function dispose():void {
+		injectClassAndName = null;
+		pendingObject = null;
+		signatureClass = null;
 		clearTimeout(timerId);
 	}
 
