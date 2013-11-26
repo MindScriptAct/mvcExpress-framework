@@ -24,23 +24,23 @@ public class GenericTestModule extends ModuleCore {
 	//     proxymap
 	//----------------------------------
 
-	public function proxymap_map(proxyObject:Proxy, injectClass:Class = null, name:String = "", injectToMediatorClass:Class = null):String {
+	public function proxymap_map(proxyObject:Proxy, name:String = null, injectClass:Class = null, injectToMediatorClass:Class = null):String {
 		return proxyMap.map(proxyObject, name, injectClass, injectToMediatorClass);
 	}
 
-	public function proxymap_unmap(injectClass:Class, name:String = ""):String {
+	public function proxymap_unmap(injectClass:Class, name:String = null):String {
 		return proxyMap.unmap(injectClass, name);
 	}
 
-	public function proxymap_getProxy(injectClass:Class, name:String = ""):Proxy {
+	public function proxymap_getProxy(injectClass:Class, name:String = null):Proxy {
 		return proxyMap.getProxy(injectClass, name);
 	}
 
-	public function proxymap_isMapped(proxyObject:Proxy, injectClass:Class = null, name:String = ""):Boolean {
+	public function proxymap_isMapped(injectClass:Class = null, name:String = null, proxyObject:Proxy = null):Boolean {
 		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
-	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
+	public function proxymap_lazyMap(proxyClass:Class, name:String = "", injectClass:Class = null, proxyParams:Array = null):String {
 		return proxyMap.lazyMap(proxyClass, name, injectClass, proxyParams);
 	}
 
