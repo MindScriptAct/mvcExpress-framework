@@ -412,6 +412,39 @@ public class ProxyMap implements IProxyMap {
 	}
 
 	/**
+	 * Function to get proxy from mediator.
+	 * 	Proxy
+	 * @param proxyClass
+	 * @param name
+	 * @private
+	 * @return
+	 */
+	pureLegsCore function mediatorGetProxy(proxyClass:Class, name:String = null):Proxy {
+		if (name == null) {
+			name = "";
+		}
+		var className:String = qualifiedClassNameRegistry[proxyClass];
+		if (!className) {
+			className = getQualifiedClassName(proxyClass);
+			qualifiedClassNameRegistry[proxyClass] = className;
+		}
+		var injectClassAndName:String = className + name;
+
+		var proxyObject:Proxy = mediatorInjectObjectRegistry[injectClassAndName] as Proxy;
+		if (!proxyObject) {
+			if (mediatorInjectIdRegistry[injectClassAndName] == null) {
+				proxyObject = injectObjectRegistry[injectClassAndName];
+			} else {
+				throw Error("You are trying to get class:" + injectClassAndName + " by  mediator, but you can inject only " + mediatorInjectIdRegistry[injectClassAndName] + " to mediators.");
+			}
+		}
+		if (!proxyObject) {
+			throw Error("Proxy object is not mapped. [injectClass:" + className + " name:" + name + "]");
+		}
+		return proxyObject;
+	}
+
+	/**
 	 * Dispose of proxyMap. Remove all registered proxies and set all internals to null.
 	 * @private
 	 */

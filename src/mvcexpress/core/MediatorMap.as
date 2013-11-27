@@ -31,6 +31,9 @@ public class MediatorMap implements IMediatorMap {
 	// used internally to work with proxies.
 	protected var proxyMap:ProxyMap;
 
+	// used internally to work with proxies.
+	protected var viewProxyMap:ProxyMapForMediator;
+
 	// used internally for communications
 	protected var messenger:Messenger;
 
@@ -48,6 +51,7 @@ public class MediatorMap implements IMediatorMap {
 		moduleName = $moduleName;
 		messenger = $messenger;
 		proxyMap = $proxyMap;
+		viewProxyMap = new ProxyMapForMediator(proxyMap);
 	}
 
 	//----------------------------------
@@ -232,7 +236,7 @@ public class MediatorMap implements IMediatorMap {
 
 		mediator.moduleName = moduleName;
 		mediator.messenger = messenger;
-		mediator.proxyMap = proxyMap;
+		mediator.proxyMap = viewProxyMap;
 		mediator.mediatorMap = this;
 
 		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);

@@ -5,8 +5,8 @@ import flash.utils.Dictionary;
 import flash.utils.getQualifiedClassName;
 
 import mvcexpress.MvcExpress;
+import mvcexpress.core.ProxyMapForMediator;
 import mvcexpress.core.interfaces.IMediatorMap;
-import mvcexpress.core.interfaces.IProxyMap;
 import mvcexpress.core.messenger.HandlerVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
@@ -36,7 +36,7 @@ public class Mediator {
 	/**
 	 * Interface to work with proxies.
 	 */
-	public var proxyMap:IProxyMap;
+	public var proxyMap:ProxyMapForMediator;
 
 	/**
 	 * Handles application mediators.
