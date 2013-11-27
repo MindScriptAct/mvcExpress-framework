@@ -40,8 +40,8 @@ public class GenericLiveExtensionModule extends ModuleLive {
 		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
-	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
-		return proxyMap.lazyMap(proxyClass, name, injectClass, proxyParams);
+	public function proxymap_lazyMap(proxyClass:Class, name:String = "", injectClass:Class = null, injectToMediatorClass:Class = null, proxyParams:Array = null):String {
+		return proxyMap.lazyMap(proxyClass, name, injectClass, injectToMediatorClass, proxyParams);
 	}
 
 	//----------------------------------

@@ -62,7 +62,7 @@ public class ProxyMapMediatorProtectionTests {
 	}
 
 	//----------------------------------
-	// should work ok.
+	// should work ok, simple proxy injected into mediator as interface.
 	//----------------------------------
 
 	[Test]
@@ -82,6 +82,10 @@ public class ProxyMapMediatorProtectionTests {
 
 		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
 	}
+
+	//----------------------------------
+	// should work ok, pending proxy injected into mediator as interface.
+	//----------------------------------
 
 	[Test(async)]
 	public function proxyMapMediatorProtection_pendingInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
@@ -110,6 +114,25 @@ public class ProxyMapMediatorProtectionTests {
 
 	}
 
+	//----------------------------------
+	// should work ok, lazy proxy injected into mediator as interface.
+	//----------------------------------
+
+	[Test]
+	public function proxyMapMediatorProtection_lazyInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+		//
+		module.proxymap_lazyMap(GenericTestProxy, null, IGenericTestProxy);
+
+		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
+	}
+
+	[Test]
+	public function proxyMapMediatorProtection_lazyInjectAsMediatorClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+		//
+		module.proxymap_lazyMap(GenericTestProxy, null, null, IGenericTestProxy);
+
+		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
+	}
 
 	//----------------------------------
 	//

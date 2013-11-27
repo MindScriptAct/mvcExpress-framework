@@ -4,7 +4,6 @@ import flash.utils.Dictionary;
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
-import flash.utils.getTimer;
 
 import mvcexpress.MvcExpress;
 import mvcexpress.core.inject.InjectRuleVO;
@@ -83,10 +82,10 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyObject    Proxy instance to use for injection.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
 	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
-	 * @param    injectToMediatorClass    Optional class to use for injection in mediators, if null - injectClass class is used. If  injectClass is null - proxyObject class is used.
+	 * @param    mediatorInjectClass    Optional class to use for injection in mediators, if null - injectClass class is used. If  injectClass is null - proxyObject class is used.
 	 * @return    returns inject id. (for debugging reasons only.)
 	 */
-	public function map(proxyObject:Proxy, name:String = null, injectClass:Class = null, injectToMediatorClass:Class = null):String {
+	public function map(proxyObject:Proxy, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null):String {
 		use namespace pureLegsCore;
 
 		// get proxy class
@@ -143,14 +142,11 @@ public class ProxyMap implements IProxyMap {
 		} else {
 			throw Error("Proxy object class is already mapped.[injectClass:" + className + " name:" + name + "]");
 		}
-
-
-		getTimer()
-		if (injectToMediatorClass != null) {
-			className = qualifiedClassNameRegistry[injectToMediatorClass];
+		if (mediatorInjectClass != null) {
+			className = qualifiedClassNameRegistry[mediatorInjectClass];
 			if (!className) {
-				className = getQualifiedClassName(injectToMediatorClass);
-				qualifiedClassNameRegistry[injectToMediatorClass] = className;
+				className = getQualifiedClassName(mediatorInjectClass);
+				qualifiedClassNameRegistry[mediatorInjectClass] = className;
 			}
 
 			var mediatorInjectId:String = className + name;
@@ -239,7 +235,7 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyParams    parameters to pass to proxy constructor. (up to 10 parameters)
 	 * @return    returns inject id. (for debugging reasons only.)
 	 */
-	public function lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, proxyParams:Array = null):String {
+	public function lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null, proxyParams:Array = null):String {
 
 		if (!injectClass) {
 			injectClass = proxyClass;
@@ -287,10 +283,27 @@ public class ProxyMap implements IProxyMap {
 		var lazyInject:LazyProxyVO = new LazyProxyVO();
 		lazyInject.proxyClass = proxyClass;
 		lazyInject.injectClass = injectClass;
+		lazyInject.injectId = injectId;
 		lazyInject.name = name;
 		lazyInject.proxyParams = proxyParams;
 
 		lazyProxyRegistry[injectId] = lazyInject;
+
+		if (mediatorInjectClass) {
+			// get inject id
+			var mediatorInjectClassName:String = qualifiedClassNameRegistry[mediatorInjectClass];
+			if (!className) {
+				mediatorInjectClassName = getQualifiedClassName(mediatorInjectClass);
+				qualifiedClassNameRegistry[mediatorInjectClass] = mediatorInjectClassName;
+			}
+			var mediatorInjectId:String = mediatorInjectClassName + name;
+
+			lazyInject.mediatorInjectClass = mediatorInjectClass;
+			lazyInject.mediatorInjectId = mediatorInjectId;
+
+			lazyProxyRegistry[mediatorInjectId] = lazyInject;
+
+		}
 
 		return injectId;
 	}
@@ -450,8 +463,8 @@ public class ProxyMap implements IProxyMap {
 					mediatorInjectClassName = getQualifiedClassName(mediatorInjectClass);
 					qualifiedClassNameRegistry[mediatorInjectClass] = mediatorInjectClassName;
 				}
-				if (!injectObjectRegistry[mediatorInjectClassName]) {
-					injectObjectRegistry[mediatorInjectClassName] = mediatorObject;
+				if (!mediatorInjectObjectRegistry[mediatorInjectClassName]) {
+					mediatorInjectObjectRegistry[mediatorInjectClassName] = mediatorObject;
 				} else {
 					throw Error("Mediator object should not be mapped for injection... it was meant to be used by framework only.");
 				}
@@ -499,10 +512,19 @@ public class ProxyMap implements IProxyMap {
 				// if local injection fails... test for lazy injections
 				if (injectClassAndName in lazyProxyRegistry) {
 					var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
+
+					// check if this lazy proxy mapnig has second lazy mapnig for mediator injcet.
+					if (lazyProxyData.mediatorInjectId == injectClassAndName) {
+						// this is lazy proxy mediator inject, clear lazy proxy mapping.
+						delete lazyProxyRegistry[lazyProxyData.injectId];
+					} else if (lazyProxyData.mediatorInjectId != null) { // check if this lazy proxy has mediator ID mapped.
+						// this is lazy proxy inject, with mediator inject also mapped, clear lazy proxy mediator inject mapping.
+						delete lazyProxyRegistry[lazyProxyData.mediatorInjectId];
+					}
+
 					delete lazyProxyRegistry[injectClassAndName];
 
 					var lazyProxy:Proxy;
-
 					if (lazyProxyData.proxyParams) {
 						var paramCount:int = lazyProxyData.proxyParams.length;
 						if (paramCount == 0) {
@@ -533,7 +555,7 @@ public class ProxyMap implements IProxyMap {
 					} else {
 						lazyProxy = new lazyProxyData.proxyClass();
 					}
-					map(lazyProxy, lazyProxyData.name, lazyProxyData.injectClass);
+					map(lazyProxy, lazyProxyData.name, lazyProxyData.injectClass, lazyProxyData.mediatorInjectClass);
 
 					i--;
 
@@ -573,7 +595,7 @@ public class ProxyMap implements IProxyMap {
 
 		// dispose mediator injection if it was used.
 		if (mediatorInjectClassName) {
-			delete injectObjectRegistry[mediatorInjectClassName];
+			delete mediatorInjectObjectRegistry[mediatorInjectClassName];
 		}
 		return isAllInjected;
 	}

@@ -31,7 +31,7 @@ public class LazyProxyModuleA extends ModuleCore {
 	}
 
 	public function mapWithParams(params:Array):void {
-		proxyMap.lazyMap(LazyProxy, null, null, params);
+		proxyMap.lazyMap(LazyProxy, null, null, null, params);
 	}
 
 }

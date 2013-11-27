@@ -40,8 +40,8 @@ public class GenericTestModule extends ModuleCore {
 		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
-	public function proxymap_lazyMap(proxyClass:Class, name:String = "", injectClass:Class = null, proxyParams:Array = null):String {
-		return proxyMap.lazyMap(proxyClass, name, injectClass, proxyParams);
+	public function proxymap_lazyMap(proxyClass:Class, name:String = "", injectClass:Class = null, injectToMediatorClass:Class = null, proxyParams:Array = null):String {
+		return proxyMap.lazyMap(proxyClass, name, injectClass, injectToMediatorClass, proxyParams);
 	}
 
 	//----------------------------------
