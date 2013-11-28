@@ -795,6 +795,15 @@ public class ProxyMap implements IProxyMap {
 			}
 			try {
 				var constClass:Class = getDefinitionByName(className) as Class;
+				CONFIG::debug {
+					if (constClass == null) {
+						throw Error("Failed to get class definition by name for [Inject] constName parameter, for class definition:" + className);
+					}
+					var constNameValue:String = constClass[split[spliteIndex]];
+					if (constNameValue == null) {
+						throw Error("Failed to get constant value for [Inject] constName parameter, from class:" + constClass + ", with var name:" + split[spliteIndex]);
+					}
+				}
 				classConstRegistry[constName] = constClass[split[spliteIndex]];
 				if (!(constName in classConstRegistry)) {
 					throw Error("Failed to get constant out of class:" + constClass + " Check constant name: " + split[spliteIndex]);
