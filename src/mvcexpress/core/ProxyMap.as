@@ -231,10 +231,10 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyClass        Class to construct proxy.
 	 * @param    name            Optional name if you need more then one proxy instance of same class.
 	 * @param    injectClass    Optional class to use for injection, if null proxyObject class is used. It is helpful if you want to map proxy interface or subclass.
-	 * @param    proxyParams    parameters to pass to proxy constructor. (up to 10 parameters)
+	 * @param    proxyConstructorParams    parameters to pass to proxy constructor. (up to 10 parameters)
 	 * @return    returns inject id. (for debugging reasons only.)
 	 */
-	public function lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null, proxyParams:Array = null):String {
+	public function lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null, proxyConstructorParams:Array = null):String {
 
 		if (!injectClass) {
 			injectClass = proxyClass;
@@ -266,8 +266,8 @@ public class ProxyMap implements IProxyMap {
 			if (!checkClassSuperclass(proxyClass, "mvcexpress.mvc::Proxy")) {
 				throw Error("proxyClass:" + proxyClass + " you are trying to lazy map is not extended from 'mvcexpress.mvc::Proxy' class.");
 			}
-			if (proxyParams && proxyParams.length > 10) {
-				throw Error("Only up to 10 Proxy parameters are supported. Please refactor some into parameter container objects. [injectClass:" + className + " name:" + name + " proxyParams:" + proxyParams + "]");
+			if (proxyConstructorParams && proxyConstructorParams.length > 10) {
+				throw Error("Only up to 10 Proxy parameters are supported. Please refactor some into parameter container objects. [injectClass:" + className + " name:" + name + " proxyParams:" + proxyConstructorParams + "]");
 			}
 
 			// var check if extension is supported by this module.
@@ -276,7 +276,7 @@ public class ProxyMap implements IProxyMap {
 				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(proxyClass) + " extension enabled to use " + proxyClass + " proxy.");
 			}
 
-			MvcExpress.debug(new TraceProxyMap_lazyMap(moduleName, proxyClass, injectClass, name, proxyParams));
+			MvcExpress.debug(new TraceProxyMap_lazyMap(moduleName, proxyClass, injectClass, name, proxyConstructorParams));
 		}
 
 		var lazyInject:LazyProxyVO = new LazyProxyVO();
@@ -284,7 +284,7 @@ public class ProxyMap implements IProxyMap {
 		lazyInject.injectClass = injectClass;
 		lazyInject.injectId = injectId;
 		lazyInject.name = name;
-		lazyInject.proxyParams = proxyParams;
+		lazyInject.proxyParams = proxyConstructorParams;
 
 		lazyProxyRegistry[injectId] = lazyInject;
 
@@ -474,7 +474,6 @@ public class ProxyMap implements IProxyMap {
 
 	/**
 	 * Function to get proxy from mediator.
-	 *    Proxy
 	 * @param proxyClass
 	 * @param name
 	 * @private
@@ -511,6 +510,39 @@ public class ProxyMap implements IProxyMap {
 			}
 		}
 		return proxyObject as Proxy;
+	}
+
+	/**
+	 * Function to check if proxy can be received from Mediator.
+	 * @param proxyClass
+	 * @param name
+	 * @return
+	 */
+	pureLegsCore function mediatorIsProxyMapped(proxyClass:Class, name:String = null):Boolean {
+		if (name == null) {
+			name = "";
+		}
+		var className:String = qualifiedClassNameRegistry[proxyClass];
+		if (!className) {
+			className = getQualifiedClassName(proxyClass);
+			qualifiedClassNameRegistry[proxyClass] = className;
+		}
+		var injectClassAndName:String = className + name;
+
+		var retVal:Boolean = (injectClassAndName in mediatorInjectObjectRegistry);
+
+		// if injection not found, try lazy mapping.
+		if (!retVal) {
+			if (injectClassAndName in lazyProxyRegistry) {
+				var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
+				// check if this lazy proxy mapping maps mediator class.
+				if (lazyProxyData.mediatorInjectId == injectClassAndName) {
+					retVal = true;
+				}
+			}
+		}
+
+		return retVal;
 	}
 
 	/**

@@ -5,7 +5,7 @@ import mvcexpress.mvc.Proxy;
 
 /**
  * INTERNAL FRAMEWORK CLASS.
- * ProxyMap wraper for mediators.
+ * ProxyMap wrapper for mediators.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  * @private
  *
@@ -15,14 +15,34 @@ public class ProxyMapForMediator {
 
 	private var proxyMap:ProxyMap;
 
+	// CONSTRUCTOR
 	public function ProxyMapForMediator(proxyMap:ProxyMap) {
 		this.proxyMap = proxyMap;
 	}
 
+	/**
+	 * Get proxy. Only proxies that are mapped to be accessible for mediator con be received.
+	 * @param    proxyClass    class of proxy, mapped with mediatorInjectClass parameter.
+	 * @param    name        Optional name if you need more then one proxy instance of same class.
+	 * @return
+	 */
 	public function getProxy(proxyClass:Class, name:String = null):Proxy {
 		use namespace pureLegsCore;
 
 		return proxyMap.mediatorGetProxy(proxyClass, name);
+	}
+
+	/**
+	 * Checks if mediator can get proxy, with given inject class and name.
+	 * @param    proxyClass    class of proxy, mapped with mediatorInjectClass parameter.
+	 * @param    name        Optional name if you need more then one proxy instance of same class.
+	 * @return    true if mediator can get proxy object.
+	 */
+	public function isMapped(proxyClass:Class, name:String = null):Boolean {
+		use namespace pureLegsCore;
+
+		return proxyMap.mediatorIsProxyMapped(proxyClass, name);
+
 	}
 }
 }
