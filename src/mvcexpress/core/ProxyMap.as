@@ -282,7 +282,7 @@ public class ProxyMap implements IProxyMap {
 		var lazyInject:LazyProxyVO = new LazyProxyVO();
 		lazyInject.proxyClass = proxyClass;
 		lazyInject.injectClass = injectClass;
-		lazyInject.injectId = injectId;
+		lazyInject.injectClassAndName = injectId;
 		lazyInject.name = name;
 		lazyInject.proxyParams = proxyConstructorParams;
 
@@ -298,7 +298,7 @@ public class ProxyMap implements IProxyMap {
 			var mediatorInjectId:String = mediatorInjectClassName + name;
 
 			lazyInject.mediatorInjectClass = mediatorInjectClass;
-			lazyInject.mediatorInjectId = mediatorInjectId;
+			lazyInject.mediatorInjectClassAndName = mediatorInjectId;
 
 			lazyProxyRegistry[mediatorInjectId] = lazyInject;
 		}
@@ -372,11 +372,24 @@ public class ProxyMap implements IProxyMap {
 			className = getQualifiedClassName(injectClass);
 			qualifiedClassNameRegistry[injectClass] = className;
 		}
-		if (injectObjectRegistry[className + name]) {
+
+		var injectClassAndName:String = className + name;
+
+		if (injectClassAndName in injectObjectRegistry) {
 			if (proxyObject) {
-				retVal = (injectObjectRegistry[className + name] == proxyObject);
+				retVal = (injectObjectRegistry[injectClassAndName] == proxyObject);
 			} else {
 				retVal = true;
+			}
+		} else {
+			// if proxy object is not found, try lazy mapping.
+			if (proxyObject == null) {
+				if (injectClassAndName in lazyProxyRegistry) {
+					var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
+					if (lazyProxyData.injectClassAndName == injectClassAndName) {
+						retVal = true;
+					}
+				}
 			}
 		}
 		return retVal;
@@ -426,12 +439,12 @@ public class ProxyMap implements IProxyMap {
 		var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
 
 		// check if this lazy proxy mapnig has second lazy mapnig for mediator injcet.
-		if (lazyProxyData.mediatorInjectId == injectClassAndName) {
+		if (lazyProxyData.mediatorInjectClassAndName == injectClassAndName) {
 			// this is lazy proxy mediator inject, clear lazy proxy mapping.
-			delete lazyProxyRegistry[lazyProxyData.injectId];
-		} else if (lazyProxyData.mediatorInjectId != null) { // check if this lazy proxy has mediator ID mapped.
+			delete lazyProxyRegistry[lazyProxyData.injectClassAndName];
+		} else if (lazyProxyData.mediatorInjectClassAndName != null) { // check if this lazy proxy has mediator ID mapped.
 			// this is lazy proxy inject, with mediator inject also mapped, clear lazy proxy mediator inject mapping.
-			delete lazyProxyRegistry[lazyProxyData.mediatorInjectId];
+			delete lazyProxyRegistry[lazyProxyData.mediatorInjectClassAndName];
 		}
 
 		delete lazyProxyRegistry[injectClassAndName];
@@ -536,7 +549,7 @@ public class ProxyMap implements IProxyMap {
 			if (injectClassAndName in lazyProxyRegistry) {
 				var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
 				// check if this lazy proxy mapping maps mediator class.
-				if (lazyProxyData.mediatorInjectId == injectClassAndName) {
+				if (lazyProxyData.mediatorInjectClassAndName == injectClassAndName) {
 					retVal = true;
 				}
 			}

@@ -11,10 +11,10 @@ public class LazyProxyVO {
 	public var name:String;
 
 	public var injectClass:Class;
-	public var injectId:String;
+	public var injectClassAndName:String;
 
 	public var mediatorInjectClass:Class;
-	public var mediatorInjectId:String;
+	public var mediatorInjectClassAndName:String;
 
 	public var proxyParams:Array;
 }
