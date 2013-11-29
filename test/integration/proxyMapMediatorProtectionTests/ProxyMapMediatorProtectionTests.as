@@ -65,11 +65,20 @@ public class ProxyMapMediatorProtectionTests {
 	// should work ok, simple proxy injected into mediator as interface.
 	//----------------------------------
 
-	[Test]
-	public function proxyMapMediatorProtection_injectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+	[Test(expects="Error")]
+	public function proxyMapMediatorProtection_injectAsClassProxyMappedInjectedAsInterfaceIntoMediator_fails():void {
 		var testProxy:GenericTestProxy = new GenericTestProxy()
 		//
 		module.proxymap_map(testProxy, null, IGenericTestProxy);
+
+		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
+	}
+
+	[Test]
+	public function proxyMapMediatorProtection_injectAsMediatorAndInjectClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		//
+		module.proxymap_map(testProxy, null, IGenericTestProxy, IGenericTestProxy);
 
 		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
 	}
@@ -87,8 +96,8 @@ public class ProxyMapMediatorProtectionTests {
 	// should work ok, pending proxy injected into mediator as interface.
 	//----------------------------------
 
-	[Test(async)]
-	public function proxyMapMediatorProtection_pendingInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+	[Test(async, expects="Error")]
+	public function proxyMapMediatorProtection_pendingInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_fails():void {
 		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 200, callBackFail);
 
 		MvcExpress.pendingInjectsTimeOut = 500;
@@ -101,7 +110,20 @@ public class ProxyMapMediatorProtectionTests {
 	}
 
 	[Test(async)]
-	public function proxyMapMediatorProtection_pendingInjectAsMediatorClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+	public function proxyMapMediatorProtection_pendingInjectAsClassProxyMappedInjectedAsMediatorInterfaceIntoMediator_isOK():void {
+		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 200, callBackFail);
+
+		MvcExpress.pendingInjectsTimeOut = 500;
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		//
+		module.mediatorMap_mediateWith(new GenericViewObject(), GenericViewObjectMediator_withInterfaceInject);
+
+		module.proxymap_map(testProxy, null, null, IGenericTestProxy);
+
+	}
+
+	[Test(async)]
+	public function proxyMapMediatorProtection_pendingInjectAsMediatorClassProxyMappedInjectedAsInterfaceIntoMediator_fails():void {
 
 		GenericViewObjectMediator_withInterfaceInject.ASYNC_REGISTER_FUNCTION = AsyncUtil.asyncHandler(this, callBackSuccess, null, 200, callBackFail);
 
@@ -118,8 +140,8 @@ public class ProxyMapMediatorProtectionTests {
 	// should work ok, lazy proxy injected into mediator as interface.
 	//----------------------------------
 
-	[Test]
-	public function proxyMapMediatorProtection_lazyInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_isOK():void {
+	[Test(expects="Error")]
+	public function proxyMapMediatorProtection_lazyInjectAsClassProxyMappedInjectedAsInterfaceIntoMediator_fails():void {
 		//
 		module.proxymap_lazyMap(GenericTestProxy, null, IGenericTestProxy);
 

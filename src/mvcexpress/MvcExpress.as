@@ -46,7 +46,7 @@ public class MvcExpress {
 	 * If dependency is mapped during this waiting time - framework will find missing dependencies and resolve them.
 	 * If in this time dependencies will not be resolved - error will be thrown.
 	 */
-	public static var pendingInjectsTimeOut:int = 0;
+	public static var pendingInjectsTimeOut:uint = 0;
 
 	/**
 	 * Sets a debug function that will get framework activity constants as String's.

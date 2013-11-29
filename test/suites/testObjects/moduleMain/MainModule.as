@@ -91,19 +91,19 @@ public class MainModule extends ModuleCore {
 	//
 	//----------------------------------
 
-	public function mapTestProxy(testProxy:Proxy, injectClass:Class = null, name:String = ""):void {
-		proxyMap.map(testProxy, name, injectClass);
+	public function mapTestProxy(testProxy:Proxy, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null):void {
+		proxyMap.map(testProxy, name, injectClass, mediatorInjectClass);
 	}
 
-	public function getTestProxy(proxyClass:Class, name:String = ""):Proxy {
+	public function getTestProxy(proxyClass:Class, name:String = null):Proxy {
 		return proxyMap.getProxy(proxyClass, name);
 	}
 
-	public function getProxyFromProxy(proxyClass:Class, name:String = ""):Proxy {
+	public function getProxyFromProxy(proxyClass:Class, name:String = null):Proxy {
 		return dataProxy.getTestProxy(proxyClass, name);
 	}
 
-	public function getProxyFromMediator(proxyClass:Class, name:String = ""):Proxy {
+	public function getProxyFromMediator(proxyClass:Class, name:String = null):Proxy {
 		if (!testView) {
 			testView = new MainView();
 			mediatorMap.mediate(testView);

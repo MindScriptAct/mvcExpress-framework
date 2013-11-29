@@ -131,11 +131,6 @@ public class ProxyMap implements IProxyMap {
 			var isAllInjected:Boolean = initProxy(proxyObject, proxyClass, injectId);
 		}
 
-		// check if there is no pending injection with this key.
-		if (pendingInjectionsRegistry[injectId] != null) {
-			injectPendingStuff(injectId, proxyObject);
-		}
-
 		if (!injectObjectRegistry[injectId]) {
 			// store proxy injection for other classes.
 			injectObjectRegistry[injectId] = proxyObject;
@@ -161,7 +156,11 @@ public class ProxyMap implements IProxyMap {
 			} else {
 				throw Error("Proxy object class is already mapped for inject to mediators.[injectClass:" + className + " name:" + name + "]");
 			}
+		}
 
+		// check if there is no pending injection with this key.
+		if (pendingInjectionsRegistry[injectId] != null) {
+			injectPendingStuff(injectId, proxyObject);
 		}
 
 		// register proxy is all injections are done.
@@ -302,7 +301,11 @@ public class ProxyMap implements IProxyMap {
 			lazyInject.mediatorInjectId = mediatorInjectId;
 
 			lazyProxyRegistry[mediatorInjectId] = lazyInject;
+		}
 
+		// check if this class is not pending.
+		if (injectId in pendingInjectionsRegistry) {
+			initLazyProxy(injectId);
 		}
 
 		return injectId;
@@ -489,36 +492,25 @@ public class ProxyMap implements IProxyMap {
 		var injectClassAndName:String = className + name;
 
 		// try to get proxy from mediator registry.
-		var proxyObject:Proxy = mediatorInjectObjectRegistry[injectClassAndName] as Proxy;
+		var proxyObject:Object = mediatorInjectObjectRegistry[injectClassAndName];
 		if (!proxyObject) {
-			if (mediatorInjectIdRegistry[injectClassAndName] == null) {
-				// try to get proxy from standard registry.
-				proxyObject = injectObjectRegistry[injectClassAndName];
-				if (!proxyObject) {
-					// check lazy proxies.
-					if (injectClassAndName in lazyProxyRegistry) {
-						initLazyProxy(injectClassAndName);
-						// try to get mediator inject again.
-						proxyObject = mediatorInjectObjectRegistry[injectClassAndName] as Proxy;
-						if (!proxyObject) {
-							if (mediatorInjectIdRegistry[injectClassAndName] == null) {
-								// try to get proxy from standard registry.
-								proxyObject = injectObjectRegistry[injectClassAndName];
-							} else {
-								throw Error("You are trying to get class:" + injectClassAndName + " by  mediator, but you can inject only " + mediatorInjectIdRegistry[injectClassAndName] + " to mediators.");
-							}
-						}
-					}
-				}
-			} else {
-				throw Error("You are trying to get class:" + injectClassAndName + " by  mediator, but you can inject only " + mediatorInjectIdRegistry[injectClassAndName] + " to mediators.");
+			// check lazy proxies.
+			if (injectClassAndName in lazyProxyRegistry) {
+				initLazyProxy(injectClassAndName);
+				// try to get mediator inject again.
+				proxyObject = mediatorInjectObjectRegistry[injectClassAndName];
 			}
 		}
-
+		// proxy is not found - throw error.
 		if (!proxyObject) {
-			throw Error("Proxy object is not mapped. [injectClass:" + className + " name:" + name + "]");
+			proxyObject = injectObjectRegistry[injectClassAndName];
+			if (proxyObject) {
+				throw Error("You are trying to get proxy class:" + injectClassAndName + " from mediator, but mediators are not allowed to inject this proxy. To enable this: set mediatorInjectClass parameter then you map this proxy.");
+			} else {
+				throw Error("Proxy object is not mapped. [injectClass:" + className + " name:" + name + "]");
+			}
 		}
-		return proxyObject;
+		return proxyObject as Proxy;
 	}
 
 	/**
@@ -607,11 +599,23 @@ public class ProxyMap implements IProxyMap {
 			if (mediatorObject) {
 				injectObject = mediatorInjectObjectRegistry[injectClassAndName];
 				if (!injectObject) {
-					if (mediatorInjectIdRegistry[injectClassAndName] == null) {
-						// try to get injection normaly.
+					// if injection fails... test for lazy injections
+					if (injectClassAndName in lazyProxyRegistry) {
+						initLazyProxy(injectClassAndName);
+						injectObject = mediatorInjectObjectRegistry[injectClassAndName];
+					}
+				}
+				// proxy is not found
+				if (!injectObject) {
+					// check if pending injection feature is enabled. (wait for injcetion if it is.)
+					if (MvcExpress.pendingInjectsTimeOut == 0) {
+						// throw error.
 						injectObject = injectObjectRegistry[injectClassAndName];
-					} else {
-						throw Error("You are trying to inject class:" + injectClassAndName + " into " + object + ", but you can inject only " + mediatorInjectIdRegistry[injectClassAndName] + " to this mediator.");
+						if (injectObject) {
+							throw Error("You are trying to inject class:" + injectClassAndName + " into " + object + ", but mediators are not allowed to inject this proxy. To enable this: set mediatorInjectClass parameter then you map this proxy.");
+						} else {
+							throw Error("Inject object is not found for class with id:" + injectClassAndName + "(needed in " + object + ")");
+						}
 					}
 				}
 			} else {
@@ -720,6 +724,14 @@ public class ProxyMap implements IProxyMap {
 						}
 					} else if (pendingInject is Mediator) {
 						var mediatorObject:Mediator = pendingInject as Mediator;
+						// check if injection is allowed in Mediator.
+
+						if (!(injectClassAndName in mediatorInjectObjectRegistry)) {
+							// undo injection..
+							pendingInject[rules[j].varName] = null;
+							// this injection is not allowed in mediator.
+							throw Error("You are trying to inject class:" + injectClassAndName + " into " + mediatorObject + ", but mediators are not allowed to inject this proxy. To enable this: set mediatorInjectClass parameter then you map this proxy.");
+						}
 						mediatorObject.pendingInjections--;
 						if (mediatorObject.pendingInjections == 0) {
 							mediatorObject.register();
