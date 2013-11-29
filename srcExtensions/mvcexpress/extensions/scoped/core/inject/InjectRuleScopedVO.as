@@ -16,7 +16,7 @@ public class InjectRuleScopedVO extends InjectRuleVO {
 
 	CONFIG::debug
 	override public function toString():String {
-		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectClassAndName + " scopeName=" + scopeName + "]";
+		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectId + " scopeName=" + scopeName + "]";
 	}
 }
 }

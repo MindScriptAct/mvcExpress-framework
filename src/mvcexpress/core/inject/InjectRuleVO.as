@@ -15,11 +15,11 @@ public class InjectRuleVO {
 	public var varName:String;
 
 	/** FOR INTERNAL USE ONLY. Injection identifier, formed by class name and your custom inject name. */
-	public var injectClassAndName:String;
+	public var injectId:String;
 
 	CONFIG::debug
 	public function toString():String {
-		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectClassAndName + "]";
+		return "[InjectRuleVO varName=" + varName + " injectId=" + injectId + "]";
 	}
 }
 }

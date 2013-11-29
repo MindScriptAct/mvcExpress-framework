@@ -3,5 +3,5 @@ package mvcexpress.core.namespace {
 // namespace for framework internal variables and functions.
 // Not meant to be used from outside. (...unless you want to hack/break the framework.)
 // name constructed using two AS3 frameworks that inspired mvcExpress framework - PUREmvc and robotLEGS, and used as codename for framework prototype in it's early stage.
-public namespace pureLegsCore = "pureLegsCore-namespace";
+public namespace pureLegsCore = "pureLegsCore-ns";
 }

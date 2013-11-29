@@ -242,7 +242,7 @@ public class ScopeManager {
 		if (scopedProxyMap) {
 			use namespace pureLegsCore;
 
-			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectClassAndName);
+			var ijectProxy:Proxy = scopedProxyMap.getProxyById(injectRule.injectId);
 			if (ijectProxy) {
 				recipientObject[injectRule.varName] = ijectProxy;
 				return true;

@@ -86,17 +86,17 @@ public class MediatorMap implements IMediatorMap {
 			}
 
 			// check if mapping is not created already
-			if (mediatorMappingRegistry[viewClass] != null) {
-				if (mediatorMappingRegistry[viewClass][mediatorClass] != null) {
+			if ((viewClass in mediatorMappingRegistry)) {
+				if (mediatorClass in mediatorMappingRegistry[viewClass]) {
 					throw Error("Mediator class:" + mediatorClass + " is already mapped with this view class:" + viewClass + "");
 				}
 			}
 
 			// map mediatorClass to viewClass
-			if (mediatorMappingRegistry[viewClass] == null) {
+			if (!(viewClass in mediatorMappingRegistry)) {
 				mediatorMappingRegistry[viewClass] = new Dictionary();
 			}
-			if (mediatorMapOrderRegistry[viewClass] == null) {
+			if (!(viewClass in mediatorMapOrderRegistry)) {
 				mediatorMapOrderRegistry[viewClass] = new Vector.<Class>();
 			}
 
@@ -137,7 +137,7 @@ public class MediatorMap implements IMediatorMap {
 			MvcExpress.debug(new TraceMediatorMap_unmap(moduleName, viewClass, mediatorClass));
 		}
 		// clear mapping
-		if (mediatorMappingRegistry[viewClass] != null) {
+		if (viewClass in mediatorMappingRegistry) {
 			if (mediatorClass) {
 
 				var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
@@ -175,7 +175,7 @@ public class MediatorMap implements IMediatorMap {
 	public function mediate(viewObject:Object):void {
 		use namespace pureLegsCore;
 
-		if (mediatorRegistry[viewObject]) {
+		if (viewObject in mediatorRegistry) {
 			throw Error("This view object is already mediated by " + mediatorRegistry[viewObject]);
 		}
 
@@ -241,7 +241,7 @@ public class MediatorMap implements IMediatorMap {
 
 		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
 
-		if (mediatorRegistry[viewObject] == null) {
+		if (!(viewObject in mediatorRegistry)) {
 			mediatorRegistry[viewObject] = new Vector.<Mediator>;
 		}
 		mediatorRegistry[viewObject].push(mediator);
@@ -261,7 +261,7 @@ public class MediatorMap implements IMediatorMap {
 	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void {
 		use namespace pureLegsCore;
 
-		if (mediatorRegistry[viewObject]) {
+		if (viewObject in mediatorRegistry) {
 			var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
 			for (var i:int = 0; i < mediators.length; i++) {
 				if ((mediators[i] as Object).constructor == mediatorClass) {
@@ -365,7 +365,7 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function isMapped(viewClass:Class, mediatorClass:Class = null):Boolean {
 		var retVal:Boolean; // = false;
-		if (mediatorMappingRegistry[viewClass] != null) {
+		if (viewClass in mediatorMappingRegistry) {
 			if (mediatorClass) {
 				if (mediatorMappingRegistry[viewClass][mediatorClass] != null) {
 					retVal = true;

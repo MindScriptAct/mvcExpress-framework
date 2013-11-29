@@ -143,7 +143,7 @@ public class ProxyMapScoped extends ProxyMap {
 		for (var i:int; i < ruleCount; i++) {
 			var rule:InjectRuleScopedVO = rules[i] as InjectRuleScopedVO;
 			var scopename:String = rule.scopeName;
-			var injectClassAndName:String = rule.injectClassAndName;
+			var injectClassAndName:String = rule.injectId;
 			if (scopename) {
 				if (!ScopeManager.injectScopedProxy(object, rule)) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -273,7 +273,7 @@ public class ProxyMapScoped extends ProxyMap {
 		}
 		var mapRule:InjectRuleScopedVO = new InjectRuleScopedVO();
 		mapRule.varName = varName;
-		mapRule.injectClassAndName = injectClass + injectName;
+		mapRule.injectId = injectClass + injectName;
 		mapRule.scopeName = scopeName;
 		return mapRule;
 	}

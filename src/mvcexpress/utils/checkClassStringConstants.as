@@ -27,14 +27,14 @@ public function checkClassStringConstants(...args:Array):void {
 		if (constantClass) {
 			var needChecking:Boolean = true;
 			// check if class is already analyzed.
-			if (StringConstantRegistry.registeredClasses[constantClass] != true) {
+			if (!(constantClass in StringConstantRegistry.registeredClasses)) {
 				var description:XML = describeType(constantClass);
 				var constantList:XMLList = description.constant;
 				var constantCount:int = constantList.length();
 				for (var j:int = 0; j < constantCount; j++) {
 					if (constantList[j].@type == "String") {
 						var constantValue:String = constantClass[constantList[j].@name];
-						if (StringConstantRegistry.stringRegistry[constantValue]) {
+						if (constantValue in StringConstantRegistry.stringRegistry) {
 							throw Error("Class " + constantClass + " and " + StringConstantRegistry.stringRegistry[constantValue] + " have same string constant value : " + constantValue);
 						} else {
 							StringConstantRegistry.stringRegistry[constantValue] = constantClass;

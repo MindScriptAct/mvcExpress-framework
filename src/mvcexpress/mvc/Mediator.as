@@ -222,18 +222,18 @@ public class Mediator {
 	 */
 	protected function addListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
 		if (useCapture) {
-			if (!eventListenerCaptureRegistry[listener]) {
+			if (!(listener in eventListenerCaptureRegistry)) {
 				eventListenerCaptureRegistry[listener] = new Dictionary();
 			}
-			if (!eventListenerCaptureRegistry[listener][type]) {
+			if (!(type in eventListenerCaptureRegistry[listener])) {
 				eventListenerCaptureRegistry[listener][type] = viewObject;
 				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
 			}
 		} else {
-			if (!eventListenerRegistry[listener]) {
+			if (!(listener in eventListenerRegistry)) {
 				eventListenerRegistry[listener] = new Dictionary();
 			}
-			if (!eventListenerRegistry[listener][type]) {
+			if (!(type in eventListenerRegistry[listener])) {
 				eventListenerRegistry[listener][type] = viewObject;
 				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
 			}
@@ -252,16 +252,16 @@ public class Mediator {
 		viewObject.removeEventListener(type, listener, useCapture);
 
 		if (useCapture) {
-			if (eventListenerCaptureRegistry[listener]) {
-				if (eventListenerCaptureRegistry[listener][type]) {
+			if (listener in eventListenerCaptureRegistry) {
+				if (type in eventListenerCaptureRegistry[listener]) {
 					if (eventListenerCaptureRegistry[listener][type] == viewObject) {
 						delete eventListenerCaptureRegistry[listener][type];
 					}
 				}
 			}
 		} else {
-			if (eventListenerRegistry[listener]) {
-				if (eventListenerRegistry[listener][type]) {
+			if (listener in eventListenerRegistry) {
+				if (type in eventListenerRegistry[listener]) {
 					if (eventListenerRegistry[listener][type] == viewObject) {
 						delete eventListenerRegistry[listener][type];
 					}

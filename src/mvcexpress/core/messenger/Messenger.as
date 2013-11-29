@@ -115,7 +115,7 @@ public class Messenger {
 
 			MvcExpress.debug(new TraceMessenger_removeHandler(moduleName, type, handler));
 		}
-		if (handlerRegistry[type]) {
+		if (type in handlerRegistry) {
 			if (handlerRegistry[type][handler]) {
 				(handlerRegistry[type][handler] as HandlerVO).handler = null;
 				delete handlerRegistry[type][handler];
@@ -198,7 +198,7 @@ public class Messenger {
 	 */
 	public function isHandlerAdded(type:String, handler:Function):Boolean {
 		var retVal:Boolean = false;
-		if (handlerRegistry[type]) {
+		if (type in handlerRegistry) {
 			if (handlerRegistry[type][handler]) {
 				retVal = true;
 			}

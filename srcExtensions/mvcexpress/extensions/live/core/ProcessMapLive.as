@@ -533,7 +533,7 @@ public class ProcessMapLive {
 					continue;
 				}
 			}
-			var injectName:String = rules[i].injectClassAndName;
+			var injectName:String = rules[i].injectId;
 			var injectObject:Object = provideRegistry[injectName];
 
 			task.setInjectPoint(injectName, rules[i].varName);
@@ -561,7 +561,7 @@ public class ProcessMapLive {
 		// find task by inject object name and remove it.
 		var ruleCount:int = rules.length;
 		for (var i:int = 0; i < ruleCount; i++) {
-			var allTasks:Vector.<Task> = injectObjectRegistry[rules[i].injectClassAndName];
+			var allTasks:Vector.<Task> = injectObjectRegistry[rules[i].injectId];
 			if (allTasks) {
 				var taskCount:int = allTasks.length;
 				for (var j:int = 0; j < taskCount; j++) {
@@ -618,7 +618,7 @@ public class ProcessMapLive {
 						}
 						var mapRule:InjectRuleTaskVO = new InjectRuleTaskVO();
 						mapRule.varName = node.@name.toString();
-						mapRule.injectClassAndName = injectName;
+						mapRule.injectId = injectName;
 						mapRule.scopeName = scopeName;
 						retVal[retVal.length] = mapRule
 					}

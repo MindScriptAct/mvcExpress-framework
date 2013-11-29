@@ -89,7 +89,7 @@ public class CommandMap {
 			}
 		}
 
-		if (classRegistry[type]) {
+		if (type in classRegistry) {
 			if (!canMapOver) {
 				throw Error("Only one command class can be mapped to one message type. You are trying to map " + commandClass + " to " + type + ", but it is already mapped to " + classRegistry[type]);
 			}
@@ -212,7 +212,7 @@ public class CommandMap {
 	 * @return    true if command pool is created.
 	 */
 	public function isCommandPooled(commandClass:Class):Boolean {
-		return (commandPools[commandClass] != null && commandPools[commandClass].length);
+		return (commandClass in commandPools && commandPools[commandClass].length);
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class CommandMap {
 	 */
 	public function isMapped(type:String, commandClass:Class = null):Boolean {
 		var retVal:Boolean; // = false;
-		if (classRegistry[type]) {
+		if (type in classRegistry) {
 			if (commandClass) {
 				retVal = (classRegistry[type] == commandClass);
 			} else {
@@ -402,13 +402,13 @@ public class CommandMap {
 	pureLegsCore function validateCommandClass(commandClass:Class):void {
 
 		// skip already validated classes.
-		if (validatedCommands[commandClass] != true) {
+		if (!(commandClass in validatedCommands)) {
 
 			if (!checkClassSuperclass(commandClass, "mvcexpress.mvc::Command")) {
 				throw Error("commandClass:" + commandClass + " you are trying to map MUST extend: 'mvcexpress.mvc::Command' class.");
 			}
 
-			if (!commandClassParamTypes[commandClass]) {
+			if (!(commandClass in commandClassParamTypes)) {
 
 				var classDescription:XML = describeType(commandClass);
 				var hasExecute:Boolean; // = false;

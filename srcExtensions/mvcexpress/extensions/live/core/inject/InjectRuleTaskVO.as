@@ -17,7 +17,7 @@ public class InjectRuleTaskVO extends InjectRuleVO {
 
 	CONFIG::debug
 	override public function toString():String {
-		return "[InjectRuleVO varName=" + varName + " injectClassAndName=" + injectClassAndName + " scopeName=" + scopeName + "]";
+		return "[InjectRuleVO varName=" + varName + " injectId=" + injectId + " scopeName=" + scopeName + "]";
 	}
 }
 }

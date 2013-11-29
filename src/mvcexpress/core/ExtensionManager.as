@@ -35,7 +35,7 @@ public class ExtensionManager {
 	 */
 	CONFIG::debug
 	public static function getExtensionIdByName(extensionName:String):int {
-		if (ExtensionManager.EXTENSION_NAMES[extensionName] == null) {
+		if (!(extensionName in ExtensionManager.EXTENSION_NAMES)) {
 			ExtensionManager.EXTENSION_NAMES[extensionName] = ++ExtensionManager.extensionCount;
 		}
 		return ExtensionManager.EXTENSION_NAMES[extensionName];
@@ -68,7 +68,7 @@ public class ExtensionManager {
 		use namespace pureLegsCore;
 
 		var retVal:int = 0;
-		if (!extensionIdRegistry[frameworkClass]) {
+		if (!(frameworkClass in extensionIdRegistry)) {
 			var currentClass:Class = frameworkClass;
 			while (retVal == 0 && currentClass != Object) {
 				retVal = currentClass["extension_id"];

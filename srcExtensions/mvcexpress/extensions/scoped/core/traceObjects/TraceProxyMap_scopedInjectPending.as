@@ -27,7 +27,7 @@ public class TraceProxyMap_scopedInjectPending extends TraceObj {
 	}
 
 	override public function toString():String {
-		return "!!!!! " + MvcTraceActions.PROXYMAP_INJECTPENDING + " > for scopeName:" + scopeName + " with id:" + rule.injectClassAndName + "(needed in " + hostObject + ")" + "     {" + moduleName + "}";
+		return "!!!!! " + MvcTraceActions.PROXYMAP_INJECTPENDING + " > for scopeName:" + scopeName + " with id:" + rule.injectId + "(needed in " + hostObject + ")" + "     {" + moduleName + "}";
 	}
 }
 }
