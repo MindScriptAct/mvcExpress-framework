@@ -207,6 +207,8 @@ public class ModuleCore {
 
 	/**
 	 * List all message mappings.
+	 * @param    verbose     if set to true, will return readable string, false will return pairs of message strings and list of class names(separated by ',') that will handle it separated by '>', all pairs are separated by ';'.
+	 * @return    Text with all masseges, and what will handle it.
 	 */
 	public function listMappedMessages(verbose:Boolean = true):String {
 		use namespace pureLegsCore;
@@ -216,6 +218,8 @@ public class ModuleCore {
 
 	/**
 	 * List all view mappings.
+	 * @param    verbose     if set to true, will return readable string, false will return pairs of view class definition and mediator class list(separated by ',') definition separated by '>', all pairs are separated by ';'.
+	 * @return    Text with all mapped mediators.
 	 */
 	public function listMappedMediators(verbose:Boolean = true):String {
 		return mediatorMap.listMappings(verbose);
@@ -223,6 +227,8 @@ public class ModuleCore {
 
 	/**
 	 * List all model mappings.
+	 * @param    verbose     if set to true, will return readable string, false will return pairs of object class name and key it is mapped to separated by '>', all pairs are separated by ';'.
+	 * @return    Text string with all mapped proxies.
 	 */
 	public function listMappedProxies(verbose:Boolean = true):String {
 		return proxyMap.listMappings(verbose);
@@ -230,6 +236,8 @@ public class ModuleCore {
 
 	/**
 	 * List all controller mappings.
+	 * @param    verbose     if set to true, will return readable string, false will return pairs of message type and command class definition separated by '>', all pairs are separated by ';'.
+	 * @return    Text with all mapped commands.
 	 */
 	public function listMappedCommands(verbose:Boolean = true):String {
 		return commandMap.listMappings(verbose);

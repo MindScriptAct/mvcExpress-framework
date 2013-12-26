@@ -403,6 +403,7 @@ public class ProxyMap implements IProxyMap {
 
 	/**
 	 * Returns text of all mapped proxy objects, and keys they are mapped to. (for debugging)
+	 * @param       verbose     if set to true, will return readable string, false will return pairs of object class name and key it is mapped to separated by '>', all pairs are separated by ';'.
 	 * @return        Text string with all mapped proxies.
 	 */
 	public function listMappings(verbose:Boolean = true):String {
