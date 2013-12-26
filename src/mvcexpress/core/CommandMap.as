@@ -253,15 +253,27 @@ public class CommandMap {
 
 	/**
 	 * Returns text of all command classes that are mapped to constants. (for debugging)
+	 * @param       verbose     if set to true, will return readable string, false will return pairs of message type and command class definition separated by '>', all pairs are separated by ';'.
 	 * @return        Text with all mapped commands.
 	 */
-	public function listMappings():String {
+	public function listMappings(verbose:Boolean = true):String {
 		var retVal:String = "";
-		retVal = "===================== CommandMap Mappings: =====================\n";
-		for (var key:String in classRegistry) {
-			retVal += "SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key] + "\n";
+		if (verbose) {
+			retVal = "===================== CommandMap Mappings: =====================\n";
 		}
-		retVal += "================================================================\n";
+		for (var key:String in classRegistry) {
+			if (verbose) {
+				retVal += "SENDING MESSAGE:'" + key + "'\t> EXECUTES > " + classRegistry[key] + "\n";
+			} else {
+				if (retVal) {
+					retVal += ";"
+				}
+				retVal += key + ">" + getQualifiedClassName(classRegistry[key]);
+			}
+		}
+		if (verbose) {
+			retVal += "================================================================\n";
+		}
 		return retVal;
 	}
 
@@ -334,11 +346,6 @@ public class CommandMap {
 		commandClass = classRegistry[messageType];
 		if (commandClass) {
 
-			// debug this action
-			CONFIG::debug {
-				MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
-			}
-
 			//////////////////////////////////////////////
 			////// INLINE FUNCTION runCommand() START
 
@@ -365,6 +372,11 @@ public class CommandMap {
 			}
 
 			command.messageType = messageType;
+
+			// debug this action
+			CONFIG::debug {
+				MvcExpress.debug(new TraceCommandMap_handleCommandExecute(moduleName, command, commandClass, messageType, params));
+			}
 
 			if (command is PooledCommand) {
 				// init pool if needed.

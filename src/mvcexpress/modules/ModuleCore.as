@@ -208,31 +208,31 @@ public class ModuleCore {
 	/**
 	 * List all message mappings.
 	 */
-	public function listMappedMessages():String {
+	public function listMappedMessages(verbose:Boolean = true):String {
 		use namespace pureLegsCore;
 
-		return messenger.listMappings(commandMap);
+		return messenger.listMappings(commandMap, verbose);
 	}
 
 	/**
 	 * List all view mappings.
 	 */
-	public function listMappedMediators():String {
-		return mediatorMap.listMappings();
+	public function listMappedMediators(verbose:Boolean = true):String {
+		return mediatorMap.listMappings(verbose);
 	}
 
 	/**
 	 * List all model mappings.
 	 */
-	public function listMappedProxies():String {
-		return proxyMap.listMappings();
+	public function listMappedProxies(verbose:Boolean = true):String {
+		return proxyMap.listMappings(verbose);
 	}
 
 	/**
 	 * List all controller mappings.
 	 */
-	public function listMappedCommands():String {
-		return commandMap.listMappings();
+	public function listMappedCommands(verbose:Boolean = true):String {
+		return commandMap.listMappings(verbose);
 	}
 
 	//----------------------------------

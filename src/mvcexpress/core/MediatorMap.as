@@ -411,15 +411,35 @@ public class MediatorMap implements IMediatorMap {
 
 	/**
 	 * Returns String of all view classes that are mapped to mediator classes. (for debugging)
+	 * @param       verbose     if set to true, will return readable string, false will return pairs of view class definition and mediator class list(separated by ',') definition separated by '>', all pairs are separated by ';'.
 	 * @return        Text with all mapped mediators.
 	 */
-	public function listMappings():String {
+	public function listMappings(verbose:Boolean = true):String {
 		var retVal:String = "";
-		retVal = "==================== MediatorMap Mappings: =====================\n";
-		for (var viewClass:Object in mediatorMappingRegistry) {
-			retVal += "VIEW:'" + viewClass + "'\t> MEDIATED BY > " + mediatorMapOrderRegistry[viewClass] + "\n";
+		if (verbose) {
+			retVal = "==================== MediatorMap Mappings: =====================\n";
 		}
-		retVal += "================================================================\n";
+		for (var viewClass:Object in mediatorMappingRegistry) {
+			if (verbose) {
+				retVal += "VIEW:'" + viewClass + "'\t> MEDIATED BY > " + mediatorMapOrderRegistry[viewClass] + "\n";
+			} else {
+				if (retVal) {
+					retVal += ";";
+				}
+				retVal += getQualifiedClassName(viewClass) + ">";
+				var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
+				var mediatorCount:int = mediators.length;
+				for (var i:int = 0; i < mediatorCount; i++) {
+					if (i > 0) {
+						retVal += ",";
+					}
+					retVal += getQualifiedClassName(mediators[i]);
+				}
+			}
+		}
+		if (verbose) {
+			retVal += "================================================================\n";
+		}
 		return retVal;
 	}
 

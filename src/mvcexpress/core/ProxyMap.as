@@ -405,13 +405,24 @@ public class ProxyMap implements IProxyMap {
 	 * Returns text of all mapped proxy objects, and keys they are mapped to. (for debugging)
 	 * @return        Text string with all mapped proxies.
 	 */
-	public function listMappings():String {
+	public function listMappings(verbose:Boolean = true):String {
 		var retVal:String = "";
-		retVal = "====================== ProxyMap Mappings: ======================\n";
-		for (var key:Object in injectObjectRegistry) {
-			retVal += "PROXY OBJECT:'" + injectObjectRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
+		if (verbose) {
+			retVal = "====================== ProxyMap Mappings: ======================\n";
 		}
-		retVal += "================================================================\n";
+		for (var key:Object in injectObjectRegistry) {
+			if (verbose) {
+				retVal += "PROXY OBJECT:'" + injectObjectRegistry[key] + "'\t\t\t(MAPPED TO:" + key + ")\n";
+			} else {
+				if (retVal) {
+					retVal += ";";
+				}
+				retVal += getQualifiedClassName(injectObjectRegistry[key]).split("::")[1] + ">" + key;
+			}
+		}
+		if (verbose) {
+			retVal += "================================================================\n";
+		}
 		return retVal;
 	}
 

@@ -18,7 +18,6 @@ public class HandlerVO {
 	public var isExecutable:Boolean;
 
 	/** FOR INTERNAL USE ONLY. Variable to store class there handler came from. (for debugging only) */
-	CONFIG::debug
 	public var handlerClassName:String;
 
 }
