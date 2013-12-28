@@ -1,35 +1,45 @@
 mvcExpress is simplest and fastest MVC based ActionScript 3 framework!
 
-DOWNLOADS
+LINKS
+-----
+
+Framework homepage : http://mvcexpress.org/
 
 
-#V 2.0.rc1 (RELEASE CANDIDATE)
-* [mvcExpress-code-v2_0_rc2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-code-v2_0_rc2.zip)
-* [mvcExpress-debug_v2_0_rc2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_rc2.swc)
-* [mvcExpress-release_v2_0_rc2.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_rc2.swc)
+mvcExpress v2
+-------------
+
+#V 2.0.rc3 (RELEASE CANDIDATE)
+* [mvcExpress-code-v2_0_rc3.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-code-v2_0_rc3.zip)
+* [mvcExpress-debug_v2_0_rc3.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-debug_v2_0_rc3.swc)
+* [mvcExpress-release_v2_0_rc3.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework-v2/mvcExpress-release_v2_0_rc3.swc)
 
 
 EXAMPLES
 --------
 
-* [mvcExpress-examples_v2_0_rc1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_rc1.zip)
+* [mvcExpress-examples_v2_0_rc3.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-examples_v2_0_rc3.zip)
 * [mvcExpress-worker-extension-example_v2_0_rc2.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/examples/mvcExpress-worker-extension-example_v2_0_rc2.zip)
 
 
+logger Ver 1.3   (for mvcExpress Ver 2.0.0.RC3)
+------------------
+
+* [mvcExpress_v2_0_rc3-logger_v1_3.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-logger/mvcExpress_v2_0_rc3-logger_v1_3.swc)
+
+
+
+mvcExpress v1 - DEPRICATED
+--------------------------
+
 #V 1.3.1
+
 * [mvcExpress-framework_v1_3_1.zip](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-framework_v1_3_1.zip)
 * [mvcExpress-debug_v1_3_1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-debug_v1_3_1.swc)
 * [mvcExpress-release_v1_3_1.swc](https://github.com/MindScriptAct/mvcExpress-downloads/raw/master/mvcExpress-framework/mvcExpress-release_v1_3_1.swc)
 
 [Archive](https://github.com/MindScriptAct/mvcExpress-downloads/)
 
-
-LINKS
------
-
-Framework homepage : http://mvcexpress.org/
-	
-mvcExpress road map : [wiki/mvcExpress-roadMap] (https://github.com/MindScriptAct/mvcExpress-framework/wiki/mvcExpress-roadMap)
 
 The MIT License
 ---------------
