@@ -12,6 +12,16 @@ public class GenericScopedExtensionModule extends ModuleScoped {
 		super(moduleName, extendedMediatorMapClass, extendedProxyMapClass, extendedCommandMapClass, extendedMessengerClass);
 	}
 
+
+	override protected function onInit():void {
+		if (proxyMapScoped == null) {
+			throw Error("proxyMapScoped is null.");
+		}
+		if (commandMapScoped == null) {
+			throw Error("commandMapScoped is null.");
+		}
+	}
+
 	//----------------------------------
 	//     communication
 	//----------------------------------

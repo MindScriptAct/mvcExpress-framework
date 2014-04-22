@@ -12,7 +12,14 @@ public class GenericLiveExtensionModule extends ModuleLive {
 		super(moduleName, extendedMediatorMapClass, extendedProxyMapClass, extendedCommandMapClass, extendedMessengerClass);
 	}
 
-	//----------------------------------
+
+	override protected function onInit():void {
+		if (processMap == null) {
+			throw Error("processMap is null.");
+		}
+	}
+
+//----------------------------------
 	//     communication
 	//----------------------------------
 

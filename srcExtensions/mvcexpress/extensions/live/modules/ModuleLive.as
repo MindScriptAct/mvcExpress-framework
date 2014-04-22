@@ -8,6 +8,9 @@ import mvcexpress.extensions.live.core.ProcessMapLive;
 import mvcexpress.extensions.live.core.ProxyMapLive;
 import mvcexpress.modules.ModuleCore;
 
+use namespace pureLegsCore;
+
+
 /**
  * Core Module class, will support use of Processes and Tasks for contingently and repeatedly executed logic, represents single application unit in mvcExpress framework.
  * <p>
@@ -28,7 +31,7 @@ public class ModuleLive extends ModuleCore {
 	 * @param    moduleName    module name that is used for referencing a module. (if not provided - unique name will be generated.)
 	 */
 	public function ModuleLive(moduleName:String = null, mediatorMapClass:Class = null, proxyMapClass:Class = null, commandMapClass:Class = null, messengerClass:Class = null) {
-		use namespace pureLegsCore
+		use namespace pureLegsCore;
 
 		CONFIG::debug {
 			enableExtension(EXTENSION_LIVE_ID);
@@ -50,6 +53,11 @@ public class ModuleLive extends ModuleCore {
 			// TODO : in DEBUG chceck if subclasses right class
 		}
 		super(moduleName, mediatorMapClass, proxyMapClass, commandMapClass, messengerClass);
+
+	}
+
+	override pureLegsCore function prepareModule():void {
+		use namespace pureLegsCore
 
 		processMap = new ProcessMapLive(moduleName, messenger, proxyMap as ProxyMapLive);
 		(proxyMap as ProxyMapLive).setProcessMap(processMap);

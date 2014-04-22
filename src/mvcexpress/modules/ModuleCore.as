@@ -13,6 +13,8 @@ import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.moduleBase.TraceModuleBase_sendMessage;
 import mvcexpress.utils.checkClassSuperclass;
 
+use namespace pureLegsCore;
+
 /**
  * Core Module class, represents single application unit in mvcExpress framework.
  * <p>
@@ -117,7 +119,13 @@ public class ModuleCore {
 			commandMap.setSupportedExtensions(SUPPORTED_EXTENSIONS);
 		}
 
+		prepareModule();
+
 		onInit();
+	}
+
+	pureLegsCore function prepareModule():void {
+		// for override
 	}
 
 	/**

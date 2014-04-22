@@ -3,12 +3,14 @@ package mvcexpress.extensions.scoped.modules {
 import mvcexpress.MvcExpress;
 import mvcexpress.core.ExtensionManager;
 import mvcexpress.core.namespace.pureLegsCore;
-import mvcexpress.extensions.scoped.core.traceObjects.TraceModuleBase_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.CommandMapScoped;
 import mvcexpress.extensions.scoped.core.ProxyMapScoped;
 import mvcexpress.extensions.scoped.core.ScopeManager;
+import mvcexpress.extensions.scoped.core.traceObjects.TraceModuleBase_sendScopeMessage;
 import mvcexpress.modules.ModuleCore;
 import mvcexpress.utils.checkClassSuperclass;
+
+use namespace pureLegsCore;
 
 /**
  * Core Module class, represents single application unit in mvcExpress framework.
@@ -52,10 +54,13 @@ public class ModuleScoped extends ModuleCore {
 				throw Error("commandMapClass:" + commandMapClass + " you are trying to use is not extended from 'mvcexpress.core::CommandMap' class.");
 			}
 		}
+
+	}
+
+	override pureLegsCore function prepareModule():void {
 		proxyMapScoped = proxyMap as ProxyMapScoped;
 		commandMapScoped = commandMap as CommandMapScoped;
 	}
-
 
 	override public function disposeModule():void {
 		ScopeManager.disposeModule(moduleName);

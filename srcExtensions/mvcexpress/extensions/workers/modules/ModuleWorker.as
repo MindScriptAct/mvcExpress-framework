@@ -19,6 +19,9 @@ public class ModuleWorker extends ModuleCore {
 	/** Instance of commandMap, typed as CommandMapWorker. (shortcut for 'commandMap as CommandMapWorker') */
 	protected var commandMapWorker:CommandMapWorker;
 
+	/** INTERNAL **/
+	private var canCreateModule:Boolean;
+
 	/**
 	 * CONSTRUCTOR. ModuleName must be provided.
 	 * @inheritDoc
@@ -33,7 +36,7 @@ public class ModuleWorker extends ModuleCore {
 		_isSupported = WorkerManager.isSupported;
 
 		// stores if this module will be created. (then same swf file is used to create other modules - main module will not be created.)
-		var canCreateModule:Boolean = true;
+		canCreateModule = true;
 
 		if (_isSupported) {
 			canCreateModule = WorkerManager.initWorker(moduleName);
@@ -44,7 +47,11 @@ public class ModuleWorker extends ModuleCore {
 				commandMapClass = CommandMapWorker;
 			}
 			super(moduleName, mediatorMapClass, proxyMapClass, commandMapClass, messengerClass);
+		}
+	}
 
+	override pureLegsCore function prepareModule():void {
+		if (canCreateModule) {
 			commandMapWorker = commandMap as CommandMapWorker;
 		}
 	}
@@ -70,6 +77,7 @@ public class ModuleWorker extends ModuleCore {
 	 */
 	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null):void {
 		use namespace pureLegsCore;
+
 		// DOIT : implement optional module parameters for extendability.
 		WorkerManager.startWorker(moduleName, workerModuleClass, workerModuleName, workerSwfBytes);
 	}
