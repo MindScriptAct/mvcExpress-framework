@@ -83,6 +83,12 @@ public class Proxy {
 	protected function sendMessage(type:String, params:Object = null):void {
 		use namespace pureLegsCore;
 
+		CONFIG::debug {
+			if (messenger == null) {
+				throw Error(this + " proxy class is not registered yet.");
+			}
+		}
+
 		var moduleName:String = messenger.moduleName;
 		// log the action
 		CONFIG::debug {
