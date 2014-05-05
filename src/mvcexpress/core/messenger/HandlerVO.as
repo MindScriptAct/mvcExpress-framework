@@ -7,12 +7,20 @@ package mvcexpress.core.messenger {
  * @private
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class HandlerVO {
 
+	/** FOR INTERNAL USE ONLY. handler number in list. (used to remove element from vector. ) */
+	public var listNr:uint;
+
+
+	/** FOR INTERNAL USE ONLY. message type for handler function is triggered on. */
+	public var type:String;
+
 	/** FOR INTERNAL USE ONLY. function that handles message parameters, can be Mediator function or Command execute() function */
 	public var handler:Function;
+
 
 	/** FOR INTERNAL USE ONLY. shows if message is handled by Command. */
 	public var isExecutable:Boolean;

@@ -58,19 +58,6 @@ public class MessengerTests {
 	//
 	//----------------------------------
 
-	[Test(async, description="Async Callback disable")]
-
-	public function add_callback_and_disable_then_message_fails_silently():void {
-		var callBack:Function = AsyncUtil.asyncHandler(this, callBackFail, null, 300, callBackSuccess);
-		var handlerVo:HandlerVO = messenger.addHandler("test", callBack);
-		handlerVo.handler = null;
-		messenger.send("test");
-	}
-
-	//----------------------------------
-	//
-	//----------------------------------
-
 	[Test(async, description="Async Callback remove")]
 
 	public function add_and_remove_callback_then_message_fails_silently():void {

@@ -18,7 +18,7 @@ use namespace pureLegsCore;
  * Handles framework communications.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class Messenger {
 
@@ -82,7 +82,9 @@ public class Messenger {
 		if (!msgData) {
 			msgData = new HandlerVO();
 			msgData.handlerClassName = handlerClassName;
+			msgData.type = type;
 			msgData.handler = handler;
+			msgData.listNr = messageList.length;
 			messageList[messageList.length] = msgData;
 			handlerRegistry[type][handler] = msgData;
 		}
@@ -96,8 +98,7 @@ public class Messenger {
 	 * @return    true if messenger has specific handler for message type.
 	 */
 	public function hasHandler(type:String, handler:Function):Boolean {
-		//return (handlerRegistry[type] && handlerRegistry[type][handler]);
-		return false;
+		return (handlerRegistry[type] && handlerRegistry[type][handler]);
 	}
 
 
@@ -116,8 +117,12 @@ public class Messenger {
 		}
 		if (type in handlerRegistry) {
 			if (handlerRegistry[type][handler]) {
-				(handlerRegistry[type][handler] as HandlerVO).handler = null;
+				var handlerVo:HandlerVO = handlerRegistry[type][handler] as HandlerVO
+				handlerVo.handler = null;
 				delete handlerRegistry[type][handler];
+
+				var messageList:Vector.<HandlerVO> = messageRegistry[type];
+				messageList[handlerVo.listNr] = null;
 			}
 		}
 	}
@@ -142,9 +147,10 @@ public class Messenger {
 			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
-				if (handlerVo.handler == null) {
+				if (handlerVo == null) {
 					delCount++;
 				} else {
+					handlerVo.listNr = i - delCount;
 
 					// if some MsgVOs marked to be removed - move all other constants to there place.
 					if (delCount) {

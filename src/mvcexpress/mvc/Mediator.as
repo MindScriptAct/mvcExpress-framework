@@ -25,7 +25,7 @@ use namespace pureLegsCore;
  *  Can handle view events.                                                                                                                               </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class Mediator {
 
@@ -197,7 +197,9 @@ public class Mediator {
 
 		while (handlerVoRegistry.length) {
 			var handler:HandlerVO = handlerVoRegistry.pop();
-			handler.handler = null;
+			if (handler.handler != null) {
+				messenger.removeHandler(handler.type, handler.handler);
+			}
 		}
 	}
 

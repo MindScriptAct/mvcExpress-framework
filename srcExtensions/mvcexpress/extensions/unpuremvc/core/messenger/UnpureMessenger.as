@@ -7,7 +7,7 @@ import mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 
 /**
- * @version unpuremvc.1.0.beta2
+ * @version unpuremvc.1.0.rc4
  */
 public class UnpureMessenger extends Messenger {
 
@@ -37,9 +37,10 @@ public class UnpureMessenger extends Messenger {
 			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];
 				// check if message is not marked to be removed. (disabled)
-				if (handlerVo.handler == null) {
+				if (handlerVo == null) {
 					delCount++;
 				} else {
+					handlerVo.listNr = i - delCount;
 
 					// if some MsgVOs marked to be removed - move all other constants to there place.
 					if (delCount) {
