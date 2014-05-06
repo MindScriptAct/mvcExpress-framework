@@ -1,6 +1,8 @@
 package suites.testObjects.view {
 import flash.display.Sprite;
 
+import mvcexpress.mvc.Mediator;
+
 import suites.TestViewEvent;
 
 /**
@@ -8,6 +10,8 @@ import suites.TestViewEvent;
  * @author
  */
 public class MediatorSprite extends Sprite {
+
+	public var mediator:MediatorSpriteMediator;
 
 	public function MediatorSprite() {
 

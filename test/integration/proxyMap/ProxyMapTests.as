@@ -1,4 +1,6 @@
 package integration.proxyMap {
+import flexunit.framework.Assert;
+
 import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.model.GenericTestProxy;
@@ -82,6 +84,34 @@ public class ProxyMapTests {
 
 	}
 
+	//----------------------------------
+	//
+	//----------------------------------
 
+	[Test]
+
+	public function proxyMap_isProxyMapped_afterMap_true():void {
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		module.proxymap_map(testProxy);
+		//
+		Assert.assertTrue("Must be true after proxy is mapped.", module.proxymap_isMapped(GenericTestProxy));
+	}
+
+
+	[Test]
+
+	public function proxyMap_isProxyMapped_noMap_false():void {
+		Assert.assertFalse("Must be false if no praiy is mapped.", module.proxymap_isMapped(GenericTestProxy));
+	}
+
+	[Test]
+
+	public function proxyMap_isProxyMapped_mapAndUnmap_false():void {
+		var testProxy:GenericTestProxy = new GenericTestProxy()
+		module.proxymap_map(testProxy);
+		module.proxymap_unmap(GenericTestProxy);
+		//
+		Assert.assertFalse("Must be false if proxy is mapped and unmapped.", module.proxymap_isMapped(GenericTestProxy));
+	}
 }
 }

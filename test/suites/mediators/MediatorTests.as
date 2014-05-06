@@ -1,12 +1,14 @@
 package suites.mediators {
 import constants.TestExtensionDict;
 
-import flexunit.framework.Assert;
+import integration.aGenericTestObjects.constants.GenericTestMessage;
 
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
+
+import org.flexunit.Assert;
 
 import suites.testObjects.view.MediatorSprite;
 import suites.testObjects.view.MediatorSpriteMediator;
@@ -21,6 +23,7 @@ public class MediatorTests {
 	private var proxyMap:ProxyMap;
 	private var mediatorMap:MediatorMap;
 	private var testView:MediatorSprite;
+	private var mediatorObject:MediatorSpriteMediator;
 
 	[Before]
 
@@ -45,6 +48,8 @@ public class MediatorTests {
 		testView = new MediatorSprite()
 
 		mediatorMap.mediate(testView);
+
+		mediatorObject = testView.mediator;
 
 	}
 
@@ -148,6 +153,36 @@ public class MediatorTests {
 	//public function mediator_remove_all_handler():void {
 	//
 	//}
+
+
+	//---------------
+	// 	handler check
+	//---------------
+
+	[Test]
+	public function mediator_addHandler_isHandledCheck_afterAdd_true():void {
+		mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		Assert.assertTrue("Should be true...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+	}
+
+	[Test]
+	public function mediator_addHandler_isHandledCheck_noAdd_false():void {
+		Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+	}
+
+	[Test]
+	public function mediator_addHandler_isHandledCheck_afterAddAndRemove_false():void {
+		mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		mediatorObject.test_removeHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+	}
+
+	//---------------
+	// 	helper
+	//---------------
+
+	private function blankFunction(blank:Object):void {
+	}
 
 
 }

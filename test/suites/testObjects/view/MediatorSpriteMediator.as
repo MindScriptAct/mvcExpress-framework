@@ -19,6 +19,8 @@ public class MediatorSpriteMediator extends Mediator {
 
 	override protected function onRegister():void {
 
+		view.mediator = this;
+
 		addHandler("test_add_empty_handler", handleTestEmptyHandler);
 		addHandler("test_handler_object_params", handleTestWithObjectParams);
 		addHandler("test_handler_bad_params", handleTestWithBadParams);
@@ -62,5 +64,20 @@ public class MediatorSpriteMediator extends Mediator {
 
 	}
 
+
+	//------------------------
+
+
+	public function test_addHandler(type:String, handler:Function):void {
+		addHandler(type, handler);
+	}
+
+	public function test_removeHandler(type:String, handler:Function):void {
+		removeHandler(type, handler);
+	}
+
+	public function test_hasHandler(type:String, handler:Function):Boolean {
+		return hasHandler(type, handler);
+	}
 }
 }
