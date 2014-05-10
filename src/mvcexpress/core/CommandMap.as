@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core {
+import flash.system.System;
 import flash.utils.Dictionary;
 import flash.utils.describeType;
 import flash.utils.getDefinitionByName;
@@ -440,6 +441,7 @@ public class CommandMap {
 						}
 					}
 				}
+				System.disposeXML(classDescription);
 
 				if (hasExecute) {
 					if (parameterCount != 1) {

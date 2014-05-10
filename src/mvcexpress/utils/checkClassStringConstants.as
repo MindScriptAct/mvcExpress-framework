@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.utils {
+import flash.system.System;
 import flash.utils.describeType;
 
 /**
@@ -42,6 +43,7 @@ public function checkClassStringConstants(...args:Array):void {
 					}
 				}
 				StringConstantRegistry.registeredClasses[constantClass] = true;
+				System.disposeXML(description);
 			}
 		} else {
 			throw Error("Please send Class'es to checkClassStringConstants() only(not object or basic data types).");

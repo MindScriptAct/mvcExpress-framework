@@ -1,5 +1,6 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.core.inject {
+import flash.system.System;
 import flash.utils.describeType;
 
 /**
@@ -40,6 +41,7 @@ public class InjectTester {
 				}
 			}
 		}
+		System.disposeXML(classDescription);
 		return retVal;
 	}
 
