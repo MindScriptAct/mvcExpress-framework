@@ -9,7 +9,7 @@ import mvcexpress.mvc.Proxy;
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  * @private
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class ProxyMapForMediator {
 
@@ -21,7 +21,7 @@ public class ProxyMapForMediator {
 	}
 
 	/**
-	 * Get proxy. Only proxies that are mapped to be accessible for mediator con be received.
+	 * Get proxy. If MvcExpress.usePureMediators is set to true - only proxies that are mapped to be accessible for mediator can be received. ('mediatorInjectClass' must be set then proxy is mapped.)
 	 * @param    proxyClass    class of proxy, mapped with mediatorInjectClass parameter.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
 	 * @return

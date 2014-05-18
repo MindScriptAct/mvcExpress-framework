@@ -41,9 +41,9 @@ public class FeatureGetProxyTests {
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from other proxies.", testProxy, returnedObj);
 	}
 
-	[Test(description=" get proxy in mediator", expects="Error")]
+	[Test(description=" get proxy in mediator")]
 
-	public function featureGetProxy_get_proxy_in_mediator_fails():void {
+	public function featureGetProxy_get_proxy_in_mediator_ok():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy);
 		var returnedObj:Object = mainModule.getProxyFromMediator(SimpleTestProxy);
@@ -83,20 +83,20 @@ public class FeatureGetProxyTests {
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from other proxies.", testProxy, returnedObj);
 	}
 
-	[Test(description=" get proxy interface in mediator", expects="Error")]
+	[Test(description=" get proxy interface in mediator")]
 
-	public function featureGetProxy_get_proxy_interfaced_in_mediator_fails():void {
+	public function featureGetProxy_get_proxy_interfaced_in_mediator_ok():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy, null, ISimpleTestProxy);
 		var returnedObj:Object = mainModule.getProxyFromMediator(ISimpleTestProxy);
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
 	}
 
-	[Test(description=" get proxy interface in mediator", expects="Error")]
+	[Test(description=" get proxy interface in mediator")]
 
 	public function featureGetProxy_get_proxy_interfaced_in_mediator():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
-		mainModule.mapTestProxy(testProxy, null, ISimpleTestProxy, ISimpleTestProxy);
+		mainModule.mapTestProxy(testProxy, null, ISimpleTestProxy);
 		var returnedObj:Object = mainModule.getProxyFromMediator(ISimpleTestProxy);
 		Assert.assertStrictlyEquals("You should be able to get mapped proxies from mediators.", testProxy, returnedObj);
 	}
@@ -133,20 +133,20 @@ public class FeatureGetProxyTests {
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from other proxies.", testProxy, returnedObj);
 	}
 
-	[Test(description=" get proxy interfaced and named in mediator", expects="Error")]
+	[Test(description=" get proxy interfaced and named in mediator")]
 
-	public function featureGetProxy_get_proxy_interfaced_named_in_mediator_fails():void {
+	public function featureGetProxy_get_proxy_interfaced_named_in_mediator_ok():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
 		mainModule.mapTestProxy(testProxy, "testName", ISimpleTestProxy);
 		var returnedObj:Object = mainModule.getProxyFromMediator(ISimpleTestProxy, "testName");
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
 	}
 
-	[Test(description=" get proxy interfaced and named in mediator", expects="Error")]
+	[Test(description=" get proxy interfaced and named in mediator")]
 
-	public function featureGetProxy_get_proxy_interfaced_named_in_mediator_ok():void {
+	public function featureGetProxy_get_proxy_mediator_interfaced_named_in_mediator_ok():void {
 		var testProxy:SimpleTestProxy = new SimpleTestProxy();
-		mainModule.mapTestProxy(testProxy, "testName", ISimpleTestProxy, ISimpleTestProxy);
+		mainModule.mapTestProxy(testProxy, "testName", null, ISimpleTestProxy);
 		var returnedObj:Object = mainModule.getProxyFromMediator(ISimpleTestProxy, "testName");
 		Assert.assertStrictlyEquals("You should be abble to get mapped proxies from mediators.", testProxy, returnedObj);
 	}

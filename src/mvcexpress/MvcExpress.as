@@ -7,7 +7,7 @@ import mvcexpress.core.traceObjects.TraceObj;
  * Class to store framework global settings and some important variables.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class MvcExpress {
 
@@ -38,6 +38,17 @@ public class MvcExpress {
 		}
 		return false;
 	}
+
+
+	/**
+	 * Controls how proxies can be injected into mediators.
+	 * If set to false - proxies can be injected without restrictions into mediators.
+	 *  - Optionally, you can define howe proxy should be injected into mediators by providing 'mediatorInjectClass' parameter then mapping the proxy.
+	 *  - if 'mediatorInjectClass' is not provided -> "injectClass" or if not provided proxy class will be used.
+	 * If set to true - proxies can't be injected into mediators, without providing 'mediatorInjectClass' parameter then mapping the proxy.
+	 *  - if 'mediatorInjectClass' is not provided -> error will bi thrown then attempting to inject proxy into mediator.
+	 */
+	public static var usePureMediators:Boolean = false;
 
 	/**
 	 * Time in ms for framework to wait for missing dependencies.

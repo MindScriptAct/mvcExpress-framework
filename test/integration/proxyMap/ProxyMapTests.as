@@ -43,10 +43,9 @@ public class ProxyMapTests {
 		module.proxymap_map(new TestWithConstNameInjectProxy());
 	}
 
-	[Test(expects="Error")]
-
+	[Test]
 	public function proxyMap_injectIntoMediatorConstNamedVariable_fails():void {
-		var testProxy:GenericTestProxy = new GenericTestProxy()
+		var testProxy:GenericTestProxy = new GenericTestProxy();
 		module.proxymap_map(testProxy, TestConstObject.TEST_CONST_FOR_PROXY_INJECT);
 		//
 		module.mediatorMap_mediateWith(new TestContsView(), TestContsViewMediator);
