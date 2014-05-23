@@ -114,7 +114,7 @@ public class WorkerManager {
 		}
 
 		if (_isSupported) {
-			return WorkerClass.current.isPrimordial
+			return WorkerClass.current.isPrimordial as Boolean;
 		}
 		return true;
 	}
@@ -480,9 +480,7 @@ public class WorkerManager {
 			if (msgChannel) {
 				msgChannel.send(SEND_WORKER_MESSAGE_TYPE);
 				msgChannel.send(type);
-				if (params) {
-					msgChannel.send(params);
-				}
+				msgChannel.send(params);
 			}
 		} else {
 			var messageTypeSplit:Array = type.split("_^~_");
