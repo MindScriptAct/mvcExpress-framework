@@ -92,6 +92,20 @@ public class WorkerManager {
 
 
 	/**
+	 * Disables or enables worker support.
+	 */
+	static public function set enabled(value:Boolean):void {
+		if (value) {
+			use namespace pureLegsCore;
+			
+			checkWorkerSupport();
+		} else {
+			needWorkerSupportCheck = false;
+			_isSupported = false;
+		}
+	}
+	
+	/**
 	 * True if workers are supported.
 	 */
 	public static function get isSupported():Boolean {
@@ -135,7 +149,10 @@ public class WorkerManager {
 
 	static pureLegsCore function checkWorkerSupport():Boolean {
 		use namespace pureLegsCore;
-
+		
+		needWorkerSupportCheck = false;
+		_isSupported = false;
+		
 		try {
 			// dynamically get worker classes.
 			WorkerClass = getDefinitionByName("flash.system.Worker") as Class;
@@ -665,6 +682,8 @@ public class WorkerManager {
 			scopeMessenger.removeHandler(remoteModuleName + "_^~_" + type, handleCommandExecute);
 		}
 	}
+	
+
 
 
 }
