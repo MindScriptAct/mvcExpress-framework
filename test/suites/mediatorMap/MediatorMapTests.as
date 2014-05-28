@@ -1,5 +1,6 @@
 package suites.mediatorMap {
 import constants.TestExtensionDict;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import flash.display.Bitmap;
 import flash.display.Sprite;
@@ -57,6 +58,8 @@ public class MediatorMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 
+		ProxyMapCleaner.clear();
+		
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;

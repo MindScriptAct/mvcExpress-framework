@@ -1,5 +1,6 @@
 package integration.proxyMap {
 import flexunit.framework.Assert;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
@@ -28,6 +29,7 @@ public class ProxyMapTests {
 
 	public function runAfterEveryTest():void {
 		module.disposeModule();
+		ProxyMapCleaner.clear();
 	}
 
 	//----------------------------------

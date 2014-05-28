@@ -1,5 +1,6 @@
 package suites.fatureGetProxy {
 import flexunit.framework.Assert;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import suites.testObjects.model.ISimpleTestProxy;
 import suites.testObjects.model.SimpleTestProxy;
@@ -25,6 +26,7 @@ public class FeatureGetProxyTests {
 
 	public function runAfterEveryTest():void {
 		mainModule.disposeModule();
+		ProxyMapCleaner.clear();
 		//externalModule.disposeModule();
 	}
 

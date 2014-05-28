@@ -1,5 +1,6 @@
 package suites.commandMap {
 import constants.TestExtensionDict;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import flash.display.Sprite;
 
@@ -65,6 +66,8 @@ public class CommandMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 
+		ProxyMapCleaner.clear();
+		
 		messenger = null;
 		proxyMap = null;
 		commandMap = null;

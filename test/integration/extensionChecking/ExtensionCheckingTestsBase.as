@@ -1,5 +1,6 @@
 package integration.extensionChecking {
 import flash.display.Sprite;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.aGenericTestObjects.GenericTestModule;
 
@@ -42,6 +43,9 @@ public class ExtensionCheckingTestsBase {
 
 	[After]
 	public function runAfterEveryTest():void {
+		
+		ProxyMapCleaner.clear();
+		
 		if (moduleCore) {
 			moduleCore.disposeModule();
 		}

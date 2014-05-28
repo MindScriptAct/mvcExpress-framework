@@ -1,5 +1,6 @@
 package suites.proxyMap {
 import constants.TestExtensionDict;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import flexunit.framework.Assert;
 
@@ -42,6 +43,8 @@ public class NamedInterfacedProxyMapTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 
+		ProxyMapCleaner.clear();
+		
 		messenger = null;
 		proxyMap = null;
 	}

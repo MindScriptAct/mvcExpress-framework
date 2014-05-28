@@ -1,5 +1,6 @@
 package integration.commandPooling {
 import flexunit.framework.Assert;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.commandPooling.testObj.CommPoolingDependencyProxy;
 import integration.commandPooling.testObj.CommandPoolingModule;
@@ -36,6 +37,9 @@ public class CommandPoolingTests {
 	[After]
 
 	public function runAfterEveryTest():void {
+		
+		ProxyMapCleaner.clear();
+		
 		commandPoolModuleCommandMap = null;
 		commandPoolingModule.disposeModule();
 		commandPoolingModule = null;

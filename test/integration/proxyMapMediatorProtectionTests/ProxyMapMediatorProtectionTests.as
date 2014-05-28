@@ -1,4 +1,5 @@
 package integration.proxyMapMediatorProtectionTests {
+import integration.aframworkHelpers.ProxyMapCleaner;
 import integration.aGenericTestObjects.GenericTestModule;
 import integration.aGenericTestObjects.model.GenericTestProxy;
 import integration.aGenericTestObjects.model.IGenericTestProxy;
@@ -24,6 +25,7 @@ public class ProxyMapMediatorProtectionTests {
 	public function runAfterEveryTest():void {
 		MvcExpress.pendingInjectsTimeOut = 0;
 		module.disposeModule();
+		ProxyMapCleaner.clear();
 		MvcExpress.usePureMediators = false;
 	}
 

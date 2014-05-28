@@ -1,5 +1,6 @@
 package integration.lazyProxy {
 import flexunit.framework.Assert;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.lazyProxy.testObj.moduleA.LazyProxy;
 import integration.lazyProxy.testObj.moduleA.LazyProxyModuleA;
@@ -22,6 +23,8 @@ public class LazyProxyTests {
 	public function runAfterEveryTest():void {
 		lazyProxyModulA.disposeModule();
 		LazyProxy.instantiateCount = 0;
+		
+		ProxyMapCleaner.clear();
 	}
 
 	[Test]

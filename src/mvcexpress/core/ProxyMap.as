@@ -297,7 +297,7 @@ public class ProxyMap implements IProxyMap {
 		if (mediatorInjectClass) {
 			// get inject id
 			var mediatorInjectClassName:String = qualifiedClassNameRegistry[mediatorInjectClass];
-			if (!className) {
+			if (!mediatorInjectClassName) {
 				mediatorInjectClassName = getQualifiedClassName(mediatorInjectClass);
 				qualifiedClassNameRegistry[mediatorInjectClass] = mediatorInjectClassName;
 			}

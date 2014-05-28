@@ -1,5 +1,6 @@
 package integration.mediating {
 import flexunit.framework.Assert;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.mediating.testObj.*;
 import integration.mediating.testObj.view.*;
@@ -25,6 +26,8 @@ public class MediatingTests {
 		mediatingModule.disposeModule();
 		mediatingModule = null;
 		MediatingBaseView.timesRegistered = 0;
+		
+		ProxyMapCleaner.clear();
 	}
 
 

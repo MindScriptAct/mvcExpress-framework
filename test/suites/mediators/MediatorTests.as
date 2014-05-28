@@ -1,5 +1,6 @@
 package suites.mediators {
 import constants.TestExtensionDict;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import integration.aGenericTestObjects.constants.GenericTestMessage;
 
@@ -58,6 +59,8 @@ public class MediatorTests {
 	public function runAfterEveryTest():void {
 		use namespace pureLegsCore;
 
+		ProxyMapCleaner.clear();
+		
 		mediatorMap.unmediate(testView);
 		messenger = null;
 		proxyMap = null;
