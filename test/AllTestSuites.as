@@ -31,7 +31,7 @@ import suites.utils.UtilsTests;
 
 public class AllTestSuites {
 
-	/*
+	//*
 
 	public var generalTests:GeneralTests;
 
@@ -56,7 +56,7 @@ public class AllTestSuites {
 
 	public var lazyProxyTests:LazyProxyTests;
 
-	public var mediatingTests:MediatingTests;
+	//public var mediatingTests:MediatingTests;
 
 	public var controllerTests:CommandMapTests;
 
@@ -69,7 +69,7 @@ public class AllTestSuites {
 	//*/
 
 
-	/* extension check
+	//* extension check
 
 	public var extensionCheckingGenericTests:ExtensionCheckingTestsGeneral;
 
@@ -80,7 +80,7 @@ public class AllTestSuites {
 	//*/
 
 	public var mediatingTests:MediatingTests;
-	//public var mediatingWithTests:MediatingWithTests;
+	public var mediatingWithTests:MediatingWithTests;
 
 
 	//*/

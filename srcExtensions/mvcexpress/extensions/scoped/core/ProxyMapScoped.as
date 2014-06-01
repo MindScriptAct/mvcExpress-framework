@@ -103,22 +103,23 @@ public class ProxyMapScoped extends ProxyMap {
 	 * tempValue and tempClass defines injection that will be done for current object only.
 	 * @private
 	 */
-	override pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):Boolean {
+	// FIXME: implement additionalInjectClasses
+	override pureLegsCore function injectStuff(object:Object, signatureClass:Class, mediatorObject:Object = null, mediatorInjectClass:Class = null, additionalInjectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		var isAllInjected:Boolean = true;
 
 		// deal with temporal injection. (it is used only for this injection, for example - view object for mediator is used this way.)
 		var tempClassName:String;
-		if (tempValue) {
-			if (tempClass) {
-				tempClassName = qualifiedClassNameRegistry[tempClass];
+		if (mediatorObject) {
+			if (mediatorInjectClass) {
+				tempClassName = qualifiedClassNameRegistry[mediatorInjectClass];
 				if (!tempClassName) {
-					tempClassName = getQualifiedClassName(tempClass);
-					qualifiedClassNameRegistry[tempClass] = tempClassName;
+					tempClassName = getQualifiedClassName(mediatorInjectClass);
+					qualifiedClassNameRegistry[mediatorInjectClass] = tempClassName;
 				}
 				if (!injectObjectRegistry[tempClassName]) {
-					injectObjectRegistry[tempClassName] = tempValue;
+					injectObjectRegistry[tempClassName] = mediatorObject;
 				} else {
 					throw Error("Temp object should not be mapped already... it was meant to be used by framework for mediator view object only.");
 				}

@@ -37,8 +37,11 @@ public class MediatorMap implements IMediatorMap {
 	// used internally for communications
 	protected var messenger:Messenger;
 
-	// stores all mediator classes using view class(mediator must mediate) as a key.
+	// stores all view inject classes by mediator and view class(mediator must mediate) as a key.
 	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of (Dictionary of Class) by Class */
+
+	// stores all additional view inject classed, that will be available for injection into mediator, by mediator class.
+	protected var additionalMediatorMappingRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by Class */
 
 	// stores all mediators in sequence they were mapped.
 	protected var mediatorMapOrderRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by Class */
@@ -109,14 +112,40 @@ public class MediatorMap implements IMediatorMap {
 
 			// set rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
 			if (restClassPairs) {
-				if (restClassPairs.length) {
-					mediatorClass = restClassPairs.shift();
-					if (restClassPairs.length) {
-						injectClass = restClassPairs.shift();
-					} else {
-						injectClass = null;
+				var injectMappings:Vector.<Class> = additionalMediatorMappingRegistry[mediatorClass];
+				var nextMediatorFound:Boolean = false;
+				while (restClassPairs.length && !nextMediatorFound) {
+
+					// check if next class is mediator class or another view inject class.
+					var nextClass:Object = restClassPairs.shift();
+
+					CONFIG::debug {
+						if (!(nextClass is Class)) {
+							throw Error("Only Class objects can be provided then mapping views and mediators.");
+						}
 					}
-				} else {
+
+					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
+						// mediator class found!
+						nextMediatorFound = true;
+						mediatorClass = nextClass as Class;
+						if (restClassPairs.length) {
+							injectClass = restClassPairs.shift();
+						} else {
+							injectClass = null;
+						}
+					} else {
+						// another view class found - add it to the list.
+						// create inject list if needed.
+						if (injectMappings == null) {
+							injectMappings = new <Class>[];
+							additionalMediatorMappingRegistry[mediatorClass] = injectMappings;
+						}
+						// add another mapping.
+						injectMappings.push(nextClass);
+					}
+				}
+				if (!nextMediatorFound) {
 					mediatorClass = null;
 				}
 			}
@@ -150,11 +179,15 @@ public class MediatorMap implements IMediatorMap {
 				//
 				if (mediators.length > 0) {
 					delete mediatorMappingRegistry[viewClass][mediatorClass];
+					delete additionalMediatorMappingRegistry[mediatorClass];
 				} else {
 					delete mediatorMappingRegistry[viewClass];
 					delete mediatorMapOrderRegistry[viewClass];
 				}
 			} else {
+				for (var mediatorObj:Object in mediatorMappingRegistry[viewClass]) {
+					delete additionalMediatorMappingRegistry[mediatorClass];
+				}
 				delete mediatorMappingRegistry[viewClass];
 				delete mediatorMapOrderRegistry[viewClass];
 			}
@@ -194,7 +227,8 @@ public class MediatorMap implements IMediatorMap {
 				// get mapped mediator class.
 				var mediatorClass:Class = mediators[i];
 				var injectClass:Class = mappedMediators[mediatorClass];
-
+				// FIXME : REFACTOR.
+				var additionalInjectClasses:Vector.<Class> = additionalMediatorMappingRegistry[mediatorClass];
 
 				CONFIG::debug {
 					// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -211,7 +245,7 @@ public class MediatorMap implements IMediatorMap {
 					Mediator.canConstruct = false;
 				}
 
-				if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
+				if (prepareMediator(mediator, mediatorClass, viewObject, injectClass, additionalInjectClasses)) {
 					mediator.register();
 				}
 			}
@@ -229,7 +263,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @return    returns true if all dependencies are injected.
 	 * @private
 	 */
-	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {
+	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class, additionalInjectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		var retVal:Boolean;
@@ -239,7 +273,7 @@ public class MediatorMap implements IMediatorMap {
 		mediator.proxyMap = viewProxyMap;
 		mediator.mediatorMap = this;
 
-		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
+		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass, additionalInjectClasses);
 
 		if (!(viewObject in mediatorRegistry)) {
 			mediatorRegistry[viewObject] = new Vector.<Mediator>;
@@ -463,6 +497,7 @@ public class MediatorMap implements IMediatorMap {
 		messenger = null;
 		mediatorMappingRegistry = null;
 		mediatorMapOrderRegistry = null;
+		additionalMediatorMappingRegistry = null;
 	}
 
 

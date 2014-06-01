@@ -27,13 +27,13 @@ public class MediatorMapLive extends MediatorMap {
 		super($moduleName, $messenger, $proxyMap);
 	}
 
-	override protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {
+	override protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class, additionalInjectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		if (mediator is MediatorLive) {
 			(mediator as MediatorLive).processMap = processMap;
 		}
-		return super.prepareMediator(mediator, mediatorClass, viewObject, injectClass);
+		return super.prepareMediator(mediator, mediatorClass, viewObject, injectClass, additionalInjectClasses);
 	}
 
 	/** @private */

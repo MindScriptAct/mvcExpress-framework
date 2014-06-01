@@ -10,6 +10,7 @@ public class MediatingChainViewMediator extends MediatingChainBaseViewMediator {
 	//public var myProxy:MyProxy;
 
 	override protected function onRegister():void {
+		super.onRegister();
 	}
 
 	override protected function onRemove():void {
