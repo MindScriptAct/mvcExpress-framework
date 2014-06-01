@@ -41,10 +41,10 @@ dynamic public class CommandWorker extends Command {
 	 * @param workerModuleName
 	 * @param workerSwfBytes    bytes of loaded swf file.
 	 */
-	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null):void {
+	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null, giveAppPrivileges:Boolean = false):void {
 		use namespace pureLegsCore;
 
-		WorkerManager.startWorker(messenger.moduleName, workerModuleClass, workerModuleName, workerSwfBytes);
+		WorkerManager.startWorker(messenger.moduleName, workerModuleClass, workerModuleName, workerSwfBytes, giveAppPrivileges);
 	}
 
 	/**
