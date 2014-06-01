@@ -8,7 +8,7 @@ import integration.mediating.testObj.view.viewObj.*;
 
 import mvcexpress.core.*;
 
-public class MediatingTests {
+public class MediatingWithTests {
 	private var mediatingModule:MediatingModule;
 	private var mediatorMap:MediatorMap;
 
@@ -31,39 +31,14 @@ public class MediatingTests {
 		ProxyMapCleaner.clear();
 	}
 
-	//--------------------------------------------------------------------------
-	//
-	//      mediating without mapping - fails
-	//
-	//--------------------------------------------------------------------------
-
-	[Test(expects="Error")]
-	public function mediating_baseView_WithoutMapping_fails():void {
-		var view:MediatingBaseView = new MediatingBaseView();
-		mediatorMap.mediate(view);
-	}
-
-
-	[Test(expects="Error")]
-	public function mediating_view_WithoutMapping_fails():void {
-		var view:MediatingView = new MediatingView();
-		mediatorMap.mediate(view);
-	}
-
-	//--------------------------------------------------------------------------
-	//
-	//      mediating without mapping - fails
-	//
-	//--------------------------------------------------------------------------
-
 
 	[Test(expects="Error")]
 
-	public function mediating_mediateWrongClass_fails():void {
-		mediatorMap.map(MediatingWrongView, MediatingBaseViewMediator);
-		var view:MediatingView = new MediatingView();
-		mediatorMap.mediate(view);
+	public function mediatingWith_mediateWrongClass_fails():void {
+		var view:MediatingWrongView = new MediatingWrongView();
+		mediatorMap.mediateWith(view, MediatingBaseViewMediator);
 	}
+
 
 	//--------------------------------------------------------------------------
 	//
@@ -71,34 +46,29 @@ public class MediatingTests {
 	//
 	//--------------------------------------------------------------------------
 
-
 	[Test]
 
-	public function mediating_mediatingAsInterface_ok():void {
-		mediatorMap.map(MediatingView, MediatingBaseViewMediator, MediatingBaseView);
+	public function mediating_mediatingWithAsInterface_ok():void {
 		var view:MediatingView = new MediatingView();
-		mediatorMap.mediate(view);
+		mediatorMap.mediateWith(view, MediatingBaseViewMediator, MediatingBaseView);
 		Assert.assertEquals("Mediator should be mediated and registered once.", 1, MediatingTestingVars.timesRegistered);
 		Assert.assertEquals("Mediator view should be injected.", view, MediatingTestingVars.viewObject);
 	}
 
 	[Test]
 
-	public function mediating_mediatingAsSuperClass_ok():void {
-		mediatorMap.map(MediatingView, MediatingIViewMediator, IMediatingView);
+	public function mediating_mediatingWithAsSuperClass_ok():void {
 		var view:MediatingView = new MediatingView();
-		mediatorMap.mediate(view);
+		mediatorMap.mediateWith(view, MediatingIViewMediator, IMediatingView);
 		Assert.assertEquals("Mediator should be mediated and registered once.", 1, MediatingTestingVars.timesRegistered);
 		Assert.assertEquals("Mediator view should be injected.", view, MediatingTestingVars.viewObject);
 	}
-
 
 	[Test(expects="Error")]
 
-	public function mediating_mediatingAsWrongClass_fails():void {
-		mediatorMap.map(MediatingWrongView, MediatingIViewMediator, IMediatingView);
-		var view:MediatingView = new MediatingView();
-		mediatorMap.mediate(view);
+	public function mediating_mediatingWithAsWrongClass_fails():void {
+		var view:MediatingWrongView = new MediatingWrongView();
+		mediatorMap.mediateWith(view, MediatingIViewMediator, IMediatingView);
 	}
 
 }

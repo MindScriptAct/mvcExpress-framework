@@ -9,7 +9,7 @@ import mvcexpress.core.ProxyMap;
  */
 public class ProxyMapCleaner extends ProxyMap {
 	
-	public static function clear() {
+	public static function clear():void {
 		qualifiedClassNameRegistry = new Dictionary();
 		classInjectRules = new Dictionary();
 	}
