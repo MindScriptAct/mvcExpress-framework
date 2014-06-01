@@ -4,7 +4,7 @@ import integration.mediating.testObj.view.viewObj.MediatingView;
 public class MediatingChainViewMediator extends MediatingChainBaseViewMediator {
 
 	[Inject]
-	public var view:MediatingView;
+	public var extendedView:MediatingView;
 
 	//[Inject]
 	//public var myProxy:MyProxy;

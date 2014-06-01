@@ -1,10 +1,10 @@
 package integration.mediating.testObj.view.chain {
 import integration.mediating.testObj.view.viewObj.IMediatingView;
 
-public class MediatingChainIViewMediator extends MediatingChainBaseViewMediator {
+public class MediatingChainIViewMediator extends MediatingChainViewMediator {
 
 	[Inject]
-	public var view:IMediatingView;
+	public var interfaceView:IMediatingView;
 
 	//[Inject]
 	//public var myProxy:MyProxy;

@@ -7,14 +7,14 @@ import mvcexpress.mvc.Mediator;
 public class MediatingChainBaseViewMediator extends Mediator {
 
 	[Inject]
-	public var baseView:MediatingBaseView;
+	public var view:MediatingBaseView;
 
 	//[Inject]
 	//public var myProxy:MyProxy;
 
 	override protected function onRegister():void {
 		MediatingTestingVars.timesRegistered++;
-		MediatingTestingVars.viewObject = baseView;
+		MediatingTestingVars.viewObject = view;
 	}
 
 	override protected function onRemove():void {
