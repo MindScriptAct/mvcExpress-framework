@@ -4,16 +4,11 @@ package integration.mediating.testObj.view.viewObj {
  * COMMENT
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  */
-public class MediatingView extends MediatingBaseView implements IMediatingView {
+public class MediatingView extends MediatingBaseView {
 
 	public function MediatingView() {
 	}
 
-	/* INTERFACE integration.mediating.testObj.IMediatingIntefrafe */
-
-	public function doStuff():void {
-
-	}
 
 }
 }
