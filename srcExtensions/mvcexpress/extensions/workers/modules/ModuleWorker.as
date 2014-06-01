@@ -77,11 +77,11 @@ public class ModuleWorker extends ModuleCore {
 	 * @param workerModuleName
 	 * @param workerSwfBytes    bytes of loaded swf file.
 	 */
-	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null):void {
+	public function startWorker(workerModuleClass:Class, workerModuleName:String, workerSwfBytes:ByteArray = null, giveAppPrivileges:Boolean = false):void {
 		use namespace pureLegsCore;
 
 		// DOIT : implement optional module parameters for extendability.
-		WorkerManager.startWorker(moduleName, workerModuleClass, workerModuleName, workerSwfBytes);
+		WorkerManager.startWorker(moduleName, workerModuleClass, workerModuleName, workerSwfBytes, giveAppPrivileges);
 	}
 
 	/**

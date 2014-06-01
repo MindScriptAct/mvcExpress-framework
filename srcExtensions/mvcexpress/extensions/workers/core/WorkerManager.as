@@ -191,7 +191,7 @@ public class WorkerManager {
 	 *
 	 * @private
 	 */
-	static pureLegsCore function startWorker(mainModuleName:String, workerModuleClass:Class, remoteModuleName:String, workerSwfBytes:ByteArray = null):void {
+	static pureLegsCore function startWorker(mainModuleName:String, workerModuleClass:Class, remoteModuleName:String, workerSwfBytes:ByteArray = null, giveAppPrivileges:Boolean = false):void {
 		use namespace pureLegsCore;
 
 		CONFIG::debug {
@@ -210,9 +210,9 @@ public class WorkerManager {
 
 				var remoteWorker:Object;
 				if (workerSwfBytes) {
-					remoteWorker = WorkerDomainClass.current.createWorker(workerSwfBytes);
+					remoteWorker = WorkerDomainClass.current.createWorker(workerSwfBytes, giveAppPrivileges);
 				} else if ($primordialSwfBytes) {
-					remoteWorker = WorkerDomainClass.current.createWorker($primordialSwfBytes);
+					remoteWorker = WorkerDomainClass.current.createWorker($primordialSwfBytes, giveAppPrivileges);
 				} else {
 					throw Error("Worker needs swf bytes to be constructed. You can pass it to startWorker() as 'workerSwfBytes' parameter or set it from ModuleWorker class with: setRootSwfBytes(loaderInfo.bytes);");
 				}
