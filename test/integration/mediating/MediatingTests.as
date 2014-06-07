@@ -284,7 +284,11 @@ public class MediatingTests {
 
 	[Test]
 	public function mediating_view_baseAndViewAndInterfaceMediator_AND_asBaseAndView_inChainInterfaceMediator_ok():void {
-		mediatorMap.map(MediatingView, MediatingViewMediator, MediatingView, MediatingBaseViewMediator, MediatingBaseView, MediatingIViewMediator, IMediatingView, MediatingChainIViewMediator, MediatingBaseView, MediatingView, IMediatingView);
+		mediatorMap.map(MediatingView, //
+				MediatingViewMediator, MediatingView, //
+				MediatingBaseViewMediator, MediatingBaseView, //
+				MediatingIViewMediator, IMediatingView, //
+				MediatingChainIViewMediator, MediatingBaseView, MediatingView, IMediatingView);
 		var view:MediatingView = new MediatingView();
 		mediatorMap.mediate(view);
 		Assert.assertEquals("Mediator should be mediated and registered fore times.", 4, MediatingTestingVars.timesRegistered);

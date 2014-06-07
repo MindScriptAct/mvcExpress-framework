@@ -453,7 +453,7 @@ public class ProxyMap implements IProxyMap {
 	}
 
 	// init lazy proxy
-	private function initLazyProxy(injectId:String):Proxy {
+	protected function initLazyProxy(injectId:String):Proxy {
 
 		var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectId];
 
@@ -625,35 +625,25 @@ public class ProxyMap implements IProxyMap {
 	 * mediatorObject and mediatorInjectClass defines injection that will be done for current object only.
 	 * @private
 	 */
-	pureLegsCore function injectStuff(object:Object, signatureClass:Class, mediatorObject:Object = null, mediatorInjectClass:Class = null, additionalInjectClasses:Vector.<Class> = null):Boolean {
+	pureLegsCore function injectStuff(object:Object, signatureClass:Class, mediatorViewObject:Object = null, mediatorViewInjectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		var isAllInjected:Boolean = true;
 
 		// deal with temporal injection. (it is used only for this injection, for example - view object for mediator is used this way.)
 		var mediatorInjectClassName:String;
-		if (mediatorObject) {
-			if (mediatorInjectClass) {
-				mediatorInjectClassName = qualifiedClassNameRegistry[mediatorInjectClass];
-				if (!mediatorInjectClassName) {
-					mediatorInjectClassName = getQualifiedClassName(mediatorInjectClass);
-					qualifiedClassNameRegistry[mediatorInjectClass] = mediatorInjectClassName;
-				}
-				mediatorInjectObjectRegistry[mediatorInjectClassName] = mediatorObject;
-			}
-			if (additionalInjectClasses) {
-				for (var i:int = 0; i < additionalInjectClasses.length; i++) {
-					var additionalInjectClass:Class = additionalInjectClasses[i];
+		if (mediatorViewObject) {
+			if (mediatorViewInjectClasses) {
+				var mediatorInjectClassNames:Vector.<String> = new <String>[];
+				for (var i:int = 0; i < mediatorViewInjectClasses.length; i++) {
+					var additionalInjectClass:Class = mediatorViewInjectClasses[i];
 					mediatorInjectClassName = qualifiedClassNameRegistry[additionalInjectClass];
 					if (!mediatorInjectClassName) {
 						mediatorInjectClassName = getQualifiedClassName(additionalInjectClass);
 						qualifiedClassNameRegistry[additionalInjectClass] = mediatorInjectClassName;
 					}
-					if (!(mediatorInjectClassName in mediatorInjectObjectRegistry)) {
-						mediatorInjectObjectRegistry[mediatorInjectClassName] = mediatorObject;
-					} else {
-						throw Error("Mediator object should not be mapped for injection... it was meant to be used by framework only.");
-					}
+					mediatorInjectObjectRegistry[mediatorInjectClassName] = mediatorViewObject;
+					mediatorInjectClassNames.push(mediatorInjectClassName);
 				}
 			}
 		}
@@ -681,7 +671,7 @@ public class ProxyMap implements IProxyMap {
 			var injectId:String = rule.injectId;
 
 			// check if we inject to mediator.
-			if (mediatorObject) {
+			if (mediatorViewObject) {
 				injectObject = mediatorInjectObjectRegistry[injectId];
 				if (injectObject == null && !MvcExpress.usePureMediators) {
 					injectObject = injectObjectRegistry[injectId];
@@ -760,7 +750,7 @@ public class ProxyMap implements IProxyMap {
 		}
 
 		////// handle command pooling (register dependencies)
-		// chekc if object is PooledCommand,
+		// check if object is PooledCommand,
 		if (object is PooledCommand) {
 			var command:PooledCommand = object as PooledCommand;
 			//check if it is not pooled already.
@@ -774,12 +764,12 @@ public class ProxyMap implements IProxyMap {
 		}
 
 		// dispose mediator injection if it was used.
-		if (mediatorInjectClassName) {
-			delete mediatorInjectObjectRegistry[mediatorInjectClassName];
+		if (mediatorInjectClassNames) {
+			for (r = 0; r < mediatorInjectClassNames.length; r++) {
+				delete mediatorInjectObjectRegistry[mediatorInjectClassNames[r]];
+			}
 		}
-		if (additionalInjectClasses) {
-			// FIXME: remove temp injections..
-		}
+
 		return isAllInjected;
 	}
 

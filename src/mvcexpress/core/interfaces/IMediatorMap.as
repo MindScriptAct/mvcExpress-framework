@@ -25,7 +25,8 @@ public interface IMediatorMap {
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
 	 * @param    injectClass        inject mediator as this class.
 	 */
-	function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void;
+	// FIXME: COMMENT.
+	function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void;
 
 	/**
 	 * Stops view object mediation by all or specific mediator.                                                                                                        <p>
