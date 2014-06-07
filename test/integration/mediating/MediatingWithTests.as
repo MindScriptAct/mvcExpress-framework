@@ -266,12 +266,12 @@ public class MediatingWithTests {
 
 	[Test]
 	public function mediatingWith_view_baseAndViewAndInterfaceMediator_AND_asBaseAndView_inChainInterfaceMediator_ok():void {
+		var view:MediatingView = new MediatingView();
 		mediatorMap.mediateWith(view, //
 				MediatingViewMediator, MediatingView, //
 				MediatingBaseViewMediator, MediatingBaseView, //
 				MediatingIViewMediator, IMediatingView, //
 				MediatingChainIViewMediator, MediatingBaseView, MediatingView, IMediatingView);
-		var view:MediatingView = new MediatingView();
 		Assert.assertEquals("Mediator should be mediated and registered fore times.", 4, MediatingTestingVars.timesRegistered);
 		Assert.assertEquals("Mediator view should be injected.", view, MediatingTestingVars.viewObject);
 	}
