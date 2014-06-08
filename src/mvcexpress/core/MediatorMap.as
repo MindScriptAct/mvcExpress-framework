@@ -63,9 +63,9 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewClass        view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param    mediatorClass    mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param    injectClass        inject view into mediator as this class.
-	 * @param    restClassPairs        rest or mediatorClass and injectClass pairs if you want your view mediated by more then one mediator.
+	 * @param    restMediatorAndInjectClasses    more mediator classes followed by one ore more view classes for injection int those mediators.
 	 */
-	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void {
+	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
 		// do until all mediators are handled. (from restClassPairs Array too..)
 		while (mediatorClass) {
 
@@ -111,12 +111,12 @@ public class MediatorMap implements IMediatorMap {
 			mediatorMapOrderRegistry[viewClass].push(mediatorClass);
 
 			// set rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
-			if (restClassPairs) {
+			if (restMediatorAndInjectClasses) {
 				var nextMediatorFound:Boolean = false;
-				while (restClassPairs.length && !nextMediatorFound) {
+				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
 
 					// check if next class is mediator class or another view inject class.
-					var nextClass:Object = restClassPairs.shift();
+					var nextClass:Object = restMediatorAndInjectClasses.shift();
 
 					CONFIG::debug {
 						if (!(nextClass is Class)) {
@@ -128,8 +128,8 @@ public class MediatorMap implements IMediatorMap {
 						// mediator class found!
 						nextMediatorFound = true;
 						mediatorClass = nextClass as Class;
-						if (restClassPairs.length) {
-							injectClass = restClassPairs.shift();
+						if (restMediatorAndInjectClasses.length) {
+							injectClass = restMediatorAndInjectClasses.shift();
 						} else {
 							injectClass = null;
 						}
@@ -278,9 +278,9 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewObject        view object to mediate.
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
 	 * @param    injectClass        inject mediator as this class.
+	 * @param    restMediatorAndInjectClasses        Sequence of mediotor classes followed by one and more inject classes, to those mediators.
 	 */
-		// FIXME : COMMENT.
-	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void {
+	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
 		use namespace pureLegsCore;
 
 		// get view object view class.
@@ -339,12 +339,12 @@ public class MediatorMap implements IMediatorMap {
 			injectClasses.push(injectClass);
 
 			// find rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
-			if (restClassPairs) {
+			if (restMediatorAndInjectClasses) {
 				var nextMediatorFound:Boolean = false;
-				while (restClassPairs.length && !nextMediatorFound) {
+				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
 
 					// check if next class is mediator class or another view inject class.
-					var nextClass:Object = restClassPairs.shift();
+					var nextClass:Object = restMediatorAndInjectClasses.shift();
 
 					CONFIG::debug {
 						if (!(nextClass is Class)) {
@@ -362,8 +362,8 @@ public class MediatorMap implements IMediatorMap {
 						// mediator class found!
 						nextMediatorFound = true;
 						mediatorClass = nextClass as Class;
-						if (restClassPairs.length) {
-							injectClass = restClassPairs.shift();
+						if (restMediatorAndInjectClasses.length) {
+							injectClass = restMediatorAndInjectClasses.shift();
 						} else {
 							injectClass = null;
 						}
