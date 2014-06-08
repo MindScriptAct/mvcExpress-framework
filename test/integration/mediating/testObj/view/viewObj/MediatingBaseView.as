@@ -1,11 +1,16 @@
 package integration.mediating.testObj.view.viewObj {
 import flash.display.Sprite;
 
-public class MediatingBaseView extends Sprite {
+public class MediatingBaseView extends Sprite implements IMediatingView {
 
-	static public var timesRegistered:int = 0;
 
 	public function MediatingBaseView() {
+
+	}
+
+	/* INTERFACE integration.mediating.testObj.IMediatingIntefrafe */
+
+	public function doStuff():void {
 
 	}
 

@@ -1,9 +1,10 @@
-package integration.mediating.testObj.view {
+package integration.mediating.testObj.view.chain {
+import integration.mediating.MediatingTestingVars;
 import integration.mediating.testObj.view.viewObj.MediatingBaseView;
 
 import mvcexpress.mvc.Mediator;
 
-public class MediatingSuperClassMediator extends Mediator {
+public class MediatingChainBaseViewMediator extends Mediator {
 
 	[Inject]
 	public var view:MediatingBaseView;
@@ -12,7 +13,8 @@ public class MediatingSuperClassMediator extends Mediator {
 	//public var myProxy:MyProxy;
 
 	override protected function onRegister():void {
-		MediatingBaseView.timesRegistered++;
+		MediatingTestingVars.timesRegistered++;
+		MediatingTestingVars.viewObject = view;
 	}
 
 	override protected function onRemove():void {

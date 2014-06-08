@@ -37,7 +37,7 @@ public class MediatorMap implements IMediatorMap {
 	// used internally for communications
 	protected var messenger:Messenger;
 
-	// stores all mediator classes using view class(mediator must mediate) as a key.
+	// stores all view inject classes by mediator and view class(mediator must mediate) as a key.
 	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of (Dictionary of Class) by Class */
 
 	// stores all mediators in sequence they were mapped.
@@ -63,12 +63,13 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewClass        view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param    mediatorClass    mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param    injectClass        inject view into mediator as this class.
-	 * @param    restClassPairs        rest or mediatorClass and injectClass pairs if you want your view mediated by more then one mediator.
+	 * @param    restMediatorAndInjectClasses    more mediator classes followed by one ore more view classes for injection int those mediators.
 	 */
-	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void {
-		// debug this action
+	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
+		// do until all mediators are handled. (from restClassPairs Array too..)
 		while (mediatorClass) {
 
+			// debug this action
 			CONFIG::debug {
 				use namespace pureLegsCore;
 
@@ -104,19 +105,40 @@ public class MediatorMap implements IMediatorMap {
 			if (!injectClass) {
 				injectClass = viewClass;
 			}
-			mediatorMappingRegistry[viewClass][mediatorClass] = injectClass;
+			var injectClasses:Vector.<Class> = new <Class>[];
+			mediatorMappingRegistry[viewClass][mediatorClass] = injectClasses;
+			injectClasses.push(injectClass);
 			mediatorMapOrderRegistry[viewClass].push(mediatorClass);
 
 			// set rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
-			if (restClassPairs) {
-				if (restClassPairs.length) {
-					mediatorClass = restClassPairs.shift();
-					if (restClassPairs.length) {
-						injectClass = restClassPairs.shift();
-					} else {
-						injectClass = null;
+			if (restMediatorAndInjectClasses) {
+				var nextMediatorFound:Boolean = false;
+				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
+
+					// check if next class is mediator class or another view inject class.
+					var nextClass:Object = restMediatorAndInjectClasses.shift();
+
+					CONFIG::debug {
+						if (!(nextClass is Class)) {
+							throw Error("Only Class objects can be provided then mapping views and mediators.");
+						}
 					}
-				} else {
+
+					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
+						// mediator class found!
+						nextMediatorFound = true;
+						mediatorClass = nextClass as Class;
+						if (restMediatorAndInjectClasses.length) {
+							injectClass = restMediatorAndInjectClasses.shift();
+						} else {
+							injectClass = null;
+						}
+					} else {
+						// another view class found - add it to the list.
+						injectClasses.push(nextClass);
+					}
+				}
+				if (!nextMediatorFound) {
 					mediatorClass = null;
 				}
 			}
@@ -193,8 +215,7 @@ public class MediatorMap implements IMediatorMap {
 
 				// get mapped mediator class.
 				var mediatorClass:Class = mediators[i];
-				var injectClass:Class = mappedMediators[mediatorClass];
-
+				var injectClasses:Vector.<Class> = mappedMediators[mediatorClass];
 
 				CONFIG::debug {
 					// Allows Mediator to be constructed. (removed from release build to save some performance.)
@@ -211,7 +232,7 @@ public class MediatorMap implements IMediatorMap {
 					Mediator.canConstruct = false;
 				}
 
-				if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
+				if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
 					mediator.register();
 				}
 			}
@@ -229,7 +250,7 @@ public class MediatorMap implements IMediatorMap {
 	 * @return    returns true if all dependencies are injected.
 	 * @private
 	 */
-	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClass:Class):Boolean {
+	protected function prepareMediator(mediator:Mediator, mediatorClass:Class, viewObject:Object, injectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		var retVal:Boolean;
@@ -239,7 +260,7 @@ public class MediatorMap implements IMediatorMap {
 		mediator.proxyMap = viewProxyMap;
 		mediator.mediatorMap = this;
 
-		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClass);
+		retVal = proxyMap.injectStuff(mediator, mediatorClass, viewObject, injectClasses);
 
 		if (!(viewObject in mediatorRegistry)) {
 			mediatorRegistry[viewObject] = new Vector.<Mediator>;
@@ -257,60 +278,111 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewObject        view object to mediate.
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
 	 * @param    injectClass        inject mediator as this class.
+	 * @param    restMediatorAndInjectClasses        Sequence of mediotor classes followed by one and more inject classes, to those mediators.
 	 */
-	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void {
+	public function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
 		use namespace pureLegsCore;
 
-		if (viewObject in mediatorRegistry) {
-			var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
-			for (var i:int = 0; i < mediators.length; i++) {
-				if ((mediators[i] as Object).constructor == mediatorClass) {
-					throw Error("This view object is already mediated by " + mediators[i]);
-				}
-			}
-		}
-
-		CONFIG::debug {
-			// check if mediatorClass is subclass of Mediator class
-			if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator", true)) {
-				throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'mvcexpress.mvc::Mediator' class.");
-			}
-
-			// var check if mediator is supported by this module.
-			var extensionId:int = ExtensionManager.getExtensionId(mediatorClass);
-			if (SUPPORTED_EXTENSIONS[extensionId] == null) {
-				throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " command.");
-			}
-
-			// Allows Mediator to be constructed. (removed from release build to save some performance.)
-			Mediator.canConstruct = true;
-		}
-
-		// create mediator.
-		var mediator:Mediator = new mediatorClass();
-
+		// get view object view class.
 		var viewClass:Class = viewObject.constructor as Class;
 		// if '.constructor' fail to get class - do it using class name. (.constructor is faster but might fail with some object.)
 		if (!viewClass) {
 			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
 		}
 
-		// if injectClass is not provided - use view class for injection.
-		if (!injectClass) {
-			injectClass = viewClass;
-		}
+		// do until all mediators are handled. (from restClassPairs Array too..)
+		while (mediatorClass) {
 
-		CONFIG::debug {
-			// debug this action
-			MvcExpress.debug(new TraceMediatorMap_mediate(moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
+			if (viewObject in mediatorRegistry) {
+				var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
+				for (var i:int = 0; i < mediators.length; i++) {
+					if ((mediators[i] as Object).constructor == mediatorClass) {
+						throw Error("This view object is already mediated by " + mediators[i]);
+					}
+				}
+			}
 
-			// Block Mediator construction.
-			Mediator.canConstruct = false;
-		}
+			CONFIG::debug {
+				// check if mediatorClass is subclass of Mediator class
+				if (!checkClassSuperclass(mediatorClass, "mvcexpress.mvc::Mediator", true)) {
+					throw Error("mediatorClass:" + mediatorClass + " you are trying to use is not extended from 'mvcexpress.mvc::Mediator' class.");
+				}
 
-		// register mediator if everything is injected.
-		if (prepareMediator(mediator, mediatorClass, viewObject, injectClass)) {
-			mediator.register();
+				// var check if mediator is supported by this module.
+				var extensionId:int = ExtensionManager.getExtensionId(mediatorClass);
+				if (SUPPORTED_EXTENSIONS[extensionId] == null) {
+					throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " command.");
+				}
+
+				// Allows Mediator to be constructed. (removed from release build to save some performance.)
+				Mediator.canConstruct = true;
+			}
+
+			// create mediator.
+			var mediator:Mediator = new mediatorClass();
+
+			// if injectClass is not provided - use view class for injection.
+			if (!injectClass) {
+				injectClass = viewClass;
+			}
+
+			CONFIG::debug {
+				// debug this action
+				MvcExpress.debug(new TraceMediatorMap_mediate(moduleName, viewObject, mediator, viewClass, mediatorClass, getQualifiedClassName(mediatorClass)));
+
+				// Block Mediator construction.
+				Mediator.canConstruct = false;
+			}
+
+			// FIXME : implement.
+			var injectClasses:Vector.<Class> = new <Class>[];
+			injectClasses.push(injectClass);
+
+			// find rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
+			if (restMediatorAndInjectClasses) {
+				var nextMediatorFound:Boolean = false;
+				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
+
+					// check if next class is mediator class or another view inject class.
+					var nextClass:Object = restMediatorAndInjectClasses.shift();
+
+					CONFIG::debug {
+						if (!(nextClass is Class)) {
+							throw Error("Only Class objects can be provided then mapping views and mediators.");
+						}
+					}
+
+					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
+
+						// next mediator found - register mediator if everything is injected.
+						if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
+							mediator.register();
+						}
+
+						// mediator class found!
+						nextMediatorFound = true;
+						mediatorClass = nextClass as Class;
+						if (restMediatorAndInjectClasses.length) {
+							injectClass = restMediatorAndInjectClasses.shift();
+						} else {
+							injectClass = null;
+						}
+					} else {
+						// another view class found - add it to the list.
+						injectClasses.push(nextClass);
+					}
+				}
+			}
+
+			if (!nextMediatorFound) {
+
+				// register mediator if everything is injected.
+				if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
+					mediator.register();
+				}
+
+				mediatorClass = null;
+			}
 		}
 	}
 

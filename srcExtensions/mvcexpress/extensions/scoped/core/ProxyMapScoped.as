@@ -7,15 +7,14 @@ import mvcexpress.MvcExpress;
 import mvcexpress.core.*;
 import mvcexpress.core.inject.InjectRuleVO;
 import mvcexpress.core.inject.PendingInject;
-import mvcexpress.core.lazy.LazyProxyVO;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectPending;
 import mvcexpress.core.traceObjects.proxyMap.TraceProxyMap_injectStuff;
+import mvcexpress.extensions.scoped.core.inject.InjectRuleScopedVO;
 import mvcexpress.extensions.scoped.core.traceObjects.TraceProxyMap_scopeMap;
 import mvcexpress.extensions.scoped.core.traceObjects.TraceProxyMap_scopeUnmap;
 import mvcexpress.extensions.scoped.core.traceObjects.TraceProxyMap_scopedInjectPending;
-import mvcexpress.extensions.scoped.core.inject.InjectRuleScopedVO;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
 import mvcexpress.extensions.scoped.mvc.ProxyScoped;
 import mvcexpress.mvc.Command;
@@ -103,24 +102,25 @@ public class ProxyMapScoped extends ProxyMap {
 	 * tempValue and tempClass defines injection that will be done for current object only.
 	 * @private
 	 */
-	override pureLegsCore function injectStuff(object:Object, signatureClass:Class, tempValue:Object = null, tempClass:Class = null):Boolean {
+	override pureLegsCore function injectStuff(object:Object, signatureClass:Class, mediatorViewObject:Object = null, mediatorViewInjectClasses:Vector.<Class> = null):Boolean {
 		use namespace pureLegsCore;
 
 		var isAllInjected:Boolean = true;
 
 		// deal with temporal injection. (it is used only for this injection, for example - view object for mediator is used this way.)
-		var tempClassName:String;
-		if (tempValue) {
-			if (tempClass) {
-				tempClassName = qualifiedClassNameRegistry[tempClass];
-				if (!tempClassName) {
-					tempClassName = getQualifiedClassName(tempClass);
-					qualifiedClassNameRegistry[tempClass] = tempClassName;
-				}
-				if (!injectObjectRegistry[tempClassName]) {
-					injectObjectRegistry[tempClassName] = tempValue;
-				} else {
-					throw Error("Temp object should not be mapped already... it was meant to be used by framework for mediator view object only.");
+		var mediatorInjectClassName:String;
+		if (mediatorViewObject) {
+			if (mediatorViewInjectClasses) {
+				var mediatorInjectClassNames:Vector.<String> = new <String>[];
+				for (var i:int = 0; i < mediatorViewInjectClasses.length; i++) {
+					var additionalInjectClass:Class = mediatorViewInjectClasses[i];
+					mediatorInjectClassName = qualifiedClassNameRegistry[additionalInjectClass];
+					if (!mediatorInjectClassName) {
+						mediatorInjectClassName = getQualifiedClassName(additionalInjectClass);
+						qualifiedClassNameRegistry[additionalInjectClass] = mediatorInjectClassName;
+					}
+					mediatorInjectObjectRegistry[mediatorInjectClassName] = mediatorViewObject;
+					mediatorInjectClassNames.push(mediatorInjectClassName);
 				}
 			}
 		}
@@ -140,10 +140,14 @@ public class ProxyMapScoped extends ProxyMap {
 
 		// injects all dependencies using rules.
 		var ruleCount:int = rules.length;
-		for (var i:int; i < ruleCount; i++) {
-			var rule:InjectRuleScopedVO = rules[i] as InjectRuleScopedVO;
+		for (var r:int; r < ruleCount; r++) {
+
+			var injectObject:Object = null;
+			var rule:InjectRuleScopedVO = rules[r] as InjectRuleScopedVO;
+
+			var injectId:String = rule.injectId;
 			var scopename:String = rule.scopeName;
-			var injectClassAndName:String = rule.injectId;
+
 			if (scopename) {
 				if (!ScopeManager.injectScopedProxy(object, rule)) {
 					if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
@@ -154,104 +158,140 @@ public class ProxyMapScoped extends ProxyMap {
 							MvcExpress.debug(new TraceProxyMap_scopedInjectPending(scopename, moduleName, object, injectObject, rule));
 						}
 
-						ScopeManager.addPendingScopedInjection(scopename, injectClassAndName, new PendingInject(injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+						ScopeManager.addPendingScopedInjection(scopename, injectId, new PendingInject(injectId, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
 
 						object.pendingInjections++;
 
 						//throw Error("Pending scoped injection is not supported yet.. (IN TODO...)");
 					} else {
-						throw Error("Inject object is not found in scope:" + scopename + " for class with id:" + injectClassAndName + "(needed in " + object + ")");
+						throw Error("Inject object is not found in scope:" + scopename + " for class with id:" + injectId + "(needed in " + object + ")");
 					}
 				}
 			} else {
-				var injectObject:Object = injectObjectRegistry[injectClassAndName];
+
+				// check if we inject to mediator.
+				if (mediatorViewObject) {
+					injectObject = mediatorInjectObjectRegistry[injectId];
+					if (injectObject == null && !MvcExpress.usePureMediators) {
+						injectObject = injectObjectRegistry[injectId];
+						// check if this proxy is not restricted for mediators.
+						//if (injectObject in mediatorInjectObjectRegistry) {
+						// TODO: check performance hit.
+						for (var key:String in mediatorInjectObjectRegistry) {
+							if (mediatorInjectObjectRegistry[key] == injectObject) {
+								var allowedInjectId:String = key;
+							}
+						}
+						if (allowedInjectId) {
+							injectObject = null;
+							throw Error("You are trying to inject class:" + injectId + " into " + object + ", but mediators allowed to inject this proxy only as:" + allowedInjectId + " class");
+						}
+						//}
+					}
+					if (!injectObject) {
+						// if injection fails... test for lazy injections
+						if (injectId in lazyProxyRegistry) {
+							initLazyProxy(injectId);
+							injectObject = mediatorInjectObjectRegistry[injectId];
+							if (injectObject == null && !MvcExpress.usePureMediators) {
+								injectObject = injectObjectRegistry[injectId];
+							}
+						}
+					}
+					// proxy is not found
+					if (!injectObject) {
+						// check if pending injection feature is enabled. (wait for injcetion if it is.)
+						if (MvcExpress.pendingInjectsTimeOut == 0) {
+							// throw error.
+							injectObject = injectObjectRegistry[injectId];
+							if (injectObject) {
+								throw Error("You are trying to inject class:" + injectId + " into " + object + ", but mediators are not allowed to inject this proxy. To enable this: set mediatorInjectClass parameter then you map this proxy.");
+							} else {
+								throw Error("Inject object is not found for class with id:" + injectId + "(needed in " + object + ")");
+							}
+						}
+					}
+				} else {
+					injectObject = injectObjectRegistry[injectId];
+				}
+
+				if (!injectObject) {
+					// if local injection fails... test for lazy injections
+					if (injectId in lazyProxyRegistry) {
+						injectObject = initLazyProxy(injectId);
+					} else {
+						// remember that not all injections exists
+						isAllInjected = false;
+
+						// if pending injection feature is enabled - wait for injection.
+						if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
+							// debug this action
+							CONFIG::debug {
+								MvcExpress.debug(new TraceProxyMap_injectPending(moduleName, object, injectObject, rule));
+							}
+							//
+							addPendingInjection(injectId, new PendingInject(injectId, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+							object.pendingInjections++;
+						} else {
+							throw Error("Inject object is not found for class with id:" + injectId + "(needed in " + object + ")");
+						}
+					}
+				}
+
+				if (!injectObject) {
+					// if local injection fails... test for lazy injections
+					if (injectId in lazyProxyRegistry) {
+						injectObject = initLazyProxy(injectId);
+					} else {
+						// remember that not all injections exists
+						isAllInjected = false;
+
+						// if pending injection feature is enabled - wait for injection.
+						if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
+							// debug this action
+							CONFIG::debug {
+								MvcExpress.debug(new TraceProxyMap_injectPending(moduleName, object, injectObject, rule));
+							}
+							//
+							addPendingInjection(injectId, new PendingInject(injectId, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
+							object.pendingInjections++;
+						} else {
+							throw Error("Inject object is not found for class with id:" + injectId + "(needed in " + object + ")");
+						}
+					}
+				}
+
 				if (injectObject) {
 					object[rule.varName] = injectObject;
 					// debug this action
 					CONFIG::debug {
 						MvcExpress.debug(new TraceProxyMap_injectStuff(moduleName, object, injectObject, rule));
 					}
-				} else {
-					// if local injection fails... test for lazy injections
-					if (injectClassAndName in lazyProxyRegistry) {
-						var lazyProxyData:LazyProxyVO = lazyProxyRegistry[injectClassAndName];
-						delete lazyProxyRegistry[injectClassAndName];
-
-						var lazyProxy:Proxy;
-
-						if (lazyProxyData.proxyParams) {
-							var paramCount:int = lazyProxyData.proxyParams.length;
-							if (paramCount == 0) {
-								lazyProxy = new lazyProxyData.proxyClass();
-							} else if (paramCount == 1) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0]);
-							} else if (paramCount == 2) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1]);
-							} else if (paramCount == 3) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2]);
-							} else if (paramCount == 4) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3]);
-							} else if (paramCount == 5) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4]);
-							} else if (paramCount == 6) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5]);
-							} else if (paramCount == 7) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6]);
-							} else if (paramCount == 8) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7]);
-							} else if (paramCount == 9) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8]);
-							} else if (paramCount == 10) {
-								lazyProxy = new lazyProxyData.proxyClass(lazyProxyData.proxyParams[0], lazyProxyData.proxyParams[1], lazyProxyData.proxyParams[2], lazyProxyData.proxyParams[3], lazyProxyData.proxyParams[4], lazyProxyData.proxyParams[5], lazyProxyData.proxyParams[6], lazyProxyData.proxyParams[7], lazyProxyData.proxyParams[8], lazyProxyData.proxyParams[9]);
-							} else {
-								throw Error("Lazy proxing is not supported with that many parameters. Cut it douwn please. Thanks!  [injectClass:" + lazyProxyData.injectClass + " ,name: " + lazyProxyData.name + "]");
-							}
-						} else {
-							lazyProxy = new lazyProxyData.proxyClass();
-						}
-						map(lazyProxy, lazyProxyData.name, lazyProxyData.injectClass);
-
-						i--;
-
-					} else {
-						// remember that not all injections exists
-						isAllInjected = false;
-
-						if (MvcExpress.pendingInjectsTimeOut && !(object is Command)) {
-							//add injection to pending injections.
-							// debug this action
-							CONFIG::debug {
-								MvcExpress.debug(new TraceProxyMap_injectPending(moduleName, object, injectObject, rule));
-							}
-							//
-							addPendingInjection(injectClassAndName, new PendingInject(injectClassAndName, object, signatureClass, MvcExpress.pendingInjectsTimeOut));
-							object.pendingInjections++;
-						} else {
-							throw Error("Inject object is not found for class with id:" + injectClassAndName + "(needed in " + object + ")");
-						}
-					}
 				}
 			}
 		}
 
 		////// handle command pooling (register dependencies)
-		// chekc if object is PooledCommand,
+		// check if object is PooledCommand,
 		if (object is PooledCommand) {
 			var command:PooledCommand = object as PooledCommand;
 			//check if it is not pooled already.
 			if (!commandMap.isCommandPooled(signatureClass)) {
 				// dependencies remembers who is dependant on them.
 				ruleCount = rules.length;
-				for (var r:int; r < ruleCount; r++) {
+				for (r = 0; r < ruleCount; r++) {
 					(command[rules[r].varName] as Proxy).registerDependantCommand(signatureClass);
 				}
 			}
 		}
 
-		// dispose temporal injection if it was used.
-		if (tempClassName) {
-			delete injectObjectRegistry[tempClassName];
+		// dispose mediator injection if it was used.
+		if (mediatorInjectClassNames) {
+			for (r = 0; r < ruleCount; r++) {
+				delete mediatorInjectObjectRegistry[mediatorInjectClassNames[r]];
+			}
 		}
+
 		return isAllInjected;
 	}
 

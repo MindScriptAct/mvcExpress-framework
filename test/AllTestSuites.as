@@ -5,6 +5,7 @@ import integration.extensionChecking.ExtensionCheckingTestsLive;
 import integration.extensionChecking.ExtensionCheckingTestsScoped;
 import integration.lazyProxy.LazyProxyTests;
 import integration.mediating.MediatingTests;
+import integration.mediating.MediatingWithTests;
 import integration.moduleInitTests.ModuleInitTests;
 import integration.proxyMap.ProxyMapTests;
 import integration.proxyMapMediatorProtectionTests.ProxyMapMediatorProtectionTests;
@@ -56,6 +57,7 @@ public class AllTestSuites {
 	public var lazyProxyTests:LazyProxyTests;
 
 	public var mediatingTests:MediatingTests;
+	public var mediatingWithTests:MediatingWithTests;
 
 	public var controllerTests:CommandMapTests;
 
@@ -63,6 +65,7 @@ public class AllTestSuites {
 
 	public var proxyMapTests:ProxyMapTests;
 
+	public var proxyMapMediatorProtectionTests:ProxyMapMediatorProtectionTests;
 
 	//*/
 
@@ -77,7 +80,7 @@ public class AllTestSuites {
 
 	//*/
 
-	public var proxyMapMediatorProtectionTests:ProxyMapMediatorProtectionTests;
+
 
 
 	//*/
