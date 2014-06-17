@@ -23,7 +23,7 @@ use namespace pureLegsCore;
  * Handles command mappings, and executes them then mapped message string is sent.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class CommandMap {
 

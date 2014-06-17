@@ -7,7 +7,7 @@ import mvcexpress.core.traceObjects.messenger.TraceMessenger_send;
 import mvcexpress.core.traceObjects.messenger.TraceMessenger_send_handler;
 
 /**
- * @version unpuremvc.1.0.rc4
+ * @version unpuremvc.2.0.rc4
  */
 public class UnpureMessenger extends Messenger {
 

@@ -5,7 +5,7 @@ package mvcexpress.core.interfaces {
  * Interface for Mediator. MediatorsMap use mediators with this interface.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public interface IMediatorMap {
 
@@ -24,9 +24,9 @@ public interface IMediatorMap {
 	 * @param    viewObject        view object to mediate.
 	 * @param    mediatorClass    mediator class that will be instantiated and used to mediate view object
 	 * @param    injectClass        inject mediator as this class.
+	 * @param    restMediatorAndInjectClasses        Sequence of mediotor classes followed by one and more inject classes, to those mediators.
 	 */
-	// FIXME: COMMENT.
-	function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restClassPairs:Array):void;
+	function mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void;
 
 	/**
 	 * Stops view object mediation by all or specific mediator.                                                                                                        <p>

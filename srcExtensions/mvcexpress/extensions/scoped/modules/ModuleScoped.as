@@ -20,7 +20,7 @@ use namespace pureLegsCore;
  * </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version scoped.1.0.beta2
+ * @version scoped.2.0.rc4
  */
 public class ModuleScoped extends ModuleCore {
 

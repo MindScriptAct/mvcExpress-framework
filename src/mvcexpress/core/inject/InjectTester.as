@@ -9,7 +9,7 @@ import flash.utils.describeType;
  * @private
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class InjectTester {
 

@@ -33,15 +33,15 @@ public class ProxyMapForMediator {
 	}
 
 	/**
-	 * Checks if mediator can get proxy, with given inject class and name.
+	 * Checks if mediator can get proxy, with given inject class and name. (It must be mapped, and mediator must have permission to get this proxy. check 'MvcExpress.usePureMediators' and MediatorMap->map() function for more details.)
 	 * @param    proxyClass    class of proxy, mapped with mediatorInjectClass parameter.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
 	 * @return    true if mediator can get proxy object.
 	 */
-	public function isMapped(proxyClass:Class, name:String = null):Boolean {
+	public function canGetProxy(proxyClass:Class, name:String = null):Boolean {
 		use namespace pureLegsCore;
 
-		return proxyMap.mediatorIsProxyMapped(proxyClass, name);
+		return proxyMap.mediatorCanGetProxy(proxyClass, name);
 
 	}
 }

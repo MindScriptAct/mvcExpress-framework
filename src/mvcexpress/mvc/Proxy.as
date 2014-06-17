@@ -16,7 +16,7 @@ use namespace pureLegsCore;
  * Can send messages strings. (to tell about data updates)                                                                                                 </p>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class Proxy {
 

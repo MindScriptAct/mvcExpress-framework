@@ -9,7 +9,10 @@ import mvcexpress.extensions.workers.core.WorkerManager;
 import mvcexpress.extensions.workers.core.traceObjects.moduleBase.TraceModuleBase_sendWorkerMessage;
 import mvcexpress.modules.ModuleCore;
 
-use namespace pureLegsCore;
+
+/**
+ * @version workers.2.0 RC4
+ */
 
 public class ModuleWorker extends ModuleCore {
 

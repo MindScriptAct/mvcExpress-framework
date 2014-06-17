@@ -43,10 +43,10 @@ public class MvcExpress {
 	/**
 	 * Controls how proxies can be injected into mediators.
 	 * If set to false - proxies can be injected without restrictions into mediators.
-	 *  - Optionally, you can define howe proxy should be injected into mediators by providing 'mediatorInjectClass' parameter then mapping the proxy.
+	 *  - Optionally, you can define how proxy should be injected into mediators by providing 'mediatorInjectClass' parameter then mapping the proxy.
 	 *  - if 'mediatorInjectClass' is not provided -> "injectClass" or if not provided proxy class will be used.
 	 * If set to true - proxies can't be injected into mediators, without providing 'mediatorInjectClass' parameter then mapping the proxy.
-	 *  - if 'mediatorInjectClass' is not provided -> error will bi thrown then attempting to inject proxy into mediator.
+	 *  - if 'mediatorInjectClass' is not provided -> error will be thrown then attempting to inject proxy into mediator.
 	 */
 	public static var usePureMediators:Boolean = false;
 

@@ -6,7 +6,7 @@ import flash.utils.describeType;
 /**
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 
 /**

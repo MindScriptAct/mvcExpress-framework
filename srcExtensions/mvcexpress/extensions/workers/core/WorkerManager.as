@@ -19,6 +19,7 @@ import mvcexpress.utils.checkClassSuperclass;
 /**
  * Manages workers.
  * @private
+ * @version workers.2.0 RC4
  */
 public class WorkerManager {
 

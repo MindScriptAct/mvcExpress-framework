@@ -27,7 +27,7 @@ use namespace pureLegsCore;
  * ProxyMap is responsible for storing proxy objects and handling injection.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version scoped.1.0.beta2
+ * @version scoped.2.0.rc4
  */
 public class ProxyMapScoped extends ProxyMap {
 

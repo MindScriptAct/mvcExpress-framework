@@ -21,7 +21,7 @@ use namespace pureLegsCore;
  * Handles application mediators.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version 2.0.rc1
+ * @version 2.0.rc4
  */
 public class MediatorMap implements IMediatorMap {
 
@@ -38,7 +38,7 @@ public class MediatorMap implements IMediatorMap {
 	protected var messenger:Messenger;
 
 	// stores all view inject classes by mediator and view class(mediator must mediate) as a key.
-	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of (Dictionary of Class) by Class */
+	protected var mediatorMappingRegistry:Dictionary = new Dictionary(); //* of (Dictionary of Vector.<Class>) by Class */
 
 	// stores all mediators in sequence they were mapped.
 	protected var mediatorMapOrderRegistry:Dictionary = new Dictionary(); //* of Vector.<Class> by Class */
@@ -63,10 +63,10 @@ public class MediatorMap implements IMediatorMap {
 	 * @param    viewClass        view class that has to be mediated by mediator class then mediate() is called on the view object.
 	 * @param    mediatorClass    mediator class that will be instantiated then viewClass object is passed to mediate() function.
 	 * @param    injectClass        inject view into mediator as this class.
-	 * @param    restMediatorAndInjectClasses    more mediator classes followed by one ore more view classes for injection int those mediators.
+	 * @param    restMediatorAndInjectClasses    more mediator classes followed by one ore more view classes for injection in those mediators.
 	 */
 	public function map(viewClass:Class, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
-		// do until all mediators are handled. (from restClassPairs Array too..)
+		// do until all mediators are handled. (from restMediatorAndInjectClasses Array too..)
 		while (mediatorClass) {
 
 			// debug this action
@@ -79,10 +79,10 @@ public class MediatorMap implements IMediatorMap {
 					throw Error("mediatorClass:" + mediatorClass + " you are trying to map is not extended from 'mvcexpress.mvc::Mediator' class.");
 				}
 
-				// var check if extension is supported by this module.
+				// check if extension is supported by this module.
 				var extensionId:int = ExtensionManager.getExtensionId(mediatorClass);
 				if (SUPPORTED_EXTENSIONS[extensionId] == null) {
-					throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " command.");
+					throw Error("This extension is not supported by current module. You need " + ExtensionManager.getExtensionName(mediatorClass) + " extension enabled to use " + mediatorClass + " class.");
 				}
 			}
 
@@ -93,7 +93,7 @@ public class MediatorMap implements IMediatorMap {
 				}
 			}
 
-			// map mediatorClass to viewClass
+			// create mediator mapping holders.
 			if (!(viewClass in mediatorMappingRegistry)) {
 				mediatorMappingRegistry[viewClass] = new Dictionary();
 			}
@@ -101,10 +101,11 @@ public class MediatorMap implements IMediatorMap {
 				mediatorMapOrderRegistry[viewClass] = new Vector.<Class>();
 			}
 
-			// map injectClass to viewClass and mediatorClass.
 			if (!injectClass) {
 				injectClass = viewClass;
 			}
+
+			// map injectClass to viewClass and mediatorClass.
 			var injectClasses:Vector.<Class> = new <Class>[];
 			mediatorMappingRegistry[viewClass][mediatorClass] = injectClasses;
 			injectClasses.push(injectClass);
@@ -115,7 +116,6 @@ public class MediatorMap implements IMediatorMap {
 				var nextMediatorFound:Boolean = false;
 				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
 
-					// check if next class is mediator class or another view inject class.
 					var nextClass:Object = restMediatorAndInjectClasses.shift();
 
 					CONFIG::debug {
@@ -124,6 +124,7 @@ public class MediatorMap implements IMediatorMap {
 						}
 					}
 
+					// check if next class is mediator class or another view inject class.
 					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
 						// mediator class found!
 						nextMediatorFound = true;
@@ -290,9 +291,10 @@ public class MediatorMap implements IMediatorMap {
 			viewClass = Class(getDefinitionByName(getQualifiedClassName(viewObject)));
 		}
 
-		// do until all mediators are handled. (from restClassPairs Array too..)
+		// do until all mediators are handled. (from restMediatorAndInjectClasses Array too..)
 		while (mediatorClass) {
 
+			// check if view object is not already mediated.
 			if (viewObject in mediatorRegistry) {
 				var mediators:Vector.<Mediator> = mediatorRegistry[viewObject];
 				for (var i:int = 0; i < mediators.length; i++) {
@@ -334,16 +336,14 @@ public class MediatorMap implements IMediatorMap {
 				Mediator.canConstruct = false;
 			}
 
-			// FIXME : implement.
 			var injectClasses:Vector.<Class> = new <Class>[];
 			injectClasses.push(injectClass);
 
 			// find rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
 			if (restMediatorAndInjectClasses) {
-				var nextMediatorFound:Boolean = false;
-				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
+				var nextMediatorClass:Class = null;
+				while (restMediatorAndInjectClasses.length && nextMediatorClass == null) {
 
-					// check if next class is mediator class or another view inject class.
 					var nextClass:Object = restMediatorAndInjectClasses.shift();
 
 					CONFIG::debug {
@@ -352,16 +352,12 @@ public class MediatorMap implements IMediatorMap {
 						}
 					}
 
+					// check if next class is mediator class or another view inject class.
 					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
 
-						// next mediator found - register mediator if everything is injected.
-						if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
-							mediator.register();
-						}
-
 						// mediator class found!
-						nextMediatorFound = true;
-						mediatorClass = nextClass as Class;
+						nextMediatorClass = nextClass as Class;
+
 						if (restMediatorAndInjectClasses.length) {
 							injectClass = restMediatorAndInjectClasses.shift();
 						} else {
@@ -374,14 +370,15 @@ public class MediatorMap implements IMediatorMap {
 				}
 			}
 
-			if (!nextMediatorFound) {
+			// register mediator if everything is injected.
+			if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
+				mediator.register();
+			}
 
-				// register mediator if everything is injected.
-				if (prepareMediator(mediator, mediatorClass, viewObject, injectClasses)) {
-					mediator.register();
-				}
-
+			if (nextMediatorClass == null) {
 				mediatorClass = null;
+			} else {
+				mediatorClass = nextMediatorClass;
 			}
 		}
 	}

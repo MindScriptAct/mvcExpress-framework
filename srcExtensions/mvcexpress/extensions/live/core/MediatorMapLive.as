@@ -16,7 +16,7 @@ use namespace pureLegsCore;
  * Handles application mediators.
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version live.1.0.beta2
+ * @version live.2.0.rc4
  */
 public class MediatorMapLive extends MediatorMap {
 

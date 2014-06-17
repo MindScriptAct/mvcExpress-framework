@@ -23,7 +23,7 @@ import mvcexpress.mvc.Command;
  * </p></b>
  * @author Raimundas Banevicius (http://mvcexpress.org/)
  *
- * @version workers.2.0.rc1
+ * @version workers.2.0.rc4
  */
 dynamic public class CommandWorker extends Command {
 
