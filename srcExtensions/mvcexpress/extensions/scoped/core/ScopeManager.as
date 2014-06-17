@@ -52,7 +52,7 @@ public class ScopeManager {
 
 			// check if action is available
 			if (!scopePermission || !scopePermission.messageSending) {
-				throw Error("Module with name:" + moduleName + " has no permition to send constants to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+				throw Error("Module with name:" + moduleName + " has no permition to send constants to scope:" + scopeName + ". Please use: registerScope(\"" + scopeName + "\"); function.");
 			}
 		}
 
@@ -74,7 +74,7 @@ public class ScopeManager {
 
 		// check if action is available
 		if (!scopePermission || !scopePermission.messageReceiving) {
-			throw Error("Module with name:" + moduleName + " has no permition to receive constants from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to receive constants from scope:" + scopeName + ". Please use: registerScope(\"" + scopeName + "\"); function.");
 		}
 
 		var scopeMesanger:Messenger = scopedMessengers[scopeName];
@@ -121,7 +121,7 @@ public class ScopeManager {
 
 		// check if action is available
 		if (!scopePermission || !scopePermission.messageReceiving) {
-			throw Error("Module with name:" + moduleName + " has no permition to receive constants and execute commands from scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to receive constants and execute commands from scope:" + scopeName + ". Please use: registerScope(\"" + scopeName + "\"); function.");
 		}
 
 		var scopeMessenger:Messenger = scopedMessengers[scopeName];
@@ -173,7 +173,7 @@ public class ScopeManager {
 
 		// check if action is available
 		if (!scopePermission || !scopePermission.proxieMapping) {
-			throw Error("Module with name:" + moduleName + " has no permition to map proxies to scope:" + scopeName + ". Please use: registerScopeTest() function.");
+			throw Error("Module with name:" + moduleName + " has no permition to map proxies to scope:" + scopeName + ". Please use: registerScope(\"" + scopeName + "\", false, false, true); function.");
 		}
 
 		use namespace pureLegsCore;

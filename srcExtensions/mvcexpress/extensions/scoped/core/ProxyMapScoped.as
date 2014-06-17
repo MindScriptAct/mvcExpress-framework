@@ -72,7 +72,10 @@ public class ProxyMapScoped extends ProxyMap {
 			}
 			var injectId:String = className + name;
 			//
-			initProxy(proxyObject, proxyClass, injectId);
+			var isAllInjected:Boolean = initProxy(proxyObject, proxyClass, injectId);
+			if(isAllInjected){
+				proxyObject.register();
+			}
 		}
 
 		ScopeManager.scopeMap(moduleName, scopeName, proxyObject, injectClass, name);
