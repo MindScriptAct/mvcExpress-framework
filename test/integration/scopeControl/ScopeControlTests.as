@@ -4,6 +4,7 @@ import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.constants.GenericTestStrings;
 import integration.aGenericTestObjects.controller.GenericCommand;
 import integration.aGenericTestObjects.model.GenericTestProxy;
+import integration.aGenericTestObjects.model.scoped.GenericTestProxyScoped;
 import integration.aGenericTestObjects.view.GenericViewObject;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_handlingScopeMessage;
 import integration.aGenericTestObjects.view.GenericViewObjectMediator_withScopedInject_handlingScopeMessage;
@@ -59,7 +60,7 @@ public class ScopeControlTests {
 	[Test(expects="Error")]
 
 	public function scopeControl_scopedInjectWithoutScopeRegister_fails():void {
-		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
+		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxyScoped());
 	}
 
 	//----------------------------------
@@ -91,7 +92,7 @@ public class ScopeControlTests {
 
 	public function scopeControl_scopedInjectWithScopeRegister_ok():void {
 		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
-		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
+		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxyScoped());
 	}
 
 	//----------------------------------
@@ -131,7 +132,7 @@ public class ScopeControlTests {
 		moduleIn.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);
 		moduleIn.disposeModule();
 		moduleIn = new GenericScopedTestModule("moduleIn");
-		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxy());
+		moduleIn.proxymap_scopeMap(GenericScopeIds.TEST_SCOPE, new GenericTestProxyScoped());
 	}
 
 	//----------------------------------
@@ -154,7 +155,7 @@ public class ScopeControlTests {
 
 	public function scopeControl_injectedProxyChangeShouldBeHandled_ok():void {
 
-		var testProxy:GenericTestProxy = new GenericTestProxy();
+		var testProxy:GenericTestProxyScoped = new GenericTestProxyScoped();
 
 		// set up module out
 		moduleOut.registerScopeTest(GenericScopeIds.TEST_SCOPE, false, false, true);

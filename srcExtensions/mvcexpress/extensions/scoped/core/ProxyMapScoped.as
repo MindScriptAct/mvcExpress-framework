@@ -73,7 +73,7 @@ public class ProxyMapScoped extends ProxyMap {
 			var injectId:String = className + name;
 			//
 			var isAllInjected:Boolean = initProxy(proxyObject, proxyClass, injectId);
-			if(isAllInjected){
+			if (isAllInjected) {
 				proxyObject.register();
 			}
 		}
@@ -290,7 +290,7 @@ public class ProxyMapScoped extends ProxyMap {
 
 		// dispose mediator injection if it was used.
 		if (mediatorInjectClassNames) {
-			for (r = 0; r < ruleCount; r++) {
+			for (r = 0; r < mediatorInjectClassNames.length; r++) {
 				delete mediatorInjectObjectRegistry[mediatorInjectClassNames[r]];
 			}
 		}

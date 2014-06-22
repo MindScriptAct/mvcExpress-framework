@@ -29,8 +29,8 @@ public class GenericScopedTestModule extends ModuleScoped {
 	//     proxymap
 	//----------------------------------
 
-	public function proxymap_map(proxyObject:Proxy, injectClass:Class = null, name:String = ""):String {
-		return proxyMap.map(proxyObject, injectClass, name);
+	public function proxymap_map(proxyObject:Proxy, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null):String {
+		return proxyMap.map(proxyObject, name, injectClass, mediatorInjectClass);
 	}
 
 	public function proxymap_unmap(injectClass:Class, name:String = ""):String {
@@ -53,8 +53,8 @@ public class GenericScopedTestModule extends ModuleScoped {
 		return proxyMap.isMapped(injectClass, name, proxyObject);
 	}
 
-	public function proxymap_lazyMap(proxyClass:Class, injectClass:Class = null, name:String = "", proxyParams:Array = null):String {
-		return proxyMap.lazyMap(proxyClass, injectClass, name, proxyParams);
+	public function proxymap_lazyMap(proxyClass:Class, name:String = null, injectClass:Class = null, mediatorInjectClass:Class = null, proxyConstructorParams:Array = null):String {
+		return proxyMap.lazyMap(proxyClass, name, injectClass, mediatorInjectClass, proxyConstructorParams);
 	}
 
 	//----------------------------------
@@ -73,8 +73,30 @@ public class GenericScopedTestModule extends ModuleScoped {
 		mediatorMap.mediate(viewObject);
 	}
 
-	public function mediatorMap_mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null):void {
-		mediatorMap.mediateWith(viewObject, mediatorClass, injectClass);
+	public function mediatorMap_mediateWith(viewObject:Object, mediatorClass:Class, injectClass:Class = null, ...restMediatorAndInjectClasses:Array):void {
+		switch (restMediatorAndInjectClasses.length) {
+			case 0:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass);
+				break;
+			case 1:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass, restMediatorAndInjectClasses[0]);
+				break;
+			case 2:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass, restMediatorAndInjectClasses[0], restMediatorAndInjectClasses[1]);
+				break;
+			case 3:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass, restMediatorAndInjectClasses[0], restMediatorAndInjectClasses[1], restMediatorAndInjectClasses[2]);
+				break;
+			case 4:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass, restMediatorAndInjectClasses[0], restMediatorAndInjectClasses[1], restMediatorAndInjectClasses[2], restMediatorAndInjectClasses[3]);
+				break;
+			case 5:
+				mediatorMap.mediateWith(viewObject, mediatorClass, injectClass, restMediatorAndInjectClasses[0], restMediatorAndInjectClasses[1], restMediatorAndInjectClasses[2], restMediatorAndInjectClasses[3], restMediatorAndInjectClasses[4]);
+				break;
+			default :
+				throw Error("Test error, Add more array values!");
+				break;
+		}
 	}
 
 	public function mediatorMap_unmediate(viewObject:Object):void {

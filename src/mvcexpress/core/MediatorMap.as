@@ -112,36 +112,35 @@ public class MediatorMap implements IMediatorMap {
 			mediatorMapOrderRegistry[viewClass].push(mediatorClass);
 
 			// set rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
-			if (restMediatorAndInjectClasses) {
-				var nextMediatorFound:Boolean = false;
-				while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
 
-					var nextClass:Object = restMediatorAndInjectClasses.shift();
+			var nextMediatorFound:Boolean = false;
+			while (restMediatorAndInjectClasses.length && !nextMediatorFound) {
 
-					CONFIG::debug {
-						if (!(nextClass is Class)) {
-							throw Error("Only Class objects can be provided then mapping views and mediators.");
-						}
+				var nextClass:Object = restMediatorAndInjectClasses.shift();
+
+				CONFIG::debug {
+					if (!(nextClass is Class)) {
+						throw Error("Only Class objects can be provided then mapping views and mediators.");
 					}
+				}
 
-					// check if next class is mediator class or another view inject class.
-					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
-						// mediator class found!
-						nextMediatorFound = true;
-						mediatorClass = nextClass as Class;
-						if (restMediatorAndInjectClasses.length) {
-							injectClass = restMediatorAndInjectClasses.shift();
-						} else {
-							injectClass = null;
-						}
+				// check if next class is mediator class or another view inject class.
+				if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
+					// mediator class found!
+					nextMediatorFound = true;
+					mediatorClass = nextClass as Class;
+					if (restMediatorAndInjectClasses.length) {
+						injectClass = restMediatorAndInjectClasses.shift();
 					} else {
-						// another view class found - add it to the list.
-						injectClasses.push(nextClass);
+						injectClass = null;
 					}
+				} else {
+					// another view class found - add it to the list.
+					injectClasses.push(nextClass);
 				}
-				if (!nextMediatorFound) {
-					mediatorClass = null;
-				}
+			}
+			if (!nextMediatorFound) {
+				mediatorClass = null;
 			}
 		}
 	}
@@ -340,33 +339,31 @@ public class MediatorMap implements IMediatorMap {
 			injectClasses.push(injectClass);
 
 			// find rest of mediatorClass and injectClass pair classes if more then one mediator is being mapped.
-			if (restMediatorAndInjectClasses) {
-				var nextMediatorClass:Class = null;
-				while (restMediatorAndInjectClasses.length && nextMediatorClass == null) {
+			var nextMediatorClass:Class = null;
+			while (restMediatorAndInjectClasses.length && nextMediatorClass == null) {
 
-					var nextClass:Object = restMediatorAndInjectClasses.shift();
+				var nextClass:Object = restMediatorAndInjectClasses.shift();
 
-					CONFIG::debug {
-						if (!(nextClass is Class)) {
-							throw Error("Only Class objects can be provided then mapping views and mediators.");
-						}
+				CONFIG::debug {
+					if (!(nextClass is Class)) {
+						throw Error("Only Class objects can be provided then mapping views and mediators.");
 					}
+				}
 
-					// check if next class is mediator class or another view inject class.
-					if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
+				// check if next class is mediator class or another view inject class.
+				if (checkClassSuperclass(nextClass as Class, "mvcexpress.mvc::Mediator")) {
 
-						// mediator class found!
-						nextMediatorClass = nextClass as Class;
+					// mediator class found!
+					nextMediatorClass = nextClass as Class;
 
-						if (restMediatorAndInjectClasses.length) {
-							injectClass = restMediatorAndInjectClasses.shift();
-						} else {
-							injectClass = null;
-						}
+					if (restMediatorAndInjectClasses.length) {
+						injectClass = restMediatorAndInjectClasses.shift();
 					} else {
-						// another view class found - add it to the list.
-						injectClasses.push(nextClass);
+						injectClass = null;
 					}
+				} else {
+					// another view class found - add it to the list.
+					injectClasses.push(nextClass);
 				}
 			}
 

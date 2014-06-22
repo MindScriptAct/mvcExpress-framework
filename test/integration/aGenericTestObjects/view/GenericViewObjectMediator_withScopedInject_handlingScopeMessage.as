@@ -3,6 +3,7 @@ import integration.aGenericTestObjects.constants.GenericScopeIds;
 import integration.aGenericTestObjects.constants.GenericTestMessage;
 import integration.aGenericTestObjects.constants.GenericTestStrings;
 import integration.aGenericTestObjects.model.GenericTestProxy;
+import integration.aGenericTestObjects.model.scoped.GenericTestProxyScoped;
 
 import mvcexpress.extensions.scoped.mvc.MediatorScoped;
 
@@ -16,7 +17,7 @@ public class GenericViewObjectMediator_withScopedInject_handlingScopeMessage ext
 	public var view:GenericViewObject;
 
 	[Inject(scope="GenericScopeIds_testScope")]
-	public var genericTestProxy:GenericTestProxy;
+	public var genericTestProxy:GenericTestProxyScoped;
 
 	override protected function onRegister():void {
 		trace("GenericViewObjectMediator_withScopedInject.onRegister");
