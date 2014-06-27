@@ -14,11 +14,11 @@ public class MediatorSignals extends Mediator {
 	pureLegsCore var signalHandlerRegistry:Dictionary = new Dictionary();
 	pureLegsCore var bridgeSignalRegistry:Dictionary = new Dictionary();
 
-
-	public function MediatorSignals() {
-		super();
-	}
-
+	/**
+	 * Add signal handler.
+	 * @param signal    signal object.
+	 * @param handler    handler function to be executed then signal dispatches.
+	 */
 	protected function addSignalHandler(signal:SignalExpress, handler:Function):void {
 		use namespace pureLegsCore;
 
@@ -29,6 +29,11 @@ public class MediatorSignals extends Mediator {
 		signal.add(handler);
 	}
 
+	/**
+	 * Remove signal handler.
+	 * @param signal    signal object
+	 * @param handler    handler function to be not executed then signal dispatches.
+	 */
 	protected function removeSignalHandler(signal:SignalExpress, handler:Function):void {
 		use namespace pureLegsCore;
 
@@ -41,6 +46,9 @@ public class MediatorSignals extends Mediator {
 		signal.remove(handler);
 	}
 
+	/**
+	 * Remove all added signal handlers.
+	 */
 	protected function removeAllSignalHandlers():void {
 		use namespace pureLegsCore;
 
@@ -50,6 +58,17 @@ public class MediatorSignals extends Mediator {
 		}
 	}
 
+
+	//------------------
+	// Signal bridging to messages
+	//------------------
+
+
+	/**
+	 * Bridge signal to message. Then signal is dispatched - message will be sent.
+	 * @param signal    signal to bridge to message.
+	 * @param messageType    message type to be send then signal is dispatched.
+	 */
 	protected function bridgeSignalToMessage(signal:SignalExpress, messageType:String):void {
 		use namespace pureLegsCore;
 
@@ -66,13 +85,16 @@ public class MediatorSignals extends Mediator {
 			bridgeSignalRegistry[signal] = new Dictionary();
 		}
 		if (!(messageType in bridgeSignalRegistry[signal])) {
-
 			bridgeSignalRegistry[signal][messageType] = handleFunction;
-
 			addSignalHandler(signal, handleFunction);
 		}
 	}
 
+	/**
+	 * Remove bridge from signal to message. Then signal is dispatched - message will be sent.
+	 * @param signal    signal to no longer bridge to message.
+	 * @param messageType    message type to not be send then signal is dispatched.
+	 */
 	protected function unbridgeSignalToMessage(signal:SignalExpress, messageType:String):void {
 		use namespace pureLegsCore;
 
@@ -85,10 +107,15 @@ public class MediatorSignals extends Mediator {
 
 	}
 
+	//----------------------------------
+	//     INTERNAL
+	//----------------------------------
 
 	override pureLegsCore function remove():void {
 		removeAllSignalHandlers();
 		super.pureLegsCore::remove();
 	}
+
+
 }
 }
