@@ -228,17 +228,21 @@ public class Mediator {
 				eventListenerCaptureRegistry[listener] = new Dictionary();
 			}
 			if (!(type in eventListenerCaptureRegistry[listener])) {
-				eventListenerCaptureRegistry[listener][type] = viewObject;
-				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				eventListenerCaptureRegistry[listener][type] = new Vector.<IEventDispatcher>();
 			}
+			eventListenerCaptureRegistry[listener][type].push(viewObject);
+			//
+			viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		} else {
 			if (!(listener in eventListenerRegistry)) {
 				eventListenerRegistry[listener] = new Dictionary();
 			}
 			if (!(type in eventListenerRegistry[listener])) {
-				eventListenerRegistry[listener][type] = viewObject;
-				viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				eventListenerRegistry[listener][type] = new Vector.<IEventDispatcher>();
 			}
+			eventListenerRegistry[listener][type].push(viewObject);
+			//
+			viewObject.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 	}
 
@@ -256,16 +260,32 @@ public class Mediator {
 		if (useCapture) {
 			if (listener in eventListenerCaptureRegistry) {
 				if (type in eventListenerCaptureRegistry[listener]) {
-					if (eventListenerCaptureRegistry[listener][type] == viewObject) {
-						delete eventListenerCaptureRegistry[listener][type];
+					var viewObjects:Vector.<IEventDispatcher> = eventListenerCaptureRegistry[listener][type];
+					var viewCount:int = viewObjects.length;
+					for (var i:int = 0; i < viewCount; i++) {
+						if (viewObjects[i] == viewObject) {
+							viewObjects.splice(i, 1);
+							if (viewObjects.length == 0) {
+								delete eventListenerCaptureRegistry[listener][type];
+							}
+							break;
+						}
 					}
 				}
 			}
 		} else {
 			if (listener in eventListenerRegistry) {
 				if (type in eventListenerRegistry[listener]) {
-					if (eventListenerRegistry[listener][type] == viewObject) {
-						delete eventListenerRegistry[listener][type];
+					viewObjects = eventListenerRegistry[listener][type];
+					viewCount = viewObjects.length;
+					for (i = 0; i < viewCount; i++) {
+						if (viewObjects[i] == viewObject) {
+							viewObjects.splice(i, 1);
+							if (viewObjects.length == 0) {
+								delete eventListenerRegistry[listener][type];
+							}
+							break;
+						}
 					}
 				}
 			}
@@ -280,18 +300,28 @@ public class Mediator {
 	 */
 	protected function removeAllListeners():void {
 		for (var listener:Object in eventListenerCaptureRegistry) {
-			var eventTypes:Dictionary = eventListenerCaptureRegistry[viewObject];
+			var eventTypes:Dictionary = eventListenerCaptureRegistry[listener];
 			for (var type:String in eventTypes) {
-				var viewObject:IEventDispatcher = eventTypes[type];
-				viewObject.removeEventListener(type, listener as Function, true);
+				var viewObjects:Vector.<IEventDispatcher> = eventTypes[type];
+				var viewCount:int = viewObjects.length;
+				for (var i:int = 0; i < viewCount; i++) {
+					viewObjects[i].removeEventListener(type, listener as Function, true);
+				}
+				delete eventTypes[type];
 			}
+			delete eventListenerCaptureRegistry[listener];
 		}
 		for (listener in eventListenerRegistry) {
-			eventTypes = eventListenerRegistry[viewObject];
+			eventTypes = eventListenerRegistry[listener];
 			for (type in eventTypes) {
-				viewObject = eventTypes[type];
-				viewObject.removeEventListener(type, listener as Function, false);
+				viewObjects = eventTypes[type];
+				viewCount = viewObjects.length;
+				for (i = 0; i < viewCount; i++) {
+					viewObjects[i].removeEventListener(type, listener as Function, false);
+				}
+				delete eventTypes[type];
 			}
+			delete eventListenerRegistry[listener];
 		}
 	}
 
@@ -324,6 +354,7 @@ public class Mediator {
 		removeAllHandlers();
 		removeAllListeners();
 		handlerVoRegistry = null;
+		eventListenerCaptureRegistry = null;
 		eventListenerRegistry = null;
 		messenger = null;
 		mediatorMap = null;
