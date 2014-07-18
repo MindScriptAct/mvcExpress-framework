@@ -1,17 +1,20 @@
 package suites.mediators {
 import constants.TestExtensionDict;
-import integration.aframworkHelpers.ProxyMapCleaner;
+
+import flash.events.Event;
+
+import flexunit.framework.Assert;
 
 import integration.aGenericTestObjects.constants.GenericTestMessage;
+import integration.aframworkHelpers.ProxyMapCleaner;
 
 import mvcexpress.core.MediatorMap;
 import mvcexpress.core.ProxyMap;
 import mvcexpress.core.messenger.Messenger;
 import mvcexpress.core.namespace.pureLegsCore;
 
-import org.flexunit.Assert;
-
 import suites.testObjects.view.MediatorSprite;
+import suites.testObjects.view.MediatorSpriteDispacherChild;
 import suites.testObjects.view.MediatorSpriteMediator;
 
 /**
@@ -25,6 +28,7 @@ public class MediatorTests {
 	private var mediatorMap:MediatorMap;
 	private var testView:MediatorSprite;
 	private var mediatorObject:MediatorSpriteMediator;
+	private var eventHandledCount:int;
 
 	[Before]
 
@@ -60,12 +64,14 @@ public class MediatorTests {
 		use namespace pureLegsCore;
 
 		ProxyMapCleaner.clear();
-		
+
 		mediatorMap.unmediate(testView);
 		messenger = null;
 		proxyMap = null;
 		mediatorMap = null;
 		testView = null;
+
+		eventHandledCount = 0;
 	}
 
 	[Test(expects="Error")]
@@ -181,8 +187,72 @@ public class MediatorTests {
 	}
 
 	//---------------
+	// 	listener handling.
+	//---------------
+
+	[Test]
+	public function mediator_addListenerHandled_afterAdd_handledOnce():void {
+		//mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//mediatorObject.test_removeHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+
+		mediatorObject.test_addListener(testView.child1, "test", handleViewEvent);
+
+		testView.child1.sendTestEvent();
+
+		Assert.assertEquals("should be 1", 1, eventHandledCount);
+	}
+
+	[Test]
+	public function mediator_addListenerHandled_afterAddAndRemove_nothandled():void {
+		//mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//mediatorObject.test_removeHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+
+		mediatorObject.test_addListener(testView.child1, "test", handleViewEvent);
+		mediatorObject.test_removeListener(testView.child1, "test", handleViewEvent);
+
+		testView.child1.sendTestEvent();
+
+		Assert.assertEquals("should be 0", 0, eventHandledCount);
+	}
+
+	[Test]
+	public function mediator_addListenerHandled_afterAddAndRemoveAll_nothandled():void {
+		//mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//mediatorObject.test_removeHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+
+		mediatorObject.test_addListener(testView.child1, "test", handleViewEvent);
+		mediatorObject.test_removeAllListener();
+
+		testView.child1.sendTestEvent();
+
+		Assert.assertEquals("should be 0", 0, eventHandledCount);
+	}
+
+	[Test]
+	public function mediator_addListenerHandled_afterAddTwice_handledTwice():void {
+		//mediatorObject.test_addHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//mediatorObject.test_removeHandler(GenericTestMessage.TEST_MESSAGE, blankFunction);
+		//Assert.assertFalse("Should be false...", mediatorObject.test_hasHandler(GenericTestMessage.TEST_MESSAGE, blankFunction));
+
+		mediatorObject.test_addListener(testView.child1, "test", handleViewEvent);
+		mediatorObject.test_addListener(testView.child2, "test", handleViewEvent);
+
+		testView.child1.sendTestEvent();
+		testView.child2.sendTestEvent();
+
+		Assert.assertEquals("should be 2", 2, eventHandledCount);
+	}
+
+	//---------------
 	// 	helper
 	//---------------
+
+	private function handleViewEvent(event:Event):void {
+		eventHandledCount++;
+	}
 
 	private function blankFunction(blank:Object):void {
 	}

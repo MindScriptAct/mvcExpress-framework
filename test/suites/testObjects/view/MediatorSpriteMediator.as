@@ -1,5 +1,6 @@
 package suites.testObjects.view {
 import flash.events.Event;
+import flash.events.IEventDispatcher;
 
 import mvcexpress.mvc.Mediator;
 
@@ -14,8 +15,11 @@ public class MediatorSpriteMediator extends Mediator {
 
 	static public var instance:MediatorSpriteMediator;
 
+	public var eventHandledCount:int;
+
 	[Inject]
 	public var view:MediatorSprite;
+
 
 	override protected function onRegister():void {
 
@@ -78,6 +82,18 @@ public class MediatorSpriteMediator extends Mediator {
 
 	public function test_hasHandler(type:String, handler:Function):Boolean {
 		return hasHandler(type, handler);
+	}
+
+	public function test_addListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void {
+		addListener(viewObject, type, listener, useCapture, priority, useWeakReference);
+	}
+
+	public function test_removeListener(viewObject:IEventDispatcher, type:String, listener:Function, useCapture:Boolean = false):void {
+		removeListener(viewObject, type, listener, useCapture);
+	}
+
+	public function test_removeAllListener():void {
+		removeAllListeners();
 	}
 }
 }
