@@ -659,8 +659,6 @@ public class ProcessMapLive {
 	}
 
 	// !!! code dublicated. [ProxyMap]
-	[Inline]
-
 	private function getInjectByContName(constName:String):String {
 		if (!classConstRegistry[constName]) {
 			var split:Array = constName.split(".");

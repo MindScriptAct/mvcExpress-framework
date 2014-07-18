@@ -892,7 +892,6 @@ public class ProxyMap implements IProxyMap {
 	 * Get injection then class is provided as string.
 	 * @private
 	 */
-	[Inline]
 	protected function getInjectByContName(constName:String):String {
 		if (!(constName in classConstRegistry)) {
 			var split:Array = constName.split(".");
