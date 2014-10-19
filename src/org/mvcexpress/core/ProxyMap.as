@@ -420,7 +420,7 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
+		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass] ? classInjectRules[signatureClass] : null;
 		if (!rules) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
@@ -556,7 +556,7 @@ public class ProxyMap implements IProxyMap {
 	 * @private
 	 */
 	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:PendingInject):void {
-		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName]
+		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName] ? pendingInjectionsRegistry[injectClassAndName] : null;
 		if (!pendingInjections) {
 			pendingInjections = new Vector.<PendingInject>();
 			pendingInjectionsRegistry[injectClassAndName] = pendingInjections;
@@ -569,14 +569,14 @@ public class ProxyMap implements IProxyMap {
 	 */
 	private function injectPendingStuff(injectClassAndName:String, injectee:Object):void {
 		use namespace pureLegsCore;
-		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName];
+		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName] ? pendingInjectionsRegistry[injectClassAndName] : null;
 		while (pendingInjects.length) {
 			//
 			var pendingInjection:PendingInject = pendingInjects.pop();
 			pendingInjection.stopTimer();
 			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass] ? classInjectRules[pendingInjection.signatureClass] : null;
 			var pendingInject:Object = pendingInjection.pendingObject;
 			var ruleCount:int = rules.length;
 			for (var j:int = 0; j < ruleCount; j++) {

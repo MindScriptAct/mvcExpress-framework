@@ -76,7 +76,7 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
+		var messageClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
 		if (!messageClasses) {
 			messageClasses = new Vector.<Class>();
 			classRegistry[type] = messageClasses;
@@ -107,7 +107,7 @@ public class CommandMap {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
+		var messageClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
 		if (messageClasses) {
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
@@ -142,7 +142,7 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		
 		// check if command is pooled.
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
 		if (pooledCommands && pooledCommands.length > 0) {
 			command = pooledCommands.shift();
 		} else {
@@ -214,7 +214,7 @@ public class CommandMap {
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
+		var messageClasses:Vector.<Class> = classRegistry[scopedType] ? classRegistry[scopedType] : null;
 		if (!messageClasses) {
 			messageClasses = new Vector.<Class>();
 			classRegistry[scopedType] = messageClasses;
@@ -244,7 +244,7 @@ public class CommandMap {
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
+		var messageClasses:Vector.<Class> = classRegistry[scopedType] ? classRegistry[scopedType] : null;
 		if (messageClasses) {
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
@@ -291,7 +291,7 @@ public class CommandMap {
 	public function isMapped(type:String, commandClass:Class):Boolean {
 		var retVal:Boolean; // = false;
 		if (classRegistry[type]) {
-			var mappedClasses:Vector.<Class> = classRegistry[type];
+			var mappedClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
 			var classCaunt:int = mappedClasses.length;
 			for (var i:int; i < classCaunt; i++) {
 				if (commandClass == mappedClasses[i]) {
@@ -340,7 +340,7 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
 		if (pooledCommands) {
 			pooledCommands[pooledCommands.length] = command;
 		}
@@ -389,7 +389,7 @@ public class CommandMap {
 				////// INLINE FUNCTION runCommand() START
 				
 				// check if command is pooled.
-				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
+				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
 				if (pooledCommands && pooledCommands.length > 0) {
 					command = pooledCommands.shift();
 				} else {

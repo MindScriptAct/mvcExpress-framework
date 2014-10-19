@@ -54,7 +54,7 @@ public class Messenger {
 		}
 		
 		// if this message type used for the first time - create data placeholders.
-		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		var messageList:Vector.<HandlerVO> = messageRegistry[type] ? messageRegistry[type] : null;
 		if (!messageList) {
 			messageList = new Vector.<HandlerVO>()
 			messageRegistry[type] = messageList;
@@ -113,7 +113,7 @@ public class Messenger {
 		CONFIG::debug {
 			MvcExpress.debug(new TraceMessenger_send(moduleName, type, params));
 		}
-		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		var messageList:Vector.<HandlerVO> = messageRegistry[type] ? messageRegistry[type] : null;
 		var handlerVo:HandlerVO;
 		var delCount:int; // = 0;
 		if (messageList) {
@@ -184,7 +184,7 @@ public class Messenger {
 			retVal += warningText;
 		}
 		for (var key:String in messageRegistry) {
-			var msgList:Vector.<HandlerVO> = messageRegistry[key];
+			var msgList:Vector.<HandlerVO> = messageRegistry[key] ? messageRegistry[key] : null;
 			var messageHandlers:String = "";
 			var msgCount:int = msgList.length;
 			for (var i:int = 0; i < msgCount; i++) {
