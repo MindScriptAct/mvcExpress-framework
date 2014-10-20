@@ -420,8 +420,8 @@ public class ProxyMap implements IProxyMap {
 		}
 		
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass] ? classInjectRules[signatureClass] : null;
-		if (!rules) {
+		var rules:Vector.<InjectRuleVO>;
+		if (!classInjectRules[signatureClass]) {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// DOIT: TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
@@ -429,6 +429,8 @@ public class ProxyMap implements IProxyMap {
 			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
+		} else {
+			rules =  classInjectRules[signatureClass];
 		}
 		
 		// injects all dependencies using rules.
@@ -555,10 +557,12 @@ public class ProxyMap implements IProxyMap {
 	 * @private
 	 */
 	pureLegsCore function addPendingInjection(injectClassAndName:String, pendingInjection:PendingInject):void {
-		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName] ? pendingInjectionsRegistry[injectClassAndName] : null;
-		if (!pendingInjections) {
+		var pendingInjections:Vector.<PendingInject>;
+		if (!pendingInjectionsRegistry[injectClassAndName]) {
 			pendingInjections = new Vector.<PendingInject>();
 			pendingInjectionsRegistry[injectClassAndName] = pendingInjections;
+		} else {
+			pendingInjections  = pendingInjectionsRegistry[injectClassAndName];
 		}
 		pendingInjections[pendingInjections.length] = pendingInjection;
 	}
@@ -568,14 +572,14 @@ public class ProxyMap implements IProxyMap {
 	 */
 	private function injectPendingStuff(injectClassAndName:String, injectee:Object):void {
 		use namespace pureLegsCore;
-		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName] ? pendingInjectionsRegistry[injectClassAndName] : null;
+		var pendingInjects:Vector.<PendingInject> = pendingInjectionsRegistry[injectClassAndName];
 		while (pendingInjects.length) {
 			//
 			var pendingInjection:PendingInject = pendingInjects.pop();
 			pendingInjection.stopTimer();
 			
 			// get rules. (by now rules for this class must be created.)
-			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass] ? classInjectRules[pendingInjection.signatureClass] : null;
+			var rules:Vector.<InjectRuleVO> = classInjectRules[pendingInjection.signatureClass];
 			var pendingInject:Object = pendingInjection.pendingObject;
 			var ruleCount:int = rules.length;
 			for (var j:int = 0; j < ruleCount; j++) {
