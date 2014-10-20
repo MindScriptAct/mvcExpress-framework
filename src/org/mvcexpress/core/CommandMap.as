@@ -107,8 +107,8 @@ public class CommandMap {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
-		if (messageClasses) {
+		if (classRegistry[type]) {
+			var messageClasses:Vector.<Class> = classRegistry[type]
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == messageClasses[i]) {
@@ -142,8 +142,8 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		
 		// check if command is pooled.
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
-		if (pooledCommands && pooledCommands.length > 0) {
+		if (commandPools[commandClass] && pooledCommands.length > 0) {
+			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass]
 			command = pooledCommands.shift();
 		} else {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
@@ -214,8 +214,10 @@ public class CommandMap {
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType] ? classRegistry[scopedType] : null;
-		if (!messageClasses) {
+		var messageClasses:Vector.<Class>;
+		if (classRegistry[scopedType]) {
+			classRegistry[scopedType] = classRegistry[scopedType];
+		} else {
 			messageClasses = new Vector.<Class>();
 			classRegistry[scopedType] = messageClasses;
 			// add scoped command handler.
@@ -244,8 +246,8 @@ public class CommandMap {
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType] ? classRegistry[scopedType] : null;
-		if (messageClasses) {
+		if (classRegistry[scopedType]) {
+			var messageClasses:Vector.<Class> = classRegistry[scopedType];
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == messageClasses[i]) {
@@ -291,7 +293,7 @@ public class CommandMap {
 	public function isMapped(type:String, commandClass:Class):Boolean {
 		var retVal:Boolean; // = false;
 		if (classRegistry[type]) {
-			var mappedClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
+			var mappedClasses:Vector.<Class> = classRegistry[type];
 			var classCaunt:int = mappedClasses.length;
 			for (var i:int; i < classCaunt; i++) {
 				if (commandClass == mappedClasses[i]) {
@@ -340,8 +342,8 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
-		if (pooledCommands) {
+		if (commandPools[commandClass]) {
+			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass]
 			pooledCommands[pooledCommands.length] = command;
 		}
 	}

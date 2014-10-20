@@ -429,7 +429,6 @@ public class ProxyMap implements IProxyMap {
 			classInjectRules[signatureClass] = rules;
 				///////////////////////////////////////////////////////////
 				//////////////////////////////////////////////////////////
-			
 		}
 		
 		// injects all dependencies using rules.
