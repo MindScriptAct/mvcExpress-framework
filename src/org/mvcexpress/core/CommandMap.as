@@ -76,8 +76,11 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type] ? classRegistry[type] : null;
-		if (!messageClasses) {
+
+		var messageClasses:Vector.<Class>;
+		if (classRegistry[type]) {
+			messageClasses  = classRegistry[type];
+		} else {
 			messageClasses = new Vector.<Class>();
 			classRegistry[type] = messageClasses;
 			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
@@ -142,9 +145,14 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		
 		// check if command is pooled.
-		if (commandPools[commandClass] && pooledCommands.length > 0) {
-			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass]
-			command = pooledCommands.shift();
+		var pooledCommands:Vector.<PooledCommand>;
+
+		if (commandPools[commandClass]) {
+			pooledCommands = commandPools[commandClass];
+			if (pooledCommands.length > 0) {
+				command = pooledCommands.shift();
+			}
+
 		} else {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
