@@ -399,9 +399,12 @@ public class CommandMap {
 				////// INLINE FUNCTION runCommand() START
 				
 				// check if command is pooled.
-				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass] ? commandPools[commandClass] : null;
-				if (pooledCommands && pooledCommands.length > 0) {
-					command = pooledCommands.shift();
+				var pooledCommands:Vector.<PooledCommand>;
+				if (commandPools[commandClass]) {
+					pooledCommands = commandPools[commandClass];
+					if(pooledCommands.length > 0) {
+						command = pooledCommands.shift();
+					}
 				} else {
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
