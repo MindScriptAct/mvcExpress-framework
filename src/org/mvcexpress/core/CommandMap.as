@@ -153,7 +153,8 @@ public class CommandMap {
 				command = pooledCommands.shift();
 			}
 
-		} else {
+		}
+		if (!command) {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
 				validateCommandParams(commandClass, params);
@@ -405,12 +406,12 @@ public class CommandMap {
 					if(pooledCommands.length > 0) {
 						command = pooledCommands.shift();
 					}
-				} else {
+				}
+				if (!command) {
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
 						validateCommandParams(commandClass, params);
 					}
-					
 					// construct command
 					CONFIG::debug {
 						Command.canConstruct = true;
@@ -419,18 +420,18 @@ public class CommandMap {
 					CONFIG::debug {
 						Command.canConstruct = false;
 					}
-					
+
 					command.messenger = messenger;
 					command.mediatorMap = mediatorMap;
 					command.proxyMap = proxyMap;
 					command.commandMap = this;
-					
+
 					// inject dependencies
 					proxyMap.injectStuff(command, commandClass);
 				}
-				
+
 				command.messageType = messageType;
-				
+
 				if (command is PooledCommand) {
 					// init pool if needed.
 					if (!pooledCommands) {
@@ -440,7 +441,7 @@ public class CommandMap {
 					command.isExecuting = true;
 					command.execute(params);
 					command.isExecuting = false;
-					
+
 					// if not locked - pool it.
 					if (!(command as PooledCommand).isLocked) {
 						if (pooledCommands) {
