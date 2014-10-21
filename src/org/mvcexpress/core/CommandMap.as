@@ -152,9 +152,8 @@ public class CommandMap {
 			if (pooledCommands.length > 0) {
 				command = pooledCommands.shift();
 			}
-
 		}
-		if (!command) {
+		if (!command && !pooledCommands) {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
 				validateCommandParams(commandClass, params);
@@ -190,7 +189,7 @@ public class CommandMap {
 			command.isExecuting = true;
 			command.execute(params);
 			command.isExecuting = false;
-			
+
 			// if not locked - pool it.
 			if (!(command as PooledCommand).isLocked) {
 				if (pooledCommands) {
@@ -403,11 +402,11 @@ public class CommandMap {
 				var pooledCommands:Vector.<PooledCommand>;
 				if (commandPools[commandClass]) {
 					pooledCommands = commandPools[commandClass];
-					if(pooledCommands.length > 0) {
+					if (pooledCommands.length > 0) {
 						command = pooledCommands.shift();
 					}
 				}
-				if (!command) {
+				if (!command || !pooledCommands) {
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
 						validateCommandParams(commandClass, params);
