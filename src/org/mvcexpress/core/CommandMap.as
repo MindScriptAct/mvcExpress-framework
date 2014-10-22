@@ -153,7 +153,7 @@ public class CommandMap {
 				command = pooledCommands.shift();
 			}
 		}
-		if (!command && !pooledCommands) {
+		if (!command || !pooledCommands) {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
 				validateCommandParams(commandClass, params);
