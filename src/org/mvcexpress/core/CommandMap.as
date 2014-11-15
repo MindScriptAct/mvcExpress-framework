@@ -76,8 +76,11 @@ public class CommandMap {
 				throw Error("Message type:[" + type + "] can not be empty or 'null' or 'undefined'. (You are trying to map command:" + commandClass + ")");
 			}
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
-		if (!messageClasses) {
+
+		var messageClasses:Vector.<Class>;
+		if (classRegistry[type]) {
+			messageClasses  = classRegistry[type];
+		} else {
 			messageClasses = new Vector.<Class>();
 			classRegistry[type] = messageClasses;
 			messenger.addCommandHandler(type, handleCommandExecute, commandClass);
@@ -107,8 +110,8 @@ public class CommandMap {
 			use namespace pureLegsCore;
 			MvcExpress.debug(new TraceCommandMap_unmap(moduleName, type, commandClass));
 		}
-		var messageClasses:Vector.<Class> = classRegistry[type];
-		if (messageClasses) {
+		if (classRegistry[type]) {
+			var messageClasses:Vector.<Class> = classRegistry[type]
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == messageClasses[i]) {
@@ -142,10 +145,15 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 		
 		// check if command is pooled.
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-		if (pooledCommands && pooledCommands.length > 0) {
-			command = pooledCommands.shift();
-		} else {
+		var pooledCommands:Vector.<PooledCommand>;
+
+		if (commandPools[commandClass]) {
+			pooledCommands = commandPools[commandClass];
+			if (pooledCommands.length > 0) {
+				command = pooledCommands.shift();
+			}
+		}
+		if (!command || !pooledCommands) {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 			CONFIG::debug {
 				validateCommandParams(commandClass, params);
@@ -181,7 +189,7 @@ public class CommandMap {
 			command.isExecuting = true;
 			command.execute(params);
 			command.isExecuting = false;
-			
+
 			// if not locked - pool it.
 			if (!(command as PooledCommand).isLocked) {
 				if (pooledCommands) {
@@ -214,8 +222,10 @@ public class CommandMap {
 		//
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
-		if (!messageClasses) {
+		var messageClasses:Vector.<Class>;
+		if (classRegistry[scopedType]) {
+			classRegistry[scopedType] = classRegistry[scopedType];
+		} else {
 			messageClasses = new Vector.<Class>();
 			classRegistry[scopedType] = messageClasses;
 			// add scoped command handler.
@@ -244,8 +254,8 @@ public class CommandMap {
 	public function scopeUnmap(scopeName:String, type:String, commandClass:Class):void {
 		var scopedType:String = scopeName + "_^~_" + type;
 		
-		var messageClasses:Vector.<Class> = classRegistry[scopedType];
-		if (messageClasses) {
+		if (classRegistry[scopedType]) {
+			var messageClasses:Vector.<Class> = classRegistry[scopedType];
 			var commandCount:int = messageClasses.length;
 			for (var i:int; i < commandCount; i++) {
 				if (commandClass == messageClasses[i]) {
@@ -340,8 +350,8 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-		if (pooledCommands) {
+		if (commandPools[commandClass]) {
+			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass]
 			pooledCommands[pooledCommands.length] = command;
 		}
 	}
@@ -389,15 +399,18 @@ public class CommandMap {
 				////// INLINE FUNCTION runCommand() START
 				
 				// check if command is pooled.
-				var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-				if (pooledCommands && pooledCommands.length > 0) {
-					command = pooledCommands.shift();
-				} else {
+				var pooledCommands:Vector.<PooledCommand>;
+				if (commandPools[commandClass]) {
+					pooledCommands = commandPools[commandClass];
+					if (pooledCommands.length > 0) {
+						command = pooledCommands.shift();
+					}
+				}
+				if (!command || !pooledCommands) {
 					// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
 					CONFIG::debug {
 						validateCommandParams(commandClass, params);
 					}
-					
 					// construct command
 					CONFIG::debug {
 						Command.canConstruct = true;
@@ -406,18 +419,18 @@ public class CommandMap {
 					CONFIG::debug {
 						Command.canConstruct = false;
 					}
-					
+
 					command.messenger = messenger;
 					command.mediatorMap = mediatorMap;
 					command.proxyMap = proxyMap;
 					command.commandMap = this;
-					
+
 					// inject dependencies
 					proxyMap.injectStuff(command, commandClass);
 				}
-				
+
 				command.messageType = messageType;
-				
+
 				if (command is PooledCommand) {
 					// init pool if needed.
 					if (!pooledCommands) {
@@ -427,7 +440,7 @@ public class CommandMap {
 					command.isExecuting = true;
 					command.execute(params);
 					command.isExecuting = false;
-					
+
 					// if not locked - pool it.
 					if (!(command as PooledCommand).isLocked) {
 						if (pooledCommands) {
