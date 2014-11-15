@@ -10,6 +10,8 @@ import mvcexpress.extensions.workers.core.traceObjects.moduleBase.TraceModuleBas
 import mvcexpress.modules.ModuleCore;
 
 
+use namespace pureLegsCore;
+
 /**
  * @version workers.2.0 RC4
  */
