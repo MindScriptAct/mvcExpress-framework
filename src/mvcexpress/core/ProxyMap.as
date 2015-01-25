@@ -649,8 +649,9 @@ public class ProxyMap implements IProxyMap {
 
 		// get class injection rules. (cashing is used.)
 		var rules:Vector.<InjectRuleVO>;
-		if (!classInjectRules[signatureClass]) {
+		if(classInjectRules[signatureClass]){
 			rules = classInjectRules[signatureClass];
+		} else {
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// DOIT: TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
@@ -658,7 +659,6 @@ public class ProxyMap implements IProxyMap {
 			classInjectRules[signatureClass] = rules;
 			///////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////
-
 		}
 
 		// injects all dependencies using rules.
@@ -779,7 +779,7 @@ public class ProxyMap implements IProxyMap {
 	 */
 	pureLegsCore function addPendingInjection(injectId:String, pendingInjection:PendingInject):void {
 		var pendingInjections:Vector.<PendingInject>;
-		if(pendingInjectionsRegistry[injectId]){
+		if(pendingInjectionsRegistry[injectId]) {
 			pendingInjections = pendingInjectionsRegistry[injectId];
 		} else {
 			pendingInjections = new Vector.<PendingInject>();
