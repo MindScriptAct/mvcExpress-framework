@@ -207,8 +207,9 @@ public class MediatorMap implements IMediatorMap {
 			viewClass = getDefinitionByName(getQualifiedClassName(viewObject)) as Class;
 		}
 
-		var mediators:Vector.<Class> = mediatorMapOrderRegistry[viewClass];
-		if (mediators) {
+		var mediators:Vector.<Class>;
+		if (mediatorMapOrderRegistry[viewClass]) {
+			mediators = mediatorMapOrderRegistry[viewClass];
 
 			var mappedMediators:Dictionary = mediatorMappingRegistry[viewClass];
 			for (var i:int = 0; i < mediators.length; i++) {
@@ -458,17 +459,20 @@ public class MediatorMap implements IMediatorMap {
 	 */
 	public function isMediated(viewObject:Object, mediatorClass:Class = null):Boolean {
 		var retVal:Boolean;// = false;
-		var mediators:Vector.<Mediator> = mediatorRegistry[viewObject]
-		if (mediators && mediators.length) {
-			if (mediatorClass) {
-				for (var i:int = 0; i < mediators.length; i++) {
-					if ((mediators[i] as Object).constructor == mediatorClass) {
-						retVal = true;
-						break;
+		var mediators:Vector.<Mediator>;
+		if (mediatorRegistry[viewObject]) {
+			mediators = mediatorRegistry[viewObject];
+			if(mediators.length) {
+				if (mediatorClass) {
+					for (var i:int = 0; i < mediators.length; i++) {
+						if ((mediators[i] as Object).constructor == mediatorClass) {
+							retVal = true;
+							break;
+						}
 					}
+				} else {
+					retVal = true;
 				}
-			} else {
-				retVal = true;
 			}
 		}
 		return retVal;

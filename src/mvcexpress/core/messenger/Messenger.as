@@ -64,9 +64,11 @@ public class Messenger {
 		}
 
 		// if this message type used for the first time - create data placeholders.
-		var messageList:Vector.<HandlerVO> = messageRegistry[type];
-		if (!messageList) {
-			messageList = new Vector.<HandlerVO>()
+		var messageList:Vector.<HandlerVO>;
+		if(messageRegistry[type]){
+			messageList = messageRegistry[type];
+		} else {
+			messageList = new Vector.<HandlerVO>();
 			messageRegistry[type] = messageList;
 			handlerRegistry[type] = new Dictionary();
 		}
@@ -139,10 +141,11 @@ public class Messenger {
 		CONFIG::debug {
 			MvcExpress.debug(new TraceMessenger_send(moduleName, type, params));
 		}
-		var messageList:Vector.<HandlerVO> = messageRegistry[type];
+		var messageList:Vector.<HandlerVO>;
 		var handlerVo:HandlerVO;
 		var delCount:int; // = 0;
-		if (messageList) {
+		if (messageRegistry[type]) {
+			messageList = messageRegistry[type];
 			var mesageCount:int = messageList.length;
 			for (var i:int; i < mesageCount; i++) {
 				handlerVo = messageList[i];

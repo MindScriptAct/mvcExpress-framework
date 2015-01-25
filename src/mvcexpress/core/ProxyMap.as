@@ -648,8 +648,9 @@ public class ProxyMap implements IProxyMap {
 		}
 
 		// get class injection rules. (cashing is used.)
-		var rules:Vector.<InjectRuleVO> = classInjectRules[signatureClass];
-		if (!rules) {
+		var rules:Vector.<InjectRuleVO>;
+		if (!classInjectRules[signatureClass]) {
+			rules = classInjectRules[signatureClass];
 			////////////////////////////////////////////////////////////
 			///////////////////////////////////////////////////////////
 			// DOIT: TEST in-line function .. ( Putting in-line function here ... makes commands slower.. WHY!!!)
@@ -777,8 +778,10 @@ public class ProxyMap implements IProxyMap {
 	 * @private
 	 */
 	pureLegsCore function addPendingInjection(injectId:String, pendingInjection:PendingInject):void {
-		var pendingInjections:Vector.<PendingInject> = pendingInjectionsRegistry[injectId]
-		if (!pendingInjections) {
+		var pendingInjections:Vector.<PendingInject>;
+		if(pendingInjectionsRegistry[injectId]){
+			pendingInjections = pendingInjectionsRegistry[injectId];
+		} else {
 			pendingInjections = new Vector.<PendingInject>();
 			pendingInjectionsRegistry[injectId] = pendingInjections;
 		}

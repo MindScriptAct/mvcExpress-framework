@@ -144,8 +144,9 @@ public class CommandMap {
 		////// INLINE FUNCTION runCommand() START
 
 		// check if command is pooled.
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-		if (pooledCommands && pooledCommands.length > 0) {
+		var pooledCommands:Vector.<PooledCommand>;
+		if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
+			pooledCommands = commandPools[commandClass];
 			command = pooledCommands.shift();
 		} else {
 			// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
@@ -308,9 +309,8 @@ public class CommandMap {
 	 */
 	pureLegsCore function poolCommand(command:PooledCommand):void {
 		var commandClass:Class = Object(command).constructor as Class;
-		var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-		if (pooledCommands) {
-			pooledCommands[pooledCommands.length] = command;
+		if (commandPools[commandClass]) {
+			commandPools[commandClass][commandPools[commandClass].length] = command;
 		}
 	}
 
@@ -351,8 +351,9 @@ public class CommandMap {
 			////// INLINE FUNCTION runCommand() START
 
 			// check if command is pooled.
-			var pooledCommands:Vector.<PooledCommand> = commandPools[commandClass];
-			if (pooledCommands && pooledCommands.length > 0) {
+			var pooledCommands:Vector.<PooledCommand>;
+			if (commandPools[commandClass] && commandPools[commandClass].length > 0) {
+				pooledCommands = commandPools[commandClass];
 				command = pooledCommands.shift();
 			} else {
 				// check if command has execute function, parameter, and store type of parameter object for future checks on execute.
