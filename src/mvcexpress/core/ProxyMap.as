@@ -330,7 +330,7 @@ public class ProxyMap implements IProxyMap {
 	 * @param    proxyClass    class of proxy, proxy object is mapped to.
 	 * @param    name        Optional name if you need more then one proxy instance of same class.
 	 */
-	public function getProxy(proxyClass:Class, name:String = null):Proxy {
+	public function getProxy(proxyClass:Class, name:String = null): * {
 		if (name == null) {
 			name = "";
 		}
