@@ -155,12 +155,6 @@ public class Mediator {
 		handlerVoRegistry[handlerVoRegistry.length] = messenger.addHandler(type, handler);
 	}
 
-	/**
-	 * Removes handle function from message of given type.
-	 * Then Mediator is removed(unmediated) all message handlers are automatically removed by framework.
-	 * @param    type    message type that was set for handle function to react to.
-	 * @param    handler    function that was set to react to message.
-	 */
 
 	/**
 	 * Checks if mediator has handler for message type.

@@ -1,7 +1,8 @@
 // Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 package mvcexpress.extensions.scoped.mvc {
 import mvcexpress.MvcExpress;
-import mvcexpress.core.namespace.pureLegsCore;
+	import mvcexpress.core.messenger.HandlerVO;
+	import mvcexpress.core.namespace.pureLegsCore;
 import mvcexpress.extensions.scoped.core.traceObjects.TraceMediator_sendScopeMessage;
 import mvcexpress.extensions.scoped.core.ScopeManager;
 import mvcexpress.extensions.scoped.modules.ModuleScoped;
@@ -48,6 +49,31 @@ public class MediatorScoped extends Mediator {
 		}
 	}
 
+	//----------------------------------
+	//     message handlers
+	//----------------------------------
+
+	/**
+	 * @inheritDoc
+	 * Remove all handle functions created by this mediator, internal module handlers AND scoped handlers.
+	 * Automatically called then mediator is removed(unmediated) by framework.
+	 * (You don't have to put it in mediators onRemove() function.)
+	 */
+	override protected function removeAllHandlers():void {
+		use namespace pureLegsCore;
+
+		while (handlerVoRegistry.length) {
+			var handler:HandlerVO = handlerVoRegistry.pop();
+			var typeSplit:Array = handler.type.split("_^~_");
+			if (typeSplit.length > 1) {
+				ScopeManager.removeScopeHandler(typeSplit[0], typeSplit[1], handler.handler);
+			} else {
+				if (handler.handler != null) {
+					messenger.removeHandler(handler.type, handler.handler);
+				}
+			}
+		}
+	}
 
 	//----------------------------------
 	//     scope handling
