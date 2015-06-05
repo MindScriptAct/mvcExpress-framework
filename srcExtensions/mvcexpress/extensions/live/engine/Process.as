@@ -152,7 +152,8 @@ public class Process {
 	public function startProcess():void {
 		use namespace pureLegsCore;
 
-		processTimer.timerLast = getTimer();
+		processTimer.timerCurrent = getTimer();
+		processTimer.timerLast = processTimer.timerCurrent;
 		processMap.startProcessObject(this);
 	}
 

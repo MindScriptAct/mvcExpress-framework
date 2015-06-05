@@ -264,7 +264,7 @@ public class ProcessMapLive {
 			}
 		}
 
-		startProcessObject(processRegistry[processId]);
+        processRegistry[processId].startProcess();
 	}
 
 	/**

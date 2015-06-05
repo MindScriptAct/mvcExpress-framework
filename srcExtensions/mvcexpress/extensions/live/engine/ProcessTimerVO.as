@@ -8,12 +8,16 @@ package mvcexpress.extensions.live.engine {
  */
 public class ProcessTimerVO {
 
+    // ms passed from last tick.
 	public var ms:int;
 
+    // seconds passed from last tick.
 	public var sec:Number;
 
-	public var timerLast:int;
+    // current timer
+    public var timerCurrent:int;
 
-	public var timerCurrent:int;
+    // last timer
+	public var timerLast:int;
 }
 }

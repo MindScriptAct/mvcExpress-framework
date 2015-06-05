@@ -45,13 +45,13 @@ public class ProxyMapScopedLive extends ProxyMapScoped {
 	 * @param    proxyObject
 	 * @private
 	 */
-	override pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):void {
+	override pureLegsCore function initProxy(proxyObject:Proxy, proxyClass:Class, injectId:String):Boolean {
 		use namespace pureLegsCore;
 
 		if (proxyObject is ProxyScopedLive || proxyObject is ProxyLive) {
 			proxyObject["setProcessMap"](processMap);
 		}
-		super.initProxy(proxyObject, proxyClass, injectId);
+		return super.initProxy(proxyObject, proxyClass, injectId);
 	}
 
 	/**
